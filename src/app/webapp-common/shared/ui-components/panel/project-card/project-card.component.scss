@@ -1,6 +1,8 @@
 @import "../../styles/mixins/common";
 @import "../../styles/variables";
-
+hr {
+  margin: 0 !important;
+}
 
   .project-tag {
     @include card-header-tag();
