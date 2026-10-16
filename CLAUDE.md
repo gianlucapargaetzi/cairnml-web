@@ -30,7 +30,7 @@ Master and detail: use `as-split` (`angular-split`) with two areas, a list and a
 
 | Need | Use | Notes |
 |---|---|---|
-| A list of records | `sm-table` (sortable, filterable, selectable rows) | The default for every list. Columns are declared with `cols`, sorting with `tableSortFields` and `(sortedChanged)`. Use `sm-table-filter-sort`, `sm-table-filter-duration` and `sm-table-filter-duration-numeric` for column filters, so filters look the same everywhere. |
+| A list of records | `sm-table` (sortable, filterable, selectable rows) | The default for every list. Every row needs a unique `id`: the table marks a row as selected by comparing ids, so rows without one all look selected. Columns are declared with `cols`, sorting with `tableSortFields` and `(sortedChanged)`. Use `sm-table-filter-sort`, `sm-table-filter-duration` and `sm-table-filter-duration-numeric` for column filters, so filters look the same everywhere. |
 | A small fixed list (up to about 10 rows, no sorting) | `sm-simple-table-2` | For details panels, e.g. a worker's queues. |
 | A panel or group of content | `sm-card` (or `sm-card2`) | Border, radius and padding from the card's own style. Do not hand-style a card. |
 | Key number with a label | `sm-circle-counter`, `sm-labeled-row`, `sm-vertical-labeled-row` | Use labeled rows for read-only "name: value" pairs. |
