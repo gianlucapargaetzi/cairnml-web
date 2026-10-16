@@ -67,12 +67,59 @@
       }
     </mat-form-field>
 
+    <div class="compute-mode">
+      <span class="field-label">Compute</span>
+      @if (computeMode.value === 'whole') {
+        <button mat-flat-button type="button" (click)="computeMode.setValue('whole')">Whole machine</button>
+        <button mat-stroked-button type="button" (click)="computeMode.setValue('specify')">Specify</button>
+      } @else {
+        <button mat-stroked-button type="button" (click)="computeMode.setValue('whole')">Whole machine</button>
+        <button mat-flat-button type="button" (click)="computeMode.setValue('specify')">Specify</button>
+      }
+    </div>
+    @if (computeMode.value === 'whole') {
+      <p class="hint">The task runs alone on a machine.</p>
+    } @else {
+      <div class="requirements">
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>CPUs</mat-label>
+          <input matInput type="number" min="1" [formControl]="cpusControl">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>RAM (GB)</mat-label>
+          <input matInput type="number" min="0.1" step="0.1" [formControl]="ramControl">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>GPUs</mat-label>
+          <input matInput type="number" min="0" [formControl]="gpusControl">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>GPU memory (GB)</mat-label>
+          <input matInput type="number" min="0" [formControl]="gpuMemoryControl">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>Disk (GB)</mat-label>
+          <input matInput type="number" min="0" [formControl]="diskControl">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="thin short">
+          <mat-label>Max run time (min)</mat-label>
+          <input matInput type="number" min="1" [formControl]="runtimeControl">
+        </mat-form-field>
+      </div>
+      <p class="hint">All of CPUs, RAM, GPUs and disk, or the whole machine.</p>
+    }
+
+    <mat-form-field appearance="outline" class="thin short">
+      <mat-label>Priority (0 to 100, higher runs first)</mat-label>
+      <input matInput type="number" min="0" max="100" [formControl]="priorityControl">
+    </mat-form-field>
+
   </form>
   <div class="buttons">
     <button mat-stroked-button (click)="closeDialog(false)" data-id="CancelButton">
       CANCEL
     </button>
-    <button mat-flat-button (click)="closeDialog(true)" [disabled]="!queueControl.valid || !selectedQueue()" data-id="EnqueueButton">
+    <button mat-flat-button (click)="closeDialog(true)" [disabled]="!queueControl.valid || !selectedQueue() || !specifyValid() || priorityControl.invalid" data-id="EnqueueButton">
       ENQUEUE
     </button>
   </div>

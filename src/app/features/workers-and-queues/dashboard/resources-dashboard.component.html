@@ -66,7 +66,7 @@
         <div class="card-title">Event log</div>
       </div>
       <ul class="log">
-        @for (event of events; track event.time + event.text) {
+        @for (event of events(); track event.time + event.text) {
           <li>
             <span class="dot {{ event.tone }}"></span>
             <span class="log-time num">{{ event.time }}</span>

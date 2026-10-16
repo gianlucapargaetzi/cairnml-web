@@ -201,7 +201,9 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   }
 
   private openEnqueuePopup(selectedExperiments: ISelectedExperiment[], retryMode?: boolean) {
-    const selectQueueDialog: MatDialogRef<SelectQueueComponent, { confirmed: boolean; queue: Queue }> =
+    const selectQueueDialog: MatDialogRef<SelectQueueComponent, {
+      confirmed: boolean; queue: Queue; requirements: Record<string, unknown> | null; priority: number;
+    }> =
       this.dialog.open(SelectQueueComponent, {
         autoFocus: 'dialog',
         data: {
@@ -214,7 +216,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
 
     selectQueueDialog.afterClosed().subscribe(res => {
       if (res && res.confirmed) {
-        this.enqueueExperiment(res.queue, selectedExperiments);
+        this.enqueueExperiment(res.queue, selectedExperiments, res.requirements, res.priority);
         this.blTaskService.setPreviouslyUsedQueue(res.queue);
       }
     });
@@ -251,11 +253,13 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       .subscribe(() => this.dequeueExperiment(selectedExperiments));
   }
 
-  private enqueueExperiment(queue, selectedExperiments) {
+  private enqueueExperiment(queue, selectedExperiments, requirements?: Record<string, unknown> | null, priority?: number) {
     this.store.dispatch(commonMenuActions.enqueueClicked({
       selectedEntities: selectedExperiments,
       queue,
-      verifyWatchers: true
+      verifyWatchers: true,
+      requirements,
+      priority,
     }));
   }
 
