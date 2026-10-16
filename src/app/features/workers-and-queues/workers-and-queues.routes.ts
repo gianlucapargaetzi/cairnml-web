@@ -3,7 +3,7 @@ import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
 
 const wQBreadcrumb = [[{
-  name: 'WORKERS AND QUEUES',
+  name: 'WORKERS AND JOBS',
   type: CrumbTypeEnum.Feature
 }]];
 
