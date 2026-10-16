@@ -97,7 +97,14 @@ export const navigateToWorker = createAction(
 
 export const enqueueClicked = createAction(
   EXPERIMENTS_INFO_PREFIX + 'enqueue experiments',
-  props<{ selectedEntities: ISelectedExperiment[]; queue: Queue; verifyWatchers: boolean }>()
+  props<{
+    selectedEntities: ISelectedExperiment[];
+    queue: Queue;
+    verifyWatchers: boolean;
+    /** What the tasks need from a machine (all of cpus, ram_gb, gpus, disk_gb), or null for a whole machine */
+    requirements?: Record<string, unknown> | null;
+    priority?: number;
+  }>()
 );
 export const openEmptyQueueMessage = createAction(
   EXPERIMENTS_INFO_PREFIX + 'open empty queue message',

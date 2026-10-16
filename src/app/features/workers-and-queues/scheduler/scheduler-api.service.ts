@@ -70,6 +70,25 @@ export interface SchedulerJob {
   since?: string;
 }
 
+export interface SchedulerEvent {
+  time: string;
+  kind: string;
+  task: string | null;
+  worker: string | null;
+  detail: string;
+}
+
+export interface SchedulerUsagePoint {
+  timestamp: number;
+  worker: string;
+  task: string;
+  kind: 'machine' | 'job';
+  cpu_percent?: number;
+  ram_used_gb?: number;
+  ram_gb?: number;
+  peak_ram_gb?: number;
+}
+
 @Injectable({providedIn: 'root'})
 export class SchedulerApiService {
   private http = inject(HttpClient);
@@ -86,5 +105,27 @@ export class SchedulerApiService {
   jobs(): Observable<SchedulerJob[]> {
     return this.http.post<{ data: { jobs: SchedulerJob[] } }>(this.url('scheduler.get_jobs'), {}, {withCredentials: true})
       .pipe(map(res => res.data.jobs));
+  }
+
+  events(limit = 50): Observable<SchedulerEvent[]> {
+    return this.http.post<{ data: { events: SchedulerEvent[] } }>(this.url('scheduler.get_events'), {limit}, {withCredentials: true})
+      .pipe(map(res => res.data.events));
+  }
+
+  /** Enqueue one task with its requirements and priority (version 2.36 of tasks.enqueue). */
+  enqueue(task: string, queueId: string | null, requirements: Record<string, unknown> | null, priority: number | null): Observable<unknown> {
+    const body: Record<string, unknown> = {task, requirements: requirements ?? {}};
+    if (queueId) {
+      body.queue = queueId;
+    }
+    if (priority !== null && priority !== undefined) {
+      body.priority = priority;
+    }
+    return this.http.post(this.url('tasks.enqueue'), body, {withCredentials: true});
+  }
+
+  usageHistory(minutes: number): Observable<SchedulerUsagePoint[]> {
+    return this.http.post<{ data: { points: SchedulerUsagePoint[] } }>(this.url('scheduler.get_usage_history'), {minutes}, {withCredentials: true})
+      .pipe(map(res => res.data.points));
   }
 }

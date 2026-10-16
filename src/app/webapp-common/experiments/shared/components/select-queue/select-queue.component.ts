@@ -64,6 +64,23 @@ export class SelectQueueComponent {
   public enqueueWarning = computed(() =>
     this.tasksForEnqueue()?.some(task => !(task && task.script && (task.script.diff || (task.script.repository && task.script.entry_point)))));
   public queueControl = new FormControl<string | Queue>('', [Validators.required]);
+  // What the task needs from a machine: the whole machine, or the amounts named here (all of them, or none)
+  public computeMode = new FormControl<'whole' | 'specify'>('whole', {nonNullable: true});
+  public cpusControl = new FormControl<number | null>(null);
+  public ramControl = new FormControl<number | null>(null);
+  public gpusControl = new FormControl<number | null>(0);
+  public gpuMemoryControl = new FormControl<number | null>(0);
+  public diskControl = new FormControl<number | null>(null);
+  public runtimeControl = new FormControl<number | null>(null);
+  public priorityControl = new FormControl<number>(50, {nonNullable: true, validators: [Validators.min(0), Validators.max(100), Validators.required]});
+  public specifyValid(): boolean {
+    return this.computeMode.value !== 'specify' || (
+      this.cpusControl.value !== null && this.cpusControl.value >= 1 &&
+      this.ramControl.value !== null && this.ramControl.value > 0 &&
+      this.gpusControl.value !== null && this.gpusControl.value >= 0 &&
+      this.diskControl.value !== null && this.diskControl.value >= 0
+    );
+  }
   split = splitLine;
   public reference = signal(this.data.taskIds.length < 2 ? this.data.reference : `${this.data.taskIds.length} tasks `);
   protected userAllowedToCreateQueue = signal(false);
@@ -108,7 +125,26 @@ export class SelectQueueComponent {
   displayFn = (item: any): string => typeof item === 'string' ? item : item?.caption ?? item?.name;
 
   closeDialog(confirmed) {
-    this.dialogRef.close({confirmed, queue: this.queueControl.value});
+    this.dialogRef.close({
+      confirmed,
+      queue: this.queueControl.value,
+      requirements: confirmed && this.computeMode.value === 'specify' ? this.requirementsFromForm() : null,
+      priority: this.priorityControl.value,
+    });
+  }
+
+  /** The requirements the server takes: all of cpus, ram_gb, gpus and disk_gb, plus an optional run-time limit. */
+  private requirementsFromForm() {
+    const requirements: Record<string, unknown> = {
+      cpus: Number(this.cpusControl.value),
+      ram_gb: Number(this.ramControl.value),
+      gpus: {count: Number(this.gpusControl.value ?? 0), min_memory_gb: Number(this.gpuMemoryControl.value ?? 0), model: null},
+      disk_gb: Number(this.diskControl.value),
+    };
+    if (this.runtimeControl.value) {
+      requirements.max_runtime_min = Number(this.runtimeControl.value);
+    }
+    return requirements;
   }
 
   protected selectQueueFromSearch() {
