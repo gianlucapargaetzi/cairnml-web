@@ -1,0 +1,125 @@
+<div class="dashboard">
+  <section class="summary">
+    <div class="card">
+      <div class="card-title">Workers</div>
+      <div class="big num">{{ totals().workers.used }}<span class="of"> / {{ totals().workers.total }} running</span></div>
+      <div class="idle num">{{ totals().workers.total - totals().workers.used }} idle</div>
+    </div>
+    <div class="card">
+      <div class="card-title">GPUs</div>
+      <div class="big num">{{ totals().gpus.used }}<span class="of"> / {{ totals().gpus.total }} running</span></div>
+      <div class="idle num">{{ totals().gpus.total - totals().gpus.used }} idle</div>
+    </div>
+    <div class="card">
+      <div class="card-title">CPUs</div>
+      <div class="big num">{{ totals().cpus.used }}<span class="of"> / {{ totals().cpus.total }} running</span></div>
+      <div class="idle num">{{ totals().cpus.total - totals().cpus.used }} idle</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Resource groups</div>
+    <div class="group-grid">
+      @for (group of groups(); track group.name) {
+        <div class="card group">
+          <div class="group-head">
+            <span class="group-name" [title]="group.name">{{ group.name }}</span>
+            @if (group.alert) {
+              <span class="badge error">Alert</span>
+            }
+          </div>
+          @for (row of [{label: 'Workers', usage: group.workers}, {label: 'GPUs', usage: group.gpus}, {label: 'CPUs', usage: group.cpus}]; track row.label) {
+            <div class="usage-row">
+              <span class="usage-label">{{ row.label }}</span>
+              <mat-progress-bar mode="determinate" [value]="percent(row.usage)"
+                [class]="'usage-bar ' + barClass(percent(row.usage))"></mat-progress-bar>
+              <span class="usage-value num">{{ row.usage.used }} / {{ row.usage.total }}</span>
+            </div>
+          }
+          @if (group.alert) {
+            <div class="alert-text">{{ group.alert }}</div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="split">
+    <div class="card chart-panel">
+      <div class="panel-header">
+        <div class="card-title">All active resources</div>
+        <mat-form-field appearance="outline" class="range-selector no-bottom">
+          <mat-select [ngModel]="timeRange()" (ngModelChange)="setTimeRange($event)" name="time-range">
+            @for (range of timeRanges; track range.hours) {
+              <mat-option [value]="range.hours">{{ range.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="chart-box">
+        <sm-line-chart class="h-100" unit="Count" yLabel="Count" [colorScheme]="chartColors" [data]="chartData()"></sm-line-chart>
+      </div>
+    </div>
+
+    <div class="card log-panel">
+      <div class="panel-header">
+        <div class="card-title">Event log</div>
+      </div>
+      <ul class="log">
+        @for (event of events; track event.time + event.text) {
+          <li>
+            <span class="dot {{ event.tone }}"></span>
+            <span class="log-time num">{{ event.time }}</span>
+            <span class="log-text">{{ event.text }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Resource table</div>
+    <div class="table-box">
+      <sm-table
+        [tableData]="tableRows()"
+        [columns]="columns"
+        [reorderableColumns]="false"
+        [resizableColumns]="false"
+        [scrollable]="true"
+        [rowsNumber]="100"
+        [rowHeight]="40">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          @switch (col.id) {
+            @case ('name') {
+              <span class="ellipsis" [title]="row.name">
+                {{ row.name }}
+              </span>
+            }
+            @case ('workers') {
+              <span class="num">{{ row.workerCount }}</span>
+            }
+            @case ('gpuUtil') {
+              <span class="num">{{ row.gpuUtil }}</span>
+            }
+            @case ('cpuLoad') {
+              @if (row.alert) {
+                <span class="badge error num">{{ row.cpuLoadText }}</span>
+              } @else {
+                <span class="num">{{ row.cpuLoadText }}</span>
+              }
+            }
+            @case ('ramFree') {
+              <span class="num">{{ row.ramFreeText }}</span>
+            }
+            @case ('disk') {
+              <span class="num">{{ row.diskText }}</span>
+            }
+            @case ('network') {
+              <span class="num">{{ row.network }}</span>
+            }
+          }
+        </ng-template>
+      </sm-table>
+    </div>
+  </section>
+</div>
