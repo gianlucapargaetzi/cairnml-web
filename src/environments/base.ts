@@ -51,7 +51,6 @@ export interface Environment {
   hideUpdateNotice: boolean;
   showSurvey: boolean;
   plotlyURL: string;
-  slackLink: string;
   docsLink?: string;
   supportEmail?: string;
   useFilesProxy: boolean;
@@ -104,7 +103,6 @@ export const BASE_ENV = {
   useFilesProxy: true,
   legal: {TOULink: 'https://github.com/clearml/clearml-server/blob/master/LICENSE'},
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
-  slackLink: 'https://joinslack.clear.ml',
   docsLink: 'https://clear.ml/docs',
   supportEmail: 'support@clear.ml',
   branding: {logo: 'assets/logo-white.svg?v=7', logoSmall: 'assets/small-logo-white.svg?=2'},
