@@ -23,14 +23,6 @@ export interface WorkersStatusReportRequest {
      */
     task?: string;
     /**
-     * ID of the queue from which task was received. If no queue is sent, the worker\'s   queue field will be cleared.
-     */
-    queue?: string;
-    /**
-     * List of queue IDs on which the worker is listening. If null, the worker\'s   queues list will not be updated.
-     */
-    queues?: Array<string>;
-    /**
      * UNIX time in seconds since epoch.
      */
     timestamp: number;

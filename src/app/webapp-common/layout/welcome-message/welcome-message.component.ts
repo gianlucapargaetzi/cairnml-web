@@ -14,12 +14,10 @@ import {Store} from '@ngrx/store';
 import {createCredential, resetCredential} from '@common/core/actions/common-auth.actions';
 import {selectNewCredential} from '@common/core/reducers/common-auth-reducer';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
-import {Queue} from '~/business-logic/model/queues/queue';
 import {GettingStartedContext} from '../../../../environments/base';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {CopyClipboardComponent} from '@common/shared/ui-components/indicators/copy-clipboard/copy-clipboard.component';
 import {YouTubePlayerModule} from '@angular/youtube-player';
-import {MatCheckbox} from '@angular/material/checkbox';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
@@ -35,7 +33,6 @@ interface StepObject {
 }
 
 export interface WelcomeMessageData {
-  queue: Queue;
   entityName: string;
   step: number;
   showTabs?: boolean;
@@ -52,7 +49,6 @@ export interface WelcomeMessageData {
         DialogTemplateComponent,
         CopyClipboardComponent,
         YouTubePlayerModule,
-        MatCheckbox,
         MatButton,
         MatIcon,
         FormsModule,
@@ -82,27 +78,9 @@ export class WelcomeMessageComponent {
     title: '2. Configure',
     code: 'clearml-init'
   }];
-  ORPHANED_QUEUE_STEPS: StepObject[] =
-    [{
-      id: 1,
-      header: null, code: null,
-      subNote: 'See ClearML Documentation for different ways of deploying workers'
-    }, {
-      id: 2,
-      header: 'To setup a worker',
-      title: '1. Install',
-      code: 'pip install clearml-agent',
-    }, {
-      id: 3,
-      title: '2. Configure',
-      code: 'clearml-agent init'
-    }
-    ];
   public links = ['Set up ClearML', 'Run your ML code', 'Relaunch previous experiments'];
-  public doNotShowAgain: boolean;
   public credentialsLabel: string;
   public src: string;
-  public queue: Queue = this.data?.queue;
   public entityName: string = this.data?.entityName ?? 'Tasks';
   protected showTabs = this.data?.showTabs;
   protected currentLink = this.showTabs ? this.links[0] : undefined;
@@ -121,42 +99,32 @@ export class WelcomeMessageComponent {
   protected community = computed(() => this.configService.configuration().communityServer);
 
   protected steps = computed<StepObject[]>(() => {
-    const steps = this.queue ? this.ORPHANED_QUEUE_STEPS : this.GETTING_STARTED_STEPS;
+    const steps = this.GETTING_STARTED_STEPS;
 
-    if (this.queue) {
-      steps[0].code = `clearml-agent daemon --queue ${this.queue.name}`;
-      steps[0].header = `To assign a worker to the ${this.queue.display_name || this.queue.name} queue, run:`;
-      steps[1].code = `pip install clearml-agent`;
-      steps[2].code = `clearml-agent init`;
-    } else {
-      steps[0].code = this.companyGettingStarted().install ?? this.configGettingStarted().install ?? steps[0].code;
-      steps[1].code = this.companyGettingStarted().configure ?? this.configGettingStarted()?.configure ?? steps[1].code;
-    }
+    steps[0].code = this.companyGettingStarted().install ?? this.configGettingStarted().install ?? steps[0].code;
+    steps[1].code = this.companyGettingStarted().configure ?? this.configGettingStarted()?.configure ?? steps[1].code;
 
     if (this.showTabs) {
       steps[0].header = null;
     }
 
     if (this.isJupyter()) {
-      steps[this.queue ? 2 : 1].code =
+      steps[1].code =
         `%env CLEARML_WEB_HOST=${this.WEB_SERVER_URL}
 %env CLEARML_API_HOST=${this.configService.apiServerUrl()}\n`;
       if (this.configService.fileServerUrl()) {
-        steps[this.queue ? 2 : 1].code += `%env CLEARML_FILES_HOST=${this.configService.fileServerUrl()}\n`;
+        steps[1].code += `%env CLEARML_FILES_HOST=${this.configService.fileServerUrl()}\n`;
       }
       if(this.credentialsLabel) {
-        steps[this.queue ? 2 : 1].code += `# ${this.credentialsLabel}\n`;
+        steps[1].code += `# ${this.credentialsLabel}\n`;
       }
-      steps[this.queue ? 2 : 1].code += `%env CLEARML_API_ACCESS_KEY=${this.accessKey() || '<Your API access key>'}
+      steps[1].code += `%env CLEARML_API_ACCESS_KEY=${this.accessKey() || '<Your API access key>'}
 %env CLEARML_API_SECRET_KEY=${this.secretKey() ||  '<Your API secret key>'}`;
     }
     return steps;
   });
 
   constructor() {
-    this.dialogRef.beforeClosed().subscribe(res =>
-      this.doNotShowAgain && !res? this.dialogRef.close(this.doNotShowAgain) : false);
-
     if (this.data?.newExperimentYouTubeVideoId) {
       this.loadYoutubeApi(this.data?.newExperimentYouTubeVideoId);
     }
@@ -165,7 +133,7 @@ export class WelcomeMessageComponent {
   }
 
   closeDialog() {
-    this.dialogRef.close(this.doNotShowAgain);
+    this.dialogRef.close();
   }
 
   nextSteps(event: MouseEvent) {
@@ -177,10 +145,6 @@ export class WelcomeMessageComponent {
     this.credentialsCreated.set(true);
     this.store.dispatch(setSelectedWorkspaceTab({workspace: {id: this.workspace().id}}));
     this.store.dispatch(createCredential({workspace: this.workspace(), label: this.credentialsLabel}));
-  }
-
-  doNotShowThisAgain(val) {
-    this.doNotShowAgain = val;
   }
 
   showSection(selection: string) {

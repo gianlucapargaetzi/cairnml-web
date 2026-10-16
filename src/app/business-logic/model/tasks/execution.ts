@@ -15,10 +15,6 @@ import { Artifact } from '././artifact';
 
 export interface Execution {
     /**
-     * Queue ID where task was queued.
-     */
-    queue?: string;
-    /**
      * Json object containing the Task parameters
      */
     parameters?: object;

@@ -113,11 +113,8 @@ export class SchedulerApiService {
   }
 
   /** Enqueue one task with its requirements and priority (version 2.36 of tasks.enqueue). */
-  enqueue(task: string, queueId: string | null, requirements: Record<string, unknown> | null, priority: number | null): Observable<unknown> {
+  enqueue(task: string, requirements: Record<string, unknown> | null, priority: number | null): Observable<unknown> {
     const body: Record<string, unknown> = {task, requirements: requirements ?? {}};
-    if (queueId) {
-      body.queue = queueId;
-    }
     if (priority !== null && priority !== undefined) {
       body.priority = priority;
     }

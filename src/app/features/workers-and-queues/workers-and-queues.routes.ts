@@ -1,8 +1,6 @@
 import {Routes} from '@angular/router';
-import {WorkersAndQueuesResolver} from '~/shared/resolvers/workers-and-queues.resolver';
 import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
-import {workersAndQueuesProviders} from '@common/workers-and-queues/workers-and-queues.providers';
 
 const wQBreadcrumb = [[{
   name: 'WORKERS AND QUEUES',
@@ -14,10 +12,6 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('~/features/workers-and-queues/orchestration.component').then(c => c.OrchestrationComponent),
     canDeactivate: [resetContextMenuGuard],
-    providers: [workersAndQueuesProviders],
-    resolve: {
-      queuesManager: WorkersAndQueuesResolver
-    },
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {

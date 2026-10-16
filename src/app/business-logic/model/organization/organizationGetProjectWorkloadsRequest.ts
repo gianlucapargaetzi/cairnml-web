@@ -33,11 +33,10 @@ export interface OrganizationGetProjectWorkloadsRequest {
     usage_fields?: Array<OrganizationGetProjectWorkloadsRequest.UsageFieldsEnum>;
 }
 export namespace OrganizationGetProjectWorkloadsRequest {
-    export type BreakdownKeysEnum = 'project' | 'user' | 'queue';
+    export type BreakdownKeysEnum = 'project' | 'user';
     export const BreakdownKeysEnum = {
         Project: 'project' as BreakdownKeysEnum,
-        User: 'user' as BreakdownKeysEnum,
-        Queue: 'queue' as BreakdownKeysEnum
+        User: 'user' as BreakdownKeysEnum
     }
     export type UsageFieldsEnum = 'duration' | 'cpu_usage' | 'gpu_usage';
     export const UsageFieldsEnum = {

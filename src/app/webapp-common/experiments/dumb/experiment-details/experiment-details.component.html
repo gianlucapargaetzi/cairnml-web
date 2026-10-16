@@ -58,12 +58,6 @@
     {{ (experiment()?.active_duration | duration) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="QUEUE:">
-    <a [routerLink]="'/workers-and-queues/queues'" [queryParams]="{id: experiment()?.execution?.queue?.id}" [class.na]="!experiment()?.execution?.queue?.name">
-      {{ experiment()?.execution?.queue?.display_name || experiment()?.execution?.queue?.name | NA }}
-    </a>
-  </sm-labeled-row>
-
   <sm-labeled-row label="WORKER:">
     <a [routerLink]="'/workers-and-queues/workers'" [queryParams]="{id: experiment()?.last_worker}" [class.na]="!experiment()?.last_worker">
       {{ experiment()?.last_worker | NA }}

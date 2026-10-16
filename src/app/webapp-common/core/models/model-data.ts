@@ -1,10 +1,8 @@
 import {Model} from '../../../business-logic/model/models/model';
 import {Execution} from '../../../business-logic/model/tasks/execution';
-import {Queue} from '../../../business-logic/model/queues/queue';
 
-export interface IBaseExecution extends  Omit<Execution, 'model' | 'queue'> {
+export interface IBaseExecution extends  Omit<Execution, 'model'> {
   model: Model;
-  queue: Queue;
 }
 
 export interface ItaskOutput {

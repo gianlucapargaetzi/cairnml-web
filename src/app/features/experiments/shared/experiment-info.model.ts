@@ -15,7 +15,6 @@ import {
 import {ParamsItem} from '../../../business-logic/model/tasks/paramsItem';
 import {ConfigurationItem} from '../../../business-logic/model/tasks/configurationItem';
 import {GetCurrentUserResponseUserObjectCompany} from '../../../business-logic/model/users/getCurrentUserResponseUserObjectCompany';
-import {Queue} from '../../../business-logic/model/queues/queue';
 import {Container} from '../../../business-logic/model/tasks/container';
 import {Output} from '~/business-logic/model/tasks/output';
 
@@ -112,7 +111,6 @@ export interface ISelectedExperimentExecution {
   model_labels?: { [key: string]: number};
   artifacts?: Artifact[];
   docker_cmd?: string;
-  queue?: Queue;
 }
 
 export interface IExperimentInfoFormComponent {

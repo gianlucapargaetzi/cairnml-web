@@ -92,18 +92,15 @@ import {
   selectionDisabledAbortAllChildren,
   selectionDisabledArchive,
   selectionDisabledDelete,
-  selectionDisabledDequeue,
   selectionDisabledEnqueue,
   selectionDisabledMoveTo,
   selectionDisabledPipelineRun,
   selectionDisabledPublishExperiments,
-  selectionDisabledQueue,
   selectionDisabledReset,
   selectionDisabledRetry,
   selectionDisabledViewWorker
 } from '../shared/entity-page/items.utils';
 import {ExperimentsTableComponent} from './dumb/experiments-table/experiments-table.component';
-import {DequeueFooterItem} from '../shared/entity-page/footer-items/dequeue-footer-item';
 import {HasReadOnlyFooterItem} from '../shared/entity-page/footer-items/has-read-only-footer-item';
 import {encodeHyperParameter, filterArchivedExperiments} from './shared/common-experiments.utils';
 import {AbortAllChildrenFooterItem} from '../shared/entity-page/footer-items/abort-all-footer-item';
@@ -381,7 +378,6 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
       new DividerFooterItem(),
       new EnqueueFooterItem(),
       new RetryFooterItem(),
-      new DequeueFooterItem(),
       new ResetFooterItem(config.entitiesType),
       new AbortFooterItem(config.entitiesType),
       new AbortAllChildrenFooterItem(),
@@ -420,9 +416,6 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
           break;
         case MenuItems.enqueue:
           this.contextMenu().enqueuePopup();
-          break;
-        case MenuItems.dequeue:
-          this.contextMenu().dequeuePopup();
           break;
         case MenuItems.delete:
           this.contextMenu().deleteExperimentPopup();
@@ -748,8 +741,6 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
       [MenuItems.moveTo]: selectionDisabledMoveTo([experiment]),
       [MenuItems.enqueue]: selectionDisabledEnqueue([experiment]),
       [MenuItems.retry]: selectionDisabledRetry([experiment]),
-      [MenuItems.dequeue]: selectionDisabledDequeue([experiment]),
-      [MenuItems.queue]: selectionDisabledQueue([experiment]),
       [MenuItems.viewWorker]: selectionDisabledViewWorker([experiment]),
       [MenuItems.archive]: selectionDisabledArchive([experiment]),
       [MenuItems.run]: selectionDisabledPipelineRun([experiment])

@@ -148,20 +148,14 @@ export class WorkloadsPageComponent {
     }
   });
 
-  protected queueStats = computed(() => getStatsData(this.data.value()?.queues, this.nominal() === 'gpu', this.localRunsControl.value));
   protected projectsStats = computed(() => getStatsData(this.data.value()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
   protected usersStats = computed(() => getStatsData(this.data.value()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
 
-  protected queueTotals = computed(() => getTotalsData(this.data.value()?.queues, this.nominal() === 'gpu', this.localRunsControl.value));
   protected projectsTotals = computed(() => getTotalsData(this.data.value()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
   protected usersTotals = computed(() => getTotalsData(this.data.value()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
 
-  protected noData= computed(() => this.queueTotals().length < 1 &&this.projectsTotals().length < 1 && this.usersTotals().length < 1);
+  protected noData= computed(() => this.projectsTotals().length < 1 && this.usersTotals().length < 1);
 
-  protected queueTotalsColors = computed(() => this.queueTotals().map(label => {
-    const color = this.colorHash.colorsSignal()[label.name];
-    return color ? rgbList2Hex(color) : this.colorHash.hex(label.name);
-  }));
 
 
   protected projectTotalsColors = computed(() => this.projectsTotals().map(label => {
