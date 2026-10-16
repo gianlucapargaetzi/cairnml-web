@@ -82,11 +82,7 @@
           @if (step.subNote || (isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
             <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm"></mat-icon>
             @if ((isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
-              @if (accessKey()) {
-                Manage your API credentials in the <a class="ms-1" target="_blank" href="settings/workspace-configuration">workspace settings page</a>
-              } @else {
-                Fill in your API credentials (if you don’t have any, create new credentials)
-              }
+              Enrol this machine with <span class="ms-1">clearml-init</span>, which opens your sign-in page.
             } @else {
               {{step.subNote}}
             }
@@ -100,11 +96,6 @@
     <div class="step-container cred-step" [class.jupyter]="isJupyter()" [class.first-step]="!credentialsCreated()" [class.has-ws]="community() && workspace.name" [class.has-label]="credentialsLabel">
       @if (!isJupyter()) {
         <div class="sub-note" >Complete the clearml configuration information as prompted.</div>
-      }
-      @if (!credentialsCreated()) {
-        <button mat-flat-button class="my-2" data-id="New Credentials" (click)="createCredentials()">
-          CREATE NEW CREDENTIALS
-        </button>
       }
       <div class="cred-visible" [class.invisible]="!accessKey() || isJupyter()">
         <div class="code">
@@ -146,7 +137,7 @@
             [clipboardText]="getCopyConfig()"></sm-copy-clipboard>
         </div>
     @if (!showTabs) {
-      <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm info"></mat-icon>Manage your API credentials in the<a class="ms-1" target="_blank" href="settings/workspace-configuration">workspace settings page</a></div>
+      <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm info"></mat-icon>Enrol this machine with clearml-init, which opens your sign-in page.</div>
     }
   </div>
 </div>

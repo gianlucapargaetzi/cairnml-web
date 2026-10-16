@@ -10,7 +10,6 @@ import {UserPreferences} from '@common/user-preferences';
 import {ActionReducer, MetaReducer} from '@ngrx/store';
 import {merge, pick} from 'lodash-es';
 import {USERS_PREFIX, VIEW_PREFIX} from '~/app.constants';
-import {loginReducer} from '~/features/login/login.reducer';
 import {projectSyncedKeys} from '~/features/projects/projects.routes';
 import {authReducer} from '~/core/reducers/auth.reducers';
 import {usageStatsReducer, userStatsFeatureKey} from './reducers/usage-stats.reducer';
@@ -27,7 +26,6 @@ export const reducers = {
   recentTasks: recentTasksReducer,
   views: viewReducer,
   users: usersReducer,
-  login: loginReducer,
   rootProjects: projectsReducer,
   [userStatsFeatureKey]: usageStatsReducer,
   commonSearch: searchReducer,

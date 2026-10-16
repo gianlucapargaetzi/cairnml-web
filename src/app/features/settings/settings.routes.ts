@@ -36,14 +36,6 @@ export const routes: Routes = [
           }]]},
       },
       {
-        path: 'workspace-configuration',
-        loadComponent: () => import('@common/settings/workspace-configuration/workspace-configuration.component').then(m => m.WorkspaceConfigurationComponent),
-        data: {workspaceNeutral: true, staticBreadcrumb:[[settingsBreadcrumb, {
-            name: 'Workspace',
-            type: CrumbTypeEnum.SubFeature
-          }]]},
-      },
-      {
         path: 'storage-credentials',
         loadComponent: () => import('@common/settings/storage-credentials/storage-credentials.component').then(m => m.StorageCredentialsComponent),
         data: {
