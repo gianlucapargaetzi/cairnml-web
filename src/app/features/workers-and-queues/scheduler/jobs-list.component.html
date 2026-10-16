@@ -1,0 +1,37 @@
+<div class="jobs-list">
+  <div class="filters">
+    @for (option of filters; track option) {
+      @if (filter() === option) {
+        <button mat-flat-button (click)="setFilter(option)">{{ option }}</button>
+      } @else {
+        <button mat-stroked-button (click)="setFilter(option)">{{ option }}</button>
+      }
+    }
+  </div>
+
+  @if (jobs(); as list) {
+    @if (shown().length) {
+      <sm-table
+        [columns]="columns"
+        [tableData]="shown()"
+        [selectionMode]="null"
+        [resizableColumns]="false"
+        [simple]="true"
+        [columnResizeMode]="'fit'">
+        <ng-template let-col let-job="rowData" pTemplate="body">
+          @switch (col.id) {
+            @case ('state') { <span class="state" [class]="'state-' + job.state">{{ job.state }}</span> }
+            @case ('name') { <span>{{ job.name }}</span> }
+            @case ('priority') { <span>{{ job.priority }}</span> }
+            @case ('requirements') { <span class="caption">{{ requirements(job) }}</span> }
+            @case ('worker') { <span>{{ job.worker ?? '–' }}</span> }
+            @case ('since') { <span class="caption">{{ since(job) }}</span> }
+            @case ('why') { <span class="caption" [title]="job.reason ?? ''">{{ job.reason ?? '' }}</span> }
+          }
+        </ng-template>
+      </sm-table>
+    } @else {
+      <p class="empty">No jobs are running or waiting. Enqueue a task from its page.</p>
+    }
+  }
+</div>

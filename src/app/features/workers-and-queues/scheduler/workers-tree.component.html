@@ -1,0 +1,87 @@
+<div class="workers-tree">
+  @if (empty()) {
+    <p class="empty">No workers are registered. Start an agent with <code>clearml-agent daemon --managed</code>.</p>
+  }
+
+  @if (workers(); as list) {
+    @if (list.length) {
+      <sm-table
+        [columns]="workerColumns"
+        [tableData]="list"
+        [expandableRows]="true"
+        [expandedRowKeys]="expanded()"
+        [selectionMode]="null"
+        [resizableColumns]="false"
+        [simple]="true"
+        [columnResizeMode]="'fit'"
+        (rowExpanded)="setExpanded($event.data.id, true)"
+        (rowCollapsed)="setExpanded($event.data.id, false)">
+
+        <ng-template let-col let-row="rowData" let-expanded="expanded" pTemplate="body">
+          @switch (col.id) {
+            @case ('worker') {
+              <div class="worker-cell">
+                <i class="al-icon al-ico-next sm-md" [class.expanded]="expanded"></i>
+                <span class="name">{{ row.id }}</span>
+              </div>
+            }
+            @case ('state') {
+              <span class="state" [class]="'state-' + row.state">{{ row.state }}</span>
+            }
+            @case ('jobs') {
+              <span>{{ row.jobs.length }}</span>
+            }
+            @case ('cpu') {
+              <div class="bar-cell">
+                <mat-progress-bar mode="buffer" [value]="cpuBar(row).used" [bufferValue]="cpuBar(row).allocated"></mat-progress-bar>
+                <span class="caption">{{ cpuBar(row).used | number: '1.0-0' }}% used · {{ allocatedCpus(row) }} / {{ schedulableCpus(row) }} allocated</span>
+              </div>
+            }
+            @case ('ram') {
+              <div class="bar-cell">
+                <mat-progress-bar mode="buffer" [value]="ramBar(row).used" [bufferValue]="ramBar(row).allocated"></mat-progress-bar>
+                <span class="caption">{{ row.usage?.ram_used_gb | number: '1.0-1' }} / {{ row.capacity.ram_gb | number: '1.0-1' }} GB</span>
+              </div>
+            }
+            @case ('gpu') {
+              <span>{{ gpuAllocated(row) }} GPUs</span>
+            }
+            @case ('seen') {
+              <span class="caption">{{ seen(row) }}</span>
+            }
+          }
+        </ng-template>
+
+        <ng-template pTemplate="rowexpansion" let-worker>
+          @if (worker.jobs.length) {
+            <sm-table
+              [columns]="jobColumns"
+              [tableData]="worker.jobs"
+              [selectionMode]="null"
+              [resizableColumns]="false"
+              [simple]="true"
+              [columnResizeMode]="'fit'">
+              <ng-template let-col let-job="rowData" pTemplate="body">
+                @switch (col.id) {
+                  @case ('job') { <span class="job-id">{{ job.task }}</span> }
+                  @case ('state') { <span class="state state-running">{{ job.state }}</span> }
+                  @case ('cpu') { <span>{{ job.cpus.length }}</span> }
+                  @case ('ram') {
+                    <div class="bar-cell">
+                      <mat-progress-bar mode="buffer" [value]="jobRam(job).used" [bufferValue]="jobRam(job).allocated"></mat-progress-bar>
+                      <span class="caption">{{ job.usage?.peak_ram_gb ?? job.usage?.ram_gb | number: '1.0-1' }} / {{ job.ram_gb | number: '1.0-1' }} GB</span>
+                    </div>
+                  }
+                  @case ('gpu') { <span>{{ job.gpus.length }}</span> }
+                  @case ('exclusive') { <span class="caption">{{ mode(job) }}</span> }
+                }
+              </ng-template>
+            </sm-table>
+          } @else {
+            <p class="empty">No jobs run on this worker now.</p>
+          }
+        </ng-template>
+      </sm-table>
+    }
+  }
+</div>
