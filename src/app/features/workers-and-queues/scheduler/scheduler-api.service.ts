@@ -33,6 +33,7 @@ export interface SchedulerJobUsage {
 
 export interface SchedulerJobOnWorker {
   task: string;
+  name?: string;
   state: string;
   cpus: number[];
   gpus: number[];
