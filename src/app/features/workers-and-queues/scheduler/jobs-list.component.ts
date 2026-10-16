@@ -32,8 +32,9 @@ export class JobsListComponent {
   protected readonly filters: Filter[] = ['all', 'running', 'pending'];
   protected readonly filter = signal<Filter>('all');
   protected readonly jobs = pollWhileVisible(() => this.api.jobs());
+  // rows need a unique id (the table marks a row selected by its id)
   protected readonly shown = computed(() => {
-    const list = this.jobs() ?? [];
+    const list = (this.jobs() ?? []).map(j => ({...j, id: j.task}));
     const wanted = this.filter();
     return wanted === 'all' ? list : list.filter(j => j.state === wanted);
   });
