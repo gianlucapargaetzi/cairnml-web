@@ -16,5 +16,4 @@ import { Workloads } from '././workloads';
 export interface OrganizationGetProjectWorkloadsResponse {
     projects?: Workloads;
     users?: Workloads;
-    queues?: Workloads;
 }

@@ -14,9 +14,13 @@
 
 export interface TasksEnqueueRequest {
     /**
-     * Queue id. If not provided, task is added to the default queue.
+     * Compute the task needs. Either all of cpus, ram_gb, gpus and disk_gb, or none (none means the task runs alone on a machine)
      */
-    queue?: string;
+    requirements?: object;
+    /**
+     * Priority of the task, 0 to 100. Higher runs first. Defaults to 50.
+     */
+    priority?: number;
     /**
      * Task ID
      */
@@ -29,12 +33,4 @@ export interface TasksEnqueueRequest {
      * Extra information regarding status change
      */
     status_message?: string;
-    /**
-     * The name of the queue. If the queue does not exist then it is auto-created.   Cannot be used together with the queue id
-     */
-    queue_name?: string;
-    /**
-     * If passed then check wheter there are any workers watiching the queue
-     */
-    verify_watched_queue?: boolean;
 }

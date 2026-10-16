@@ -29,21 +29,6 @@
     <div class="graphs">
       <div class="graph">
         <div class="graph__header">
-          Resource Breakdown
-        </div>
-        <div class="graph__body">
-          <sm-line-chart
-            [data]="queueStats()" [colorScheme]="queueTotalsColors()" [showLoadingOverlay]="data.isLoading()"
-            yLabel="hours" minUnit="day" [yTickFormatter]="formatter" class="graph__line" unit="hour"
-          ></sm-line-chart>
-          @if (this.nominal() === 'gpu' && usesDefaultWeight(data.value().queues)) {
-            <div class="graph__notice">* weight wasn't reported, using the default</div>
-          }
-          <sm-donut class="graph__donut" [data]="queueTotals()" [colors]="queueTotalsColors()" units="hour"></sm-donut>
-        </div>
-      </div>
-      <div class="graph">
-        <div class="graph__header">
           Project Distribution
         </div>
         <div class="graph__body">

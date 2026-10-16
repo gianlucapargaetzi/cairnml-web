@@ -1,4 +1,4 @@
-import {MetadataItem} from '../queues/metadataItem';
+import {MetadataItem} from './metadataItem';
 
 /**
  * models

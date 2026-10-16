@@ -22,10 +22,6 @@ export interface WorkersRegisterRequest {
      */
     timeout?: number;
     /**
-     * List of queue IDs on which the worker is listening.
-     */
-    queues?: Array<string>;
-    /**
      * User tags for the worker
      */
     tags?: Array<string>;

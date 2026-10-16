@@ -12,11 +12,10 @@
 
 
 
-export type FeaturesEnum = 'experiments' | 'queues' | 'pipelines' | 'reports';
+export type FeaturesEnum = 'experiments' | 'pipelines' | 'reports';
 
 export const FeaturesEnum = {
-    Experiments: 'experiments' as FeaturesEnum,
-    Queues: 'queues' as FeaturesEnum,
+  Experiments: 'experiments' as FeaturesEnum,
   Pipelines: 'pipelines' as FeaturesEnum,
   Reports: 'reports' as FeaturesEnum
 };

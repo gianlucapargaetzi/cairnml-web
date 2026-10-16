@@ -6,7 +6,6 @@ export * from '././idNameEntry';
 export * from '././machineStats';
 export * from '././metricStats';
 export * from '././metricsCategory';
-export * from '././queueEntry';
 export * from '././statItem';
 export * from '././worker';
 export * from '././workerStats';

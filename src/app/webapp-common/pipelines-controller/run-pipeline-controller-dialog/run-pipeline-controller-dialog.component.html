@@ -108,43 +108,6 @@
       }
     </div>
     }
-    <div class="section-title d-flex align-items-center">Configuration</div>
-
-    <!-- Queue Selection -->
-    <div class="param-line">
-      <div class="param-key" [class.error]="form.controls.queue.invalid && form.controls.queue.touched">
-        Pipeline controller queue*
-      </div>
-
-      <mat-form-field appearance="outline" class="no-bottom queue-select">
-        <input type="text"
-               matInput
-               formControlName="queue"
-               [matAutocomplete]="auto"
-               required
-               data-id="queueField">
-
-        <i matSuffix
-           class="al-icon sm-md search-icon me-2"
-           [class]="form.controls.queue.value ? 'al-ico-dialog-x pointer' : 'al-ico-search'"
-           (click)="form.controls.queue.value && clearQueue()"
-        ></i>
-
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" class="light-theme">
-          <!-- Using the Computed Signal here directly -->
-          @for (queue of filteredQueues(); track queue.id) {
-            <mat-option
-              data-id="queueListOption"
-              [value]="queue"
-              [smTooltip]="queue.display_name ? queue.display_name + ' (' + queue.name + ')' : queue.name"
-              smShowTooltipIfEllipsis
-            >
-              <div [smSearchText]="form.controls.queue.value">{{ queue.caption }}</div>
-            </mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
   </form>
 </sm-dialog-template>
 

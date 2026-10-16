@@ -178,8 +178,6 @@ export const EXPERIMENT_INFO_ONLY_FIELDS_BASE = [
   'project.name',
   'output',
   'hyperparams',
-  'execution.queue.name',
-  'execution.queue.display_name',
   'script.binary',
   'script.repository',
   'script.tag',
@@ -252,7 +250,6 @@ export const TASK_EXPORT_ONLY_FIELDS_BASE = [
   'container',
   'runtime',
   // Execution fields
-  'execution.queue',
   // Script fields (nested in execution)
   'script.repository',
   'script.tag',

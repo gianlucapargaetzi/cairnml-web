@@ -72,8 +72,6 @@ export const COMPARE_DETAILS_ONLY_FIELDS_BASE = [
   'created',
   'user.name',
   'parent.name',
-  'execution.queue.name',
-  'execution.queue.display_name',
   'active_duration',
   'started',
   'status_message',

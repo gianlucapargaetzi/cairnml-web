@@ -299,29 +299,7 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
         </div>
       </mat-step>
       <mat-step #runStep label="Run">
-        <form [formGroup]="queueFormGroup" class="d-flex gap-3 flex-column">
-          <h5>Enqueue task to</h5>
-          <section>
-            <sm-paginated-entity-selector
-              formControlName="queue"
-              label="Queue"
-              [data]="filteredQueues()"
-              displayField="caption"
-              [isRequired]="true"
-              (loadMore)="loadMoreQueues()"
-            >
-              @if (!queueFormGroup.controls.queue.untouched && queueFormGroup.controls.queue.errors; as errors) {
-                <div class="extra-errors">
-                  @if (errors?.required) {
-                  <mat-error>Please select queue.</mat-error>
-                }
-                @if (errors?.notFoundInList) {
-                    <mat-error>Please select a queue from the list</mat-error>
-                  }
-                </div>
-              }
-            </sm-paginated-entity-selector>
-          </section>
+        <form [formGroup]="runFormGroup" class="d-flex gap-3 flex-column">
           <h5>Output</h5>
           <section>
             <mat-form-field appearance="outline">
@@ -336,7 +314,7 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
           <button
             mat-flat-button
             class="tertiary-button"
-            [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid || queueFormGroup.invalid"
+            [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid || runFormGroup.invalid"
             (click)="close('run')"
           >RUN</button>
         </div>

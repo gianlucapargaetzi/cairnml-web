@@ -16,7 +16,6 @@
   </div>
 }
 <mat-menu #experimentMenu="matMenu" [hasBackdrop]="backdrop()" class="entity-context-menu">
-  @if (selectedDisableAvailable()[menuItems.queue]) {
     @if (tableMode() || isCompare()) {
       <button mat-menu-item (click)="toggleDetails()" data-id="Details Option">
         <mat-icon fontSet="al" [fontIcon]="icons.DETAILS"></mat-icon>
@@ -35,11 +34,6 @@
       </button>
     }
     <hr>
-    <button mat-menu-item (click)="manageQueueClicked()"
-            [disabled]="selectedDisableAvailable()[menuItems.queue].disable" data-id="Manage Queue Option">
-      <mat-icon fontSet="al" [fontIcon]="icons.QUEUED"></mat-icon>
-      Manage Queue
-    </button>
     <button mat-menu-item (click)="viewWorkerClicked()"
             [disabled]="selectedDisableAvailable()[menuItems.viewWorker].disable" data-id="View Worker Option">
       <mat-icon fontSet="al" [fontIcon]="icons.WORKER"></mat-icon>
@@ -77,13 +71,6 @@
               [disabled]="selectedDisableAvailable()[menuItems.retry].disable">
         <mat-icon fontSet="al" [fontIcon]="icons.RETRY"></mat-icon>
         {{selectedDisableAvailable()[menuItems.retry]?.available | menuItemText : 'Retry' : selectedDisableAvailableIsMultiple()}}
-      </button>
-    }
-    @if (!selectedDisableAvailable()[menuItems.dequeue].disable) {
-      <button mat-menu-item (click)="dequeuePopup()" data-id="Dequeue Option"
-              [disabled]="selectedDisableAvailable()[menuItems.dequeue]?.disable">
-        <mat-icon fontSet="al" [fontIcon]="icons.DEQUEUE"></mat-icon>
-        {{selectedDisableAvailable()[menuItems.dequeue]?.available | menuItemText : 'Dequeue' : selectedDisableAvailableIsMultiple()}}
       </button>
     }
     <button mat-menu-item (click)="resetPopup()" data-id="Reset Option"
@@ -134,7 +121,6 @@
       <span>Export</span>
     </button>
     <ng-content select="[extended]"></ng-content>
-  }
 </mat-menu>
 
 <sm-tags-menu
@@ -164,30 +150,6 @@
   </div>
 </ng-template>
 
-<ng-template #dequeueTemplate let-selectedExperiments let-queueName="queueName">
-  <div class="mb-3">
-    @if(selectedExperiments.length === 1){
-      <span
-        class="ellipsis inline font-weight-bold"
-        style="max-width: 200px;"
-        [smTooltip]="selectedExperiments[0]?.name"
-        smShowTooltipIfEllipsis
-      >{{selectedExperiments[0]?.name}}</span>
-    } @else {
-      <span class="font-weight-bold">{{selectedExperiments.length}} tasks</span>
-    }
-    will be removed from the
-    @if (queueName) {
-      <span
-        class="ellipsis inline font-weight-bold"
-        style="max-width: 200px;"
-        [smTooltip]="selectedExperiments[0]?.name"
-        smShowTooltipIfEllipsis
-      >{{queueName}}</span>
-    }
-    execution queue.
-  </div>
-</ng-template>
 
 <ng-template #publishTemplate let-selectedExperiments>
   <div class="d-flex mb-3">

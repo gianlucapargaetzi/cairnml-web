@@ -11,7 +11,6 @@ import {
   activeLoader,
   addMessage,
   deactivateLoader,
-  neverShowPopupAgain,
   setServerError
 } from '../../core/actions/layout.actions';
 import * as menuActions from '../actions/common-experiments-menu.actions';
@@ -27,7 +26,6 @@ import {emptyAction} from '~/app.constants';
 import * as viewActions from '../actions/common-experiments-view.actions';
 import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 import {TasksGetAllExResponse} from '~/business-logic/model/tasks/tasksGetAllExResponse';
-import {ITask} from '~/business-logic/model/al-task';
 import {RouterState, selectRouterConfig, selectRouterParams} from '../../core/reducers/router-reducer';
 import {TasksArchiveManyResponse} from '~/business-logic/model/tasks/tasksArchiveManyResponse';
 import {cloneExtraActions, EntityTypeEnum} from '~/shared/constants/non-common-consts';
@@ -46,8 +44,6 @@ import {
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
 import {TasksCloneRequest} from '~/business-logic/model/tasks/tasksCloneRequest';
-import {WelcomeMessageComponent, WelcomeMessageData} from '@common/layout/welcome-message/welcome-message.component';
-import {selectNeverShowPopups} from '@common/core/reducers/view.reducer';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {TasksCloneResponse} from '~/business-logic/model/tasks/tasksCloneResponse';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -101,11 +97,11 @@ export class CommonExperimentsMenuEffects {
   private schedulerApi = inject(SchedulerApiService);
 
   /**
-   * With requirements or a priority, each task is enqueued on its own with the scheduler's enqueue call (the
-   * bulk call takes neither). The reply has the same shape as the bulk call's, so the success path is shared.
+   * Each task is enqueued on its own with the scheduler's enqueue call, which takes the requirements and the priority.
+   * The reply has the same shape as the bulk call's, so the success path is shared.
    */
   private enqueueWithScheduling(action: ReturnType<typeof menuActions.enqueueClicked>, ids: string[]) {
-    return forkJoin(ids.map(id => this.schedulerApi.enqueue(id, action.queue?.id ?? null, action.requirements ?? null, action.priority ?? null)
+    return forkJoin(ids.map(id => this.schedulerApi.enqueue(id, action.requirements ?? null, action.priority ?? null)
       .pipe(
         map(() => ({id, ok: true as const})),
         catchError(error => of({id, ok: false as const, error}))
@@ -114,7 +110,6 @@ export class CommonExperimentsMenuEffects {
       map(results => ({
         succeeded: results.filter(r => r.ok).map(r => ({id: r.id, updated: 1, fields: {status: 'queued'}})),
         failed: results.filter(r => !r.ok).map(r => ({id: r.id, error: {message: String((r as {error?: unknown}).error ?? 'enqueue failed'), codes: [], data: {}}})),
-        queue_watched: undefined,
       } as unknown as TasksEnqueueManyResponse))
     );
   }
@@ -124,39 +119,13 @@ export class CommonExperimentsMenuEffects {
     concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
     switchMap(([action, selectedEntity]) => {
         const ids = action.selectedEntities.map(exp => exp.id);
-        const scheduled = action.requirements !== undefined || action.priority !== undefined;
-        return (scheduled ? this.enqueueWithScheduling(action, ids) : this.apiTasks.tasksEnqueueMany({
-
-          ids,
-          queue: action.queue.id, ...((!action.queue.id) && {queue_name: action.queue.name}),
-          validate_tasks: true,
-          ...( action.verifyWatchers && {verify_watched_queue: true})
-
-        }))
+        return this.enqueueWithScheduling(action, ids)
           .pipe(
-            mergeMap((res: TasksEnqueueManyResponse) => [
-              ...this.updateExperimentsSuccess(action, MenuItems.enqueue, ids, selectedEntity, res),
-              ...(res.queue_watched === false ? [menuActions.openEmptyQueueMessage({queue: action.queue})] : [])
-            ]),
+            mergeMap((res: TasksEnqueueManyResponse) => this.updateExperimentsSuccess(action, MenuItems.enqueue, ids, selectedEntity, res)),
             catchError(error => this.updateExperimentFailed(action.type, error))
           );
       }
     )
-  ));
-
-  openMessage = createEffect(() => this.actions$.pipe(
-    ofType(menuActions.openEmptyQueueMessage),
-    concatLatestFrom(() => this.store.select(selectNeverShowPopups)),
-    switchMap(([action, neverShowAgainPopups]) => !neverShowAgainPopups.includes('orphanedQueue') ?
-        this.dialog.open<WelcomeMessageComponent, WelcomeMessageData, boolean>(WelcomeMessageComponent, {
-          data: {
-            queue: action.queue,
-            entityName: action.entityName,
-            step: 2
-          }
-        }).afterClosed() : of(null)
-    ),
-    map(doNotShowAgain => doNotShowAgain ? neverShowPopupAgain({popupId: 'orphanedQueue'}) : emptyAction())
   ));
 
   startPipeline$ = createEffect(() => this.actions$.pipe(
@@ -165,9 +134,7 @@ export class CommonExperimentsMenuEffects {
     switchMap(([action, projectId]) =>
       this.pipelineApi.pipelinesStartPipeline({
         task: action.task,
-        ...(action.queue && {queue: action.queue.id}),
         args: action.args,
-        verify_watched_queue: true,
         ...(action.createNewPipeline && action.new_project_name && {new_project_name: action.new_project_name}),
         ...(action.createNewPipeline && action.new_pipeline_name && {new_pipeline_name: action.new_pipeline_name}),
         ...(action.createNewPipeline && action.new_pipeline_version != null && {new_pipeline_version: action.new_pipeline_version}),
@@ -185,7 +152,6 @@ export class CommonExperimentsMenuEffects {
               project: navigateProjectId || projectId
             }),
             deactivateLoader(action.type),
-            ...(res.queue_watched === false ? [menuActions.openEmptyQueueMessage({queue: action.queue, entityName: 'Pipeline'})] : [])
           ];
         }),
         catchError(error => [
@@ -218,21 +184,6 @@ export class CommonExperimentsMenuEffects {
           ]
         )
       )
-    )
-  ));
-
-
-  dequeueExperiment$ = createEffect(() => this.actions$.pipe(
-    ofType(menuActions.dequeueClicked),
-    concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
-    switchMap(([action, selectedEntity]) => {
-        const ids = action.selectedEntities.map(exp => exp.id);
-        return this.apiTasks.tasksDequeueMany({ids})
-          .pipe(
-            mergeMap(res => this.updateExperimentsSuccess(action, MenuItems.dequeue, ids, selectedEntity, res)),
-            catchError(error => this.updateExperimentFailed(action.type, error))
-          );
-      }
     )
   ));
 
@@ -587,26 +538,6 @@ export class CommonExperimentsMenuEffects {
   ));
 
 
-  navigateToQueue = createEffect(() => this.actions$.pipe(
-    ofType(menuActions.navigateToQueue),
-    concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
-    switchMap(([action, info]) => {
-      if (action.experimentId === info?.id && info?.execution?.queue?.id) {
-        return of({tasks: [info]});
-      } else {
-        return this.apiTasks.tasksGetAllEx({
-          id: [action.experimentId],
-
-          only_fields: ['execution.queue.id']
-        });
-      }
-    }),
-    map((res: TasksGetAllExResponse) => {
-      const queue = (res.tasks[0] as unknown as ITask).execution.queue;
-      return this.router.navigate(['workers-and-queues', 'queues'], {queryParams: {id: queue.id}});
-    })
-  ), {dispatch: false});
-
   navigateToWorker = createEffect(() => {
     return this.actions$.pipe(
       ofType(menuActions.navigateToWorker),
@@ -623,7 +554,6 @@ export class CommonExperimentsMenuEffects {
       }),
       map((res: TasksGetByIdExResponse) => {
         const worker = (res.tasks[0]).last_worker;
-        // return this.router.navigate(['/workers-and-queues/queues'], {queryParams: {id: queue.id}});
 
         this.router.navigate(['workers-and-queues', 'workers'], {queryParams: {id: worker}});
       })

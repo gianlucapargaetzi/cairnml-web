@@ -11,7 +11,6 @@
  */
 
 import { CurrentTaskEntry } from '././currentTaskEntry';
-import { QueueEntry } from '././queueEntry';
 import { IdNameEntry } from '././idNameEntry';
 
 
@@ -40,11 +39,6 @@ export interface Worker {
     last_report_time?: string;
     task?: CurrentTaskEntry;
     project?: IdNameEntry;
-    queue?: QueueEntry;
-    /**
-     * List of queues on which the worker is listening
-     */
-    queues?: Array<QueueEntry>;
     /**
      * User tags for the worker
      */

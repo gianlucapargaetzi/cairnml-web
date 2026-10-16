@@ -19,17 +19,9 @@ export interface PipelinesStartPipelineRequest {
      */
     task: string;
     /**
-     * Queue ID in which the created pipeline task will be enqueued
-     */
-    queue?: string;
-    /**
      * Task arguments, name/value to be placed in the hyperparameters Args section
      */
     args?: Array<PipelinesStartPipelineRequestArgs>;
-    /**
-    * If passed then check wheter there are any workers watiching the queue
-    */
-    verify_watched_queue?: boolean;
     /**
      * Existing project name to start a pipeline in. If not provider then run in the   current project
      */

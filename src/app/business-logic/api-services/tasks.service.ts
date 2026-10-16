@@ -50,10 +50,6 @@ import { TasksDeleteModelsRequest } from '../model/tasks/tasksDeleteModelsReques
 import { TasksDeleteModelsResponse } from '../model/tasks/tasksDeleteModelsResponse';
 import { TasksDeleteRequest } from '../model/tasks/tasksDeleteRequest';
 import { TasksDeleteResponse } from '../model/tasks/tasksDeleteResponse';
-import { TasksDequeueManyRequest } from '../model/tasks/tasksDequeueManyRequest';
-import { TasksDequeueManyResponse } from '../model/tasks/tasksDequeueManyResponse';
-import { TasksDequeueRequest } from '../model/tasks/tasksDequeueRequest';
-import { TasksDequeueResponse } from '../model/tasks/tasksDequeueResponse';
 import { TasksEditConfigurationRequest } from '../model/tasks/tasksEditConfigurationRequest';
 import { TasksEditConfigurationResponse } from '../model/tasks/tasksEditConfigurationResponse';
 import { TasksEditHyperParamsRequest } from '../model/tasks/tasksEditHyperParamsRequest';
@@ -774,96 +770,6 @@ export class ApiTasksService {
         }
 
 	return this.apiRequest.post<TasksDeleteModelsResponse>(`${this.basePath}/tasks.delete_models`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Remove a task from its queue. Fails if task status is not queued.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public tasksDequeue(request: TasksDequeueRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling tasksDequeue.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<TasksDequeueResponse>(`${this.basePath}/tasks.dequeue`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Dequeue tasks
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public tasksDequeueMany(request: TasksDequeueManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling tasksDequeueMany.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<TasksDequeueManyResponse>(`${this.basePath}/tasks.dequeue_many`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

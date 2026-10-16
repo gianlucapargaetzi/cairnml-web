@@ -143,7 +143,6 @@ export const PIPELINE_INFO_ONLY_FIELDS = [
   'models.output.model.name',
   'models.output.model.project',
   'execution.artifacts',
-  'execution.queue',
   'configuration',
   'hyperparams',
   'system_tags',

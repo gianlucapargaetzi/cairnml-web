@@ -46,7 +46,6 @@ export class PipelineControllerMenuComponent extends ExperimentMenuComponent {
         this.store.dispatch(commonMenuActions.startPipeline({
           task: res.task,
           args: res.args,
-          queue: res.queue,
           createNewPipeline: res.createNewPipeline,
           new_project_name: res.new_project_name,
           new_pipeline_name: res.new_pipeline_name,
@@ -61,8 +60,7 @@ export class PipelineControllerMenuComponent extends ExperimentMenuComponent {
 
     this.store.dispatch(commonMenuActions.enqueueClicked({
       selectedEntities: selectedExperiments,
-      queue: this.experiment().execution?.queue,
-      verifyWatchers: false
+      requirements: undefined,
     }));
   }
 

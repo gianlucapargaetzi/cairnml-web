@@ -15,10 +15,6 @@ import { Artifact } from '././artifact';
 
 export interface Execution {
     /**
-     * Queue ID where task was queued.
-     */
-    queue?: string;
-    /**
      * Percentage of frames to use for testing only
      */
     test_split?: number;

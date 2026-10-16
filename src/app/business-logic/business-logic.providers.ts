@@ -2,7 +2,6 @@ import {SmApiRequestsService} from './api-services/api-requests.service';
 import {BlTasksService} from './services/tasks.service';
 import {BlModelsService} from './services/models.service';
 import {ApiTasksService} from './api-services/tasks.service';
-import {ApiQueuesService} from './api-services/queues.service';
 import {ApiWorkersService} from './api-services/workers.service';
 import {ApiAuthService} from './api-services/auth.service';
 import {ApiModelsService} from './api-services/models.service';
@@ -22,7 +21,6 @@ export const businessLogicProviders = [
   BlTasksService,
   BlModelsService,
   ApiTasksService,
-  ApiQueuesService,
   ApiWorkersService,
   ApiAuthService,
   ApiModelsService,
