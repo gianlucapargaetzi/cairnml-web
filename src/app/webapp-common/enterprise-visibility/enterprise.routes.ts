@@ -13,11 +13,7 @@ export const routes: Routes = [{
   path: '',
   component: EnterpriseComponent,
   children: [
-    {path: '', pathMatch: 'full', redirectTo: 'resource-management'},
-    {
-      path: 'resource-management', data,
-      loadComponent: () => import('./resource-management/resource-management.component').then(c => c.ResourceManagementComponent)
-    },
+    {path: '', pathMatch: 'full', redirectTo: 'interactive-sessions'},
     {
       path: 'interactive-sessions', data,
       loadComponent: () => import('./interactive-sessions/interactive-sessions.component').then(c => c.InteractiveSessionsComponent)

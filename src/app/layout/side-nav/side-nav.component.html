@@ -41,15 +41,3 @@
     }
   </div>
 }
-@if (currentUser()) {
-  <div class="account">
-    @if (environment().slackLink) {
-      <a class="item" [href]="environment().slackLink"
-         target="_blank"
-         smTooltip="Community support on Slack"
-      >
-        <i class="i-slack-mark-color"></i>
-      </a>
-    }
-  </div>
-}
