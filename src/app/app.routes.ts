@@ -1,30 +1,10 @@
-import {CanActivateFn, Router, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 import {projectRedirectGuardGuard} from '@common/shared/guards/project-redirect.guard';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
-import {inject} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {selectCurrentUser} from '@common/core/reducers/users-reducer';
-import {map} from 'rxjs/operators';
 import {AppComponent} from '~/app.component';
 import {experimentsProviders} from '~/features/experiments/shared/experiments.providers';
 
-
-const authenticationRequiredGuard: CanActivateFn = (route) => {
-  const router = inject(Router);
-  const store = inject(Store);
-
-  return store.select(selectCurrentUser)
-    .pipe(
-      map(user => {
-        if (!user) {
-          return true;
-        }
-        const redirectUrl = (route.queryParams['redirect'] || '/').replace('/login', '/');
-        return router.parseUrl(redirectUrl);
-      })
-    );
-};
 
 export const routes: Routes = [
   {
@@ -160,9 +140,6 @@ export const routes: Routes = [
         canDeactivate: [resetContextMenuGuard],
       },
     ]
-  },
-  {path: 'login', canActivate: [authenticationRequiredGuard],
-    loadChildren: () => import('./features/login/login.routes').then(r => r.routes)
   },
   {path: '404', loadComponent: () => import('./features/not-found/not-found/not-found.component').then(c => c.NotFoundComponent)},
   {path: '**', loadComponent: () => import('./features/not-found/not-found/not-found.component').then(c => c.NotFoundComponent)},

@@ -1,11 +1,8 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, filter, first, map, retry, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, first, map, retry, tap} from 'rxjs/operators';
 import {HTTP} from '~/app.constants';
-import {UsersGetAllResponse} from '~/business-logic/model/users/usersGetAllResponse';
-import {AuthCreateUserResponse} from '~/business-logic/model/auth/authCreateUserResponse';
-import {v1 as uuidV1} from 'uuid';
-import {BehaviorSubject, combineLatest, EMPTY, Observable, of, timer} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, of, timer} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {LoginModeResponse} from '~/business-logic/model/LoginModeResponse';
@@ -15,24 +12,22 @@ import {USER_PREFERENCES_KEY, UserPreferences} from '@common/user-preferences';
 import {fetchCurrentUser} from '@common/core/actions/users.actions';
 import {Store} from '@ngrx/store';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {Router} from '@angular/router';
-import {LocationStrategy} from '@angular/common';
 import {selectDarkTheme} from '@common/core/reducers/view.reducer';
-import {environment} from '../../../../environments/environment';
 import {TIME_IN_MILLI} from '@common/shared/utils/time-util';
 import {resetCurrentUser} from '~/core/actions/users.action';
 import {selectUserInitialized} from '@common/core/reducers/users-reducer';
 
-export type LoginMode = 'simple' | 'password' | 'ssoOnly' | 'error' | 'tenant';
+export type LoginMode = 'ssoOnly' | 'error';
 
 export const loginModes = {
   error: 'error' as LoginMode,
-  simple: 'simple' as LoginMode,
-  password: 'password' as LoginMode,
   ssoOnly: 'ssoOnly' as LoginMode,
-  tenantInput: 'tenant' as LoginMode
 };
 
+/**
+ * Sign-in is by the identity provider only. The browser is sent to the server's identity-provider
+ * sign-in, and comes back with a session cookie; the app holds no credential of its own.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -42,15 +37,10 @@ export class BaseLoginService {
   protected dialog = inject(MatDialog);
   protected configService = inject(ConfigurationService);
   protected store = inject(Store);
-  protected router = inject(Router);
   protected userPreferences = inject(UserPreferences);
-  protected locationStrategy = inject(LocationStrategy);
 
   loginMode = signal<LoginMode>(null);
   protected basePath = HTTP.API_BASE_URL;
-  private userKey: string;
-  private userSecret: string;
-  private companyID: string;
   private _loginModeTTL = 0;
   private _loginMode: LoginMode;
   protected environment = this.configService.configuration;
@@ -80,35 +70,19 @@ export class BaseLoginService {
   }
 
   initCredentials() {
-    const fromEnv = () => ({
-      userKey: environment.userKey,
-      userSecret: environment.userSecret,
-      companyID: environment.companyID
-    });
-
     return this.getLoginMode().pipe(
       retry({count: 3, delay: (err, count) => timer(500 * count)}),
       catchError(err => {
         this.openServerError();
         throw err;
       }),
-      switchMap(mode => mode === loginModes.simple ? this.httpClient.get('credentials.json').pipe(
-        catchError(() => of(fromEnv())),
-      ) : of(fromEnv())),
-      tap((credentials: ReturnType<typeof fromEnv>) => {
-        this.userKey = credentials.userKey;
-        this.userSecret = credentials.userSecret;
-        this.companyID = credentials.companyID;
-      }),
+      map(() => null)
     );
   }
 
+  // The session cookie is the only credential; the browser sends it with each request.
   getHeaders(): HttpHeaders {
-    let headers = new HttpHeaders();
-    const auth = window.btoa(this.userKey + ':' + this.userSecret);
-    headers = headers.append('Authorization', 'Basic ' + auth);
-    //    headers = headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return headers;
+    return new HttpHeaders();
   }
 
   getLoginMode(force = false): Observable<LoginMode> {
@@ -119,7 +93,7 @@ export class BaseLoginService {
         .pipe(
           tap((res: LoginModeResponse) => {
             this.authenticated = res.authenticated;
-            this._loginMode = this.calcLoginMode(res);
+            this._loginMode = this.calcLoginMode();
             this._loginModeTTL = new Date().getTime() + TIME_IN_MILLI.ONE_MIN * 10;
           }),
           map(() => {
@@ -127,73 +101,21 @@ export class BaseLoginService {
             return this._loginMode;
           }),
           catchError(() => {
-            const fallback = this.configService.configuration().loginFallback;
-            this._loginMode = fallback === 'error' ? loginModes.error : loginModes.simple;
+            this._loginMode = loginModes.error;
             this.loginMode.set(this._loginMode);
             return of(this._loginMode);
           }),
-
         );
     }
   }
 
-  protected calcLoginMode(res: LoginModeResponse) {
-    const fallback = this.configService.configuration().loginFallback;
-    return  res.basic.enabled ?
-      loginModes.password :
-        fallback === 'error' ?
-          loginModes.error :
-          loginModes.simple;
+  protected calcLoginMode(): LoginMode {
+    return loginModes.ssoOnly;
   }
 
   public getLoginSupportedModes(): Observable<LoginModeResponse> {
     return this.loginApi.loginSupportedModes({});
   }
-
-  getUsers() {
-    return this.httpClient.post<{data: UsersGetAllResponse}>(`${this.basePath}/users.get_all`, null, {headers: this.getHeaders()})
-      .pipe(
-        map(x => x.data.users)
-      );
-  }
-
-  passwordLogin(user: string, password: string) {
-    let headers = new HttpHeaders();
-    const auth = window.btoa(user + ':' + password);
-    headers = headers.append('Authorization', 'Basic ' + auth);
-    headers = headers.append('Access-Control-Allow-Credentials', '*');
-    return this.httpClient.post<AuthCreateUserResponse>(`${this.basePath}/auth.login`, null, {headers, withCredentials: true});
-  }
-
-  login(userId: string) {
-    let headers = this.getHeaders();
-    headers = headers.append(`${this.environment().headerPrefix}-Impersonate-As`, userId);
-    return this.httpClient.post(`${this.basePath}/auth.login`, null, {headers, withCredentials: true});
-  }
-
-  createUser(name: string) {
-    let headers = this.getHeaders();
-    headers = headers.append('Content-Type', 'application/json');
-    const data = {
-
-      email: uuidV1() + '@test.ai',
-      name,
-      company: this.companyID,
-      given_name: name.split(' ')[0],
-      family_name: name.split(' ')[1] ? name.split(' ')[1] : name.split(' ')[0]
-
-    };
-    return this.httpClient.post<{data: AuthCreateUserResponse}>(`${this.basePath}/auth.create_user`, data, {headers})
-      .pipe(map(x => x.data.id));
-  }
-
-  autoLogin(name: string) {
-    return this.createUser(name)
-      .pipe(
-        switchMap(id => this.login(id)),
-      );
-  }
-
 
   private openServerError() {
     this.setLogo();
@@ -227,50 +149,29 @@ export class BaseLoginService {
     this._loginMode = undefined;
   }
 
-  loginFlow() {
-    const redirectToLogin = (status) => {
-      if (status === 401) {
-        let pathname = window.location.pathname;
-        if (this.locationStrategy.getBaseHref() && this.locationStrategy.getBaseHref() !== '/') {
-          pathname = pathname.replace(this.locationStrategy.getBaseHref(), '');
-        }
-
-        if (pathname.startsWith('/login')) {
-          return of(null);
-        }
-
-        let redirectUrl = '';
-        let extraParam = '';
-        if (pathname.match(/^\/_\w+$/gm)) {
-          extraParam = pathname;
-        } else {
-          redirectUrl = pathname + window.location.search;
-        }
-
-        if (!extraParam && !['/login/signup', '/login'].some(url => redirectUrl.startsWith(url))) {
-          return of((redirectUrl && redirectUrl != '/') ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : '/login' + '/' + extraParam);
-        }
-      }
-      return of('/login')
-    };
-
-    if (this.authenticated === false) {
-      return redirectToLogin(401);
-    } else {
-      this.store.dispatch(fetchCurrentUser());
-      return combineLatest([
-        this.userPreferences.loadPreferences(),
-        this.store.select(selectUserInitialized).pipe(filter(initialized => initialized), first())
-      ]).pipe(
-        catchError((err) => redirectToLogin(err.status)),
-        map(() => null)
-      );
-    }
+  /** Sends the browser to the identity provider; the server sets the session cookie and returns here. */
+  redirectToIdp() {
+    window.location.href = `${this.basePath}/login.idp_start`;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getInviteInfo(inviteId: string): Observable<unknown> {
-    return EMPTY;
+  loginFlow(): Observable<string> {
+    if (this.authenticated === false) {
+      this.redirectToIdp();
+      return of(null);
+    }
+    this.store.dispatch(fetchCurrentUser());
+    return combineLatest([
+      this.userPreferences.loadPreferences(),
+      this.store.select(selectUserInitialized).pipe(filter(initialized => initialized), first())
+    ]).pipe(
+      catchError((err) => {
+        if (err?.status === 401) {
+          this.redirectToIdp();
+        }
+        return of(null);
+      }),
+      map(() => null)
+    );
   }
 
   logout() {
@@ -278,6 +179,10 @@ export class BaseLoginService {
     this.authenticated = false;
     this.store.dispatch(resetCurrentUser());
     this.dialog.closeAll();
-    this.router.navigate(['/login']);
+    // Ends the ClearML session; the identity provider decides whether the person must sign in again.
+    this.httpClient.post(`${this.basePath}/login.logout`, null, {withCredentials: true}).subscribe({
+      complete: () => this.redirectToIdp(),
+      error: () => this.redirectToIdp(),
+    });
   }
 }
