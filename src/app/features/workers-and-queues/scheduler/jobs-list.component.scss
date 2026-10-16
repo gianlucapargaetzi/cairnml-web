@@ -1,0 +1,29 @@
+// Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
+@use "variables" as *;
+
+.jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+}
+
+.state {
+  font-size: $font-size-small;
+  text-transform: uppercase;
+}
+
+.caption {
+  font-size: $font-size-small;
+  opacity: 0.7;
+}
+
+.empty {
+  font-size: $font-size-regular;
+  opacity: 0.8;
+}

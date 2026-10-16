@@ -1,0 +1,42 @@
+// Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
+@use "variables" as *;
+
+.workers-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.worker-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.caption {
+  font-size: $font-size-small;
+  opacity: 0.7;
+}
+
+.state {
+  font-size: $font-size-small;
+  text-transform: uppercase;
+}
+
+.job-id {
+  font-family: monospace;
+  font-size: $font-size-small;
+}
+
+.empty {
+  font-size: $font-size-regular;
+  opacity: 0.8;
+}
