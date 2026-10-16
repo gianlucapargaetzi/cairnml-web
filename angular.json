@@ -176,7 +176,7 @@
             ],
             "tsConfig": "./tsconfig.spec.json",
             "styles": [
-              "src/styles.scss"
+              "src/app/webapp-common/styles/style.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
