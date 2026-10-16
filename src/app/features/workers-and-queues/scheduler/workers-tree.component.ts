@@ -46,8 +46,17 @@ export class WorkersTreeComponent {
   protected readonly workerColumns = WORKER_COLUMNS;
   protected readonly jobColumns = JOB_COLUMNS;
   protected readonly expanded = signal<Record<string, boolean>>({});
-  protected readonly workers = pollWhileVisible(() => this.api.overview());
-  protected readonly empty = computed(() => this.workers() !== null && this.workers().length === 0);
+  private readonly overview = pollWhileVisible(() => this.api.overview());
+  // rows need a unique id (the table marks a row selected by its id); the jobs of a worker get theirs too
+  protected readonly workers = computed(() => this.overview()?.map(w => ({
+    ...w,
+    id: w.id,
+    jobs: w.jobs.map(j => ({...j, id: j.task})),
+  })) ?? null);
+  protected readonly empty = computed(() => {
+    const workers = this.workers();
+    return workers !== null && workers.length === 0;
+  });
 
   protected setExpanded(id: string, value: boolean) {
     this.expanded.update(current => ({...current, [id]: value}));

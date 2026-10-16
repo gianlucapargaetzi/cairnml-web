@@ -63,13 +63,19 @@
               [columnResizeMode]="'fit'">
               <ng-template let-col let-job="rowData" pTemplate="body">
                 @switch (col.id) {
-                  @case ('job') { <span class="job-id">{{ job.task }}</span> }
+                  @case ('job') {
+                    <span class="job-name">{{ job.name || job.task }}</span>
+                  }
                   @case ('state') { <span class="state state-running">{{ job.state }}</span> }
                   @case ('cpu') { <span>{{ job.cpus.length }}</span> }
                   @case ('ram') {
                     <div class="bar-cell">
                       <mat-progress-bar mode="buffer" [value]="jobRam(job).used" [bufferValue]="jobRam(job).allocated"></mat-progress-bar>
-                      <span class="caption">{{ job.usage?.peak_ram_gb ?? job.usage?.ram_gb | number: '1.0-1' }} / {{ job.ram_gb | number: '1.0-1' }} GB</span>
+                      @if (job.usage?.peak_ram_gb !== undefined || job.usage?.ram_gb !== undefined) {
+                        <span class="caption">{{ (job.usage?.peak_ram_gb ?? job.usage?.ram_gb) | number: '1.0-1' }} / {{ job.ram_gb | number: '1.0-1' }} GB</span>
+                      } @else {
+                        <span class="caption">limit {{ job.ram_gb | number: '1.0-1' }} GB</span>
+                      }
                     </div>
                   }
                   @case ('gpu') { <span>{{ job.gpus.length }}</span> }
