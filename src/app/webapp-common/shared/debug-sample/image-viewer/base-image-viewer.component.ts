@@ -9,7 +9,7 @@ import {debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {last} from 'lodash-es';
-import {isFileserverUrl} from '~/shared/utils/url';
+import {datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
 import {IsVideoPipe} from '@common/shared/pipes/is-video.pipe';
 import {IsAudioPipe} from '@common/shared/pipes/is-audio.pipe';
 import {resetViewer} from '@common/shared/debug-sample/debug-sample.actions';
@@ -226,7 +226,8 @@ export abstract class BaseImageViewerComponent implements OnDestroy {
 
   downloadImage() {
     if (this.currentDebugImage) {
-      const src = new URL(this.url() ?? this.currentDebugImage.url);
+      const rawUrl = this.url() ?? this.currentDebugImage.url;
+      const src = new URL(isDatachunkUrl(rawUrl) ? datachunkBrowserUrl(rawUrl) : rawUrl);
       if (isFileserverUrl(this.currentDebugImage.url)) {
         src.searchParams.set('download', '');
       }
