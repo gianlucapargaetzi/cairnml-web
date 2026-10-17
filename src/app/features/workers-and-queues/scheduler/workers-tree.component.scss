@@ -13,6 +13,10 @@
   align-content: start;
 }
 
+.worker.lost {
+  opacity: 0.6;
+}
+
 .worker-head {
   display: flex;
   align-items: center;

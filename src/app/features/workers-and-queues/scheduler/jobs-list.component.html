@@ -16,6 +16,7 @@
         <mat-button-toggle-group
           class="filter"
           [value]="filter()"
+          [hideSingleSelectionIndicator]="true"
           (change)="filter.set($event.value)"
           data-id="jobFilter">
           <mat-button-toggle value="all" data-id="filterAll">all · {{ all().length }}</mat-button-toggle>

@@ -12,7 +12,7 @@ const JOB_COLUMNS: ISmCol[] = [
   {id: 'job', header: 'JOB', style: {minWidth: '220px'}},
   {id: 'state', header: 'STATE', style: {width: '120px'}},
   {id: 'priority', header: 'PRIORITY', style: {width: '100px'}},
-  {id: 'needs', header: 'NEEDS', style: {width: '260px'}},
+  {id: 'needs', header: 'NEEDS', style: {width: '400px'}},
   {id: 'where', header: 'WHERE / WHY', style: {minWidth: '240px'}},
   {id: 'since', header: 'SINCE', style: {width: '130px'}},
 ];
@@ -48,7 +48,7 @@ export class JobsListComponent {
       const t = j.since ? Date.parse(j.since) : null;
       return t === null ? oldest : oldest === null ? t : Math.min(oldest, t);
     }, null);
-    const gpus = this.running().reduce((sum, j) => sum + (j.gpus?.length ?? 0), 0);
+    const gpus = this.running().reduce((sum, j) => sum + (j.gpus?.length ?? j.requirements?.gpus.count ?? 0), 0);
     return [
       {label: 'RUNNING', value: `${this.running().length}`, caption: 'on machines now'},
       {label: 'WAITING', value: `${this.pending().length}`, caption: 'queued for a machine'},
@@ -67,10 +67,8 @@ export class JobsListComponent {
     }
     const chips = [`${r.cpus} CPU`, `${r.ram_gb} GB RAM`];
     if (r.gpus.count) {
-      chips.push(`${r.gpus.count} GPU${r.gpus.count > 1 ? 's' : ''}`);
-      if (r.gpus.min_memory_gb) {
-        chips.push(`≥ ${r.gpus.min_memory_gb} GB each`);
-      }
+      const memory = r.gpus.min_memory_gb ? ` ≥ ${r.gpus.min_memory_gb} GB` : '';
+      chips.push(`${r.gpus.count} GPU${r.gpus.count > 1 ? 's' : ''}${memory}`);
     }
     if (r.max_runtime_min) {
       chips.push(`≤ ${r.max_runtime_min} min`);

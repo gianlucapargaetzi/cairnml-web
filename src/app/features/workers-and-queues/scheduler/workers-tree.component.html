@@ -21,7 +21,7 @@
       } @else {
         <div class="worker-grid">
           @for (w of list; track w.id) {
-            <div class="card worker" [attr.data-id]="'worker-' + w.id">
+            <div class="card worker" [class.lost]="w.state === 'lost'" [attr.data-id]="'worker-' + w.id">
               <div class="worker-head">
                 <span class="worker-name" [smTooltip]="w.id">{{ w.id }}</span>
                 <span class="badge" [class]="stateClass(w.state)">{{ w.state }}</span>
@@ -33,7 +33,10 @@
                     <span class="meter-label">{{ stat.label }}</span>
                     <span class="meter-value num">{{ stat.caption }}</span>
                   </div>
-                  <mat-progress-bar class="usage-bar" mode="buffer" [value]="stat.used" [bufferValue]="stat.allocated"></mat-progress-bar>
+                  <div class="bar" [smTooltip]="'solid: used · light: promised to jobs'">
+                    <span class="bar-allocated" [style.width.%]="stat.allocated"></span>
+                    <span class="bar-used" [style.width.%]="stat.used"></span>
+                  </div>
                 </div>
               }
 
@@ -77,7 +80,7 @@
                           @case ('cpu') { <span class="num">{{ job.cpus.length }}</span> }
                           @case ('ram') {
                             <div class="meter tight">
-                              <mat-progress-bar class="usage-bar" mode="determinate" [value]="jobRam(job).used"></mat-progress-bar>
+                              <div class="bar"><span class="bar-used" [style.width.%]="jobRam(job).used"></span></div>
                               <div class="sub num">{{ jobRam(job).caption }}</div>
                             </div>
                           }
