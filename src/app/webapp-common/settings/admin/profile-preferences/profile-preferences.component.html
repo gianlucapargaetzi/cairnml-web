@@ -12,7 +12,7 @@
     (change)="toggleExamples($event)"
     [checked]="hideExamples()"
     color="accent"
-    >Don't show ClearML examples
+    >Don't show MLOps Flow examples
   </mat-slide-toggle>
   @if (supportReScaling) {
     <mat-slide-toggle
@@ -23,7 +23,7 @@
         Disable HiDPI browser scale override
         <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info ms-3"
                   data-id="hidpiInfoIcon"
-                  smTooltip="ClearML dynamically sets the browser scaling factor for an optimal page layout. Disable for default desktop scale."
+                  smTooltip="MLOps Flow dynamically sets the browser scaling factor for an optimal page layout. Disable for default desktop scale."
         ></mat-icon>
         <a href="#" class="reload hidden ms-3" [class.hidden]="!disableHidpiChanged" (click)="$event.preventDefault(); reload($event)">Reload to apply</a>
       </div>

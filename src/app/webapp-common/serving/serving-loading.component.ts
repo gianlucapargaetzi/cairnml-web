@@ -228,7 +228,7 @@ export class ServingLoadingComponent extends BaseEntityPageComponent implements 
   }
 
   downloadTableAsCSV() {
-    this.table.table().downloadTableAsCSV(`ClearML All Endpoints`);
+    this.table.table().downloadTableAsCSV(`MLOps Flow All Endpoints`);
   }
 
   override onFooterHandler(): void {

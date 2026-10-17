@@ -3,7 +3,6 @@ import {Environment} from '../environments/base';
 
 export const NA                      = 'N/A';
 export const ALLEGRO_TUTORIAL_BUCKET = 'allegro-tutorials';
-export const UPDATE_SERVER_PATH      = 'https://updates.clear.ml/updates';
 
 export const BASE_REGEX = {
   DOMAIN           : '([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\\.)+([A-Za-z]{2,6}\\.?|[A-Za-z0-9-]{1,}[A-Za-z0-9]\\.?)',

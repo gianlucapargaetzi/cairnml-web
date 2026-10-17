@@ -81,7 +81,7 @@ def pipeline_logic(do_stuff: bool):
 if __name__ == '__main__':
     # run the pipeline on the current machine, for local debugging
     # for scale-out, comment-out the following line (the steps are
-    # then placed on the workers of your ClearML deployment)
+    # then placed on the workers of your MLOps Flow deployment)
     PipelineDecorator.run_locally()
 
     pipeline_logic(do_stuff=True)`;

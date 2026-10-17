@@ -104,12 +104,12 @@ export const BASE_ENV = {
   legal: {TOULink: 'https://github.com/clearml/clearml-server/blob/master/LICENSE'},
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: 'https://clear.ml/docs',
-  supportEmail: 'support@clear.ml',
-  branding: {logo: 'assets/logo-white.svg?v=7', logoSmall: 'assets/small-logo-white.svg?=2'},
-  serverDownMessage: 'The ClearML server is currently unavailable.<BR>' +
+  supportEmail: '',
+  branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
+  serverDownMessage: 'The server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.<BR>' +
-    'If the problem persists, verify your network connection is working and check the ClearML server logs for possible errors',
-  platformYoutubeChannel: 'https://www.youtube.com/c/ClearML/featured',
+    'If the problem persists, verify your network connection is working and check the server logs for possible errors',
+  platformYoutubeChannel: '',
   newExperimentYouTubeVideoId: 's3k9ntmQmD4',
   displayTips: true,
 } as Environment;

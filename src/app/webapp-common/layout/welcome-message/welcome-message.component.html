@@ -1,6 +1,6 @@
 <sm-dialog-template [displayX]="true"
-  [header]="step() === 1 ? 'Welcome to ClearML' : (showTabs? 'CREATE NEW TASK' : 'GETTING STARTED')"
-  [subHeader]="showTabs ? 'To create a new task you can either run your ML code instrumented with the ClearML SDK, or relaunch a previously run task by cloning it.' : ''"
+  [header]="step() === 1 ? 'Welcome to MLOps Flow' : (showTabs? 'CREATE NEW TASK' : 'GETTING STARTED')"
+  [subHeader]="showTabs ? 'To create a new task you can either run your ML code instrumented with the MLOps Flow SDK, or relaunch a previously run task by cloning it.' : ''"
   (xClicked)="closeDialog()" [closeOnX]="false"
   [iconClass]="'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">
 
@@ -35,7 +35,7 @@
             <mat-icon fontSet="al" fontIcon="al-ico-card-example" class="xl foreground"></mat-icon>
             <span class="background"></span>
           </span>
-          <div class="mt-2">See the pre-loaded examples to quickly get familiar with ClearML’s various capabilities.</div>
+          <div class="mt-2">See the pre-loaded examples to quickly get familiar with MLOps Flow’s various capabilities.</div>
         </div>
         <div class="info">
           <mat-icon fontSet="al" fontIcon="al-ico-help-outlined" class="xl"></mat-icon>
@@ -43,7 +43,7 @@
         </div>
         <div class="info">
           <mat-icon fontSet="al" fontIcon="al-ico-documentation" class="xl"></mat-icon>
-          <div class="mt-2">Check out the <a target="_blank" [href]="docsLink()">ClearML docs</a> for advanced information and in depth how-to’s.
+          <div class="mt-2">Check out the <a target="_blank" [href]="docsLink()">docs</a> for advanced information and in depth how-to’s.
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
               <mat-tab label="JUPYTER NOTEBOOK" data-id="JupyterNotebookTab"></mat-tab>
             </mat-tab-group>
           }
-          <div class="sub-note mt-2 mb-2">{{isJupyter() ? 'Set the ClearML environment for your notebook':'Run the ClearML setup script'}}</div>
+          <div class="sub-note mt-2 mb-2">{{isJupyter() ? 'Set the MLOps Flow environment for your notebook':'Run the MLOps Flow setup script'}}</div>
           <div class="code">
             <div class="content" #stepCode>{{step.code}}</div>
             <sm-copy-clipboard
@@ -142,7 +142,7 @@
       @if (!showTabs) {
         <div class="step">3. Integrate</div>
       }
-      <div class="sub-note">Add ClearML to your code. For example:</div>
+      <div class="sub-note">Add the MLOps Flow SDK to your code. For example:</div>
       <div class="code">
         @if (!showTabs) {
           <div class="content">
@@ -160,7 +160,7 @@
             <div>
               <span class="variable">import</span> matplotlib.pyplot <span class="variable">as</span> plt
             </div>
-            <div># Add the following two lines to your code, to have ClearML automatically log your task</div>
+            <div># Add the following two lines to your code, to have MLOps Flow automatically log your task</div>
             <div>
               <span class="variable">from</span> clearml <span class="variable">import</span> Task
             </div>

@@ -110,7 +110,7 @@ export class OpenDatasetVersionsComponent extends ControllersComponent {
   }
 
   override downloadTableAsCSV() {
-    this.table().table().downloadTableAsCSV(`ClearML ${this.selectedProject().id === '*'? 'All': this.selectedProject()?.basename?.substring(0,60)} Datasets`);
+    this.table().table().downloadTableAsCSV(`MLOps Flow ${this.selectedProject().id === '*'? 'All': this.selectedProject()?.basename?.substring(0,60)} Datasets`);
   }
   override setupBreadcrumbsOptions() {
     effect(() => {

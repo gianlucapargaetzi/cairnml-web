@@ -78,7 +78,7 @@ export class WelcomeMessageComponent {
     title: '2. Configure',
     code: 'clearml-init'
   }];
-  public links = ['Set up ClearML', 'Run your ML code', 'Relaunch previous experiments'];
+  public links = ['Set up MLOps Flow', 'Run your ML code', 'Relaunch previous experiments'];
   public credentialsLabel: string;
   public src: string;
   public entityName: string = this.data?.entityName ?? 'Tasks';
@@ -183,7 +183,7 @@ export class WelcomeMessageComponent {
     if(this.showTabs) {
       return `import numpy as np
 import matplotlib.pyplot as plt
-# Add the following two lines to your code, to have ClearML automatically log your experiment
+# Add the following two lines to your code, to have MLOps Flow automatically log your experiment
 from ${this.configGettingStarted()?.packageName || 'clearml'} import Task
 
 task = Task.init(project_name='My Project', task_name='My Experiment')

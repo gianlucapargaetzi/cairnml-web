@@ -91,7 +91,7 @@ export const BASE_ENV: Environment = {
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: '/docs',
   useFilesProxy: true,
-  branding: {logo: 'assets/logo-white.svg?v=7', logoSmall: 'assets/small-logo-white.svg?=2'},
+  branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
   serverDownMessage: 'The ClearML server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.',
   legal: {TOULink: 'https://clear.ml/legal-platform-tou/', pricingLink: 'https://clear.ml/pricing/'},
