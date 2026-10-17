@@ -26,6 +26,8 @@ interface FolderCard {
   count: number;
   running: number;
   completed: number;
+  /** Seconds from start to last update, summed over the experiments (an approximation of compute time). */
+  runtimeSec: number;
   latest?: FolderExperiment;
 }
 
@@ -93,6 +95,7 @@ export class TaskFoldersComponent {
       count: experiments.length,
       running: experiments.filter(e => e.status === 'in_progress').length,
       completed: experiments.filter(e => e.status === 'completed').length,
+      runtimeSec: experiments.reduce((sum, e) => sum + this.seconds(e), 0),
       latest: experiments[0],
     };
   }
@@ -108,14 +111,24 @@ export class TaskFoldersComponent {
       basename: folder.name,
       own_tasks: folder.count,
       sub_projects: [],
+      // a company id keeps the card from showing the EXAMPLE ribbon
+      company: {id: folder.id},
       stats: {
         active: {
+          total_runtime: folder.runtimeSec,
           total_tasks: folder.count,
           status_count: {in_progress: folder.running},
           completed_tasks_24h: folder.completed,
         },
       },
     } as unknown as Project;
+  }
+
+  private seconds(experiment: FolderExperiment): number {
+    if (!experiment.started || !experiment.last_update) {
+      return 0;
+    }
+    return Math.max(0, (new Date(experiment.last_update).getTime() - new Date(experiment.started).getTime()) / 1000);
   }
 
   protected openFolder(folder: FolderCard) {
