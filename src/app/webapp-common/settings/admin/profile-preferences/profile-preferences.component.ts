@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
-import {neverShowPopupAgain, setHideEnterpriseFeatures, setHideRedactedArguments} from '@common/core/actions/layout.actions';
+import {neverShowPopupAgain, setHideRedactedArguments} from '@common/core/actions/layout.actions';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 import {Store} from '@ngrx/store';
 import {popupId, TipsService} from '@common/shared/services/tips.service';
 import {
-  selectHideEnterpriseFeatures,
   selectHideRedactedArguments,
   selectNeverShowPopups
 } from '@common/core/reducers/view.reducer';
@@ -46,7 +45,6 @@ export class ProfilePreferencesComponent {
   protected disableHidpi = window.localStorage.getItem('disableHidpi') === 'true';
   protected neverShowTipsAgain = this.store.selectSignal(selectNeverShowPopups);
   protected blockUserScripts = this.store.selectSignal(selectBlockUserScript);
-  protected hideEnterpriseFeatures = this.store.selectSignal(selectHideEnterpriseFeatures);
   protected show = this.store.selectSignal(selectShowHiddenUserSelection);
   protected admin = computed(() => this.currentUser()?.role === Role.Admin);
   protected hideRedactedArguments = this.store.selectSignal(selectHideRedactedArguments);
@@ -90,9 +88,5 @@ export class ProfilePreferencesComponent {
 
   toggleBlockUserScript(toggle: MatSlideToggleChange) {
     this.store.dispatch(setBlockUserScript({block: toggle.checked}));
-  }
-
-  toggleEnterpriseFeatures(hide: boolean) {
-    this.store.dispatch(setHideEnterpriseFeatures({hide}));
   }
 }

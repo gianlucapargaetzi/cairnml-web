@@ -12,7 +12,6 @@ import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {HeaderNavbarTabConfig} from '@common/layout/header-navbar-tabs/header-navbar-tabs-config.types';
 import {selectRouterConfig} from '@common/core/reducers/router-reducer';
 import {activeFeatureToProjectType, routeConfToProjectType} from '~/features/projects/projects-page.utils';
-import {setHideEnterpriseFeatures} from '../actions/layout.actions';
 
 export interface ViewState {
   loading: Record<string, boolean>;
@@ -43,7 +42,6 @@ export interface ViewState {
   defaultTheme: 'light' | 'dark';
   forcedTheme: 'light' | 'dark';
   themeColors: Record<string, string>;
-  hideEnterpriseFeatures: boolean;
   extraErrorInfo: Record<string, any>;
 }
 
@@ -79,7 +77,6 @@ export const initViewState: ViewState = {
   defaultTheme: null,
   forcedTheme: null,
   themeColors: null,
-  hideEnterpriseFeatures: false,
   extraErrorInfo: {},
 };
 
@@ -129,7 +126,6 @@ export const selectHeaderMenuIndex = createSelector(selectHeaderMenu, selectActi
 export const selectWorkspaceNeutral = createSelector(views, state => state?.workspaceNeutral);
 export const selectProjectType = createSelector(selectRouterConfig, selectActiveFeature,
   (config, activeFeature) => (config && routeConfToProjectType(config)) ?? activeFeatureToProjectType(activeFeature));
-export const selectHideEnterpriseFeatures = createSelector(views, state => state.hideEnterpriseFeatures);
 
 
 export const viewReducers = [
@@ -221,7 +217,5 @@ export const viewReducers = [
     breadcrumbs: [...state.breadcrumbs?.map(breadcrumbGroup => [...breadcrumbGroup?.map(breadcrumb => breadcrumb.type === action.type ? action.breadcrumb : breadcrumb) ?? []
     ]) ?? []]
   })),
-  on(setHideEnterpriseFeatures, (state, action): ViewState =>
-    ({...state, hideEnterpriseFeatures: action.hide})),
 ] as ReducerTypes<ViewState, ActionCreator[]>[];
 

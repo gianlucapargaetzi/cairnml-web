@@ -37,13 +37,6 @@
       >Don't show pro tips periodically
     </mat-slide-toggle>
   }
-  @if (!this.config.configuration().enterpriseServer) {
-    <mat-slide-toggle
-      (change)="toggleEnterpriseFeatures($event.checked)"
-      [checked]="hideEnterpriseFeatures()"
-      color="accent"
-    >Don't show Enterprise Features</mat-slide-toggle>
-  }
   <mat-slide-toggle
     (change)="toggleBlockUserScript($event)"
     [checked]="blockUserScripts()"

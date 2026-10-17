@@ -133,7 +133,3 @@ export const plotlyReady = createAction(VIEW_PREFIX + '[plotly ready]');
 export const aceReady = createAction(VIEW_PREFIX + '[ace ready]');
 export const aceExtToolsReady = createAction(VIEW_PREFIX + '[ace ext tools ready]');
 export const openAppsAwarenessDialog = createAction(VIEW_PREFIX + '[apps awareness dialog]');
-export const setHideEnterpriseFeatures = createAction(
-  VIEW_PREFIX + '[setHideEnterpriseFeatures]',
-  props<{hide: boolean}>()
-)
