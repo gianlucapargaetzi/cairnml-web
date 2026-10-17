@@ -1,6 +1,6 @@
 <sm-dialog-template
   class="wrapper"
-  header="Create Task"
+  header="Create Experiment"
   iconClass="al-ico-training"
   [displayX]="!editMode()"
   [closeOnX]="true"
@@ -23,8 +23,8 @@
         <form #codeForm [formGroup]="codeFormGroup">
           <div class="d-flex align-item-center gap-2">
             <mat-form-field appearance="outline">
-              <mat-label data-id="taskNameHeader">Task Name</mat-label>
-              <input matInput placeholder="my task" formControlName="name" data-id="taskNameField">
+              <mat-label data-id="taskNameHeader">Experiment Name</mat-label>
+              <input matInput placeholder="my experiment" formControlName="name" data-id="taskNameField">
               @if (codeFormGroup.controls.name.invalid) {
                 <mat-error>
                   @if (codeFormGroup.controls.name.errors?.required) {
@@ -37,7 +37,7 @@
               }
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 300px">
-              <mat-label>Task Type</mat-label>
+              <mat-label>Experiment Type</mat-label>
               <mat-select formControlName="taskType" data-id="taskTypeDropdown">
                 <mat-select-trigger>
                   @let selectedType = getSelectedTaskType();

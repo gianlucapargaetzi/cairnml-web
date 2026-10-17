@@ -33,7 +33,7 @@ interface ExperimentRow extends FolderExperiment {
 @Component({
   selector: 'sm-task-folder',
   templateUrl: './task-folder.component.html',
-  styleUrls: ['./task-folders.component.scss'],
+  styleUrls: ['./task-folder.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, DatePipe, MatProgressSpinnerModule, PrimeTemplate, TableComponent, CardComponent, CircleStatusComponent],
 })

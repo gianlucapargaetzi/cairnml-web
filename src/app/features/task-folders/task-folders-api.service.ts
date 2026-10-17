@@ -8,15 +8,18 @@ export interface FolderExperiment {
   id: string;
   name?: string;
   parent?: string;
+  type?: string;
   status: TaskStatusEnum;
   created?: string;
+  started?: string;
   last_update?: string;
   user?: { name?: string };
+  project?: { id?: string; name?: string };
 }
 
 const PAGE_SIZE = 500;
 
-const ONLY_FIELDS = ['id', 'name', 'parent', 'status', 'created', 'last_update', 'user.name'];
+const ONLY_FIELDS = ['id', 'name', 'parent', 'type', 'status', 'created', 'started', 'last_update', 'user.name', 'project.name'];
 
 @Injectable({providedIn: 'root'})
 export class TaskFoldersApiService {

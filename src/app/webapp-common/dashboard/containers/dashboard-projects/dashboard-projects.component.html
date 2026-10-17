@@ -14,7 +14,7 @@
   @if (recentProjectsList$(); as recentProjectsList) {
     @for(project of recentProjectsList; track project.id) {
       <sm-project-card
-        [project]="project" (projectCardClicked)="projectCardClicked($event)"
+        [project]="project" (dblclick)="projectCardClicked(project)"
         [hideMenu]="true"
       ></sm-project-card>
     }

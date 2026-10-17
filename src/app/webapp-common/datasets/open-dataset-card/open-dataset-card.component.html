@@ -1,6 +1,6 @@
 <sm-card class="project-card"
   (click)="projectClicked()"
-  [isExample]="!['All Tasks'].includes(project.name) && !isRootProject && (!project.company || ! project.company.id)"
+  [isExample]="!['All Experiments'].includes(project.name) && !isRootProject && (!project.company || ! project.company.id)"
   [showFolder]="false"
   [oneTabMode]="true"
   [subFolderTitle]="project?.sub_projects?.length + ' sub projects'"

@@ -24,7 +24,7 @@
   @if (((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching) {
     @for (project of projectsList$ | ngrxPush; track project.id + $index) {
       <sm-open-dataset-card
-        [hideMenu]="['All Tasks'].includes(project.name) || project['isRoot'] || isExample(project)"
+        [hideMenu]="['All Experiments'].includes(project.name) || project['isRoot'] || isExample(project)"
         [hideProjectPathIcon]="!!projectId"
         [project]="project"
         [allTags]="projectsTags$ | ngrxPush"
