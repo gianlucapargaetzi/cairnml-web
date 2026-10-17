@@ -13,61 +13,47 @@
     <div class="main">
       <div class="toolbar">
         <div class="section-title">Jobs</div>
-        <mat-button-toggle-group
-          class="filter"
-          [value]="filter()"
-          [hideSingleSelectionIndicator]="true"
-          (change)="filter.set($event.value)"
-          data-id="jobFilter">
-          <mat-button-toggle value="all" data-id="filterAll">all · {{ all().length }}</mat-button-toggle>
-          <mat-button-toggle value="running" data-id="filterRunning">running · {{ running().length }}</mat-button-toggle>
-          <mat-button-toggle value="pending" data-id="filterPending">waiting · {{ pending().length }}</mat-button-toggle>
-        </mat-button-toggle-group>
+        <sm-button-toggle [options]="filterOptions()" [ngModel]="filter()" (ngModelChange)="filter.set($event)"></sm-button-toggle>
       </div>
 
-      @if (jobs(); as list) {
-        @if (shown().length) {
-          <div class="table-box">
-            <sm-table
-              [columns]="columns"
-              [tableData]="shown()"
-              [selectionMode]="null"
-              [resizableColumns]="false"
-              [simple]="true"
-              [columnResizeMode]="'fit'">
-              <ng-template let-col let-job="rowData" pTemplate="body">
-                @switch (col.id) {
-                  @case ('job') {
-                    <div class="job-cell">
-                      <span class="job-name">{{ job.name || job.task }}</span>
-                      <span class="sub mono">{{ job.task }}</span>
-                    </div>
+      @if (shown().length) {
+        <sm-table
+          [columns]="columns"
+          [tableData]="shown()"
+          [rowHeight]="52"
+          selectionMode="single"
+          [scrollable]="true">
+          <ng-template let-col let-job="rowData" pTemplate="body">
+            @switch (col.id) {
+              @case ('job') {
+                <div class="job-cell">
+                  <span class="job-name ellipsis" [smTooltip]="job.name || job.task">{{ job.name || job.task }}</span>
+                  <span class="sub mono">{{ job.task }}</span>
+                </div>
+              }
+              @case ('state') { <span class="badge caps" [class]="stateClass(job.state)">{{ job.state }}</span> }
+              @case ('priority') { <span class="num">{{ job.priority }}</span> }
+              @case ('needs') {
+                <div class="chips">
+                  @for (chip of requirements(job); track chip) {
+                    <span class="chip">{{ chip }}</span>
                   }
-                  @case ('state') { <span class="badge caps" [class]="stateClass(job.state)">{{ job.state }}</span> }
-                  @case ('priority') { <span class="num">{{ job.priority }}</span> }
-                  @case ('needs') {
-                    <div class="chips">
-                      @for (chip of requirements(job); track chip) {
-                        <span class="chip">{{ chip }}</span>
-                      }
-                    </div>
-                  }
-                  @case ('where') {
-                    <span class="ellipsis" [class.sub]="job.state === 'pending'" [smTooltip]="where(job)">{{ where(job) }}</span>
-                  }
-                  @case ('since') { <span class="sub">{{ sinceText(job.since) }}</span> }
-                }
-              </ng-template>
-            </sm-table>
+                </div>
+              }
+              @case ('where') {
+                <span class="ellipsis" [class.sub]="job.state === 'pending'" [smTooltip]="where(job)">{{ where(job) }}</span>
+              }
+              @case ('since') { <span class="sub">{{ sinceText(job.since) }}</span> }
+            }
+          </ng-template>
+        </sm-table>
+      } @else {
+        <div class="card empty">
+          <div class="empty-title">
+            {{ filter() === 'running' ? 'No job is running right now' : filter() === 'pending' ? 'Nothing is waiting' : 'No jobs yet' }}
           </div>
-        } @else {
-          <div class="card empty">
-            <div class="empty-title">
-              {{ filter() === 'running' ? 'No job is running right now' : filter() === 'pending' ? 'Nothing is waiting' : 'No jobs yet' }}
-            </div>
-            <div class="sub">Start an experiment from a task's page and it appears here.</div>
-          </div>
-        }
+          <div class="sub">Start an experiment from a task's page and it appears here.</div>
+        </div>
       }
     </div>
 
