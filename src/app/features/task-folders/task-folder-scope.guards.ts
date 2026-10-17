@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivateFn, CanDeactivateFn} from '@angular/r
 import {Store} from '@ngrx/store';
 import {from} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {setTableFilters} from '@common/experiments/actions/common-experiments-view.actions';
+import {setSelectedExperiment, setSelectedExperiments, setTableFilters} from '@common/experiments/actions/common-experiments-view.actions';
 import {groupTaskFolders} from '@common/tasks/task-folders.utils';
 import {TaskFoldersApiService} from './task-folders-api.service';
 import {UNASSIGNED_FOLDER} from './task-folders.consts';
@@ -29,6 +29,11 @@ export const folderScopeGuard: CanActivateFn = (route: ActivatedRouteSnapshot) =
         filters: [{col: 'id', value: members.map(experiment => experiment.id)}],
         projectId,
       }));
+      // the highlighted experiment and the checkbox selection are global store state and survive
+      // navigation; without clearing them, the details and compare views can default back to
+      // an experiment, or a set of experiments, from outside this folder
+      store.dispatch(setSelectedExperiment({experiment: null}));
+      store.dispatch(setSelectedExperiments({experiments: []}));
       return true;
     }),
   );
