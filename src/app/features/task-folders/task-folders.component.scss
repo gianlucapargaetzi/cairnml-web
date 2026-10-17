@@ -14,10 +14,11 @@
 }
 
 // The card list and its header, as on the global dashboard (see dashboard-projects).
+// Cards start at the column's left edge, like the header and the recent table below them.
 .sm-card-list-layout {
   grid-gap: 16px 24px;
-  padding-top: 18px;
-  padding-bottom: 0;
+  padding: 18px 0 0;
+  justify-content: start;
 }
 
 .sm-card-list-header {
