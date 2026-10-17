@@ -49,6 +49,7 @@ export const routes: Routes = [
                 canDeactivate: [resetContextMenuGuard]
               },
               {path: 'projects', loadChildren: () => import('./features/projects/projects.routes').then(r => r.routes)},
+              {path: 'folders', loadChildren: () => import('./features/task-folders/task-folders.routes').then(r => r.routes)},
               {path: 'experiments', redirectTo: 'tasks'},
               {
                 path: 'tasks',

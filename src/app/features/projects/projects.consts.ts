@@ -7,7 +7,8 @@ export const PROJECTS_FEATURES = ['models',' experiments', 'overview'];
 export const PROJECT_ROUTES = [
   {header: 'overview', id: 'overviewTab'},
   {header: 'workloads', id: 'workloadTab'},
-  {header: 'tasks', id: 'experimentsTab'},
+  {header: 'folders', label: 'tasks', id: 'tasksTab'},
+  {header: 'tasks', label: 'experiments', id: 'experimentsTab'},
   {header: 'models', id: 'modelsTab'}
 ] as HeaderNavbarTabConfig[];
 
