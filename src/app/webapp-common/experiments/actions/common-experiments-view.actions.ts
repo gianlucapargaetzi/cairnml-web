@@ -135,12 +135,6 @@ export const setActiveParentsFilter = createAction(
   props<{ parents: ProjectsGetTaskParentsResponseParents[] }>()
 );
 
-/** Limits the experiments table to these ids (a task folder); null shows every experiment. */
-export const setFolderScope = createAction(
-  EXPERIMENTS_PREFIX + '[set folder scope]',
-  props<{ ids: string[] | null }>()
-);
-
 export const getParents = createAction(
   EXPERIMENTS_PREFIX + '[get project experiments parents]',
   props<{searchValue: string; allProjects?: boolean}>());
