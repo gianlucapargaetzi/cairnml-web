@@ -1,15 +1,18 @@
 <div class="header-container" [class.no-tabs]="!contextNavbarLength()">
-  <div class="d-flex overflow-hidden">
-    <sm-breadcrumbs
-      class="spacer"
-      [class.flex-grow-1]="!userFocus()"
-      [class.user-focus]="userFocus()"
-      [class.share-view]="isShareMode()"
-      [activeWorkspace]="activeWorkspace()">
-    </sm-breadcrumbs>
-    @if (userFocus()) {
-      <sm-show-only-user-work class="ms-3"></sm-show-only-user-work>
-    }
+  <div class="title-column overflow-hidden">
+    <div class="d-flex overflow-hidden">
+      <sm-breadcrumbs
+        class="spacer"
+        [class.flex-grow-1]="!userFocus()"
+        [class.user-focus]="userFocus()"
+        [class.share-view]="isShareMode()"
+        [activeWorkspace]="activeWorkspace()">
+      </sm-breadcrumbs>
+      @if (userFocus()) {
+        <sm-show-only-user-work class="ms-3"></sm-show-only-user-work>
+      }
+    </div>
+    <sm-task-trail></sm-task-trail>
   </div>
 
   @if (hideSideNav()) {
