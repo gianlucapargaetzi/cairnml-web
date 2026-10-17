@@ -1,12 +1,10 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
-import {DecimalPipe} from '@angular/common';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {PrimeTemplate} from 'primeng/api';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
-import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
 import {pollWhileVisible} from './scheduler-live';
 import {SchedulerApiService, SchedulerJobOnWorker, SchedulerWorker} from './scheduler-api.service';
 import {GpuBlock, ResourceStat, StatCard, sinceText, stateClass} from './scheduler-view';
@@ -27,7 +25,7 @@ const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, 
   templateUrl: './workers-tree.component.html',
   styleUrls: ['./workers-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatProgressBarModule, MatButtonModule, DecimalPipe, CardComponent, TooltipDirective],
+  imports: [TableComponent, PrimeTemplate, MatProgressBarModule, MatButtonModule, TooltipDirective],
 })
 export class WorkersTreeComponent {
   private api = inject(SchedulerApiService);

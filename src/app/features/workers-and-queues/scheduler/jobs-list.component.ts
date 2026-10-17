@@ -1,10 +1,8 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
-import {DecimalPipe} from '@angular/common';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {PrimeTemplate} from 'primeng/api';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
-import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {pollWhileVisible} from './scheduler-live';
 import {SchedulerApiService, SchedulerJob, SchedulerEvent} from './scheduler-api.service';
@@ -26,7 +24,7 @@ type Filter = 'all' | 'running' | 'pending';
   templateUrl: './jobs-list.component.html',
   styleUrls: ['./jobs-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatButtonToggleModule, DecimalPipe, CardComponent, TooltipDirective],
+  imports: [TableComponent, PrimeTemplate, MatButtonToggleModule, TooltipDirective],
 })
 export class JobsListComponent {
   private api = inject(SchedulerApiService);

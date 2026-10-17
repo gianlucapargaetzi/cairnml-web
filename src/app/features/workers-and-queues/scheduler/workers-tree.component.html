@@ -1,98 +1,100 @@
 <div class="page">
-  <div class="stats">
+  <section class="summary">
     @for (stat of stats(); track stat.label) {
-      <sm-card class="stat">
-        <div class="stat-label">{{ stat.label }}</div>
-        <div class="stat-value">{{ stat.value }}</div>
-        <div class="stat-caption">{{ stat.caption }}</div>
-      </sm-card>
-    }
-  </div>
-
-  <div class="section-title">WORKERS</div>
-
-  @if (workers(); as list) {
-    @if (list.length === 0) {
-      <sm-card class="empty-card">
-        <div class="empty-title">No workers are registered</div>
-        <div class="empty-hint">Start an agent on a machine with <code>clearml-agent daemon --managed</code>. It appears here within a few seconds.</div>
-      </sm-card>
-    } @else {
-      <div class="worker-grid">
-        @for (w of list; track w.id) {
-          <sm-card class="worker" [attr.data-id]="'worker-' + w.id">
-            <div header-content class="worker-head">
-              <span class="worker-name">{{ w.id }}</span>
-              <span class="pill" [class]="stateClass(w.state)">{{ w.state }}</span>
-            </div>
-
-            <div class="meters">
-              <div class="meter">
-                <div class="meter-label">{{ cpuStat(w).label }}</div>
-                <mat-progress-bar mode="buffer" [value]="cpuStat(w).used" [bufferValue]="cpuStat(w).allocated"></mat-progress-bar>
-                <div class="caption">{{ cpuStat(w).caption }}</div>
-              </div>
-              <div class="meter">
-                <div class="meter-label">{{ ramStat(w).label }}</div>
-                <mat-progress-bar mode="buffer" [value]="ramStat(w).used" [bufferValue]="ramStat(w).allocated"></mat-progress-bar>
-                <div class="caption">{{ ramStat(w).caption }}</div>
-              </div>
-            </div>
-
-            <div class="gpus">
-              <div class="meter-label">GPUS · {{ gpuAllocated(w) }} of {{ w.capacity.gpus.length }} held</div>
-              @if (w.capacity.gpus.length) {
-                <div class="gpu-row">
-                  @for (gpu of gpuBlocks(w); track gpu.index) {
-                    <span class="gpu" [class.busy]="gpu.busy" [smTooltip]="gpu.label">{{ gpu.index }}</span>
-                  }
-                </div>
-              } @else {
-                <div class="caption">no GPUs on this machine</div>
-              }
-            </div>
-
-            <div footer class="worker-foot">
-              <span class="caption">{{ w.jobs.length }} {{ w.jobs.length === 1 ? 'job' : 'jobs' }} · seen {{ sinceText(w.last_sync) }}</span>
-              <button mat-button data-id="toggleJobs" (click)="setExpanded(w.id, !isExpanded(w.id))">
-                {{ isExpanded(w.id) ? 'Hide jobs' : 'Show jobs' }}
-              </button>
-            </div>
-
-            @if (isExpanded(w.id)) {
-              <div class="jobs">
-                @if (w.jobs.length) {
-                  <sm-table
-                    [columns]="jobColumns"
-                    [tableData]="w.jobs"
-                    [selectionMode]="null"
-                    [resizableColumns]="false"
-                    [simple]="true"
-                    [columnResizeMode]="'fit'">
-                    <ng-template let-col let-job="rowData" pTemplate="body">
-                      @switch (col.id) {
-                        @case ('job') { <span class="job-name">{{ job.name || job.task }}</span> }
-                        @case ('state') { <span class="pill" [class]="stateClass(job.state)">{{ job.state }}</span> }
-                        @case ('cpu') { <span>{{ job.cpus.length }}</span> }
-                        @case ('ram') {
-                          <div class="meter tight">
-                            <mat-progress-bar mode="determinate" [value]="jobRam(job).used"></mat-progress-bar>
-                            <div class="caption">{{ jobRam(job).caption }}</div>
-                          </div>
-                        }
-                        @case ('gpu') { <span>{{ job.gpus.length }}</span> }
-                        @case ('mode') { <span class="caption">{{ mode(job) }}</span> }
-                      }
-                    </ng-template>
-                  </sm-table>
-                } @else {
-                  <p class="caption">No jobs run on this worker now.</p>
-                }
-              </div>
-            }
-          </sm-card>
-        }
+      <div class="card">
+        <div class="card-title">{{ stat.label }}</div>
+        <div class="big num">{{ stat.value }}</div>
+        <div class="sub">{{ stat.caption }}</div>
       </div>
     }
-  }
+  </section>
+
+  <section>
+    <div class="section-title">Workers</div>
+
+    @if (workers(); as list) {
+      @if (list.length === 0) {
+        <div class="card empty">
+          <div class="empty-title">No workers are registered</div>
+          <div class="sub">Start an agent on a machine with <code>clearml-agent daemon --managed</code>. It appears here within a few seconds.</div>
+        </div>
+      } @else {
+        <div class="worker-grid">
+          @for (w of list; track w.id) {
+            <div class="card worker" [attr.data-id]="'worker-' + w.id">
+              <div class="worker-head">
+                <span class="worker-name" [smTooltip]="w.id">{{ w.id }}</span>
+                <span class="badge" [class]="stateClass(w.state)">{{ w.state }}</span>
+              </div>
+
+              @for (stat of [cpuStat(w), ramStat(w)]; track stat.label) {
+                <div class="meter">
+                  <div class="meter-row">
+                    <span class="meter-label">{{ stat.label }}</span>
+                    <span class="meter-value num">{{ stat.caption }}</span>
+                  </div>
+                  <mat-progress-bar class="usage-bar" mode="buffer" [value]="stat.used" [bufferValue]="stat.allocated"></mat-progress-bar>
+                </div>
+              }
+
+              <div class="meter">
+                <div class="meter-row">
+                  <span class="meter-label">GPUs</span>
+                  <span class="meter-value num">{{ gpuAllocated(w) }} of {{ w.capacity.gpus.length }} held</span>
+                </div>
+                @if (w.capacity.gpus.length) {
+                  <div class="gpu-row">
+                    @for (gpu of gpuBlocks(w); track gpu.index) {
+                      <span class="gpu" [class.busy]="gpu.busy" [smTooltip]="gpu.label">{{ gpu.index }}</span>
+                    }
+                  </div>
+                } @else {
+                  <div class="sub">no GPUs on this machine</div>
+                }
+              </div>
+
+              <div class="worker-foot">
+                <span class="sub">{{ w.jobs.length }} {{ w.jobs.length === 1 ? 'job' : 'jobs' }} · seen {{ sinceText(w.last_sync) }}</span>
+                <button mat-button data-id="toggleJobs" (click)="setExpanded(w.id, !isExpanded(w.id))">
+                  {{ isExpanded(w.id) ? 'Hide jobs' : 'Show jobs' }}
+                </button>
+              </div>
+
+              @if (isExpanded(w.id)) {
+                <div class="jobs">
+                  @if (w.jobs.length) {
+                    <sm-table
+                      [columns]="jobColumns"
+                      [tableData]="w.jobs"
+                      [selectionMode]="null"
+                      [resizableColumns]="false"
+                      [simple]="true"
+                      [columnResizeMode]="'fit'">
+                      <ng-template let-col let-job="rowData" pTemplate="body">
+                        @switch (col.id) {
+                          @case ('job') { <span class="job-name">{{ job.name || job.task }}</span> }
+                          @case ('state') { <span class="badge" [class]="stateClass(job.state)">{{ job.state }}</span> }
+                          @case ('cpu') { <span class="num">{{ job.cpus.length }}</span> }
+                          @case ('ram') {
+                            <div class="meter tight">
+                              <mat-progress-bar class="usage-bar" mode="determinate" [value]="jobRam(job).used"></mat-progress-bar>
+                              <div class="sub num">{{ jobRam(job).caption }}</div>
+                            </div>
+                          }
+                          @case ('gpu') { <span class="num">{{ job.gpus.length }}</span> }
+                          @case ('mode') { <span class="sub">{{ mode(job) }}</span> }
+                        }
+                      </ng-template>
+                    </sm-table>
+                  } @else {
+                    <p class="sub">No jobs run on this worker now.</p>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+  </section>
 </div>

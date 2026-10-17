@@ -1,18 +1,18 @@
 <div class="page">
-  <div class="stats">
+  <section class="summary">
     @for (stat of stats(); track stat.label) {
-      <sm-card class="stat">
-        <div class="stat-label">{{ stat.label }}</div>
-        <div class="stat-value">{{ stat.value }}</div>
-        <div class="stat-caption">{{ stat.caption }}</div>
-      </sm-card>
+      <div class="card">
+        <div class="card-title">{{ stat.label }}</div>
+        <div class="big num">{{ stat.value }}</div>
+        <div class="sub">{{ stat.caption }}</div>
+      </div>
     }
-  </div>
+  </section>
 
-  <div class="layout">
+  <section class="layout">
     <div class="main">
       <div class="toolbar">
-        <div class="section-title">JOBS</div>
+        <div class="section-title">Jobs</div>
         <mat-button-toggle-group
           class="filter"
           [value]="filter()"
@@ -26,69 +26,69 @@
 
       @if (jobs(); as list) {
         @if (shown().length) {
-          <sm-table
-            [columns]="columns"
-            [tableData]="shown()"
-            [selectionMode]="null"
-            [resizableColumns]="false"
-            [simple]="true"
-            [columnResizeMode]="'fit'">
-            <ng-template let-col let-job="rowData" pTemplate="body">
-              @switch (col.id) {
-                @case ('job') {
-                  <div class="job-cell">
-                    <span class="job-name">{{ job.name || job.task }}</span>
-                    <span class="caption mono">{{ job.task }}</span>
-                  </div>
+          <div class="table-box">
+            <sm-table
+              [columns]="columns"
+              [tableData]="shown()"
+              [selectionMode]="null"
+              [resizableColumns]="false"
+              [simple]="true"
+              [columnResizeMode]="'fit'">
+              <ng-template let-col let-job="rowData" pTemplate="body">
+                @switch (col.id) {
+                  @case ('job') {
+                    <div class="job-cell">
+                      <span class="job-name">{{ job.name || job.task }}</span>
+                      <span class="sub mono">{{ job.task }}</span>
+                    </div>
+                  }
+                  @case ('state') { <span class="badge" [class]="stateClass(job.state)">{{ job.state }}</span> }
+                  @case ('priority') { <span class="num">{{ job.priority }}</span> }
+                  @case ('needs') {
+                    <div class="chips">
+                      @for (chip of requirements(job); track chip) {
+                        <span class="chip">{{ chip }}</span>
+                      }
+                    </div>
+                  }
+                  @case ('where') {
+                    <span class="ellipsis" [class.sub]="job.state === 'pending'" [smTooltip]="where(job)">{{ where(job) }}</span>
+                  }
+                  @case ('since') { <span class="sub">{{ sinceText(job.since) }}</span> }
                 }
-                @case ('state') { <span class="pill" [class]="stateClass(job.state)">{{ job.state }}</span> }
-                @case ('priority') { <span>{{ job.priority }}</span> }
-                @case ('needs') {
-                  <div class="chips">
-                    @for (chip of requirements(job); track chip) {
-                      <span class="chip">{{ chip }}</span>
-                    }
-                  </div>
-                }
-                @case ('where') {
-                  <span [class.caption]="job.state === 'pending'" [smTooltip]="where(job)">{{ where(job) }}</span>
-                }
-                @case ('since') { <span class="caption">{{ sinceText(job.since) }}</span> }
-              }
-            </ng-template>
-          </sm-table>
+              </ng-template>
+            </sm-table>
+          </div>
         } @else {
-          <sm-card class="empty-card">
+          <div class="card empty">
             <div class="empty-title">
               {{ filter() === 'running' ? 'No job is running right now' : filter() === 'pending' ? 'Nothing is waiting' : 'No jobs yet' }}
             </div>
-            <div class="empty-hint">Start an experiment from a task's page and it appears here.</div>
-          </sm-card>
+            <div class="sub">Start an experiment from a task's page and it appears here.</div>
+          </div>
         }
       }
     </div>
 
-    <aside class="side">
-      <sm-card class="activity">
-        <div header-content class="section-title">RECENT ACTIVITY</div>
-        @if (events(); as list) {
-          @if (list.length) {
-            <ul class="feed">
-              @for (e of list; track $index) {
-                <li class="feed-item">
-                  <span class="pill" [class]="eventClass(e.kind)">{{ e.kind.replace('_', ' ') }}</span>
-                  <div class="feed-text">
-                    <span class="feed-detail">{{ eventText(e) }}</span>
-                    <span class="caption">{{ sinceText(e.time) }}{{ e.worker ? ' · ' + e.worker : '' }}</span>
-                  </div>
-                </li>
-              }
-            </ul>
-          } @else {
-            <p class="caption">No scheduler activity yet.</p>
-          }
+    <aside class="card activity">
+      <div class="card-title">Recent activity</div>
+      @if (events(); as list) {
+        @if (list.length) {
+          <ul class="feed">
+            @for (e of list; track $index) {
+              <li class="feed-item">
+                <span class="badge" [class]="eventClass(e.kind)">{{ e.kind.replace('_', ' ') }}</span>
+                <div class="feed-text">
+                  <span class="feed-detail">{{ eventText(e) }}</span>
+                  <span class="sub">{{ sinceText(e.time) }}{{ e.worker ? ' · ' + e.worker : '' }}</span>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="sub">No scheduler activity yet.</p>
         }
-      </sm-card>
+      }
     </aside>
-  </div>
+  </section>
 </div>
