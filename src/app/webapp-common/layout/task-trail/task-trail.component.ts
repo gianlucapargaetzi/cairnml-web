@@ -105,6 +105,8 @@ export class TaskTrailComponent {
       page_size: 1,
     }));
     const task = response?.tasks?.[0];
-    return task ? {name: task.name, parent: task.parent} : null;
+    // the API returns the parent as a reference ({id}); the id is what the next lookup needs
+    const parent = typeof task?.parent === 'string' ? task.parent : task?.parent?.id;
+    return task ? {name: task.name, parent} : null;
   }
 }
