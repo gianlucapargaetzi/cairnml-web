@@ -5,7 +5,7 @@ import {fromFetch} from 'rxjs/fetch';
 import {catchError, debounceTime, filter, map} from 'rxjs/operators';
 import {DeleteObjectsCommand, GetObjectCommand, ObjectIdentifier, S3Client, S3ClientConfig} from '@aws-sdk/client-s3';
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
-import {convertToReverseProxy, isFileserverUrl} from '~/shared/utils/url';
+import {convertToReverseProxy, datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
 import {
   Credentials,
   selectRevokeSucceed,
@@ -68,6 +68,10 @@ export class BaseAdminService {
     previousSignedUrl?: { signed: string; expires: number }
   ): Observable<SignResponse> {
     config = {...{skipLocalFile: true, skipFileServer: this.confService.getStaticEnvironment().production, disableCache: null}, ...config};
+
+    if (isDatachunkUrl(url)) {
+      return of({type: 'sign', signed: datachunkBrowserUrl(url), expires: Number.MAX_VALUE});
+    }
 
     if (isFileserverUrl(url)) {
       if (this.environment().communityServer) {

@@ -72,7 +72,7 @@ import {downloadObjectAsJson} from '@common/experiments/shared/common-experiment
 import {buildTaskExportData, generateTaskExportFilename} from '@common/experiments/shared/task-export.utils';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {fromFetch} from 'rxjs/fetch';
-import {isFileserverUrl} from '~/shared/utils/url';
+import {datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
 import {getExtraHeaders} from '~/features/experiments/shared/experiments.utils';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -402,6 +402,7 @@ export class CommonExperimentsInfoEffects {
 
   downloadArtifact = createEffect(() => this.actions$.pipe(
     ofType(commonInfoActions.downloadArtifacts),
+    map(action => ({...action, url: isDatachunkUrl(action.url) ? datachunkBrowserUrl(action.url) : action.url})),
     filter(action => !!action.url),
     concatLatestFrom(() => this.store.select(selectActiveWorkspace)),
     switchMap(([action, workspace]) => action.inMemory ?
