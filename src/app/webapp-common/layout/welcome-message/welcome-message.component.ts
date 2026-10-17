@@ -112,9 +112,6 @@ export class WelcomeMessageComponent {
       steps[1].code =
         `%env CLEARML_WEB_HOST=${this.WEB_SERVER_URL}
 %env CLEARML_API_HOST=${this.configService.apiServerUrl()}\n`;
-      if (this.configService.fileServerUrl()) {
-        steps[1].code += `%env CLEARML_FILES_HOST=${this.configService.fileServerUrl()}\n`;
-      }
       if(this.credentialsLabel) {
         steps[1].code += `# ${this.credentialsLabel}\n`;
       }
@@ -167,10 +164,6 @@ export class WelcomeMessageComponent {
     }
     res += `  web_server: ${this.WEB_SERVER_URL}
   api_server: ${this.configService.apiServerUrl()}\n`;
-    const filesServer = this.configService.fileServerUrl();
-    if (filesServer) {
-      res += `  files_server: ${filesServer}\n`;
-    }
     res += `  credentials {
     "access_key" = "${this.accessKey()}"
     "secret_key" = "${this.secretKey()}"

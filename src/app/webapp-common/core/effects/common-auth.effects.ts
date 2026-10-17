@@ -25,7 +25,6 @@ import {
 } from '@common/layout/s3-access-resolver/s3-access-resolver.component';
 import {MatDialog} from '@angular/material/dialog';
 import {isGoogleCloudUrl, SignResponse} from '@common/settings/admin/base-admin-utils';
-import {isFileserverUrl} from '~/shared/utils/url';
 import {selectRouterQueryParams} from '@common/core/reducers/router-reducer';
 import {concatLatestFrom} from '@ngrx/operators';
 import {selectCompanyPreSignServices, selectExtraCredentials} from '~/core/reducers/auth.reducers';
@@ -73,7 +72,6 @@ export class CommonAuthEffects {
         ),
         switchMap(([, signedUrl]) =>
           (!signedUrl?.expires || signedUrl.expires < (new Date()).getTime() ||
-            (isFileserverUrl(action.url) && action.config?.disableCache) ||
             (action.config?.error && isGoogleCloudUrl(action.url) && !signedUrl.signed.includes('X-Amz-Signature'))
           ) ?
             this.adminService.signUrlIfNeeded(action.url, action.config, signedUrl) : of({type: 'none'})
@@ -116,7 +114,6 @@ export class CommonAuthEffects {
               this.store.select(selectCompanyPreSignServices)
             ]),
             switchMap(([, signedUrl, preSignService]) => (!signedUrl?.expires || signedUrl.expires < (new Date()).getTime() ||
-              (isFileserverUrl(req.url) && req.config?.disableCache) ||
               (req.config?.error && isGoogleCloudUrl(req.url) && !signedUrl.signed.includes('X-Amz-Signature')) ||
               preSignService.length > 0
             ) ? this.adminService.signUrlIfNeeded(req.url, req.config, prevSigns[req.url]) : of({type: 'none'})),

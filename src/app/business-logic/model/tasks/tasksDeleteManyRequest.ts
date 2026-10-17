@@ -34,7 +34,7 @@ export interface TasksDeleteManyRequest {
      */
     delete_output_models?: boolean;
   /**
-   * If set to \'true\' then BE will try to delete the extenal artifacts associated   with the tasks from the fileserver (if configured to do so)
+   * If set to \'true\' then BE will try to delete the external artifacts associated   with the tasks from storage (if configured to do so)
    */
   delete_external_artifacts?: boolean;
 }

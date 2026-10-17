@@ -19,9 +19,6 @@ export const addFailedDeletedFile = createAction(DELETE_PREFIX + '[add failed de
 export const addFailedDeletedFiles = createAction(DELETE_PREFIX + '[add failed deleted file paths]',
   props<{filePaths: string[]}>());
 
-export const deleteFileServerSources = createAction(DELETE_PREFIX + '[delete file server sources]',
-  props<{files: string[]}>());
-
 export const deleteS3Sources = createAction(DELETE_PREFIX + '[delete s3 sources]',
   props<{files: string[]}>());
 

@@ -40,8 +40,8 @@
            [style.visibility]="embedFunction ? 'visible' : 'hidden'">
         <i class="al-icon al-ico-code-square"></i>
       </div>
-      <div (click)="downloadImage()" [smTooltip]="isFileserverUrl(url()) ? 'Download' : 'Open in a new tab'" data-id="downloadButton" class="icon-container">
-        <i class="al-icon" [class]="isFileserverUrl(url()) ? 'al-ico-download' : 'al-ico-export sm-md'"></i>
+      <div (click)="downloadImage()" [smTooltip]="'Open in a new tab'" data-id="downloadButton" class="icon-container">
+        <i class="al-icon al-ico-export sm-md"></i>
       </div>
       <div (click)="closeImageViewer()" smTooltip="Close" data-id="closeButton" class="icon-container">
         <i class="al-icon al-ico-dialog-x"></i>

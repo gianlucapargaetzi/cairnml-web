@@ -27,8 +27,7 @@ export interface InterfaceCustomizations {
 export interface Environment {
   production: boolean;
   apiBaseUrl: string;
-  fileBaseUrl: string;
-  displayedServerUrls?: {apiServer?: string; filesServer?: string};
+  displayedServerUrls?: {apiServer?: string};
   productName: string;
   demo: boolean;
   headerPrefix: string;
@@ -53,7 +52,6 @@ export interface Environment {
   plotlyURL: string;
   docsLink?: string;
   supportEmail?: string;
-  useFilesProxy: boolean;
   branding?: {faviconUrl?: string; logo?: string; logoSmall?: string};
   gettingStartedContext?: GettingStartedContext;
   serverDownMessage?: string;
@@ -77,7 +75,6 @@ export interface Environment {
 export const BASE_ENV = {
   production: true,
   apiBaseUrl: null,
-  fileBaseUrl: null,
   productName: 'clearml',
   demo: false,
   headerPrefix: 'X-Clearml',
@@ -100,7 +97,6 @@ export const BASE_ENV = {
   hideUpdateNotice: false,
   showSurvey: false,
   accountAdministration: false,
-  useFilesProxy: true,
   legal: {TOULink: 'https://github.com/clearml/clearml-server/blob/master/LICENSE'},
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: 'https://clear.ml/docs',

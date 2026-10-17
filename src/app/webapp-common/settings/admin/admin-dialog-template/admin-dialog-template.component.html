@@ -54,11 +54,6 @@
             <div class="ms-2">
               <span class="variable">api_server</span><span class="operation me-1">:</span> <span class="string">{{configService.apiServerUrl()}}</span>
             </div>
-            @if (configService.fileServerUrl(); as fileServer) {
-              <div class="ms-2">
-                <span class="variable">files_server</span><span class="operation me-1">:</span> <span class="string">{{fileServer}}</span>
-              </div>
-            }
             @if (newCredential?.label) {
               <div class="ms-2">
                 <span>{{'# ' + newCredential?.label}}</span>
@@ -95,11 +90,6 @@
         <div>
           %env<span class="variable ms-2">CLEARML_API_HOST</span><span class="operation">=</span><span class="string">"{{configService.apiServerUrl()}}"</span>
         </div>
-        @if (configService.fileServerUrl(); as fileServer) {
-          <div>
-            %env<span class="variable ms-2">CLEARML_FILES_HOST</span><span class="operation">=</span><span class="string">"{{fileServer}}"</span>
-          </div>
-        }
         @if (newCredential.label) {
           <div># {{newCredential.label}}</div>
         }

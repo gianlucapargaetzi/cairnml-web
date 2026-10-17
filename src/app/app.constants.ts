@@ -89,8 +89,6 @@ export const ENVIRONMENT = {API_VERSION: '/v999.0'};
 export let HTTP = {
   API_BASE_URL: '',
   API_BASE_URL_NO_VERSION : '',
-  FILE_BASE_URL: '',
-  ALT_FILES: null
 };
 
 export const updateHttpUrlBaseConstant = (_environment: Environment) => {
@@ -104,21 +102,8 @@ export const updateHttpUrlBaseConstant = (_environment: Environment) => {
   const apiBaseUrlNoVersion = apiBaseUrl;
   apiBaseUrl += ENVIRONMENT.API_VERSION;
 
-  const url = window.location.origin;
-  let fileBaseUrl;
-  if (_environment.fileBaseUrl) {
-    fileBaseUrl = _environment.fileBaseUrl;
-  } else if (/https?:\/\/(demo|)app\./.test(url)) {
-    fileBaseUrl = url.replace(/(https?):\/\/(demo|)app/, '$1://$2files');
-  } else if (window.location.port === '30080') {
-    fileBaseUrl = url.replace(/:\d+/, '') + ':30081';
-  } else if (window.location.port === '8080') {
-    fileBaseUrl = url.replace(/:\d+/, '') + ':8081';
-  }
-
   HTTP.API_BASE_URL = apiBaseUrl;  // <-- DIRECT CALL DOESN'T WORK
   HTTP.API_BASE_URL_NO_VERSION = apiBaseUrlNoVersion;
-  HTTP.FILE_BASE_URL = fileBaseUrl;
 };
 
 

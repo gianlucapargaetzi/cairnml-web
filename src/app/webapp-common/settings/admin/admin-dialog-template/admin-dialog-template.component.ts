@@ -68,10 +68,6 @@ export class AdminDialogTemplateComponent {
     }
     res += `  web_server: ${this.WEB_SERVER_URL}
   api_server: ${this.configService.apiServerUrl()}\n`;
-    const filesServer = this.configService.fileServerUrl();
-    if (filesServer) {
-      res += `  files_server: ${filesServer}\n`;
-    }
     if (this.newCredential.label) {
       res += `  # ${this.newCredential.label}\n`;
     }
@@ -86,10 +82,6 @@ export class AdminDialogTemplateComponent {
   getJupiterCode() {
     let res = `%env CLEARML_WEB_HOST=${this.WEB_SERVER_URL}
 %env CLEARML_API_HOST=${this.configService.apiServerUrl()}\n`;
-    const filesServer = this.configService.fileServerUrl();
-    if (filesServer) {
-      res += `%env CLEARML_FILES_HOST=${filesServer}\n`;
-    }
     if (this.newCredential.label) {
       res += `# ${this.newCredential.label}\n`;
     }

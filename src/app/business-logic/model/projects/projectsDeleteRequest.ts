@@ -26,7 +26,7 @@ export interface ProjectsDeleteRequest {
      */
     delete_contents?: boolean;
     /**
-     * If set to \'true\' then BE will try to delete the extenal artifacts associated   with the project tasks and models from the fileserver (if configured to do so)
+     * If set to \'true\' then BE will try to delete the external artifacts associated   with the project tasks and models from storage (if configured to do so)
      */
     delete_external_artifacts?: boolean;
 }

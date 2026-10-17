@@ -22,9 +22,7 @@ export interface Legal {
 export interface Environment {
   production: boolean;
   apiBaseUrl: string;
-  fileBaseUrl: string;
-  displayedServerUrls?: {apiServer?: string; filesServer?: string};
-  alternativeFilesBaseUrl?: string;
+  displayedServerUrls?: {apiServer?: string};
   headerPrefix: string;
   version: string;
   userKey: string;
@@ -51,7 +49,6 @@ export interface Environment {
   plotlyURL?: string;
   slackLink?: string;
   docsLink?: string;
-  useFilesProxy?: boolean;
   branding?: { faviconUrl?: string; logo?: string; logoSmall?: string };
   serverDownMessage?: string;
   appsYouTubeIntroVideoId?: string;
@@ -75,7 +72,6 @@ export const BASE_ENV: Environment = {
   updateCheck: false,
   autoLogin: false,
   apiBaseUrl: null,
-  fileBaseUrl: null,
   version,
   baseUrl: 'https://app.clear.ml',
   headerPrefix: 'X-Clearml',
@@ -90,7 +86,6 @@ export const BASE_ENV: Environment = {
   whiteLabelSlogan: null,
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: '/docs',
-  useFilesProxy: true,
   branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
   serverDownMessage: 'The ClearML server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.',

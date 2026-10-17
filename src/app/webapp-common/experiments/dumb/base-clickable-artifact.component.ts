@@ -26,7 +26,7 @@ export class BaseClickableArtifactComponent {
   }
 
   protected signUrl(url: string) {
-    this.store.dispatch(getSignedUrl({url, config: {disableCache: this.timestamp}}));
+    this.store.dispatch(getSignedUrl({url}));
     return this.store.select(selectSignedUrl(url))
       .pipe(
         map((res => res?.signed)),
