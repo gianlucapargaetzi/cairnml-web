@@ -1,93 +1,98 @@
-<div class="workers-tree">
-  @if (empty()) {
-    <p class="empty">No workers are registered. Start an agent with <code>clearml-agent daemon --managed</code>.</p>
-  }
+<div class="page">
+  <div class="stats">
+    @for (stat of stats(); track stat.label) {
+      <sm-card class="stat">
+        <div class="stat-label">{{ stat.label }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-caption">{{ stat.caption }}</div>
+      </sm-card>
+    }
+  </div>
+
+  <div class="section-title">WORKERS</div>
 
   @if (workers(); as list) {
-    @if (list.length) {
-      <sm-table
-        [columns]="workerColumns"
-        [tableData]="list"
-        [expandableRows]="true"
-        [expandedRowKeys]="expanded()"
-        [selectionMode]="null"
-        [resizableColumns]="false"
-        [simple]="true"
-        [columnResizeMode]="'fit'"
-        (rowExpanded)="setExpanded($event.data.id, true)"
-        (rowCollapsed)="setExpanded($event.data.id, false)">
+    @if (list.length === 0) {
+      <sm-card class="empty-card">
+        <div class="empty-title">No workers are registered</div>
+        <div class="empty-hint">Start an agent on a machine with <code>clearml-agent daemon --managed</code>. It appears here within a few seconds.</div>
+      </sm-card>
+    } @else {
+      <div class="worker-grid">
+        @for (w of list; track w.id) {
+          <sm-card class="worker" [attr.data-id]="'worker-' + w.id">
+            <div header-content class="worker-head">
+              <span class="worker-name">{{ w.id }}</span>
+              <span class="pill" [class]="stateClass(w.state)">{{ w.state }}</span>
+            </div>
 
-        <ng-template let-col let-row="rowData" let-expanded="expanded" pTemplate="body">
-          @switch (col.id) {
-            @case ('worker') {
-              <div class="worker-cell">
-                <i class="al-icon al-ico-next sm-md" [class.expanded]="expanded"></i>
-                <span class="name">{{ row.id }}</span>
+            <div class="meters">
+              <div class="meter">
+                <div class="meter-label">{{ cpuStat(w).label }}</div>
+                <mat-progress-bar mode="buffer" [value]="cpuStat(w).used" [bufferValue]="cpuStat(w).allocated"></mat-progress-bar>
+                <div class="caption">{{ cpuStat(w).caption }}</div>
               </div>
-            }
-            @case ('state') {
-              <span class="state" [class]="'state-' + row.state">{{ row.state }}</span>
-            }
-            @case ('jobs') {
-              <span>{{ row.jobs.length }}</span>
-            }
-            @case ('cpu') {
-              <div class="bar-cell">
-                <mat-progress-bar mode="buffer" [value]="cpuBar(row).used" [bufferValue]="cpuBar(row).allocated"></mat-progress-bar>
-                <span class="caption">{{ cpuBar(row).used | number: '1.0-0' }}% used · {{ allocatedCpus(row) }} / {{ schedulableCpus(row) }} allocated</span>
+              <div class="meter">
+                <div class="meter-label">{{ ramStat(w).label }}</div>
+                <mat-progress-bar mode="buffer" [value]="ramStat(w).used" [bufferValue]="ramStat(w).allocated"></mat-progress-bar>
+                <div class="caption">{{ ramStat(w).caption }}</div>
               </div>
-            }
-            @case ('ram') {
-              <div class="bar-cell">
-                <mat-progress-bar mode="buffer" [value]="ramBar(row).used" [bufferValue]="ramBar(row).allocated"></mat-progress-bar>
-                <span class="caption">{{ row.usage?.ram_used_gb | number: '1.0-1' }} / {{ row.capacity.ram_gb | number: '1.0-1' }} GB</span>
-              </div>
-            }
-            @case ('gpu') {
-              <span>{{ gpuAllocated(row) }} GPUs</span>
-            }
-            @case ('seen') {
-              <span class="caption">{{ seen(row) }}</span>
-            }
-          }
-        </ng-template>
+            </div>
 
-        <ng-template pTemplate="rowexpansion" let-worker>
-          @if (worker.jobs.length) {
-            <sm-table
-              [columns]="jobColumns"
-              [tableData]="worker.jobs"
-              [selectionMode]="null"
-              [resizableColumns]="false"
-              [simple]="true"
-              [columnResizeMode]="'fit'">
-              <ng-template let-col let-job="rowData" pTemplate="body">
-                @switch (col.id) {
-                  @case ('job') {
-                    <span class="job-name">{{ job.name || job.task }}</span>
+            <div class="gpus">
+              <div class="meter-label">GPUS · {{ gpuAllocated(w) }} of {{ w.capacity.gpus.length }} held</div>
+              @if (w.capacity.gpus.length) {
+                <div class="gpu-row">
+                  @for (gpu of gpuBlocks(w); track gpu.index) {
+                    <span class="gpu" [class.busy]="gpu.busy" [smTooltip]="gpu.label">{{ gpu.index }}</span>
                   }
-                  @case ('state') { <span class="state state-running">{{ job.state }}</span> }
-                  @case ('cpu') { <span>{{ job.cpus.length }}</span> }
-                  @case ('ram') {
-                    <div class="bar-cell">
-                      <mat-progress-bar mode="buffer" [value]="jobRam(job).used" [bufferValue]="jobRam(job).allocated"></mat-progress-bar>
-                      @if (job.usage?.peak_ram_gb !== undefined || job.usage?.ram_gb !== undefined) {
-                        <span class="caption">{{ (job.usage?.peak_ram_gb ?? job.usage?.ram_gb) | number: '1.0-1' }} / {{ job.ram_gb | number: '1.0-1' }} GB</span>
-                      } @else {
-                        <span class="caption">limit {{ job.ram_gb | number: '1.0-1' }} GB</span>
+                </div>
+              } @else {
+                <div class="caption">no GPUs on this machine</div>
+              }
+            </div>
+
+            <div footer class="worker-foot">
+              <span class="caption">{{ w.jobs.length }} {{ w.jobs.length === 1 ? 'job' : 'jobs' }} · seen {{ sinceText(w.last_sync) }}</span>
+              <button mat-button data-id="toggleJobs" (click)="setExpanded(w.id, !isExpanded(w.id))">
+                {{ isExpanded(w.id) ? 'Hide jobs' : 'Show jobs' }}
+              </button>
+            </div>
+
+            @if (isExpanded(w.id)) {
+              <div class="jobs">
+                @if (w.jobs.length) {
+                  <sm-table
+                    [columns]="jobColumns"
+                    [tableData]="w.jobs"
+                    [selectionMode]="null"
+                    [resizableColumns]="false"
+                    [simple]="true"
+                    [columnResizeMode]="'fit'">
+                    <ng-template let-col let-job="rowData" pTemplate="body">
+                      @switch (col.id) {
+                        @case ('job') { <span class="job-name">{{ job.name || job.task }}</span> }
+                        @case ('state') { <span class="pill" [class]="stateClass(job.state)">{{ job.state }}</span> }
+                        @case ('cpu') { <span>{{ job.cpus.length }}</span> }
+                        @case ('ram') {
+                          <div class="meter tight">
+                            <mat-progress-bar mode="determinate" [value]="jobRam(job).used"></mat-progress-bar>
+                            <div class="caption">{{ jobRam(job).caption }}</div>
+                          </div>
+                        }
+                        @case ('gpu') { <span>{{ job.gpus.length }}</span> }
+                        @case ('mode') { <span class="caption">{{ mode(job) }}</span> }
                       }
-                    </div>
-                  }
-                  @case ('gpu') { <span>{{ job.gpus.length }}</span> }
-                  @case ('exclusive') { <span class="caption">{{ mode(job) }}</span> }
+                    </ng-template>
+                  </sm-table>
+                } @else {
+                  <p class="caption">No jobs run on this worker now.</p>
                 }
-              </ng-template>
-            </sm-table>
-          } @else {
-            <p class="empty">No jobs run on this worker now.</p>
-          }
-        </ng-template>
-      </sm-table>
+              </div>
+            }
+          </sm-card>
+        }
+      </div>
     }
   }
 </div>

@@ -1,34 +1,23 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {DecimalPipe} from '@angular/common';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {PrimeTemplate} from 'primeng/api';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
 import {pollWhileVisible} from './scheduler-live';
 import {SchedulerApiService, SchedulerJobOnWorker, SchedulerWorker} from './scheduler-api.service';
-
-interface Bar {
-  used: number;
-  allocated: number;
-}
-
-const WORKER_COLUMNS: ISmCol[] = [
-  {id: 'worker', header: 'WORKER', style: {width: '240px', minWidth: '180px'}},
-  {id: 'state', header: 'STATE', style: {width: '110px'}},
-  {id: 'jobs', header: 'JOBS', style: {width: '80px'}},
-  {id: 'cpu', header: 'CPU: USED / ALLOCATED', style: {width: '220px'}},
-  {id: 'ram', header: 'RAM: USED / ALLOCATED', style: {width: '220px'}},
-  {id: 'gpu', header: 'GPU: ALLOCATED', style: {width: '160px'}},
-  {id: 'seen', header: 'LAST SEEN', style: {width: '120px'}},
-];
+import {GpuBlock, ResourceStat, StatCard, sinceText, stateClass} from './scheduler-view';
 
 const JOB_COLUMNS: ISmCol[] = [
-  {id: 'job', header: 'JOB', style: {width: '240px', minWidth: '180px'}},
+  {id: 'job', header: 'JOB', style: {minWidth: '200px'}},
   {id: 'state', header: 'STATE', style: {width: '110px'}},
-  {id: 'cpu', header: 'CPUS', style: {width: '120px'}},
+  {id: 'cpu', header: 'CPUS', style: {width: '90px'}},
   {id: 'ram', header: 'RAM: PEAK / LIMIT', style: {width: '220px'}},
-  {id: 'gpu', header: 'GPUS', style: {width: '120px'}},
-  {id: 'exclusive', header: 'MODE', style: {width: '140px'}},
+  {id: 'gpu', header: 'GPUS', style: {width: '90px'}},
+  {id: 'mode', header: 'MODE', style: {width: '130px'}},
 ];
 
 const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, (100 * part) / whole) : 0);
@@ -38,29 +27,47 @@ const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, 
   templateUrl: './workers-tree.component.html',
   styleUrls: ['./workers-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatProgressBarModule, DecimalPipe],
+  imports: [TableComponent, PrimeTemplate, MatProgressBarModule, MatButtonModule, DecimalPipe, CardComponent, TooltipDirective],
 })
 export class WorkersTreeComponent {
   private api = inject(SchedulerApiService);
 
-  protected readonly workerColumns = WORKER_COLUMNS;
   protected readonly jobColumns = JOB_COLUMNS;
   protected readonly expanded = signal<Record<string, boolean>>({});
   private readonly overview = pollWhileVisible(() => this.api.overview());
-  // rows need a unique id (the table marks a row selected by its id); the jobs of a worker get theirs too
+
+  // rows need a unique id (the table marks a row selected by its id)
   protected readonly workers = computed(() => this.overview()?.map(w => ({
     ...w,
-    id: w.id,
     jobs: w.jobs.map(j => ({...j, id: j.task})),
   })) ?? null);
-  protected readonly empty = computed(() => {
-    const workers = this.workers();
-    return workers !== null && workers.length === 0;
+
+  protected readonly stats = computed<StatCard[]>(() => {
+    const workers = this.overview() ?? [];
+    const active = workers.filter(w => w.state === 'active').length;
+    const jobs = workers.reduce((sum, w) => sum + w.jobs.length, 0);
+    const cpuAllocated = workers.reduce((sum, w) => sum + this.allocatedCpus(w), 0);
+    const cpuSchedulable = workers.reduce((sum, w) => sum + this.schedulableCpus(w), 0);
+    const gpuAllocated = workers.reduce((sum, w) => sum + this.gpuAllocated(w), 0);
+    const gpuTotal = workers.reduce((sum, w) => sum + w.capacity.gpus.length, 0);
+    return [
+      {label: 'WORKERS', value: `${active}`, caption: `of ${workers.length} active`},
+      {label: 'RUNNING JOBS', value: `${jobs}`, caption: jobs === 1 ? '1 job on a machine' : `${jobs} jobs on machines`},
+      {label: 'CPUS ALLOCATED', value: `${cpuAllocated}`, caption: `of ${cpuSchedulable} schedulable`},
+      {label: 'GPUS ALLOCATED', value: `${gpuAllocated}`, caption: `of ${gpuTotal}`},
+    ];
   });
 
   protected setExpanded(id: string, value: boolean) {
     this.expanded.update(current => ({...current, [id]: value}));
   }
+
+  protected isExpanded(id: string): boolean {
+    return !!this.expanded()[id];
+  }
+
+  protected stateClass = stateClass;
+  protected sinceText = sinceText;
 
   protected schedulableCpus(w: SchedulerWorker): number {
     return Math.max(1, w.capacity.cpus - w.reserved.cpus);
@@ -70,31 +77,48 @@ export class WorkersTreeComponent {
     return w.jobs.reduce((sum, j) => sum + j.cpus.length, 0);
   }
 
-  protected cpuBar(w: SchedulerWorker): Bar {
-    return {used: w.usage?.cpu_percent ?? 0, allocated: pct(this.allocatedCpus(w), this.schedulableCpus(w))};
+  protected gpuAllocated(w: SchedulerWorker): number {
+    return w.jobs.reduce((sum, j) => sum + j.gpus.length, 0);
   }
 
-  protected ramBar(w: SchedulerWorker): Bar {
+  protected cpuStat(w: SchedulerWorker): ResourceStat {
+    return {
+      label: 'CPU',
+      used: pct(w.usage?.cpu_percent ?? 0, 100),
+      allocated: pct(this.allocatedCpus(w), this.schedulableCpus(w)),
+      caption: `${Math.round(w.usage?.cpu_percent ?? 0)}% used · ${this.allocatedCpus(w)} of ${this.schedulableCpus(w)} allocated`,
+    };
+  }
+
+  protected ramStat(w: SchedulerWorker): ResourceStat {
     const allocated = w.jobs.reduce((sum, j) => sum + (j.ram_gb ?? 0), 0);
     const used = w.usage?.ram_used_gb ?? 0;
-    return {used: pct(used, w.capacity.ram_gb), allocated: pct(allocated, w.capacity.ram_gb)};
+    return {
+      label: 'RAM',
+      used: pct(used, w.capacity.ram_gb),
+      allocated: pct(allocated, w.capacity.ram_gb),
+      caption: `${used.toFixed(1)} of ${w.capacity.ram_gb.toFixed(1)} GB used · ${allocated.toFixed(1)} GB allocated`,
+    };
   }
 
-  protected gpuAllocated(w: SchedulerWorker): string {
-    const allocated = w.jobs.reduce((sum, j) => sum + j.gpus.length, 0);
-    return `${allocated} / ${w.capacity.gpus.length}`;
+  /** One block per GPU: lit when a job holds it, so you see which GPU is free at a glance. */
+  protected gpuBlocks(w: SchedulerWorker): GpuBlock[] {
+    const held = new Set(w.jobs.flatMap(j => j.gpus));
+    return w.capacity.gpus.map(gpu => ({
+      index: gpu.index,
+      label: `GPU ${gpu.index} · ${gpu.model} · ${gpu.memory_gb} GB`,
+      busy: held.has(gpu.index),
+    }));
   }
 
-  protected seen(w: SchedulerWorker): string {
-    if (!w.last_sync) {
-      return '–';
-    }
-    const seconds = Math.max(0, Math.round((Date.now() - Date.parse(w.last_sync)) / 1000));
-    return seconds < 60 ? `${seconds} s ago` : `${Math.round(seconds / 60)} min ago`;
-  }
-
-  protected jobRam(j: SchedulerJobOnWorker): Bar {
-    return {used: pct(j.usage?.peak_ram_gb ?? j.usage?.ram_gb ?? 0, j.ram_gb), allocated: 100};
+  protected jobRam(j: SchedulerJobOnWorker): ResourceStat {
+    const peak = j.usage?.peak_ram_gb ?? j.usage?.ram_gb;
+    return {
+      label: 'RAM',
+      used: pct(peak ?? 0, j.ram_gb),
+      allocated: 100,
+      caption: peak !== undefined ? `${peak.toFixed(1)} / ${j.ram_gb.toFixed(1)} GB` : `limit ${j.ram_gb.toFixed(1)} GB`,
+    };
   }
 
   protected mode(j: SchedulerJobOnWorker): string {

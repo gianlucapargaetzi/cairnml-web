@@ -1,37 +1,94 @@
-<div class="jobs-list">
-  <div class="filters">
-    @for (option of filters; track option) {
-      @if (filter() === option) {
-        <button mat-flat-button (click)="setFilter(option)">{{ option }}</button>
-      } @else {
-        <button mat-stroked-button (click)="setFilter(option)">{{ option }}</button>
-      }
+<div class="page">
+  <div class="stats">
+    @for (stat of stats(); track stat.label) {
+      <sm-card class="stat">
+        <div class="stat-label">{{ stat.label }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-caption">{{ stat.caption }}</div>
+      </sm-card>
     }
   </div>
 
-  @if (jobs(); as list) {
-    @if (shown().length) {
-      <sm-table
-        [columns]="columns"
-        [tableData]="shown()"
-        [selectionMode]="null"
-        [resizableColumns]="false"
-        [simple]="true"
-        [columnResizeMode]="'fit'">
-        <ng-template let-col let-job="rowData" pTemplate="body">
-          @switch (col.id) {
-            @case ('state') { <span class="state" [class]="'state-' + job.state">{{ job.state }}</span> }
-            @case ('name') { <span>{{ job.name }}</span> }
-            @case ('priority') { <span>{{ job.priority }}</span> }
-            @case ('requirements') { <span class="caption">{{ requirements(job) }}</span> }
-            @case ('worker') { <span>{{ job.worker ?? '–' }}</span> }
-            @case ('since') { <span class="caption">{{ since(job) }}</span> }
-            @case ('why') { <span class="caption" [title]="job.reason ?? ''">{{ job.reason ?? '' }}</span> }
+  <div class="layout">
+    <div class="main">
+      <div class="toolbar">
+        <div class="section-title">JOBS</div>
+        <mat-button-toggle-group
+          class="filter"
+          [value]="filter()"
+          (change)="filter.set($event.value)"
+          data-id="jobFilter">
+          <mat-button-toggle value="all" data-id="filterAll">all · {{ all().length }}</mat-button-toggle>
+          <mat-button-toggle value="running" data-id="filterRunning">running · {{ running().length }}</mat-button-toggle>
+          <mat-button-toggle value="pending" data-id="filterPending">waiting · {{ pending().length }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      @if (jobs(); as list) {
+        @if (shown().length) {
+          <sm-table
+            [columns]="columns"
+            [tableData]="shown()"
+            [selectionMode]="null"
+            [resizableColumns]="false"
+            [simple]="true"
+            [columnResizeMode]="'fit'">
+            <ng-template let-col let-job="rowData" pTemplate="body">
+              @switch (col.id) {
+                @case ('job') {
+                  <div class="job-cell">
+                    <span class="job-name">{{ job.name || job.task }}</span>
+                    <span class="caption mono">{{ job.task }}</span>
+                  </div>
+                }
+                @case ('state') { <span class="pill" [class]="stateClass(job.state)">{{ job.state }}</span> }
+                @case ('priority') { <span>{{ job.priority }}</span> }
+                @case ('needs') {
+                  <div class="chips">
+                    @for (chip of requirements(job); track chip) {
+                      <span class="chip">{{ chip }}</span>
+                    }
+                  </div>
+                }
+                @case ('where') {
+                  <span [class.caption]="job.state === 'pending'" [smTooltip]="where(job)">{{ where(job) }}</span>
+                }
+                @case ('since') { <span class="caption">{{ sinceText(job.since) }}</span> }
+              }
+            </ng-template>
+          </sm-table>
+        } @else {
+          <sm-card class="empty-card">
+            <div class="empty-title">
+              {{ filter() === 'running' ? 'No job is running right now' : filter() === 'pending' ? 'Nothing is waiting' : 'No jobs yet' }}
+            </div>
+            <div class="empty-hint">Start an experiment from a task's page and it appears here.</div>
+          </sm-card>
+        }
+      }
+    </div>
+
+    <aside class="side">
+      <sm-card class="activity">
+        <div header-content class="section-title">RECENT ACTIVITY</div>
+        @if (events(); as list) {
+          @if (list.length) {
+            <ul class="feed">
+              @for (e of list; track $index) {
+                <li class="feed-item">
+                  <span class="pill" [class]="eventClass(e.kind)">{{ e.kind.replace('_', ' ') }}</span>
+                  <div class="feed-text">
+                    <span class="feed-detail">{{ eventText(e) }}</span>
+                    <span class="caption">{{ sinceText(e.time) }}{{ e.worker ? ' · ' + e.worker : '' }}</span>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="caption">No scheduler activity yet.</p>
           }
-        </ng-template>
-      </sm-table>
-    } @else {
-      <p class="empty">No jobs are running or waiting. Start an experiment from a task's page.</p>
-    }
-  }
+        }
+      </sm-card>
+    </aside>
+  </div>
 </div>
