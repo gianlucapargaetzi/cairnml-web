@@ -1,4 +1,5 @@
 // Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
+@use "mixins/common";
 @use "variables" as *;
 
 .dashboard-body {
@@ -6,9 +7,27 @@
   overflow: auto;
 }
 
+// The same column as the global dashboard: the card rows and the recent table line up.
 .recent {
-  max-width: 2400px;
+  max-width: 1480px;
   margin: 0 auto;
+}
+
+// The card list and its header, as on the global dashboard (see dashboard-projects).
+.sm-card-list-layout {
+  grid-gap: 16px 24px;
+  padding-top: 18px;
+  padding-bottom: 0;
+}
+
+.sm-card-list-header {
+  grid-column: 1 / -1;
+  padding: 0;
+  height: 38px;
+}
+
+.recent-title {
+  @include common.recent-title();
 }
 
 .loading {

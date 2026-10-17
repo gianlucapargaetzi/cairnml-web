@@ -72,6 +72,7 @@ export const selectExperimentsTableCols = createSelector(selectRawExperimentsTab
 export const selectExperimentsTags = createSelector(experimentsView, (state) => state.projectTags);
 export const selectExperimentsParents = createSelector(experimentsView, (state) => state.parents);
 export const selectActiveParentsFilter = createSelector(experimentsView, (state) => state.activeParentsFilter);
+export const selectFolderScopeIds = createSelector(experimentsView, (state) => state.folderScopeIds);
 export const selectExperimentsTypes = createSelector(experimentsView, (state) => state.types);
 
 export const selectExperimentsTableColsOrder = createSelector(experimentsView, selectRouterParams, (state, params): string[] =>
