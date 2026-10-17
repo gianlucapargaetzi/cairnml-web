@@ -744,18 +744,29 @@ export class CommonExperimentsViewEffects {
     })
   ));
 
+  /** The list the experiments table shows: a task folder's list when the page is inside one, otherwise all experiments. */
+  private listBaseUrl(module: string, projectId: string): string[] {
+    const folder = this.router.url.split(/[?#]/)[0].match(/^\/projects\/([^/]+)\/folders\/([^/]+)/);
+    if (module === 'projects' && folder && folder[1] === projectId) {
+      return ['projects', projectId, 'folders', decodeURIComponent(folder[2])];
+    }
+    return [module, projectId, 'tasks'];
+  }
+
   navigateAfterExperimentSelectionChanged(selectedExperiment: ITableExperiment, experimentProject: string, routeConfig: string[], replaceUrl = false) {
     const module = routeConfig.includes('datasets') ? 'datasets/simple' : routeConfig.includes('pipelines') ? 'pipelines' : 'projects';
     // wow angular really suck...
     const activeChild = this.route?.firstChild?.firstChild?.firstChild?.firstChild?.firstChild?.firstChild?.firstChild;
     const activeChildUrl = activeChild && module === 'projects' && !routeConfig.includes('compare') ? getRouteFullUrl(activeChild) : '';
+    // inside a task folder the list stays that folder's list: selecting or switching views must not drop the folder
+    const listBase = this.listBaseUrl(module, experimentProject);
     if (selectedExperiment) {
       this.router.navigate(
-        [module, experimentProject, 'tasks', selectedExperiment.id].concat(activeChildUrl ? activeChildUrl.split('/') : []),
+        [...listBase, selectedExperiment.id].concat(activeChildUrl ? activeChildUrl.split('/') : []),
         {queryParamsHandling: 'preserve'}
       );
     } else {
-      this.router.navigate([module, experimentProject, 'tasks'], {
+      this.router.navigate(listBase, {
         queryParamsHandling: 'preserve',
         replaceUrl
       });
