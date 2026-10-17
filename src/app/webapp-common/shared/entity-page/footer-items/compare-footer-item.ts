@@ -2,6 +2,7 @@ import {IconNames, ICONS} from '@common/constants';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {MenuItems} from '../items.utils';
 import { ItemFooterModel} from './footer-items.models';
+import {entityDisplayName} from '~/shared/constants/non-common-consts';
 export const compareLimitations = 100;
 export class CompareFooterItem extends ItemFooterModel  {
   override id = MenuItems.compare;
@@ -12,7 +13,7 @@ export class CompareFooterItem extends ItemFooterModel  {
 
   constructor(public entitiesType: EntityTypeEnum) {
     super();
-    this.disableDescription = `${compareLimitations} or fewer ${this.entitiesType}s can be compared`;
+    this.disableDescription = `${compareLimitations} or fewer ${entityDisplayName(this.entitiesType)}s can be compared`;
   }
   getItemState(state) {
     return {

@@ -7,7 +7,7 @@
         data-id="entity"
         (click)="showGlobalLegend()"
         [class.rotated]="globalLegend()"
-      ><span>{{ entityType | uppercase }}S</span>
+      ><span>{{ entityDisplayName(entityType) | uppercase }}S</span>
       <mat-icon iconPositionEnd fontSet="al" fontIcon="al-ico-dropdown-arrow" class="sm"></mat-icon>
     </button>
       <button

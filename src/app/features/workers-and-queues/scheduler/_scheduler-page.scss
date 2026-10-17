@@ -1,5 +1,6 @@
-// Shared look for the Workers and Jobs pages: the Dashboard tab's own cards, titles and usage bars,
-// drawn from the theme's colour tokens so light and dark mode follow the rest of the app.
+// Shared by the Workers and Jobs pages: the Dashboard tab's shell and its panels (shared mixin).
+@use "mixins/panels";
+@include panels.dashboard-panels();
 
 :host {
   display: block;
@@ -7,34 +8,12 @@
   overflow: auto;
 }
 
+// The same shell as the Dashboard tab: 24px gutters, 24px between sections
 .page {
   display: grid;
   gap: 24px;
   padding: 0 24px 24px;
   min-width: 0;
-}
-
-.card {
-  background-color: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: 4px;
-  padding: 16px 20px;
-  min-width: 0;
-}
-
-.card-title,
-.section-title {
-  font-size: 15px;
-  text-transform: uppercase;
-  color: var(--color-on-secondary-container);
-}
-
-.section-title {
-  margin-bottom: 12px;
-}
-
-.num {
-  font-variant-numeric: tabular-nums;
 }
 
 .summary {
@@ -46,65 +25,6 @@
     font-size: 28px;
     margin-top: 8px;
     color: var(--color-on-surface);
-  }
-}
-
-.sub {
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--color-on-surface);
-  opacity: 0.7;
-}
-
-.badge {
-  display: inline-flex;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid currentColor;
-  text-transform: uppercase;
-  white-space: nowrap;
-
-  &.state-ok {
-    color: var(--color-running);
-  }
-
-  &.state-warn {
-    color: var(--color-warning);
-  }
-
-  &.state-bad {
-    color: var(--color-failed);
-  }
-
-  &.state-idle {
-    color: var(--color-on-surface);
-    opacity: 0.6;
-  }
-}
-
-// A bar with two layers: what is used (solid) over what is promised to jobs (light), on a plain track
-.bar {
-  position: relative;
-  height: 6px;
-  border-radius: 3px;
-  background-color: var(--color-surface-container-high);
-  overflow: hidden;
-
-  .bar-allocated,
-  .bar-used {
-    position: absolute;
-    inset: 0 auto 0 0;
-    border-radius: 3px;
-  }
-
-  .bar-allocated {
-    background-color: var(--color-primary);
-    opacity: 0.3;
-  }
-
-  .bar-used {
-    background-color: var(--color-primary);
   }
 }
 

@@ -38,6 +38,7 @@ import {RenameDialogComponent} from '@common/shared/ui-components/overlay/rename
 import {updateModelDetails} from '@common/models/actions/models-info.actions';
 import {archiveSelectedModels, restoreSelectedModels} from '@common/models/actions/models-menu.actions';
 import {archiveSelectedExperiments, restoreSelectedExperiments} from '@common/experiments/actions/common-experiments-menu.actions';
+import {entityDisplayName} from '~/shared/constants/non-common-consts';
 
 const toCompareEntityType = {
   [EntityTypeEnum.controller]: EntityTypeEnum.experiment,
@@ -228,7 +229,7 @@ export class ExperimentsCompareComponent implements OnInit, OnDestroy {
       data:{
         name: exp.name,
         iconClass: this.entityType === this.entityTypeEnum.model ? 'al-ico-model' : 'al-ico-training',
-        header: `RENAME ${this.entityType.toUpperCase()}`,
+        header: `RENAME ${entityDisplayName(this.entityType).toUpperCase()}`,
       },
     }).afterClosed().subscribe(result => {
       if ((result as any)?.name) {

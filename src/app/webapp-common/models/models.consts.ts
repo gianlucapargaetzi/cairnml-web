@@ -114,7 +114,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     id        : MODELS_TABLE_COL_FIELDS.TASK,
     headerType: ColHeaderTypeEnum.title,
     sortable  : false,
-    header    : 'TASK',
+    header    : 'EXPERIMENT',
     style     : {width: '240px'}
   },
   {

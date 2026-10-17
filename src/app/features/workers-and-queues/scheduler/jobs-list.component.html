@@ -43,7 +43,7 @@
                       <span class="sub mono">{{ job.task }}</span>
                     </div>
                   }
-                  @case ('state') { <span class="badge" [class]="stateClass(job.state)">{{ job.state }}</span> }
+                  @case ('state') { <span class="badge caps" [class]="stateClass(job.state)">{{ job.state }}</span> }
                   @case ('priority') { <span class="num">{{ job.priority }}</span> }
                   @case ('needs') {
                     <div class="chips">
@@ -78,7 +78,7 @@
           <ul class="feed">
             @for (e of list; track $index) {
               <li class="feed-item">
-                <span class="badge" [class]="eventClass(e.kind)">{{ e.kind.replace('_', ' ') }}</span>
+                <span class="badge caps" [class]="eventClass(e.kind)">{{ e.kind.replace('_', ' ') }}</span>
                 <div class="feed-text">
                   <span class="feed-detail">{{ eventText(e) }}</span>
                   <span class="sub">{{ sinceText(e.time) }}{{ e.worker ? ' · ' + e.worker : '' }}</span>

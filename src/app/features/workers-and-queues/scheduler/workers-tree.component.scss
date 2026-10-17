@@ -1,6 +1,22 @@
 @use "scheduler-page";
 
-// One card per machine
+// Master and detail, as on the Experiments page: the split fills the page and each side scrolls itself
+:host {
+  overflow: hidden;
+}
+
+.workers-split {
+  height: 100%;
+}
+
+.master,
+.detail {
+  height: 100%;
+  overflow: auto;
+  align-content: start;
+}
+
+// One card per machine; the open one carries the primary outline
 .worker-grid {
   display: grid;
   gap: 16px;
@@ -11,10 +27,19 @@
   display: grid;
   gap: 14px;
   align-content: start;
-}
 
-.worker.lost {
-  opacity: 0.6;
+  &:hover {
+    border-color: var(--color-outline);
+  }
+
+  &.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  &.lost {
+    opacity: 0.6;
+  }
 }
 
 .worker-head {
@@ -30,6 +55,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  &.big {
+    font-size: 20px;
+  }
 }
 
 .meter {
@@ -89,49 +118,45 @@
 }
 
 .worker-foot {
+  margin-top: 0;
+}
+
+// The detail panel
+.detail-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-
-  .sub {
-    margin-top: 0;
-  }
+  gap: 12px;
 }
 
-.jobs {
-  border-top: 1px solid var(--color-outline-variant);
-  padding-top: 12px;
-}
-
-.job-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 14px;
-}
-
-.job-item {
-  display: grid;
-  gap: 4px;
-
-  .sub {
-    margin-top: 0;
-  }
-}
-
-.job-line {
+.detail-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
+}
+
+.chart-card {
+  padding: 8px 12px;
+}
+
+.chart-box {
+  height: 240px;
+  position: relative;
+}
+
+.rows {
+  display: grid;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.table-box {
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .job-name {
   font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
