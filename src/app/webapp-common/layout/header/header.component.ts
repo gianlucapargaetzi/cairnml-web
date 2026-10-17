@@ -30,6 +30,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {NgOptimizedImage} from '@angular/common';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatIconButton} from '@angular/material/button';
+import {TaskTrailComponent} from '../task-trail/task-trail.component';
 
 @Component({
   selector: 'sm-header',
@@ -41,6 +42,7 @@ import {MatIconButton} from '@angular/material/button';
   },
   imports: [
     BreadcrumbsComponent,
+    TaskTrailComponent,
     RefreshButtonComponent,
     HeaderUserMenuActionsComponent,
     ShowOnlyUserWorkComponent,

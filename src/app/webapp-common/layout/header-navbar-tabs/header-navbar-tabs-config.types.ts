@@ -1,5 +1,7 @@
 export interface HeaderNavbarTabConfig {
   header: string;
+  /** Text shown on the tab; defaults to `header`. The header key stays the route's name. */
+  label?: string;
   subHeader?: string;
   badge?: string;
   badgeTooltip?: string;

@@ -16,6 +16,7 @@ import {RecentExperimentTableComponent} from '@common/dashboard/dumb/recent-expe
 export class DashboardExperimentsComponent {
   private router = inject(Router);
   recentTasks = input<IRecentTask[]>();
+  title = input('RECENT EXPERIMENTS');
 
   public taskSelected(task: IRecentTask | ITask) {
     const projectId = task.project ? task.project.id : '*';

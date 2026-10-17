@@ -1,0 +1,14 @@
+@if (segments().length) {
+  <nav class="task-trail" data-id="taskTrail" aria-label="Where you are">
+    @for (segment of segments(); track $index; let last = $last) {
+      @if (segment.link) {
+        <a class="crumb" [routerLink]="segment.link" [smTooltip]="segment.label">{{ segment.label }}</a>
+      } @else {
+        <span class="crumb current" [smTooltip]="segment.label">{{ segment.label }}</span>
+      }
+      @if (!last) {
+        <span class="separator">&gt;</span>
+      }
+    }
+  </nav>
+}

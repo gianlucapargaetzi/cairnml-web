@@ -9,6 +9,9 @@
     let-experiment="rowData"
     pTemplate="body">
     @switch (col.id) {
+      @case (RECENT_TASKS_TABLE_COL_FIELDS.ID) {
+        <div class="experiment-name" smShowTooltipIfEllipsis [smTooltip]="experiment.id">{{experiment.id}}</div>
+      }
       @case (RECENT_TASKS_TABLE_COL_FIELDS.TYPE) {
         <sm-experiment-type-icon-label [type]="experiment?.type"></sm-experiment-type-icon-label>
       }

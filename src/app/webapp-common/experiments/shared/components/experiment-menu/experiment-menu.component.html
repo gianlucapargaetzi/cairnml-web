@@ -25,7 +25,7 @@
     <button mat-menu-item (click)="toggleFullScreen(minimizedView())" [disabled]="isSharedNotInWorkspaces()"
             data-id="View Full Screen Option">
       <mat-icon fontSet="al" [fontIcon]="icons.CHART"></mat-icon>
-      {{minimizedView() ? 'View Full Screen' : 'View in Task Table'}}
+      {{minimizedView() ? 'View Full Screen' : 'View in Experiment Table'}}
     </button>
     @if (isCompare()) {
       <button mat-menu-item (click)="openColorPicker($event)" data-id="Palette Option">
