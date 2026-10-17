@@ -6,11 +6,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {setBreadcrumbsOptions} from '@common/core/actions/projects.actions';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
 import {IRecentTask} from '@common/dashboard/common-dashboard.reducer';
 import {DashboardExperimentsComponent} from '@common/dashboard/containers/dashboard-experiments/dashboard-experiments.component';
-import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
+import {ProjectCardComponent} from '@common/shared/ui-components/panel/project-card/project-card.component';
+import {Project} from '~/business-logic/model/projects/project';
 import {groupTaskFolders, TaskFolder} from '@common/tasks/task-folders.utils';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
 import {FolderExperiment, TaskFoldersApiService} from './task-folders-api.service';
@@ -24,6 +24,8 @@ interface FolderCard {
   name: string;
   unassigned: boolean;
   count: number;
+  running: number;
+  completed: number;
   latest?: FolderExperiment;
 }
 
@@ -32,7 +34,7 @@ interface FolderCard {
   templateUrl: './task-folders.component.html',
   styleUrls: ['./task-folders.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, MatButtonModule, MatProgressSpinnerModule, CardComponent, DashboardExperimentsComponent],
+  imports: [RouterLink, MatButtonModule, MatProgressSpinnerModule, ProjectCardComponent, DashboardExperimentsComponent],
 })
 export class TaskFoldersComponent {
   private api = inject(TaskFoldersApiService);
@@ -52,15 +54,9 @@ export class TaskFoldersComponent {
   // rows need a unique id
   protected readonly folders = computed<FolderCard[]>(() => {
     const {folders, unassigned} = this.grouped();
-    const cards: FolderCard[] = folders.map((folder: TaskFolder<FolderExperiment>) => ({
-      id: folder.name,
-      name: folder.name,
-      unassigned: false,
-      count: folder.experiments.length,
-      latest: folder.experiments[0],
-    }));
+    const cards: FolderCard[] = folders.map((folder: TaskFolder<FolderExperiment>) => this.toCard(folder.name, false, folder.experiments));
     if (unassigned.length) {
-      cards.push({id: UNASSIGNED_FOLDER, name: UNASSIGNED_LABEL, unassigned: true, count: unassigned.length, latest: unassigned[0]});
+      cards.push(this.toCard(UNASSIGNED_LABEL, true, unassigned));
     }
     return cards;
   });
@@ -86,12 +82,42 @@ export class TaskFoldersComponent {
         }
       });
     });
-    this.store.dispatch(setBreadcrumbsOptions({
-      breadcrumbOptions: {showProjects: true, featureBreadcrumb: {name: 'Tasks', url: 'folders'}},
-    }));
   }
 
   /** Double-click opens the task's folder, as double-clicking a project opens the project. */
+  private toCard(name: string, unassigned: boolean, experiments: FolderExperiment[]): FolderCard {
+    return {
+      id: unassigned ? UNASSIGNED_FOLDER : name,
+      name,
+      unassigned,
+      count: experiments.length,
+      running: experiments.filter(e => e.status === 'in_progress').length,
+      completed: experiments.filter(e => e.status === 'completed').length,
+      latest: experiments[0],
+    };
+  }
+
+  /**
+   * A folder as the Projects page shows a project: the same card, with the TOTAL, RUNNING and COMPLETED circles.
+   * The card reads these counts from the project's stats.
+   */
+  protected asProjectCard(folder: FolderCard): Project {
+    return {
+      id: folder.id,
+      name: folder.name,
+      basename: folder.name,
+      own_tasks: folder.count,
+      sub_projects: [],
+      stats: {
+        active: {
+          total_tasks: folder.count,
+          status_count: {in_progress: folder.running},
+          completed_tasks_24h: folder.completed,
+        },
+      },
+    } as unknown as Project;
+  }
+
   protected openFolder(folder: FolderCard) {
     this.router.navigate(['/projects', this.projectId(), 'folders', folder.unassigned ? UNASSIGNED_FOLDER : folder.name]);
   }
