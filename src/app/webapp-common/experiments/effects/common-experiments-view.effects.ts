@@ -56,7 +56,6 @@ import {MINIMUM_ONLY_FIELDS} from '../experiment.consts';
 import {ProjectsGetHyperparamValuesResponse} from '~/business-logic/model/projects/projectsGetHyperparamValuesResponse';
 import {TasksGetAllExResponse} from '~/business-logic/model/tasks/tasksGetAllExResponse';
 import {selectIsCompare, selectIsDatasets, selectIsPipelines} from '../../experiments-compare/reducers';
-import {selectFolderScopeIds} from '../reducers';
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {downloadForGetAll, getFilteredUsers, setProjectUsers} from '@common/core/actions/projects.actions';
 import {selectActiveWorkspaceReady} from '~/core/reducers/view.reducer';
@@ -197,13 +196,12 @@ export class CommonExperimentsViewEffects {
         this.store.select(selectShowHidden),
         this.store.select(selectIsCompare),
         this.store.select(selectIsPipelines),
-        this.store.select(selectIsDatasets),
-        this.store.select(selectFolderScopeIds)
+        this.store.select(selectIsDatasets)
       ]),
       switchMap(([
                    , projectId, isArchived, gb, orderFields, filters, selectedExperiments,
                    showAllSelectedIsActive, cols, metricCols, deep, showHidden, isCompare,
-                   isPipeline, isDataset, folderScopeIds
+                   isPipeline, isDataset
                  ]) => {
           const tableFilters = cloneDeep(filters) || {} as Record<string, FilterMetadata>;
           if (tableFilters && tableFilters.status && tableFilters.status.value.includes('completed')) {
@@ -220,7 +218,6 @@ export class CommonExperimentsViewEffects {
               orderFields,
               tableFilters,
               selectedIds,
-              folderScopeIds,
               cols,
               metricCols,
               deep,
@@ -653,12 +650,11 @@ export class CommonExperimentsViewEffects {
       this.store.select(selectIsDeepMode),
       this.store.select(selectShowHidden),
       this.store.select(selectIsPipelines),
-      this.store.select(selectIsDatasets),
-      this.store.select(selectFolderScopeIds)
+      this.store.select(selectIsDatasets)
     ]),
     switchMap(([
                  action, projectId, archived, globalSearch, cols, metricCols,
-                 tableFilters, deep, showHidden, isPipeline, isDataset, folderScopeIds
+                 tableFilters, deep, showHidden, isPipeline, isDataset
                ]) => {
       const pageSize = 5000;
       const query = getGetAllQuery({
@@ -673,8 +669,7 @@ export class CommonExperimentsViewEffects {
         showHidden,
         pageSize,
         isPipeline,
-        isDataset,
-        folderScopeIds
+        isDataset
       });
       query.only_fields = [EXPERIMENTS_TABLE_COL_FIELDS.NAME, EXPERIMENTS_TABLE_COL_FIELDS.PARENT,
         EXPERIMENTS_TABLE_COL_FIELDS.STATUS, EXPERIMENTS_TABLE_COL_FIELDS.TYPE, 'company.id', 'system_tags'];
@@ -792,13 +787,12 @@ export class CommonExperimentsViewEffects {
           this.store.select(selectShowHidden),
           this.store.select(selectIsCompare),
           this.store.select(selectIsPipelines),
-          this.store.select(selectIsDatasets),
-          this.store.select(selectFolderScopeIds)
+          this.store.select(selectIsDatasets)
         ]),
         switchMap(([
                      scrollId, projectId, isArchived, gb, orderFields, filters, selectedExperiments,
                      showAllSelectedIsActive, cols, metricCols, deep, showHidden, isCompare,
-                     isPipeline, isDataset, folderScopeIds
+                     isPipeline, isDataset
                    ]) => {
           const tableFilters = cloneDeep(filters) || {} as Record<string, FilterMetadata>;
           if (tableFilters && tableFilters.status && tableFilters.status.value.includes('completed')) {
@@ -814,7 +808,6 @@ export class CommonExperimentsViewEffects {
             orderFields,
             tableFilters,
             selectedIds,
-            folderScopeIds,
             cols,
             metricCols,
             deep,
@@ -981,7 +974,6 @@ export const getGetAllQuery = ({
                                 orderFields = [],
                                 tableFilters,
                                 selectedIds = [],
-                                folderScopeIds = null,
                                 cols = [],
                                 metricCols = [],
                                 deep = false,
@@ -999,7 +991,6 @@ export const getGetAllQuery = ({
   orderFields?: SortMeta[];
   tableFilters: Record<string, FilterMetadata>;
   selectedIds?: string[];
-  folderScopeIds?: string[] | null;
   cols?: ISmCol[];
   metricCols?: ISmCol[];
   deep?: boolean;
@@ -1028,7 +1019,7 @@ export const getGetAllQuery = ({
     systemTagsFilter = systemTagsFilter.concat(systemTags);
   }
 
-  let filters = createFiltersFromStore(tableFilters, true);
+  let filters: Record<string, any> = createFiltersFromStore(tableFilters, true);
   const tableCols = cols.length > 0 ? cols : isDataset ? INITIAL_CONTROLLER_TABLE_COLS : INITIAL_EXPERIMENT_TABLE_COLS;
   filters = Object.keys(filters).reduce((acc, colId) => {
     const col = [...metricCols, ...tableCols].find(c => c.id === colId);
@@ -1062,7 +1053,8 @@ export const getGetAllQuery = ({
   delete filters['tags'];
   return {
     ...filters,
-    id: folderScopeIds ?? selectedIds,
+    // a filter on the id column (set when a task folder is open) always wins over the selection list
+    id: filters.id?.length ? filters.id : selectedIds,
     ...(searchQuery?.query && {
       _any_: {
         pattern: searchQuery.regExp ? searchQuery.query : escapeRegex(searchQuery.query),
