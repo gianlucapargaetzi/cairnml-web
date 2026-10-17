@@ -13,12 +13,12 @@ import {SchedulerApiService, SchedulerJobOnWorker, SchedulerUsagePoint, Schedule
 import {GpuBlock, ResourceStat, StatCard, sinceText, stateClass} from './scheduler-view';
 
 const JOB_COLUMNS: ISmCol[] = [
-  {id: 'job', header: 'JOB', style: {minWidth: '200px'}},
-  {id: 'state', header: 'STATE', style: {width: '110px'}},
-  {id: 'cpu', header: 'CPUS', style: {width: '90px'}},
-  {id: 'ram', header: 'RAM: PEAK / LIMIT', style: {width: '240px'}},
-  {id: 'gpu', header: 'GPUS', style: {width: '90px'}},
-  {id: 'mode', header: 'MODE', style: {width: '130px'}},
+  {id: 'job', header: 'JOB', style: {minWidth: '160px'}},
+  {id: 'state', header: 'STATE', style: {width: '100px'}},
+  {id: 'cpu', header: 'CPUS', style: {width: '70px'}},
+  {id: 'ram', header: 'RAM: PEAK / LIMIT', style: {width: '200px'}},
+  {id: 'gpu', header: 'GPUS', style: {width: '70px'}},
+  {id: 'mode', header: 'MODE', style: {width: '110px'}},
 ];
 
 /** The chart's series colours, the same pair the Dashboard tab uses (chart.js takes colours, not CSS tokens). */
@@ -96,6 +96,8 @@ export class WorkersTreeComponent {
       topic('ram', 'RAM used', p => pct(p.ram_used_gb ?? 0, worker.capacity.ram_gb)),
     ];
   });
+
+  protected readonly hasHistory = computed(() => (this.chartData()[0]?.dates.length ?? 0) > 1);
 
   protected select(id: string | null) {
     this.selectedId.update(current => (current === id ? null : id));

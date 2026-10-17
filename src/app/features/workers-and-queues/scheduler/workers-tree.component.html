@@ -89,9 +89,13 @@
         <section>
           <div class="section-title">Load, last hour</div>
           <div class="card chart-card">
-            <div class="chart-box">
-              <sm-line-chart class="h-100" unit="%" yLabel="% of the machine" [colorScheme]="chartColors" [data]="chartData()"></sm-line-chart>
-            </div>
+            @if (hasHistory()) {
+              <div class="chart-box">
+                <sm-line-chart class="h-100" unit="%" yLabel="% of the machine" [colorScheme]="chartColors" [data]="chartData()"></sm-line-chart>
+              </div>
+            } @else {
+              <div class="sub">No load data for this machine yet. It appears once the agent has reported for a few minutes.</div>
+            }
           </div>
         </section>
 
