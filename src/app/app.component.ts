@@ -9,7 +9,6 @@ import {getTutorialBucketCredentials} from '@common/core/actions/common-auth.act
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {ServerUpdatesService} from '@common/shared/services/server-updates.service';
 import {selectAvailableUpdates} from './core/reducers/view.reducer';
-import {UPDATE_SERVER_PATH} from './app.constants';
 import {aceReady, firstLogin, plotlyReady, setScaleFactor, visibilityChanged} from '@common/core/actions/layout.actions';
 import {UiUpdatesService} from '@common/shared/services/ui-updates.service';
 import {getScaleFactor} from '@common/shared/utils/shared-utils';
@@ -109,7 +108,6 @@ export class AppComponent {
         this.store.dispatch(getTutorialBucketCredentials());
         this.uiUpdatesService.checkForUiUpdate();
         this.tipsService.initTipsService(false);
-        this.serverUpdatesService.checkForUpdates(UPDATE_SERVER_PATH);
         let loginTime = parseInt(localStorage.getItem(USER_PREFERENCES_KEY.firstLogin) || '0', 10);
         if (!loginTime) {
           this.store.dispatch(firstLogin({first: true}));

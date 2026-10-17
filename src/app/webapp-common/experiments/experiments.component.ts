@@ -779,7 +779,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
   }
 
   downloadTableAsCSV() {
-    this.table().table().downloadTableAsCSV(`ClearML ${this.selectedProject().id === '*' ? 'All' : this.selectedProject()?.basename?.substring(0, 60)} Experiments`);
+    this.table().table().downloadTableAsCSV(`MLOps Flow ${this.selectedProject().id === '*' ? 'All' : this.selectedProject()?.basename?.substring(0, 60)} Experiments`);
   }
 
   downloadFullTableAsCSV() {

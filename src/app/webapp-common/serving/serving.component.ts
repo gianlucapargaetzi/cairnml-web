@@ -328,7 +328,7 @@ export class ServingComponent extends BaseEntityPageComponent implements OnDestr
   }
 
   downloadTableAsCSV() {
-    this.table.table().downloadTableAsCSV(`ClearML All Endpoints`);
+    this.table.table().downloadTableAsCSV(`MLOps Flow All Endpoints`);
   }
 
   override onFooterHandler(): void {
