@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {PrimeTemplate} from 'primeng/api';
@@ -25,7 +24,7 @@ const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, 
   templateUrl: './workers-tree.component.html',
   styleUrls: ['./workers-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatProgressBarModule, MatButtonModule, TooltipDirective],
+  imports: [TableComponent, PrimeTemplate, MatButtonModule, TooltipDirective],
 })
 export class WorkersTreeComponent {
   private api = inject(SchedulerApiService);
@@ -44,15 +43,17 @@ export class WorkersTreeComponent {
     const workers = this.overview() ?? [];
     const active = workers.filter(w => w.state === 'active').length;
     const jobs = workers.reduce((sum, w) => sum + w.jobs.length, 0);
-    const cpuAllocated = workers.reduce((sum, w) => sum + this.allocatedCpus(w), 0);
-    const cpuSchedulable = workers.reduce((sum, w) => sum + this.schedulableCpus(w), 0);
-    const gpuAllocated = workers.reduce((sum, w) => sum + this.gpuAllocated(w), 0);
-    const gpuTotal = workers.reduce((sum, w) => sum + w.capacity.gpus.length, 0);
+    // a lost machine cannot take jobs, so its capacity is not counted
+    const live = workers.filter(w => w.state !== 'lost');
+    const cpuAllocated = live.reduce((sum, w) => sum + this.allocatedCpus(w), 0);
+    const cpuSchedulable = live.reduce((sum, w) => sum + this.schedulableCpus(w), 0);
+    const gpuAllocated = live.reduce((sum, w) => sum + this.gpuAllocated(w), 0);
+    const gpuTotal = live.reduce((sum, w) => sum + w.capacity.gpus.length, 0);
     return [
-      {label: 'WORKERS', value: `${active}`, caption: `of ${workers.length} active`},
+      {label: 'WORKERS', value: `${active}`, caption: `active of ${workers.length} registered`},
       {label: 'RUNNING JOBS', value: `${jobs}`, caption: jobs === 1 ? '1 job on a machine' : `${jobs} jobs on machines`},
       {label: 'CPUS ALLOCATED', value: `${cpuAllocated}`, caption: `of ${cpuSchedulable} schedulable`},
-      {label: 'GPUS ALLOCATED', value: `${gpuAllocated}`, caption: `of ${gpuTotal}`},
+      {label: 'GPUS ALLOCATED', value: `${gpuAllocated}`, caption: `of ${gpuTotal} available`},
     ];
   });
 
