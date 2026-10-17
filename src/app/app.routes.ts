@@ -134,11 +134,6 @@ export const routes: Routes = [
         data: {autoSearchTab: 'modelEndpoints'},
         canDeactivate: [resetContextMenuGuard]
       },
-      {
-        path: 'enterprise',
-        loadChildren: () => import('@common/enterprise-visibility/enterprise.routes').then(r => r.routes),
-        canDeactivate: [resetContextMenuGuard],
-      },
     ]
   },
   {path: '404', loadComponent: () => import('./features/not-found/not-found/not-found.component').then(c => c.NotFoundComponent)},
