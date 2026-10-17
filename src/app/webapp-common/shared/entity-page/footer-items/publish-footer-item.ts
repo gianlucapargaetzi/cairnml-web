@@ -2,6 +2,7 @@ import {IFooterState, ItemFooterModel} from './footer-items.models';
 import {IconNames, ICONS} from '@common/constants';
 import {MenuItems} from '../items.utils';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
+import {entityDisplayName} from '~/shared/constants/non-common-consts';
 
 export class PublishFooterItem extends ItemFooterModel {
 
@@ -17,7 +18,7 @@ export class PublishFooterItem extends ItemFooterModel {
     return {
       disable: state.data[this.id]?.disable,
       description: this.menuItemText.transform(state.data[MenuItems.publish]?.available, 'Publish'),
-      disableDescription: state.selectionIsOnlyExamples ? 'Publish' : `You can only publish ${this.entityType}s that have already been executed`
+      disableDescription: state.selectionIsOnlyExamples ? 'Publish' : `You can only publish ${entityDisplayName(this.entityType)}s that have already been executed`
     };
   }
 }

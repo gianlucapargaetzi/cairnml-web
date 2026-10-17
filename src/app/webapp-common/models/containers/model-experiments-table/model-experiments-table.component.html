@@ -9,7 +9,7 @@
           data-id="searchTasksField"
           autocomplete="off"
           smClickStopPropagation
-          placeholder="Search for tasks"
+          placeholder="Search for experiments"
           [ngModel]="(searchTerm$ | ngrxPush)?.query"
           (input)="searchTermChanged(searchExperiments.value)"
         >

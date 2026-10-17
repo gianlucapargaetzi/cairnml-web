@@ -14,6 +14,12 @@ export enum EntityTypeEnum {
   endpointsContainer = 'endpoints container'
 }
 
+/**
+ * The name of an entity type in text shown to people. The enum value for an experiment is `task`, because
+ * that is what the API calls it; in the UI a run is an experiment (a task is the procedure it belongs to).
+ */
+export const entityDisplayName = (entityType: string): string => (entityType === EntityTypeEnum.experiment ? 'experiment' : entityType);
+
 export enum CircleTypeEnum {
   completed = 'completed',
   running = 'running',

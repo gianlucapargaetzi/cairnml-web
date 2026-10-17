@@ -1,4 +1,7 @@
 // Uses the theme's colour variables, so light and dark mode follow the rest of the app.
+@use "mixins/panels";
+@include panels.dashboard-panels();
+
 :host {
   display: block;
   height: 100%;
@@ -9,31 +12,6 @@
   display: grid;
   gap: 24px;
   padding: 0 24px 24px;
-}
-
-.card {
-  background-color: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: 4px;
-  padding: 16px 20px;
-  min-width: 0;
-}
-
-.card-title {
-  font-size: 15px;
-  text-transform: uppercase;
-  color: var(--color-on-secondary-container);
-}
-
-.section-title {
-  font-size: 15px;
-  text-transform: uppercase;
-  color: var(--color-on-secondary-container);
-  margin-bottom: 12px;
-}
-
-.num {
-  font-variant-numeric: tabular-nums;
 }
 
 .summary {
@@ -103,30 +81,6 @@
     text-align: right;
     color: var(--color-on-surface);
     opacity: 0.8;
-  }
-}
-
-.usage-bar {
-  --mdc-linear-progress-active-indicator-color: var(--color-primary);
-  --mdc-linear-progress-track-color: var(--color-surface-container-high);
-
-  &.high {
-    --mdc-linear-progress-active-indicator-color: var(--color-warning);
-  }
-
-  &.full {
-    --mdc-linear-progress-active-indicator-color: var(--color-failed);
-  }
-}
-
-.badge {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid currentColor;
-
-  &.error {
-    color: var(--color-failed);
   }
 }
 

@@ -11,7 +11,7 @@
     [columns]="tableCols()"
     [lazyLoading]="true"
     [minimizedView]="minimizedView()"
-    minimizedTableHeader="{{entityType().replace('pipeline ', '')}}S LIST"
+    minimizedTableHeader="{{entityDisplayName(entityType()).replace('pipeline ', '')}}S LIST"
     [noMoreData]="noMoreExperiments()"
     [autoLoadMore]="true"
     [selection]="selectedExperiment()"

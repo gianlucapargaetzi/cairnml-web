@@ -458,7 +458,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
   }
 
   syncAppSearch() {
-    this.store.dispatch(initSearch({payload: 'Search for tasks'}));
+    this.store.dispatch(initSearch({payload: 'Search for experiments'}));
 
     this.searchQuery$
       .pipe(
