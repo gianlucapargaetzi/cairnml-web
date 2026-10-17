@@ -36,7 +36,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
 export class ReportCardComponent {
 
   report = input.required<IReport>();
-  isExample = computed(() => !['All Tasks'].includes(this.report().name) && (!this.report().company || !this.report().company['id']));
+  isExample = computed(() => !['All Experiments'].includes(this.report().name) && (!this.report().company || !this.report().company['id']));
 
   projectsNames = input<string[]>();
   allTags = input<string[]>();

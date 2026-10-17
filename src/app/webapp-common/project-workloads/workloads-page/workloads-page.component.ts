@@ -196,7 +196,7 @@ export class WorkloadsPageComponent {
           },
           ...(this.isDeep() && this.project()?.id !== '*' && {
             subFeatureBreadcrumb: {
-              name: 'All Tasks'
+              name: 'All Experiments'
             }
           }),
           projectsOptions: {
@@ -206,7 +206,7 @@ export class WorkloadsPageComponent {
             showSelectedProject: this.project()?.id !== '*',
             ...(this.project() && {
               selectedProjectBreadcrumb: {
-                name: this.project()?.id === '*' ? 'All Tasks' : this.project()?.basename,
+                name: this.project()?.id === '*' ? 'All Experiments' : this.project()?.basename,
                 url: `projects/${this.project()?.id}/projects`
               }
             })

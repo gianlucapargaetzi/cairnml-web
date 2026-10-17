@@ -18,7 +18,7 @@ export class EnqueueFooterItem extends ItemFooterModel {
       disable: enqueue?.disable,
       preventCurrentItem: state.selectionAllIsArchive,
       description: this.menuItemText.transform(enqueue?.available, 'Enqueue'),
-      disableDescription: state.selectionIsOnlyExamples ? 'Enqueue' : `You can only enqueue tasks with ‘Draft’/'Aborted' status`
+      disableDescription: state.selectionIsOnlyExamples ? 'Enqueue' : `You can only enqueue experiments with ‘Draft’/'Aborted' status`
 
     };
   }

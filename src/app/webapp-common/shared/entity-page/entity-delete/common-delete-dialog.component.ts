@@ -143,7 +143,7 @@ export class CommonDeleteDialogComponent {
       case EntityTypeEnum.experiment:
         return 'This will also remove all captured logs, results, artifacts and debug samples.';
       case EntityTypeEnum.model:
-        return 'This will also remove the model weights file. Note: Tasks using deleted models will no longer be able to run.';
+        return 'This will also remove the model weights file. Note: Experiments using deleted models will no longer be able to run.';
       case EntityTypeEnum.project:
         // eslint-disable-next-line no-case-declarations
         const entitiesBreakDown = getDeleteProjectPopupStatsBreakdown(stats, 'total', 'task');

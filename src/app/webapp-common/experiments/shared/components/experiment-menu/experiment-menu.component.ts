@@ -155,7 +155,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType);
           } else if (showRunningWarningDialog) {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType, 'ARCHIVE A RUNNING TASK',
-              'Some of the tasks you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive tasks?',
+              'Some of the experiments you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive experiments?',
               false);
           } else {
             this.store.dispatch(commonMenuActions.archiveSelectedExperiments({
@@ -291,7 +291,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       $implicit: ISelectedExperiment[]
     }>, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'PUBLISH TASKS',
+        title: 'PUBLISH EXPERIMENTS',
         template: this.publishTemplate(),
         templateContext: {$implicit: selectedExperiments},
         yes: 'Publish',
@@ -313,7 +313,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   shareExperimentPopup() {
     this.dialog.open(ShareDialogComponent, {
       data: {
-        title: 'SHARE TASK PUBLICLY',
+        title: 'SHARE EXPERIMENT PUBLICLY',
         link: `${window.location.origin}/projects/${this.experiment().project.id}/experiments/${this.experiment().id}/output/execution`,
         alreadyShared: this.experiment()?.system_tags.includes('shared'),
         task: this.experiment()?.id
@@ -423,7 +423,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       neverShowAgain: boolean
     }>(ConfirmDialogComponent, {
       data: {
-        title: title ?? 'ARCHIVE A PUBLICLY SHARED TASK',
+        title: title ?? 'ARCHIVE A PUBLICLY SHARED EXPERIMENT',
         body: body ?? `This task is accessible through a public access link.
             Archiving will disable public access`,
         yes: 'OK',

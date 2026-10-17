@@ -50,7 +50,7 @@
           #search
           class="search outline"
           [class.shorter]="!popupMode"
-          [placeholder]="`Search for ${data.entityType ? data.entityType + 's' : 'tasks'} ${ popupMode ? 'to add to your comparison' : ''}`"
+          [placeholder]="`Search for ${data.entityType ? data.entityType + 's' : 'experiments'} ${ popupMode ? 'to add to your comparison' : ''}`"
           [value]="searchTerm()"
           (valueChanged)="searchTermChanged($event)">
         </sm-search>

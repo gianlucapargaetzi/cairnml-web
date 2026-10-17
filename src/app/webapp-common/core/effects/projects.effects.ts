@@ -46,7 +46,7 @@ import {ProjectsGetUserNamesResponse} from '~/business-logic/model/projects/proj
 import {fetchUsersForTypes} from '~/features/projects/projects.consts';
 import {FilterMetadata} from 'primeng/api';
 
-export const ALL_PROJECTS_OBJECT = {id: '*', name: 'All Tasks'};
+export const ALL_PROJECTS_OBJECT = {id: '*', name: 'All Experiments'};
 
 export const getPaginatedAndSearchedAndSelectedProjects = (action, projectsApi: ApiProjectsService, showHidden: boolean, scrollId: string, filters: Record<string, FilterMetadata>, additionalProjects?: string[]) => forkJoin([
   projectsApi.projectsGetAllEx({

@@ -1,36 +1,30 @@
 import {ChangeDetectionStrategy, Component, computed, effect, inject, resource, untracked} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink} from '@angular/router';
 import {DatePipe} from '@angular/common';
+import {Router, RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {PrimeTemplate} from 'primeng/api';
 import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {setBreadcrumbsOptions} from '@common/core/actions/projects.actions';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
-import {HeaderMenuService} from '~/shared/services/header-menu.service';
-import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
-import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {IRecentTask} from '@common/dashboard/common-dashboard.reducer';
+import {DashboardExperimentsComponent} from '@common/dashboard/containers/dashboard-experiments/dashboard-experiments.component';
 import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
-import {CircleStatusComponent} from '@common/shared/ui-components/indicators/circle-status/circle-status.component';
-import {groupTaskFolders} from '@common/tasks/task-folders.utils';
+import {groupTaskFolders, TaskFolder} from '@common/tasks/task-folders.utils';
+import {HeaderMenuService} from '~/shared/services/header-menu.service';
 import {FolderExperiment, TaskFoldersApiService} from './task-folders-api.service';
 import {UNASSIGNED_FOLDER, UNASSIGNED_LABEL} from './task-folders.consts';
 
-const FOLDER_COLUMNS: ISmCol[] = [
-  {id: 'task', header: 'TASK', style: {minWidth: '240px'}},
-  {id: 'count', header: 'EXPERIMENTS', style: {width: '130px'}},
-  {id: 'latest', header: 'LATEST RUN', style: {width: '200px'}},
-  {id: 'status', header: 'LATEST STATUS', style: {width: '170px'}},
-];
+/** How many experiments the "recent" list at the bottom shows. */
+const RECENT_LIMIT = 20;
 
-interface FolderRow {
+interface FolderCard {
   id: string;
   name: string;
   unassigned: boolean;
   count: number;
-  latest: FolderExperiment;
+  latest?: FolderExperiment;
 }
 
 @Component({
@@ -38,11 +32,12 @@ interface FolderRow {
   templateUrl: './task-folders.component.html',
   styleUrls: ['./task-folders.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, MatButtonModule, MatProgressSpinnerModule, PrimeTemplate, TableComponent, CardComponent, CircleStatusComponent],
+  imports: [RouterLink, DatePipe, MatButtonModule, MatProgressSpinnerModule, CardComponent, DashboardExperimentsComponent],
 })
 export class TaskFoldersComponent {
   private api = inject(TaskFoldersApiService);
   private store = inject(Store);
+  private router = inject(Router);
   private headerMenu = inject(HeaderMenuService);
 
   protected readonly projectId = toSignal(this.store.select(selectRouterParams).pipe(map(params => params?.projectId ?? '')), {initialValue: ''});
@@ -50,18 +45,14 @@ export class TaskFoldersComponent {
     params: () => this.projectId() || undefined,
     loader: ({params}) => this.api.loadExperiments(params),
   });
-  protected readonly columns = FOLDER_COLUMNS;
-  protected readonly grouped = computed(() => groupTaskFolders(this.experiments.value() ?? []));
-  protected readonly totals = computed(() => ({
-    folders: this.grouped().folders.length,
-    experiments: (this.experiments.value() ?? []).length,
-    unassigned: this.grouped().unassigned.length,
-  }));
 
-  // rows need a unique id (the table marks a row selected by its id)
-  protected readonly rows = computed<FolderRow[]>(() => {
+  protected readonly grouped = computed(() => groupTaskFolders(this.experiments.value() ?? []));
+  protected readonly experimentCount = computed(() => (this.experiments.value() ?? []).length);
+
+  // rows need a unique id
+  protected readonly folders = computed<FolderCard[]>(() => {
     const {folders, unassigned} = this.grouped();
-    const rows: FolderRow[] = folders.map(folder => ({
+    const cards: FolderCard[] = folders.map((folder: TaskFolder<FolderExperiment>) => ({
       id: folder.name,
       name: folder.name,
       unassigned: false,
@@ -69,9 +60,21 @@ export class TaskFoldersComponent {
       latest: folder.experiments[0],
     }));
     if (unassigned.length) {
-      rows.push({id: UNASSIGNED_FOLDER, name: UNASSIGNED_LABEL, unassigned: true, count: unassigned.length, latest: unassigned[0]});
+      cards.push({id: UNASSIGNED_FOLDER, name: UNASSIGNED_LABEL, unassigned: true, count: unassigned.length, latest: unassigned[0]});
     }
-    return rows;
+    return cards;
+  });
+
+  /** The project's most recent experiments, in the shape the shared recent table shows. */
+  protected readonly recent = computed<IRecentTask[]>(() => {
+    const projectId = this.projectId();
+    const newest = [...(this.experiments.value() ?? [])]
+      .sort((a, b) => (b.last_update ?? '').localeCompare(a.last_update ?? ''))
+      .slice(0, RECENT_LIMIT);
+    return newest.map(experiment => ({
+      ...experiment,
+      project: {id: projectId, name: experiment.project?.name},
+    }) as unknown as IRecentTask);
   });
 
   constructor() {
@@ -88,8 +91,9 @@ export class TaskFoldersComponent {
     }));
   }
 
-  protected folderLink(row: FolderRow): string[] {
-    return [row.unassigned ? UNASSIGNED_FOLDER : row.name];
+  /** Double-click opens the task's folder, as double-clicking a project opens the project. */
+  protected openFolder(folder: FolderCard) {
+    this.router.navigate(['/projects', this.projectId(), 'folders', folder.unassigned ? UNASSIGNED_FOLDER : folder.name]);
   }
 
   protected allExperimentsLink(): string[] {

@@ -1,50 +1,41 @@
-<div class="task-folders">
+<div class="dashboard-body">
   @if (experiments.error()) {
     <p class="error">Could not load the tasks of this project. Reload the page to try again.</p>
   } @else if (!experiments.hasValue()) {
     <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3"></mat-spinner></div>
   } @else {
-    <div class="toolbar">
-      <div class="summary">
-        <sm-card class="stat">
-          <div class="stat-value" data-id="folderCount">{{ totals().folders }}</div>
-          <div class="stat-label">Tasks</div>
-        </sm-card>
-        <sm-card class="stat">
-          <div class="stat-value" data-id="experimentCount">{{ totals().experiments }}</div>
-          <div class="stat-label">Experiments</div>
-        </sm-card>
-        <sm-card class="stat">
-          <div class="stat-value" data-id="unassignedCount">{{ totals().unassigned }}</div>
-          <div class="stat-label">Unassigned</div>
-        </sm-card>
-      </div>
-      <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">All experiments</button>
-    </div>
-
-    @if (totals().experiments === 0) {
-      <p class="empty">No experiments yet. Run a script that calls Task.init, or start a task from its page.</p>
-    } @else {
-      <sm-table
-        [columns]="columns"
-        [tableData]="rows()"
-        [selectionMode]="null"
-        [resizableColumns]="false"
-        [simple]="true"
-        [columnResizeMode]="'fit'">
-        <ng-template let-col let-row="rowData" pTemplate="body">
-          @switch (col.id) {
-            @case ('task') { <a class="folder-name" [routerLink]="folderLink(row)">{{ row.name }}</a> }
-            @case ('count') { <span>{{ row.count }}</span> }
-            @case ('latest') { <span class="caption">{{ row.latest?.created | date: 'short' }}</span> }
-            @case ('status') {
-              @if (row.latest) {
-                <span class="status"><sm-circle-status [status]="row.latest.status"></sm-circle-status>{{ row.latest.status }}</span>
+    <div class="recent">
+      <div class="sm-card-list-layout">
+        <div class="sm-card-list-header">
+          <div class="recent-title">TASKS</div>
+          <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">ALL EXPERIMENTS</button>
+        </div>
+        @for (folder of folders(); track folder.id) {
+          <sm-card
+            class="folder-card"
+            [showFolder]="true"
+            [oneTabMode]="true"
+            [attr.data-id]="'folder-' + folder.id"
+            (dblclick)="openFolder(folder)"
+          >
+            <div header-content class="card-name">
+              <span class="folder-title">{{ folder.name }}</span>
+            </div>
+            <div class="folder-meta">
+              <span>{{ folder.count }} {{ folder.count === 1 ? 'experiment' : 'experiments' }}</span>
+              @if (folder.latest?.created) {
+                <span class="caption">last run {{ folder.latest.created | date: 'short' }}</span>
               }
-            }
-          }
-        </ng-template>
-      </sm-table>
-    }
+            </div>
+          </sm-card>
+        }
+      </div>
+
+      @if (experimentCount() === 0) {
+        <p class="empty">No experiments yet. Run a script that calls Task.init, or start an experiment from a task's page.</p>
+      } @else {
+        <sm-dashboard-experiments title="RECENT EXPERIMENTS" [recentTasks]="recent()"></sm-dashboard-experiments>
+      }
+    </div>
   }
 </div>
