@@ -1,3 +1,4 @@
+@use "variables" as *;
 @use "scheduler-page";
 
 // Table on the left, activity feed on the right; stacks on narrow screens
@@ -17,6 +18,7 @@
 .main {
   display: grid;
   gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
   min-width: 0;
 }
 
@@ -32,31 +34,18 @@
   }
 }
 
-.table-box {
-  border: 1px solid var(--color-outline-variant);
-  border-radius: 4px;
-  overflow-x: auto;
-}
-
 .job-cell {
   display: grid;
   gap: 2px;
   min-width: 0;
-
-  .sub {
-    margin-top: 0;
-  }
 }
 
 .job-name {
   font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .mono {
-  font-family: monospace;
+  font-family: $font-family-monospace;
   font-size: 11px;
 }
 
@@ -83,7 +72,6 @@
   white-space: nowrap;
 }
 
-// Activity feed
 .activity {
   min-width: 0;
 }

@@ -1,20 +1,22 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {FormsModule} from '@angular/forms';
 import {PrimeTemplate} from 'primeng/api';
-import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {ColHeaderTypeEnum, ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ButtonToggleComponent} from '@common/shared/ui-components/inputs/button-toggle/button-toggle.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {pollWhileVisible} from './scheduler-live';
-import {SchedulerApiService, SchedulerJob, SchedulerEvent} from './scheduler-api.service';
+import {SchedulerApiService, SchedulerEvent, SchedulerJob} from './scheduler-api.service';
 import {StatCard, sinceText, stateClass} from './scheduler-view';
 
+// The same header treatment as the experiments and dashboard tables: plain titles, no custom borders.
 const JOB_COLUMNS: ISmCol[] = [
-  {id: 'job', header: 'JOB', style: {minWidth: '220px'}},
-  {id: 'state', header: 'STATE', style: {width: '120px'}},
-  {id: 'priority', header: 'PRIORITY', style: {width: '100px'}},
-  {id: 'needs', header: 'NEEDS', style: {width: '400px'}},
-  {id: 'where', header: 'WHERE / WHY', style: {minWidth: '240px'}},
-  {id: 'since', header: 'SINCE', style: {width: '130px'}},
+  {id: 'job', headerType: ColHeaderTypeEnum.title, header: 'JOB', style: {minWidth: '220px'}, disableDrag: true},
+  {id: 'state', headerType: ColHeaderTypeEnum.title, header: 'STATE', style: {width: '120px'}, disableDrag: true},
+  {id: 'priority', headerType: ColHeaderTypeEnum.title, header: 'PRIORITY', style: {width: '100px'}, disableDrag: true},
+  {id: 'needs', headerType: ColHeaderTypeEnum.title, header: 'NEEDS', style: {width: '340px'}, disableDrag: true},
+  {id: 'where', headerType: ColHeaderTypeEnum.title, header: 'WHERE / WHY WAITING', style: {minWidth: '240px'}, disableDrag: true},
+  {id: 'since', headerType: ColHeaderTypeEnum.title, header: 'SINCE', style: {width: '130px'}, disableDrag: true},
 ];
 
 type Filter = 'all' | 'running' | 'pending';
@@ -24,7 +26,7 @@ type Filter = 'all' | 'running' | 'pending';
   templateUrl: './jobs-list.component.html',
   styleUrls: ['./jobs-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatButtonToggleModule, TooltipDirective],
+  imports: [FormsModule, PrimeTemplate, TableComponent, ButtonToggleComponent, TooltipDirective],
 })
 export class JobsListComponent {
   private api = inject(SchedulerApiService);
@@ -42,6 +44,12 @@ export class JobsListComponent {
     const wanted = this.filter();
     return wanted === 'all' ? this.all() : wanted === 'running' ? this.running() : this.pending();
   });
+
+  protected readonly filterOptions = computed(() => [
+    {value: 'all' as Filter, label: `All · ${this.all().length}`},
+    {value: 'running' as Filter, label: `Running · ${this.running().length}`},
+    {value: 'pending' as Filter, label: `Waiting · ${this.pending().length}`},
+  ]);
 
   protected readonly stats = computed<StatCard[]>(() => {
     const longest = this.pending().reduce<number | null>((oldest, j) => {
