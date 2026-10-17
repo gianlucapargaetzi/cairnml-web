@@ -4,7 +4,7 @@ import {RouterLink} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {firstValueFrom} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {selectRouterParams} from '../../core/reducers/router-reducer';
+import {selectRouterParams, selectRouterUrl} from '../../core/reducers/router-reducer';
 import {selectSelectedProject} from '../../core/reducers/projects.reducer';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
@@ -38,11 +38,14 @@ export class TaskTrailComponent {
   private tasks = inject(ApiTasksService);
 
   private params = toSignal(this.store.select(selectRouterParams).pipe(map(p => p ?? {})), {initialValue: {} as Record<string, string>});
+  private url = toSignal(this.store.select(selectRouterUrl), {initialValue: ''});
   private project = this.store.selectSignal(selectSelectedProject);
   /** The names of the experiment and its task, once the experiment has been looked up. */
   private resolved = signal<Trail | null>(null);
 
   protected readonly projectId = computed(() => this.params()['projectId'] as string | undefined);
+  /** The experiment id is read from the URL: the router params do not carry it below the experiment's tab. */
+  private readonly experimentId = computed(() => this.url()?.match(/^\/projects\/[^/]+\/tasks\/([^/?#]+)/)?.[1]);
   protected readonly segments = computed<Segment[]>(() => {
     const projectId = this.projectId();
     if (!projectId || projectId === '*') {
@@ -50,7 +53,7 @@ export class TaskTrailComponent {
     }
     const projectName = this.project()?.basename ?? this.project()?.name ?? projectId;
     const segments: Segment[] = [{label: projectName, link: ['/projects', projectId, 'folders']}];
-    const experimentId = this.params()['experimentId'] as string | undefined;
+    const experimentId = this.experimentId();
     const folder = this.params()['folder'] as string | undefined;
     const resolved = this.resolved();
 
@@ -66,11 +69,11 @@ export class TaskTrailComponent {
   constructor() {
     effect(() => {
       const projectId = this.projectId();
-      const experimentId = this.params()['experimentId'] as string | undefined;
+      const experimentId = this.experimentId();
       this.resolved.set(null);
       if (projectId && experimentId) {
         untracked(() => this.resolve(experimentId).then(trail => {
-          if (this.params()['experimentId'] === experimentId) {
+          if (this.experimentId() === experimentId) {
             this.resolved.set(trail);
           }
         }));
