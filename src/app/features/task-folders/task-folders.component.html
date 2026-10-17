@@ -11,23 +11,13 @@
           <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">ALL EXPERIMENTS</button>
         </div>
         @for (folder of folders(); track folder.id) {
-          <sm-card
+          <sm-project-card
             class="folder-card"
-            [showFolder]="true"
-            [oneTabMode]="true"
+            [project]="asProjectCard(folder)"
+            [hideMenu]="true"
             [attr.data-id]="'folder-' + folder.id"
             (dblclick)="openFolder(folder)"
-          >
-            <div header-content class="card-name">
-              <span class="folder-title">{{ folder.name }}</span>
-            </div>
-            <div class="folder-meta">
-              <span>{{ folder.count }} {{ folder.count === 1 ? 'experiment' : 'experiments' }}</span>
-              @if (folder.latest?.created) {
-                <span class="caption">last run {{ folder.latest.created | date: 'short' }}</span>
-              }
-            </div>
-          </sm-card>
+          ></sm-project-card>
         }
       </div>
 

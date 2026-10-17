@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   Input,
+  signal,
   viewChild,
   viewChildren
 } from '@angular/core';
@@ -38,7 +39,10 @@ import {selectArchive, selectProjectsFeature} from '@common/layout/layout.select
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
-import {selectRouterConfig} from '@common/core/reducers/router-reducer';
+import {selectRouterConfig, selectRouterUrl} from '@common/core/reducers/router-reducer';
+import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
+import {ExperimentNameService} from './experiment-name.service';
+import {levelBreadcrumbs} from './level-breadcrumbs';
 
 export enum CrumbTypeEnum {
   Workspace = 'Workspace',
@@ -122,7 +126,26 @@ export class BreadcrumbsComponent {
   private breadCrumbsContainer = viewChild<ElementRef<HTMLDivElement>>('container');
   private crumbElements=  viewChildren<ElementRef<HTMLDivElement>>('crumb');
   protected breadcrumbLinks = this.store.selectSignal<IBreadcrumbsLink[][]>(selectBreadcrumbs);
-  protected breadcrumbs = computed(() => this.breadcrumbLinks()
+  private experimentNameService = inject(ExperimentNameService);
+  private url = this.store.selectSignal(selectRouterUrl);
+  private selectedProject = this.store.selectSignal(selectSelectedProject);
+  /** Names of experiments looked up for the title, by id. */
+  private experimentNames = signal<Record<string, string>>({});
+  /** The fixed title of the current level (project, task, experiment), or null outside these levels. */
+  private levelLinks = computed(() => levelBreadcrumbs(
+    this.url(),
+    this.selectedProject()?.basename ?? this.selectedProject()?.name,
+    id => this.experimentNames()[id] ?? id,
+  ));
+
+  private resolveExperimentName = effect(() => {
+    const [, , section, child] = (this.url() ?? '').split(/[?#]/)[0].split('/').filter(Boolean);
+    if (section === 'tasks' && child && child !== 'compare' && !this.experimentNames()[child]) {
+      this.experimentNameService.nameOf(child).then(name => this.experimentNames.update(names => ({...names, [child]: name})));
+    }
+  });
+
+  protected breadcrumbs = computed(() => (this.levelLinks() ?? this.breadcrumbLinks())
     .map(breadcrumbsGroup => breadcrumbsGroup?.filter( breadcrumb =>
       (!breadcrumb.hidden) || (this.showHidden() && this.projectFeature())
     ))
