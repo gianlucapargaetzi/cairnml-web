@@ -301,7 +301,7 @@ export class GraphViewerComponent implements AfterViewInit, OnInit, OnDestroy {
               graph.layout.images.forEach((image: Plotly.Image) => {
                   this.store.dispatch(getSignedUrl({
                     url: image.source,
-                    config: {skipFileServer: false, skipLocalFile: false, disableCache: graph.timestamp}
+                    config: {skipLocalFile: false}
                   }));
                   this.sub.add(this.store.select(selectSignedUrl(image.source))
                     .pipe(

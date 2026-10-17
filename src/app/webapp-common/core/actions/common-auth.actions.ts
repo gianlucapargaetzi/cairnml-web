@@ -77,8 +77,6 @@ export const getSignedUrl = createAction(
   AUTH_PREFIX + '[get signed url]',
   props<{url: string; config?: {
     skipLocalFile?: boolean;
-    skipFileServer?: boolean;
-    disableCache?: number;
     dprsUrl?: string | boolean;
     error?: boolean;
   }}>()
@@ -89,8 +87,6 @@ export const signUrls = createAction(
     url: string;
     config?: {
       skipLocalFile?: boolean;
-      skipFileServer?: boolean;
-      disableCache?: number;
       dprsUrl?: string | boolean;
       error?: boolean;
     }

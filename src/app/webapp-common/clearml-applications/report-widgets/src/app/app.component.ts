@@ -26,7 +26,6 @@ import {cloneDeep, get} from 'lodash-es';
 import {MetricsPlotEvent} from '~/business-logic/model/events/metricsPlotEvent';
 import {SingleGraphComponent} from '@common/shared/single-graph/single-graph.component';
 import {setCurrentDebugImage} from '@common/shared/debug-sample/debug-sample.actions';
-import {isFileserverUrl} from '~/shared/utils/url';
 import {
   ExtraTask,
   ParallelCoordinatesGraphComponent
@@ -241,7 +240,7 @@ export class AppComponent implements OnInit {
           this.plotData.layout.images.forEach((image: Plotly.Image) => {
               this.store.dispatch(getSignedUrl({
                 url: image.source,
-                config: {skipFileServer: false, skipLocalFile: false}
+                config: {skipLocalFile: false}
               }));
               this.store.select(selectSignedUrl(image.source))
                 .pipe(
@@ -319,9 +318,6 @@ export class AppComponent implements OnInit {
       .pipe(filter(sample => !!sample))
       .subscribe(sample => {
         const url = new URL(sample.url);
-        if (isFileserverUrl(sample.url) && this.searchParams.get('company')) {
-          url.searchParams.append('tenant', this.searchParams.get('company'));
-        }
         const urlDecoded = decodeURI(url.toString()); // decodeURI and not decodeURIComponent
         this.frame = {...sample, url: urlDecoded};
         this.activated = true;

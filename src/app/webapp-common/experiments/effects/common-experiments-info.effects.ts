@@ -72,7 +72,7 @@ import {downloadObjectAsJson} from '@common/experiments/shared/common-experiment
 import {buildTaskExportData, generateTaskExportFilename} from '@common/experiments/shared/task-export.utils';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {fromFetch} from 'rxjs/fetch';
-import {datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
+import {datachunkBrowserUrl, isDatachunkUrl} from '~/shared/utils/url';
 import {getExtraHeaders} from '~/features/experiments/shared/experiments.utils';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -431,9 +431,6 @@ export class CommonExperimentsInfoEffects {
       of(null)
         .pipe(map(() => {
           const src = new URL(action.url);
-          if (isFileserverUrl(action.url)) {
-            src.searchParams.set('download', '');
-          }
           const a = document.createElement('a') as HTMLAnchorElement;
           a.target = '_blank';
           a.href = src.toString();

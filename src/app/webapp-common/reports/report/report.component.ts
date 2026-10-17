@@ -22,29 +22,20 @@ import {
   setReportChanges,
   updateReport
 } from '@common/reports/reports.actions';
-import {
-  catchError, debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
-import {fromEvent, lastValueFrom, Observable, take, combineLatest, merge} from 'rxjs';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {Observable, take} from 'rxjs';
 import {selectEditingReport, selectReport, selectReportId, selectReportsTags} from '@common/reports/reports.reducer';
 import {ReportStatusEnum} from '~/business-logic/model/reports/reportStatusEnum';
 import {getBaseName, isExample} from '@common/shared/utils/shared-utils';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
-import {activeLoader, addMessage, deactivateLoader} from '@common/core/actions/layout.actions';
+import {addMessage} from '@common/core/actions/layout.actions';
 import {ICONS, MESSAGES_SEVERITY} from '@common/constants';
 import {MarkdownEditorComponent} from '@common/shared/components/markdown-editor/markdown-editor.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ClipboardService} from 'ngx-clipboard';
 import {UploadResult} from 'ngx-markdown-editor';
-import {HttpClient} from '@angular/common/http';
-import {HTTP} from '~/app.constants';
-import {convertToReverseProxy} from '~/shared/utils/url';
 import {escapeRegex} from '@common/shared/utils/escape-regex';
 import {Actions, ofType} from '@ngrx/effects';
 import {MatMenuTrigger} from '@angular/material/menu';
@@ -63,16 +54,6 @@ import {
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-
-const replaceSlash = (part) => part
-  .replace('\\', '/')
-  .replace(/^\//, '')
-  .replace(/\/$/, '')
-  .replace('/', '.slash.')
-  .replace(
-    /[#"';?:@&=+$,%!)(\r\n]/g,
-    c => `0x${c.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()}`
-  );
 
 @Component({
   selector: 'sm-report',
@@ -104,7 +85,6 @@ export class ReportComponent implements OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private _clipboardService = inject(ClipboardService);
-  private http = inject(HttpClient);
   private actions$ = inject(Actions);
   public icons = ICONS;
   public editDesc: boolean;
@@ -177,81 +157,10 @@ export class ReportComponent implements OnDestroy {
       )
       .subscribe(id => this.store.dispatch(getReport({id})));
 
-    this.handleUpload = (files: FileList): Promise<UploadResult[]> => {
-      this.store.dispatch(activeLoader('upload'));
-      const filesServerUrl = convertToReverseProxy(HTTP.FILE_BASE_URL);
-
-      const valid = Array.from(files).filter(f => f.type.startsWith('image/')).map(file => {
-        const reader = new FileReader();
-        const obs = fromEvent(reader, 'load')
-          .pipe(
-            switchMap(() => {
-              const img = new Image();
-              img.src = reader.result as string;
-              return merge(
-                fromEvent(img, 'load'),
-                fromEvent(img, 'error')
-              )
-                .pipe(
-                  map(() => {
-                    if (img.width > 0 && img.height > 0) {
-                      return file;
-                    }
-                    throw new Error('Invalid file');
-                  })
-                );
-            }),
-            catchError((err, caught) => {
-              this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'invalid file'));
-              this.store.dispatch(deactivateLoader('upload'));
-              throw caught;
-            })
-          );
-        reader.readAsDataURL(file);
-        return obs;
-      });
-      if (valid.length === 0) {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'invalid file type'));
-        this.store.dispatch(deactivateLoader('upload'));
-        return Promise.reject('Invalid file type');
-      }
-      const uploads$ = combineLatest(valid).pipe(
-        debounceTime(0),
-        take(1),
-        switchMap(validFiles => {
-          const formData: FormData = new FormData();
-          const results = [] as UploadResult[];
-          validFiles
-            .forEach(file => {
-              const url = `reports/${this.report().id}/${replaceSlash(file.name)}`;
-              formData.append(url, file);
-              results.push({
-                name: file.name,
-                url: `${filesServerUrl}/${encodeURI(url)}`,
-                isImg: true
-              });
-            });
-
-          return this.http.post(filesServerUrl, formData, {withCredentials: true})
-            .pipe(
-              catchError((err) => {
-                this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'Upload failed' + err?.message));
-                this.store.dispatch(deactivateLoader('upload'));
-                throw new Error('upload failed');
-              }),
-              map(() => {
-                this.store.dispatch(deactivateLoader('upload'));
-                this.store.dispatch(updateReport({
-                  id: this.report().id,
-
-                  changes: {report_assets: Array.from(new Set((this.report().report_assets || []).concat(results.map(r => r.url))))}
-                }));
-                return results;
-              })
-            );
-        })
-      );
-      return lastValueFrom(uploads$);
+    this.handleUpload = (): Promise<UploadResult[]> => {
+      // Images cannot be stored for reports yet.
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'Image upload to reports is not available'));
+      return Promise.reject('Image upload is not available');
     };
 
   }

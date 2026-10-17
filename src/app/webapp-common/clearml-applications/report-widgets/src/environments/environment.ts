@@ -20,12 +20,10 @@ export const environment = {
   apiBaseUrl: '../service/1/api',
   // communityServer: true,
   accountAdministration: true,
-  fileBaseUrl: 'https://files.allegro.ai',
   userKey: 'EYVQ385RW7Y2QQUH88CZ7DWIQ1WUHP',
   userSecret: 'yfc8KQo*GMXb*9p((qcYC7ByFIpF7I&4VH3BfUYXH%o9vX1ZUZQEEw1Inc)S',
   companyID: 'd1bd92a3b039400cbafc60a7a5b1e52b',
   // billingServiceUrl: 'https://cdn.paddle.com/paddle/paddle.js',
-  alternativeFilesBaseUrl: 'https://files.allegro-master.hosted.allegro.ai'
 } as Environment;
 
 if (document.URL.includes('localhost')) {

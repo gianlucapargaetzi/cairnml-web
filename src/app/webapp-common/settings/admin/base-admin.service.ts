@@ -5,7 +5,7 @@ import {fromFetch} from 'rxjs/fetch';
 import {catchError, debounceTime, filter, map} from 'rxjs/operators';
 import {DeleteObjectsCommand, GetObjectCommand, ObjectIdentifier, S3Client, S3ClientConfig} from '@aws-sdk/client-s3';
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
-import {convertToReverseProxy, datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
+import {datachunkBrowserUrl, isDatachunkUrl} from '~/shared/utils/url';
 import {
   Credentials,
   selectRevokeSucceed,
@@ -30,7 +30,6 @@ export class BaseAdminService {
   public s3Services: Record<string, S3Client> = {};
   private revokeSucceed = this.store.selectSignal(selectRevokeSucceed);
   protected preSignServices = this.store.selectSignal(selectCompanyPreSignServices);
-  private environment = this.confService.configuration;
   private credentials = this.getCredentials();
   private deleteS3FilesSubject: Subject<{ success: boolean; files: string[] }>;
   private localServerWorking = false;
@@ -64,26 +63,13 @@ export class BaseAdminService {
 
   signUrlIfNeeded(
     url: string,
-    config?: { skipLocalFile?: boolean; skipFileServer?: boolean; disableCache?: number },
+    config?: { skipLocalFile?: boolean },
     previousSignedUrl?: { signed: string; expires: number }
   ): Observable<SignResponse> {
-    config = {...{skipLocalFile: true, skipFileServer: this.confService.getStaticEnvironment().production, disableCache: null}, ...config};
+    config = {...{skipLocalFile: true}, ...config};
 
     if (isDatachunkUrl(url)) {
       return of({type: 'sign', signed: datachunkBrowserUrl(url), expires: Number.MAX_VALUE});
-    }
-
-    if (isFileserverUrl(url)) {
-      if (this.environment().communityServer) {
-        url = this.addTenant(url);
-      }
-      if (config.disableCache) {
-        url = this.addS3TimeStamp(url, config.disableCache);
-      }
-      if (!config.skipFileServer && this.environment().useFilesProxy) {
-        return of({type: 'sign', signed: convertToReverseProxy(url), expires: Number.MAX_VALUE});
-      }
-      return of({type: 'sign', signed: url, expires: Number.MAX_VALUE});
     }
 
     if (this.isLocalFile(url) && !config.skipLocalFile) {
@@ -231,10 +217,6 @@ export class BaseAdminService {
   }
 
 
-  protected addTenant(url: string) {
-    return url;
-  }
-
   public deleteS3Files(files: string[], skipSubjectReturn): Observable<{ success: boolean; files: string[] }> {
     const url = files[0];
     const bucketKeyEndpoint = url && getBucketAndKeyFromSrc(url);
@@ -266,15 +248,5 @@ export class BaseAdminService {
     return !skipSubjectReturn && this.deleteS3FilesSubject.asObservable();
   }
 
-  addS3TimeStamp(url: string, timestamp: number) {
-    timestamp = timestamp || new Date().getTime();
-    try {
-      const parsed = new URL(url);
-      parsed.searchParams.append('X-Amz-Date', `${timestamp}`);
-      return parsed.toString();
-    } catch {
-      return url;
-    }
-  }
 
 }

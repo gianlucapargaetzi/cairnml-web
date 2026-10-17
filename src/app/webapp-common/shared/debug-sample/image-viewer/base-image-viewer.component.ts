@@ -9,7 +9,7 @@ import {debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {last} from 'lodash-es';
-import {datachunkBrowserUrl, isDatachunkUrl, isFileserverUrl} from '~/shared/utils/url';
+import {datachunkBrowserUrl, isDatachunkUrl} from '~/shared/utils/url';
 import {IsVideoPipe} from '@common/shared/pipes/is-video.pipe';
 import {IsAudioPipe} from '@common/shared/pipes/is-audio.pipe';
 import {resetViewer} from '@common/shared/debug-sample/debug-sample.actions';
@@ -64,7 +64,7 @@ export abstract class BaseImageViewerComponent implements OnDestroy {
     .pipe(
       filter(event => !!event),
       map(event => {
-        this.store.dispatch(getSignedUrl({url: event.url, config: {disableCache: event.timestamp}}));
+        this.store.dispatch(getSignedUrl({url: event.url}));
         return event;
       })
     );
@@ -75,7 +75,6 @@ export abstract class BaseImageViewerComponent implements OnDestroy {
   protected isPlayer = signal(false);
   public imageLoaded = false;
   public iteration: number;
-  public isFileserverUrl = isFileserverUrl;
 
   protected imageHeight = computed(() => Math.floor(this.debugImage().nativeElement.naturalHeight * this.scaleOffset().scale));
   protected imageWidth = computed(() => Math.floor(this.debugImage().nativeElement.naturalWidth * this.scaleOffset().scale));
@@ -228,9 +227,6 @@ export abstract class BaseImageViewerComponent implements OnDestroy {
     if (this.currentDebugImage) {
       const rawUrl = this.url() ?? this.currentDebugImage.url;
       const src = new URL(isDatachunkUrl(rawUrl) ? datachunkBrowserUrl(rawUrl) : rawUrl);
-      if (isFileserverUrl(this.currentDebugImage.url)) {
-        src.searchParams.set('download', '');
-      }
       const a = document.createElement('a') as HTMLAnchorElement;
       a.href = src.toString();
       if (!this.data.withoutNavigation) {

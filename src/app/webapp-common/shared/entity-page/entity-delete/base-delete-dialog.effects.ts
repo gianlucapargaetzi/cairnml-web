@@ -7,15 +7,12 @@ import {inject, Injectable} from '@angular/core';
 import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {emptyAction} from '~/app.constants';
 import {Action, MemoizedSelector, Store} from '@ngrx/store';
-import {forkJoin, Observable, of, from, concat} from 'rxjs';
-import {fromFetch} from 'rxjs/fetch';
+import {Observable, of, from, concat} from 'rxjs';
 import {AdminService} from '~/shared/services/admin.service';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
 import {
-  addFailedDeletedFile,
   addFailedDeletedFiles,
   deleteEntities,
-  deleteFileServerSources,
   deleteS3Sources,
   setFailedDeletedEntities,
   setNumberOfSourcesToDelete
@@ -32,10 +29,9 @@ import {activateModelEdit} from '@common/models/actions/models-info.actions';
 import {ModelsDeleteManyResponse} from '~/business-logic/model/models/modelsDeleteManyResponse';
 import {TasksDeleteManyResponse} from '~/business-logic/model/tasks/tasksDeleteManyResponse';
 import {ConfigurationService} from '../../services/configuration.service';
-import {isFileserverUrl} from '~/shared/utils/url';
 import {TasksResetManyResponseSucceeded} from '~/business-logic/model/tasks/tasksResetManyResponseSucceeded';
 import {updateManyExperiment} from '@common/experiments/actions/common-experiments-view.actions';
-import {getBucketAndKeyFromSrc, SignResponse} from '@common/settings/admin/base-admin-utils';
+import {getBucketAndKeyFromSrc} from '@common/settings/admin/base-admin-utils';
 import {ApiPipelinesService} from '~/business-logic/api-services/pipelines.service';
 import {PipelinesDeleteRunsResponse} from '~/business-logic/model/pipelines/pipelinesDeleteRunsResponse';
 import {MatDialog} from '@angular/material/dialog';
@@ -207,7 +203,6 @@ export class DeleteDialogEffectsBase {
                   ...this.pauseAutorefresh(action.entityType),
                   setNumberOfSourcesToDelete({numberOfFiles: 0}),//Object.values(urlsPerSource).flat().length}), // Currently deleting only in BE
                   setFailedDeletedEntities({failedEntities: failed}),
-                  // deleteFileServerSources({files: urlsPerSource['fs']}), // Currently deleting only in BE
                   // deleteS3Sources({files: urlsPerSource['s3']}),
                   // deleteGoogleCloudeSource(urlsPerSource['gc']),
                   // deleteAzure(urlsPerSource['azure']),
@@ -253,31 +248,6 @@ export class DeleteDialogEffectsBase {
     )),
   ));
 
-  deleteFileServerSourcesEffect = createEffect(() => this.actions$.pipe(
-    ofType(deleteFileServerSources),
-    mergeMap(action => forkJoin(action.files.map(url =>
-      this.adminService.signUrlIfNeeded(url, {skipFileServer: false}).pipe(
-        switchMap((signResponse: SignResponse) =>
-          fromFetch(
-            signResponse.signed,
-            {
-              method: 'DELETE',
-              credentials: this.configService.getStaticEnvironment().useFilesProxy ? 'include' : 'omit'
-            }
-          )
-        ),
-        mergeMap(res => {
-          if ((res[0]?.status || res?.status) !== 200) {
-            return [addFailedDeletedFile({filePath: decodeURIComponent(res[0]?.url || res?.url)})];
-          } else {
-            return [setNumberOfSourcesToDelete({numberOfFiles: -1})];
-          }
-        }),
-        catchError(() => [setNumberOfSourcesToDelete({numberOfFiles: -1})]),
-      )
-    ))),
-    mergeMap(a => a as Action[])
-  ));
 
   deleteS3SourcesEffect = createEffect(() => this.actions$.pipe(
     ofType(deleteS3Sources),
@@ -312,7 +282,7 @@ export class DeleteDialogEffectsBase {
       const sourceType = this.getSourceType(url);
       url && acc[sourceType].push(url);
       return acc;
-    }, {fs: [], gc: [], s3: [], azure: [], misc: []});
+    }, {gc: [], s3: [], azure: [], misc: []});
   }
 
   parseErrors(failed, entities): { id: string; name: string; message: string }[] {
@@ -324,11 +294,7 @@ export class DeleteDialogEffectsBase {
   }
 
   getSourceType(src: string): CloudProviders {
-    if (isFileserverUrl(src)) {
-      return 'fs';
-    } else {
-      return 'misc';
-    }
+    return 'misc';
     // else if (this.adminService.isS3Url(src)) {
     //   return 's3';
     // } else if (this.adminService.isGoogleCloudUrl(src)) {

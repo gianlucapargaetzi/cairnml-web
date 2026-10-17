@@ -224,7 +224,7 @@ export class DebugImagesComponent {
           this.store.dispatch(signUrls({
             sign: iterations.map(iteration =>
               iteration.events.map((event: MetricsImageEvent) =>
-                ({url: event.url, config: {disableCache: event.timestamp}})
+                ({url: event.url})
               )
             ).flat()
           }));

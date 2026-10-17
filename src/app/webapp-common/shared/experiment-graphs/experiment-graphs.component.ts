@@ -357,7 +357,7 @@ export class ExperimentGraphsComponent {
               graph.layout.images.forEach(((image: Plotly.Image, i) => {
                   toBeSigned.push({
                     url: image.source,
-                    config: {skipFileServer: false, skipLocalFile: false, disableCache: graph.timestamp}
+                    config: {skipLocalFile: false}
                   });
                   observables.push(getSignedUrlOrOrigin$(image.source, this.store).pipe(tap(signed => graph.layout.images[i].source = signed)));
                 }
