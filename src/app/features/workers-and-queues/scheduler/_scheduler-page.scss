@@ -11,6 +11,9 @@
 // The same shell as the Dashboard tab: 24px gutters, 24px between sections
 .page {
   display: grid;
+  // minmax(0, 1fr): without it the single implicit column grows to the widest child (a chart, a table)
+  // and pushes the page wider than its pane
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   padding: 0 24px 24px;
   min-width: 0;
