@@ -1,0 +1,50 @@
+<div class="task-folders">
+  @if (experiments.error()) {
+    <p class="error">Could not load the tasks of this project. Reload the page to try again.</p>
+  } @else if (!experiments.hasValue()) {
+    <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3"></mat-spinner></div>
+  } @else {
+    <div class="toolbar">
+      <div class="summary">
+        <sm-card class="stat">
+          <div class="stat-value" data-id="folderCount">{{ totals().folders }}</div>
+          <div class="stat-label">Tasks</div>
+        </sm-card>
+        <sm-card class="stat">
+          <div class="stat-value" data-id="experimentCount">{{ totals().experiments }}</div>
+          <div class="stat-label">Experiments</div>
+        </sm-card>
+        <sm-card class="stat">
+          <div class="stat-value" data-id="unassignedCount">{{ totals().unassigned }}</div>
+          <div class="stat-label">Unassigned</div>
+        </sm-card>
+      </div>
+      <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">All experiments</button>
+    </div>
+
+    @if (totals().experiments === 0) {
+      <p class="empty">No experiments yet. Run a script that calls Task.init, or start a task from its page.</p>
+    } @else {
+      <sm-table
+        [columns]="columns"
+        [tableData]="rows()"
+        [selectionMode]="null"
+        [resizableColumns]="false"
+        [simple]="true"
+        [columnResizeMode]="'fit'">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          @switch (col.id) {
+            @case ('task') { <a class="folder-name" [routerLink]="folderLink(row)">{{ row.name }}</a> }
+            @case ('count') { <span>{{ row.count }}</span> }
+            @case ('latest') { <span class="caption">{{ row.latest?.created | date: 'short' }}</span> }
+            @case ('status') {
+              @if (row.latest) {
+                <span class="status"><sm-circle-status [status]="row.latest.status"></sm-circle-status>{{ row.latest.status }}</span>
+              }
+            }
+          }
+        </ng-template>
+      </sm-table>
+    }
+  }
+</div>
