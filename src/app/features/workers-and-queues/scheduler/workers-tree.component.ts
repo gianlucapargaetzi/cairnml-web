@@ -1,21 +1,9 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
-import {PrimeTemplate} from 'primeng/api';
-import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
-import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {pollWhileVisible} from './scheduler-live';
 import {SchedulerApiService, SchedulerJobOnWorker, SchedulerWorker} from './scheduler-api.service';
 import {GpuBlock, ResourceStat, StatCard, sinceText, stateClass} from './scheduler-view';
-
-const JOB_COLUMNS: ISmCol[] = [
-  {id: 'job', header: 'JOB', style: {minWidth: '200px'}},
-  {id: 'state', header: 'STATE', style: {width: '110px'}},
-  {id: 'cpu', header: 'CPUS', style: {width: '90px'}},
-  {id: 'ram', header: 'RAM: PEAK / LIMIT', style: {width: '220px'}},
-  {id: 'gpu', header: 'GPUS', style: {width: '90px'}},
-  {id: 'mode', header: 'MODE', style: {width: '130px'}},
-];
 
 const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, (100 * part) / whole) : 0);
 
@@ -24,12 +12,11 @@ const pct = (part: number, whole: number): number => (whole > 0 ? Math.min(100, 
   templateUrl: './workers-tree.component.html',
   styleUrls: ['./workers-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, MatButtonModule, TooltipDirective],
+  imports: [MatButtonModule, TooltipDirective],
 })
 export class WorkersTreeComponent {
   private api = inject(SchedulerApiService);
 
-  protected readonly jobColumns = JOB_COLUMNS;
   protected readonly expanded = signal<Record<string, boolean>>({});
   private readonly overview = pollWhileVisible(() => this.api.overview());
 

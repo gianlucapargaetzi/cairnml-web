@@ -104,6 +104,34 @@
   padding-top: 12px;
 }
 
+.job-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.job-item {
+  display: grid;
+  gap: 4px;
+
+  .sub {
+    margin-top: 0;
+  }
+}
+
+.job-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
 .job-name {
   font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

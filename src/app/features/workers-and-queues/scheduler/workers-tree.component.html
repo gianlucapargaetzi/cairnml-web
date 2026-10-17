@@ -66,29 +66,19 @@
               @if (isExpanded(w.id)) {
                 <div class="jobs">
                   @if (w.jobs.length) {
-                    <sm-table
-                      [columns]="jobColumns"
-                      [tableData]="w.jobs"
-                      [selectionMode]="null"
-                      [resizableColumns]="false"
-                      [simple]="true"
-                      [columnResizeMode]="'fit'">
-                      <ng-template let-col let-job="rowData" pTemplate="body">
-                        @switch (col.id) {
-                          @case ('job') { <span class="job-name">{{ job.name || job.task }}</span> }
-                          @case ('state') { <span class="badge" [class]="stateClass(job.state)">{{ job.state }}</span> }
-                          @case ('cpu') { <span class="num">{{ job.cpus.length }}</span> }
-                          @case ('ram') {
-                            <div class="meter tight">
-                              <div class="bar"><span class="bar-used" [style.width.%]="jobRam(job).used"></span></div>
-                              <div class="sub num">{{ jobRam(job).caption }}</div>
-                            </div>
-                          }
-                          @case ('gpu') { <span class="num">{{ job.gpus.length }}</span> }
-                          @case ('mode') { <span class="sub">{{ mode(job) }}</span> }
-                        }
-                      </ng-template>
-                    </sm-table>
+                    <ul class="job-list">
+                      @for (job of w.jobs; track job.task) {
+                        <li class="job-item">
+                          <div class="job-line">
+                            <span class="job-name" [smTooltip]="job.name || job.task">{{ job.name || job.task }}</span>
+                            <span class="badge" [class]="stateClass(job.state)">{{ job.state }}</span>
+                          </div>
+                          <div class="sub num">{{ job.cpus.length }} CPU · {{ job.gpus.length }} GPU · {{ mode(job) }}</div>
+                          <div class="bar"><span class="bar-used" [style.width.%]="jobRam(job).used"></span></div>
+                          <div class="sub num">RAM {{ jobRam(job).caption }}</div>
+                        </li>
+                      }
+                    </ul>
                   } @else {
                     <p class="sub">No jobs run on this worker now.</p>
                   }
