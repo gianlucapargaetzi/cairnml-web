@@ -1,0 +1,70 @@
+// Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
+@use "mixins/common";
+@use "variables" as *;
+
+.dashboard-body {
+  height: 100%;
+  overflow: auto;
+}
+
+// The same column as the global dashboard: the card rows and the recent table line up.
+.recent {
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+// The card list and its header, as on the global dashboard (see dashboard-projects).
+// Cards start at the column's left edge, like the header and the recent table below them.
+.sm-card-list-layout {
+  grid-gap: 16px 24px;
+  padding: 18px 0 0;
+  justify-content: start;
+}
+
+.sm-card-list-header {
+  grid-column: 1 / -1;
+  padding: 0;
+  height: 38px;
+}
+
+.recent-title {
+  @include common.recent-title();
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.folder-title {
+  font-weight: 500;
+}
+
+.folder-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: $font-size-small;
+}
+
+.caption {
+  opacity: 0.7;
+}
+
+sm-dashboard-experiments {
+  display: block;
+  padding-top: 24px;
+}
+
+.empty {
+  padding-top: 24px;
+  font-size: $font-size-regular;
+  opacity: 0.8;
+}
+
+.error {
+  padding-top: 24px;
+  font-size: $font-size-regular;
+  color: $error-color;
+}

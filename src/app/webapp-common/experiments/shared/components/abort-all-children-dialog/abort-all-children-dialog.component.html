@@ -3,8 +3,8 @@
     <div>
       <div class="message" [ngPlural]="shouldBeAbortedTasks?.length">
         <ng-template ngPluralCase="=0">Couldn't find any child running tasks</ng-template>
-        <ng-template ngPluralCase="=1">this will abort one running child task</ng-template>
-        <ng-template ngPluralCase="other">This will abort all {{shouldBeAbortedTasks?.length}} running child tasks</ng-template>
+        <ng-template ngPluralCase="=1">this will abort one running child experiment</ng-template>
+        <ng-template ngPluralCase="other">This will abort all {{shouldBeAbortedTasks?.length}} running child experiments</ng-template>
       </div>
     </div>
   } @else {

@@ -6,6 +6,7 @@ import {experimentsCompareProviders} from '@common/experiments-compare/experimen
 import {provideState} from '@ngrx/store';
 import {selectModelProviders} from '@common/select-model/select-model.providers';
 import {compareNavigationGuard} from '@common/experiments/compare-navigation.guard';
+import {experimentsTabFiltersGuard} from '@common/experiments/experiments-tab-filters.guard';
 import {compareViewStateGuard} from '@common/experiments/compare-view-state.guard';
 import {lastVisitedTabGuard} from '@common/shared/guards/last-visted-tab.guard';
 import {lastVisitedSettingTabGuard} from '@common/shared/guards/last-visted-set-tab.guard';
@@ -45,6 +46,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('@common/experiments/experiments.component').then(m => m.ExperimentsComponent),
+    canActivate: [experimentsTabFiltersGuard],
     providers: [
       commonExperimentsProviders
     ],

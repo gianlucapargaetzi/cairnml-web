@@ -66,7 +66,7 @@ export const experimentsViewInitialState: ExperimentsViewState = {
   tableCols: [],
   colsOrder: {},
 
-  hiddenTableCols: {comment: true, active_duration: true, id: true},
+  hiddenTableCols: {comment: true, active_duration: true},
   hiddenProjectTableCols: {},
   experiments: null,
   refreshList: false,

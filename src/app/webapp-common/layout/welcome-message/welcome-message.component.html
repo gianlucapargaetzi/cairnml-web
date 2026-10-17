@@ -1,5 +1,5 @@
 <sm-dialog-template [displayX]="true"
-  [header]="step() === 1 ? 'Welcome to MLOps Flow' : (showTabs? 'CREATE NEW TASK' : 'GETTING STARTED')"
+  [header]="step() === 1 ? 'Welcome to MLOps Flow' : (showTabs? 'CREATE NEW EXPERIMENT' : 'GETTING STARTED')"
   [subHeader]="showTabs ? 'To create a new task you can either run your ML code instrumented with the MLOps Flow SDK, or relaunch a previously run task by cloning it.' : ''"
   (xClicked)="closeDialog()" [closeOnX]="false"
   [iconClass]="'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">

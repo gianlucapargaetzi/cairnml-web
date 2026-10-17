@@ -799,7 +799,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
             },
             ...(this.projectDeepMode() && selectedProject?.id !== '*' && {
               subFeatureBreadcrumb: {
-                name: 'All Tasks'
+                name: 'All Experiments'
               }
             }),
             projectsOptions: {
@@ -809,7 +809,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
               showSelectedProject: selectedProject?.id !== '*',
               ...(selectedProject && {
                 selectedProjectBreadcrumb: {
-                  name: selectedProject?.id === '*' ? 'All Tasks' : selectedProject?.basename,
+                  name: selectedProject?.id === '*' ? 'All Experiments' : selectedProject?.basename,
                   url: `projects/${selectedProject?.id}/projects`
                 }
               })
