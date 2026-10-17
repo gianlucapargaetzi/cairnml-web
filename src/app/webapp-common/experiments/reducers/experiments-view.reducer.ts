@@ -54,6 +54,7 @@ export interface ExperimentsViewState {
   projectTags: string[];
   parents: ProjectsGetTaskParentsResponseParents[];
   activeParentsFilter: ProjectsGetTaskParentsResponseParents[];
+  folderScopeIds: string[] | null;
   types: string[];
   splitSize: number;
   tableMode: 'info' | 'table' | 'compare';
@@ -98,6 +99,7 @@ export const experimentsViewInitialState: ExperimentsViewState = {
   projectTags: [],
   parents: null,
   activeParentsFilter: [],
+  folderScopeIds: null,
   types: [],
   splitSize: 70,
   tableMode: 'table',
@@ -363,6 +365,7 @@ export const experimentsViewReducer = createReducer<ExperimentsViewState>(
   on(actions.setParents, (state, action): ExperimentsViewState => ({...state, parents: action.parents})),
   on(actions.resetTablesFilterParentsOptions, (state): ExperimentsViewState => ({...state, parents: null})),
   on(actions.setActiveParentsFilter, (state, action): ExperimentsViewState => ({...state, activeParentsFilter: action.parents})),
+  on(actions.setFolderScope, (state, action): ExperimentsViewState => ({...state, folderScopeIds: action.ids})),
   on(actions.setProjectsTypes, (state, action): ExperimentsViewState => ({...state, types: action.types})),
   on(actions.clearHyperParamsCols, (state, action): ExperimentsViewState => ({
     ...state,
