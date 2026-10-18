@@ -54,7 +54,8 @@
   margin-bottom: 0;
 }
 
-// The table area gets the row's full height; the table scrolls inside it
+// The table area is a panel like the activity card, so both boxes draw down to the bottom of the row.
+// The table scrolls inside it.
 .table-area {
   grid-column: 1;
   grid-row: 2;
@@ -62,6 +63,10 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  background-color: var(--color-surface-container-lowest);
+  overflow: hidden;
 
   // the shared table fills the row: its host is a flex column and its PrimeNG body takes the remaining height
   sm-table {
@@ -81,6 +86,7 @@
   .empty {
     flex: 1 1 auto;
     min-height: 0;
+    padding: 16px 20px;
   }
 }
 
