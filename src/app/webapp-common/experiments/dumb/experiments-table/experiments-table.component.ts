@@ -40,7 +40,7 @@ import {
 } from '../../actions/common-experiments-view.actions';
 import {createFiltersFromStore, excludedKey, uniqueFilterValueAndExcluded} from '@common/shared/utils/tableParamEncode';
 import {getRoundedNumber} from '../../shared/common-experiments.utils';
-import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
+import {EntityTypeEnum, entityDisplayName} from '~/shared/constants/non-common-consts';
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/material/tooltip';
 import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 import {computedPrevious} from 'ngxtension/computed-previous';
@@ -175,6 +175,7 @@ export class ExperimentsTableComponent extends BaseTableView {
   clearTableFilters = output<Record<string, FilterMetadata>>();
   clearTableFiltersAndSearch = output<Record<string, FilterMetadata>>();
   protected readonly experimentsTableColFields = EXPERIMENTS_TABLE_COL_FIELDS;
+  protected readonly entityDisplayName = entityDisplayName;
   protected readonly timeFormatString = TIME_FORMAT_STRING;
   protected isDevelopment = isDevelopment;
   protected readonly colHeaderTypeEnum = ColHeaderTypeEnum;
