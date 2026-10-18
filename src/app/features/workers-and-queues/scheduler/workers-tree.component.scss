@@ -1,41 +1,165 @@
-// Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
-@use "variables" as *;
+@use "scheduler-page";
 
-.workers-tree {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 24px;
+// Master and detail, as on the Experiments page: the split fills the page and each side scrolls itself
+:host {
+  overflow: hidden;
 }
 
-.worker-cell {
+.workers-split {
+  height: 100%;
+}
+
+.master,
+.detail {
+  height: 100%;
+  overflow: auto;
+  align-content: start;
+}
+
+// One card per machine; the open one carries the primary outline
+.worker-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+}
+
+.worker {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+
+  &:hover {
+    border-color: var(--color-outline);
+  }
+
+  &.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  &.lost {
+    opacity: 0.6;
+  }
+}
+
+.worker-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-}
-
-.bar-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   min-width: 0;
 }
 
-.caption {
-  font-size: $font-size-small;
-  opacity: 0.7;
+.worker-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  // a detail panel's title is the same size as a card title (see the experiment info header)
+  &.big {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: var(--color-on-secondary-container);
+  }
 }
 
-.state {
-  font-size: $font-size-small;
+.meter {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+
+  &.tight {
+    min-width: 180px;
+  }
+}
+
+.meter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-on-surface);
+}
+
+.meter-label {
+  opacity: 0.8;
   text-transform: uppercase;
 }
 
-.job-name {
-  font-size: $font-size-regular;
+.meter-value {
+  opacity: 0.7;
+  text-align: right;
 }
 
-.empty {
-  font-size: $font-size-regular;
-  opacity: 0.8;
+// Each GPU is a block, filled when a job holds it, so the free ones stand out
+.gpu-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gpu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-outline-variant);
+  font-size: 13px;
+  color: var(--color-on-surface);
+  opacity: 0.7;
+
+  &.busy {
+    background-color: var(--color-running);
+    border-color: var(--color-running);
+    color: var(--color-surface-container-lowest);
+    opacity: 1;
+  }
+}
+
+.worker-foot {
+  margin-top: 0;
+}
+
+// The detail panel
+.detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detail-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.chart-card {
+  padding: 8px 12px;
+}
+
+.chart-box {
+  height: 240px;
+  position: relative;
+}
+
+.rows {
+  display: grid;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.table-box {
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.job-name {
+  font-size: 14px;
 }

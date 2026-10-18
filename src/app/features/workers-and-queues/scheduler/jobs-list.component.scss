@@ -1,29 +1,172 @@
-// Colours and sizes come from the app's theme and variables, so light and dark mode follow the rest of the app.
 @use "variables" as *;
+@use "scheduler-page";
 
-.jobs-list {
+// The page fills its parent: the summary takes what it needs, the layout takes the rest.
+.jobs-page {
+  height: 100%;
+  box-sizing: border-box;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding-bottom: 24px;
+}
+
+// Two columns, two rows. Row 1: both titles. Row 2: table and activity, both ending at the bottom of the page.
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px 24px;
+  min-height: 0;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .side-title {
+    grid-row: 3;
+  }
+
+  .activity {
+    grid-row: 4;
+  }
+}
+
+.toolbar {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  .section-title {
+    margin-bottom: 0;
+  }
+}
+
+.side-title {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin-bottom: 0;
+}
+
+// The table area is a panel like the activity card, so both boxes draw down to the bottom of the row.
+// The table scrolls inside it.
+.table-area {
+  grid-column: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding-top: 24px;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  background-color: var(--color-surface-container-lowest);
+  overflow: hidden;
+
+  // the shared table fills the row: its host is a flex column and its PrimeNG body takes the remaining height
+  sm-table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+
+    ::ng-deep .p-datatable {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+  }
+
+  .empty {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 16px 20px;
+  }
 }
 
-.filters {
+// The activity card gets the row's full height; its feed scrolls inside it
+.activity {
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
 }
 
-.state {
-  font-size: $font-size-small;
-  text-transform: uppercase;
+.job-cell {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
 }
 
-.caption {
-  font-size: $font-size-small;
-  opacity: 0.7;
+.job-name {
+  font-size: 14px;
 }
 
-.empty {
-  font-size: $font-size-regular;
-  opacity: 0.8;
+.mono {
+  font-family: $font-family-monospace;
+  font-size: 11px;
+}
+
+.ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.chip {
+  padding: 1px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-outline-variant);
+  font-size: 12px;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+}
+
+.feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.feed-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.feed-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+
+  .sub {
+    margin-top: 0;
+  }
+}
+
+.feed-detail {
+  font-size: 13px;
+  overflow-wrap: anywhere;
 }
