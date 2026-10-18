@@ -63,7 +63,21 @@
   min-width: 0;
   min-height: 0;
 
-  sm-table,
+  // the shared table fills the row: its host is a flex column and its PrimeNG body takes the remaining height
+  sm-table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+
+    ::ng-deep .p-datatable {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+  }
+
   .empty {
     flex: 1 1 auto;
     min-height: 0;
