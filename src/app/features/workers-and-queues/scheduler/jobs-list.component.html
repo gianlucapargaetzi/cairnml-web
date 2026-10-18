@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page jobs-page">
   <section class="summary">
     @for (stat of stats(); track stat.label) {
       <div class="card">
@@ -9,13 +9,16 @@
     }
   </section>
 
+  <!-- One grid, two rows: row 1 holds both titles, row 2 takes the rest of the page. Both columns end at the bottom of row 2. -->
   <section class="layout">
-    <div class="main">
-      <div class="toolbar">
-        <div class="section-title">Jobs</div>
-        <sm-button-toggle [options]="filterOptions()" [ngModel]="filter()" (ngModelChange)="filter.set($event)"></sm-button-toggle>
-      </div>
+    <div class="toolbar">
+      <div class="section-title">Jobs</div>
+      <sm-button-toggle [options]="filterOptions()" [ngModel]="filter()" (ngModelChange)="filter.set($event)"></sm-button-toggle>
+    </div>
 
+    <div class="section-title side-title">Recent activity</div>
+
+    <div class="table-area">
       @if (shown().length) {
         <sm-table
           [columns]="columns"
@@ -57,8 +60,7 @@
       }
     </div>
 
-    <aside class="card activity">
-      <div class="card-title">Recent activity</div>
+    <div class="card activity">
       @if (events(); as list) {
         @if (list.length) {
           <ul class="feed">
@@ -76,6 +78,6 @@
           <p class="sub">No scheduler activity yet.</p>
         }
       }
-    </aside>
+    </div>
   </section>
 </div>
