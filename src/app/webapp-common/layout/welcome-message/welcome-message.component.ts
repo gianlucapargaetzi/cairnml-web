@@ -72,13 +72,13 @@ export class WelcomeMessageComponent {
     id: 1,
     header: 'Get started in a jiffy:',
     title: '1. Install',
-    code: 'pip install clearml',
+    code: 'pip install cairnml',
   }, {
     id: 2,
     title: '2. Configure',
-    code: 'clearml-init'
+    code: 'cairnml-init'
   }];
-  public links = ['Set up MLOps Flow', 'Run your ML code', 'Relaunch previous experiments'];
+  public links = ['Set up CairnML', 'Run your ML code', 'Relaunch previous experiments'];
   public credentialsLabel: string;
   public src: string;
   public entityName: string = this.data?.entityName ?? 'Tasks';
@@ -110,13 +110,13 @@ export class WelcomeMessageComponent {
 
     if (this.isJupyter()) {
       steps[1].code =
-        `%env CLEARML_WEB_HOST=${this.WEB_SERVER_URL}
-%env CLEARML_API_HOST=${this.configService.apiServerUrl()}\n`;
+        `%env CAIRNML_WEB_HOST=${this.WEB_SERVER_URL}
+%env CAIRNML_API_HOST=${this.configService.apiServerUrl()}\n`;
       if(this.credentialsLabel) {
         steps[1].code += `# ${this.credentialsLabel}\n`;
       }
-      steps[1].code += `%env CLEARML_API_ACCESS_KEY=${this.accessKey() || '<Your API access key>'}
-%env CLEARML_API_SECRET_KEY=${this.secretKey() ||  '<Your API secret key>'}`;
+      steps[1].code += `%env CAIRNML_API_ACCESS_KEY=${this.accessKey() || '<Your API access key>'}
+%env CAIRNML_API_SECRET_KEY=${this.secretKey() ||  '<Your API secret key>'}`;
     }
     return steps;
   });
@@ -176,20 +176,20 @@ export class WelcomeMessageComponent {
     if(this.showTabs) {
       return `import numpy as np
 import matplotlib.pyplot as plt
-# Add the following two lines to your code, to have MLOps Flow automatically log your experiment
-from ${this.configGettingStarted()?.packageName || 'clearml'} import Task
+# Add the following two lines to your code, to have CairnML automatically log your experiment
+from ${this.configGettingStarted()?.packageName || 'cairnml'} import Task
 
 task = Task.init(project_name='My Project', task_name='My Experiment')
 # Create a plot using matplotlib, or you can also use plotly
 plt.scatter(np.random.rand(50), np.random.rand(50), c=np.random.rand(50), alpha=0.5)
-# Plot will be reported automatically to clearml
+# Plot will be reported automatically to cairnml
 plt.show()
 
 # Report some scalars
 for i in range(100):
   task.get_logger().report_scalar(title="graph title", series="linear", value=i*2, iteration=i)`;
     }
-    return `from ${this.configGettingStarted()?.packageName || 'clearml'} import Task
+    return `from ${this.configGettingStarted()?.packageName || 'cairnml'} import Task
 task = Task.init(project_name="my project", task_name="my task")`;
   }
 }

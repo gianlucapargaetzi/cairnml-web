@@ -378,7 +378,7 @@ export class ServingEffects {
                 actions.push(ServingActions.setServingEndpointDetails({endpoint}));
                 actions.push(ServingActions.getModelsSourceLinks({
                   instances: endpoint.instances,
-                  insideModel: endpoint.model_source === 'ClearML'}));
+                  insideModel: endpoint.model_source === 'CairnML'}));
               }
               return actions;
             }),

@@ -1,4 +1,4 @@
-# UI guidelines for the ClearML web app (our fork)
+# UI guidelines for the CairnML web app (our fork)
 
 Read this before adding or changing any page. The aim is that every page looks and behaves like the rest of the app. When a page needs something the app does not have, add it once to the shared components or the styles, then use it everywhere. Do not build a one-off in a page.
 
@@ -70,7 +70,7 @@ Use the variables in `webapp-common/styles/variables.scss` and the Material them
 
 - Backgrounds and surfaces: the blue-grey scale `$blue-25` to `$blue-950` (light surfaces to dark). The header is `$blue-900`; dark theme surfaces follow the theme files (`themes.scss`).
 - Text: the theme's primary text colour; secondary text is the same colour at reduced opacity, not a new colour.
-- Primary action: the Material primary palette (`clearml-palette.scss`).
+- Primary action: the Material primary palette (`cairnml-palette.scss`).
 - Status: `$success-color` (active, healthy), `$error-color` (failed, revoked, down), `$pending-gray` / `$blue-300` (idle, pending), `$running-green` or `$turquoise` (running), `$orangada` (warning, attention). Use the same status name for the same meaning everywhere; a worker that is "running" is green in the table, the card and the chart.
 - Light and dark themes must both work. Check both before you finish.
 

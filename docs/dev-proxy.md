@@ -1,4 +1,4 @@
-# Running the web app against the ClearML server fork
+# Running the web app against the CairnML server fork
 
 Written for: a developer who runs the web app with `ng serve` against the API server of the fork.
 
@@ -17,9 +17,9 @@ Signing in goes through the identity provider, which sends the browser back to t
 
 | Setting | Value for a local run | Where |
 |---|---|---|
-| API server's public address | `http://localhost:8008` | `CLEARML__apiserver__idp__public_url` |
-| Web app's address (also the origin the API server accepts for cookie changes) | `http://localhost:4200` | `CLEARML__apiserver__idp__web_url` |
-| Keycloak's redirect address for the web client | `http://localhost:8008/v2.8/login.idp_callback`, with `http://localhost:4200` as a web origin | `clearml-web` client in `deploy/idp/realm-mlops.json` (the deployed stack uses `mlops-clearml`) |
+| API server's public address | `http://localhost:8008` | `CAIRNML__apiserver__idp__public_url` |
+| Web app's address (also the origin the API server accepts for cookie changes) | `http://localhost:4200` | `CAIRNML__apiserver__idp__web_url` |
+| Keycloak's redirect address for the web client | `http://localhost:8008/v2.8/login.idp_callback`, with `http://localhost:4200` as a web origin | `cairnml-web` client in `deploy/idp/realm-mlops.json` (the deployed stack uses `mlops-cairnml`) |
 
 The session cookie is `SameSite=Strict`. It is set during the top-level redirect from the identity provider to `localhost:8008`, and that is the same site as the web app, so the browser keeps it.
 

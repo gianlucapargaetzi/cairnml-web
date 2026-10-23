@@ -909,7 +909,7 @@ export class CommonExperimentsViewEffects {
               image: action.data.docker.image,
               setup_shell_script: action.data.docker.script
             }),
-            arguments: `${action.data.docker.args}${action.data.taskInit ? ' -e CLEARML_AGENT_FORCE_TASK_INIT=1' : ''}${action.data.poetry ? ' -e CLEARML_AGENT_FORCE_POETRY' : ''}${action.data.venvType === 'manual' ? ' -e CLEARML_AGENT_SKIP_PIP_VENV_INSTALL=' + action.data.venv : ''}${action.data.requirements === 'skip' ? ' -e CLEARML_AGENT_SKIP_PYTHON_ENV_INSTALL=1' : ''}`
+            arguments: `${action.data.docker.args}${action.data.taskInit ? ' -e CAIRNML_AGENT_FORCE_TASK_INIT=1' : ''}${action.data.poetry ? ' -e CAIRNML_AGENT_FORCE_POETRY' : ''}${action.data.venvType === 'manual' ? ' -e CAIRNML_AGENT_SKIP_PIP_VENV_INSTALL=' + action.data.venv : ''}${action.data.requirements === 'skip' ? ' -e CAIRNML_AGENT_SKIP_PYTHON_ENV_INSTALL=1' : ''}`
               .concat(action.data.vars?.map(v => ` -e ${v.key}:${v.value}`).join('') ?? '')
               .trimStart()
           }

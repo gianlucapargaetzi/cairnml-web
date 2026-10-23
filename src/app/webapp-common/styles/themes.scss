@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
-@use "clearml-palette" as palette;
+@use "cairnml-palette" as palette;
 @use "variables";
 
 @include mat.elevation-classes();

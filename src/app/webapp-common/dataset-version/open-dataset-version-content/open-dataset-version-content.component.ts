@@ -50,7 +50,7 @@ export class OpenDatasetVersionContentComponent {
   private colSizes = {} as Record<string, number>;
 
   @Input() set id(id: string) {
-    this.command = `clearml-data get --id ${id}`;
+    this.command = `cairnml-data get --id ${id}`;
     this.copySuccess = false;
   }
 

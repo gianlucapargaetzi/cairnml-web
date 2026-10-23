@@ -1,9 +1,9 @@
 import {ApplicationConfig, provideZonelessChangeDetection} from '@angular/core';
 import {provideState, provideStore} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
-import {appFeature} from '@common/clearml-applications/report-widgets/src/app/app.reducer';
+import {appFeature} from '@common/cairnml-applications/report-widgets/src/app/app.reducer';
 import {authReducer} from '~/core/reducers/auth.reducers';
-import {AppEffects} from '@common/clearml-applications/report-widgets/src/app/app.effects';
+import {AppEffects} from '@common/cairnml-applications/report-widgets/src/app/app.effects';
 import {provideHttpClient} from '@angular/common/http';
 import {ApiEventsService} from '~/business-logic/api-services/events.service';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';

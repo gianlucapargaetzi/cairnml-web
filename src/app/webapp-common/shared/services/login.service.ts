@@ -179,7 +179,7 @@ export class BaseLoginService {
     this.authenticated = false;
     this.store.dispatch(resetCurrentUser());
     this.dialog.closeAll();
-    // Ends the ClearML session; the identity provider decides whether the person must sign in again.
+    // Ends the CairnML session; the identity provider decides whether the person must sign in again.
     this.httpClient.post(`${this.basePath}/login.logout`, null, {withCredentials: true}).subscribe({
       complete: () => this.redirectToIdp(),
       error: () => this.redirectToIdp(),
