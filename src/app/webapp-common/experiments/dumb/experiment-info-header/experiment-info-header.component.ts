@@ -14,10 +14,12 @@ import {
   selectionDisabledAbortAllChildren,
   selectionDisabledArchive,
   selectionDisabledDelete,
+  selectionDisabledDequeue,
   selectionDisabledEnqueue,
   selectionDisabledMoveTo,
   selectionDisabledPipelineRun,
   selectionDisabledPublishExperiments,
+  selectionDisabledQueue,
   selectionDisabledReset,
   selectionDisabledRetry,
   selectionDisabledViewWorker
@@ -108,6 +110,8 @@ export class ExperimentInfoHeaderComponent {
     [MenuItems.moveTo]: selectionDisabledMoveTo([this.experiment()]),
     [MenuItems.enqueue]: selectionDisabledEnqueue([this.experiment()]),
     [MenuItems.retry]: selectionDisabledRetry([this.experiment()]),
+    [MenuItems.dequeue]: selectionDisabledDequeue([this.experiment()]),
+    [MenuItems.queue]: selectionDisabledQueue([this.experiment()]),
     [MenuItems.viewWorker]: selectionDisabledViewWorker([this.experiment()]),
     [MenuItems.archive]: selectionDisabledArchive([this.experiment()]),
     [MenuItems.run]: selectionDisabledPipelineRun([this.experiment()])

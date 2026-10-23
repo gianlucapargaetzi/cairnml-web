@@ -26,6 +26,10 @@ export interface TasksEnqueueManyRequest {
      */
     status_message?: string;
     /**
+     * Queue id. If not provided, tasks are added to the default queue.
+     */
+    queue?: string;
+    /**
      * If set then tasks are validated before enqueue
      */
     validate_tasks?: boolean;

@@ -3,8 +3,6 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Action, Store} from '@ngrx/store';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
-import {SchedulerApiService} from '~/features/workers-and-queues/scheduler/scheduler-api.service';
-import {forkJoin} from 'rxjs';
 import {Router} from '@angular/router';
 import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {
@@ -94,34 +92,24 @@ export class CommonExperimentsMenuEffects {
     ),
     map(action => activeLoader(action.type))));
 
-  private schedulerApi = inject(SchedulerApiService);
-
-  /**
-   * Each task is enqueued on its own with the scheduler's enqueue call, which takes the requirements and the priority.
-   * The reply has the same shape as the bulk call's, so the success path is shared.
-   */
-  private enqueueWithScheduling(action: ReturnType<typeof menuActions.enqueueClicked>, ids: string[]) {
-    return forkJoin(ids.map(id => this.schedulerApi.enqueue(id, action.requirements ?? null, action.priority ?? null)
-      .pipe(
-        map(() => ({id, ok: true as const})),
-        catchError(error => of({id, ok: false as const, error}))
-      )
-    )).pipe(
-      map(results => ({
-        succeeded: results.filter(r => r.ok).map(r => ({id: r.id, updated: 1, fields: {status: 'queued'}})),
-        failed: results.filter(r => !r.ok).map(r => ({id: r.id, error: {message: String((r as {error?: unknown}).error ?? 'enqueue failed'), codes: [], data: {}}})),
-      } as unknown as TasksEnqueueManyResponse))
-    );
-  }
-
   enqueueExperiment$ = createEffect(() => this.actions$.pipe(
     ofType(menuActions.enqueueClicked),
     concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
     switchMap(([action, selectedEntity]) => {
         const ids = action.selectedEntities.map(exp => exp.id);
-        return this.enqueueWithScheduling(action, ids)
+        return this.apiTasks.tasksEnqueueMany({
+
+          ids,
+          queue: action.queue.id, ...((!action.queue.id) && {queue_name: action.queue.name}),
+          validate_tasks: true,
+          ...( action.verifyWatchers && {verify_watched_queue: true})
+
+        })
           .pipe(
-            mergeMap((res: TasksEnqueueManyResponse) => this.updateExperimentsSuccess(action, MenuItems.enqueue, ids, selectedEntity, res)),
+            mergeMap((res: TasksEnqueueManyResponse) => [
+              ...this.updateExperimentsSuccess(action, MenuItems.enqueue, ids, selectedEntity, res),
+              ...(res.queue_watched === false ? [menuActions.openEmptyQueueMessage({queue: action.queue})] : [])
+            ]),
             catchError(error => this.updateExperimentFailed(action.type, error))
           );
       }

@@ -28,10 +28,16 @@ import {MatOption, MatSelect, MatSelectTrigger} from '@angular/material/select';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {IOption} from '@common/constants';
+import {
+  PaginatedEntitySelectorComponent
+} from '@common/shared/components/paginated-entity-selector/paginated-entity-selector.component';
 import {Store} from '@ngrx/store';
+import {selectQueueFeature} from '@common/experiments/shared/components/select-queue/select-queue.reducer';
 import {NgTemplateOutlet} from '@angular/common';
 import {MatDialogRef} from '@angular/material/dialog';
+import {getQueuesForEnqueue} from '@common/experiments/shared/components/select-queue/select-queue.actions';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {Queue} from '~/business-logic/model/queues/queue';
 import {MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions} from '@angular/material/core';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -41,6 +47,7 @@ import {shellBinaryValidator} from '@common/shared/validators/shell-binary.valid
 import {MatExpansionPanel, MatExpansionPanelHeader} from '@angular/material/expansion';
 import {ButtonToggleComponent} from '@common/shared/ui-components/inputs/button-toggle/button-toggle.component';
 import {Ace} from 'ace-builds';
+import {containedInList} from '@common/shared/validators/containedInList.validator';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {TaskTypeOptions} from '~/features/dashboard-search/dashboard-search.consts';
@@ -80,6 +87,7 @@ export interface createExperimentDialogResult {
     args?: string;
     script?: string;
   }
+  queue?: Queue;
   output?: string;
 }
 
@@ -107,6 +115,7 @@ type ScriptType = typeof scriptTypes[number];
     MatCheckbox,
     MatRadioGroup,
     MatRadioButton,
+    PaginatedEntitySelectorComponent,
     MatStepperIcon,
     NgTemplateOutlet,
     MatError,
@@ -136,6 +145,14 @@ export class CreateExperimentDialogComponent {
 
   private codeForm = viewChild<ElementRef<HTMLFormElement>>('codeForm');
   private codeEditor = viewChild(CodeEditorComponent);
+
+  protected queues = this.store.selectSignal(selectQueueFeature.selectQueues);
+  private queueNames = computed(() => this.queues()?.map(q => q.name));
+  protected filteredQueues = computed(() => this.queueVal() ?
+      this.queues()
+        .filter(queue => queue.name.toLowerCase().includes(this.queueVal().toLowerCase()) || queue.display_name?.toLowerCase().includes(this.queueVal().toLowerCase())) :
+      this.queues()
+  );
 
   protected taskTypes = TaskTypeOptions.map(value => ({
     value,
@@ -184,10 +201,12 @@ export class CreateExperimentDialogComponent {
     args: [''],
     script: ['']
   });
-  runFormGroup = this.formBuilder.group({
+  queueFormGroup = this.formBuilder.group({
+    queue: [null as string, Validators.required],
     output: ['']
   })
 
+  protected queueVal = toSignal<string>(this.queueFormGroup.controls.queue.valueChanges);
   shell = toSignal(this.codeFormGroup.controls.binaryType.valueChanges
     .pipe(
       map(value => value === 'shell'),
@@ -198,6 +217,8 @@ export class CreateExperimentDialogComponent {
   protected cursorPosition: Ace.Point;
 
   constructor() {
+    this.store.dispatch(getQueuesForEnqueue());
+
     effect(() => {
       if(this.shell()) {
         this.codeFormGroup.controls.binary.setValue('/bin/bash');
@@ -207,6 +228,12 @@ export class CreateExperimentDialogComponent {
         this.codeFormGroup.controls.binary.setValidators([Validators.required]);
       }
       this.codeFormGroup.controls.binary.updateValueAndValidity();
+    });
+
+    effect(() => {
+      if(this.queueNames()) {
+        this.queueFormGroup.controls.queue.setValidators([Validators.required, containedInList(this.queueNames())])
+      }
     });
   }
 
@@ -242,7 +269,8 @@ export class CreateExperimentDialogComponent {
       ...this.envFormGroup.value,
       ...(this.envFormGroup.controls.requirements.value === 'manual' && {pip: this.envFormGroup.controls.pip.value}),
       docker: this.dockerFormGroup.value,
-      ...this.runFormGroup.value,
+      ...this.queueFormGroup.value,
+      ...(this.queueFormGroup.controls.queue.value ? {queue: this.queues()?.find(queue => queue.name === this.queueFormGroup.controls.queue.value)} : null),
     } as createExperimentDialogResult)
   }
 
@@ -282,6 +310,10 @@ index 000000000..ff86f39a4
         .map(name => this.envFormGroup.controls[name] as FormControl)
         .forEach((control) => control.enable());
     }
+  }
+
+  loadMoreQueues() {
+    this.store.dispatch(getQueuesForEnqueue());
   }
 
   addVar() {

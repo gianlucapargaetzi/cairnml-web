@@ -1,6 +1,6 @@
 <sm-dialog-template
   class="wrapper"
-  header="Create Experiment"
+  header="Create Task"
   iconClass="al-ico-training"
   [displayX]="!editMode()"
   [closeOnX]="true"
@@ -23,8 +23,8 @@
         <form #codeForm [formGroup]="codeFormGroup">
           <div class="d-flex align-item-center gap-2">
             <mat-form-field appearance="outline">
-              <mat-label data-id="taskNameHeader">Experiment Name</mat-label>
-              <input matInput placeholder="my experiment" formControlName="name" data-id="taskNameField">
+              <mat-label data-id="taskNameHeader">Task Name</mat-label>
+              <input matInput placeholder="my task" formControlName="name" data-id="taskNameField">
               @if (codeFormGroup.controls.name.invalid) {
                 <mat-error>
                   @if (codeFormGroup.controls.name.errors?.required) {
@@ -37,7 +37,7 @@
               }
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 300px">
-              <mat-label>Experiment Type</mat-label>
+              <mat-label>Task Type</mat-label>
               <mat-select formControlName="taskType" data-id="taskTypeDropdown">
                 <mat-select-trigger>
                   @let selectedType = getSelectedTaskType();
@@ -299,7 +299,29 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
         </div>
       </mat-step>
       <mat-step #runStep label="Run">
-        <form [formGroup]="runFormGroup" class="d-flex gap-3 flex-column">
+        <form [formGroup]="queueFormGroup" class="d-flex gap-3 flex-column">
+          <h5>Enqueue task to</h5>
+          <section>
+            <sm-paginated-entity-selector
+              formControlName="queue"
+              label="Queue"
+              [data]="filteredQueues()"
+              displayField="caption"
+              [isRequired]="true"
+              (loadMore)="loadMoreQueues()"
+            >
+              @if (!queueFormGroup.controls.queue.untouched && queueFormGroup.controls.queue.errors; as errors) {
+                <div class="extra-errors">
+                  @if (errors?.required) {
+                  <mat-error>Please select queue.</mat-error>
+                }
+                @if (errors?.notFoundInList) {
+                    <mat-error>Please select a queue from the list</mat-error>
+                  }
+                </div>
+              }
+            </sm-paginated-entity-selector>
+          </section>
           <h5>Output</h5>
           <section>
             <mat-form-field appearance="outline">
@@ -314,7 +336,7 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
           <button
             mat-flat-button
             class="tertiary-button"
-            [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid || runFormGroup.invalid"
+            [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid || queueFormGroup.invalid"
             (click)="close('run')"
           >RUN</button>
         </div>

@@ -37,8 +37,11 @@ export const canRetry = (task: Task): boolean =>
 export const canChangeVersion = (task: Task): boolean =>
   !!(task && TASKS_STATUS.PUBLISHED !== task.status && task.type !== TASK_TYPES.MANUAL_ANNOTATION);
 
+export const canDequeue = (task: Task): boolean =>
+  !!(task && TASKS_STATUS.QUEUED === task.status);
+
 export const canContinue = (task: Task): boolean =>
-  !!(task && [TASKS_STATUS.CREATED, TASKS_STATUS.STOPPED].includes(task.status) && task.type !== TASK_TYPES.MANUAL_ANNOTATION);
+  !!(task && [TASKS_STATUS.CREATED, TASKS_STATUS.STOPPED].includes(task.status) && task.type !== TASK_TYPES.MANUAL_ANNOTATION) && !!task.execution?.queue;
 
 export const selectionDisabledAbort = (selectedElements: any[]) => {
   const selectedFiltered = selectedElements.filter((_selected) => [TaskStatusEnum.Queued, TaskStatusEnum.InProgress].includes(_selected?.status) && !isReadOnly(_selected));
@@ -70,7 +73,13 @@ export const selectionDisabledMoveTo = (selectedElements: any[]) => {
   const selectedFiltered = selectedElements.filter(_selected => !isReadOnly(_selected));
   return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
 };
-
+export const selectionDisabledQueue = (selectedElements: { id?: string; status?: string }[]) => {
+  if (selectedElements.length > 1) {
+    return {selectedFiltered: [], disable: true, available: 0};
+  }
+  const selectedFiltered = selectedElements.filter(_selected => _selected?.status === TaskStatusEnum.Queued && !isReadOnly(_selected));
+  return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
+};
 export const selectionDisabledViewWorker = (selectedElements: any[]) => {
   if (selectedElements.length > 1) {
     return {selectedFiltered: [], disable: true, available: 0};
@@ -99,7 +108,10 @@ export const selectionDisabledRetry = (selectedElements: any[]) => {
   const selectedFiltered = selectedElements.filter(_selected => canRetry(_selected) && !isReadOnly(_selected));
   return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
 };
-
+export const selectionDisabledDequeue = (selectedElements: any[]) => {
+  const selectedFiltered = selectedElements.filter(_selected => canDequeue(_selected) && !isReadOnly(_selected));
+  return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
+};
 export const selectionDisabledArchive = (selectedElements: any[]) => {
   const selectedFiltered = selectedElements.filter(_selected => !isReadOnly(_selected));
   return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
@@ -133,6 +145,8 @@ export enum MenuItems {
   compare = 'compare',
   delete = 'delete',
   enqueue = 'enqueue',
+  dequeue = 'dequeue',
+  queue = 'queue',
   moveTo = 'moveTo',
   publish = 'publish',
   reset = 'reset',
@@ -160,6 +174,8 @@ const pastify = (verb: AllMenuItems): string => {
       return 'restored';
     case MenuItems.delete:
       return 'deleted';
+    case MenuItems.dequeue:
+      return 'dequeued';
     case MenuItems.enqueue:
       return 'enqueued';
     case MenuItems.reset:

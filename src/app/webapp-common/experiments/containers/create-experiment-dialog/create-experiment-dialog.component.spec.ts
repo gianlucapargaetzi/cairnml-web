@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { CreateExperimentDialogComponent } from './create-experiment-dialog.component';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { selectQueueFeature } from '@common/experiments/shared/components/select-queue/select-queue.reducer';
 import { vi } from 'vitest';
 
 (window as any).IntersectionObserver = class {
@@ -17,6 +18,11 @@ describe('CreateExperimentDialogComponent', () => {
   let store: MockStore;
   let dialogRef: any;
 
+  const mockQueues = [
+    { id: '1', name: 'default', display_name: 'Default Queue' },
+    { id: '2', name: 'gpu', display_name: 'GPU Queue' }
+  ];
+
   beforeEach(async () => {
     dialogRef = {
       close: vi.fn()
@@ -25,7 +31,11 @@ describe('CreateExperimentDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CreateExperimentDialogComponent, ReactiveFormsModule],
       providers: [
-        provideMockStore({}),
+        provideMockStore({
+          selectors: [
+            { selector: selectQueueFeature.selectQueues, value: mockQueues }
+          ]
+        }),
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
@@ -147,6 +157,7 @@ describe('CreateExperimentDialogComponent', () => {
         script: 'main.py',
         scriptType: 'script'
       });
+      component.queueFormGroup.patchValue({ queue: 'default' });
 
       component.close('save');
 
@@ -183,4 +194,17 @@ describe('CreateExperimentDialogComponent', () => {
     });
   });
 
+  describe('Queue validation', () => {
+    it('should invalidate queue if not in list', () => {
+      component.queueFormGroup.get('queue').setValue('invalid-queue');
+      fixture.detectChanges();
+      expect(component.queueFormGroup.get('queue').valid).toBeFalsy();
+    });
+
+    it('should validate queue if in list', () => {
+      component.queueFormGroup.get('queue').setValue('default');
+      fixture.detectChanges();
+      expect(component.queueFormGroup.get('queue').valid).toBeTruthy();
+    });
+  });
 });
