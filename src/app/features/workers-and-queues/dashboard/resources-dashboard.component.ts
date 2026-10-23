@@ -7,8 +7,8 @@ import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {PrimeTemplate} from 'primeng/api';
 import {LineChartComponent, Topic} from '@common/shared/components/charts/line-chart/line-chart.component';
-import {pollWhileVisible} from '../scheduler/scheduler-live';
-import {SchedulerApiService, SchedulerEvent, SchedulerUsagePoint, SchedulerWorker} from '../scheduler/scheduler-api.service';
+import {pollWhileVisible} from './monitor-live';
+import {MonitorApiService, SchedulerEvent, SchedulerUsagePoint, SchedulerWorker} from './monitor-api.service';
 
 export interface ResourceUsage {
   used: number;
@@ -104,7 +104,7 @@ function cpuTopics(points: SchedulerUsagePoint[], cpusByWorker: Map<string, numb
   ]
 })
 export class ResourcesDashboardComponent {
-  private api = inject(SchedulerApiService);
+  private api = inject(MonitorApiService);
 
   protected readonly timeRanges = TIME_RANGES;
   protected readonly chartColors = CHART_COLORS;

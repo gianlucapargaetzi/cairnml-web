@@ -29,7 +29,6 @@ import {convertStopToComplete} from '../shared/common-experiments.utils';
 import {sortByField} from '../../tasks/tasks.utils';
 import {MODEL_TAGS} from '../../models/shared/models.const';
 import {emptyAction} from '~/app.constants';
-import {SchedulerApiService} from '~/features/workers-and-queues/scheduler/scheduler-api.service';
 import {selectCurrentScrollId, selectExperimentsHiddenTableCols, selectExperimentsList, selectExperimentsMetricsCols, selectExperimentsMetricsColsForProject, selectExperimentsTableCols, selectExperimentsTableColsOrder, selectExperimentsTableFilters, selectGlobalFilter, selectHyperParamsFiltersPage, selectSelectedExperiments, selectShowAllSelectedIsActive, selectTableFilters, selectTableMode, selectTableRefreshSessionList, selectTableSortFields} from '../reducers';
 import {ProjectsGetTaskParentsResponse} from '~/business-logic/model/projects/projectsGetTaskParentsResponse';
 import {ProjectsGetTaskParentsRequest} from '~/business-logic/model/projects/projectsGetTaskParentsRequest';
@@ -91,7 +90,6 @@ export class CommonExperimentsViewEffects {
   private errService = inject(ErrorService);
   private route = inject(ActivatedRoute);
   private userPreferences = inject(UserPreferences);
-  private schedulerApi = inject(SchedulerApiService);
 
   activeLoader = createEffect(() => this.actions$.pipe(
     ofType(
@@ -945,9 +943,13 @@ export class CommonExperimentsViewEffects {
   enqueueCreateExperiment = createEffect(() => {
     return this.actions$.pipe(
       ofType(exActions.createExperimentSuccess),
-      filter(action => action.data.action === 'run'),
-      switchMap(action => this.schedulerApi.enqueue(action.data.id, null, null).pipe(
-        map(() => emptyAction())
+      filter(action => !!action.data.queue),
+      switchMap(action => this.apiTasks.tasksEnqueue({
+        queue: action.data.queue.id,
+        task: action.data.id,
+        verify_watched_queue: true
+      }).pipe(
+        map(res => res.queue_watched === false ? menuActions.openEmptyQueueMessage({queue: action.data.queue, entityName: action.data.name}) : {type: 'EMPTY'})
       )),
       catchError(error => [addMessage(MESSAGES_SEVERITY.ERROR, `Failed to enqueue tasks.\n${this.errService.getErrorMsg(error.error)}`)])
     );
