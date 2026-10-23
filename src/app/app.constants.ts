@@ -81,7 +81,11 @@ export const guessAPIServerURL = () => {
   } else if (window.location.pathname === '/widgets') {
     return url + '/api';
   }
-  return url.replace(/:\d+/, '') + ':8008';
+  // The web server proxies /api to the API server, so the page's own origin is the default. Under a sub-path the API
+  // is at <sub-path>/api, as the server's web server routes it.
+  const subPath = (window as any).__env?.subPath || '';
+  const basePath = subPath && !subPath.startsWith('${') ? '/' + subPath.replace(/^\/+|\/+$/g, '') : '';
+  return url + basePath + '/api';
 };
 
 export const ENVIRONMENT = {API_VERSION: '/v999.0'};
