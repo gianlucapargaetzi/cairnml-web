@@ -1,6 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 import {Project} from '~/business-logic/model/projects/project';
+import {Queue} from '~/business-logic/model/queues/queue';
 import {CloneExperimentPayload, ITableExperiment} from '../shared/common-experiment-model.model';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 
@@ -19,6 +20,7 @@ export const stopClicked = createAction(
 export const startPipeline = createAction(
   EXPERIMENTS_INFO_PREFIX + 'start pipeline',
   props<{
+    queue: Queue;
     args: {name: string; value: string}[];
     task: string;
     createNewPipeline?: boolean;
@@ -43,6 +45,11 @@ export const setControllerForStartPipelineDialog = createAction(
 export const changeProjectRequested = createAction(
   EXPERIMENTS_INFO_PREFIX + 'change project requested',
   props<{ selectedEntities: ISelectedExperiment[]; project: Project }>()
+);
+
+export const dequeueClicked = createAction(
+  EXPERIMENTS_INFO_PREFIX + 'dequeue experiments',
+  props<{ selectedEntities: ISelectedExperiment[] }>()
 );
 
 export const cloneExperiment = createAction(
@@ -78,6 +85,11 @@ export const shareSelectedExperiments = createAction(
   props<{ share: boolean; task: string }>()
 );
 
+export const navigateToQueue = createAction(
+  EXPERIMENTS_INFO_PREFIX + 'navigate to queue',
+  props<{ experimentId: string }>()
+);
+
 export const navigateToWorker = createAction(
   EXPERIMENTS_INFO_PREFIX + 'navigate to worker',
   props<{ experimentId: string }>()
@@ -85,13 +97,13 @@ export const navigateToWorker = createAction(
 
 export const enqueueClicked = createAction(
   EXPERIMENTS_INFO_PREFIX + 'enqueue experiments',
-  props<{
-    selectedEntities: ISelectedExperiment[];
-    /** What the tasks need from a machine (all of cpus, ram_gb, gpus, disk_gb), or null for a whole machine */
-    requirements?: Record<string, unknown> | null;
-    priority?: number;
-  }>()
+  props<{ selectedEntities: ISelectedExperiment[]; queue: Queue; verifyWatchers: boolean }>()
 );
+export const openEmptyQueueMessage = createAction(
+  EXPERIMENTS_INFO_PREFIX + 'open empty queue message',
+  props<{ queue: Queue; entityName?: string }>()
+);
+
 export const archiveSelectedExperiments = createAction(
   EXPERIMENTS_INFO_PREFIX + 'archive selected experiments',
   props<{ selectedEntities: ISelectedExperiment[]; skipUndo?: boolean; entityType?: EntityTypeEnum }>()
