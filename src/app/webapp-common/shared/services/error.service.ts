@@ -39,7 +39,7 @@ export class ErrorService {
       57: this.template`Account already exists for this ${'provider'}  identity. Use 'Log In' instead.`,
       58: this.template`No account exists. Use the provider you signed up with or sign up to create a new account`,
       62: this.template`Please check your email to continue the signup process`,
-      67: this.template`${'email'} does not have access to MLOps Flow - Ask your admin to whitelist this address`,
+      67: this.template`${'email'} does not have access to CairnML - Ask your admin to whitelist this address`,
       86: this.template`Can't deactivate last SSO configuration`,
       92: this.template`Can't login to tenant ${'tenant'}, user isn't part of this tenant`,
       1205: this.template`This workspace is at its limit for concurrently running instances.`,

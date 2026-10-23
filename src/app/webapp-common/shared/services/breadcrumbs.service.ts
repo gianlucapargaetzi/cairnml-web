@@ -24,7 +24,7 @@ export class BreadcrumbsService {
   private titleService = inject(Title);
   private config = inject(ConfigurationService);
   protected staticBreadcrumb = signal(null)
-  private title = computed(() => this.config.configuration().branding?.faviconUrl ? '' : 'MLOps Flow');
+  private title = computed(() => this.config.configuration().branding?.faviconUrl ? '' : 'CairnML');
   private titlePrefix = computed(() => this.title() ? this.title() + ' - ' : '')
 
   constructor() {

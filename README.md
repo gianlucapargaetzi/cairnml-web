@@ -1,4 +1,4 @@
-# ClearML Webapp
+# CairnML Webapp
 
 ## Building the UI from source
 ### Prerequisite
@@ -6,7 +6,7 @@
 * use git to clone the project to your local machine 
 
 ### Build
-* `cd clearml-web` to the root of the project
+* `cd cairnml-web` to the root of the project
 * run `pnpm install  --force --frozen-lockfile` to install required node modules
 * run `pnpm run build`
 
@@ -20,7 +20,7 @@ During development, the development server will need to proxy an API server. to 
 Start the development server: `npm run start`
 
 #### Business Logic module
-Contains ClearML logic. api calls and ClearML objects (e.g tasks, models) and ClearML logic function (e.g isTaskHidden)
+Contains CairnML logic. api calls and CairnML objects (e.g tasks, models) and CairnML logic function (e.g isTaskHidden)
 
 #### Core module
 Contains only logic. no declarations. no dependency with any other module beside ngrx.

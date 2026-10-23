@@ -36,9 +36,9 @@
     <div class="code-container" [class.jupyter]="isJupyter()">
       @if (!isJupyter()) {
         @if (serviceUserMode){
-          <div class="instructions mt-2 mb-2">Copy the below configuration to the agent's clearml.conf file</div>
+          <div class="instructions mt-2 mb-2">Copy the below configuration to the agent's cairnml.conf file</div>
         } @else {
-          <div class="instructions mt-2 mb-2">Copy the below info for input to 'clearml-init' configuration request, or modify your existing clearml.conf</div>
+          <div class="instructions mt-2 mb-2">Copy the below info for input to 'cairnml-init' configuration request, or modify your existing cairnml.conf</div>
         }
         <div class="mt-2 w-100 code">
           <div class="content">
@@ -81,23 +81,23 @@
       }
     </div>
   } @else {
-    <div class="instructions mt-2 mb-2">Add the below to your notebook to configure MLOps Flow</div>
+    <div class="instructions mt-2 mb-2">Add the below to your notebook to configure CairnML</div>
     <div class="code">
       <div class="content">
         <div>
-          %env<span class="variable ms-2">CLEARML_WEB_HOST</span><span class="operation">=</span><span class="string">"{{WEB_SERVER_URL}}"</span>
+          %env<span class="variable ms-2">CAIRNML_WEB_HOST</span><span class="operation">=</span><span class="string">"{{WEB_SERVER_URL}}"</span>
         </div>
         <div>
-          %env<span class="variable ms-2">CLEARML_API_HOST</span><span class="operation">=</span><span class="string">"{{configService.apiServerUrl()}}"</span>
+          %env<span class="variable ms-2">CAIRNML_API_HOST</span><span class="operation">=</span><span class="string">"{{configService.apiServerUrl()}}"</span>
         </div>
         @if (newCredential.label) {
           <div># {{newCredential.label}}</div>
         }
         <div>
-          %env<span class="variable ms-2">CLEARML_API_ACCESS_KEY</span><span class="operation">=</span><span class="string">"{{newCredential?.access_key}}"</span>
+          %env<span class="variable ms-2">CAIRNML_API_ACCESS_KEY</span><span class="operation">=</span><span class="string">"{{newCredential?.access_key}}"</span>
         </div>
         <div>
-          %env<span class="variable ms-2">CLEARML_API_SECRET_KEY</span><span class="operation">=</span><span class="string">"{{newCredential.secret_key}}"</span>
+          %env<span class="variable ms-2">CAIRNML_API_SECRET_KEY</span><span class="operation">=</span><span class="string">"{{newCredential.secret_key}}"</span>
         </div>
       </div>
       <sm-copy-clipboard
@@ -107,7 +107,7 @@
   }
 </div>
 <ng-template #jupyter>
-  <div class="instructions">Add the below to your notebook to configure MLOps Flow</div>
+  <div class="instructions">Add the below to your notebook to configure CairnML</div>
   <div class="code">
     <div class="content" #jupyterCodeEl>{{jupyterCode}}</div>
     <sm-copy-clipboard

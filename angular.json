@@ -211,8 +211,8 @@
           "style": "scss"
         }
       },
-      "root": "src/app/webapp-common/clearml-applications/report-widgets",
-      "sourceRoot": "src/app/webapp-common/clearml-applications/report-widgets/src",
+      "root": "src/app/webapp-common/cairnml-applications/report-widgets",
+      "sourceRoot": "src/app/webapp-common/cairnml-applications/report-widgets/src",
       "prefix": "app",
       "architect": {
         "build": {
@@ -226,14 +226,14 @@
               "zone.js"
             ],
             "baseHref": "",
-            "index": "src/app/webapp-common/clearml-applications/report-widgets/src/index.html",
-            "tsConfig": "src/app/webapp-common/clearml-applications/report-widgets/tsconfig.app.json",
+            "index": "src/app/webapp-common/cairnml-applications/report-widgets/src/index.html",
+            "tsConfig": "src/app/webapp-common/cairnml-applications/report-widgets/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/app/webapp-common/clearml-applications/report-widgets/src/favicon.ico",
-              "src/app/webapp-common/clearml-applications/report-widgets/src/assets",
-              "src/app/webapp-common/clearml-applications/report-widgets/src/app/webapp-common/assets",
-              "src/app/webapp-common/clearml-applications/report-widgets/src/app/webapp-common/assets/fonts/trains.ttf"
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/favicon.ico",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/assets",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets/fonts/trains.ttf"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -242,7 +242,7 @@
               ]
             },
             "styles": [
-              "src/app/webapp-common/clearml-applications/report-widgets/src/app/styles/styles.scss",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/styles/styles.scss",
               {
                 "input": "src/app/webapp-common/assets/fonts/trains-icons.scss",
                 "bundleName": "trains-icons",
@@ -264,7 +264,7 @@
               "taira",
               "url"
             ],
-            "browser": "src/app/webapp-common/clearml-applications/report-widgets/src/main.ts"
+            "browser": "src/app/webapp-common/cairnml-applications/report-widgets/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -282,8 +282,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "src/app/webapp-common/clearml-applications/report-widgets/src/environments/environment.ts",
-                  "with": "src/app/webapp-common/clearml-applications/report-widgets/src/environments/environment.prod.ts"
+                  "replace": "src/app/webapp-common/cairnml-applications/report-widgets/src/environments/environment.ts",
+                  "with": "src/app/webapp-common/cairnml-applications/report-widgets/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -321,21 +321,21 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "main": "src/app/webapp-common/clearml-applications/report-widgets/src/test.ts",
+            "main": "src/app/webapp-common/cairnml-applications/report-widgets/src/test.ts",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "src/app/webapp-common/clearml-applications/report-widgets/tsconfig.spec.json",
-            "karmaConfig": "src/app/webapp-common/clearml-applications/report-widgets/karma.conf.js",
+            "tsConfig": "src/app/webapp-common/cairnml-applications/report-widgets/tsconfig.spec.json",
+            "karmaConfig": "src/app/webapp-common/cairnml-applications/report-widgets/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/app/webapp-common/clearml-applications/report-widgets/src/favicon.ico",
-              "src/app/webapp-common/clearml-applications/report-widgets/src/assets",
-              "src/app/webapp-common/clearml-applications/report-widgets/src/app/webapp-common/assets"
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/favicon.ico",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/assets",
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets"
             ],
             "styles": [
-              "src/app/webapp-common/clearml-applications/report-widgets/src/styles.scss"
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/styles.scss"
             ],
             "scripts": []
           }

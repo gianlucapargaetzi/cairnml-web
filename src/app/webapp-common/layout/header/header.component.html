@@ -76,12 +76,12 @@
       <mat-menu #resourcesMenu="matMenu" class="user-menu">
         <button mat-menu-item (click)="openWelcome($event)" data-id="Python Package setup Option">
           <mat-icon fontSet="al" fontIcon="al-ico-code-file">Code</mat-icon>
-          <span>MLOps Flow Python package setup</span>
+          <span>CairnML Python package setup</span>
         </button>
         @if (environment().platformYoutubeChannel) {
           <a mat-menu-item [href]="environment().platformYoutubeChannel" target="_blank" data-id="Youtube Option">
             <mat-icon fontSet="al" fontIcon="al-ico-youtube">Youtube</mat-icon>
-            <span>MLOps Flow on YouTube</span>
+            <span>CairnML on YouTube</span>
           </a>
         }
         <a mat-menu-item [href]="environment().docsLink" target="_blank" data-id="Online Documentation Option">
@@ -107,7 +107,7 @@
           </a>
         }
         <div class="sub-note px-3 py-2" data-id="Disclaimer">
-          MLOps Flow is an unofficial, modified version of ClearML. ClearML is a trademark of ClearML, Inc., which does not endorse, sponsor or support this software.
+          CairnML is an unofficial, modified version of ClearML. ClearML is a trademark of ClearML, Inc., which does not endorse, sponsor or support this software.
         </div>
       </mat-menu>
     </div>

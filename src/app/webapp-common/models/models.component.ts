@@ -523,7 +523,7 @@ export class ModelsComponent extends BaseEntityPageComponent implements OnDestro
   }
 
   downloadTableAsCSV() {
-    this.table.table().downloadTableAsCSV(`MLOps Flow ${this.selectedProject().id === '*'? 'All': this.selectedProject()?.basename?.substring(0, 60)} Models`);
+    this.table.table().downloadTableAsCSV(`CairnML ${this.selectedProject().id === '*'? 'All': this.selectedProject()?.basename?.substring(0, 60)} Models`);
   }
 
   downloadFullTableAsCSV() {

@@ -73,8 +73,8 @@ export const BASE_ENV: Environment = {
   autoLogin: false,
   apiBaseUrl: null,
   version,
-  baseUrl: 'https://app.clear.ml',
-  headerPrefix: 'X-Clearml',
+  baseUrl: '',
+  headerPrefix: 'X-Cairnml',
   loginNotice: '',
   userKey: '',
   userSecret: '',
@@ -87,7 +87,7 @@ export const BASE_ENV: Environment = {
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: '/docs',
   branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
-  serverDownMessage: 'The ClearML server is currently unavailable.<BR>' +
+  serverDownMessage: 'The CairnML server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.',
   legal: {TOULink: 'https://clear.ml/legal-platform-tou/', pricingLink: 'https://clear.ml/pricing/'},
   showMaskWithoutLabels: true,

@@ -80,13 +80,13 @@ export class AdminDialogTemplateComponent {
   }
 
   getJupiterCode() {
-    let res = `%env CLEARML_WEB_HOST=${this.WEB_SERVER_URL}
-%env CLEARML_API_HOST=${this.configService.apiServerUrl()}\n`;
+    let res = `%env CAIRNML_WEB_HOST=${this.WEB_SERVER_URL}
+%env CAIRNML_API_HOST=${this.configService.apiServerUrl()}\n`;
     if (this.newCredential.label) {
       res += `# ${this.newCredential.label}\n`;
     }
-    res += `%env CLEARML_API_ACCESS_KEY=${this.newCredential?.access_key || '<You\'re API access key>'}
-%env CLEARML_API_SECRET_KEY=${this.newCredential?.secret_key || '<You\'re API secret key>'}`;
+    res += `%env CAIRNML_API_ACCESS_KEY=${this.newCredential?.access_key || '<You\'re API access key>'}
+%env CAIRNML_API_SECRET_KEY=${this.newCredential?.secret_key || '<You\'re API secret key>'}`;
     return res;
   }
 }

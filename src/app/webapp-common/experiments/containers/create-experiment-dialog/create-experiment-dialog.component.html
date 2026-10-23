@@ -61,7 +61,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Repository URL</mat-label>
                 <input
-                  matInput placeholder="git@github.com:clearml/clearml.git" formControlName="repo"
+                  matInput placeholder="git@github.com:cairnml/cairnml.git" formControlName="repo"
                   (focusout)="typeChange(codeFormGroup.controls.type.value)"
                 >
               </mat-form-field>
@@ -226,7 +226,7 @@
                               [class.position-absolute]="envFormGroup.controls.venvType.value === 'discover'"
               >
                 <mat-label>Preinstalled venv</mat-label>
-                <input matInput placeholder="clearml" formControlName="venv">
+                <input matInput placeholder="cairnml" formControlName="venv">
               </mat-form-field>
             </div>
             <h6 [class.disabled]="envFormGroup.controls.poetry.value">Additional Packages</h6>
@@ -241,7 +241,7 @@
                 <textarea matInput formControlName="pip" class="terminal" rows="8" placeholder="e.g.
 
 bokeh>=1.4.0
-clearml
+cairnml
 matplotlib >= 3.1.1 ; python_version >= '3.6'
 matplotlib >= 2.2.4 ; python_version < '3.6'
 numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
