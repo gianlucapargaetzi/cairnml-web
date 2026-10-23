@@ -97,7 +97,7 @@ export const BASE_ENV = {
   hideUpdateNotice: false,
   showSurvey: false,
   accountAdministration: false,
-  legal: {TOULink: 'https://github.com/cairnml/cairnml-server/blob/master/LICENSE'},
+  legal: {TOULink: 'https://github.com/clearml/clearml-server/blob/master/LICENSE'},
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: 'https://clear.ml/docs',
   supportEmail: '',
