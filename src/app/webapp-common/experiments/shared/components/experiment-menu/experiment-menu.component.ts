@@ -1,7 +1,9 @@
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, take} from 'rxjs/operators';
+import {filter, switchMap, take, catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {ICONS} from '@common/constants';
+import {Queue} from '~/business-logic/model/queues/queue';
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {BlTasksService} from '~/business-logic/services/tasks.service';
@@ -41,6 +43,7 @@ import {
   selectionDisabledAbortAllChildren,
   selectionDisabledArchive,
   selectionDisabledDelete,
+  selectionDisabledDequeue,
   selectionDisabledEnqueue,
   selectionDisabledMoveTo,
   selectionDisabledPublishExperiments,
@@ -58,6 +61,7 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {Project} from '~/business-logic/model/projects/project';
 import {showColorPicker} from '@common/shared/ui-components/directives/choose-color/choose-color.actions';
 import {generateColorKey} from '@common/shared/single-graph/single-graph.utils';
+import {ApiQueuesService} from '~/business-logic/api-services/queues.service';
 import {normalizeColorToString} from '@common/shared/services/color-hash/color-hash.utils';
 import {ColorHashService} from '@common/shared/services/color-hash/color-hash.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -96,6 +100,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   protected router = inject(Router);
   protected configService = inject(ConfigurationService);
   protected route = inject(ActivatedRoute);
+  private queueApi = inject(ApiQueuesService);
   private colorHash = inject(ColorHashService);
 
 
@@ -131,6 +136,10 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   tagSelected = output<string>();
   getCompanyTags = output();
   stopTemplate = viewChild.required<TemplateRef<{ $implicit: ISelectedExperiment[] }>>('stopTemplate ');
+  dequeueTemplate = viewChild.required<TemplateRef<{
+    $implicit: ISelectedExperiment[];
+    queueName: string
+  }>>('dequeueTemplate');
   publishTemplate = viewChild.required<TemplateRef<{ $implicit: ISelectedExperiment[] }>>('publishTemplate ');
 
   public restoreArchive(entityType?: EntityTypeEnum) {
@@ -155,7 +164,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType);
           } else if (showRunningWarningDialog) {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType, 'ARCHIVE A RUNNING TASK',
-              'Some of the experiments you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive experiments?',
+              'Some of the tasks you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive tasks?',
               false);
           } else {
             this.store.dispatch(commonMenuActions.archiveSelectedExperiments({
@@ -192,9 +201,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   }
 
   private openEnqueuePopup(selectedExperiments: ISelectedExperiment[], retryMode?: boolean) {
-    const selectQueueDialog: MatDialogRef<SelectQueueComponent, {
-      confirmed: boolean; requirements: Record<string, unknown> | null; priority: number;
-    }> =
+    const selectQueueDialog: MatDialogRef<SelectQueueComponent, { confirmed: boolean; queue: Queue }> =
       this.dialog.open(SelectQueueComponent, {
         autoFocus: 'dialog',
         data: {
@@ -207,17 +214,57 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
 
     selectQueueDialog.afterClosed().subscribe(res => {
       if (res && res.confirmed) {
-        this.enqueueExperiment(selectedExperiments, res.requirements, res.priority);
+        this.enqueueExperiment(res.queue, selectedExperiments);
+        this.blTaskService.setPreviouslyUsedQueue(res.queue);
       }
     });
   }
 
-  private enqueueExperiment(selectedExperiments, requirements?: Record<string, unknown> | null, priority?: number) {
+  dequeuePopup() {
+    const selectedExperiments = this.selectedExperiments() ? selectionDisabledDequeue(this.selectedExperiments()).selectedFiltered : [this.experiment()];
+    this.queueApi.queuesGetByTaskId({task: selectedExperiments[0].id})
+      .pipe(
+        take(1),
+        catchError(() => of(null)),
+        switchMap((queue) => {
+          return this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig<{
+            $implicit: ISelectedExperiment[];
+            queueName?: string
+          }>, boolean>(ConfirmDialogComponent, {
+            data: {
+              title: 'Dequeue Task',
+              template: this.dequeueTemplate(),
+              templateContext: {
+                $implicit: selectedExperiments,
+                ...(queue && {queueName: queue.display_name || queue.name})
+              },
+              yes: 'Dequeue',
+              no: 'Cancel',
+              iconClass: 'al-ico-alert',
+              iconColor: 'var(--color-warning)'
+            },
+            panelClass: 'dialog-md'
+          }).afterClosed();
+        }),
+        filter(response => !!response)
+      )
+      .subscribe(() => this.dequeueExperiment(selectedExperiments));
+  }
+
+  private enqueueExperiment(queue, selectedExperiments) {
     this.store.dispatch(commonMenuActions.enqueueClicked({
       selectedEntities: selectedExperiments,
-      requirements,
-      priority,
+      queue,
+      verifyWatchers: true
     }));
+  }
+
+  private dequeueExperiment(selectedExperiments) {
+    this.store.dispatch(commonMenuActions.dequeueClicked({selectedEntities: selectedExperiments}));
+  }
+
+  public enqueueDequeueDisabled() {
+    return !(this.blTaskService.canEnqueue(this.experiment()) || this.blTaskService.canDequeue(this.experiment()));
   }
 
   public resetPopup() {
@@ -291,7 +338,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       $implicit: ISelectedExperiment[]
     }>, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'PUBLISH EXPERIMENTS',
+        title: 'PUBLISH TASKS',
         template: this.publishTemplate(),
         templateContext: {$implicit: selectedExperiments},
         yes: 'Publish',
@@ -313,7 +360,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   shareExperimentPopup() {
     this.dialog.open(ShareDialogComponent, {
       data: {
-        title: 'SHARE EXPERIMENT PUBLICLY',
+        title: 'SHARE TASK PUBLICLY',
         link: `${window.location.origin}/projects/${this.experiment().project.id}/experiments/${this.experiment().id}/output/execution`,
         alreadyShared: this.experiment()?.system_tags.includes('shared'),
         task: this.experiment()?.id
@@ -347,6 +394,10 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
 
   viewWorkerClicked() {
     this.store.dispatch(commonMenuActions.navigateToWorker({experimentId: this.experiment()?.id}));
+  }
+
+  manageQueueClicked() {
+    this.store.dispatch(commonMenuActions.navigateToQueue({experimentId: this.experiment()?.id}));
   }
 
   clonePopup() {
@@ -423,7 +474,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       neverShowAgain: boolean
     }>(ConfirmDialogComponent, {
       data: {
-        title: title ?? 'ARCHIVE A PUBLICLY SHARED EXPERIMENT',
+        title: title ?? 'ARCHIVE A PUBLICLY SHARED TASK',
         body: body ?? `This task is accessible through a public access link.
             Archiving will disable public access`,
         yes: 'OK',

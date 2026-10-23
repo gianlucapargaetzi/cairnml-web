@@ -33,7 +33,7 @@ export interface SchedulerWorker {
   usage: SchedulerWorkerUsage;
   exclusive_task: string | null;
   last_sync: string | null;
-  jobs: unknown[];
+  jobs: { task?: string; cpus: number[]; gpus: number[] }[];
 }
 
 export interface SchedulerEvent {

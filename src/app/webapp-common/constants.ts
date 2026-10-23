@@ -16,6 +16,7 @@ export const ICONS = {
   QUEUED: 'al-ico-manage-queue',
   RETRY: 'al-ico-retry',
   ENQUEUE: 'al-ico-enqueue',
+  DEQUEUE: 'al-ico-dequeue',
   STOPPED: 'al-ico-abort',
   STOPPED_ALL: 'al-ico-abort-all',
   FAILED: 'al-ico-dialog-x',

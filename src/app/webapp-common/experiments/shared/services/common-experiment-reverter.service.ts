@@ -70,6 +70,7 @@ export class CommonExperimentReverterService implements OnDestroy {
       requirements: experiment.script ? this.revertRequirements(experiment.script) : {pip: ''},
       diff: experiment.script?.diff ?? '',
       docker_cmd: experiment.container?.['docker_cmd'],
+      queue: experiment.execution?.queue,
       container: experiment.container || {setup_shell_script: '', arguments: '', image: ''}
       /* eslint-enable @typescript-eslint/naming-convention */
     };
