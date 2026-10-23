@@ -8,4 +8,5 @@ export const COLLECTION_FORMATS = {
     'pipes': '|'
 }
 
+export const DEFAULT_QUEUE_TAG = 'default';
 

@@ -1,4 +1,5 @@
 import {Container} from '~/business-logic/model/tasks/container';
+import {Queue} from '~/business-logic/model/queues/queue';
 
 export enum sourceTypesEnum {
   Tag = 'tag',
@@ -25,6 +26,7 @@ export interface IExecutionForm {
     destination: string;
     logLevel?: 'INFO' | 'DEBUG' | 'ERROR'; // TODO: should be enum from gencode.
   };
+  queue: Queue;
   container?: Container;
 }
 
