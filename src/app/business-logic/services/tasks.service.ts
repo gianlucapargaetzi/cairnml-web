@@ -2,12 +2,31 @@ import {Injectable} from '@angular/core';
 import {TASK_TYPES} from '~/app.constants';
 import {TAGS, TASKS_STATUS} from '@common/tasks/tasks.constants';
 import {Task} from '../model/tasks/task';
+import {DEFAULT_QUEUE_TAG} from '../variables';
 import {ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 
 @Injectable({providedIn: 'root'})
 export class BlTasksService {
+  private previouslyUsedQueue;
+
+  getDefaultQueue(queues) {
+    return queues.find(queue => this.previouslyUsedQueue?.id === queue.id) || queues.find(queue => this.isDefaultQueue(queue));
+  }
+
+  setPreviouslyUsedQueue(queue) {
+    this.previouslyUsedQueue = queue;
+  }
+
+  isDefaultQueue(queue) {
+    return queue.system_tags && queue.system_tags.includes(DEFAULT_QUEUE_TAG);
+  }
+
   canEnqueue(task: ISelectedExperiment): boolean {
     return !!(task && (TASKS_STATUS.CREATED === task.status || TASKS_STATUS.STOPPED === task.status) && task.type !== TASK_TYPES.MANUAL_ANNOTATION);
+  }
+
+  canDequeue(task: ISelectedExperiment): boolean {
+    return !!(task && TASKS_STATUS.QUEUED === task.status);
   }
 
   addHiddenTag(taskTags: Task['system_tags']): Task['system_tags'] {

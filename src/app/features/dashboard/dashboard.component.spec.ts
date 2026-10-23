@@ -130,7 +130,7 @@ describe('DashboardComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(setDeep({deep: false}));
   });
 
-  it('should navigate to workers and jobs on redirectToWorkers', () => {
+  it('should navigate to workers and queues on redirectToWorkers', () => {
     component.redirectToWorkers();
     expect(router.navigateByUrl).toHaveBeenCalledWith('/workers-and-queues');
   });

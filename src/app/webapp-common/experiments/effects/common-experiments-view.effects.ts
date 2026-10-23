@@ -72,6 +72,7 @@ import {EventsGetMultiTaskMetricsResponse} from '~/business-logic/model/events/e
 import {TasksCreateResponse} from '~/business-logic/model/tasks/tasksCreateResponse';
 import {ErrorService} from '@common/shared/services/error.service';
 import {cloneExperiment} from '@common/experiments/actions/common-experiments-menu.actions';
+import * as menuActions from '@common/experiments/actions/common-experiments-menu.actions';
 import {TasksCreateRequest} from '~/business-logic/model/tasks/tasksCreateRequest';
 import * as actions from '@common/experiments/actions/common-experiments-view.actions';
 import {UserPreferences} from '@common/user-preferences';
