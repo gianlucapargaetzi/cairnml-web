@@ -8,7 +8,7 @@ The browser interface of CairnML. It ships with the [CairnML server](https://git
 
 ## 🌐 Open it
 
-Open `http://cairnml:8080` in your browser and sign in.
+Open `http://<server-ip>:8080` in your browser and sign in.
 
 ## 🛠️ Build from source
 
