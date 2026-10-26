@@ -1,3 +1,17 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/cairnml-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/cairnml-logo.svg">
+    <img src="assets/cairnml-logo.svg" alt="CairnML" width="480">
+  </picture>
+</p>
+
+<p align="center">
+  <a href="https://github.com/gianlucapargaetzi/cairnml-web/actions/workflows/build.yml"><img src="https://github.com/gianlucapargaetzi/cairnml-web/actions/workflows/build.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/gianlucapargaetzi/cairnml-web/stargazers"><img src="https://img.shields.io/github/stars/gianlucapargaetzi/cairnml-web?style=flat-square&logo=github" alt="GitHub stars"></a>
+  <a href="https://github.com/gianlucapargaetzi/cairnml-web/blob/main/LICENSE"><img src="https://img.shields.io/github/license/gianlucapargaetzi/cairnml-web?style=flat-square&color=green" alt="License"></a>
+</p>
+
 # 🖥️ CairnML Web
 
 The browser interface of CairnML. It ships with the [CairnML server](https://github.com/gianlucapargaetzi/cairnml-server), so there is nothing to install separately.
