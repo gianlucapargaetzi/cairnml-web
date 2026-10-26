@@ -28,6 +28,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {PrimeTemplate} from 'primeng/api';
 import {MatInput} from '@angular/material/input';
+
+// Accepts text that does not start with whitespace and contains no line breaks, or text that starts with
+// whitespace and has a non-space character. Same accept set as the former nested-quantifier pattern, which
+// backtracked catastrophically on long whitespace runs.
+const NON_BLANK_PATTERN = new RegExp('^(?:\\s[\\s\\S]*\\S[\\s\\S]*|\\S[^\\n\\r\\u2028\\u2029]*)?$');
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {computedPrevious} from 'ngxtension/computed-previous';
@@ -148,8 +153,8 @@ export class ModelInfoMetadataComponent {
         this.metadata.forEach(item => {
           metadataArray.push(new FormGroup({
             id: new FormControl(item.id),
-            key: new FormControl(item.key, [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]),
-            type: new FormControl(item.type, [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]),
+            key: new FormControl(item.key, [Validators.required, Validators.pattern(NON_BLANK_PATTERN)]),
+            type: new FormControl(item.type, [Validators.required, Validators.pattern(NON_BLANK_PATTERN)]),
             value: new FormControl(item.value)
           }));
         });
@@ -188,8 +193,8 @@ export class ModelInfoMetadataComponent {
 
     metadataArray.push(new FormGroup({
       id: new FormControl(nextId),
-      key: new FormControl(null, [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]),
-      type: new FormControl(null, [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]),
+      key: new FormControl(null, [Validators.required, Validators.pattern(NON_BLANK_PATTERN)]),
+      type: new FormControl(null, [Validators.required, Validators.pattern(NON_BLANK_PATTERN)]),
       value: new FormControl(null)
     }));
     window.setTimeout(() => this.container().nativeElement.scrollTo({top: this.container().nativeElement.scrollHeight, behavior: 'smooth'}))

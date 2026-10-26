@@ -630,7 +630,16 @@ export const _testWhite = (x) => {
   return white.test(x.charAt(0));
 };
 
-export const stripHtml = (s) => s.replace(/<[^>]*>?/gm, '');
+export const stripHtml = (s) => {
+  // repeat until nothing changes, so that nested fragments such as "<<b>b>" cannot leave a tag behind
+  let stripped = s;
+  let previous;
+  do {
+    previous = stripped;
+    stripped = stripped.replace(/<[^>]*>?/gm, '');
+  } while (stripped !== previous);
+  return stripped;
+};
 
 export const timeInWords = (milliseconds: number, granularityLevel = 3) => {
   let remaining = Math.floor(milliseconds / 1000);

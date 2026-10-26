@@ -76,10 +76,12 @@ export const buildGitRepoUrl = (
   }
 
   const host = new URL(httpsUrl).hostname;
+  // exact host or one of its subdomains, so that e.g. "github.com.example.org" is not taken for GitHub
+  const isHost = (domain: string) => host === domain || host.endsWith(`.${domain}`);
   let targetUrl = httpsUrl;
   let type;
 
-  if (host.includes('github.com')) {
+  if (isHost('github.com')) {
     type = 'github';
     if (commitId) targetUrl += `/tree/${commitId}`;
     else if (branch) targetUrl += `/tree/${branch}`;
@@ -87,7 +89,7 @@ export const buildGitRepoUrl = (
     type = 'bitbucket';
     if (commitId) targetUrl += `/src/${commitId}`;
     else if (branch) targetUrl += `/src/HEAD/?at=${encodeURIComponent(branch)}`;
-  } else if (host.includes('dev.azure.com') || host.includes('azure.com')) {
+  } else if (isHost('azure.com')) {
     type = 'azure';
     if (commitId) targetUrl += `?version=GC${commitId}`;
     else if (branch) targetUrl += `?version=GB${branch}`;
