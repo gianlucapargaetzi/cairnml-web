@@ -584,7 +584,7 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
   preProcessRows(cols: any[]) {
     return this.tableData().map(row =>
       cols.reduce((acc, dCol) => {
-        const val = get(row, (dCol.field).split('.').map(level=> level.replace('%2E', '.')), '') as unknown;
+        const val = get(row, (dCol.field).split('.').map(level=> level.replace(/%2E/g, '.')), '') as unknown;
         acc[dCol.name] = Array.isArray(val) ?
           val.toString() :
           typeof val === 'string' ?
