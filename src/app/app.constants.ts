@@ -72,6 +72,12 @@ export const USERS_PREFIX  = 'USERS_';
 
 export const NAVIGATION_PREFIX  = 'NAVIGATION_';
 
+/** The path the server is served under, from env.js: '/cairnml', or '' when it is served at the root. */
+export const getBasePath = () => {
+  const subPath = (window as any).__env?.subPath || '';
+  return subPath && !subPath.startsWith('${') ? '/' + subPath.replace(/^\/+|\/+$/g, '') : '';
+};
+
 export const guessAPIServerURL = () => {
   const url = window.location.origin;
   if (/https?:\/\/(demo|)app\./.test(url)) {
@@ -83,9 +89,7 @@ export const guessAPIServerURL = () => {
   }
   // The web server proxies /api to the API server, so the page's own origin is the default. Under a sub-path the API
   // is at <sub-path>/api, as the server's web server routes it.
-  const subPath = (window as any).__env?.subPath || '';
-  const basePath = subPath && !subPath.startsWith('${') ? '/' + subPath.replace(/^\/+|\/+$/g, '') : '';
-  return url + basePath + '/api';
+  return url + getBasePath() + '/api';
 };
 
 export const ENVIRONMENT = {API_VERSION: '/v999.0'};

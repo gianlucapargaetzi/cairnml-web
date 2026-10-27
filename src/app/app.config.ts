@@ -14,7 +14,7 @@ import { BreadcrumbsService } from '@common/shared/services/breadcrumbs.service'
 import { RouteReuseStrategy } from '@angular/router';
 import {CustomReuseStrategy} from '@common/core/router-reuse-strategy';
 import { loadUserAndPreferences } from './core/app-init';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { USER_PROVIDED_META_REDUCERS } from '@ngrx/store';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
@@ -65,6 +65,8 @@ export const getAppConfig = (configData: Environment): ApplicationConfig => {
       AdminService,
       ReportCodeEmbedService,
       {provide: APP_BASE_HREF, useValue: configData.baseHref},
+      // The interceptors below are provided through DI; the client only runs them when it is told to.
+      provideHttpClient(withInterceptorsFromDi()),
       {provide: HTTP_INTERCEPTORS, useClass: WebappInterceptor, multi: true},
       {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},
       provideAppInitializer(() => {
