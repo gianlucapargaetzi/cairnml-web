@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Action, Store} from '@ngrx/store';
@@ -9,6 +9,7 @@ import {
   activeLoader,
   addMessage,
   deactivateLoader,
+  neverShowPopupAgain,
   setServerError
 } from '../../core/actions/layout.actions';
 import * as menuActions from '../actions/common-experiments-menu.actions';
@@ -24,6 +25,7 @@ import {emptyAction} from '~/app.constants';
 import * as viewActions from '../actions/common-experiments-view.actions';
 import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 import {TasksGetAllExResponse} from '~/business-logic/model/tasks/tasksGetAllExResponse';
+import {ITask} from '~/business-logic/model/al-task';
 import {RouterState, selectRouterConfig, selectRouterParams} from '../../core/reducers/router-reducer';
 import {TasksArchiveManyResponse} from '~/business-logic/model/tasks/tasksArchiveManyResponse';
 import {cloneExtraActions, EntityTypeEnum} from '~/shared/constants/non-common-consts';
@@ -42,6 +44,8 @@ import {
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
 import {TasksCloneRequest} from '~/business-logic/model/tasks/tasksCloneRequest';
+import {WelcomeMessageComponent, WelcomeMessageData} from '@common/layout/welcome-message/welcome-message.component';
+import {selectNeverShowPopups} from '@common/core/reducers/view.reducer';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {TasksCloneResponse} from '~/business-logic/model/tasks/tasksCloneResponse';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -116,13 +120,30 @@ export class CommonExperimentsMenuEffects {
     )
   ));
 
+  openMessage = createEffect(() => this.actions$.pipe(
+    ofType(menuActions.openEmptyQueueMessage),
+    concatLatestFrom(() => this.store.select(selectNeverShowPopups)),
+    switchMap(([action, neverShowAgainPopups]) => !neverShowAgainPopups.includes('orphanedQueue') ?
+        this.dialog.open<WelcomeMessageComponent, WelcomeMessageData, boolean>(WelcomeMessageComponent, {
+          data: {
+            queue: action.queue,
+            entityName: action.entityName,
+            step: 2
+          }
+        }).afterClosed() : of(null)
+    ),
+    map(doNotShowAgain => doNotShowAgain ? neverShowPopupAgain({popupId: 'orphanedQueue'}) : emptyAction())
+  ));
+
   startPipeline$ = createEffect(() => this.actions$.pipe(
     ofType(menuActions.startPipeline),
     concatLatestFrom(() => this.store.select(selectSelectedProjectId)),
     switchMap(([action, projectId]) =>
       this.pipelineApi.pipelinesStartPipeline({
         task: action.task,
+        ...(action.queue && {queue: action.queue.id}),
         args: action.args,
+        verify_watched_queue: true,
         ...(action.createNewPipeline && action.new_project_name && {new_project_name: action.new_project_name}),
         ...(action.createNewPipeline && action.new_pipeline_name && {new_pipeline_name: action.new_pipeline_name}),
         ...(action.createNewPipeline && action.new_pipeline_version != null && {new_pipeline_version: action.new_pipeline_version}),
@@ -140,6 +161,7 @@ export class CommonExperimentsMenuEffects {
               project: navigateProjectId || projectId
             }),
             deactivateLoader(action.type),
+            ...(res.queue_watched === false ? [menuActions.openEmptyQueueMessage({queue: action.queue, entityName: 'Pipeline'})] : [])
           ];
         }),
         catchError(error => [
@@ -172,6 +194,21 @@ export class CommonExperimentsMenuEffects {
           ]
         )
       )
+    )
+  ));
+
+
+  dequeueExperiment$ = createEffect(() => this.actions$.pipe(
+    ofType(menuActions.dequeueClicked),
+    concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
+    switchMap(([action, selectedEntity]) => {
+        const ids = action.selectedEntities.map(exp => exp.id);
+        return this.apiTasks.tasksDequeueMany({ids})
+          .pipe(
+            mergeMap(res => this.updateExperimentsSuccess(action, MenuItems.dequeue, ids, selectedEntity, res)),
+            catchError(error => this.updateExperimentFailed(action.type, error))
+          );
+      }
     )
   ));
 
@@ -526,6 +563,26 @@ export class CommonExperimentsMenuEffects {
   ));
 
 
+  navigateToQueue = createEffect(() => this.actions$.pipe(
+    ofType(menuActions.navigateToQueue),
+    concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
+    switchMap(([action, info]) => {
+      if (action.experimentId === info?.id && info?.execution?.queue?.id) {
+        return of({tasks: [info]});
+      } else {
+        return this.apiTasks.tasksGetAllEx({
+          id: [action.experimentId],
+
+          only_fields: ['execution.queue.id']
+        });
+      }
+    }),
+    map((res: TasksGetAllExResponse) => {
+      const queue = (res.tasks[0] as unknown as ITask).execution.queue;
+      return this.router.navigate(['workers-and-queues', 'queues'], {queryParams: {id: queue.id}});
+    })
+  ), {dispatch: false});
+
   navigateToWorker = createEffect(() => {
     return this.actions$.pipe(
       ofType(menuActions.navigateToWorker),
@@ -542,6 +599,7 @@ export class CommonExperimentsMenuEffects {
       }),
       map((res: TasksGetByIdExResponse) => {
         const worker = (res.tasks[0]).last_worker;
+        // return this.router.navigate(['/workers-and-queues/queues'], {queryParams: {id: queue.id}});
 
         this.router.navigate(['workers-and-queues', 'workers'], {queryParams: {id: worker}});
       })

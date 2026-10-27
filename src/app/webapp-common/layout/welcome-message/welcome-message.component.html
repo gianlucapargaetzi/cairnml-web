@@ -1,8 +1,8 @@
 <sm-dialog-template [displayX]="true"
-  [header]="step() === 1 ? 'Welcome to CairnML' : (showTabs? 'CREATE NEW EXPERIMENT' : 'GETTING STARTED')"
+  [header]="queue? 'NO WORKERS ASSIGNED TO QUEUE': (step() === 1 ? 'Welcome to CairnML' : (showTabs? 'CREATE NEW EXPERIMENT' : 'GETTING STARTED'))"
   [subHeader]="showTabs ? 'To create a new task you can either run your ML code instrumented with the CairnML SDK, or relaunch a previously run task by cloning it.' : ''"
   (xClicked)="closeDialog()" [closeOnX]="false"
-  [iconClass]="'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">
+  [iconClass]="queue?'al-ico-queues': 'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">
 
   @if (showTabs) {
     <nav class="pointer">
@@ -54,6 +54,11 @@
   </div>
 } @else {
   <div class="steps-content">
+    @if (queue) {
+      <div class="text">
+        {{entityName}} have been enqueued on the <b>{{queue?.display_name || queue?.name}}</b> queue, which is currently not serviced by any worker. They will remain in the 'pending' state until a CairnML worker services this queue.
+      </div>
+    }
     @if (!currentLink || currentLink === links[0]) {
       @for (step of steps(); track step.id) {
         <div class="step-container">
@@ -74,10 +79,10 @@
               [clipboardText]="stepCode.innerText"
             ></sm-copy-clipboard>
           </div>
-          @if (step.subNote || (isJupyter() && $index === 1)) {
+          @if (step.subNote || (isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
             <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm"></mat-icon>
-            @if ((isJupyter() && $index === 1)) {
-              Enrol this machine with <span class="ms-1">cairnml init</span>, which opens your sign-in page.
+            @if ((isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
+              Enrol this machine with <span class="ms-1">{{queue ? 'cairnml-agent init' : 'cairnml init'}}</span>, which opens your sign-in page.
             } @else {
               {{step.subNote}}
             }
@@ -133,6 +138,7 @@
 </div>
 }
 @if (!currentLink || currentLink === links[1]) {
+  @if (!queue) {
     <div class="step-container">
       @if (!showTabs) {
         <div class="step">3. Integrate</div>
@@ -178,8 +184,9 @@
         ></sm-copy-clipboard>
       </div>
     </div>
+  }
 }
-@if (currentLink === links[2]) {
+@if (!queue && (currentLink === links[2])) {
   <div class="step-container">
     <div class="step">1. Clone a previously run task</div>
     <div class="sub-note mt-2">Use the <span class="bolder">“Clone”</span> action to create a new draft copy.</div>
@@ -187,10 +194,19 @@
     <div class="sub-note mt-3">Tasks table</div>
     <div class="new-experiment-table"></div>
     <div class="step">2. Run your task</div>
-    <div class="sub-note mt-2">Use the <span class="bolder">“Enqueue”</span> action to run the new task. The scheduler starts it on a worker that has the resources it asks for.</div>
+    <div class="sub-note mt-2">Use the <span class="bolder">“Enqueue”</span> action to enqueue the new task on an available queue.</div>
+    <div class="sub-note mb-1">To have an agent service a queue, on your target machine run:</div>
+    <div class="code">
+      <div #content class="content">cairnml-agent daemon —queue &lt;queue name&gt;</div>
+      <sm-copy-clipboard
+        [label]="''"
+        [clipboardText]="content.textContent"
+        data-id="copyButton"
+      ></sm-copy-clipboard>
+    </div>
   </div>
 }
-@if (currentLink === 'videoTab') {
+@if (!queue && (currentLink === 'videoTab')) {
   <div class="step-container">
     <div  [style.height.px]="306"
       [style.width.px]="544">
@@ -200,6 +216,14 @@
         [width]="544"
       ></youtube-player>
     </div>
+  </div>
+}
+@if (queue) {
+  <div class="text">
+    <mat-checkbox [checked]="doNotShowAgain"
+                  (change)="doNotShowThisAgain($event.checked)">
+      Don’t show again
+    </mat-checkbox>
   </div>
 }
 </div>
