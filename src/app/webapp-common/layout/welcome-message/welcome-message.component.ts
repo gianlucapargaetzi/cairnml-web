@@ -76,7 +76,7 @@ export class WelcomeMessageComponent {
   }, {
     id: 2,
     title: '2. Configure',
-    code: 'cairnml-init'
+    code: 'cairnml init <server>'
   }];
   public links = ['Set up CairnML', 'Run your ML code', 'Relaunch previous experiments'];
   public credentialsLabel: string;
@@ -103,6 +103,8 @@ export class WelcomeMessageComponent {
 
     steps[0].code = this.companyGettingStarted().install ?? this.configGettingStarted().install ?? steps[0].code;
     steps[1].code = this.companyGettingStarted().configure ?? this.configGettingStarted()?.configure ?? steps[1].code;
+    // The command names the server by the address this page was opened at.
+    steps[1].code = steps[1].code.replace('<server>', window.location.origin);
 
     if (this.showTabs) {
       steps[0].header = null;

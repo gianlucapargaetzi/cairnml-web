@@ -30,7 +30,7 @@ CairnML Web is the browser interface of CairnML. It shows your projects, experim
 
 ## Open it
 
-Open `http://<server-ip>:8080` in your browser and sign in with your account. The web app talks to the server through the same address, so no further configuration is needed.
+Open `http://<server-ip>/cairnml/` in your browser and sign in with your account. The web app talks to the server through the same address, so no further configuration is needed. If the server runs on another port, the address names it, for example `http://<server-ip>:8081/cairnml/`.
 
 ## Build from source
 
