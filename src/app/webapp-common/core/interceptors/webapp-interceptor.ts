@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, Injector} from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -7,8 +7,9 @@ import {BaseLoginService} from '@common/shared/services/login.service';
 
 @Injectable()
 export class WebappInterceptor implements HttpInterceptor {
-  protected login = inject(BaseLoginService);
-
+  // The login service needs the HTTP client, which runs this interceptor: it is taken when it is needed, not before.
+  private injector = inject(Injector);
+  private signingIn = false;
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
@@ -25,13 +26,14 @@ export class WebappInterceptor implements HttpInterceptor {
 
   protected errorHandler(request: HttpRequest<any>, err: HttpErrorResponse) {
     const redirectUrl: string = window.location.pathname + window.location.search;
-    if (err.status === 401) {
+    // The session is over (its token has expired): go through the sign-in. Once is enough when several requests fail
+    // together, and the sign-in calls themselves are left alone, so this cannot loop.
+    if (err.status === 401 && !this.signingIn && request.url.indexOf('/login.') === -1) {
       if (redirectUrl.indexOf('/signup') === -1 && redirectUrl.indexOf('/login') === -1) {
-        this.login.logout();
+        this.signingIn = true;
+        this.injector.get(BaseLoginService).logout();
       }
-      return throwError(() => err);
-    } else {
-      return throwError(() => err);
     }
+    return throwError(() => err);
   }
 }

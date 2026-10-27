@@ -90,7 +90,7 @@
     }
     <div class="step-container cred-step" [class.jupyter]="isJupyter()" [class.first-step]="!credentialsCreated()" [class.has-ws]="community() && workspace.name" [class.has-label]="credentialsLabel">
       @if (!isJupyter()) {
-        <div class="sub-note" >Complete the cairnml configuration information as prompted.</div>
+        <div class="sub-note" >Your browser opens the sign-in page; sign in to connect this machine.</div>
       }
       <div class="cred-visible" [class.invisible]="!accessKey() || isJupyter()">
         <div class="code">
