@@ -21,12 +21,7 @@ export const routes: Routes = [
       queuesManager: WorkersAndQueuesResolver
     },
     children: [
-      {path: '', redirectTo: 'workers', pathMatch: 'full'},
-      {
-        path: 'dashboard',
-        loadComponent: () => import('~/features/workers-and-queues/dashboard/resources-dashboard.component').then(c => c.ResourcesDashboardComponent),
-        data: {staticBreadcrumb: wQBreadcrumb}
-      },
+      {path: '', redirectTo: 'queues', pathMatch: 'full'},
       {
         path: 'workers',
         loadComponent: () => import('@common/workers-and-queues/containers/workers/workers.component').then(c => c.WorkersComponent),
