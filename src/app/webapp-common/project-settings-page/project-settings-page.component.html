@@ -6,6 +6,11 @@
     </section>
 
     <section class="settings-section">
+      <div class="section-title">Overview</div>
+      <sm-project-overview-settings [projectId]="projectId()"></sm-project-overview-settings>
+    </section>
+
+    <section class="settings-section">
       <div class="section-title">Scalar view defaults</div>
       <sm-project-scalar-defaults [projectId]="projectId()"></sm-project-scalar-defaults>
     </section>
