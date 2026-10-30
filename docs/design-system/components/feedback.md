@@ -48,3 +48,15 @@ Mixins exist in `styles/mixins/empty.scss`. Structure: icon (48px, `--color-empt
 | 404 | `not-found` page (existing) / "This task no longer exists" in-page | Link to list |
 | 5xx | "The server could not complete the request" + reference | Retry |
 | Unexpected exception | Error boundary: "Something went wrong" + Reload (an error boundary does not exist yet) | Reload |
+
+## Shared components
+
+Use these instead of copying styles (`webapp-common/shared/ui-components/feedback`):
+
+| Component | Use | Inputs and slots |
+|---|---|---|
+| `sm-inline-alert` | Persistent problem inside a page area or form (see the table above) | `severity` (`error`, `warning`, `info`); default slot is the message; `[action]` slot for a button or link |
+| `sm-empty-state` | A list or area with no content | `icon` (font class), `title`, `description`; default slot for the one action. `variant` `empty` (nothing yet) or `filtered` (no results for these filters; the action clears the filters) |
+| `sm-error-boundary` | App-wide. Shown after an unexpected exception that reaches Angular's `ErrorHandler` (`GlobalErrorHandler`). Says "Something went wrong", offers Reload and a reference id. The stack trace goes to the console only. HTTP errors are excluded: request handlers show them. | none; mounted once in `app.component.html` |
+
+Status: `sm-empty-state` replaces the copied empty mixin on the reports list. Other list pages (pipelines, datasets) still use the mixin. `sm-inline-alert` exists but no page uses it yet.

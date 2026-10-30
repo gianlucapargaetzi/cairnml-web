@@ -129,7 +129,7 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
   first = input(0);
   rowsNumber = model(10);
   selectionMode = input<'multiple' | 'single' | null>('single');
-  rowHeight = input(48);
+  rowHeight = input(40);
   cardHeight = input(130);
   lazyLoading = input(false);
   keyboardControl = input(false);

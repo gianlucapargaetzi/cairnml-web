@@ -1,0 +1,9 @@
+<div class="sm-inline-alert"
+     [class.error]="severity() === 'error'"
+     [class.warning]="severity() === 'warning'"
+     [class.info]="severity() === 'info'"
+     [attr.role]="severity() === 'error' ? 'alert' : 'status'">
+  <mat-icon fontSet="al" [fontIcon]="icon()" class="alert-icon"></mat-icon>
+  <div class="alert-message"><ng-content></ng-content></div>
+  <div class="alert-action"><ng-content select="[action]"></ng-content></div>
+</div>
