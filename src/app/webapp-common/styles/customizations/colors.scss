@@ -87,8 +87,8 @@
 
     --color-draft: #5D5E62;
     --color-pending: #005B4C;
-    --color-running: #1EA26C;
-    --color-completed: #009aff;
+    --color-running: #147A4A;
+    --color-completed: #0071B8;
     --color-failed: #A4020D;
     --color-published: #4c6f00;
     --color-draft-container:  #D9D9DD;
@@ -100,12 +100,13 @@
     --color-skipped-container: #{color.adjust(#cc9054, $lightness: 30%)};
     --color-cached-container: #{color.adjust(#9e54cc, $lightness: 30%)};
     --color-executed-container: #{color.adjust(#4040d5, $lightness: 30%)};
-    --color-warning: #FF5602;
-    --color-success: #199732;
+    --color-warning: #C24600;
+    --color-success: #127A2C;
     --color-neon-surface: #74C87A;
     --color-on-neon-surface: #223723;
 
-    --color-empty-state: #{mat.get-theme-color($theme, neutral, 70)};
+    // Darkened from neutral 70 (2.2:1 on the surface) to pass 4.5:1 for text.
+    --color-empty-state: #6E6E72;
 
   // DARK
   } @else {
@@ -145,6 +146,7 @@
     --color-success: #95f4a8;
     --color-neon-surface: #95F4DC;
     --color-on-neon-surface:  #005143;
-    --color-empty-state: #{mat.get-theme-color($theme, neutral, 50)};
+    // Lightened from neutral 50 (4.1:1 on the dark surface) to pass 4.5:1 for text.
+    --color-empty-state: #84858A;
   }
 }

@@ -15,6 +15,7 @@
     @for(project of recentProjectsList; track project.id) {
       <sm-project-card
         [project]="project" (dblclick)="projectCardClicked(project)"
+        (keydown.enter)="projectCardKeyActivated($event, project)"
         [settingsOnly]="true"
         (projectSettingsClicked)="openProjectSettings($event)"
       ></sm-project-card>

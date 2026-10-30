@@ -59,6 +59,15 @@ export class DashboardProjectsComponent {
   }
 
 
+  // The dashboard opens a project on double click; Enter on the focused card does the same. Enter on a button or link
+  // inside the card (its menu) is left to that control.
+  public projectCardKeyActivated(event: Event, project: Project) {
+    if (!(event.target as HTMLElement).closest('button, a, input')) {
+      event.preventDefault();
+      this.projectCardClicked(project);
+    }
+  }
+
   public projectCardClicked(project: Project) {
     if (project.own_tasks === 0 && project.sub_projects.length > 0) {
       this.router.navigateByUrl(`projects/${project.id}/projects`)

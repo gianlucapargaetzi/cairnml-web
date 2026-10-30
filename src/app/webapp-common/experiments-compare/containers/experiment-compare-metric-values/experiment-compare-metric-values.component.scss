@@ -258,9 +258,9 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
           }
         }
 
-        &:focus {
-          outline: 0.15rem solid $focusOutlineColor;
-          outline-offset: 0.15rem;
+        &:focus-visible {
+          outline: 2px solid var(--color-primary);
+          outline-offset: -2px;
         }
 
         &:last-child td {

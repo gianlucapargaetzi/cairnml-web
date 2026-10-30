@@ -1,18 +1,18 @@
 @if (!reportMode) {
   <div class="actions">
-      <button
+      <button aria-label="Copy embed code"
         mat-icon-button
         smTooltip="Copy embed code"
         (click)="creatingEmbedCode($any($event.target).getBoundingClientRect())"
         ><mat-icon fontSet="al" fontIcon="al-ico-code"></mat-icon>
       </button>
-      <button
+      <button aria-label="Download as PNG"
         mat-icon-button
         smTooltip="Download as PNG"
         (click)="downloadImage()"
         ><mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
       </button>
-      <button
+      <button [attr.aria-label]="maximized() ? 'Restore' : 'Maximize'"
         mat-icon-button
         [smTooltip]="maximized()? '' : 'Maximize' "
         (click)="maximize()"

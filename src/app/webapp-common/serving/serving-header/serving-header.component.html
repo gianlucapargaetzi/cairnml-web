@@ -19,7 +19,7 @@
       ></sm-clear-filters-button>
     }
     <div smTooltip="Download table as CSV">
-      <button mat-icon-button class="download-btn" [disabled]="noData()" (click)="!noData() && downloadTableAsCSV.emit()" data-id="downloadCSVButton">
+      <button aria-label="Download CSV" mat-icon-button class="download-btn" [disabled]="noData()" (click)="!noData() && downloadTableAsCSV.emit()" data-id="downloadCSVButton">
         <mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
       </button>
     </div>

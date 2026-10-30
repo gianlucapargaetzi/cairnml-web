@@ -93,6 +93,14 @@ export class ProjectCardComponent {
       this.projectCardClicked.emit(this.project);
   }
 
+  // Enter on the focused card opens the project. Keys pressed on a control inside the card (its menu) are left to it.
+  public projectKeyActivated(event: Event) {
+      if (event.target === event.currentTarget) {
+          event.preventDefault();
+          this.projectClicked();
+      }
+  }
+
 
 
   subProjectClicked(id: string) {

@@ -14,7 +14,7 @@
     <span matSuffix class="creat-new-suffix">(Create New)</span>
   }
   @if (control.value) {
-   <button class="sm" mat-icon-button matSuffix (click)="$event.preventDefault(); $event.stopPropagation(); control.setValue(null); getEntities.emit(null); inputRef.focus()">
+   <button aria-label="Clear" class="sm" mat-icon-button matSuffix (click)="$event.preventDefault(); $event.stopPropagation(); control.setValue(null); getEntities.emit(null); inputRef.focus()">
      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
    </button>
   } @else {

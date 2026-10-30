@@ -1,6 +1,6 @@
 <div class="filter-sort-container d-flex align-items-center" [class.active]="value()?.length > 0 || subValue()?.length > 0">
   @if (column().sortable) {
-    <button class="sm btn-sort" data-id="sortTableColumn" (click)="switchSortOrder($event)">
+    <button class="sm btn-sort" data-id="sortTableColumn" [attr.aria-label]="'Sort by ' + (column().header || column().id)" (click)="switchSortOrder($event)">
         @if (this.sortOrder()?.order) {
           @if (this.sortOrder()?.order === TABLE_SORT_ORDER.DESC) {
             <mat-icon fontSet="al" fontIcon="al-ico-sort-on-down" class="sm"><span class="path1"></span><span class="path2"></span></mat-icon>

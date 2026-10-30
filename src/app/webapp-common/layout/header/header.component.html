@@ -31,14 +31,14 @@
   @if (!hideMenus()) {
     <div class="right-buttons" data-id="rightSideHeaderpanel">
       @if (!isShareMode()) {
-                <button class="me-2" mat-icon-button data-id="globalSearchButton" (click)="openGlobalSearch()" smTooltip="Search all [ctrl + k]">
+                <button aria-label="Search all" class="me-2" mat-icon-button data-id="globalSearchButton" (click)="openGlobalSearch()" smTooltip="Search all [ctrl + k]">
                     <mat-icon fontSet="al" fontIcon="al-ico-search" data-id="search Icon" ></mat-icon>
                   </button>
       }
       @if (showAutoRefresh()) {
         <sm-refresh-button (setAutoRefresh)="toggleAutoRefresh($event)" class="refresh-button"></sm-refresh-button>
       }
-      <button mat-icon-button #trigger="matMenuTrigger" class="resources-trigger" [class.menu-opened]="trigger.menuOpen" [matMenuTriggerFor]="resourcesMenu">
+      <button aria-label="Resources" mat-icon-button #trigger="matMenuTrigger" class="resources-trigger" [class.menu-opened]="trigger.menuOpen" [matMenuTriggerFor]="resourcesMenu">
         <mat-icon fontSet="al" fontIcon="al-ico-help-outlined" data-id="help Icon"></mat-icon>
       </button>
       <span class="pointer menu-trigger position-relative" data-id="Avatar" [matMenuTriggerFor]="profileMenu">

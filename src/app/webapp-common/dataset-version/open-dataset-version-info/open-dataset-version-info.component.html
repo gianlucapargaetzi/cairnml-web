@@ -75,10 +75,10 @@
       (ngModelChange)="detailsPanelMode.set($event)"
     ></sm-button-toggle>
     <div class="close gap-3">
-      <button mat-icon-button (click)="toggleResultSize()" data-id="expandButton">
+      <button aria-label="Toggle result size" mat-icon-button (click)="toggleResultSize()" data-id="expandButton">
         <mat-icon fontSet="al" [fontIcon]="maximizeResults ? 'al-ico-min-panel' : 'al-ico-max-panel'"></mat-icon>
       </button>
-      <button mat-icon-button (click)="showLog.set(false)" data-id="closeButton">
+      <button aria-label="Close" mat-icon-button (click)="showLog.set(false)" data-id="closeButton">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
     </div>

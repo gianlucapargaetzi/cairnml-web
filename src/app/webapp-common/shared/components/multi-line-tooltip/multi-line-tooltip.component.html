@@ -15,7 +15,7 @@
         <ng-container [ngTemplateOutlet]="triggerContent()"></ng-container>
       </span>
     } @else if (iconImage()) {
-      <button mat-icon-button
+      <button aria-label="Show details" mat-icon-button
               smClickStopPropagation
               [delay]="100"
               [action]="'enter'"
