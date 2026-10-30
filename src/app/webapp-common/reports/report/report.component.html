@@ -38,7 +38,7 @@
             (click)="publish()"
             >
             <mat-icon fontSet="al" fontIcon="al-ico-publish"></mat-icon>
-            PUBLISH
+            Publish
           </button>
           }
         </div>
@@ -85,7 +85,7 @@
                 data-id="editReportDescription"
                 class="edit-button"
                 (click)="editReportDesc(descElement)"
-                >EDIT
+                >Edit
               </button>
             }
             <textarea
@@ -96,8 +96,8 @@
             >{{report()?.comment || ''}}</textarea>
             @if (editDesc) {
               <div class="buttons">
-                <button mat-stroked-button data-id="cancelButton" (click)="descElement.value = orgDesc; editDesc = false">CANCEL</button>
-                <button mat-flat-button data-id="saveButton" [disabled]="orgDesc === descElement.value" (click)="saveDesc(descElement.value)">SAVE</button>
+                <button mat-stroked-button data-id="cancelButton" (click)="descElement.value = orgDesc; editDesc = false">Cancel</button>
+                <button mat-flat-button data-id="saveButton" [disabled]="orgDesc === descElement.value" (click)="saveDesc(descElement.value)">Save</button>
               </div>
             }
           </div>
@@ -121,9 +121,9 @@
             @if (!example() && report() && draft()) {
               <div no-data class="flex-middle empty-state">
                 <i class="al-icon al-ico-reports xxl"></i>
-                <div class="no-data-title">THERE'S NOTHING HERE YET…</div>
+                <div class="no-data-title">There's nothing here yet…</div>
                 <button mat-flat-button data-id="editReportButton" (click)="editor.editClicked()">
-                  <span>START EDITING THE REPORT</span>
+                  <span>Start editing the report</span>
                 </button>
               </div>
             }

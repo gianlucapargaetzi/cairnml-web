@@ -8,7 +8,7 @@ export const routes: Routes = [{
   path: '',
   component: PipelinesPageComponent,
   data: {search: true, features: FeaturesEnum.Pipelines, staticBreadcrumb:[[{
-      name: 'PIPELINES',
+      name: 'Pipelines',
       type: CrumbTypeEnum.Feature
     }]]},
   providers: pipelinesProviders

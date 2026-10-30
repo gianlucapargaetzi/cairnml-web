@@ -211,7 +211,7 @@ if __name__ == '__main__':
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            name: 'PIPELINES',
+            name: 'Pipelines',
             url: defaultNestedModeForFeature['pipelines'] ? 'pipelines/*/projects' : 'pipelines'
           },
           projectsOptions: {

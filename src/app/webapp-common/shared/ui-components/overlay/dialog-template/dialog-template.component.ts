@@ -32,7 +32,7 @@ export class DialogTemplateComponent {
   closeOnX = input(booleanAttribute(true), { transform: booleanAttribute });
 
   containerClass = input<string>();
-  closedCodeLabel = input('VIEW COMMAND LINE');
+  closedCodeLabel = input('View command line');
   iconClass = input<string>(); // the icon class (see icons.scss).
   iconData = input<string>();
   header = input<string>();

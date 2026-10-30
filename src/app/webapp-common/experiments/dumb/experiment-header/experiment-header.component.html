@@ -67,7 +67,7 @@
         [sections]="tableMode() === 'compare' ? [{title: 'add metric', name: 'metrics', options: metricVariants(), template: metricsTemplate}] : [{title: 'add metric',name: 'metrics', options: metricVariants(), template: metricsTemplate}, {name: 'hyperparameters', options: hyperParams(), template: hyperParamsTemplate}]"
         [topTitle]="tableMode() === 'compare' ? 'Customize charts view' : 'Customize columns'"
         [menuTooltip]="tableMode() === 'compare' ? 'Customize charts view' : 'Customize table'"
-        [sectionsTitle]="'ADD CUSTOM COLUMN'"
+        [sectionsTitle]="'Add custom column'"
         [tableCols]="tableColsWithHeader()"
         [isLoading]="isMetricsLoading()"
         [disabled]="tableMode() === 'compare' && metricVariants()?.length === 0"

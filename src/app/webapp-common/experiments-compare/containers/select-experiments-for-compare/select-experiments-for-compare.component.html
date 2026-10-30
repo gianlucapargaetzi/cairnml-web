@@ -11,7 +11,7 @@
       mat-stroked-button
       [mat-dialog-close]="{ids: [], filters: tableFilters(), sortFields: tableSortFields()}"
       data-id="CancelButton">
-      CANCEL
+      Cancel
     </button>
     <button
       mat-flat-button
@@ -19,7 +19,7 @@
       type="submit"
       [mat-dialog-close]="{ids: selectedExperimentsIds(), filters: tableFilters(), sortFields: tableSortFields()}"
       class="yes-button" data-id="ApplyButton">
-      APPLY
+      Apply
     </button>
   </mat-dialog-actions>
 } @else {
@@ -29,7 +29,7 @@
       mat-stroked-button
       (click)="closeDialog(false)"
       data-id="CancelButton">
-      CANCEL
+      Cancel
     </button>
     <button
       mat-flat-button
@@ -37,7 +37,7 @@
       type="submit"
       (click)="closeDialog(true)"
       class="yes-button" data-id="ApplyButton">
-      APPLY
+      Apply
     </button>
   </mat-dialog-actions>
 }

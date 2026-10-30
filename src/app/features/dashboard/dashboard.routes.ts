@@ -9,7 +9,7 @@ import {projectDialogProviders} from '@common/shared/project-dialog/project-dial
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
 
 const staticBreadcrumb = [[{
-  name: 'PROJECTS DASHBOARD',
+  name: 'Projects dashboard',
   type: CrumbTypeEnum.Feature
 }]];
 

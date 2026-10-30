@@ -29,8 +29,8 @@
   <div [class.mt-4]="serviceUserMode">
     @if (!serviceUserMode) {
       <mat-tab-group [(selectedIndex)]="selectedIndex" mat-stretch-tabs="false" mat-align-tabs="center">
-        <mat-tab label="LOCAL PYTHON" ></mat-tab>
-        <mat-tab label="JUPYTER NOTEBOOK" ></mat-tab>
+        <mat-tab label="Local python" ></mat-tab>
+        <mat-tab label="Jupyter notebook" ></mat-tab>
       </mat-tab-group>
     }
     <div class="code-container" [class.jupyter]="isJupyter()">
@@ -123,6 +123,6 @@
     <mat-form-field appearance="outline" class="label-input no-bottom">
       <input matInput [(ngModel)]="label" placeholder="Credentials label" name="credentials" [value]="newCredential?.label || ''">
     </mat-form-field>
-    <button mat-stroked-button class="label-button" type="submit" [disabled]="label === newCredential?.label">UPDATE LABEL</button>
+    <button mat-stroked-button class="label-button" type="submit" [disabled]="label === newCredential?.label">Update label</button>
   </form>
 }

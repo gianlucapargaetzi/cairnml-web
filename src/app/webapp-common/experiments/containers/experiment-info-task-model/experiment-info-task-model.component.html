@@ -3,8 +3,8 @@
 @let configurationObjectName = selectedConfigObj$ | ngrxPush;
 <sm-editable-section [editable]="false">
   <sm-section-header [label]="configurationObjectName | replaceViaMapPipe: sectionReplaceMap | uppercase"></sm-section-header>
-  <sm-labeled-row label="TYPE">{{ formData?.type === 'legacy' ? '' : formData?.type }}</sm-labeled-row>
-  <sm-labeled-row label="DESCRIPTION">{{ formData?.description }}</sm-labeled-row>
+  <sm-labeled-row label="Type">{{ formData?.type === 'legacy' ? '' : formData?.type }}</sm-labeled-row>
+  <sm-labeled-row label="Description">{{ formData?.description }}</sm-labeled-row>
 </sm-editable-section>
 
 <!-- **************** CONFIGURATION OBJECT **************** -->
@@ -16,7 +16,7 @@
                      [disableEditable]="!(editable && !formData?.value)"
                      (cancelClicked)="cancelModelChange()"
                      (activateEditClicked)="activateEditChanged('prototext'); editPrototext()">
-  <sm-section-header label="CONFIGURATION OBJECT"></sm-section-header>
+  <sm-section-header label="Configuration object"></sm-section-header>
   <sm-scroll-textarea
     class="flex-grow-1"
     [editable]="editable && prototext.inEditMode()"
@@ -26,14 +26,14 @@
     @if (formData?.value && editable) {
       <button extra-buttons
               mat-stroked-button
-              (click)="prototext.editModeChanged(true)">EDIT
+              (click)="prototext.editModeChanged(true)">Edit
       </button>
     }
     @if (formData?.value && editable) {
       <button extra-buttons
               mat-stroked-button
               (click)="clearPrototext()">
-        CLEAR
+        Clear
       </button>
     }
   </sm-scroll-textarea>

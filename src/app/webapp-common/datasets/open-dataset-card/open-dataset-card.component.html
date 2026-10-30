@@ -53,14 +53,14 @@
   <div class="d-flex justify-content-around w-100">
     <sm-circle-counter
       [counter]="project.stats?.active?.total_tasks"
-      label="VERSIONS"
+      label="Versions"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="[
         {value: project?.dataset_stats?.file_count | NA, label: 'FILES'},
         {value: project?.dataset_stats?.total_size | filesize : fileSizeConfigStorage | NA, label: 'SIZE'}
       ]"
-      label="LATEST VERSION"
+      label="Latest version"
     ></sm-circle-counter>
   </div>
   <div footer class="footer-tags">

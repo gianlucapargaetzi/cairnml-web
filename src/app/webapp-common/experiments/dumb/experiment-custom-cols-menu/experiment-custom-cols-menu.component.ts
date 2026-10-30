@@ -27,7 +27,7 @@ export class ExperimentCustomColsMenuComponent {
 
   sections = input<{title?: string; name: string; options: any[]; skipValue?: boolean; template: TemplateRef<any>}[]>();
   menuHeader = input<string>();
-  topTitle = input<string>('CUSTOMIZE COLUMNS');
+  topTitle = input<string>('Customize columns');
   menuTooltip = input<string>();
   sectionsTitle = input<string>();
   selectable = input<boolean>(true);

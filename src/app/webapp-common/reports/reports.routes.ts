@@ -10,7 +10,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./reports-page/reports-page.component').then(c => c.ReportsPageComponent),
     data: {search: true, staticBreadcrumb: [[{
-        name: 'REPORTS',
+        name: 'Reports',
         type: CrumbTypeEnum.Feature
       }]]},
     providers: [

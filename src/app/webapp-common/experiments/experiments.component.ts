@@ -803,7 +803,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
           breadcrumbOptions: {
             showProjects: !!selectedProject,
             featureBreadcrumb: {
-              name: 'PROJECTS',
+              name: 'Projects',
               url: 'projects'
             },
             ...(this.projectDeepMode() && selectedProject?.id !== '*' && {

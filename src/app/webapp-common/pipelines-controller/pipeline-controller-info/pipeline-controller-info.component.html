@@ -11,7 +11,7 @@
 <div class="console-button">
     <button mat-flat-button (click)="openLog()" data-id="consoleDetailsButton">
       <mat-icon fontSet="al" fontIcon="al-ico-console"></mat-icon>
-      DETAILS
+      Details
     </button>
   @if (!focusOnStageId() && hasStages()) {
     <button
@@ -20,7 +20,7 @@
       (click)="toggleEnableStaging()"
     >
       <mat-icon fontSet="al" fontIcon="al-ico-grid-view"></mat-icon>
-      {{ enableStaging() ? 'EXPAND STAGES' : 'COLLAPSE STAGES' }}
+      {{ enableStaging() ? 'Expand stages' : 'Collapse stages' }}
     </button>
   }
 </div>
@@ -118,7 +118,7 @@
           } @else {
             <div class="no-code" data-id="noCode">
               <mat-icon fontSet="al" fontIcon="al-ico-no-data-code" class="xxl"></mat-icon>
-              <h4>NO CODE</h4>
+              <h4>No code</h4>
             </div>
           }
         }

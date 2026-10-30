@@ -205,7 +205,7 @@ export abstract class BaseExperimentOutputComponent implements OnInit, OnDestroy
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            name: 'PROJECTS',
+            name: 'Projects',
             url: 'projects'
           },
           projectsOptions: {

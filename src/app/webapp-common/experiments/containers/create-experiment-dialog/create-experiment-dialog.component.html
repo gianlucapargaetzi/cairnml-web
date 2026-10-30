@@ -13,7 +13,7 @@
         [startPosition]="cursorPosition"
       ></sm-code-editor>
       <div class="buttons justify-content-center">
-        <button mat-stroked-button (click)="closeScript()">CANCEL</button>
+        <button mat-stroked-button (click)="closeScript()">Cancel</button>
         <button mat-flat-button (click)="updateScript(editor.aceCode)">OK</button>
       </div>
     </div>
@@ -142,15 +142,15 @@
                       <mat-label>File name</mat-label>
                       <input matInput formControlName="script">
                       @if (!codeFormGroup.controls.uncommited.value) {
-                        <button matSuffix mat-button (click)="fileInput.click()">UPLOAD</button>
+                        <button matSuffix mat-button (click)="fileInput.click()">Upload</button>
                       } @else {
-                        <button matSuffix mat-button (click)="clearFile()">CLEAR</button>
+                        <button matSuffix mat-button (click)="clearFile()">Clear</button>
                       }
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Content</mat-label>
                       <textarea matInput formControlName="uncommited" [rows]="1" [readonly]="true"></textarea>
-                      <button matSuffix mat-button (click)="editScript()">EDIT</button>
+                      <button matSuffix mat-button (click)="editScript()">Edit</button>
                     </mat-form-field>
                     <input class="hidden" #fileInput type="file" [accept]="shell() ? '.sh,.zsh,.bash' : '.py'" (change)="updateEntryFromFile($event)">
                   </div>
@@ -168,12 +168,12 @@
           </section>
         </form>
         <div class="buttons">
-          <button mat-stroked-button matStepperNext>NEXT</button>
+          <button mat-stroked-button matStepperNext>Next</button>
           <ng-container *ngTemplateOutlet="saveButton"></ng-container>
           <button mat-flat-button class="tertiary-button"
                   [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid"
                   (click)="runStep.select()"
-          >RUN</button>
+          >Run</button>
         </div>
         <mat-step [stepControl]="argsFormGroup" [formGroup]="argsFormGroup" label="Arguments">
           <form formArrayName="args">
@@ -201,8 +201,8 @@
             </button>
           </form>
           <div class="buttons">
-            <button mat-stroked-button matStepperPrevious>BACK</button>
-            <button mat-stroked-button matStepperNext>NEXT</button>
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <button mat-stroked-button matStepperNext>Next</button>
             <ng-container *ngTemplateOutlet="saveButton"></ng-container>
           </div>
         </mat-step>
@@ -272,8 +272,8 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
           </button>
         </form>
         <div class="buttons">
-          <button mat-stroked-button matStepperPrevious>BACK</button>
-          <button mat-stroked-button matStepperNext>NEXT</button>
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button matStepperNext>Next</button>
           <ng-container *ngTemplateOutlet="saveButton"></ng-container>
         </div>
       </mat-step>
@@ -293,8 +293,8 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
           </mat-form-field>
         </form>
         <div class="buttons">
-          <button mat-stroked-button matStepperPrevious>BACK</button>
-          <button mat-stroked-button matStepperNext>NEXT</button>
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-stroked-button matStepperNext>Next</button>
           <ng-container *ngTemplateOutlet="saveButton"></ng-container>
         </div>
       </mat-step>
@@ -331,14 +331,14 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
           </section>
         </form>
         <div class="buttons">
-          <button mat-stroked-button matStepperPrevious>BACK</button>
+          <button mat-stroked-button matStepperPrevious>Back</button>
           <ng-container *ngTemplateOutlet="saveButton"></ng-container>
           <button
             mat-flat-button
             class="tertiary-button"
             [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid || queueFormGroup.invalid"
             (click)="close('run')"
-          >RUN</button>
+          >Run</button>
         </div>
       </mat-step>
       <ng-template matStepperIcon="edit">
@@ -352,5 +352,5 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
   <button mat-flat-button
           [disabled]="codeFormGroup.invalid || dockerFormGroup.invalid"
           (click)="close('save')"
-  >SAVE AS DRAFT</button>
+  >Save as draft</button>
 </ng-template>

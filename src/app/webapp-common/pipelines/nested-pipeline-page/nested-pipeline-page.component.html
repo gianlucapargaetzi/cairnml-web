@@ -20,14 +20,14 @@
   >
   <button create-button mat-flat-button (click)="createPipeline()">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-    NEW PIPELINE
+    New pipeline
   </button>
 
   <div empty-state class="empty-state">
     <div class="title-icon">
       <mat-icon fontSet="al" fontIcon="al-ico-pipelines" class="xxl"></mat-icon>
     </div>
-    <div class="title">NO PIPELINES TO SHOW</div>
+    <div class="title">No pipelines to show</div>
     <div class="sub-title">Run your first pipeline to see it displayed here
       @if (allExamples) {
         or <a href=""
@@ -43,15 +43,15 @@
 <ng-template #cardContent let-project>
   <sm-circle-counter
     [counter]="project.id === '*' ? '∞' : project.stats?.active?.status_count?.in_progress ?? '0'"
-    label="RUNNING"
+    label="Running"
   [type]="project.stats?.active?.status_count?.in_progress ===0 ? circleTypeEnum.empty : circleTypeEnum.running"></sm-circle-counter>
   <sm-circle-counter [counter]="project.id === '*' ? '∞' : project.stats?.active?.completed_tasks_24h ?? '0'"
-    label="COMPLETED"
+    label="Completed"
     [type]="project.stats?.active?.completed_tasks_24h ===0 ? circleTypeEnum.empty : circleTypeEnum.completed"
   underLabel="(24 hrs)"></sm-circle-counter>
   <sm-circle-counter
     [counter]="project.stats?.active?.status_count.failed"
-    label="FAILED"
+    label="Failed"
     [type]="project.stats?.active?.status_count.failed ? circleTypeEnum.failed : circleTypeEnum.empty"
   ></sm-circle-counter>
 </ng-template>

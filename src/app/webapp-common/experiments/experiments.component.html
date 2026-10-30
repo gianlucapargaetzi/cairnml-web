@@ -39,11 +39,11 @@
       [class.icon-only]="isSmallScreen"
       data-id="New Experiment"
       (click)="newExperiment()"
-      [smTooltip]="isSmallScreen ? 'NEW EXPERIMENT' : ''"
+      [smTooltip]="isSmallScreen ? 'New experiment' : ''"
     >
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       @if (!isSmallScreen) {
-        <span>NEW EXPERIMENT</span>
+        <span>New experiment</span>
       }
     </button>
   }

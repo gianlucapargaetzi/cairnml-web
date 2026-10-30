@@ -1,5 +1,5 @@
 <div class="input-model-container">
-  <sm-labeled-row label="MODEL NAME">
+  <sm-labeled-row label="Model name">
     <div class="d-flex align-items-center">
       <div class="d-flex-center">
         <a [routerLink]="['/projects', projectId(), 'models', model()?.id]" target="_blank"><span>{{model()?.name}}</span></a>
@@ -27,12 +27,12 @@
     </div>
   </sm-labeled-row>
   @if (model()?.id) {
-    <sm-labeled-row label="MODEL ID">
+    <sm-labeled-row label="Model ID">
       <sm-id-badge [id]="model().id" (copied)="copySuccess()"></sm-id-badge>
     </sm-labeled-row>
   }
   @if (showCreatedExperiment()) {
-    <sm-labeled-row label="CREATING TASK">
+    <sm-labeled-row label="Creating task">
       <a [routerLink]="['/projects', source()?.projectId || '*', 'experiments', source()?.experimentId ?? '']"
         target="_blank">
         {{source()?.experimentName}}

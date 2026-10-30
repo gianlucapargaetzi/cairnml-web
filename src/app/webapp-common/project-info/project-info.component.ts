@@ -109,7 +109,7 @@ export class ProjectInfoComponent {
           breadcrumbOptions: {
             showProjects: !!selectedProject,
             featureBreadcrumb: {
-              name: 'PROJECTS',
+              name: 'Projects',
               url: 'projects'
             },
             ...(isDeep && selectedProject?.id !== '*' && {

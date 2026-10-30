@@ -25,7 +25,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
   {
     id: EXPERIMENTS_TABLE_COL_FIELDS.NAME,
     headerType: ColHeaderTypeEnum.sortFilter,
-    header: 'RUN',
+    header: 'Run',
     style: {width: '400px'},
   },
   {
@@ -38,7 +38,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     searchableFilter: true,
     asyncFilter: true,
     paginatedFilterPageSize: rootProjectsPageSize,
-    header: 'VERSION',
+    header: 'Version',
     style: {width: '200px'},
     showInCardFilters: true
   },
@@ -49,7 +49,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     filterable: true,
     searchableFilter: true,
     sortable: false,
-    header: 'TAGS',
+    header: 'Tags',
     style: {width: '300px'},
     excludeFilter: true,
     andFilter: true,
@@ -60,14 +60,14 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     id: EXPERIMENTS_TABLE_COL_FIELDS.STATUS,
     headerType: ColHeaderTypeEnum.sortFilter,
     filterable: true,
-    header: 'STATUS',
+    header: 'Status',
     style: {width: '130px', minWidth: '130px'},
     showInCardFilters: true
   },
   {
     id: EXPERIMENTS_TABLE_COL_FIELDS.PROJECT,
     headerType: ColHeaderTypeEnum.title,
-    header: 'PROJECT',
+    header: 'Project',
     style: {width: '150px'},
     filterable  :  true,
     searchableFilter: true,
@@ -81,7 +81,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     searchableFilter: true,
     filterable: true,
     sortable: false,
-    header: 'USER',
+    header: 'User',
     style: {width: '115px'},
     showInCardFilters: true
   },
@@ -92,7 +92,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     filterType: ColHeaderFilterTypeEnum.durationDate,
     filterable: true,
     searchableFilter: false,
-    header: 'STARTED',
+    header: 'Started',
     style: {width: '150px'},
   },
   {
@@ -103,7 +103,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     filterType: ColHeaderFilterTypeEnum.duration,
     searchableFilter: false,
     bodyStyleClass: 'type-col',
-    header: 'RUN TIME',
+    header: 'Run time',
     style: {width: '150px'}
   },
   {
@@ -113,14 +113,14 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
     filterType: ColHeaderFilterTypeEnum.durationDate,
     filterable: true,
     searchableFilter: false,
-    header: 'UPDATED',
+    header: 'Updated',
     style: {width: '150px'},
   },
   {
     id        : EXPERIMENTS_TABLE_COL_FIELDS.COMMENT,
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable  : true,
-    header    : 'DESCRIPTION',
+    header    : 'Description',
     style     : {width: '300px'}
   },
 ];

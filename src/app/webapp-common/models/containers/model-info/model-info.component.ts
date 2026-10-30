@@ -229,7 +229,7 @@ export class ModelInfoComponent implements OnDestroy {
             breadcrumbOptions: {
               showProjects: !!selectedProject,
               featureBreadcrumb: {
-                name: 'PROJECTS',
+                name: 'Projects',
                 url: 'projects'
               },
               projectsOptions: {

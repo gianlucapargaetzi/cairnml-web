@@ -1,7 +1,7 @@
 <mat-expansion-panel [expanded]="true" (transitionend)="$event.stopPropagation()">
   <mat-expansion-panel-header>
     <mat-panel-title data-id="expandInfoPanel" class="expand-header">
-      {{ controller() ? 'RUN INFO' : stepWithStatus()?.data?.isStage ? 'STAGE INFO' : 'STEP INFO' }}
+      {{ controller() ? 'Run info' : stepWithStatus()?.data?.isStage ? 'Stage info' : 'Step info' }}
     </mat-panel-title>
     @if (entity()?.id) {
       <button [attr.aria-label]="controller() ? 'Export pipeline information (JSON)' : 'Export step information (JSON)'" mat-icon-button
@@ -47,7 +47,7 @@
       }
       @if (!stepWithStatus() || stepWithStatus().data.job_id === entity()?.id && !stepWithStatus().data.isStage) {
         <div class="section">
-          <div class="header">PARAMETERS</div>
+          <div class="header">Parameters</div>
           @for (section of (entity()?.type === 'controller' ? {'Args': {}} : entity()?.hyperparams) | keyvalue; track section) {
             @for (param of entity()?.hyperparams[section.key]  | keyvalue | filterRegex: '^(?!_).+$'; track param) {
               <div class="param">
@@ -72,7 +72,7 @@
           }
         </div>
         <div class="section">
-          <div class="header">METRICS</div>
+          <div class="header">Metrics</div>
           @if ((entity()?.last_metrics | keyvalue)?.length > 0) {
             @for (metric of entity().last_metrics | keyvalue; track metric) {
               @for (variant of $any($any(metric.value) | keyvalue) | filterMonitorMetric; track variant) {
@@ -87,7 +87,7 @@
           }
         </div>
         <div class="section">
-          <div class="header">ARTIFACTS</div>
+          <div class="header">Artifacts</div>
           @if (entity()?.execution?.artifacts?.length > 0) {
             @for (artifact of entity().execution.artifacts; track artifact.hash || artifact.uri) {
               <div
@@ -102,7 +102,7 @@
           }
         </div>
         <div class="section">
-          <div class="header">MODELS</div>
+          <div class="header">Models</div>
           @if (entity()?.models?.output?.length > 0) {
             @for (model of entity().models?.output; track model) {
               <div class="param">

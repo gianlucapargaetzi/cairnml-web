@@ -97,9 +97,9 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
   };
 
   protected readonly flagNameMap = {
-    [sourceTypesEnum.VersionNum]: 'COMMIT ID',
-    [sourceTypesEnum.Tag]       : 'TAG NAME',
-    [sourceTypesEnum.Branch]    : 'BRANCH NAME'
+    [sourceTypesEnum.VersionNum]: 'Commit ID',
+    [sourceTypesEnum.Tag]       : 'Tag name',
+    [sourceTypesEnum.Branch]    : 'Branch name'
   };
 
   protected readonly binaryValidationRegexp = /(^python.*)|(^sh$)|(^bash$)|(^zsh$)/;

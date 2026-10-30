@@ -39,8 +39,8 @@
       <sm-custom-cols-menu
         [sections]="[{name: 'metrics', options: metricVariants(), template: metricsTemplate}, {name: 'metadata', options: metadataKeys(), template: metadataTemplate}]"
         menuTooltip="Customize table"
-        [topTitle]="'CUSTOMIZE COLUMNS'"
-        [sectionsTitle]="'ADD CUSTOM COLUMN'"
+        [topTitle]="'Customize columns'"
+        [sectionsTitle]="'Add custom column'"
         [tableCols]="tableCols2()"
         [isLoading]="false"
         [disabled]="tableMode() === 'compare' && metricVariants()?.length === 0"

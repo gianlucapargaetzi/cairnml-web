@@ -46,7 +46,7 @@ export enum ExperimentTagsEnum {
 }
 
 export const EXPERIMENTS_TAGS = {
-  ['shared' as ExperimentTagsEnum]: 'SHARED'
+  ['shared' as ExperimentTagsEnum]: 'Shared'
 };export const EXPERIMENTS_TAGS_TOOLTIP = {};
 export const EXPERIMENTS_STATUS_LABELS = {
   [TaskStatusEnum.Created]   : 'Draft',

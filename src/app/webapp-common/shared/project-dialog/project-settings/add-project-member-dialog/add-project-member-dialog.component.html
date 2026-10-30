@@ -1,4 +1,4 @@
-<sm-dialog-template iconClass="al-ico-add" header="ADD USER">
+<sm-dialog-template iconClass="al-ico-add" header="Add user">
   <div class="content">
     <mat-form-field floatLabel="always">
       <mat-label>User</mat-label>
@@ -18,7 +18,7 @@
     </mat-form-field>
   </div>
   <mat-dialog-actions>
-    <button mat-stroked-button (click)="cancel()" data-id="cancelAddMember">CANCEL</button>
-    <button mat-flat-button [disabled]="!user()" (click)="apply()" data-id="confirmAddMember">APPLY</button>
+    <button mat-stroked-button (click)="cancel()" data-id="cancelAddMember">Cancel</button>
+    <button mat-flat-button [disabled]="!user()" (click)="apply()" data-id="confirmAddMember">Apply</button>
   </mat-dialog-actions>
 </sm-dialog-template>

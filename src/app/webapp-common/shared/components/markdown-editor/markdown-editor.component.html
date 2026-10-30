@@ -17,18 +17,18 @@
             </button>
           }
           @if (!readOnly()) {
-            <button mat-stroked-button class="outline" data-id="editReportButton" (click)="editClicked()">EDIT</button>
+            <button mat-stroked-button class="outline" data-id="editReportButton" (click)="editClicked()">Edit</button>
           }
         </div>
         }
       </div>
       @if (editMode) {
         <button mat-button class="preview-toggle" (click)="togglePreview()">
-          {{ editorVisible() ? 'EDIT' : 'PREVIEW' }}
+          {{ editorVisible() ? 'Edit' : 'Preview' }}
         </button>
       }
       @if (editMode && !editorVisible()) {
-        <span class="preview-header">PREVIEW</span>
+        <span class="preview-header">Preview</span>
       }
       <md-editor #editorComponent
         name="Content"
@@ -104,8 +104,8 @@
         </div>
         @if (editMode) {
           <div class="right-buttons">
-            <button mat-stroked-button data-id="cancelEditReportButton" (click)="cancelClicked()">CANCEL</button>
-            <button mat-flat-button [disabled]="!isDirty() || duplicateNames()" data-id="saveEditReportButton" (click)="save()">SAVE</button>
+            <button mat-stroked-button data-id="cancelEditReportButton" (click)="cancelClicked()">Cancel</button>
+            <button mat-flat-button [disabled]="!isDirty() || duplicateNames()" data-id="saveEditReportButton" (click)="save()">Save</button>
           </div>
         }
       </div>

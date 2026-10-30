@@ -9,22 +9,22 @@
     <a aria-label="Agents and queues" class="item al-ico-queues"
        routerLink="/workers-and-queues"
        routerLinkActive="active"
-       smTooltip="AGENTS & QUEUES"
+       smTooltip="Agents & queues"
     ></a>
     <a aria-label="Datasets" class="item al-ico-datasets"
        [routerLink]="defaultNestedModeForFeature()?.['datasets']? '/datasets/simple/*/projects' : '/datasets'"
        [class.active]="baseRouteConfig() ==='datasets'"
-       smTooltip="DATASETS"
+       smTooltip="Datasets"
     ></a>
     <a aria-label="Projects" class="item al-ico-projects"
-       smTooltip="PROJECTS"
+       smTooltip="Projects"
        routerLink="/dashboard"
        [class.active]="['dashboard','reports', 'projects'].includes(baseRouteConfig())"
     ></a>
     <a aria-label="Pipelines" class="item al-ico-pipelines"
        [routerLink]="defaultNestedModeForFeature()?.['pipelines']? '/pipelines/*/projects' : '/pipelines'"
        [class.active]="baseRouteConfig() ==='pipelines'"
-       smTooltip="PIPELINES"
+       smTooltip="Pipelines"
     ></a>
   </div>
 }

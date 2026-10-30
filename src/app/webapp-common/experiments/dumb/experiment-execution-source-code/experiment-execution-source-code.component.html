@@ -1,6 +1,6 @@
 <form [formGroup]="sourceCodeForm">
   <div [class.source-code-container]="editable()">
-    <sm-labeled-row label="REPOSITORY">
+    <sm-labeled-row label="Repository">
       @if (!editable()) {
         @if (repoData().targetUrl) {
           <a [href]="repoData().targetUrl" target="_blank" class="d-inline-flex ">
@@ -17,7 +17,7 @@
         </mat-form-field>
       }
     </sm-labeled-row>
-    <sm-labeled-row [label]="editable() ? 'COMMIT' : (sourceCodeForm.controls.scriptType.value | replaceViaMapPipe: flagNameMap)">
+    <sm-labeled-row [label]="editable() ? 'Commit' : (sourceCodeForm.controls.scriptType.value | replaceViaMapPipe: flagNameMap)">
       @if (!editable()) {
         <div>
           <div>
@@ -85,7 +85,7 @@
         </div>
       }
     </sm-labeled-row>
-    <sm-labeled-row label="SCRIPT PATH">
+    <sm-labeled-row label="Script path">
       @if (!editable()) {
         <div>{{sourceCodeForm.controls.entry_point.value}}</div>
       } @else {
@@ -94,7 +94,7 @@
         </mat-form-field>
       }
     </sm-labeled-row>
-    <sm-labeled-row label="WORKING DIRECTORY">
+    <sm-labeled-row label="Working directory">
       @if (!editable()) {
         <div>{{sourceCodeForm.controls.working_dir.value}}</div>
       }
@@ -104,7 +104,7 @@
         </mat-form-field>
       }
     </sm-labeled-row>
-    <sm-labeled-row label="BINARY">
+    <sm-labeled-row label="Binary">
       @if (!editable()) {
         <div class="d-flex align-items-center">
           {{sourceCodeForm.controls.binary.value}}

@@ -92,9 +92,9 @@
   </form>
 </sm-dialog-template>
 <mat-dialog-actions>
-  <button mat-stroked-button [mat-dialog-close]="null" data-id="CancelButton">CANCEL</button>
+  <button mat-stroked-button [mat-dialog-close]="null" data-id="CancelButton">Cancel</button>
   <button mat-flat-button (click)="closeDialog()" [disabled]="!cloneForm.valid"
           class="yes-button" data-id="CloneButton">
-    {{extend ? 'EXTEND' : 'CLONE'}}
+    {{extend ? 'Extend' : 'Clone'}}
   </button>
 </mat-dialog-actions>

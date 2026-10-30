@@ -23,15 +23,15 @@
           data-id="createNewReport"
           (click)="openCreateReportDialog(projectId)">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-    NEW REPORT
+    New report
   </button>
 
   <div empty-state class="empty-state justify-content-center">
     <mat-icon fontSet="al" fontIcon="al-ico-reports" class="xxl"></mat-icon>
-    <h4 class="title">NO REPORTS TO SHOW</h4>
+    <h4 class="title">No reports to show</h4>
     <div class="sub-title">
       <button mat-flat-button data-id="createNewReport" (click)="openCreateReportDialog(projectId)">
-        NEW REPORT
+        New report
       </button>
     </div>
   </div>
@@ -42,11 +42,11 @@
 <ng-template #cardContent let-project>
   <sm-circle-counter
     [counter]="project.stats?.active?.total_tasks ?? '0'"
-    label="REPORTS"
+    label="Reports"
     [type]="circleTypeEnum.empty"></sm-circle-counter>
   <sm-circle-counter
     [counter]="project.stats?.active?.status_count?.published ?? '0'"
-    label="PUBLISHED"
+    label="Published"
     [type]="project.stats?.active?.status_count?.published ===0 ? circleTypeEnum.empty :
             circleTypeEnum.published"
   ></sm-circle-counter>

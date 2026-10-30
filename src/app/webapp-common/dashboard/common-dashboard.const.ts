@@ -19,7 +19,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id            : RECENT_TASKS_TABLE_COL_FIELDS.ID,
     headerType    : ColHeaderTypeEnum.title,
-    header        : 'TASK ID',
+    header        : 'Task ID',
     style         : {width: '140px'},
     disableDrag   : true,
     disablePointerEvents: true
@@ -27,7 +27,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id            : RECENT_TASKS_TABLE_COL_FIELDS.TYPE,
     headerType    : ColHeaderTypeEnum.title,
-    header        : 'TYPE',
+    header        : 'Type',
     bodyStyleClass: 'type-col',
     disableDrag   : true,
     disablePointerEvents: true
@@ -35,7 +35,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id         : RECENT_TASKS_TABLE_COL_FIELDS.NAME,
     headerType : ColHeaderTypeEnum.title,
-    header     : 'TITLE',
+    header     : 'Title',
     disableDrag: true,
     disablePointerEvents: true
 
@@ -43,7 +43,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id         : RECENT_TASKS_TABLE_COL_FIELDS.PROJECT,
     headerType : ColHeaderTypeEnum.title,
-    header     : 'PROJECT',
+    header     : 'Project',
     disableDrag: true,
     disablePointerEvents: true
 
@@ -51,7 +51,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id         : RECENT_TASKS_TABLE_COL_FIELDS.STARTED,
     headerType : ColHeaderTypeEnum.title,
-    header     : 'STARTED',
+    header     : 'Started',
     disableDrag: true,
     disablePointerEvents: true
 
@@ -59,7 +59,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id         : RECENT_TASKS_TABLE_COL_FIELDS.LAST_UPDATE,
     headerType : ColHeaderTypeEnum.title,
-    header     : 'UPDATED',
+    header     : 'Updated',
     disableDrag: true,
     disablePointerEvents: true
 
@@ -67,7 +67,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id            : RECENT_TASKS_TABLE_COL_FIELDS.STATUS,
     headerType    : ColHeaderTypeEnum.title,
-    header        : 'STATUS',
+    header        : 'Status',
     bodyStyleClass: 'status-col',
     disableDrag   : true,
     disablePointerEvents: true

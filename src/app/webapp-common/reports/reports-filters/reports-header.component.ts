@@ -40,7 +40,7 @@ export class ReportsHeaderComponent {
   projectId = input<string>();
   sortByField = input<string>();
 
-  sortByTitle = computed(() => this.sortByField().includes('name') ? 'NAME' : 'RECENT');
+  sortByTitle = computed(() => this.sortByField().includes('name') ? 'Name' : 'Recent');
   readonly reportsStatusOptions: IOption[] = [{label: 'Draft', value: 'created'},{label: 'Published', value: 'published'}]
 
   reportsFilterChanged = output<string>();

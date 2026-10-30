@@ -69,22 +69,22 @@
     <ng-template></ng-template>
     <sm-circle-counter
       [counter]="project.stats?.active?.status_count.in_progress"
-      label="RUNNING"
+      label="Running"
       [type]="project.stats?.active?.status_count.in_progress? circleTypeEnum.running : circleTypeEnum.empty"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="project.stats?.active?.status_count.queued"
-      label="PENDING"
+      label="Pending"
       [type]="project.stats?.active?.status_count.queued ? circleTypeEnum.pending : circleTypeEnum.empty"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="project.stats?.active?.status_count?.completed"
-      label="COMPLETED"
+      label="Completed"
       [type]="project.stats?.active?.status_count?.completed? circleTypeEnum.completed : circleTypeEnum.empty"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="project.stats?.active?.status_count.failed"
-      label="FAILED"
+      label="Failed"
       [type]="project.stats?.active?.status_count.failed ? circleTypeEnum.failed : circleTypeEnum.empty"
     ></sm-circle-counter>
   </div>

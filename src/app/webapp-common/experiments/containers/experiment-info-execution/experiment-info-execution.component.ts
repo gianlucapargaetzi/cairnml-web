@@ -217,7 +217,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
   editContainerSetupShellScript(smEditableSection?: EditableSectionComponent) {
     this.openEditJsonDialog({
       textData: this.formData.container?.setup_shell_script,
-      title: 'EDIT SETUP SHELL SCRIPT'
+      title: 'Edit setup shell script'
     }, smEditableSection)
       .afterClosed()
       .pipe(filter(bool => !isUndefined(bool)))
@@ -243,7 +243,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
       data: {
         textData: this.formData?.requirements?.pip,
         readOnly: false,
-        title: 'EDIT PYTHON PACKAGES',
+        title: 'Edit python packages',
       } as EditJsonData
     });
 
@@ -268,7 +268,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
     this.openEditJsonDialog({
       textData: this.formData?.diff,
       readOnly: false,
-      title: 'EDIT UNCOMMITTED CHANGES',
+      title: 'Edit uncommitted changes',
     }, this.diffSection)
       .afterClosed()
       .pipe(take(1))

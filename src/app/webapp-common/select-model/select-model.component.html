@@ -48,11 +48,11 @@
 </sm-dialog-template>
 <mat-dialog-actions>
   <button mat-stroked-button (click)="closeDialog(null)" data-id ="CancelButton">
-    CANCEL
+    Cancel
   </button>
   @if (data.selectionMode === 'multiple') {
     <button mat-flat-button type="submit" (click)="closeDialogMultiple()" data-id="ApplyButton">
-      APPLY
+      Apply
     </button>
   }
 </mat-dialog-actions>

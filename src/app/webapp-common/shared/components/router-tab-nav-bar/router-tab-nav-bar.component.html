@@ -7,7 +7,7 @@
       #rla="routerLinkActive"
       [active]="rla.isActive || link.activeBy && routerConfig()?.includes(link.activeBy)"
       [attr.data-id]="link.name"
-    >{{link.name | uppercase}}</a>
+    >{{link.name}}</a>
   }
 </nav>
 <mat-tab-nav-panel  #panel></mat-tab-nav-panel >

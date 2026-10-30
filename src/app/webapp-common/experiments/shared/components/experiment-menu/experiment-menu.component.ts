@@ -163,7 +163,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
           if (showShareWarningDialog) {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType);
           } else if (showRunningWarningDialog) {
-            this.showConfirmArchiveExperiments(selectedExperiments, entityType, 'ARCHIVE A RUNNING TASK',
+            this.showConfirmArchiveExperiments(selectedExperiments, entityType, 'Archive a running task',
               'Some of the tasks you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive tasks?',
               false);
           } else {
@@ -340,7 +340,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       $implicit: ISelectedExperiment[]
     }>, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'PUBLISH TASKS',
+        title: 'Publish tasks',
         template: this.publishTemplate(),
         templateContext: {$implicit: selectedExperiments},
         yes: 'Publish',
@@ -362,7 +362,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   shareExperimentPopup() {
     this.dialog.open(ShareDialogComponent, {
       data: {
-        title: 'SHARE TASK PUBLICLY',
+        title: 'Share task publicly',
         link: `${window.location.origin}/projects/${this.experiment().project.id}/experiments/${this.experiment().id}/output/execution`,
         alreadyShared: this.experiment()?.system_tags.includes('shared'),
         task: this.experiment()?.id
@@ -476,7 +476,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       neverShowAgain: boolean
     }>(ConfirmDialogComponent, {
       data: {
-        title: title ?? 'ARCHIVE A PUBLICLY SHARED TASK',
+        title: title ?? 'Archive a publicly shared task',
         body: body ?? `This task is accessible through a public access link.
             Archiving will disable public access`,
         yes: 'OK',

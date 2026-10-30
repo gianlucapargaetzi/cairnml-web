@@ -58,7 +58,7 @@ export class ProjectSettingsDialogComponent {
   protected scalars = viewChild.required(ProjectScalarDefaultsComponent);
   protected general = viewChild.required(ProjectGeneralSettingsComponent);
 
-  dialogTitle = signal<string>(`PROJECT SETTINGS: "${this.data.project.name}"`);
+  dialogTitle = signal<string>(`Project settings: "${this.data.project.name}"`);
   extraTabs = contentChildren(MatTab);
   extraDirty = input<boolean>(false);
   isEditing = input<boolean>(false);

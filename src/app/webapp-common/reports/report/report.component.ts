@@ -171,7 +171,7 @@ export class ReportComponent implements OnDestroy {
         breadcrumbOptions: {
           showProjects: !!this.report(),
           featureBreadcrumb: {
-            name: 'REPORTS',
+            name: 'Reports',
             url: this.nested()['reports'] ? 'reports/*/projects' : 'reports',
             linkLast: true
           },
@@ -236,7 +236,7 @@ export class ReportComponent implements OnDestroy {
   publish() {
     this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'PUBLISH REPORT',
+        title: 'Publish report',
         body: '<p class="text-center">After publishing the report it can no longer be edited</p>',
         yes: 'Publish',
         no: 'Cancel',

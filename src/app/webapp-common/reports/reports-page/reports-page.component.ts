@@ -238,7 +238,7 @@ export class ReportsPageComponent extends ProjectsPageComponent implements OnIni
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            name: 'REPORTS',
+            name: 'Reports',
             url: defaultNestedModeForFeature['reports'] ? 'reports/*/projects' : 'reports',
             linkLast: !this.nested && selectedProject?.id === '*',
             queryParamsHandling: 'merge'

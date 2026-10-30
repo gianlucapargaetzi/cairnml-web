@@ -24,7 +24,7 @@
     @if (dataTable?.length === 0) {
       <div class="no-output">
         <mat-icon fontSet="al" fontIcon="al-ico-no-data-table" class="xxl"></mat-icon>
-        <h4>NO METRICS</h4>
+        <h4>No metrics</h4>
       </div>
     }
 
@@ -117,10 +117,10 @@
                 <span class="value-text" smShowTooltipIfEllipsis [smTooltip]="metricVariant.values[exp.id]?.[valuesMode.key]">{{ metricVariant.values[exp.id]?.[valuesMode.key] }}</span>
                 @if ((selectShowRowExtremes$ | ngrxPush) && metricVariant.min !== metricVariant.max) {
                   @if (metricVariant.values[exp.id]?.[valuesMode.key] === metricVariant.max) {
-                    <span class="tag tag-max">MAX</span>
+                    <span class="tag tag-max">Max</span>
                   }
                   @if (metricVariant.values[exp.id]?.[valuesMode.key] === metricVariant.min) {
-                    <span class="tag tag-min">MIN</span>
+                    <span class="tag tag-min">Min</span>
                   }
                 }
               </div>

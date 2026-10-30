@@ -8,7 +8,7 @@
              class="side-link"
              [class.selected]="link === currentLink"
              (click)="showSection(link)"
-          >{{ link | uppercase }}</a>
+          >{{ link }}</a>
         }
       </mat-nav-list>
     </mat-sidenav>
@@ -32,7 +32,7 @@
                              (cancelClicked)="sourceCode.cancel(); cancelFormChange()"
                              (saveClicked)="sourceCode.sourceCodeForm.valid && saveSourceData()"
                              (activateEditClicked)="activateEditChanged('source', sourceSection)">
-          <sm-section-header label="SOURCE CODE"></sm-section-header>
+          <sm-section-header label="Source code"></sm-section-header>
           <sm-experiment-execution-source-code
             #sourceCode
             class="form-section"
@@ -51,7 +51,7 @@
                              (cancelClicked)="cancelFormChange()"
                              (activateEditClicked)="activateEditChanged('diff'); editDiff()">
           @if (minimized) {
-            <sm-section-header label="UNCOMMITTED CHANGES"></sm-section-header>
+            <sm-section-header label="Uncommitted changes"></sm-section-header>
           }
           <sm-scroll-textarea
             class="form-section"
@@ -64,14 +64,14 @@
                 extra-buttons mat-stroked-button class="flex-1"
                 (click)="diffSection.editModeChanged(true)"
                 data-id="edit uncommitted changes"
-              >EDIT</button>
+              >Edit</button>
             }
             @if (formData.diff && editable() && !showExtraDataSpinner()) {
               <button
                 extra-buttons mat-stroked-button
                 (click)="discardDiff()"
                 data-id="Discard Diffs"
-              >DISCARD DIFFS</button>
+              >Discard diffs</button>
             }
           </sm-scroll-textarea>
         </sm-editable-section>
@@ -98,7 +98,7 @@
           }
           <div class="requirements-header">
             @if (minimized) {
-              <sm-section-header label="PYTHON PACKAGES"></sm-section-header>
+              <sm-section-header label="Python packages"></sm-section-header>
             }
             @if (requirementsOptions?.length > 1) {
               <mat-form-field
@@ -128,7 +128,7 @@
                       class="flex-1"
                       (click)="requirementsSection.editModeChanged(true)"
                       data-id="Edit Installed Packages"
-              >EDIT</button>
+              >Edit</button>
             }
           </sm-scroll-textarea>
         </sm-editable-section>
@@ -142,8 +142,8 @@
                              (cancelClicked)="cancelFormChange()"
                              (saveClicked)="saveContainerData({image: containerImage.nativeElement.value, arguments: containerArguments.nativeElement.value})"
                              (activateEditClicked)="activateEditChanged('orchestration', containerSection)">
-          <sm-section-header label="CONTAINER"></sm-section-header>
-          <sm-labeled-row label="IMAGE">
+          <sm-section-header label="Container"></sm-section-header>
+          <sm-labeled-row label="Image">
             @if (!((editable() && !isInDev()) && containerSection.inEditMode())) {
               <div>{{ formData.container?.image }}</div>
             }
@@ -153,7 +153,7 @@
               </mat-form-field>
             }
           </sm-labeled-row>
-          <sm-labeled-row label="ARGUMENTS"  [labelClass]="'this-is-myclass'">
+          <sm-labeled-row label="Arguments"  [labelClass]="'this-is-myclass'">
             @if (!((editable() && !isInDev()) && containerSection.inEditMode())) {
               <div>{{ formData.container?.arguments | hideRedactedArguments: (redactedArguments$| ngrxPush) }}</div>
             }
@@ -175,7 +175,7 @@
                              [disableSave]="false"
                              (cancelClicked)="cancelFormChange()"
                              (activateEditClicked)="activateEditChanged('container'); editContainerSetupShellScript(containerSetupShellSection)">
-          <sm-section-header label="SETUP SHELL SCRIPT"></sm-section-header>
+          <sm-section-header label="Setup shell script"></sm-section-header>
           <sm-scroll-textarea
             class="form-section"
             [editable]="editable() && containerSetupShellSection.inEditMode()"
@@ -184,14 +184,14 @@
             @if (formData?.container?.setup_shell_script && editable() && !showExtraDataSpinner()) {
               <button extra-buttons
                       mat-stroked-button
-                      (click)="containerSetupShellSection.editModeChanged(true)">EDIT
+                      (click)="containerSetupShellSection.editModeChanged(true)">Edit
               </button>
             }
             @if (formData.container?.setup_shell_script && editable() && !showExtraDataSpinner()) {
               <button extra-buttons
                       mat-stroked-button
                       (click)="clearSetupShellScript()">
-                CLEAR
+                Clear
               </button>
             }
           </sm-scroll-textarea>
@@ -205,8 +205,8 @@
                              (cancelClicked)="cancelFormChange()"
                              (saveClicked)="saveOutputData()"
                              (activateEditClicked)="activateEditChanged('output', outputSection)">
-          <sm-section-header label="OUTPUT"></sm-section-header>
-          <sm-labeled-row label="DESTINATION">
+          <sm-section-header label="Output"></sm-section-header>
+          <sm-labeled-row label="Destination">
             @if (!((editable() && !isInDev()) && outputSection.inEditMode())) {
               <div>{{ formData.output?.destination }}</div>
             }
@@ -217,7 +217,7 @@
             }
           </sm-labeled-row>
           <!--      Can we remove this non existing input?-->
-          <sm-labeled-row label="LOG LEVEL" >
+          <sm-labeled-row label="Log level" >
             @if (!((editable() && !isInDev()) && outputSection.inEditMode())) {
               <div>{{ formData.output?.logLevel }}</div>
             }

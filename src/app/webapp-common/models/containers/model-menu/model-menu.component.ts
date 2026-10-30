@@ -96,7 +96,7 @@ export class ModelMenuComponent extends BaseContextMenuComponent {
 
     const confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'PUBLISH',
+        title: 'Publish',
         body: `<b>${selectedModels.length === 1 ? htmlTextShort(selectedModels[0].name) : selectedModels.length + ' models'}</b> status will be set to Published.
 <br><br>Published models are read-only and cannot be reset.`,
         yes: 'Publish',

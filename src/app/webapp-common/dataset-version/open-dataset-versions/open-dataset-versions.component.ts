@@ -58,7 +58,7 @@ export class OpenDatasetVersionsComponent extends ControllersComponent {
   protected override get tableCols() {
     return INITIAL_CONTROLLER_TABLE_COLS.map((col) =>
       col.id === EXPERIMENTS_TABLE_COL_FIELDS.NAME ?
-        {...col, header: 'VERSION NAME'} :
+        {...col, header: 'Version name'} :
         col.id === EXPERIMENTS_TABLE_COL_FIELDS.SELECTED ? {...col, disablePointerEvents: false} : col);
   }
 
@@ -120,7 +120,7 @@ export class OpenDatasetVersionsComponent extends ControllersComponent {
           breadcrumbOptions: {
             showProjects: !!selectedProject,
             featureBreadcrumb: {
-              name: 'DATASETS',
+              name: 'Datasets',
               url: this.defaultNestedModeForFeature()['datasets'] ? 'datasets/simple/*/projects' : 'datasets'
             },
             projectsOptions: {
