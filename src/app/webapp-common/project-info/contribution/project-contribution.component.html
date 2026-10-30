@@ -1,0 +1,63 @@
+<section class="contribution-panel" aria-labelledby="contribution-title">
+  <header class="panel-header">
+    <h2 id="contribution-title" class="panel-title">Contributions</h2>
+    <span class="panel-period">{{ periodLabel() }}</span>
+  </header>
+
+  @if (summary(); as summary) {
+    <div class="tiles">
+      <div class="tile">
+        <span class="tile-value">{{ summary.total }}</span>
+        <span class="tile-label">Runs</span>
+      </div>
+      <div class="tile">
+        <span class="tile-value">{{ summary.completed }}</span>
+        <span class="tile-label"><span class="dot completed" aria-hidden="true"></span>Completed</span>
+      </div>
+      <div class="tile">
+        <span class="tile-value">{{ summary.failed }}</span>
+        <span class="tile-label"><span class="dot failed" aria-hidden="true"></span>Failed</span>
+      </div>
+      <div class="tile">
+        <span class="tile-value">{{ summary.running }}</span>
+        <span class="tile-label"><span class="dot running" aria-hidden="true"></span>Running or queued</span>
+      </div>
+    </div>
+
+    <div class="activity" role="img" [attr.aria-label]="'Runs per day, ' + periodLabel().toLowerCase() + ', ' + summary.total + ' in total'">
+      @for (blank of summary.leadingBlanks; track blank) {
+        <span class="day blank" aria-hidden="true"></span>
+      }
+      @for (day of summary.days; track day.date.getTime()) {
+        <span
+          class="day"
+          [attr.data-level]="day.level"
+          [title]="day.date.toLocaleDateString(undefined, {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'}) + ': ' + day.runs + (day.runs === 1 ? ' run' : ' runs')"
+        ></span>
+      }
+    </div>
+
+    <div class="contributors-header">
+      <span>Top contributors</span>
+      @if (summary.contributorCount > summary.contributors.length) {
+        <span class="contributors-count">{{ summary.contributors.length }} of {{ summary.contributorCount }}</span>
+      }
+    </div>
+    @if (summary.contributors.length) {
+      <ol class="contributors">
+        @for (contributor of summary.contributors; track contributor.id) {
+          <li>
+            <a class="contributor-name" [routerLink]="['/projects', projectId(), 'tasks']" [queryParams]="userFilterLink(contributor.id)">{{ contributor.name }}</a>
+            <span class="contributor-runs">{{ contributor.runs }} {{ contributor.runs === 1 ? 'run' : 'runs' }}</span>
+          </li>
+        }
+      </ol>
+    } @else {
+      <div class="panel-status">No runs in this period.</div>
+    }
+  } @else if (state() === 'error') {
+    <div class="panel-status error" role="alert">Runs could not be loaded. Reload the page to try again.</div>
+  } @else {
+    <div class="panel-status">Loading runs…</div>
+  }
+</section>
