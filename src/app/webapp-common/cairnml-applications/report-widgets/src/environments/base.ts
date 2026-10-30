@@ -89,7 +89,7 @@ export const BASE_ENV: Environment = {
   branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
   serverDownMessage: 'The CairnML server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.',
-  legal: {TOULink: 'https://clear.ml/legal-platform-tou/', pricingLink: 'https://clear.ml/pricing/'},
+  legal: {TOULink: 'https://github.com/gianlucapargaetzi/cairnml-server/blob/main/LICENSE'},
   showMaskWithoutLabels: true,
   newExperimentYouTubeVideoId: 'bjWwZAzDxTY'
 };

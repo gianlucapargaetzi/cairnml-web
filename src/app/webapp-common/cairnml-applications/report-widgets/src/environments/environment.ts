@@ -3,11 +3,9 @@ import {BASE_ENV, Environment} from './base';
   'https://api.allegro-master.hosted.allegro.ai',    // 1
   'https://api.community-master.hosted.allegro.ai',  // 2
   'https://api.allegro.ai',                          // 3
-  'https://api.clear.ml',                            // 4
   'https://api1.rnd.dev2.allegro.ai',                // 5
   'https://api2.rnd.dev2.allegro.ai',                // 6
   'https://api.dev.hosted.allegro.ai',               // 7
-  'https://api.dev.hosted.clear.ml',                 // 8
   'https://api.staging.hosted.allegro.ai',           // 9
   'https://api.neuralguard.hosted.allegro.ai',       // 10
 */
