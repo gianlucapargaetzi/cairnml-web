@@ -10,6 +10,8 @@ export class GlobalErrorHandler implements ErrorHandler {
   private boundary = inject(ErrorBoundaryService);
 
   handleError(error: unknown): void {
+    // The one place that must write to the console: the stack is for developers.
+    // eslint-disable-next-line no-console
     console.error(error);
     this.boundary.report(error);
   }
