@@ -14,6 +14,7 @@ import {ShortProjectNamePipe} from '../pipes/short-project-name.pipe';
 import {ProjectLocationPipe} from '../pipes/project-location.pipe';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {MatDialog} from '@angular/material/dialog';
+import * as projectsActions from '../../core/actions/projects.actions';
 
 @Injectable()
 export class ProjectDialogEffects {
@@ -63,6 +64,11 @@ export class ProjectDialogEffects {
         mergeMap(() => [
             deactivateLoader(action.type),
             newProjectActions.setCreationStatus({status: CREATION_STATUS.SUCCESS}),
+            // The store's copy of the selected project shows the name in the breadcrumbs, so it follows the saved name.
+            projectsActions.updateProjectCompleted({
+              id: action.req.project,
+              changes: {name: action.req.name, basename: action.req.name.split('/').pop()}
+            }),
             addMessage(MESSAGES_SEVERITY.SUCCESS, `${(new ShortProjectNamePipe()).transform(action.req.name)} has been updated successfully in ${(new ProjectLocationPipe()).transform(action.req.name)}`),
           ]
         ),
