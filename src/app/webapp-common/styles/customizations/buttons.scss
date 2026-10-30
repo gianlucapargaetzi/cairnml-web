@@ -192,10 +192,6 @@
     --mat-icon-button-icon-color: #{mat.get-theme-color($theme, primary)};
   }
 
-  .secondary-button {
-    @include mat.button-color($theme, $color-variant: secondary);
-  }
-
   .tertiary-button {
     @include mat.button-color($theme, $color-variant: tertiary);
   }
