@@ -25,7 +25,7 @@
   ::ng-deep .p-datatable-table-container {
 
     .p-datatable-tbody {
-      height: calc(100% - var(--table-row-height, 48px));
+      height: calc(100% - var(--table-row-height, 40px));
 
       .p-datatable-frozen-column-right {
         background-color: transparent;
@@ -220,7 +220,7 @@
     color: var(--row-default-text-color);
 
     &.header {
-      height: var(--table-row-height, 48px);
+      height: var(--table-row-height, 40px);
       background-color: var(--row-header-color);
     }
 
@@ -230,7 +230,7 @@
 
     th {
       border-bottom: none;
-      padding: 0 8px;
+      padding: 0 12px;
 
       &:first-child {
         padding-left: 24px;
@@ -244,6 +244,7 @@
         text-align: left;
         font-size: 12px !important;
         font-weight: 500;
+        color: var(--color-on-surface-variant);
         white-space: nowrap;
       }
 
@@ -255,7 +256,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      padding: 0 8px;
+      padding: 0 12px;
 
       &:first-child {
         padding-left: 24px;
