@@ -39,7 +39,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {PushPipe} from '@ngrx/component';
 import {HideRedactedArgumentsPipe} from '@common/shared/pipes/hide-redacted-arguments.pipe';
-import {NgTemplateOutlet, UpperCasePipe} from '@angular/common';
+import {NgTemplateOutlet} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
@@ -64,7 +64,6 @@ import {MatInput} from '@angular/material/input';
     MatSidenavContent,
     PushPipe,
     HideRedactedArgumentsPipe,
-    UpperCasePipe,
     FormsModule,
     MatListModule,
     ExperimentExecutionSourceCodeComponent,

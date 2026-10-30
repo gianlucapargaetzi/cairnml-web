@@ -1,6 +1,5 @@
 import {Component, inject, input, ChangeDetectionStrategy} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
-import {UpperCasePipe} from '@angular/common';
 import {Store} from '@ngrx/store';
 import {selectRouterConfig} from '@common/core/reducers/router-reducer';
 import {RouterLink, RouterLinkActive} from '@angular/router';
@@ -14,7 +13,6 @@ import {Link} from '~/features/experiments/experiments.consts';
   imports: [
     MatTabsModule,
     RouterLink,
-    UpperCasePipe,
     RouterLinkActive,
   ]
 })
