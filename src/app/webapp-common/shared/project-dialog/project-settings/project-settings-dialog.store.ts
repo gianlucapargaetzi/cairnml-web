@@ -91,8 +91,12 @@ export const withProjectSettingsStore = signalStoreFeature(
       return store.companyUsers().filter(user => !memberIds.has(user.id));
     });
 
+    // Only the owner changes the queue allocations of the project, even an admin
+    const isOwner = computed(() => !!currentUser() && currentUser().id === store.owner());
+
     return {
       isReadOnly: computed(() => store.readOnly()),
+      isOwner,
       canManageMembers: canManage,
       availableUsers,
       memberRows: rows,

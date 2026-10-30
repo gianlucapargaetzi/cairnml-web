@@ -15,7 +15,8 @@
     @for(project of recentProjectsList; track project.id) {
       <sm-project-card
         [project]="project" (dblclick)="projectCardClicked(project)"
-        [hideMenu]="true"
+        [settingsOnly]="true"
+        (projectSettingsClicked)="openProjectSettings($event)"
       ></sm-project-card>
     }
     @if (recentProjectsList.length < cardsInRow) {

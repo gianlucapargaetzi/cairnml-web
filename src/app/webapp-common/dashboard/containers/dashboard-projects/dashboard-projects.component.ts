@@ -10,6 +10,7 @@ import {ProjectDialogComponent} from '@common/shared/project-dialog/project-dial
 import {resetSelectedProject, setSelectedProjectId} from '@common/core/actions/projects.actions';
 import {throttleTime} from 'rxjs/operators';
 import {isExample} from '@common/shared/utils/shared-utils';
+import {ProjectSettingsExtendedDialogComponent} from '~/features/projects/containers/project-settings-extended/project-settings-extended.component';
 import {CARDS_IN_ROW} from '../../common-dashboard.const';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ProjectCardComponent} from '@common/shared/ui-components/panel/project-card/project-card.component';
@@ -65,6 +66,13 @@ export class DashboardProjectsComponent {
       this.router.navigateByUrl(`projects/${project.id}`);
     }
     this.store.dispatch(setSelectedProjectId({projectId: project.id, example: isExample(project)}));
+  }
+
+  public openProjectSettings(project: Project) {
+    this.matDialog.open(ProjectSettingsExtendedDialogComponent, {
+      data: {project},
+      panelClass: 'dialog-lg',
+    }).afterClosed().subscribe(() => this.store.dispatch(getRecentProjects()));
   }
 
   public openCreateProjectDialog() {

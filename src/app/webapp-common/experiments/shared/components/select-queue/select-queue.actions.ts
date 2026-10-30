@@ -2,7 +2,7 @@ import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {createAction, props} from '@ngrx/store';
 import {Task} from '~/business-logic/model/tasks/task';
 
-export type SelectQueue = Pick<Queue, 'id' | 'name' | 'display_name' | 'caption' | 'profile_connection'>;
+export type SelectQueue = Pick<Queue, 'id' | 'name' | 'display_name' | 'caption' | 'profile_connection' | 'public'>;
 
 export const SELECT_QUEUE_PREFIX = 'SELECT_QUEUE_';
 

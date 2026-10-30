@@ -63,6 +63,7 @@ export class ProjectCardComponent {
   isRootProject = input();
   hideProjectPathIcon = input(false);
   hideMenu = input(false);
+  settingsOnly = input(false);
   projectCardClicked = output<Project>();
   projectNameChanged = output<string>();
   deleteProjectClicked = output<Project>();

@@ -21,6 +21,7 @@ import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings
 import {ProjectScalarDefaultsComponent} from './project-scalar-defaults/project-scalar-defaults.component';
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {ProjectGeneralSettingsComponent} from './project-general-settings/project-general-settings.component';
+import {ProjectQueuesComponent} from './project-queues/project-queues.component';
 
 export interface ProjectSettingsDialogConfig {
   project: Project;
@@ -45,7 +46,8 @@ export interface ProjectSettingsDialogConfig {
     MatDialogActions,
     MatTabLabel,
     ProjectScalarDefaultsComponent,
-    ProjectMembersComponent
+    ProjectMembersComponent,
+    ProjectQueuesComponent
   ]
 })
 export class ProjectSettingsDialogComponent {

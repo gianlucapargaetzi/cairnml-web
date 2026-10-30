@@ -1,3 +1,4 @@
+import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
 import {ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject} from '@angular/core';
 import {Task} from '~/business-logic/model/tasks/task';
 import {Store} from '@ngrx/store';
@@ -69,7 +70,7 @@ export class QueuesComponent {
 
   protected shortScreen$ = this.breakpointObserver.observe(['(max-height: 750px)'])
     .pipe(map(res => res.matches));
-  protected queuesManager = this.route.snapshot.data.queuesManager;
+  protected queuesManager = this.store.selectSignal(selectCanManageQueues);
 
   constructor() {
     this.store.dispatch(initSearch({payload: 'Search for queues'}));

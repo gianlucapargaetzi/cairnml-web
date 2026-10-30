@@ -1,7 +1,7 @@
 <sm-queue-stats [queue]="queueId()" [caption]="queueId() && selectedQueue()?.caption"></sm-queue-stats>
 <div class="queues-header">
   <sm-common-search [searchActive]="true"></sm-common-search>
-  @if (queuesManager) {
+  @if (queuesManager()) {
     <button mat-flat-button (click)="addQueue()">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       NEW QUEUE

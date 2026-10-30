@@ -25,6 +25,9 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {MatIconButton} from '@angular/material/button';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
+import {Store} from '@ngrx/store';
+import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
+import {QueueUsersComponent} from '../queue-users/queue-users.component';
 
 @Component({
   selector: 'sm-queue-info',
@@ -40,6 +43,7 @@ import {MatIconModule} from '@angular/material/icon';
     ShowTooltipIfEllipsisDirective,
     TooltipDirective,
     MatIconButton,
+    QueueUsersComponent,
     MatTab,
     MatTabGroup
   ]
@@ -48,6 +52,7 @@ export class QueueInfoComponent {
   private changeDetector = inject(ChangeDetectorRef);
   private blTaskService = inject(BlTasksService);
   private dialog = inject(MatDialog);
+  protected canManageQueues = inject(Store).selectSignal(selectCanManageQueues);
 
   selectedQueue = input<Queue>();
   queues = input<Queue[]>();

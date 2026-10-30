@@ -24,4 +24,6 @@ export class ProjectCardMenuComponent {
   projectEditClicked = output<Project>();
   projectSettingsClicked = output<Project>();
   project = input<Project>();
+  /** Only the settings entry, for places where the other actions are not available */
+  settingsOnly = input(false);
 }

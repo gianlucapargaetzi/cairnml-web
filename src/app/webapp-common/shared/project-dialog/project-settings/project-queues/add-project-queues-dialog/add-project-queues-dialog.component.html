@@ -1,0 +1,16 @@
+<sm-dialog-template iconClass="al-ico-add" header="ADD QUEUE">
+  <div class="content">
+    <mat-form-field floatLabel="always">
+      <mat-label>Queues</mat-label>
+      <mat-select multiple [value]="queues()" (selectionChange)="queues.set($event.value)" data-id="projectQueues">
+        @for (queue of data.queues; track queue.id) {
+          <mat-option [value]="queue.id">{{ queue.name }}{{ queue.public ? ' (public)' : '' }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="cancel()" data-id="cancelAddProjectQueues">CANCEL</button>
+    <button mat-flat-button [disabled]="!queues().length" (click)="apply()" data-id="confirmAddProjectQueues">APPLY</button>
+  </mat-dialog-actions>
+</sm-dialog-template>

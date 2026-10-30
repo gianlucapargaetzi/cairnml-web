@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {MatButton} from '@angular/material/button';
 import {ProjectScalarDefaultsComponent} from '@common/shared/project-dialog/project-settings/project-scalar-defaults/project-scalar-defaults.component';
 import {ProjectMembersComponent} from '@common/shared/project-dialog/project-settings/project-members/project-members.component';
+import {ProjectQueuesComponent} from '@common/shared/project-dialog/project-settings/project-queues/project-queues.component';
 import {ProjectGeneralSettingsComponent} from '@common/shared/project-dialog/project-settings/project-general-settings/project-general-settings.component';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
@@ -21,7 +22,7 @@ import {setSelectedProjectId} from '@common/core/actions/projects.actions';
   styleUrls: ['./project-settings-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProjectSettingsStore],
-  imports: [MatButton, ProjectGeneralSettingsComponent, ProjectScalarDefaultsComponent, ProjectMembersComponent]
+  imports: [MatButton, ProjectGeneralSettingsComponent, ProjectScalarDefaultsComponent, ProjectMembersComponent, ProjectQueuesComponent]
 })
 export class ProjectSettingsPageComponent {
   private store = inject(Store);

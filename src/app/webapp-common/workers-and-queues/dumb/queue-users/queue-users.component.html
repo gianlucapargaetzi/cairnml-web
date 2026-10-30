@@ -1,0 +1,40 @@
+<div class="users">
+  <div class="users-header">
+    <div class="section-title">Users</div>
+    <button mat-flat-button (click)="addUser()" [disabled]="busy()" data-id="addQueueUserButton">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      ADD USER
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="users-error" role="alert">{{ error() }}</div>
+  }
+
+  <table class="users-table">
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Added</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of users(); track row.user) {
+        <tr>
+          <td>{{ nameOf(row.user) }}</td>
+          <td>{{ row.added ? (row.added | date: 'mediumDate') : '' }}</td>
+          <td class="row-actions">
+            <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.user" smTooltip="Remove" (click)="removeUser(row)" data-id="removeQueueUserButton">
+              <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3" class="empty">No users have been granted access to this queue yet. Public queues need no grants.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

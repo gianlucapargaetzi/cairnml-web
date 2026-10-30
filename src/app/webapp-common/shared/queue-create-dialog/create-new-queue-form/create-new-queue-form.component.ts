@@ -5,12 +5,14 @@ import {MatButton} from '@angular/material/button';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {uniqueNameValidator,} from '@common/shared/ui-components/template-forms-ui/unique-name-validator.directive';
 import {MatInput} from '@angular/material/input';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 import {SelectQueue} from '@common/experiments/shared/components/select-queue/select-queue.actions';
 
 export interface QueueFormData {
   name: string;
   display_name: string;
+  public: boolean;
 }
 
 @Component({
@@ -27,6 +29,7 @@ export interface QueueFormData {
     MatLabel,
     MatError,
     ReactiveFormsModule,
+    MatSlideToggle,
   ],
 })
 export class CreateNewQueueFormComponent {
@@ -34,7 +37,8 @@ export class CreateNewQueueFormComponent {
 
   protected queueForm = this.fb.group({
     name: [null as string, [Validators.required, minLengthTrimmed(3)]],
-    display_name: [null as string, [minLengthTrimmed(3),]]
+    display_name: [null as string, [minLengthTrimmed(3),]],
+    public: [false],
   });
 
   queues = input<SelectQueue[]>();
@@ -50,7 +54,7 @@ export class CreateNewQueueFormComponent {
   constructor() {
     effect(() => {
       if (this.queue().name) {
-        this.queueForm.patchValue({name: this.queue().name, display_name: this.queue().display_name || null});
+        this.queueForm.patchValue({name: this.queue().name, display_name: this.queue().display_name || null, public: !!this.queue().public});
       }
     });
 
