@@ -1,10 +1,9 @@
 <div class="no-data-center">
   <mat-icon fontSet="al" fontIcon="al-ico-model-endpoints" class="xxl"></mat-icon>
   @if (isLoading()) {
-    <span class="message">NO MODEL ENDPOINTS CURRENTLY BEING SET UP</span>
+    <span class="message">Loading model endpoints</span>
   } @else {
-    <span class="message">NO ACTIVE MODEL ENDPOINTS</span>
-    <span class="sub-message">Monitor models that are served through the CairnML HttpRouter class.
-   </span>
+    <span class="message">No active model endpoints</span>
+    <span class="sub-message">This page lists running model endpoints. CairnML does not yet document how to create one.</span>
   }
 </div>

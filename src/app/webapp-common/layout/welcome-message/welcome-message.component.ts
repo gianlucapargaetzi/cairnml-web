@@ -86,10 +86,10 @@ export class WelcomeMessageComponent {
     [{
       id: 1,
       header: null, code: null,
-      subNote: 'See CairnML Documentation for different ways of deploying workers'
+      subNote: 'See the CairnML documentation for different ways of deploying agents'
     }, {
       id: 2,
-      header: 'To setup a worker',
+      header: 'To set up an agent',
       title: '1. Install',
       code: 'pip install cairnml-agent',
     }, {
@@ -98,7 +98,7 @@ export class WelcomeMessageComponent {
       code: 'cairnml-agent init'
     }
     ];
-  public links = ['Set up CairnML', 'Run your ML code', 'Relaunch previous experiments'];
+  public links = ['Set up CairnML', 'Run your ML code', 'Relaunch a previous task'];
   public doNotShowAgain: boolean;
   public credentialsLabel: string;
   public src: string;
@@ -125,7 +125,7 @@ export class WelcomeMessageComponent {
 
     if (this.queue) {
       steps[0].code = `cairnml-agent daemon --queue ${this.queue.name}`;
-      steps[0].header = `To assign a worker to the ${this.queue.display_name || this.queue.name} queue, run:`;
+      steps[0].header = `To assign an agent to the ${this.queue.display_name || this.queue.name} queue, run:`;
       steps[1].code = `pip install cairnml-agent`;
       steps[2].code = `cairnml-agent init <server>`;
     } else {
@@ -214,10 +214,10 @@ export class WelcomeMessageComponent {
     if(this.showTabs) {
       return `import numpy as np
 import matplotlib.pyplot as plt
-# Add the following two lines to your code, to have CairnML automatically log your experiment
+# Add the following two lines to your code, to have CairnML automatically log your task
 from ${this.configGettingStarted()?.packageName || 'cairnml'} import Task
 
-task = Task.init(project_name='My Project', task_name='My Experiment')
+task = Task.init(project_name='My Project', task_name='My Task')
 # Create a plot using matplotlib, or you can also use plotly
 plt.scatter(np.random.rand(50), np.random.rand(50), c=np.random.rand(50), alpha=0.5)
 # Plot will be reported automatically to cairnml

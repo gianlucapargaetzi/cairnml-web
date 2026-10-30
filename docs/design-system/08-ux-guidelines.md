@@ -16,7 +16,7 @@ Use one word per concept in labels, titles, tooltips, messages and documentation
 | Versioned data | **Dataset** / **Dataset version** | | Datasets are Git+DVC repositories in the SDK; the web shows "Dataset Versions" — fix capitalization to "Dataset versions" |
 | Waiting list of tasks | **Queue** | | |
 | A process that runs tasks | **Agent** | Worker | Decided: the UI says **Agent** everywhere (the page is called "Agents & Queues"). The API keeps its `workers.*` names; they are not user-facing |
-| Served model | **Endpoint** | Serving | Nav says "Model Endpoints", route `endpoints`, page title "Active endpoints" |
+| Served model | **Endpoint** | Serving | Route `endpoints`, page title "Active endpoints". Not in the side navigation until CairnML documents how to create endpoints (issue #13) |
 | A computer enrolled to sign in | **Device** | Machine, client | Only exists in API/CLI today; use "device" in future UI and explain once as "a computer enrolled with CairnML" |
 | Remove permanently | **Delete** | Remove (use for detaching), Destroy | |
 | Make a task not shown by default | **Archive** | Hide | |
@@ -38,7 +38,7 @@ Capitalization: sentence case ("Create queue"); proper product names as is (Cair
 | Name an icon | Tooltip |
 | Explain a field | Helper text under the field (`mat-hint`) |
 | Explain a concept once | One-line description under a section title |
-| Link to deeper info | "Learn more" link to CairnML documentation (the current `docsLink` still points to clear.ml and must be changed to the CairnML documentation) |
+| Link to deeper info | "Learn more" link to CairnML documentation (`docsLink` in `src/environments/base.ts` points to the CairnML repository README) |
 | Guide first use | Empty-state text with the next step |
 | Warn of consequences | The confirmation body |
 

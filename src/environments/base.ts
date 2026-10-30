@@ -99,7 +99,7 @@ export const BASE_ENV = {
   accountAdministration: false,
   legal: {TOULink: 'https://github.com/gianlucapargaetzi/cairnml-server/blob/main/LICENSE'},
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
-  docsLink: 'https://clear.ml/docs',
+  docsLink: 'https://github.com/gianlucapargaetzi/cairnml#readme',
   supportEmail: '',
   branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
   serverDownMessage: 'The server is currently unavailable.<BR>' +

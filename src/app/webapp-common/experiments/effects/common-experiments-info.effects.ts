@@ -61,6 +61,7 @@ import {cloneDeep, get} from 'lodash-es';
 import {CommonExperimentReverterService} from '../shared/services/common-experiment-reverter.service';
 import {resetOutput} from '../actions/common-experiment-output.actions';
 import {HttpErrorResponse} from '@angular/common/http';
+import {LocationStrategy} from '@angular/common';
 import {selectHasDataFeature} from '~/core/reducers/users.reducer';
 import {selectSelectedProject} from '../../core/reducers/projects.reducer';
 import {PIPELINE_INFO_ONLY_FIELDS} from '@common/pipelines-controller/controllers.consts';
@@ -84,6 +85,7 @@ import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 
 @Injectable()
 export class CommonExperimentsInfoEffects {
+  private locationStrategy = inject(LocationStrategy);
   private previousSelectedLastUpdate: Date = null;
   private previousSelectedId: string;
   private userPreferences = inject(UserPreferences);
@@ -635,7 +637,7 @@ export class CommonExperimentsInfoEffects {
       if (res.tasks?.length > 0) {
         const task = res.tasks[0];
         const a = document.createElement('a');
-        a.href = `/datasets/simple/${task.project.id}/tasks/${task.id}`;
+        a.href = this.locationStrategy.prepareExternalUrl(`/datasets/simple/${task.project.id}/tasks/${task.id}`);
         a.target = '_blank';
         a.click();
         return {type: 'none'};

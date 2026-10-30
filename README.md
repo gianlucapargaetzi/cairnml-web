@@ -14,7 +14,7 @@
 
 # CairnML Web
 
-CairnML Web is the browser interface of CairnML. It shows your projects, experiments, datasets, workers and queues. The web app ships with the [CairnML server](https://github.com/gianlucapargaetzi/cairnml-server), so there is nothing to install separately.
+CairnML Web is the browser interface of CairnML. It shows your projects, tasks, datasets, agents and queues. The web app ships with the [CairnML server](https://github.com/gianlucapargaetzi/cairnml-server), so there is nothing to install separately.
 
 ## Features
 

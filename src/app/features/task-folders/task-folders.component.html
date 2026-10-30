@@ -8,7 +8,7 @@
       <div class="sm-card-list-layout">
         <div class="sm-card-list-header">
           <div class="recent-title">TASKS</div>
-          <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">ALL EXPERIMENTS</button>
+          <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">ALL TASKS</button>
         </div>
         @for (folder of folders(); track folder.id) {
           <sm-project-card
@@ -22,9 +22,9 @@
       </div>
 
       @if (experimentCount() === 0) {
-        <p class="empty">No experiments yet. Run a script that calls Task.init, or start an experiment from a task's page.</p>
+        <p class="empty">No tasks yet. Run a script that calls Task.init, or start a task from a task's page.</p>
       } @else {
-        <sm-dashboard-experiments title="RECENT EXPERIMENTS" [recentTasks]="recent()"></sm-dashboard-experiments>
+        <sm-dashboard-experiments title="RECENT TASKS" [recentTasks]="recent()"></sm-dashboard-experiments>
       }
     </div>
   }
