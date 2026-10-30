@@ -7,6 +7,7 @@ import {MatButton} from '@angular/material/button';
 import {ProjectScalarDefaultsComponent} from '@common/shared/project-dialog/project-settings/project-scalar-defaults/project-scalar-defaults.component';
 import {ProjectMembersComponent} from '@common/shared/project-dialog/project-settings/project-members/project-members.component';
 import {ProjectQueuesComponent} from '@common/shared/project-dialog/project-settings/project-queues/project-queues.component';
+import {ProjectOverviewSettingsComponent} from '@common/shared/project-dialog/project-settings/project-overview-settings/project-overview-settings.component';
 import {ProjectGeneralSettingsComponent} from '@common/shared/project-dialog/project-settings/project-general-settings/project-general-settings.component';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
@@ -14,7 +15,7 @@ import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
 import {setSelectedProjectId} from '@common/core/actions/projects.actions';
 
 /**
- * The project settings as a page, the same settings as the project settings dialog: general, scalar view defaults and users.
+ * The project settings as a page: general, overview, scalar view defaults, queues and users.
  */
 @Component({
   selector: 'sm-project-settings-page',
@@ -22,7 +23,14 @@ import {setSelectedProjectId} from '@common/core/actions/projects.actions';
   styleUrls: ['./project-settings-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProjectSettingsStore],
-  imports: [MatButton, ProjectGeneralSettingsComponent, ProjectScalarDefaultsComponent, ProjectMembersComponent, ProjectQueuesComponent]
+  imports: [
+    MatButton,
+    ProjectGeneralSettingsComponent,
+    ProjectScalarDefaultsComponent,
+    ProjectMembersComponent,
+    ProjectQueuesComponent,
+    ProjectOverviewSettingsComponent
+  ]
 })
 export class ProjectSettingsPageComponent {
   private store = inject(Store);
