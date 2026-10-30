@@ -41,7 +41,6 @@ export class StatusIconLabelComponent {
       case 'Draft':
         return 'al-ico-status-draft';
       case 'completed':
-      case 'stopped':
       case 'closed':
       case 'Final':
       case 'Ready':
@@ -54,6 +53,9 @@ export class StatusIconLabelComponent {
       case 'active':
       case 'routing':
         return 'al-ico-running';
+      case 'stopped':
+      case 'aborted':
+        return 'al-ico-abort';
       case 'failed':
         return 'al-ico-dialog-x';
       case 'queued':
