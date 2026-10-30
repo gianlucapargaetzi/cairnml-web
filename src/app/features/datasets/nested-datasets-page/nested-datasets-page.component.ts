@@ -44,8 +44,7 @@ export class NestedDatasetsPageComponent extends ProjectsPageComponent {
 
   createExamples() {
     this.dialog.open(DatasetEmptyComponent, {
-      maxWidth: '95vw',
-      width: '1248px'
+      panelClass: 'dialog-xxl'
     });
   }
 

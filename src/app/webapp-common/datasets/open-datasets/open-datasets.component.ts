@@ -58,8 +58,7 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
 
   createDataset() {
     this.dialog.open(DatasetEmptyComponent, {
-      maxWidth: '95vw',
-      width: '1248px'
+      panelClass: 'dialog-xxl'
     });
   }
 

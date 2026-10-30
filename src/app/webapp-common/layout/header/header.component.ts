@@ -176,7 +176,7 @@ export class HeaderComponent implements OnInit {
 
     this.searchComponentPromise.then(component => {
       this.dialog.open(component, {
-        width: '920px',
+        panelClass: 'dialog-xl',
         enterAnimationDuration: 0
       });
     });

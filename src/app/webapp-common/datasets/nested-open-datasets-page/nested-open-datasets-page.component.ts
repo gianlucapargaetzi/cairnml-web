@@ -59,8 +59,7 @@ export class NestedOpenDatasetsPageComponent extends ProjectsPageComponent imple
 
   createExamples() {
     this.dialog.open(DatasetEmptyComponent, {
-      maxWidth: '95vw',
-      width: '1248px'
+      panelClass: 'dialog-xxl'
     });
   }
 
