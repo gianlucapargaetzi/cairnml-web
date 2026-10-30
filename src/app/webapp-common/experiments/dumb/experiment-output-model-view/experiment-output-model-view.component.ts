@@ -1,3 +1,4 @@
+import {RouterLink} from '@angular/router';
 import {Component, Input} from '@angular/core';
 import {IModelInfo} from '../../shared/common-experiment-model.model';
 import {Model} from '~/business-logic/model/models/model';
@@ -13,6 +14,7 @@ import {MatIconModule} from '@angular/material/icon';
   templateUrl: './experiment-output-model-view.component.html',
   styleUrls: ['./experiment-output-model-view.component.scss'],
   imports: [
+    RouterLink,
     CopyClipboardComponent,
     LabeledRowComponent,
     MatIconButton,

@@ -33,7 +33,7 @@
   }
   @if (showCreatedExperiment()) {
     <sm-labeled-row label="CREATING TASK">
-      <a [href]="'/projects/'+ ((source()?.projectId) ? source()?.projectId : '*') + '/experiments/' + (source()? source()?.experimentId: '')"
+      <a [routerLink]="['/projects', source()?.projectId || '*', 'experiments', source()?.experimentId ?? '']"
         target="_blank">
         {{source()?.experimentName}}
       </a>

@@ -1,7 +1,7 @@
 <div class="input-model-container">
   @if (!editable) {
     <sm-labeled-row label="MODEL NAME">
-      <a [href]="'/projects/'+ ((model?.project?.id) ? model?.project?.id : '*')  + '/models/' + model?.id" target="_blank">
+      <a [routerLink]="['/projects', model?.project?.id || '*', 'models', model?.id]" target="_blank">
         {{model?.name}}
       </a>
       @if (model?.uri && !isLocalFile) {

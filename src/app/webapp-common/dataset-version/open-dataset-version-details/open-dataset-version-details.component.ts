@@ -1,3 +1,4 @@
+import {RouterLink} from '@angular/router';
 import {ChangeDetectionStrategy, Component, output} from '@angular/core';
 import {PipelineInfoComponent} from '@common/pipelines-controller/pipeline-details/pipeline-info.component';
 import {fileSizeConfigStorage, FileSizePipe} from '@common/shared/pipes/filesize.pipe';
@@ -19,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrls: ['./open-dataset-version-details.component.scss', '../../pipelines-controller/pipeline-details/pipeline-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     IdBadgeComponent,
     MatIconModule,
     MatExpansionPanel,
