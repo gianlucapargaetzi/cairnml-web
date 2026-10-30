@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {WorkersAndQueuesResolver} from '~/shared/resolvers/workers-and-queues.resolver';
 import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
 import {workersAndQueuesProviders} from '@common/workers-and-queues/workers-and-queues.providers';
@@ -17,9 +16,6 @@ export const routes: Routes = [
     loadComponent: () => import('~/features/workers-and-queues/orchestration.component').then(c => c.OrchestrationComponent),
     canDeactivate: [resetContextMenuGuard],
     providers: [workersAndQueuesProviders],
-    resolve: {
-      queuesManager: WorkersAndQueuesResolver
-    },
     children: [
       {path: '', redirectTo: 'queues', pathMatch: 'full'},
       {
@@ -34,7 +30,7 @@ export const routes: Routes = [
           ...queueCreateDialogProviders,
           ...selectQueueProviders
         ],
-        data: {staticBreadcrumb: wQBreadcrumb, queuesManager: true}
+        data: {staticBreadcrumb: wQBreadcrumb}
       },
     ]
   }

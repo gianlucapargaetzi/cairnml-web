@@ -33,6 +33,7 @@
     @if (!hideMenu()) {
       <sm-project-card-menu-extended
         class="menu-wrapper ms-auto"
+        [settingsOnly]="settingsOnly()"
         (deleteProjectClicked)="deleteProjectClicked.emit($event)"
         (moveToClicked)="moveToClicked.emit($event)"
         (newProjectClicked)="newProjectClicked.emit($event)"

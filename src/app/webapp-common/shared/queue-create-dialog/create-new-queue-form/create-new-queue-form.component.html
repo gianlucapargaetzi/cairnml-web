@@ -31,6 +31,9 @@
       </mat-error>
     }
   </mat-form-field>
+  <mat-slide-toggle formControlName="public" class="mb-3" data-id="queuePublic">
+    Public: every company user may use this queue and allocate it to their projects
+  </mat-slide-toggle>
 </form>
   <mat-dialog-actions>
     <button mat-flat-button [disabled]="queueForm.invalid || (isEdit() && queueForm.pristine)" (click)="send()">

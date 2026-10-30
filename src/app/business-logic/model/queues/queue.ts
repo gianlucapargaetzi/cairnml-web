@@ -48,6 +48,10 @@ export interface Queue {
      */
     system_tags?: string[];
     /**
+     * Public queues may be used and allocated to projects by every company user.
+     */
+    public?: boolean;
+    /**
      * List of ordered queue entries
      */
     entries?: Entry[];

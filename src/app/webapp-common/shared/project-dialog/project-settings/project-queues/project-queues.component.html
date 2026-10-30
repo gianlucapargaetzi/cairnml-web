@@ -1,0 +1,42 @@
+<div class="queues">
+  <div class="queues-header">
+    <div class="section-title">Queues</div>
+    @if (settingsStore.isOwner()) {
+      <button mat-flat-button (click)="addQueues()" [disabled]="busy()" data-id="addProjectQueueButton">
+        <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+        ADD QUEUE
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="queues-error" role="alert">{{ error() }}</div>
+  }
+
+  <table class="queues-table">
+    <thead>
+      <tr>
+        <th scope="col">Queue</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of queues(); track row.id) {
+        <tr>
+          <td>{{ row.name }}</td>
+          <td class="row-actions">
+            @if (settingsStore.isOwner()) {
+              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove" (click)="removeQueue(row)" data-id="removeProjectQueueButton">
+                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+              </button>
+            }
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="2" class="empty">No queues are allocated to this project.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -71,6 +71,12 @@ import {ProjectsGetMembersRequest} from '~/business-logic/model/projects/project
 import {ProjectsGetMembersResponse} from '~/business-logic/model/projects/projectsGetMembersResponse';
 import {ProjectsAddMemberRequest} from '~/business-logic/model/projects/projectsAddMemberRequest';
 import {ProjectsUpdateMemberRoleRequest} from '~/business-logic/model/projects/projectsUpdateMemberRoleRequest';
+import {ProjectsGetQueuesRequest} from '~/business-logic/model/projects/projectsGetQueuesRequest';
+import {ProjectsGetQueuesResponse} from '~/business-logic/model/projects/projectsGetQueuesResponse';
+import {ProjectsGetAssignableQueuesResponse} from '~/business-logic/model/projects/projectsGetAssignableQueuesResponse';
+import {ProjectsAddQueuesRequest} from '~/business-logic/model/projects/projectsAddQueuesRequest';
+import {ProjectsRemoveQueueRequest} from '~/business-logic/model/projects/projectsRemoveQueueRequest';
+import {ProjectsQueueUpdateResponse} from '~/business-logic/model/projects/projectsQueueUpdateResponse';
 import {ProjectsRemoveMemberRequest} from '~/business-logic/model/projects/projectsRemoveMemberRequest';
 import {ProjectsMemberUpdateResponse} from '~/business-logic/model/projects/projectsMemberUpdateResponse';
 
@@ -1158,6 +1164,103 @@ export class ApiProjectsService {
         }
 
 	return this.apiRequest.post<ProjectsMemberUpdateResponse>(`${this.basePath}/projects.remove_member`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+
+    /**
+     * Queues allocated to a project.
+     */
+    public projectsGetQueues(request: ProjectsGetQueuesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsGetQueues.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsGetQueuesResponse>(`${this.basePath}/projects.get_queues`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Queues the project owner may allocate.
+     */
+    public projectsGetAssignableQueues(request: ProjectsGetQueuesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsGetAssignableQueues.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsGetAssignableQueuesResponse>(`${this.basePath}/projects.get_assignable_queues`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Allocate queues to a project (owner only).
+     */
+    public projectsAddQueues(request: ProjectsAddQueuesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsAddQueues.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsQueueUpdateResponse>(`${this.basePath}/projects.add_queues`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Remove a queue allocation from a project (owner only).
+     */
+    public projectsRemoveQueue(request: ProjectsRemoveQueueRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsRemoveQueue.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsQueueUpdateResponse>(`${this.basePath}/projects.remove_queue`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -31,6 +31,10 @@ export interface QueuesUpdateRequest {
      */
     system_tags?: Array<string>;
     /**
+     * Public queues may be used and allocated to projects by every company user. Admins only.
+     */
+    public?: boolean;
+    /**
      * Queue metadata
      */
     metadata?: { [key: string]: MetadataItem; };

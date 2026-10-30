@@ -30,6 +30,9 @@
     <mat-tab label="USERS">
       <sm-project-members></sm-project-members>
     </mat-tab>
+    <mat-tab label="QUEUES">
+      <sm-project-queues class="section" [projectId]="data.project.id"></sm-project-queues>
+    </mat-tab>
     @for (tab of extraTabs(); track tab) {
       <mat-tab [label]="tab.textLabel">
         <ng-template [cdkPortalOutlet]="tab.content"></ng-template>

@@ -20,6 +20,10 @@ import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
 import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { ApiOptions }                        from './api';
+import {QueuesGetUsersRequest} from '~/business-logic/model/queues/queuesGetUsersRequest';
+import {QueuesGetUsersResponse} from '~/business-logic/model/queues/queuesGetUsersResponse';
+import {QueuesUserRequest} from '~/business-logic/model/queues/queuesUserRequest';
+import {QueuesUserUpdateResponse} from '~/business-logic/model/queues/queuesUserUpdateResponse';
 
 import { Observable }                                        from 'rxjs';
 
@@ -441,4 +445,50 @@ export class ApiQueuesService {
       options
     );
   }
-  }
+  
+    /**
+     * Users granted access to a queue (admins only).
+     */
+    public queuesGetUsers(request: QueuesGetUsersRequest, options?: ApiOptions): Observable<any> {
+        return this.apiRequest.post<QueuesGetUsersResponse>(`${this.basePath}/queues.get_users`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: this.defaultHeaders,
+                observe: 'body',
+                reportProgress: false
+            }
+        );
+    }
+
+    /**
+     * Grant a user access to a queue (admins only).
+     */
+    public queuesAddUser(request: QueuesUserRequest, options?: ApiOptions): Observable<any> {
+        return this.apiRequest.post<QueuesUserUpdateResponse>(`${this.basePath}/queues.add_user`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: this.defaultHeaders,
+                observe: 'body',
+                reportProgress: false
+            }
+        );
+    }
+
+    /**
+     * Remove a user's access to a queue (admins only).
+     */
+    public queuesRemoveUser(request: QueuesUserRequest, options?: ApiOptions): Observable<any> {
+        return this.apiRequest.post<QueuesUserUpdateResponse>(`${this.basePath}/queues.remove_user`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: this.defaultHeaders,
+                observe: 'body',
+                reportProgress: false
+            }
+        );
+    }
+
+}

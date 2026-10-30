@@ -23,7 +23,7 @@ export class QueueCreateDialogEffects {
 
   createQueue = createEffect(() => this.actions.pipe(
     ofType(createNewQueue),
-    mergeMap((action) => this.queuesApiService.queuesCreate({name: action.name, display_name: action.display_name})
+    mergeMap((action) => this.queuesApiService.queuesCreate({name: action.name, display_name: action.display_name, public: action.public})
       .pipe(
         mergeMap(() => [
           deactivateLoader(action.type),

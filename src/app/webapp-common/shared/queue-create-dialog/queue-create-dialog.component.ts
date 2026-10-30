@@ -53,7 +53,7 @@ export class QueueCreateDialogComponent {
 
   public createQueue(queue) {
     if (this.queue.id) {
-      this.store.dispatch(createNewQueueActions.updateQueue({queue: {queue: this.queue.id, name: queue.name, display_name: queue.display_name}}));
+      this.store.dispatch(createNewQueueActions.updateQueue({queue: {queue: this.queue.id, name: queue.name, display_name: queue.display_name, public: queue.public}}));
     } else {
       this.store.dispatch(createNewQueueActions.createNewQueue(queue));
     }

@@ -6,7 +6,7 @@
     [showOverlay]="false"
     [openOnInit]="true"
   >
-    @if (queuesManager) {
+    @if (queuesManager()) {
       <sm-menu-item
         itemLabel="Delete"
         [disabled]="selectedQueue()?.entries_count > 0"

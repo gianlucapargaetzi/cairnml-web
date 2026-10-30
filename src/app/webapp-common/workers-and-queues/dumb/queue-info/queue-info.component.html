@@ -57,6 +57,11 @@
       </sm-simple-table-2>
     }
   </mat-tab>
+  @if (canManageQueues() && selectedQueue()?.id) {
+    <mat-tab label="USERS" class="tab-link">
+      <sm-queue-users [queueId]="selectedQueue().id"></sm-queue-users>
+    </mat-tab>
+  }
 </mat-tab-group>
 
 @if (menuOpen()) {

@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
 import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {BaseContextMenuComponent} from '@common/shared/components/base-context-menu/base-context-menu.component';
 import {MenuItemComponent} from '@common/shared/ui-components/panel/menu-item/menu-item.component';
@@ -26,6 +27,5 @@ export class QueuesMenuComponent extends BaseContextMenuComponent {
   renameQueue = output<Queue>();
   clearQueue = output<Queue>();
   protected readonly icons = ICONS;
-  private route = inject(ActivatedRoute);
-  protected queuesManager = this.route.snapshot.data.queuesManager;
+  protected queuesManager = inject(Store).selectSignal(selectCanManageQueues);
 }
