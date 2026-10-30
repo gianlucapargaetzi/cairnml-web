@@ -1,4 +1,4 @@
-<button mat-icon-button class='cell' [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" [class.menu-opened]="trigger.menuOpen" (menuOpened)="menuOpen()">
+<button aria-label="Filter" mat-icon-button class='cell' [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" [class.menu-opened]="trigger.menuOpen" (menuOpened)="menuOpen()">
   <mat-icon fontSet="al" [fontIcon]="(showOnlyUserWork() ||  (tagsFilters()?.length > 0) || (usersFilters()?.length > 0) || (statusFilters()?.length > 0)? 'al-ico-filter-on' : 'al-ico-filter-off')">
     <span class="path1" data-id="FilterMenuIcon"></span><span class="path2"></span>
   </mat-icon>
@@ -37,7 +37,7 @@
       <mat-form-field appearance="fill"  smClickStopPropagation class="tags-menu-input w-100 no-bottom">
         <input matInput data-id="tagSearchInputField" (input)="setSearchTerm($event)" name="filter" [(ngModel)]="searchTerm" autocomplete="off">
         @if (searchTerm) {
-          <button matSuffix mat-icon-button (click)="clearSearch()" data-id="TagsearchIcon">
+          <button aria-label="Clear search" matSuffix mat-icon-button (click)="clearSearch()" data-id="TagsearchIcon">
             <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
           </button>
         } @else {

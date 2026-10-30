@@ -18,7 +18,7 @@
                 <span>{{footerItem.title ?? footerItemState.title}}</span>
               </div>
             } @else if (!footerItem.title && !footerItemState.title) {
-              <button
+              <button aria-label="Footer action"
                 mat-icon-button
                 (click)="footerItem.emit && footerItemClick.emit({item: footerItem, emitValue: footerItemState?.emitValue })"
                 [disabled]="footerItemState?.disable"
@@ -55,7 +55,7 @@
              footerItem.disableDescription || footerItemState.disableDescription :
              footerItemState.description   || footerItem.description"
         >
-          <button
+          <button aria-label="Tags"
             mat-icon-button
             [matMenuTriggerFor]="tagsMenu.matMenu()"
             [disabled]="footerItemState.disable"

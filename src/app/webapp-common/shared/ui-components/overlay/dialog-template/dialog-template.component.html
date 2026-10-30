@@ -1,7 +1,7 @@
 <div class="dialog-template-container" [class]="containerClass()">
   @if (displayX()) {
     <div style="position: relative">
-      <button mat-icon-button (click)="onXPressed()" class="stick-to-corner right" data-id="Cross" tabindex="-1">
+      <button aria-label="Close" mat-icon-button (click)="onXPressed()" class="stick-to-corner right" data-id="Cross">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
 

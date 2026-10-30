@@ -31,12 +31,12 @@
                             </a>
             </span>
             <sm-tag-list [tags]="exp.tags"></sm-tag-list>
-            <button mat-icon-button [matMenuTriggerFor]="taskMenu" class="sm"
+            <button aria-label="Task actions" mat-icon-button [matMenuTriggerFor]="taskMenu" class="sm"
                     (click)="selectTask(exp); $event.stopPropagation()" data-id="closeLegend">
               <mat-icon class="al-ico-bars-menu"></mat-icon>
             </button>
             <!--            @if ((globalLegendData$ | ngrxPush)?.length > 1) {-->
-            <!--              <button mat-icon-button class="small-button" (click)="removeExperiment(exp)" data-id="removeExperimentButton">-->
+            <!--              <button aria-label="Remove experiment" mat-icon-button class="small-button" (click)="removeExperiment(exp)" data-id="removeExperimentButton">-->
             <!--                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="sm"></mat-icon>-->
             <!--              </button>-->
             <!--            }-->
@@ -45,7 +45,7 @@
           <span class="d-flex align-items-center">No {{ entityType.replace('experiment', 'task') }} selected</span>
         }
       </div>
-      <button mat-icon-button (click)="closeLegend()" data-id="closeLegend">
+      <button aria-label="Close legend" mat-icon-button (click)="closeLegend()" data-id="closeLegend">
         <mat-icon class="al-ico-dialog-x"></mat-icon>
       </button>
     </div>

@@ -17,7 +17,7 @@
       </mat-tab>
     }
   </mat-tab-group>
-  <button mat-icon-button
+  <button aria-label="Toggle filters" mat-icon-button
           class="btn-toggle-filters"
           [class.has-filter]="isFiltered()"
           [disabled]="activeLink()==='modelEndpoints' || advanced()"

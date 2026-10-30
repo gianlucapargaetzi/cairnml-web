@@ -32,8 +32,8 @@
     </div>
     @if (tips().length > 1) {
       <div class="navigate">
-        <div class="btn-rec al-icon al-ico-previous" data-id="previousButton" (click)="prev()"></div>
-        <div class="btn-rec al-icon al-ico-next" data-id="nextButton" (click)="next()"></div>
+        <button type="button" aria-label="Previous tip" class="btn-rec al-icon al-ico-previous" data-id="previousButton" (click)="prev()"></button>
+        <button type="button" aria-label="Next tip" class="btn-rec al-icon al-ico-next" data-id="nextButton" (click)="next()"></button>
       </div>
       <div class="tip-page" data-id="proTipsPageCount"> {{ tipIndex() + 1 }} / {{ tips().length }}</div>
     }

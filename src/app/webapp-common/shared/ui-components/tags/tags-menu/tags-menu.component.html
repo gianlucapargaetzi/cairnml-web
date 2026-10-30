@@ -20,7 +20,7 @@
         >
         <div matSuffix class="d-flex-center mx-2">
           @if (!disableFilterByProject() && companyTags() !== null && isAllProject() === false) {
-            <button mat-icon-button smClickStopPropagation
+            <button aria-label="Show project tags only" mat-icon-button smClickStopPropagation
                     (click)="$event.preventDefault(); projectTagsFilterToggle()"
                     smTooltip="Toggle all/project-only tags"
                     data-id="tagFilterButton"
@@ -32,7 +32,7 @@
             </button>
           }
           @if (filterText()) {
-            <button matSuffix mat-icon-button smClickStopPropagation data-id="searchButton"
+            <button aria-label="Search tags" matSuffix mat-icon-button smClickStopPropagation data-id="searchButton"
                     class="ms-auto sm"
                     (click)="$event.preventDefault(); filterText() && clear()">
               <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>

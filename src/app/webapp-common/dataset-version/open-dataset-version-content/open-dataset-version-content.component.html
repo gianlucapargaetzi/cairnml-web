@@ -24,7 +24,7 @@
     [delay]="1000" [action]="'leave'"
     (smHesitate)="menuHesitate.hesitateStatus && menu.closed.emit()"
     >
-    <button mat-icon-button
+    <button aria-label="Download" mat-icon-button
       #trigger="matMenuTrigger"
       [class.menu-opened]="trigger.menuOpen"
       data-id="downloadButton"

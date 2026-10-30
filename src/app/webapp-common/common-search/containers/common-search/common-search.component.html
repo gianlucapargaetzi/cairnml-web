@@ -1,5 +1,5 @@
 <div class="search-icon-container">
-  <button
+  <button aria-label="Search"
     mat-icon-button
     class="search-icon"
     [class.open]="isSearching()"
@@ -29,7 +29,7 @@
       <mat-icon class="error regexp" fontSet="al" fontIcon="al-ico-error-circle" inline [smTooltip]="regexError" [matTooltipPosition]="'below'"></mat-icon>
     }
     @if (showRegex$ | ngrxPush) {
-      <button mat-icon-button
+      <button aria-label="Regex" mat-icon-button
               class="regexp sm"
               [class.active]="regExp()"
               smClickStopPropagation

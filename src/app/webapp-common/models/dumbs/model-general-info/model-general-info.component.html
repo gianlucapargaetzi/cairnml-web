@@ -10,7 +10,7 @@
                 <sm-copy-clipboard [clipboardText]="kpi.value" label=""></sm-copy-clipboard>
               }
               @if (model?.uri && !isLocalFile) {
-                <button mat-icon-button (click)="downloadModelClicked()" data-id="downloadIcon" class="ms-2">
+                <button aria-label="Download model" mat-icon-button (click)="downloadModelClicked()" data-id="downloadIcon" class="ms-2">
                   <mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
                 </button>
               }

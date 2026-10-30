@@ -8,25 +8,25 @@
         (remove)="removeTag($event)"
       ></sm-tag-list>
       <div class="g-btns">
-        <button mat-icon-button smTooltip="Copy report markdown to clipboard" data-id="copyReportMarkdownButton" (click)="copyMarkdown()">
+        <button aria-label="Copy report markdown" mat-icon-button smTooltip="Copy report markdown to clipboard" data-id="copyReportMarkdownButton" (click)="copyMarkdown()">
           <mat-icon fontSet="al" fontIcon="al-ico-copy-to-clipboard"></mat-icon>
         </button>
-        <button mat-icon-button smTooltip="Export to PDF" data-id="reportExportToPdfButton" (click)="printReport()">
+        <button aria-label="Export to PDF" mat-icon-button smTooltip="Export to PDF" data-id="reportExportToPdfButton" (click)="printReport()">
           <mat-icon fontSet="al" fontIcon="al-ico-pdf"></mat-icon>
         </button>
         <button #printHiddenButton  class="hidden" ngxPrint printSectionId="print-element-temp" [printDelay]="3000" [useExistingCss]="true" [printStyle]="printStyle">
         </button>
-        <button mat-icon-button data-id="shareReportButton" (click)="share()" smTooltip="Share">
+        <button aria-label="Share" mat-icon-button data-id="shareReportButton" (click)="share()" smTooltip="Share">
           <mat-icon fontSet="al" fontIcon="al-ico-shared-item"></mat-icon>
         </button>
-        <button mat-icon-button data-id="reportMoveToProjectButton" (click)="moveToProject()" smTooltip="Move to Project">
+        <button aria-label="Move to project" mat-icon-button data-id="reportMoveToProjectButton" (click)="moveToProject()" smTooltip="Move to Project">
           <mat-icon fontSet="al" fontIcon="al-ico-move-to"></mat-icon>
         </button>
-        <button mat-icon-button data-id="archiveReportButton" (click)="archive()" [smTooltip]="archived() ? 'Restore' : 'Archive'">
+        <button [attr.aria-label]="archived() ? 'Restore' : 'Archive'" mat-icon-button data-id="archiveReportButton" (click)="archive()" [smTooltip]="archived() ? 'Restore' : 'Archive'">
           <mat-icon fontSet="al" [fontIcon]="archived() ? icons.RESTORE : icons.ARCHIVE"></mat-icon>
         </button>
         @if (archived()) {
-          <button mat-icon-button data-id="deleteReportButton" (click)="deleteReport()" smTooltip="Delete">
+          <button aria-label="Delete" mat-icon-button data-id="deleteReportButton" (click)="deleteReport()" smTooltip="Delete">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
           </button>
         }

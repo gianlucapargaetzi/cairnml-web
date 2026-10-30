@@ -1,6 +1,6 @@
 @if (focusOnStageId()) {
   <div class="stage-title">
-    <button (click)="goBackToStagesMode()" mat-icon-button>
+    <button aria-label="Back to stages" (click)="goBackToStagesMode()" mat-icon-button>
       <mat-icon fontSet="al" fontIcon="al-ico-arrow-left"></mat-icon>
     </button>
     Stage details: {{ focusOnStageId() }}
@@ -91,10 +91,10 @@
         (ngModelChange)="detailsPanelMode.set($event)"
       ></sm-button-toggle>
       <div class="close gap-3">
-        <button mat-icon-button (click)="toggleResultSize()" data-id="maxResultPanel">
+        <button aria-label="Toggle result size" mat-icon-button (click)="toggleResultSize()" data-id="maxResultPanel">
           <mat-icon fontSet="al" [fontIcon]="maximizeResults ? 'al-ico-min-panel' : 'al-ico-max-panel'"></mat-icon>
         </button>
-        <button mat-icon-button (click)="showLog.set(false)" data-id="closeResultPanel">
+        <button aria-label="Close" mat-icon-button (click)="showLog.set(false)" data-id="closeResultPanel">
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       </div>

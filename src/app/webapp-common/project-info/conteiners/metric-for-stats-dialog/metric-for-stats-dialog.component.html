@@ -16,7 +16,7 @@
       @for (metric of metricVariantSelection(); track trackById($index, metric)) {
         <div data-id="selectedMetric" class="metric">
           <span class="name ellipsis" [smTooltip]="metric.header" smShowTooltipIfEllipsis>{{metric.header}}</span>
-          <button mat-icon-button class="remove sm" (click)="removeExperiment(metric)" data-id="removeMetricButton">
+          <button aria-label="Remove metric" mat-icon-button class="remove sm" (click)="removeExperiment(metric)" data-id="removeMetricButton">
             <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
           </button>
         </div>

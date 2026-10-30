@@ -46,11 +46,11 @@
     <div class="header-actions gap-3">
       <div [class.load-spinner]="isFetchingData()" class="d-flex align-items-center"></div>
       @if (isFetchingData() === false && isFullDetailsMode) {
-        <button mat-icon-button smTooltip="Refresh" matTooltipPosition="below" (click)="refresh()">
+        <button aria-label="Refresh" mat-icon-button smTooltip="Refresh" matTooltipPosition="below" (click)="refresh()">
           <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
         </button>
       }
-      <button mat-icon-button smTooltip="Close" matTooltipPosition="below" (click)="closeGraphViewer()">
+      <button aria-label="Close" mat-icon-button smTooltip="Close" matTooltipPosition="below" (click)="closeGraphViewer()">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
     </div>
@@ -170,12 +170,12 @@
       </sm-single-graph>
       @if (!isFullDetailsMode && !isCompare && !disableNavigation && !reportWidget) {
         <div class="navigation">
-          <button mat-flat-button class="icon-only icon-container controller next"
+          <button aria-label="Next graph" mat-flat-button class="icon-only icon-container controller next"
                   (click)="canGoNext() && next()" [class.disabled]="endOfTime()"
           >
             <mat-icon fontSet="al" fontIcon="al-ico-next"></mat-icon>
           </button>
-          <button mat-flat-button class="icon-only icon-container controller previous"
+          <button aria-label="Previous graph" mat-flat-button class="icon-only icon-container controller previous"
                   (click)="canGoBack() && previous()" [class.disabled]="beginningOfTime()"
           >
             <mat-icon fontSet="al" fontIcon="al-ico-previous"></mat-icon>

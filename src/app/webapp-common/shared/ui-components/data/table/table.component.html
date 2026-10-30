@@ -135,6 +135,9 @@
           [class.selected]="isSelected(rowData)"
           [class.cards-table]="minimizedView()"
           [class.pointer]="!!selectionMode()"
+          [attr.tabindex]="minimizedView() ? null : 0"
+          (keydown.enter)="rowKeyActivated($event, rowData)"
+          (keydown.space)="rowKeyActivated($event, rowData)"
           (click)="!minimizedView() && checkClick({e: $event, data: rowData})"
           (dblclick)="!minimizedView() && checkClick({e: $event, data: rowData})">
         @if (!minimizedView()) {
@@ -169,7 +172,7 @@
         }
         <div class="context-button-wrapper">
           @if (rowRightClick.observed && !minimizedView()) {
-            <button
+            <button aria-label="Row actions"
               mat-flat-button class="icon-only context-button"
               data-id="3DotMenuButton"
               (click)="$event.stopPropagation(); openContext({originalEvent: $event, data: rowData, single: true})"

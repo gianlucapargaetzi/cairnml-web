@@ -8,7 +8,7 @@
             [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis
             (click)="itemSelect.emit(node.parent + node.name)" data-id="toggleGraphItems">{{ node.displayName ?? node.name }}</span>
 
-      <button
+      <button aria-label="Show or hide item"
         mat-icon-button
         data-id="showHideGraphList"
         class="sm me-2"
@@ -25,7 +25,7 @@
           [class.unchecked]="shouldUncheckParent()[node.name]">
       <i class="me-1 al-icon al-ico-next toggle-icon sm"></i>
       <span class="ellipsis flex-grow-1 pe-1" [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{ node.displayName ?? node.name }}</span>
-      <button
+      <button aria-label="Select all in group"
         mat-icon-button
         data-id="showHideGraphList"
         class="sm me-2"

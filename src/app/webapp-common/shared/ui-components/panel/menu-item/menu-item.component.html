@@ -16,7 +16,7 @@
       }
     </div>
     @if (removable()) {
-      <button mat-icon-button (click)="removeItem($event)" class="remove-button sm ms-auto">
+      <button aria-label="Remove item" mat-icon-button (click)="removeItem($event)" class="remove-button sm ms-auto">
         <mat-icon data-id="Delete Icon" fontSet="al" class="al-ico-trash"></mat-icon>
       </button>
     }

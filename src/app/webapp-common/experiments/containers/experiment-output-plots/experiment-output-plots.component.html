@@ -15,7 +15,7 @@
       }
     </div>
     @if (minimized) {
-      <button mat-icon-button class="close sm" (click)="drawer.close()" data-id="closeToggleGraph">
+      <button aria-label="Close" mat-icon-button class="close sm" (click)="drawer.close()" data-id="closeToggleGraph">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
     }
@@ -24,7 +24,7 @@
     <div class="graphs-container">
       @if (minimized) {
         <div class="hover-button">
-          <button mat-flat-button class="icon-only" (click)="drawer.open()" smTooltip="Toggle Graphs" data-id="eyeIcon">
+          <button aria-label="Toggle graphs" mat-flat-button class="icon-only" (click)="drawer.open()" smTooltip="Toggle Graphs" data-id="eyeIcon">
             <mat-icon fontSet="al" fontIcon="al-ico-eye-outline"></mat-icon>
           </button>
         </div>

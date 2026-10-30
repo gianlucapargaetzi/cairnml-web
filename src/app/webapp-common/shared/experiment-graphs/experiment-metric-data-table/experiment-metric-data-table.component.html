@@ -1,7 +1,7 @@
 <mat-drawer-container autosize class="h-100">
   <mat-drawer #drawer [opened]="filterOpen" mode="over" (closedStart)="filterOpen = false" class="mat-elevation-z0">
     <div class="head">
-      <button mat-icon-button class="close" (click)="drawer.close()" data-id="closeToggleGraph">
+      <button aria-label="Close" mat-icon-button class="close" (click)="drawer.close()" data-id="closeToggleGraph">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
     </div>
@@ -46,7 +46,7 @@
         <tr>
           <th class="filter-header-cell" [class.freeze-divider]="scrolled" pFrozenColumn [colSpan]="2">
             <div class="filter-header">
-              <button mat-icon-button data-id="metricValuesFilterButton"
+              <button aria-label="Filter metric values" mat-icon-button data-id="metricValuesFilterButton"
                       [class.is-filtered]="dataTable()?.length > dataTableFiltered()?.length"
                       (click)="filterOpen = !filterOpen"
               >
@@ -68,7 +68,7 @@
                   matInput
                   autocomplete="off">
                 @if (variantFilter.value) {
-                  <button mat-icon-button matSuffix class="search-icon sm-md me-2"
+                  <button aria-label="Clear search" mat-icon-button matSuffix class="search-icon sm-md me-2"
                           (click)="variantFilter.value && clearSearch(); filterRef.focus()"
                           smClickStopPropagation
                   >
