@@ -11,6 +11,7 @@ import {
   input, computed, model, effect, viewChild, inject, contentChildren, output, Output, EventEmitter
 } from '@angular/core';
 import {get} from 'lodash-es';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MenuItem, PrimeTemplate, ScrollerOptions, SortMeta} from 'primeng/api';
 import {FilterMetadata} from 'primeng/api';
 import {ContextMenu, ContextMenuModule} from 'primeng/contextmenu';
@@ -68,6 +69,7 @@ export interface TableContextMenuSelectEventExt extends Omit<TableContextMenuSel
     DotsLoadMoreComponent,
     MatIcon,
     MatButton,
+    MatProgressSpinner,
     MultiLineTooltipComponent
   ]
 })
@@ -143,6 +145,8 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
   minimizedView = input(false);
   filters = input<Record<string, FilterMetadata>>();
   noDataTemplate = input<TemplateRef<null>>();
+  emptyMessage = input('No data to show');
+  errorMessage = input<string>();
   checkedItems = input([]);
   virtualScroll = input<boolean>();
   virtualScrollOptions = input<ScrollerOptions>({});
@@ -178,6 +182,7 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
         widthPx: number;
     }>();
   cardsCollapsedToggle = output();
+  retry = output();
 
   protected visibleColumns = computed(() => (this.columns() ?? []).filter(col => !col.hidden));
   protected currRowsNumber = computed(() => this.tableData()?.length ?? this.rowsNumber() ?? 0);

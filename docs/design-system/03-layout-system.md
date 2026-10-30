@@ -27,7 +27,7 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 
 ## 3.2 Page structure (Target)
 
-Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated so far: dashboard, projects list, storage credentials. Other pages still build their own header (`.sm-entity-page-header` in the serving toolbar). The structure:
+Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated so far: dashboard, projects list, storage credentials, settings configuration ("User preferences"), settings devices. Other pages still build their own header (`.sm-entity-page-header` in the serving toolbar, the reports and pipeline detail headers). The structure:
 
 ```text
 Page

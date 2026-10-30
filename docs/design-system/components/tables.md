@@ -16,9 +16,9 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 
 | Part | Rule |
 |---|---|
-| Header row | 12px/500, `--color-on-surface-variant`, background `--row-header-color` (`--color-surface-container-high`), sticky, 40px |
+| Header row | 12px/500, sentence case (no uppercase), `--color-on-surface-variant`, background `--row-header-color` (`--color-surface-container-high`), sticky, 40px |
 | Body row | 40px, 14px text, `--row-default-color`; hover = 4% `on-surface` mix; 1px bottom border `--row-border-color` |
-| Cell padding | `0 12px` (existing `0 0.75rem` is 10.5px at rem=14px; migrate to 12px) |
+| Cell padding | `0 12px` (`$table-cell-padding` and the `sm-table` cells; the old `0 0.75rem` was 10.5px at rem=14px). The devices table uses the same values |
 | Alignment | Text left, numbers right (tabular figures), status/icons left; header aligns with its column |
 | Selection | Leading checkbox column; select-all in the header; selected row fill `--color-primary` with `--color-on-secondary` text (existing). Selection shows a bulk-action bar in the toolbar |
 | Row actions | One overflow icon button (`mat-menu`) at the row end. Frequent actions may show as icon buttons on hover **and on keyboard focus** (existing code reveals them only on `tr:hover`, making them unreachable by keyboard: **target** `tr:hover, tr:focus-within`) |
@@ -32,8 +32,9 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 ## States
 
 - **Loading** (first load): spinner centered in the table area, header stays. Background refresh: no spinner, subtle updated timestamp ([ux](../08-ux-guidelines.md)).
+  `sm-table` shows a 24px spinner while it has no rows yet (`tableSate().loading()`).
 - **Empty:** `table-empty-message` mixin text centered (14px, `--color-empty-state`); one sentence plus the action to create the first item when the user can ("No tasks yet. Create one with the SDK" + link to setup help). When filters hide everything: "No tasks match the filters" + "Clear filters".
-- **Error:** inline message in the table area with "Retry"; keep the toolbar.
+- **Error:** inline message in the table area with "Retry"; keep the toolbar. `sm-table` takes `errorMessage` (shown instead of the empty text) and emits `retry` when Retry is pressed. The empty text is `emptyMessage` (default "No data to show").
 
 ## Do not
 

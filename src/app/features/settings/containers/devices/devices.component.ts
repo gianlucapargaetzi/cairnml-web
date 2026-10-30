@@ -11,6 +11,7 @@ import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.s
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY, TIME_FORMAT_STRING} from '@common/constants';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
@@ -42,7 +43,8 @@ const KIND_LABELS: Record<string, string> = {
     MatButtonModule,
     MatProgressSpinnerModule,
     TooltipDirective,
-    TimeAgoPipe
+    TimeAgoPipe,
+    PageHeaderComponent
   ]
 })
 export class DevicesComponent implements OnInit {
