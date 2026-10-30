@@ -107,7 +107,7 @@ export class MarkdownEditorComponent {
     if (this.blockUserScripts()) {
       return '<div class="d-flex-center flex-column h-100 mt-4">' +
         '<div>Preview not available because 3rd party scripts are blocked.</div>' +
-        '<div>You can enable it in under <a href="/settings/webapp-configuration">User Preferences</a>.</div>' +
+        '<div>You can enable it in under <a href="settings/webapp-configuration">User Preferences</a>.</div>' +
         '</div>';
     }
     return DOMPurify.sanitize(dirty, {ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'], FORBID_ATTR: ['action']});

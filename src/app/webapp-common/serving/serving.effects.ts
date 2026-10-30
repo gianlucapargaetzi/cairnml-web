@@ -24,6 +24,7 @@ import {SortMeta} from 'primeng/api';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {escapeRegex} from '@common/shared/utils/escape-regex';
 import {ActivatedRoute, Router} from '@angular/router';
+import {LocationStrategy} from '@angular/common';
 import {servingLoadingTableCols, servingTableCols} from '@common/serving/serving.consts';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {activitySeriesToTopic} from '@common/shared/utils/statistics';
@@ -47,6 +48,7 @@ export class ServingEffects {
   private actions$ = inject(Actions);
   private store = inject(Store);
   private router = inject(Router);
+  private locationStrategy = inject(LocationStrategy);
   private route = inject(ActivatedRoute);
   private servingApi = inject(ApiServingService);
   private modelsApi = inject(ApiModelsService);
@@ -475,19 +477,19 @@ export class ServingEffects {
           return this.tasksApi.tasksGetAllEx({id: [instanceId.value], only_fields: ['application.app_id', 'name']})
             .pipe(
               map(res => ({appId: res.tasks[0].application?.app_id?.id, name: res.tasks[0].name})),
-              map(({name, appId}) => ({name, link: `/applications/${appId}/info;experimentId=${instanceId.value}?instancesFilter=All`}))
+              map(({name, appId}) => ({name, link: this.locationStrategy.prepareExternalUrl(`/applications/${appId}/info;experimentId=${instanceId.value}?instancesFilter=All`)}))
             );
         } else if (modelId && action.insideModel) {
           return this.modelsApi.modelsGetAllEx({id: [modelId.value], only_fields: ['project', 'name']})
             .pipe(
               map(res => ({name: res.models[0].name, projectId: res.models[0].project.id})),
-              map(({name, projectId}) => ({name, link: `/projects/${projectId}/models/${modelId.value}/output/general`}))
+              map(({name, projectId}) => ({name, link: this.locationStrategy.prepareExternalUrl(`/projects/${projectId}/models/${modelId.value}/output/general`)}))
             );
         } else if (taskId) {
           return this.tasksApi.tasksGetAllEx({id: [taskId.value], only_fields: ['project', 'name']})
             .pipe(
               map(res => ({name: res.tasks[0].name, projectId: res.tasks[0].project.id})),
-              map(({name, projectId}) => ({name, link: `/projects/${projectId}/experiments/${taskId.value}/output/execution`}))
+              map(({name, projectId}) => ({name, link: this.locationStrategy.prepareExternalUrl(`/projects/${projectId}/tasks/${taskId.value}/output/execution`)}))
             );
         } else {
           return of({name: url?.value, link: url?.value});
