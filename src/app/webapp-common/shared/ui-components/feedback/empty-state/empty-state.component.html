@@ -1,0 +1,8 @@
+<div class="sm-empty-state" [attr.data-variant]="variant()">
+  <mat-icon fontSet="al" [fontIcon]="icon()" class="empty-icon"></mat-icon>
+  <h3 class="empty-title">{{ title() }}</h3>
+  @if (description()) {
+    <p class="empty-description">{{ description() }}</p>
+  }
+  <div class="empty-action"><ng-content></ng-content></div>
+</div>

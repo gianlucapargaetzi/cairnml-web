@@ -29,14 +29,14 @@
       </div>
     }
   } @else {
-    <div class="empty-state">
-      <mat-icon fontSet="al" fontIcon="al-ico-reports" class="xxl"></mat-icon>
-      <h4 class="title">NO REPORTS TO SHOW</h4>
+    <sm-empty-state
+      icon="al-ico-reports"
+      title="No reports to show"
+      [description]="archive() ? 'Reports you archive appear here.' : 'Create a report to share results with your team.'"
+    >
       @if (!archive()) {
-        <button mat-flat-button data-id="createNewReport" (click)="newReport.emit(projectId())">
-          NEW REPORT
-        </button>
+        <button mat-flat-button data-id="createNewReport" (click)="newReport.emit(projectId())">New report</button>
       }
-    </div>
+    </sm-empty-state>
   }
 </div>
