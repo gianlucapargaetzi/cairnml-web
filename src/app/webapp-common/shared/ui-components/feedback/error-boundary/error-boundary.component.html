@@ -1,0 +1,13 @@
+@if (boundary.reference(); as reference) {
+  <div class="error-boundary" role="alertdialog" aria-modal="true" aria-labelledby="error-boundary-title" data-id="errorBoundary">
+    <div class="error-boundary__panel">
+      <mat-icon fontSet="al" fontIcon="al-ico-error" class="error-boundary__icon"></mat-icon>
+      <h1 id="error-boundary-title" class="error-boundary__title">Something went wrong</h1>
+      <p class="error-boundary__text">
+        The page could not continue. Reload to try again. If it happens again, contact your administrator and give them the reference below.
+      </p>
+      <p class="error-boundary__reference">Reference: <span data-id="errorBoundaryReference">{{ reference }}</span></p>
+      <button mat-flat-button type="button" data-id="errorBoundaryReload" (click)="reload()">Reload</button>
+    </div>
+  </div>
+}

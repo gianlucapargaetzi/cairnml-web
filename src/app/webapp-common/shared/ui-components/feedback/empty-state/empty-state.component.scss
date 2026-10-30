@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-6, 32px) var(--space-5, 24px);
+}
+
+.sm-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  text-align: center;
+  color: var(--color-empty-state);
+
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    line-height: 48px;
+    color: var(--color-empty-state);
+  }
+
+  .empty-title {
+    margin: var(--space-3, 12px) 0 var(--space-2, 8px);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-on-surface);
+  }
+
+  .empty-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-on-surface);
+  }
+
+  .empty-action {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-4, 16px);
+
+    &:empty {
+      display: none;
+    }
+  }
+}
