@@ -1,0 +1,13 @@
+<header class="sm-page-header">
+  <div class="title-row">
+    <ng-content select="[back]"></ng-content>
+    <h1 class="title">{{ title() }}</h1>
+    <ng-content select="[status]"></ng-content>
+  </div>
+  @if (description()) {
+    <p class="description">{{ description() }}</p>
+  }
+  <div class="actions">
+    <ng-content select="[actions]"></ng-content>
+  </div>
+</header>
