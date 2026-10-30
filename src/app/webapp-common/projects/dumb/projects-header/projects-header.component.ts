@@ -25,7 +25,7 @@ export class ProjectsHeaderComponent {
   enableTagsFilter = input(true);
   sortByField = input<string>();
 
-  sortByTitle = computed(() => this.sortByField().includes('name') ? 'NAME' : 'RECENT');
+  sortByTitle = computed(() => this.sortByField().includes('name') ? 'Name' : 'Recent');
 
   orderByChanged = output<string>();
   searchChanged = output<string>();

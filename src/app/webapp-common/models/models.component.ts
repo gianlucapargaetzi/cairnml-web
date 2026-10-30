@@ -546,7 +546,7 @@ export class ModelsComponent extends BaseEntityPageComponent implements OnDestro
             breadcrumbOptions: {
               showProjects: !!selectedProject && !this.modelsFeature,
               featureBreadcrumb: {
-                name: 'PROJECTS',
+                name: 'Projects',
                 url: 'projects'
               },
               ...(this.projectDeepMode() && selectedProject?.id !== '*' && {

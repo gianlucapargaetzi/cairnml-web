@@ -7,7 +7,7 @@
   (saveClicked)="saveClicked()"
   (cancelClicked)="cancelEdit()"
   >
-  <sm-section-header label="MODEL CONFIGURATION"></sm-section-header>
+  <sm-section-header label="Model configuration"></sm-section-header>
   <sm-scroll-textarea
     class="flex-grow-1"
     [editable]="inEditMode() && protoTextSection().inEditMode()"
@@ -19,14 +19,14 @@
         class="terminal flex-1"
         (click)="protoTextSection().editModeChanged(true)"
         data-id="editModelConfigurationButton"
-      >EDIT</button>
+      >Edit</button>
     }
     @if (!model()?.ready && model()?.company?.id && !isSharedAndNotOwner() && design()) {
       <button extra-buttons mat-stroked-button
               class="terminal flex-1"
               (click)="clearProtoText()"
               data-id="clearModelConfiguration"
-      ><mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>CLEAR</button>
+      ><mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>Clear</button>
     }
     </sm-scroll-textarea>
   </sm-editable-section>

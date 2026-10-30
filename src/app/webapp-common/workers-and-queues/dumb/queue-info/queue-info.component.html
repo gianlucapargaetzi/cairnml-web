@@ -3,7 +3,7 @@
 </button>
 
 <mat-tab-group [mat-stretch-tabs]="false" mat-align-tabs="center" class="h-100">
-  <mat-tab label="TASKS" class="tab-link">
+  <mat-tab label="Tasks" class="tab-link">
     @if (selectedQueue()?.entries?.length === 0) {
       <div class="empty-state">No tasks currently enqueued</div>
     }
@@ -31,7 +31,7 @@
       </sm-simple-table-2>
     }
   </mat-tab>
-  <mat-tab label="AGENTS" class="tab-link">
+  <mat-tab label="Agents" class="tab-link">
     @if (selectedQueue()?.workers?.length === 0) {
       <div class="empty-state">No workers currently assigned to this queue</div>
     }
@@ -58,7 +58,7 @@
     }
   </mat-tab>
   @if (canManageQueues() && selectedQueue()?.id) {
-    <mat-tab label="USERS" class="tab-link">
+    <mat-tab label="Users" class="tab-link">
       <sm-queue-users [queueId]="selectedQueue().id"></sm-queue-users>
     </mat-tab>
   }

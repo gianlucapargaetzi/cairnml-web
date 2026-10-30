@@ -1,7 +1,7 @@
 @if (artifact) {
   <sm-editable-section [disableInEditMode]="true" [editable]="false">
     <div>
-      <sm-labeled-row label="FILE PATH" data-id="filePathId">
+      <sm-labeled-row label="File path" data-id="filePathId">
         @if (isLinkable) {
           <a href="" (click)="linkClicked($event)">{{artifact?.uri}}</a>
         }
@@ -24,8 +24,8 @@
           ></sm-copy-clipboard>
         }
       </sm-labeled-row>
-      <sm-labeled-row label="FILE SIZE" data-id="fileSizeId">{{(artifact?.content_size | filesize : fileSizeConfigStorage)  || ''}}</sm-labeled-row>
-      <sm-labeled-row label="HASH" data-id="hashId">{{artifact?.hash}}</sm-labeled-row>
+      <sm-labeled-row label="File size" data-id="fileSizeId">{{(artifact?.content_size | filesize : fileSizeConfigStorage)  || ''}}</sm-labeled-row>
+      <sm-labeled-row label="Hash" data-id="hashId">{{artifact?.hash}}</sm-labeled-row>
       @for (data of artifact?.display_data; track data[0]) {
         <sm-labeled-row [label]="data[0] | uppercase">{{data[1]}}</sm-labeled-row>
       }
@@ -36,7 +36,7 @@
   [editable]="false"
   [disableInEditMode]="true"
   containerClass="h-100">
-  <sm-section-header label="PREVIEW"></sm-section-header>
+  <sm-section-header label="Preview"></sm-section-header>
   <sm-scroll-textarea
     class="flex-grow-1"
     [editable]="false"

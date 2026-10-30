@@ -87,7 +87,7 @@ export class ProjectStatsComponent implements OnDestroy {
           const data = cols[0];
           this.variantDisplay = data?.header;
         } else if (cols?.length > 1) {
-          this.variantDisplay = 'ADD METRICS'
+          this.variantDisplay = 'Add metrics'
         }
         this.loading = true;
         this.store.dispatch(fetchGraphData());

@@ -67,7 +67,7 @@ export class ModelViewNetworkComponent {
 
   editProtoText() {
     this.dialog.open<EditJsonComponent, EditJsonData, string>(EditJsonComponent, {
-      data: {textData: this.design(), readOnly: false, title: 'EDIT MODEL CONFIGURATION'} as EditJsonData
+      data: {textData: this.design(), readOnly: false, title: 'Edit model configuration'} as EditJsonData
     }).afterClosed()
       .pipe(take(1))
       .subscribe((data) => {

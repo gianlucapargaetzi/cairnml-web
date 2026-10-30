@@ -11,7 +11,7 @@ export const routes: Routes = [
     loadComponent: () => import('@common/projects/containers/projects-page/projects-page.component').then(c => c.ProjectsPageComponent),
     data: {
       staticBreadcrumb: [[{
-        name: 'PROJECTS',
+        name: 'Projects',
         type: CrumbTypeEnum.Feature
       }]]
     },

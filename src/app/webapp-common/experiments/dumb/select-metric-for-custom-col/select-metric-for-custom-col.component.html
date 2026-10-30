@@ -2,7 +2,7 @@
   @if (goBack.observed) {
     <div class="head">
       <i (click)="goBack.emit()" data-id="Back button" class="al-icon sm-md al-ico-back pointer m-auto" smClickStopPropagation></i>
-      <h3>SELECT METRIC TO DISPLAY</h3>
+      <h3>Select metric to display</h3>
     </div>
   }
   <sm-search
@@ -65,21 +65,21 @@
                                   data-id="selectLastMetricCheckbox"
                                   [checked]="metricsCols[variant.metric_hash + variant.variant_hash]?.includes('value')"
                                   (change)="toggleMetricToDisplay(variant, last.checked, 'value')">
-                      LAST
+                      Last
                     </mat-checkbox>
                     <mat-checkbox #min
                                   smClickStopPropagation
                                   data-id="selectMinMetricCheckbox"
                                   [checked]="metricsCols[variant.metric_hash + variant.variant_hash]?.includes('min_value')"
                                   (change)="toggleMetricToDisplay(variant, min.checked, 'min_value')">
-                      MIN
+                      Min
                     </mat-checkbox>
                     <mat-checkbox #max
                                   smClickStopPropagation
                                   data-id="selectMaxMetricCheckbox"
                                   [checked]="metricsCols[variant.metric_hash + variant.variant_hash]?.includes('max_value')"
                                   (change)="toggleMetricToDisplay(variant, max.checked, 'max_value')">
-                      MAX
+                      Max
                     </mat-checkbox>
                   </div>
                 }
@@ -99,9 +99,9 @@
                       [ngModel]="metricsCols[variant.metric_hash + variant.variant_hash]?.[0]"
                       (change)="toggleMetricToDisplay(variant, true, $event.value)"
                     >
-                      <mat-radio-button class="sm" value="value">LAST</mat-radio-button>
-                      <mat-radio-button class="sm px-3" value="min_value">MIN</mat-radio-button>
-                      <mat-radio-button class="sm" value="max_value">MAX</mat-radio-button>
+                      <mat-radio-button class="sm" value="value">Last</mat-radio-button>
+                      <mat-radio-button class="sm px-3" value="min_value">Min</mat-radio-button>
+                      <mat-radio-button class="sm" value="max_value">Max</mat-radio-button>
                     </mat-radio-group>
                   </div>
                 }

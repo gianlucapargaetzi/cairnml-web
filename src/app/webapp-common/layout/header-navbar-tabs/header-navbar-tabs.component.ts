@@ -5,7 +5,6 @@ import {headerActions} from '@common/core/actions/router.actions';
 import {MatTab, MatTabGroup, MatTabLabel} from '@angular/material/tabs';
 import {CheckPermissionDirective} from '~/shared/directives/check-permission.directive';
 import {NavigationCancel, NavigationCancellationCode, NavigationEnd, Router} from '@angular/router';
-import {UpperCasePipe} from '@angular/common';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {SafeHtmlPipe} from 'primeng/menu';
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/material/tooltip';
@@ -28,7 +27,6 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
     MatTab,
     CheckPermissionDirective,
     MatTabLabel,
-    UpperCasePipe,
     TooltipDirective,
     SafeHtmlPipe,
     FormsModule

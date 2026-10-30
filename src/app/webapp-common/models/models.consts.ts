@@ -54,7 +54,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     sortable    : true,
     filterable  : true,
     searchableFilter: true,
-    header      : 'FRAMEWORK',
+    header      : 'Framework',
     style       : {width: '100px'},
     showInCardFilters: true
   },
@@ -62,7 +62,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     id          : MODELS_TABLE_COL_FIELDS.NAME,
     headerType  : ColHeaderTypeEnum.sortFilter,
     sortable    : true,
-    header      : 'NAME',
+    header      : 'Name',
     style       : {width: '300px'},
   },
   {
@@ -72,7 +72,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     filterable  : true,
     sortable    : false,
     searchableFilter: true,
-    header      : 'TAGS',
+    header      : 'Tags',
     style       : {width: '240px'},
     excludeFilter: true,
     andFilter: true,
@@ -84,7 +84,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     headerType  : ColHeaderTypeEnum.sortFilter,
     sortable    : true,
     filterable  : true,
-    header      : 'STATUS',
+    header      : 'Status',
     style       : {width: '135px'},
     showInCardFilters: true
   },
@@ -96,7 +96,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     sortable    : false,
     asyncFilter : true,
     paginatedFilterPageSize : rootProjectsPageSize,
-    header      : 'PROJECT',
+    header      : 'Project',
     style       : {width: '135px'}
   },
   {
@@ -106,7 +106,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     searchableFilter: true,
     filterable      : true,
     sortable        : false,
-    header          : 'USER',
+    header          : 'User',
     style           : {width: '240px'},
     showInCardFilters: true
   },
@@ -114,7 +114,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     id        : MODELS_TABLE_COL_FIELDS.TASK,
     headerType: ColHeaderTypeEnum.title,
     sortable  : false,
-    header    : 'TASK',
+    header    : 'Task',
     style     : {width: '240px'}
   },
   {
@@ -124,7 +124,7 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     filterType    : ColHeaderFilterTypeEnum.durationDate,
     filterable: true,
     searchableFilter: false,
-    header      : 'UPDATED',
+    header      : 'Updated',
     label       : 'Updated',
     style       : {width: '150px'},
   },
@@ -132,17 +132,17 @@ export const MODELS_TABLE_COLS: ISmCol[] = [
     id        : MODELS_TABLE_COL_FIELDS.COMMENT,
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable  : true,
-    header    : 'DESCRIPTION',
+    header    : 'Description',
     style     : {width: '240px'}
   },
 ];
 
 export const  infoModelsTabsLinks = [
-  {name: 'general', url: ['general']},
-  {name: 'network', url: ['network']},
-  {name: 'labels', url: ['labels']},
-  {name: 'metadata', url: ['metadata']},
-  {name: 'lineage', url: ['tasks']},
-  {name: 'scalars', url: ['scalars']},
-  {name: 'plots', url: ['plots']},
+  {name: 'General', url: ['general']},
+  {name: 'Network', url: ['network']},
+  {name: 'Labels', url: ['labels']},
+  {name: 'Metadata', url: ['metadata']},
+  {name: 'Lineage', url: ['tasks']},
+  {name: 'Scalars', url: ['scalars']},
+  {name: 'Plots', url: ['plots']},
 ] as Link[];

@@ -229,7 +229,7 @@ export class ExperimentsCompareComponent implements OnInit, OnDestroy {
       data:{
         name: exp.name,
         iconClass: this.entityType === this.entityTypeEnum.model ? 'al-ico-model' : 'al-ico-training',
-        header: `RENAME ${entityDisplayName(this.entityType).toUpperCase()}`,
+        header: `Rename ${entityDisplayName(this.entityType).toLowerCase()}`,
       },
     }).afterClosed().subscribe(result => {
       if ((result as any)?.name) {

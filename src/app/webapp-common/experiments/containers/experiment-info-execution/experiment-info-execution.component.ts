@@ -39,7 +39,7 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {PushPipe} from '@ngrx/component';
 import {HideRedactedArgumentsPipe} from '@common/shared/pipes/hide-redacted-arguments.pipe';
-import {NgTemplateOutlet, UpperCasePipe} from '@angular/common';
+import {NgTemplateOutlet} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
@@ -64,7 +64,6 @@ import {MatInput} from '@angular/material/input';
     MatSidenavContent,
     PushPipe,
     HideRedactedArgumentsPipe,
-    UpperCasePipe,
     FormsModule,
     MatListModule,
     ExperimentExecutionSourceCodeComponent,
@@ -217,7 +216,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
   editContainerSetupShellScript(smEditableSection?: EditableSectionComponent) {
     this.openEditJsonDialog({
       textData: this.formData.container?.setup_shell_script,
-      title: 'EDIT SETUP SHELL SCRIPT'
+      title: 'Edit setup shell script'
     }, smEditableSection)
       .afterClosed()
       .pipe(filter(bool => !isUndefined(bool)))
@@ -243,7 +242,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
       data: {
         textData: this.formData?.requirements?.pip,
         readOnly: false,
-        title: 'EDIT PYTHON PACKAGES',
+        title: 'Edit python packages',
       } as EditJsonData
     });
 
@@ -268,7 +267,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
     this.openEditJsonDialog({
       textData: this.formData?.diff,
       readOnly: false,
-      title: 'EDIT UNCOMMITTED CHANGES',
+      title: 'Edit uncommitted changes',
     }, this.diffSection)
       .afterClosed()
       .pipe(take(1))

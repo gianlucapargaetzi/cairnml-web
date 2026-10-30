@@ -36,7 +36,7 @@ export const INITIAL_MODEL_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id: EXPERIMENTS_TABLE_COL_FIELDS.NAME,
     headerType: ColHeaderTypeEnum.title,
     sortable: false,
-    header: 'NAME',
+    header: 'Name',
     style: {width: '400px'},
   },
   {
@@ -46,7 +46,7 @@ export const INITIAL_MODEL_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     filterable: true,
     searchableFilter: true,
     sortable: false,
-    header: 'TAGS',
+    header: 'Tags',
     style: {width: '300px'},
     excludeFilter: true,
     andFilter: true,
@@ -56,7 +56,7 @@ export const INITIAL_MODEL_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id: EXPERIMENTS_TABLE_COL_FIELDS.STATUS,
     headerType: ColHeaderTypeEnum.sortFilter,
     filterable: true,
-    header: 'STATUS',
+    header: 'Status',
     style: {width: '130px', minWidth: '130px'},
   },
   {

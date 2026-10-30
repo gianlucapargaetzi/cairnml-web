@@ -1,4 +1,4 @@
-<sm-dialog-template iconClass="al-ico-tag" header="TAG COLORS">
+<sm-dialog-template iconClass="al-ico-tag" header="Tag colors">
   <form class="filter-form">
     <mat-form-field appearance="fill" class="w-100">
       <input smClickStopPropagation  matInput placeholder="Search" name="filter" data-id="tagColorSearchField" [(ngModel)]="filterText" autocomplete="off">
@@ -47,8 +47,8 @@
     ></div>
     <ng-template #buttons>
       <div class="buttons">
-        <button mat-stroked-button data-id="closeButton" (click)="picker().closeDialog()">CLOSE</button>
-        <button mat-flat-button data-id="applyButton" (click)="setBackground()">APPLY</button>
+        <button mat-stroked-button data-id="closeButton" (click)="picker().closeDialog()">Close</button>
+        <button mat-flat-button data-id="applyButton" (click)="setBackground()">Apply</button>
       </div>
     </ng-template>
   </div>
@@ -73,6 +73,6 @@
 
 
   <div class="btn-row">
-    <button mat-stroked-button class="center" (click)="close()" data-id="closeButton">CLOSE</button>
+    <button mat-stroked-button class="center" (click)="close()" data-id="closeButton">Close</button>
   </div>
 </sm-dialog-template>

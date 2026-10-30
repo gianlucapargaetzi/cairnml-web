@@ -12,7 +12,7 @@ export const servingTableCols: ISmCol[] = [
     id: servingTableColFields.name,
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable: true,
-    header: 'ENDPOINT',
+    header: 'Endpoint',
     style: {width: '300px'}
   },
   {
@@ -22,7 +22,7 @@ export const servingTableCols: ISmCol[] = [
     searchableFilter: true,
     sortable: true,
     getter: 'model',
-    header: 'MODEL',
+    header: 'Model',
     showInCardFilters: true,
     style: {width: '135px'}
   },
@@ -46,7 +46,7 @@ export const servingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     filterType: ColHeaderFilterTypeEnum.duration,
-    header: 'UPTIME',
+    header: 'Uptime',
     style: {width: '240px'}
   },
   {
@@ -82,7 +82,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     id: servingLoadingTableColFields.id,
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable: true,
-    header: 'INSTANCE ID',
+    header: 'Instance ID',
     style: {width: '200px'}
   },
   {
@@ -92,7 +92,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     searchableFilter: true,
     sortable: true,
     getter: 'model',
-    header: 'MODEL',
+    header: 'Model',
     style: {width: '400px'}
   },
   {
@@ -101,7 +101,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     filterType: ColHeaderFilterTypeEnum.duration,
-    header: 'AGE',
+    header: 'Age',
     style: {width: '240px'}
   },
   {
@@ -110,7 +110,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     searchableFilter: true,
-    header: 'PREPROCESS ARTIFACT',
+    header: 'Preprocess artifact',
     style: {width: '340px'}
   },
   {
@@ -119,7 +119,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     searchableFilter: true,
-    header: 'INPUT TYPE',
+    header: 'Input type',
     style: {width: '250px'}
   },
   {
@@ -128,7 +128,7 @@ export const servingLoadingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     filterType: ColHeaderFilterTypeEnum.durationNumeric,
-    header: 'INPUT SIZE',
+    header: 'Input size',
     style: {width: '340px'}
   }
 ];
@@ -144,8 +144,8 @@ export const endpointsStatsParamInfo = {
 };
 
 export const modelServingRoutes = [
-  {header: 'ACTIVE', link: 'endpoints/active'},
-  {header: 'LOADING', subHeader: '', link: 'endpoints/loading'}
+  {header: 'Active', link: 'endpoints/active'},
+  {header: 'Loading', subHeader: '', link: 'endpoints/loading'}
 ] as HeaderNavbarTabConfig[];
 
 export function sortAndFilterEndpoints(endpoints: EndpointStats[] | ContainerInfo[], filters: Record<string, FilterMetadata>, sortFields: SortMeta[]): EndpointStats[] | ContainerInfo[] {

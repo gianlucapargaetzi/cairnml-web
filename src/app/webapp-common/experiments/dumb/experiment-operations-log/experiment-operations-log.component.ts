@@ -71,7 +71,7 @@ export class ExperimentOperationsLogComponent {
     },
     {
       id: 'ip',
-      header: 'ip',
+      header: 'IP',
       key: 'ip',
       hidden: true,
       includeInDownload: true,

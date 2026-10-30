@@ -3,10 +3,10 @@
     <div class="recent-title">
       <sm-menu [header]="sortByTitle()" class="menu">
         <sm-menu-item itemLabel="Recent"
-                      [sortOrder]="sortByTitle() === 'RECENT' && sortOrder()"
+                      [sortOrder]="sortByTitle() === 'Recent' && sortOrder()"
                       (itemClicked)="orderByChanged.emit('last_update')"></sm-menu-item>
         <sm-menu-item itemLabel="Name"
-                      [sortOrder]="sortByTitle() === 'NAME' && sortOrder()"
+                      [sortOrder]="sortByTitle() === 'Name' && sortOrder()"
                       (itemClicked)="orderByChanged.emit('name')"></sm-menu-item>
       </sm-menu>
       <sm-main-pages-header-filter [allTags]="allTags()" [statusOptions]="reportsStatusOptions"></sm-main-pages-header-filter>
@@ -33,7 +33,7 @@
               [disabled]="archive()"
               (click)="createReportClicked.emit(projectId())">
         <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-        NEW REPORT
+        New report
       </button>
     }
   </div>

@@ -191,7 +191,7 @@ export class WorkloadsPageComponent {
         breadcrumbOptions: {
           showProjects: !!this.project(),
           featureBreadcrumb: {
-            name: 'PROJECTS',
+            name: 'Projects',
             url: 'projects'
           },
           ...(this.isDeep() && this.project()?.id !== '*' && {

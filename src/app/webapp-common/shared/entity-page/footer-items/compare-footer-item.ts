@@ -8,7 +8,7 @@ export class CompareFooterItem extends ItemFooterModel  {
   override id = MenuItems.compare;
   override icon = ICONS.COMPARE as Partial<IconNames>;
   override class = 'compare';
-  override title = 'COMPARE';
+  override title = 'Compare';
   override emit = true;
 
   constructor(public entitiesType: EntityTypeEnum) {

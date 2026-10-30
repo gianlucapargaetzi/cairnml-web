@@ -36,7 +36,7 @@ export interface SearchPageConfig {
 
 export const activeLinksList = [
   {
-    label: 'PROJECTS',
+    label: 'Projects',
     showUserFilter: true,
     name: activeSearchLink.projects,
     statusOptions: [],
@@ -44,7 +44,7 @@ export const activeLinksList = [
       [activeSearchLink.projects]:{name: activeSearchLink.projects, viewAllResults: true, viewAllResultsLink: 'projects',  title: 'Projects'}}
   },
   {
-    label: 'DATASETS',
+    label: 'Datasets',
     showUserFilter: true,
     name: activeSearchLink.datasets,
     statusOptions:  TaskStatusOptions,
@@ -55,7 +55,7 @@ export const activeLinksList = [
     }
   },
   {
-    label: 'TASKS',
+    label: 'Tasks',
     showUserFilter: true,
     statusOptions:  TaskStatusOptions,
     statusOptionsLabels: EXPERIMENTS_TYPE_LABELS,
@@ -66,7 +66,7 @@ export const activeLinksList = [
     }
   },
   {
-    label: 'MODELS',
+    label: 'Models',
     showUserFilter: true,
     statusOptions: ['created', 'published'],
     statusOptionsLabels: EXPERIMENTS_TYPE_LABELS,
@@ -76,7 +76,7 @@ export const activeLinksList = [
     }
   },
   {
-    label: 'PIPELINES',
+    label: 'Pipelines',
     showUserFilter: true,
     name: activeSearchLink.pipelines,
     statusOptions: TaskStatusOptions,
@@ -87,7 +87,7 @@ export const activeLinksList = [
     }
   },
   {
-    label: 'REPORTS',
+    label: 'Reports',
     showUserFilter: true,
     name: activeSearchLink.reports,
     statusOptions: ['created', 'published'],
@@ -97,7 +97,7 @@ export const activeLinksList = [
     }
   },
   {
-    label: 'ENDPOINTS',
+    label: 'Endpoints',
     showUserFilter: true,
     name: activeSearchLink.modelEndpoints,
     statusOptions: [],

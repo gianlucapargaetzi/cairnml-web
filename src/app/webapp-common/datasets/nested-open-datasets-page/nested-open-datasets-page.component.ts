@@ -110,7 +110,7 @@ export class NestedOpenDatasetsPageComponent extends ProjectsPageComponent imple
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            name: 'DATASETS',
+            name: 'Datasets',
             url: defaultNestedModeForFeature['datasets'] ? 'datasets/simple/*/projects' : 'datasets'
           },
           projectsOptions: {

@@ -49,13 +49,13 @@ export class ServingGeneralInfoComponent {
     if (this.endpoint()) {
       const modelUrl = this.endpoint().instances[0]?.reference.find(ref => ref.type === 'url');
       return [
-        {label: 'ENDPOINT NAME', value: this.endpoint().endpoint || NA},
-        {label: 'ENDPOINT URL', value: this.endpoint().url || NA, href: ''},
-        {label: 'MODEL NAME', value: this.endpoint().model || NA, href: modelUrl?.value},
-        {label: 'UPTIME', value: this.endpoint().uptime_sec ? (this.duration.transform(this.endpoint().uptime_sec)) : NA},
-        {label: 'PREPROCESS ARTIFACT', value: this.endpoint().preprocess_artifact || NA},
-        {label: 'INPUT TYPE', value: this.endpoint().input_type || NA},
-        {label: 'INPUT SIZE', value: this.endpoint().input_size ? this.fileSize.transform(this.endpoint().input_size, fileSizeConfigStorage) : NA}
+        {label: 'Endpoint name', value: this.endpoint().endpoint || NA},
+        {label: 'Endpoint URL', value: this.endpoint().url || NA, href: ''},
+        {label: 'Model name', value: this.endpoint().model || NA, href: modelUrl?.value},
+        {label: 'Uptime', value: this.endpoint().uptime_sec ? (this.duration.transform(this.endpoint().uptime_sec)) : NA},
+        {label: 'Preprocess artifact', value: this.endpoint().preprocess_artifact || NA},
+        {label: 'Input type', value: this.endpoint().input_type || NA},
+        {label: 'Input size', value: this.endpoint().input_size ? this.fileSize.transform(this.endpoint().input_size, fileSizeConfigStorage) : NA}
       ];
     } else {
       return [];
@@ -65,13 +65,13 @@ export class ServingGeneralInfoComponent {
   columns: ISmCol[] = [
     {
       id: 'id',
-      header: 'INSTANCE ID',
+      header: 'Instance ID',
       key: '',
       bodyStyleClass: ''
     },
     {
       id: 'uptime_sec',
-      header: 'UPTIME',
+      header: 'Uptime',
       key: '',
       style: {maxWidth: '360px'}
     },
@@ -86,17 +86,17 @@ export class ServingGeneralInfoComponent {
     },
     {
       id: 'cpu_count',
-      header: 'CPU COUNT',
+      header: 'CPU count',
       key: ''
     },
     {
       id: 'gpu_count',
-      header: 'GPU COUNT',
+      header: 'GPU count',
       key: ''
     },
     {
       id: 'latency_ms',
-      header: 'LATENCY',
+      header: 'Latency',
       key: '',
       style: {maxWidth: '80px'}
     }

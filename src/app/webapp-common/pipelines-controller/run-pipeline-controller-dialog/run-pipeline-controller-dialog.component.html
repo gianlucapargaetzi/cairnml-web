@@ -1,5 +1,5 @@
 <sm-dialog-template [closeOnX]="false" (xClicked)="closeDialog(false)"
-                    [header]="form.controls.createNewPipeline.value ? 'RUN IN NEW PIPELINE' : 'NEW RUN'"
+                    [header]="form.controls.createNewPipeline.value ? 'Run in new pipeline' : 'New run'"
                     [pageHeader]="title()"
                     iconClass="al-ico-pipelines">
 
@@ -61,7 +61,7 @@
               <mat-icon fontSet="al" fontIcon="al-ico-alert" class="sm"></mat-icon>
               <div>
                 <b>{{ form.controls.project.value }}</b> project already contains a <b>{{ form.controls.pipelineName.value }}</b> pipeline.
-                Clicking <b>RUN</b> will create a new run in that pipeline, based on this run's structure and parameters.
+                Clicking <b>Run</b> will create a new run in that pipeline, based on this run's structure and parameters.
               </div>
             </div>
           }
@@ -149,10 +149,10 @@
 </sm-dialog-template>
 
 <mat-dialog-actions>
-  <button mat-stroked-button mat-dialog-close data-id="cancleNewRun">CANCEL</button>
+  <button mat-stroked-button mat-dialog-close data-id="cancleNewRun">Cancel</button>
   <button mat-flat-button
           [disabled]="form.invalid"
           (click)="closeDialog(true)"
           data-id="confirmNewRun"
-  >RUN</button>
+  >Run</button>
 </mat-dialog-actions>

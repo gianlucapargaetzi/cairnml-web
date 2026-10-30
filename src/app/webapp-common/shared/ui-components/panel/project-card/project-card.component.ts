@@ -85,7 +85,7 @@ export class ProjectCardComponent {
     const m = Math.floor((total % hourInSec) / minInSec);
     const s = total % minInSec;
     const pad = (n: number) => String(n).padStart(2, '0');
-    const days = d === 1 ? `${d} DAY ` : d > 1 ? `${d} DAYS ` : '';
+    const days = d === 1 ? `${d} day ` : d > 1 ? `${d} days ` : '';
     return `${days}${pad(h)}:${pad(m)}:${pad(s)}`;
   }
 

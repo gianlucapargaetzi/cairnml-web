@@ -25,7 +25,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {RefreshButtonComponent} from '@common/shared/components/refresh-button/refresh-button.component';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NoUnderscorePipe} from '@common/shared/pipes/no-underscore.pipe';
-import {TitleCasePipe, UpperCasePipe} from '@angular/common';
+import {TitleCasePipe} from '@angular/common';
 import {PushPipe} from '@ngrx/component';
 import {MatIconModule} from '@angular/material/icon';
 import {refreshIfNeeded} from '@common/experiments-compare/actions/compare-header.actions';
@@ -49,7 +49,6 @@ import {FilterMetadata, SortMeta} from 'primeng/api';
     MatButton,
     MatIconButton,
     NoUnderscorePipe,
-    UpperCasePipe,
     PushPipe,
     TitleCasePipe,
     MatSelectTrigger

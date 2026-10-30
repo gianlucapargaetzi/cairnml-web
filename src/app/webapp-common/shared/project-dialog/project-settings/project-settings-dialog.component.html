@@ -14,9 +14,9 @@
     (selectedIndexChange)="tabChanged($event)"
   >
 
-    <mat-tab label="GENERAL">
+    <mat-tab label="General">
       <ng-template mat-tab-label>
-        GENERAL
+        General
         @if (general().isInvalid()) {
           <span class="invalid-dot"></span>
         }
@@ -24,13 +24,13 @@
       <sm-project-general-settings class="data-project" [project]="data.project" (cancelled)="closeDialog()"></sm-project-general-settings>
     </mat-tab>
 
-    <mat-tab label="SCALAR VIEW DEFAULTS">
+    <mat-tab label="Scalar view defaults">
       <sm-project-scalar-defaults [projectId]="data.project.id"></sm-project-scalar-defaults>
     </mat-tab>
-    <mat-tab label="USERS">
+    <mat-tab label="Users">
       <sm-project-members></sm-project-members>
     </mat-tab>
-    <mat-tab label="QUEUES">
+    <mat-tab label="Queues">
       <sm-project-queues class="section" [projectId]="data.project.id"></sm-project-queues>
     </mat-tab>
     @for (tab of extraTabs(); track tab) {
@@ -44,9 +44,9 @@
 
   @if (!isEditing()){
     <mat-dialog-actions>
-    <button mat-stroked-button (click)="closeDialog()" data-id="Cancel">CANCEL</button>
+    <button mat-stroked-button (click)="closeDialog()" data-id="Cancel">Cancel</button>
     <button mat-flat-button (click)="save()" [disabled]="general().readonly() || general().isInvalid() || (!scalars().hasChanges() && !general().hasChanges() && !extraDirty())" data-id="Save">
-      SAVE
+      Save
     </button>
   </mat-dialog-actions>
   }

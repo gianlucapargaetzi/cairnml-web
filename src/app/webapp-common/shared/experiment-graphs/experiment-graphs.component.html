@@ -8,15 +8,15 @@
   <div class="no-output">
     <mat-icon fontSet="al" fontIcon="al-ico-no-data-graph" class="xxl"></mat-icon>
     @if (noTasks()) {
-      <h4>SELECT TASKS FROM THE LIST TO SHOW THEIR PLOTS</h4>
+      <h4>Select tasks from the list to show their plots</h4>
     } @else {
-      <h4>NO CHART DATA</h4>
+      <h4>No chart data</h4>
     }
   </div>
 } @else if (!loading() && allHidden()) {
   <div class="no-output">
     <mat-icon fontSet="al" fontIcon="al-ico-no-data-graph" class="xxl"></mat-icon>
-    <h4>ALL CHARTS ARE HIDDEN</h4>
+    <h4>All charts are hidden</h4>
   </div>
 }
 <!--faster outside @else-->

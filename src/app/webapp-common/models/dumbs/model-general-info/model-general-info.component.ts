@@ -66,25 +66,25 @@ export class ModelGeneralInfoComponent {
     if (model) {
       this.isLocalFile = this.adminService.isLocalFile(model.uri);
       this.kpis = [
-        {label: 'CREATED AT', value: model.created ? (formatDate(model.created, TIME_FORMAT_STRING, this.locale)) : 'NA'},
-        {label: 'UPDATED AT', value: model.last_update ? (formatDate(model.last_update, TIME_FORMAT_STRING, this.locale)) : 'NA'},
-        {label: 'FRAMEWORK', value: model.framework || NA},
-        {label: 'STATUS', value: (model.ready !== undefined) ? (model.ready ? 'Published' : 'Draft') : NA},
-        {label: 'MODEL URL', value: model.uri || NA, downloadable: true},
-        {label: 'USER', value: get( model,'user.name', NA)},
-        {label: 'ARCHIVED', value: model && model.system_tags && model.system_tags.includes(TAGS.HIDDEN) ? 'Yes' : 'No'},
-        {label: 'PROJECT', value: get(model, 'project.name', NA)},
+        {label: 'Created at', value: model.created ? (formatDate(model.created, TIME_FORMAT_STRING, this.locale)) : 'NA'},
+        {label: 'Updated at', value: model.last_update ? (formatDate(model.last_update, TIME_FORMAT_STRING, this.locale)) : 'NA'},
+        {label: 'Framework', value: model.framework || NA},
+        {label: 'Status', value: (model.ready !== undefined) ? (model.ready ? 'Published' : 'Draft') : NA},
+        {label: 'Model URL', value: model.uri || NA, downloadable: true},
+        {label: 'User', value: get( model,'user.name', NA)},
+        {label: 'Archived', value: model && model.system_tags && model.system_tags.includes(TAGS.HIDDEN) ? 'Yes' : 'No'},
+        {label: 'Project', value: get(model, 'project.name', NA)},
       ];
     } else {
       this.kpis = [
-        {label: 'CREATED AT', value: '-'},
-        {label: 'UPDATED AT', value: '-'},
-        {label: 'FRAMEWORK', value: '-'},
-        {label: 'STATUS', value: '-'},
-        {label: 'MODEL URL', value: '-'},
-        {label: 'USER', value: '-'},
-        {label: 'ARCHIVED', value: '-'},
-        {label: 'PROJECT', value: '-'},
+        {label: 'Created at', value: '-'},
+        {label: 'Updated at', value: '-'},
+        {label: 'Framework', value: '-'},
+        {label: 'Status', value: '-'},
+        {label: 'Model URL', value: '-'},
+        {label: 'User', value: '-'},
+        {label: 'Archived', value: '-'},
+        {label: 'Project', value: '-'},
       ];
     }
   }

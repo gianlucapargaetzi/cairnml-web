@@ -49,7 +49,7 @@
     </div>
     <div class="separator"></div>
     <div class="d-flex justify-content-center">
-      <button mat-flat-button (click)="nextSteps($event)">GET STARTED</button>
+      <button mat-flat-button (click)="nextSteps($event)">Get started</button>
     </div>
   </div>
 } @else {
@@ -66,8 +66,8 @@
           <div class="step">{{step.title}}</div>
           @if (step.title==='2. Configure') {
             <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [(selectedIndex)]="target">
-              <mat-tab label="LOCAL PYTHON" data-id="LocalPythonTab"></mat-tab>
-              <mat-tab label="JUPYTER NOTEBOOK" data-id="JupyterNotebookTab"></mat-tab>
+              <mat-tab label="Local python" data-id="LocalPythonTab"></mat-tab>
+              <mat-tab label="Jupyter notebook" data-id="JupyterNotebookTab"></mat-tab>
             </mat-tab-group>
           }
           <div class="sub-note mt-2 mb-2">{{isJupyter() ? 'Set the CairnML environment for your notebook':'Run the CairnML setup script'}}</div>

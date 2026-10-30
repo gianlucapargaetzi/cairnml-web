@@ -99,7 +99,7 @@ export class ExperimentInfoTaskModelComponent {
 
   editPrototext() {
     const editPrototextDialog = this.dialog.open(EditJsonComponent, {
-      data: {textData: this.formData?.value, readOnly: false, title: 'EDIT CONFIGURATION'} as EditJsonData
+      data: {textData: this.formData?.value, readOnly: false, title: 'Edit configuration'} as EditJsonData
     });
 
     editPrototextDialog.afterClosed().pipe(take(1)).subscribe((data) => {

@@ -8,7 +8,7 @@ export const routes: Routes = [
     path     : '',
     loadComponent: () => import('@common/datasets/open-datasets/open-datasets.component').then(c => c.OpenDatasetsComponent),
     data: {search: true, staticBreadcrumb:[[{
-        name: 'DATASETS',
+        name: 'Datasets',
         type: CrumbTypeEnum.Feature
       }]]},
     providers: [

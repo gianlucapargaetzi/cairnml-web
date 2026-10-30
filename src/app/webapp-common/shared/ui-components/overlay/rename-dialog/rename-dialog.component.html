@@ -23,6 +23,6 @@
   </mat-form-field>
 </sm-dialog-template>
 <mat-dialog-actions>
-  <button mat-stroked-button (click)="closeDialog(false)" data-id="Cancel">CANCEL</button>
-  <button mat-flat-button [disabled]="nameControl.invalid || Input.value === data.name" (click)="closeDialog(true)" data-id="Save">SAVE</button>
+  <button mat-stroked-button (click)="closeDialog(false)" data-id="Cancel">Cancel</button>
+  <button mat-flat-button [disabled]="nameControl.invalid || Input.value === data.name" (click)="closeDialog(true)" data-id="Save">Save</button>
 </mat-dialog-actions>

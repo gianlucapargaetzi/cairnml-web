@@ -17,14 +17,14 @@ export interface Link {
 }
 
 export const infoTabLinks = [
-  {name: 'execution', url: ['execution']},
-  {name: 'configuration', url: ['hyper-params', 'hyper-param', '_empty_'], activeBy: 'hyper-params'},
-  {name: 'artifacts', url: ['artifacts']},
-  {name: 'info', url: ['general']},
-  {name: 'console', url: ['log'], output: true},
-  {name: 'scalars', url: ['scalars'], output: true},
-  {name: 'plots', url: ['plots'], output: true},
-  {name: 'debug samples', url: ['debugImages'], output: true}
+  {name: 'Execution', url: ['execution']},
+  {name: 'Configuration', url: ['hyper-params', 'hyper-param', '_empty_'], activeBy: 'hyper-params'},
+  {name: 'Artifacts', url: ['artifacts']},
+  {name: 'Info', url: ['general']},
+  {name: 'Console', url: ['log'], output: true},
+  {name: 'Scalars', url: ['scalars'], output: true},
+  {name: 'Plots', url: ['plots'], output: true},
+  {name: 'Debug samples', url: ['debugImages'], output: true}
 ];
 
 export const FILTERED_EXPERIMENTS_STATUS_OPTIONS = (isDataset) => Object.entries(EXPERIMENTS_STATUS_LABELS)

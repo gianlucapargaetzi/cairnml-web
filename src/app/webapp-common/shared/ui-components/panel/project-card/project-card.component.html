@@ -53,17 +53,17 @@
     <ng-template></ng-template>
     <sm-circle-counter
       [counter]="project.id === '*' ? '∞' : project.stats?.active?.total_tasks ?? '0'"
-      label="TOTAL"
+      label="Total"
       [type]="project.stats?.active?.total_tasks === 0 ? circleTypeEnum.empty : circleTypeEnum.total"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="project.id === '*' ? '∞' : project.stats?.active?.status_count?.in_progress ?? '0'"
-      label="RUNNING"
+      label="Running"
       [type]="project.stats?.active?.status_count?.in_progress === 0 ? circleTypeEnum.empty : circleTypeEnum.running"
     ></sm-circle-counter>
     <sm-circle-counter
       [counter]="project.id === '*' ? '∞' : project.stats?.active?.completed_tasks_24h ?? '0'"
-      label="COMPLETED"
+      label="Completed"
       [type]="project.stats?.active?.completed_tasks_24h === 0 ? circleTypeEnum.empty : circleTypeEnum.completed"
       underLabel="(24 hrs)"
     ></sm-circle-counter>

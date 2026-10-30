@@ -10,7 +10,7 @@
     @if (!disableEditable() && !inEditMode() && editable() && !hideEditButton()) {
       <button mat-flat-button id="editSection" class="edit-pen" data-id="editSectionButton"
               (click)="editModeChanged(true)"
-      >EDIT
+      >Edit
       </button>
     }
     @if (!disableEditable() && !inEditMode() && editable()) {
@@ -22,13 +22,13 @@
   @if (inEditMode() && !disableInEditMode()) {
     <div class="cancel-save action-button edit-mode">
       <button mat-stroked-button class="me-2" (click)="cancelClickedEvent()" data-id="CancelButton">
-        CANCEL
+        Cancel
       </button>
       @if (!hideSaveButton()) {
         <button mat-flat-button
                 data-id="SaveButton"
                 [disabled]="disableSave()"
-                (click)="!disableSave() && !saving() && saveSection()">SAVE
+                (click)="!disableSave() && !saving() && saveSection()">Save
         </button>
       }
     </div>

@@ -103,7 +103,7 @@
                 <div class="table-actions">
                   <div class="recent-title">
                     @if (sortableCols.length > 0) {
-                      <sm-menu header="SORTED BY " class="menu" data-id="sortedByFilter">
+                      <sm-menu header="Sorted by " class="menu" data-id="sortedByFilter">
                         @for (col of sortableCols; track col.id) {
                           <div>
                             <sm-menu-item [itemLabel]="col.header" [sortOrder]="getOrder(col.id)"
@@ -202,7 +202,7 @@
                     <i class="load-spinner"></i>
                   </mat-icon>
                 }
-                {{ hasExperimentUpdate() ? 'REFRESH LIST' : tableSate().loading() ? 'LOADING...' : 'LOAD MORE' }}
+                {{ hasExperimentUpdate() ? 'Refresh list' : tableSate().loading() ? 'LOADING...' : 'Load more' }}
               </button>
             </div>
           </tr>

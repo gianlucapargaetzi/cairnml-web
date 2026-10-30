@@ -7,7 +7,7 @@
   (cancelClicked)="onCancelComment() "
   (activateEditClicked)="onDescriptionEditMode()"
   >
-  <sm-section-header label="DESCRIPTION:"></sm-section-header>
+  <sm-section-header label="Description:"></sm-section-header>
   <textarea #description
     rows="4"
     class="mb-2"
@@ -17,65 +17,65 @@
 
 
 <sm-editable-section [hideEditButton]="true" [disableEditable]="true" class="section">
-  <sm-section-header label="TASK DETAILS"></sm-section-header>
-  <sm-labeled-row label="ARCHIVED:">
+  <sm-section-header label="Task details"></sm-section-header>
+  <sm-labeled-row label="Archived:">
     <div style="width: 93px">{{ experiment()?.system_tags?.includes('archived') ? 'Yes' : 'No' }}</div>
   </sm-labeled-row>
 
-  <sm-labeled-row label="CHANGED AT:">
+  <sm-labeled-row label="Changed at:">
     {{ (experiment()?.status_changed | date : timeFormatString) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="LAST ITERATION:">
+  <sm-labeled-row label="Last iteration:">
     {{ (experiment()?.last_iteration) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="STATUS MESSAGE:">
+  <sm-labeled-row label="Status message:">
     {{ experiment()?.status_message | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="STATUS REASON:">
+  <sm-labeled-row label="Status reason:">
     {{ experiment()?.status_reason | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="CREATED AT:">
+  <sm-labeled-row label="Created at:">
     {{ (experiment()?.created | date : timeFormatString) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="STARTED AT:">
+  <sm-labeled-row label="Started at:">
     {{ (experiment()?.started | date : timeFormatString) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="LAST UPDATED AT:">
+  <sm-labeled-row label="Last updated at:">
     {{ (experiment()?.last_update | date:'MMM d yyyy H:mm') | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="COMPLETED AT:">
+  <sm-labeled-row label="Completed at:">
     {{ (experiment()?.completed | date : timeFormatString) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="RUN TIME:">
+  <sm-labeled-row label="Run time:">
     {{ (experiment()?.active_duration | duration) | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="QUEUE:">
+  <sm-labeled-row label="Queue:">
     <a [routerLink]="'/workers-and-queues/queues'" [queryParams]="{id: experiment()?.execution?.queue?.id}" [class.na]="!experiment()?.execution?.queue?.name">
       {{ experiment()?.execution?.queue?.display_name || experiment()?.execution?.queue?.name | NA }}
     </a>
   </sm-labeled-row>
 
-  <sm-labeled-row label="WORKER:">
+  <sm-labeled-row label="Worker:">
     <a [routerLink]="'/workers-and-queues/workers'" [queryParams]="{id: experiment()?.last_worker}" [class.na]="!experiment()?.last_worker">
       {{ experiment()?.last_worker | NA }}
     </a>
   </sm-labeled-row>
 
-  <sm-labeled-row label="CREATED BY:">
+  <sm-labeled-row label="Created by:">
     {{ experiment()?.user?.name | NA }}
   </sm-labeled-row>
 
 
-  <sm-labeled-row label="PARENT TASK:">
+  <sm-labeled-row label="Parent task:">
     @if (experiment()?.parent) {
       <div class="d-flex align-items-center">
         <a [routerLink]="['/projects', '*', 'tasks', experiment()?.parent?.id]"
@@ -89,11 +89,11 @@
     }
   </sm-labeled-row>
 
-  <sm-labeled-row label="PROJECT:">
+  <sm-labeled-row label="Project:">
     {{ experiment()?.project?.name | NA }}
   </sm-labeled-row>
 
-  <sm-labeled-row label="ID:">
+  <sm-labeled-row label="Id:">
     {{ experiment()?.id | NA }}
   </sm-labeled-row>
 

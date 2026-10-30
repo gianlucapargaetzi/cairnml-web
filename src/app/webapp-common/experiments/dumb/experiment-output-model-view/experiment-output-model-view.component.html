@@ -1,6 +1,6 @@
 <div class="input-model-container">
   @if (!editable) {
-    <sm-labeled-row label="MODEL NAME">
+    <sm-labeled-row label="Model name">
       <a [routerLink]="['/projects', model?.project?.id || '*', 'models', model?.id]" target="_blank">
         {{model?.name}}
       </a>

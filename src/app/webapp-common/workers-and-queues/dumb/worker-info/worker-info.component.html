@@ -3,7 +3,7 @@
 </button>
 
 <mat-tab-group [mat-stretch-tabs]="false" mat-align-tabs="center" [dynamicHeight]="true">
-  <mat-tab label="INFO" class="tab-link" bodyClass="h-100">
+  <mat-tab label="Info" class="tab-link" bodyClass="h-100">
     <div class="worker-info-container">
       <div class="info-column">
         <sm-vertical-labeled-row label="Agent name" [tooltip]="selectedWorker()?.name">{{selectedWorker()?.name ?? '—' }}</sm-vertical-labeled-row>
@@ -23,7 +23,7 @@
       </div>
     </div>
   </mat-tab>
-  <mat-tab label="QUEUES" class="tab-link">
+  <mat-tab label="Queues" class="tab-link">
     @if (selectedWorker()?.queues.length === 0) {
       <div class="empty-state">No queues currently assigned to this worker</div>
     } @else {

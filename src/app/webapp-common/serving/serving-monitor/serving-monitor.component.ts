@@ -55,11 +55,11 @@ export class ServingMonitorComponent {
 
   timeFrameOptions = timeFrameOptions;
   public chartParamOptions: { label: string; value: MetricTypeEnum }[] = [
-    {label: 'NUMBER OF REQUESTS', value: MetricTypeEnum.Requests},
-    {label: 'REQUESTS PER MINUTE', value: MetricTypeEnum.RequestsMin},
+    {label: 'Number of requests', value: MetricTypeEnum.Requests},
+    {label: 'Requests per minute', value: MetricTypeEnum.RequestsMin},
     {label: 'AVERAGE LATENCY (ms)', value: MetricTypeEnum.LatencyMs},
-    {label: 'CPU COUNT', value: MetricTypeEnum.CpuCount},
-    {label: 'GPU COUNT', value: MetricTypeEnum.GpuCount},
+    {label: 'CPU count', value: MetricTypeEnum.CpuCount},
+    {label: 'GPU count', value: MetricTypeEnum.GpuCount},
     {label: 'AVERAGE CPU LOAD (%)', value: MetricTypeEnum.CpuUtil},
     {label: 'AVERAGE GPU UTILIZATION (%)', value: MetricTypeEnum.GpuUtil},
     {label: 'MEMORY USAGE (GB)', value: MetricTypeEnum.RamTotal},

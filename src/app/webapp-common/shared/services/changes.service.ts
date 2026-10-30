@@ -100,7 +100,7 @@ export class ChangesService {
       data: {
         changes: this.changesConfig(),
         visitedIndex: 0,
-        mainTitle: `IMPORTANT CHANGES IN v${this.changesConfig()[0].version}`
+        mainTitle: `Important changes in v${this.changesConfig()[0].version}`
       },
       maxWidth: '540px'
     }).afterClosed()

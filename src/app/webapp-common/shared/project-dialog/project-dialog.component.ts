@@ -42,15 +42,15 @@ export class ProjectDialogComponent {
 
   public modeParameters: Record<string, { header: string; icon: string }> = {
     create: {
-      header: 'NEW PROJECT',
+      header: 'New project',
       icon: 'al-ico-projects'
     },
     move: {
-      header: 'MOVE TO',
+      header: 'Move to',
       icon: 'al-ico-move-to'
     },
     edit: {
-      header: 'EDIT PROJECT',
+      header: 'Edit project',
       icon: 'al-ico-projects'
     },
 
