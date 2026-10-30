@@ -67,6 +67,12 @@ import {ProjectsGetModelMetadataValuesRequest} from '~/business-logic/model/proj
 import {ProjectsGetModelMetadataValuesResponse} from '~/business-logic/model/projects/projectsGetModelMetadataValuesResponse';
 import {ProjectsGetUserNamesResponse} from '~/business-logic/model/projects/projectsGetUserNamesResponse';
 import {ProjectsGetUserNamesRequest} from '~/business-logic/model/projects/projectsGetUserNamesRequest';
+import {ProjectsGetMembersRequest} from '~/business-logic/model/projects/projectsGetMembersRequest';
+import {ProjectsGetMembersResponse} from '~/business-logic/model/projects/projectsGetMembersResponse';
+import {ProjectsAddMemberRequest} from '~/business-logic/model/projects/projectsAddMemberRequest';
+import {ProjectsUpdateMemberRoleRequest} from '~/business-logic/model/projects/projectsUpdateMemberRoleRequest';
+import {ProjectsRemoveMemberRequest} from '~/business-logic/model/projects/projectsRemoveMemberRequest';
+import {ProjectsMemberUpdateResponse} from '~/business-logic/model/projects/projectsMemberUpdateResponse';
 
 
 @Injectable({providedIn: 'root'})
@@ -1040,6 +1046,118 @@ export class ApiProjectsService {
         }
 
 	return this.apiRequest.post<ProjectsValidateDeleteResponse>(`${this.basePath}/projects.validate_delete`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     * Get the owner and the members of a project (API 2.37)
+     * @param request request body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public projectsGetMembers(request: ProjectsGetMembersRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsGetMembers.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsGetMembersResponse>(`${this.basePath}/projects.get_members`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     * Add a user to a project with the given role (API 2.37)
+     * @param request request body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public projectsAddMember(request: ProjectsAddMemberRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsAddMember.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsMemberUpdateResponse>(`${this.basePath}/projects.add_member`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     * Change the role of a project member (API 2.37)
+     * @param request request body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public projectsUpdateMemberRole(request: ProjectsUpdateMemberRoleRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsUpdateMemberRole.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsMemberUpdateResponse>(`${this.basePath}/projects.update_member_role`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     * Remove a user from the members of a project (API 2.37)
+     * @param request request body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public projectsRemoveMember(request: ProjectsRemoveMemberRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling projectsRemoveMember.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+	return this.apiRequest.post<ProjectsMemberUpdateResponse>(`${this.basePath}/projects.remove_member`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

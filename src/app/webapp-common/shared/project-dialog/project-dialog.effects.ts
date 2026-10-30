@@ -59,7 +59,7 @@ export class ProjectDialogEffects {
     concatLatestFrom(() => this.store.select(selectActiveWorkspace)),
     switchMap(([action]) => this.projectsApiService.projectsUpdate({...action.req})
       .pipe(
-        tap(() => this.dialog.getDialogById(action.dialogId).close(true)),
+        tap(() => this.dialog.getDialogById(action.dialogId)?.close(true)),
         mergeMap(() => [
             deactivateLoader(action.type),
             newProjectActions.setCreationStatus({status: CREATION_STATUS.SUCCESS}),

@@ -12,11 +12,11 @@ export class HeaderMenuService {
 
   setupProjectHeaderTabs(entitiesType: string, projectId: string, archive: boolean) {
     const contextMenu = PROJECT_ROUTES
-      .filter(route=> !(projectId ==='*' && ['overview', 'workloads'].includes(route.header)))
+      .filter(route=> !(projectId ==='*' && ['overview', 'workloads', 'settings'].includes(route.header)))
       .map(route => {
         return {
           ...route,
-          ...(archive && !['overview', 'workloads'].includes(route.header)  && { subHeader: '(ARCHIVED)' }),
+          ...(archive && !['overview', 'workloads', 'settings'].includes(route.header)  && { subHeader: '(ARCHIVED)' }),
           featureName: route.header,
           link: `projects/${projectId}/${route.header}${archive ? `?archive=${archive}` : ''}`,
         };

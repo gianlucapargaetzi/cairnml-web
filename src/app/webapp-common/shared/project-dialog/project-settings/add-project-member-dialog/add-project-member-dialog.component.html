@@ -1,0 +1,24 @@
+<sm-dialog-template iconClass="al-ico-add" header="ADD USER">
+  <div class="content">
+    <mat-form-field floatLabel="always">
+      <mat-label>User</mat-label>
+      <mat-select [value]="user()" (selectionChange)="user.set($event.value)" data-id="newMemberUser">
+        @for (user of data.users; track user.id) {
+          <mat-option [value]="user.id">{{ user.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Role</mat-label>
+      <mat-select [value]="role()" (selectionChange)="role.set($event.value)" data-id="newMemberRole">
+        @for (item of roles; track item.value) {
+          <mat-option [value]="item.value">{{ item.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="cancel()" data-id="cancelAddMember">CANCEL</button>
+    <button mat-flat-button [disabled]="!user()" (click)="apply()" data-id="confirmAddMember">APPLY</button>
+  </mat-dialog-actions>
+</sm-dialog-template>

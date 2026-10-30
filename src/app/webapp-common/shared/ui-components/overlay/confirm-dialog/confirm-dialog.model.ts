@@ -14,4 +14,5 @@ export interface ConfirmDialogConfig<Context = unknown> {
   iconData?: string; // the icon class (see icons.scss).
   codeSnippet?: string;
   showNeverShowAgain?: boolean;
+  destructive?: boolean; // styles the confirm button as a destructive action
 }

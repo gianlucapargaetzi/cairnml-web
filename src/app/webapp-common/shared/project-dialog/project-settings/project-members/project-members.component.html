@@ -1,0 +1,58 @@
+<div class="members">
+  <div class="members-header">
+    <div class="section-title">Users</div>
+    @if (settingsStore.canManageMembers()) {
+      <button mat-flat-button (click)="startAddMember()" data-id="addMemberButton">
+        <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+        ADD USER
+      </button>
+    }
+  </div>
+
+  @if (memberError()) {
+    <div class="member-error" role="alert">{{ memberError() }}</div>
+  }
+
+  <table class="members-table">
+    <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Role</th>
+        <th scope="col">Added</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of settingsStore.memberRows(); track row.user) {
+        <tr>
+          <td>{{ row.name }}</td>
+          <td>
+            @if (row.isOwner || !settingsStore.canManageMembers()) {
+              {{ roleLabel(row.role) }}
+            } @else {
+              <mat-form-field class="role-field" subscriptSizing="dynamic">
+                <mat-select [value]="row.role" [disabled]="memberBusy()" [aria-label]="'Role of ' + row.name" (selectionChange)="changeMemberRole(row, $event.value)">
+                  @for (role of roles; track role.value) {
+                    <mat-option [value]="role.value">{{ role.label }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+          </td>
+          <td>{{ row.added ? (row.added | date: 'mediumDate') : '' }}</td>
+          <td class="row-actions">
+            @if (!row.isOwner && settingsStore.canManageMembers()) {
+              <button mat-icon-button [disabled]="memberBusy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove" (click)="removeMember(row)" data-id="removeMemberButton">
+                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+              </button>
+            }
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="empty">No users have been added to this project yet.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

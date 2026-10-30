@@ -1,0 +1,26 @@
+@if (fullProject()) {
+  <div class="settings-page">
+    <section class="settings-section">
+      <div class="section-title">General</div>
+      <sm-edit-project-form
+        [project]="fullProject()"
+        [isReadOnly]="readonlyProject()"
+        (projectUpdated)="updateGeneral($event)"
+        class="data-project">
+      </sm-edit-project-form>
+    </section>
+
+    <section class="settings-section">
+      <div class="section-title">Scalar view defaults</div>
+      <sm-project-scalar-defaults [projectId]="projectId()"></sm-project-scalar-defaults>
+    </section>
+
+    <section class="settings-section">
+      <sm-project-members></sm-project-members>
+    </section>
+
+    <div class="settings-footer">
+      <button mat-flat-button (click)="save()" [disabled]="readonlyProject() || generalInvalid() || !dirty()" data-id="saveProjectSettings">Save</button>
+    </div>
+  </div>
+}
