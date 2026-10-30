@@ -63,14 +63,14 @@
                   </mat-error>
                 }
               </mat-form-field>
-              <button mat-icon-button class="trash" (click)="$event.detail > 0 && removeRow(i)" data-id="deleteIcon">
+              <button aria-label="Remove label" mat-icon-button class="trash" (click)="$event.detail > 0 && removeRow(i)" data-id="deleteIcon">
                 <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
               </button>
             }
           </div>
         </div>
       </form>
-      <button mat-flat-button class="icon-only" (click)="addRow()" data-id="addParameterButton">
+      <button aria-label="Add parameter" mat-flat-button class="icon-only" (click)="addRow()" data-id="addParameterButton">
         <mat-icon fontSet="al" fontIcon="al-ico-plus"></mat-icon>
       </button>
   } @else {

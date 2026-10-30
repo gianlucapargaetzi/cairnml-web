@@ -74,22 +74,31 @@ export class ProjectCardComponent {
   @ViewChild('projectName', {static: true}) projectName;
 
 
-  public convertSecToDaysHrsMinsSec(secs) {
+  /** Formats a duration in seconds as "N DAYS HH:MM:SS"; fractions of a second are dropped. */
+  public convertSecToDaysHrsMinsSec(secs: number) {
+    const total = Math.max(0, Math.floor(secs ?? 0));
     const dayInSec = 60 * 60 * 24;
     const hourInSec = 60 * 60;
     const minInSec = 60;
-    const d = Math.floor(secs / dayInSec);
-    const h = Math.floor((secs - (d * dayInSec)) / hourInSec);
-    const m = Math.floor((secs - (d * dayInSec + h * hourInSec)) / minInSec);
-    const s = secs % 60;
-    const H = h < 10 ? '0' + h : h;
-    const M = m < 10 ? '0' + m : m;
-    const S = s < 10 ? '0' + s : s;
-    return `${d === 1 ? d + ' DAY ' : d > 1 ? d + ' DAYS ' : ''} ${H}:${M}:${S}`;
+    const d = Math.floor(total / dayInSec);
+    const h = Math.floor((total % dayInSec) / hourInSec);
+    const m = Math.floor((total % hourInSec) / minInSec);
+    const s = total % minInSec;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const days = d === 1 ? `${d} DAY ` : d > 1 ? `${d} DAYS ` : '';
+    return `${days}${pad(h)}:${pad(m)}:${pad(s)}`;
   }
 
   public projectClicked() {
       this.projectCardClicked.emit(this.project);
+  }
+
+  // Enter on the focused card opens the project. Keys pressed on a control inside the card (its menu) are left to it.
+  public projectKeyActivated(event: Event) {
+      if (event.target === event.currentTarget) {
+          event.preventDefault();
+          this.projectClicked();
+      }
   }
 
 

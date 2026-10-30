@@ -1,6 +1,6 @@
 <mat-drawer-container autosize>
   <mat-drawer #drawer [mode]="'over'">
-    <button mat-icon-button class="close sm" (click)="drawer.close()" data-id="closeToggleGraph">
+    <button aria-label="Close" mat-icon-button class="close sm" (click)="drawer.close()" data-id="closeToggleGraph">
       <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
     </button>
     <div class="list-container">
@@ -16,7 +16,7 @@
   </mat-drawer>
   <mat-drawer-content class="overflow-hidden">
     <div class="header">
-      <button mat-flat-button class="icon-only" (click)="drawer.open()" smTooltip="Toggle Graphs" data-id="eyeIcon">
+      <button aria-label="Toggle graphs" mat-flat-button class="icon-only" (click)="drawer.open()" smTooltip="Toggle Graphs" data-id="eyeIcon">
         <mat-icon fontSet="al" fontIcon="al-ico-eye-outline"></mat-icon>
       </button>
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="time-selector">

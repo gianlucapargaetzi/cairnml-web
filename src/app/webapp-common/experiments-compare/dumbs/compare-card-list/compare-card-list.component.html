@@ -26,18 +26,18 @@
         </div>
         <div headerButtons class="actions-container">
           <div class="actions" [class]="{'invisible': ! hovered[i]}">
-            <button mat-icon-button cdkDragHandle smTooltip="Click and drag to reposition the experiment"
+            <button aria-label="Reposition experiment" mat-icon-button cdkDragHandle smTooltip="Click and drag to reposition the experiment"
                     data-id="dragAndDropButton" class="drag" [class]="{'invisible': experiments.length === 1}"
             >
               <mat-icon fontSet="al" fontIcon="al-ico-drag"></mat-icon>
             </button>
             @if (baseExperiment.id !== experiment.id) {
-              <button class="sm" mat-icon-button (click)="setAsBase(experiment)" smTooltip="Set as baseline" data-id="setBaselineButton">
+              <button aria-label="Set as baseline" class="sm" mat-icon-button (click)="setAsBase(experiment)" smTooltip="Set as baseline" data-id="setBaselineButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-arrow-from-right"></mat-icon>
               </button>
             }
             @if (experiments.length > 1) {
-              <button class="sm" mat-icon-button (click)="experimentRemoved(experiment)" smTooltip="Remove from comparison" data-id="removeComparision">
+              <button aria-label="Remove from comparison" class="sm" mat-icon-button (click)="experimentRemoved(experiment)" smTooltip="Remove from comparison" data-id="removeComparision">
                 <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
               </button>
             }

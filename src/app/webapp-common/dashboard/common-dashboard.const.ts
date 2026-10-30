@@ -19,7 +19,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
   {
     id            : RECENT_TASKS_TABLE_COL_FIELDS.ID,
     headerType    : ColHeaderTypeEnum.title,
-    header        : 'EXPERIMENT ID',
+    header        : 'TASK ID',
     style         : {width: '140px'},
     disableDrag   : true,
     disablePointerEvents: true

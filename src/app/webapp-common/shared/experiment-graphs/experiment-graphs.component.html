@@ -8,7 +8,7 @@
   <div class="no-output">
     <mat-icon fontSet="al" fontIcon="al-ico-no-data-graph" class="xxl"></mat-icon>
     @if (noTasks()) {
-      <h4>SELECT EXPERIMENTS FROM THE LIST TO SHOW THEIR PLOTS</h4>
+      <h4>SELECT TASKS FROM THE LIST TO SHOW THEIR PLOTS</h4>
     } @else {
       <h4>NO CHART DATA</h4>
     }
@@ -85,7 +85,7 @@
                   </div>
                   @if (graphsDataHighlighted()?.[metric]?.length > 0) {
                     <div class="d-flex gap-3">
-                      <button  mat-icon-button
+                      <button aria-label="Copy group embed code"  mat-icon-button
                                class="ms-auto"
                                smTooltip="Copy group embed code"
                                data-id="copyGroupEmbedCode"
@@ -95,7 +95,7 @@
                           <mat-icon  fontSet="al" fontIcon="al-ico-code-square"></mat-icon>
                         </div>
                       </button>
-                      <button  mat-icon-button class="ms-auto group-btn" data-id="expandCollapsePlotGroup">
+                      <button aria-label="Expand or collapse plot group"  mat-icon-button class="ms-auto group-btn" data-id="expandCollapsePlotGroup">
                         <mat-icon  fontSet="al" fontIcon="al-ico-ico-chevron-down"></mat-icon>
                       </button>
                     </div>

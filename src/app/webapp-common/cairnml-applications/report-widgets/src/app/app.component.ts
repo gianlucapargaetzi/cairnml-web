@@ -445,6 +445,9 @@ export class AppComponent implements OnInit {
     return {metric: lastMetric.metric, variant: lastMetric.variant};
   }
 
+  // The app is served under its base path (for example /cairnml/); the widget lives under /widgets below it.
+  protected readonly appPath = window.location.pathname.replace(/\/widgets(\/.*)?$/, '/');
+
   protected navigateToSource() {
     const a = document.createElement('a');
     a.href = this.buildSourceLink(this.searchParams, '*');
@@ -462,7 +465,7 @@ export class AppComponent implements OnInit {
       entityIds = this.tasksData().sourceTasks.slice(0, 100);
     }
     const isCompare = this.tasksData().sourceTasks.length > 1;
-    let url = `${window.location.origin.replace('4201', '4200')}/projects/${project ?? '*'}/`;
+    let url = `${window.location.origin.replace('4201', '4200')}${this.appPath}projects/${project ?? '*'}/`;
     if (isCompare) {
       url += `${isModels ? 'compare-models;ids=' : 'compare-tasks;ids='}${entityIds.filter(id => !!id).join(',')}/${
         this.getComparePath(this.type)}?metricVariants=${encodeURIComponent(metricsPath.join(','))}&metricName=${variants.map(par => `&params=${encodeURIComponent(par)}`).join('')}`;

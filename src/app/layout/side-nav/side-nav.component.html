@@ -6,28 +6,22 @@
 
 @if (currentUser()) {
   <div #container class="items-container" [class.on-scrolling]="scrolling()">
-    <a class="item al-ico-queues"
+    <a aria-label="Agents and queues" class="item al-ico-queues"
        routerLink="/workers-and-queues"
        routerLinkActive="active"
-       smTooltip="WORKERS & QUEUES"
+       smTooltip="AGENTS & QUEUES"
     ></a>
-    <a class="item al-ico-model-endpoints"
-       [routerLink]="'/endpoints/active'"
-       [class.active]="baseRouteConfig() ==='endpoints'"
-       smTooltip="MODEL ENDPOINTS"
-       data-id="modelEndpointsIcon"
-    ></a>
-    <a class="item al-ico-datasets"
+    <a aria-label="Datasets" class="item al-ico-datasets"
        [routerLink]="defaultNestedModeForFeature()?.['datasets']? '/datasets/simple/*/projects' : '/datasets'"
        [class.active]="baseRouteConfig() ==='datasets'"
        smTooltip="DATASETS"
     ></a>
-    <a class="item al-ico-projects"
+    <a aria-label="Projects" class="item al-ico-projects"
        smTooltip="PROJECTS"
        routerLink="/dashboard"
        [class.active]="['dashboard','reports', 'projects'].includes(baseRouteConfig())"
     ></a>
-    <a class="item al-ico-pipelines"
+    <a aria-label="Pipelines" class="item al-ico-pipelines"
        [routerLink]="defaultNestedModeForFeature()?.['pipelines']? '/pipelines/*/projects' : '/pipelines'"
        [class.active]="baseRouteConfig() ==='pipelines'"
        smTooltip="PIPELINES"

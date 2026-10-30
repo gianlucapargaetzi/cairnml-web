@@ -16,7 +16,7 @@
 
     @if (config.behaviour.showDismissButton) {
       <div class="notifier__notification-button">
-        <button mat-icon-button title="Dismiss" (click)="onClickDismiss()">
+        <button aria-label="Dismiss" mat-icon-button title="Dismiss" (click)="onClickDismiss()">
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       </div>

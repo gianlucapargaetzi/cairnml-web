@@ -5,9 +5,28 @@
   outline: none;
 }
 
-:focus-visible {
+// "html" raises the specificity above Material's own "outline: none" on buttons, which otherwise hides the ring.
+html :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+// Focus stops under the 64px header when a control is scrolled into view.
+:where(*) {
+  scroll-padding-top: 64px;
+}
+
+// Users who ask for less motion get no transitions and no looping animation (spinners stop turning and stay
+// visible). The !important is needed because component styles set their own animations.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 *,

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
+import {LocationStrategy} from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {isAnnotationTask} from '../../../utils/shared-utils';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
@@ -17,6 +18,7 @@ import {MatButton} from '@angular/material/button';
   ]
 })
 export class AlertDialogComponent {
+  private locationStrategy = inject(LocationStrategy);
   protected data = inject<{
     alertMessage: string;
     alertSubMessage: string;
@@ -43,12 +45,13 @@ export class AlertDialogComponent {
     } else if (entityName === 'tasks' && isAnnotationTask(entity)) {
       url = `/annotations?q=${entity.id}`;
     } else {
-      url = `/projects/${entity?.project?.id ?? '*'}/experiments/${entity.id}`;
+      url = `/projects/${entity?.project?.id ?? '*'}/tasks/${entity.id}`;
     }
     if (url) {
       const a = document.createElement('a');
       a.target = '_blank';
-      a.href = url;
+      // Prefix the app base path (/cairnml/); a root-absolute href would miss it.
+      a.href = this.locationStrategy.prepareExternalUrl(url);
       a.click();
       a.remove();
     }

@@ -1,3 +1,4 @@
+import {LocationStrategy} from '@angular/common';
 import * as detailsActions from '../actions/experiments-compare-details.actions';
 import {paramsActions} from '../actions/experiments-compare-params.actions';
 import {
@@ -53,6 +54,7 @@ export interface FlatNode {
 @Directive()
 export abstract class ExperimentCompareBase extends ExperimentCompareDetailsBase implements OnDestroy, AfterViewInit {
   private router = inject(Router);
+  private locationStrategy = inject(LocationStrategy);
   protected store = inject(Store);
   private changeDetection = inject(ChangeDetectorRef);
   protected activeRoute = inject(ActivatedRoute);
@@ -574,6 +576,11 @@ export abstract class ExperimentCompareBase extends ExperimentCompareDetailsBase
   }
 
   linkClicked(url: string) {
+    if (url.startsWith('/')) {
+      // In-app route (for example a model): open it under the app base path, no signed URL needed.
+      window.open(this.locationStrategy.prepareExternalUrl(url), '_blank');
+      return;
+    }
     this.signUrl(url)
       .subscribe(signedUrl => window.open(signedUrl, '_blank'));
   }

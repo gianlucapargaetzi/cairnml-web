@@ -1,5 +1,5 @@
 <sm-dialog-template [displayX]="true"
-  [header]="queue? 'NO WORKERS ASSIGNED TO QUEUE': (step() === 1 ? 'Welcome to CairnML' : (showTabs? 'CREATE NEW EXPERIMENT' : 'GETTING STARTED'))"
+  [header]="queue? 'No agents assigned to queue': (step() === 1 ? 'Welcome to CairnML' : (showTabs? 'Create a new task' : 'Getting started'))"
   [subHeader]="showTabs ? 'To create a new task you can either run your ML code instrumented with the CairnML SDK, or relaunch a previously run task by cloning it.' : ''"
   (xClicked)="closeDialog()" [closeOnX]="false"
   [iconClass]="queue?'al-ico-queues': 'i-welcome-researcher'" xmlns="http://www.w3.org/1999/html">
@@ -35,7 +35,7 @@
             <mat-icon fontSet="al" fontIcon="al-ico-card-example" class="xl foreground"></mat-icon>
             <span class="background"></span>
           </span>
-          <div class="mt-2">See the pre-loaded examples to quickly get familiar with CairnML’s various capabilities.</div>
+          <div class="mt-2">Start with the <a target="_blank" href="https://github.com/gianlucapargaetzi/cairnml-examples">CairnML examples</a>: a first run, a full training run, and the same training on a dataset from the registry.</div>
         </div>
         <div class="info">
           <mat-icon fontSet="al" fontIcon="al-ico-help-outlined" class="xl"></mat-icon>
@@ -56,7 +56,7 @@
   <div class="steps-content">
     @if (queue) {
       <div class="text">
-        {{entityName}} have been enqueued on the <b>{{queue?.display_name || queue?.name}}</b> queue, which is currently not serviced by any worker. They will remain in the 'pending' state until a CairnML worker services this queue.
+        {{entityName}} have been enqueued on the <b>{{queue?.display_name || queue?.name}}</b> queue, which is currently not serviced by any agent. They will remain in the 'pending' state until a CairnML agent services this queue.
       </div>
     }
     @if (!currentLink || currentLink === links[0]) {
@@ -197,7 +197,7 @@
     <div class="sub-note mt-2">Use the <span class="bolder">“Enqueue”</span> action to enqueue the new task on an available queue.</div>
     <div class="sub-note mb-1">To have an agent service a queue, on your target machine run:</div>
     <div class="code">
-      <div #content class="content">cairnml-agent daemon —queue &lt;queue name&gt;</div>
+      <div #content class="content">cairnml-agent daemon --queue &lt;queue name&gt;</div>
       <sm-copy-clipboard
         [label]="''"
         [clipboardText]="content.textContent"

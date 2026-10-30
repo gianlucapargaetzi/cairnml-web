@@ -298,7 +298,7 @@
 <ng-template #noDataTemplate let-noDataTop="noDataTop" let-minimizedView="minimizedView">
   @if (hasActiveFilters()) {
     <div class="no-output" [class.centered]="minimizedView" [style.top.px]="noDataTop">
-      <span>No matching results. <a class="link" (click)="clearTableFiltersAndSearch.emit(tableFilters())" data-id="clearFiltersButton">Clear filters</a></span>
+      <span>No matching results. <button type="button" class="link" (click)="clearTableFiltersAndSearch.emit(tableFilters())" data-id="clearFiltersButton">Clear filters</button></span>
     </div>
   } @else if (experimentsUpdated) {
     <div class="no-output" [class.centered]="minimizedView" [style.top.px]="noDataTop"><span>No data to show</span></div>

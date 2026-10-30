@@ -1,4 +1,4 @@
-<button mat-icon-button class="close sm" (click)="this.deselectWorker.emit()">
+<button aria-label="Close" mat-icon-button class="close sm" (click)="this.deselectWorker.emit()">
   <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
 </button>
 
@@ -6,7 +6,7 @@
   <mat-tab label="INFO" class="tab-link" bodyClass="h-100">
     <div class="worker-info-container">
       <div class="info-column">
-        <sm-vertical-labeled-row label="Worker Name" [tooltip]="selectedWorker()?.name">{{selectedWorker()?.name ?? '—' }}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Agent name" [tooltip]="selectedWorker()?.name">{{selectedWorker()?.name ?? '—' }}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Update Time">{{selectedWorker()?.last_report_time | timeAgo}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Current Task" [tooltip]="selectedWorker()?.task?.name">
           @if (selectedWorker()?.task?.name ) {

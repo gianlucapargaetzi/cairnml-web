@@ -3,7 +3,7 @@
     <mat-form-field appearance="fill" class="w-100">
       <input smClickStopPropagation  matInput placeholder="Search" name="filter" data-id="tagColorSearchField" [(ngModel)]="filterText" autocomplete="off">
       @if (filterText) {
-        <button matSuffix mat-icon-button (click)="clearSearch()">
+        <button aria-label="Clear search" matSuffix mat-icon-button (click)="clearSearch()">
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       } @else {

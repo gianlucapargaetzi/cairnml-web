@@ -1,5 +1,5 @@
 @if (popupMode) {
-  <button mat-icon-button [mat-dialog-close]="{ids: [], filters: tableFilters(), sortFields: tableSortFields()}" class="stick-to-corner right" data-id="Cross" tabindex="-1">
+  <button aria-label="Close" mat-icon-button [mat-dialog-close]="{ids: [], filters: tableFilters(), sortFields: tableSortFields()}" class="stick-to-corner right" data-id="Cross">
     <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
   </button>
   <div mat-dialog-title class="dialog-title">{{ 'Select compared ' + data.entityType + 's' }}</div>

@@ -10,7 +10,7 @@
       ><span>{{ entityDisplayName(entityType) | uppercase }}S</span>
       <mat-icon iconPositionEnd fontSet="al" fontIcon="al-ico-dropdown-arrow" class="sm"></mat-icon>
     </button>
-      <button
+      <button [attr.aria-label]="allowAddExperiment() ? 'Add/Remove ' + entityType + 's to comparison' : compareLimitations + ' or fewer ' + entityType + 's can be compared'"
         mat-flat-button
         class="add-experiment plus icon-only"
         [smTooltip]="allowAddExperiment() ?
@@ -103,7 +103,7 @@
 
   <div class="settings gap-3">
     @if (['scalars'].includes(currentPage) && viewMode !== 'graph') {
-      <button
+      <button aria-label="Export to CSV"
       mat-icon-button
         (click)="exportCSV()"
         smTooltip="Export to CSV">

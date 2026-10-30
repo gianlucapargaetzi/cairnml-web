@@ -189,7 +189,7 @@
                     <mat-label>Value</mat-label>
                     <input (keydown.enter)="$event.preventDefault()" matInput formControlName="value">
                   </mat-form-field>
-                  <button mat-icon-button (click)="$event.preventDefault(); removeArg($index)">
+                  <button aria-label="Remove argument" mat-icon-button (click)="$event.preventDefault(); removeArg($index)">
                     <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                   </button>
                 </div>
@@ -260,7 +260,7 @@ numpy != 1.24.0 # https://github.com/numpy/numpy/issues/22826"></textarea>
                   <mat-label>Value</mat-label>
                   <input (keydown.enter)="$event.preventDefault()" matInput formControlName="value">
                 </mat-form-field>
-                <button mat-icon-button (click)="$event.preventDefault(); vars.removeAt($index)">
+                <button aria-label="Remove variable" mat-icon-button (click)="$event.preventDefault(); vars.removeAt($index)">
                   <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                 </button>
               </div>

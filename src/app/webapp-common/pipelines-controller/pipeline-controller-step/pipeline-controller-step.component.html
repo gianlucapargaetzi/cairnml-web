@@ -16,11 +16,11 @@
     >{{ stepWithStatus().name }}
     </div>
     @if (stepWithStatus().data?.isStage) {
-      <button mat-icon-button (click)="toggleEnlarge()" data-id="openStage" smTooltip="Expand stage">
+      <button aria-label="Expand stage" mat-icon-button (click)="toggleEnlarge()" data-id="openStage" smTooltip="Expand stage">
         <mat-icon fontSet="al" fontIcon="al-ico-zoom-to-fit"></mat-icon>
       </button>
     } @else {
-      <button class="console-button" mat-icon-button (click)="$event.stopPropagation(); openConsole.emit()" data-id="stepResultButton">
+      <button aria-label="Open console" class="console-button" mat-icon-button (click)="$event.stopPropagation(); openConsole.emit()" data-id="stepResultButton">
         <mat-icon fontSet="al" fontIcon="al-ico-console"></mat-icon>
       </button>
     }

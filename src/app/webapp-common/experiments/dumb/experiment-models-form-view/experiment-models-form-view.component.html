@@ -2,9 +2,9 @@
   <sm-labeled-row label="MODEL NAME">
     <div class="d-flex align-items-center">
       <div class="d-flex-center">
-        <a [href]="'projects/' + projectId() + '/models/' + model()?.id" target="_blank"><span>{{model()?.name}}</span></a>
+        <a [routerLink]="['/projects', projectId(), 'models', model()?.id]" target="_blank"><span>{{model()?.name}}</span></a>
         @if (model()?.uri && !isLocalFile()) {
-          <button mat-icon-button (click)="artifactFilePathClicked(model().uri)">
+          <button aria-label="Download model" mat-icon-button (click)="artifactFilePathClicked(model().uri)">
             <mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
           </button>
         }
@@ -15,11 +15,11 @@
         }
       </div>
       @if (editable()) {
-        <button mat-icon-button smTooltip="Select model" class="ms-3" data-id="selectModelButton" (click)="chooseModel()">
+        <button aria-label="Select model" mat-icon-button smTooltip="Select model" class="ms-3" data-id="selectModelButton" (click)="chooseModel()">
           <mat-icon fontSet="al" fontIcon="al-ico-edit"></mat-icon>
         </button>
         @if (model()?.id) {
-          <button mat-icon-button class="ms-3" smTooltip="Remove model" (click)="removeModel()">
+          <button aria-label="Remove model" mat-icon-button class="ms-3" smTooltip="Remove model" (click)="removeModel()">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
           </button>
         }

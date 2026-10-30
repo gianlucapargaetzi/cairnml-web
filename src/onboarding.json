@@ -7,22 +7,22 @@
       "context": ""
     },
     {
-      "title": "Creating a new experiment",
+      "title": "Creating a new task",
       "image": "assets/welcome-cat.svg",
-      "content": "Clone any task to create a draft copy using right-click or the task context menu.<br/><br/>Reproduce the original run by executing the copy, or modify any element of the new draft to try out a new approach.",
+      "content": "Clone any task to create a draft copy using right-click or the task context menu.<br/><br/>Reproduce the original run by enqueuing the copy, or modify any element of the new draft to try out a new approach.",
       "context": "",
       "feature": "experiments"
     },
     {
-      "title": "Comparing experiments",
+      "title": "Comparing tasks",
       "image": "assets/welcome-researcher.svg",
-      "content": "Select the experiments you want to compare, then compare them using the bottom bar.",
+      "content": "Select the tasks you want to compare, then compare them using the bottom bar.",
       "context": ""
     },
     {
       "title": "View in full screen",
       "image": "assets/welcome-cat.svg",
-      "content": "Focus on a single experiment details by using the full screen view.<br/><br/>Get finer controls on viewing the experiment results thanks to the additional screen real-estate.<br/<<br/>You can toggle between full-screen and experiment table view.",
+      "content": "Focus on a single task by using the full screen view.<br/><br/>Get finer controls on viewing the task results thanks to the additional screen real-estate.<br/><br/>You can toggle between full-screen and task table view.",
       "context": ""
     }
   ]

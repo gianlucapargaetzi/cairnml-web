@@ -6,7 +6,7 @@ import {queueCreateDialogProviders} from '@common/shared/queue-create-dialog/que
 import {selectQueueProviders} from '@common/experiments/shared/components/select-queue/select-queue.providers';
 
 const wQBreadcrumb = [[{
-  name: 'WORKERS AND QUEUES',
+  name: 'AGENTS & QUEUES',
   type: CrumbTypeEnum.Feature
 }]];
 

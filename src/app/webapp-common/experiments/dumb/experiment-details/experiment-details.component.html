@@ -17,7 +17,7 @@
 
 
 <sm-editable-section [hideEditButton]="true" [disableEditable]="true" class="section">
-  <sm-section-header label="EXPERIMENT DETAILS"></sm-section-header>
+  <sm-section-header label="TASK DETAILS"></sm-section-header>
   <sm-labeled-row label="ARCHIVED:">
     <div style="width: 93px">{{ experiment()?.system_tags?.includes('archived') ? 'Yes' : 'No' }}</div>
   </sm-labeled-row>
@@ -78,7 +78,7 @@
   <sm-labeled-row label="PARENT TASK:">
     @if (experiment()?.parent) {
       <div class="d-flex align-items-center">
-        <a [href]="'projects/*/tasks/'+ experiment()?.parent?.id"
+        <a [routerLink]="['/projects', '*', 'tasks', experiment()?.parent?.id]"
         target="_blank">{{ experiment()?.parent?.name }}</a>
         <sm-copy-clipboard [smallIcon]="true" [clipboardText]="experiment()?.parent?.id"
           [label]="''"
