@@ -18,6 +18,7 @@
   --color-stopped-container: var(--color-completed-container);
   --color-error-container: var(--color-failed-container);
   --color-queued: var(--color-pending);
+  --color-info: var(--color-completed);
 }
 
 @mixin generate-colors($theme) {

@@ -1,0 +1,62 @@
+// Design tokens: spacing, radius, sizes, type, motion and focus.
+// Theme-independent values only. Colors live in colors.scss.
+// Values follow docs/design-system/02-design-tokens.md (4px grid).
+
+:root {
+  // spacing (4px grid)
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  // radius
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  // sizes
+  --control-height: 36px;
+  --control-height-sm: 24px;
+  --control-height-xs: 20px;
+  --icon-size: 20px;
+  --icon-size-sm: 16px;
+  --icon-size-xs: 14px;
+  --icon-size-lg: 48px;
+  --header-height: 64px;
+  --sidenav-width: 64px;
+  --page-padding-x: var(--space-5);
+
+  // type
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --line-height-tight: 16px;
+  --line-height-body: 20px;
+  --line-height-title: 24px;
+
+  // motion
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  // focus
+  --focus-ring: 2px solid var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
