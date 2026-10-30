@@ -27,7 +27,7 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 
 ## 3.2 Page structure (Target)
 
-Today two pages use a shared header class (`.page-header`: serving, storage credentials; `.sm-entity-page-header` is the 56px variant) and the rest build their own. Use one structure:
+Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated so far: dashboard, projects list, storage credentials. Other pages still build their own header (`.sm-entity-page-header` in the serving toolbar). The structure:
 
 ```text
 Page
@@ -43,7 +43,7 @@ Page
 └── Footer actions (forms only, see configuration-pages)
 ```
 
-Header height 56px for entity pages (existing `$project-header-height: 56px`, `.sm-entity-page-header`). The 64px `.page-header` variant is **retired**: it duplicates the 64px application header directly above it. The projects list uses `$projects-header-height: 2*24 + 32 = 80px`: **target** 56px.
+Header height 56px. The 64px `.page-header` class is **retired** (removed): it duplicated the 64px application header directly above it. The projects list header was 80px and is now 56px, with its toolbar (48px) below.
 
 ## 3.3 Page templates
 

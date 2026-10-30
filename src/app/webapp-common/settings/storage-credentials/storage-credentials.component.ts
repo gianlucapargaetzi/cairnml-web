@@ -3,7 +3,6 @@ import {CredentialsSettingsActions} from '~/features/settings/settings.actions';
 import {Store} from '@ngrx/store';
 import {Actions, ofType} from '@ngrx/effects';
 import {selectCredentials} from '~/features/settings/settings.selectors';
-import {UpperCasePipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -15,6 +14,7 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {take} from 'rxjs/operators';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
     selector: 'sm-storage-credentials',
@@ -29,11 +29,11 @@ import {take} from 'rxjs/operators';
         AzureStorageCredentialsComponent,
         GoogleStorageCredentialsComponent,
         AwsStorageCredentialsComponent,
-        UpperCasePipe,
         MatIconButton,
         MatIcon,
         MatButton,
         MatProgressSpinner,
+        PageHeaderComponent,
     ]
 })
 export class StorageCredentialsComponent {
@@ -44,6 +44,7 @@ export class StorageCredentialsComponent {
   private cdr = inject(ChangeDetectorRef);
   protected credentials = this.store.selectSignal(selectCredentials);
   protected selectedStorage = signal<'google' | 'azure' | 'aws'>(null);
+  protected storageNames: Record<'google' | 'azure' | 'aws', string> = {google: 'Google', azure: 'Azure', aws: 'AWS'};
   protected saving = signal(false);
   protected saved = signal(false);
 

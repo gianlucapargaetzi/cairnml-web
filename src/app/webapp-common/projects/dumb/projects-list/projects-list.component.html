@@ -1,5 +1,5 @@
+<ng-content></ng-content>
 <div class="sm-card-list-layout projects">
-  <ng-content></ng-content>
   @for (project of projects(); track project.id + $index) {
     @if ($index + totalVirtualCards() < projects().length || noMoreProjects() || showLast()) {
       <sm-project-card

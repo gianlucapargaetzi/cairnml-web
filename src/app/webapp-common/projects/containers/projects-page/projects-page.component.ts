@@ -40,6 +40,7 @@ import {setExperimentMetricsSearchTerm} from '@common/experiments/actions/common
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ProjectsListComponent} from '../../dumb/projects-list/projects-list.component';
 import {ProjectsHeaderComponent} from '../../dumb/projects-header/projects-header.component';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {PushPipe} from '@ngrx/component';
@@ -54,6 +55,7 @@ import {CommonModule} from '@angular/common';
     CommonModule,
     ProjectsListComponent,
     ProjectsHeaderComponent,
+    PageHeaderComponent,
     MatButtonModule,
     MatIconModule,
     PushPipe,
