@@ -238,10 +238,11 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
                 $implicit: selectedExperiments,
                 ...(queue && {queueName: queue.display_name || queue.name})
               },
-              yes: 'Dequeue',
+              yes: 'Dequeue task',
               no: 'Cancel',
               iconClass: 'al-ico-alert',
-              iconColor: 'var(--color-warning)'
+              iconColor: 'var(--color-warning)',
+              destructive: true
             },
             panelClass: 'dialog-md'
           }).afterClosed();
@@ -303,12 +304,13 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
       $implicit: ISelectedExperiment[]
     }>, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'ABORT',
+        title: 'Abort task',
         template: this.stopTemplate(),
         templateContext: {$implicit: selectedExperiments},
-        yes: 'Abort',
+        yes: 'Abort task',
         no: 'Cancel',
         iconClass: 'al-ico-abort',
+        destructive: true
       },
       panelClass: 'dialog-md'
     }).afterClosed()

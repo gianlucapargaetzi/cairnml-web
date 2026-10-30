@@ -384,12 +384,13 @@ export class ReportsEffects {
       ConfirmDialogComponent,
       {
         data: {
-          title: 'DELETE',
-          body: '<p class="text-center">Permanently Delete Report</p>',
-          yes: 'DELETE',
+          title: 'Delete report?',
+          body: '<p class="text-center">The report will be permanently deleted. This cannot be undone.</p>',
+          yes: 'Delete report',
           no: 'Cancel',
           iconClass: 'al-ico-trash',
-          width: 430
+          width: 430,
+          destructive: true
         }
       }).afterClosed().pipe(
       filter(confirm => !!confirm),

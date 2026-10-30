@@ -47,7 +47,7 @@ Content (scrolls if needed)
 
 ## Confirmation dialogs
 
-Use `ConfirmDialogComponent` with: a title that names the action and object ("Delete task?"), a body that states the **consequence** ("The task, its metrics and artifacts will be permanently deleted. This cannot be undone."), `no: 'Cancel'`, `yes` = verb + object in sentence case, `destructive: true` (target flag) for deletion/termination/overwrite.
+Use `ConfirmDialogComponent` with: a title that names the action and object ("Delete task?"), a body that states the **consequence** ("The task, its metrics and artifacts will be permanently deleted. This cannot be undone."), `no: 'Cancel'`, `yes` = verb + object in sentence case, `destructive: true` for deletion/termination/overwrite/revoke/discard. The flag alone styles the confirm button (`delete-button`); labels are never matched. With `destructive`, the Cancel button takes the initial focus. Leaving a page with unsaved changes uses `no: 'Stay'` and `yes: 'Discard changes'` (destructive).
 
 Confirm only when the action is destructive, irreversible, costly or affects others. Do not confirm harmless actions (opening, filtering, refreshing, reversible toggles). Where an action can be undone, prefer a toast with "Undo" over a dialog.
 
