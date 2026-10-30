@@ -77,7 +77,7 @@ export class ServingGeneralInfoComponent {
     },
     {
       id: 'requests',
-      header: '# REQUESTS',
+      header: '# Requests',
       key: ''
     }, {
       id: 'requests_min',

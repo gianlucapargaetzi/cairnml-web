@@ -140,6 +140,25 @@
     }
   }
 
+  // Loading (no rows yet), error (request failed, offers Retry) and empty states share the wrapper above.
+  .table-loading {
+    position: sticky;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .table-error {
+    position: sticky;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    color: var(--color-error);
+    font-size: 14px;
+  }
+
   .card-view .no-data-wrapper {
     justify-content: center;
 
@@ -231,6 +250,10 @@
     th {
       border-bottom: none;
       padding: 0 12px;
+      // One header style for every column kind (plain labels, sort/filter labels, checkboxes).
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-on-surface-variant);
 
       &:first-child {
         padding-left: 24px;
@@ -246,8 +269,6 @@
         font-weight: 500;
         color: var(--color-on-surface-variant);
         white-space: nowrap;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
       }
 
     }

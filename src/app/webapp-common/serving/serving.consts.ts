@@ -37,7 +37,7 @@ export const servingTableCols: ISmCol[] = [
     id: servingTableColFields.instances,
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable: true,
-    header: '# INSTANCES',
+    header: '# Instances',
     style: {width: '150px'}
   },
   {
@@ -55,7 +55,7 @@ export const servingTableCols: ISmCol[] = [
     sortable: true,
     filterType: ColHeaderFilterTypeEnum.durationNumeric,
     filterable: true,
-    header: '# REQUESTS',
+    header: '# Requests',
     style: {width: '150px'}
   },
   {
@@ -64,7 +64,7 @@ export const servingTableCols: ISmCol[] = [
     sortable: true,
     filterable: true,
     filterType: ColHeaderFilterTypeEnum.durationNumeric,
-    header: 'REQUEST / MIN (avg)',
+    header: 'Requests / min (avg)',
     style: {width: '240px'}
   },
   {
@@ -73,7 +73,7 @@ export const servingTableCols: ISmCol[] = [
     sortable: true,
     filterType: ColHeaderFilterTypeEnum.durationNumeric,
     filterable: true,
-    header: 'LATENCY (avg)',
+    header: 'Latency (avg)',
     style: {width: '150px'}
   }
 ];
