@@ -66,7 +66,7 @@ export class QueuesTableComponent extends BaseTableView {
       {
         id: QUEUES_TABLE_COL_FIELDS.WORKERS,
         headerType: ColHeaderTypeEnum.sortFilter,
-        header: 'WORKERS',
+        header: 'AGENTS',
         style: {width: '100px'},
         sortable: true,
       },
