@@ -86,9 +86,10 @@ export class ModelViewNetworkComponent {
         title    : 'Clear model configuration',
         body     : 'Are you sure you want to clear the entire contents of Model Configuration?',
         yes      : 'Clear',
-        no       : 'Keep',
+        no       : 'Cancel',
         iconClass: 'al-ico-trash',
         centerText: true,
+        destructive: true
       },
       panelClass: 'dialog-md'
     }).afterClosed()

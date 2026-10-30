@@ -38,11 +38,11 @@
         </mat-checkbox>
       </div>
       <div class="buttons">
-        <button mat-flat-button cdkFocusInitial (click)="delete()" data-id="DeleteButton" class="yes-button">
-          {{resetMode ? 'RESET' : 'DELETE'}}
+        <button mat-flat-button (click)="delete()" data-id="DeleteButton" class="yes-button delete-button">
+          {{resetMode ? 'Reset' : 'Delete'}}
         </button>
-        <button mat-stroked-button (click)="closeDialog(false)" data-id="CancelButton">
-          CANCEL
+        <button mat-stroked-button cdkFocusInitial (click)="closeDialog(false)" data-id="CancelButton">
+          Cancel
         </button>
       </div>
     } @else {

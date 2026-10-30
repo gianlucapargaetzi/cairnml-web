@@ -28,6 +28,7 @@
         <button
           mat-stroked-button
           class="yes-button"
+          [attr.cdkFocusInitial]="data.destructive ? '' : null"
           (click)="closeDialog(false)"
           [id]="no"
         >{{no}}</button>
@@ -36,7 +37,7 @@
         <button
           mat-flat-button
           [id]="yes"
-          [class.delete-button]="data.destructive || ['DELETE', 'DEACTIVATE'].includes(yes)"
+          [class.delete-button]="data.destructive"
           (click)="closeDialog(true)">
           {{yes}}
         </button>

@@ -12,10 +12,10 @@
   }
 </sm-dialog-template>
 <div mat-dialog-actions>
-  <button mat-stroked-button mat-dialog-close data-id ="CancelButton">CANCEL</button>
-  <button mat-flat-button
+  <button mat-stroked-button mat-dialog-close data-id ="CancelButton">Cancel</button>
+  <button mat-flat-button class="delete-button"
     [mat-dialog-close]="{shouldBeAbortedTasks}"
     [disabled]="!(shouldBeAbortedTasks?.length>0)"
     data-id ="AbortButton"
-  >ABORT</button>
+  >Abort</button>
 </div>

@@ -313,8 +313,9 @@ export class DeleteDialogEffectsBase {
         body: 'Deleting the last run of a pipeline will also delete the pipeline',
         iconClass: 'al-ico-alert',
         iconColor: 'var(--color-warning)',
-        yes: 'DELETE',
-        no: 'Cancel'
+        yes: 'Delete',
+        no: 'Cancel',
+        destructive: true
       } as ConfirmDialogConfig
     }).afterClosed()
       .pipe(

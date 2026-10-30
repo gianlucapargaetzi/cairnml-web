@@ -96,9 +96,10 @@ export class QueuesEffect {
             title: 'Delete Queue',
             body: `Are you sure you would like to delete the "<b>${htmlTextShort(action.queue.caption)}</b>" queue?`,
             centerText: true,
-            yes: 'Delete',
+            yes: 'Delete queue',
             no: 'Cancel',
-            iconClass: 'al-ico-trash'
+            iconClass: 'al-ico-trash',
+            destructive: true
           },
           panelClass: 'dialog-md'
         }).afterClosed().pipe(
