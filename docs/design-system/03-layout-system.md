@@ -13,7 +13,7 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 +------+----------------------------------------------------------------+
 ```
 
-- **Side navigation** (64px, always collapsed): logo, then icon links in this order: Agents & Queues, Model Endpoints, Datasets, Projects (dashboard), Pipelines. Tooltips carry the names. Active item is highlighted by `routerLinkActive` / `.active`. Do not add a second navigation column. New top-level areas are added here only after a product decision; keep ≤ 7 items.
+- **Side navigation** (64px, always collapsed): logo, then icon links in this order: Agents & Queues, Datasets, Projects (dashboard), Pipelines. Model Endpoints is not in the navigation until CairnML documents how to create endpoints (decision for issue #13); the `/endpoints/active` page stays reachable by URL. Tooltips carry the names. Active item is highlighted by `routerLinkActive` / `.active`. Do not add a second navigation column. New top-level areas are added here only after a product decision; keep ≤ 7 items.
 - **Header** (64px, grid `minmax(150px,1fr) auto minmax(150px,1fr)`, padding `0 24px`): left breadcrumbs (and task trail), centre context tabs (`sm-header-navbar-tabs`), right global actions (search [Ctrl+K], auto-refresh, help menu, avatar menu with Settings, Appearance, Logout). The header is the only place for global actions.
 - **Main area**: the routed page fills the height below the header. The page itself scrolls internally (body is `overflow: hidden`), so **each page owns its scroll container**.
 - **Breadcrumbs** show location, not history: Workspace → Project → entity.

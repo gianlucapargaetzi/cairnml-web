@@ -9,13 +9,7 @@
     <a class="item al-ico-queues"
        routerLink="/workers-and-queues"
        routerLinkActive="active"
-       smTooltip="WORKERS & QUEUES"
-    ></a>
-    <a class="item al-ico-model-endpoints"
-       [routerLink]="'/endpoints/active'"
-       [class.active]="baseRouteConfig() ==='endpoints'"
-       smTooltip="MODEL ENDPOINTS"
-       data-id="modelEndpointsIcon"
+       smTooltip="AGENTS & QUEUES"
     ></a>
     <a class="item al-ico-datasets"
        [routerLink]="defaultNestedModeForFeature()?.['datasets']? '/datasets/simple/*/projects' : '/datasets'"

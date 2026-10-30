@@ -2,7 +2,7 @@
 
 | Component | Where | Use |
 |---|---|---|
-| Side navigation (`sm-side-nav`) | Left, 64px | Top-level areas only: Agents & Queues, Model Endpoints, Datasets, Projects, Pipelines. Icon-only: each link **must** have an accessible name (today the `<a class="item al-ico-*">` links have none; add `aria-label` = tooltip text) |
+| Side navigation (`sm-side-nav`) | Left, 64px | Top-level areas only: Agents & Queues, Datasets, Projects, Pipelines (Model Endpoints is hidden until endpoints can be created; see issue #13). Icon-only: each link **must** have an accessible name (today the `<a class="item al-ico-*">` links have none; add `aria-label` = tooltip text) |
 | Header breadcrumbs (`sm-breadcrumbs`) | Header left | Location hierarchy, each level is a link except the last |
 | Header context tabs (`sm-header-navbar-tabs`) | Header centre | Sections of the current project (e.g. Overview, Tasks, Models…) |
 | In-page tabs (`mat-tab-nav-bar` for routes, `mat-tab-group` for in-page panels) | Under the page header | Sections of one entity. Active label `--color-primary`, inactive `--color-outline`, no divider (a 1px bottom border optional via `with-border`) |
