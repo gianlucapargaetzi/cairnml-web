@@ -27,8 +27,12 @@
       }
     }
 
-    &.created, &.queued, &.draft, &.pending {
+    &.created, &.draft {
       color: var(--color-draft);
+    }
+
+    &.queued, &.pending {
+      color: var(--color-pending);
     }
 
     &.completed, &.Final, &.available {
