@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.devices {
+  padding: 24px;
+}
+
+.devices-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin: 0 0 8px;
+}
+
+.devices-description {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  margin: 0 0 24px;
+  max-width: 720px;
+}
+
+.devices-error {
+  color: var(--color-error);
+  margin-bottom: 16px;
+}
+
+.devices-empty {
+  color: var(--color-on-surface-variant);
+}
+
+.devices-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+
+  thead th {
+    border-bottom: solid 1px var(--color-outline-variant);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    text-align: left;
+  }
+
+  tbody tr {
+    height: 48px;
+    border-bottom: solid 1px var(--color-surface-container-high);
+
+    &:hover {
+      background-color: var(--color-surface-container-low);
+    }
+
+    &.revoked td {
+      color: var(--color-outline);
+    }
+
+    td {
+      color: var(--color-on-surface-variant);
+      padding: 0 8px;
+      white-space: nowrap;
+
+      .name {
+        display: inline-block;
+        max-width: 280px;
+      }
+    }
+
+    td.actions {
+      width: 64px;
+      text-align: center;
+    }
+  }
+
+  .status {
+    color: var(--color-on-surface);
+  }
+
+  .revoked-status {
+    color: var(--color-outline);
+  }
+}

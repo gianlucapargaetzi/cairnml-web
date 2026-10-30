@@ -36,6 +36,17 @@ export const routes: Routes = [
           }]]},
       },
       {
+        path: 'devices',
+        loadComponent: () => import('~/features/settings/containers/devices/devices.component').then(m => m.DevicesComponent),
+        data: {
+          workspaceNeutral: true,
+          staticBreadcrumb: [[settingsBreadcrumb, {
+            name: 'Devices',
+            type: CrumbTypeEnum.SubFeature
+          }]]
+        }
+      },
+      {
         path: 'storage-credentials',
         loadComponent: () => import('@common/settings/storage-credentials/storage-credentials.component').then(m => m.StorageCredentialsComponent),
         data: {
