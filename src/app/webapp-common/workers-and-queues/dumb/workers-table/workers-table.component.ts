@@ -14,6 +14,10 @@ import {
 import {
   ShowTooltipIfEllipsisDirective
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
+import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
+
+const AGENT_STATUS_LABELS = {active: 'Online', stopped: 'Offline'};
 
 
 @Component({
@@ -28,6 +32,8 @@ import {
     TooltipDirective,
     TableFilterSortComponent,
     ShowTooltipIfEllipsisDirective,
+    StatusIconLabelComponent,
+    TimeAgoPipe,
   ]
 })
 export class WorkersTableComponent extends BaseTableView {
@@ -38,33 +44,48 @@ export class WorkersTableComponent extends BaseTableView {
     {
       id: WORKERS_TABLE_COL_FIELDS.ID,
       headerType: ColHeaderTypeEnum.sortFilter,
-      header: 'Available workers',
-      style: {width: '200', maxWidth: '700px'},
+      header: 'Agent',
+      style: {width: '160px', maxWidth: '700px'},
+      sortable: true,
+    },
+    {
+      id: WORKERS_TABLE_COL_FIELDS.STATUS,
+      headerType: ColHeaderTypeEnum.sortFilter,
+      header: 'Status',
+      style: {width: '100px', maxWidth: '130px'},
       sortable: true,
     },
     {
       id: WORKERS_TABLE_COL_FIELDS.TASK,
       headerType: ColHeaderTypeEnum.sortFilter,
       header: 'Currently running task',
-      style: {width: '200', maxWidth: '700px'},
+      style: {width: '160px', maxWidth: '700px'},
       sortable: true,
     },
     {
       id: WORKERS_TABLE_COL_FIELDS.TASK_RUNNING_TIME,
       headerType: ColHeaderTypeEnum.sortFilter,
       header: 'Task running time',
-      style: {width: '160px', minWidth: '180px', maxWidth: '200px'},
+      style: {width: '140px', minWidth: '140px', maxWidth: '200px'},
       sortable: true,
     },
     {
       id: WORKERS_TABLE_COL_FIELDS.TASK_ITERATIONS,
       headerType: ColHeaderTypeEnum.sortFilter,
       header: 'Iteration',
-      style: {width: '100px', maxWidth: '150px'},
+      style: {width: '80px', maxWidth: '120px'},
+      sortable: true,
+    },
+    {
+      id: WORKERS_TABLE_COL_FIELDS.LAST_SEEN,
+      headerType: ColHeaderTypeEnum.sortFilter,
+      header: 'Last seen',
+      style: {width: '120px', maxWidth: '160px'},
       sortable: true,
     },
   ] as ISmCol[];
   protected readonly WORKERS_TABLE_COL_FIELDS = WORKERS_TABLE_COL_FIELDS;
+  protected readonly AGENT_STATUS_LABELS = AGENT_STATUS_LABELS;
 
   workers = input<WorkerExt[]>();
   selectedWorker = input<WorkerExt>();

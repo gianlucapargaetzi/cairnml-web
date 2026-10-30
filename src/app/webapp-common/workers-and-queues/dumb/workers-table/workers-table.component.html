@@ -23,6 +23,12 @@
             {{worker.name}}
           </span>
         }
+        @case (WORKERS_TABLE_COL_FIELDS.STATUS) {
+          <sm-status-icon-label [status]="worker.online ? 'active' : 'stopped'" [externalStatusLabels]="AGENT_STATUS_LABELS"></sm-status-icon-label>
+        }
+        @case (WORKERS_TABLE_COL_FIELDS.LAST_SEEN) {
+          <span class="ellipsis">{{worker.last_seen ? (worker.last_seen | timeAgo) : '—'}}</span>
+        }
         @default {
           <span  class="ellipsis" [smTooltip]="getBodyData(worker, col)" smShowTooltipIfEllipsis>{{getBodyData(worker, col)}}</span>
           @if ((getBodyData(worker, col)!==0) && !getBodyData(worker, col)) {

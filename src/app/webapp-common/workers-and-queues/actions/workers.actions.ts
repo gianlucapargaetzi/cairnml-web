@@ -9,6 +9,8 @@ export interface WorkerExt extends Omit<Worker, 'id'> {
   id: string;
   name: string;
   originalName: string;
+  online: boolean;
+  last_seen?: string;
 }
 
 export const resetWorkers = createAction(

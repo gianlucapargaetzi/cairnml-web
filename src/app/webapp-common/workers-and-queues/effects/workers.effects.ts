@@ -46,7 +46,7 @@ export class WorkersEffects {
       this.store.select(selectSelectedWorker),
       this.store.select(selectWorkersTableSortFields),
     ]),
-    switchMap(([action, selectedWorker, sortFields]) => this.workersApi.workersGetAll({}).pipe(
+    switchMap(([action, selectedWorker, sortFields]) => this.workersApi.workersGetAll({last_seen: 0}).pipe(
       mergeMap(res => {
         const workers = transformAndSortWorkers(sortFields, res.workers);
         const actionsToFire = [
