@@ -17,18 +17,11 @@
     <mat-tab label="GENERAL">
       <ng-template mat-tab-label>
         GENERAL
-        @if (generalForm.projectForm?.invalid) {
+        @if (general().isInvalid()) {
           <span class="invalid-dot"></span>
         }
       </ng-template>
-      <sm-edit-project-form
-        #generalForm
-        [project]="data.project"
-        [isReadOnly]="readonlyProject()"
-        (projectUpdated)="updateProject($event)"
-        (cancelClicked)="closeDialog()"
-        class="data-project">
-      </sm-edit-project-form>
+      <sm-project-general-settings class="data-project" [project]="data.project" (cancelled)="closeDialog()"></sm-project-general-settings>
     </mat-tab>
 
     <mat-tab label="SCALAR VIEW DEFAULTS">
@@ -49,7 +42,7 @@
   @if (!isEditing()){
     <mat-dialog-actions>
     <button mat-stroked-button (click)="closeDialog()" data-id="Cancel">CANCEL</button>
-    <button mat-flat-button (click)="save()" [disabled]="readonlyProject() || generalForm.projectForm.controls.default_output_destination.invalid || generalForm.projectForm.invalid || (!scalars().hasChanges() && !generalChanged() && !extraDirty())" data-id="Save">
+    <button mat-flat-button (click)="save()" [disabled]="general().readonly() || general().isInvalid() || (!scalars().hasChanges() && !general().hasChanges() && !extraDirty())" data-id="Save">
       SAVE
     </button>
   </mat-dialog-actions>

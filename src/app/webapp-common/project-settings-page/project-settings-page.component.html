@@ -2,12 +2,7 @@
   <div class="settings-page">
     <section class="settings-section">
       <div class="section-title">General</div>
-      <sm-edit-project-form
-        [project]="fullProject()"
-        [isReadOnly]="readonlyProject()"
-        (projectUpdated)="updateGeneral($event)"
-        class="data-project">
-      </sm-edit-project-form>
+      <sm-project-general-settings [project]="fullProject()"></sm-project-general-settings>
     </section>
 
     <section class="settings-section">
@@ -20,7 +15,7 @@
     </section>
 
     <div class="settings-footer">
-      <button mat-flat-button (click)="save()" [disabled]="readonlyProject() || generalInvalid() || !dirty()" data-id="saveProjectSettings">Save</button>
+      <button mat-flat-button (click)="save()" [disabled]="general()?.readonly() || general()?.isInvalid() || !dirty()" data-id="saveProjectSettings">Save</button>
     </div>
   </div>
 }
