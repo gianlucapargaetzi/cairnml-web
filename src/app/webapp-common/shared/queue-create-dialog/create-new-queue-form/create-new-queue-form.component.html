@@ -1,5 +1,5 @@
 <form class="create-queue-form" [formGroup]="queueForm">
-  <mat-form-field class="mb-3">
+  <mat-form-field class="queue-field">
     <mat-label>Name</mat-label>
     <input matInput type="text" formControlName="name">
     @if (queueForm.controls.name.invalid && queueForm.controls.name?.errors; as errors) {
@@ -31,7 +31,7 @@
       </mat-error>
     }
   </mat-form-field>
-  <mat-slide-toggle formControlName="public" class="mb-3" data-id="queuePublic">
+  <mat-slide-toggle formControlName="public" class="queue-field" data-id="queuePublic">
     Public: every company user may use this queue and allocate it to their projects
   </mat-slide-toggle>
 </form>
