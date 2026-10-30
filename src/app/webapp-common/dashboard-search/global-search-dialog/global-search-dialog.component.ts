@@ -74,7 +74,7 @@ export class GlobalSearchDialogComponent {
   protected searchQuery$ = this.store.select(selectSearchTerm);
   private itemSelected = false;
   advancedTooltip = `Explicit DB query specification <br>
-(JSON format. see e.g. <a target="_blank" title="https://clear.ml/docs/latest/docs/references/sdk/task/#taskquery_tasks" data-renderer-mark="true" href="https://clear.ml/docs/latest/docs/references/sdk/task/#taskquery_tasks">Task.query_tasks()</a>)`;
+(JSON format. see e.g. <a target="_blank" title="https://github.com/gianlucapargaetzi/cairnml" data-renderer-mark="true" href="https://github.com/gianlucapargaetzi/cairnml">the CairnML SDK</a>)`;
 
   constructor() {
     this.store.dispatch(searchActivated());
