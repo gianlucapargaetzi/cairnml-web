@@ -54,6 +54,10 @@ jobs:
           fi
           node scripts/lint-changed.mjs "$RUNNER_TEMP/base" "${FILES[@]}"
 
+      # Checks only the lines this change adds to .scss files (diff against origin/main).
+      - name: Check design tokens in changed styles
+        run: sh scripts/check-design-tokens.sh
+
       - name: Run build
         run: pnpm run build
 
