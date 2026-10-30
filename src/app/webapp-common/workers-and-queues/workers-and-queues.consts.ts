@@ -12,10 +12,15 @@ export const QUEUES_TABLE_COL_FIELDS = {
 
 export const WORKERS_TABLE_COL_FIELDS = {
   ID               : 'id',
+  STATUS           : 'online',
   TASK             : 'task.name',
   TASK_RUNNING_TIME: 'task.running_time',
-  TASK_ITERATIONS  : 'task.last_iteration'
+  TASK_ITERATIONS  : 'task.last_iteration',
+  LAST_SEEN        : 'last_seen'
 };
+
+// An agent that has not reported for this long is shown as offline (owner decision, issue #16)
+export const AGENT_OFFLINE_AFTER_MS = 60 * 60 * 1000;
 
 
 

@@ -7,7 +7,19 @@
     <div class="worker-info-container">
       <div class="info-column">
         <sm-vertical-labeled-row label="Agent name" [tooltip]="selectedWorker()?.name">{{selectedWorker()?.name ?? '—' }}</sm-vertical-labeled-row>
-        <sm-vertical-labeled-row label="Update Time">{{selectedWorker()?.last_report_time | timeAgo}}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Status">
+          @if (selectedWorker()) {
+            <sm-status-icon-label [status]="selectedWorker()?.online ? 'active' : 'stopped'" [externalStatusLabels]="STATUS_LABELS"></sm-status-icon-label>
+          } @else {
+            —
+          }
+        </sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Last seen">
+          {{selectedWorker()?.last_seen ? (selectedWorker()?.last_seen | timeAgo) : 'Never'}}
+        </sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Registered">{{selectedWorker()?.register_time ? (selectedWorker()?.register_time | timeAgo) : '—'}}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="IP address">{{selectedWorker()?.ip ?? '—'}}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Owner" [tooltip]="selectedWorker()?.user?.name">{{selectedWorker()?.user?.name ?? '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Current Task" [tooltip]="selectedWorker()?.task?.name">
           @if (selectedWorker()?.task?.name ) {
             <a [routerLink]="['/projects', $any(selectedWorker()?.task)?.project?.id ?? '*', 'tasks', selectedWorker()?.task?.id]"

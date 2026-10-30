@@ -15,6 +15,7 @@ import {MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {DurationFormaterPipe} from '@common/shared/pipes/duration-formater.pipe';
+import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
 
 @Component({
   selector: 'sm-worker-info',
@@ -34,12 +35,14 @@ import {DurationFormaterPipe} from '@common/shared/pipes/duration-formater.pipe'
     MatTabGroup,
     TimeAgoPipe,
     DurationFormaterPipe,
+    StatusIconLabelComponent,
   ]
 })
 export class WorkerInfoComponent {
   selectedWorker = input<WorkerExt>();
   deselectWorker = output();
 
+  public readonly STATUS_LABELS = {active: 'Online', stopped: 'Offline'};
   public readonly cols     = [
     {header: 'Queue', class: ''},
     {header: 'Next task', class: ''},
