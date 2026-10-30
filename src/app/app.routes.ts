@@ -43,6 +43,12 @@ export const routes: Routes = [
                 canDeactivate: [resetContextMenuGuard]
               },
               {
+                path: 'settings',
+                data: {search: false, archiveLabel: ''},
+                loadComponent: () => import('./webapp-common/project-settings-page/project-settings-page.component').then(c => c.ProjectSettingsPageComponent),
+                canDeactivate: [resetContextMenuGuard]
+              },
+              {
                 path: 'workloads',
                 loadComponent: () => import('./webapp-common/project-workloads/workloads-page/workloads-page.component').then(c => c.WorkloadsPageComponent),
                 data: {search: false, archiveLabel: ''},

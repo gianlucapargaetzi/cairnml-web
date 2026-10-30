@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  height: 100%;
+  overflow: auto;
+}
+
+.settings-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.settings-section {
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--row-border-color);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.data-project {
+  display: block;
+}
+
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+}

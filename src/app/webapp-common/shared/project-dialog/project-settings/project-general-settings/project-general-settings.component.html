@@ -1,0 +1,6 @@
+<sm-edit-project-form
+  [project]="project()"
+  [isReadOnly]="readonly()"
+  (projectUpdated)="updateGeneral($event)"
+  (cancelClicked)="cancelled.emit()">
+</sm-edit-project-form>

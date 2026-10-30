@@ -122,7 +122,7 @@ export class BreadcrumbsComponent {
   protected workspaceNeutral = this.store.selectSignal(selectWorkspaceNeutral);
   protected archive = this.store.selectSignal<boolean>(selectArchive);
   private routeConfig = this.store.selectSignal(selectRouterConfig);
-  protected showArchive = computed(() => this.archive() && !['overview', 'workloads'].includes(this.routeConfig().at(-1)));
+  protected showArchive = computed(() => this.archive() && !['overview', 'workloads', 'settings'].includes(this.routeConfig().at(-1)));
   private breadCrumbsContainer = viewChild<ElementRef<HTMLDivElement>>('container');
   private crumbElements=  viewChildren<ElementRef<HTMLDivElement>>('crumb');
   protected breadcrumbLinks = this.store.selectSignal<IBreadcrumbsLink[][]>(selectBreadcrumbs);
