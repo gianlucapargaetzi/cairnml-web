@@ -780,7 +780,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
 
   newExperiment() {
     this.dialog.open(CreateExperimentDialogComponent, {
-      width: '800px',
+      panelClass: 'dialog-lg',
       disableClose: true
     }).afterClosed()
       .pipe(filter(res => !!res))

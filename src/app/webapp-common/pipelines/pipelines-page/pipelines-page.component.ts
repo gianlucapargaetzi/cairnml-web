@@ -151,7 +151,7 @@ if __name__ == '__main__':
       data: {
         pipelineCode: this.initPipelineCode
       },
-      width: '1248px'
+      panelClass: 'dialog-xxl'
     });
 
   }
