@@ -43,6 +43,7 @@ import {selectRouterConfig, selectRouterUrl} from '@common/core/reducers/router-
 import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
 import {ExperimentNameService} from './experiment-name.service';
 import {levelBreadcrumbs} from './level-breadcrumbs';
+import {MatIconModule} from '@angular/material/icon';
 
 export enum CrumbTypeEnum {
   Workspace = 'Workspace',
@@ -92,6 +93,7 @@ export interface IBreadcrumbsOptions {
     styleUrls: ['./breadcrumbs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     MatMenuModule,
     TooltipDirective,
     ShowTooltipIfEllipsisDirective,

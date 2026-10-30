@@ -1,7 +1,7 @@
 <div class="overflow-container" #container>
   @if (isCommunity() && activeWorkspace && !workspaceNeutral()) {
     <span class="workspace ellipsis" smShowTooltipIfEllipsis [smTooltip]="activeWorkspace.name">{{activeWorkspace.name}}</span>
-    <i class="al-icon al-ico-slash"></i>
+    <mat-icon fontSet="al" fontIcon="al-ico-slash" class="al-icon"></mat-icon>
   }
 
   @for (breadcrumbGroup of breadcrumbs() ; track $index; let lastGroup = $last; let firstGroup = $first) {
@@ -9,7 +9,7 @@
       @for (breadcrumb of breadcrumbGroup; track (breadcrumb.name + breadcrumb.url); let lastCrumb = $last; let firstCrumb = $first) {
         <span class="sub-projects-breadcrumbs" [class.last]="lastCrumb && lastGroup">
           @if (breadcrumb.hidden) {
-            <i class="al-icon al-ico-ghost sm me-1 align-ghost"></i>
+            <mat-icon fontSet="al" fontIcon="al-ico-ghost" class="al-icon sm me-1 align-ghost"></mat-icon>
           }
           @if (breadcrumb.url && !(lastCrumb && lastGroup)) {
             <a class="crumb url"
@@ -48,7 +48,7 @@
           }
         </span>
         @if (!(lastCrumb && lastGroup)) {
-          <i class="al-icon al-ico-slash"></i>
+          <mat-icon fontSet="al" fontIcon="al-ico-slash" class="al-icon"></mat-icon>
         }
       }
     } @else {
@@ -62,7 +62,7 @@
       }
       @if (breadcrumbGroup?.length>0) {
         <ng-container class="d-flex">
-          <i class="al-icon al-ico-slash"></i>
+          <mat-icon fontSet="al" fontIcon="al-ico-slash" class="al-icon"></mat-icon>
         </ng-container>
       }
       <mat-menu #subProjectsMenu="matMenu" >

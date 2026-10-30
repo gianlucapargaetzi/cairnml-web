@@ -1,6 +1,6 @@
 <div smClickStopPropagation class="meta-container ">
   <div class="head">
-    <i (click)="goBack.emit()" data-id="customBackButton" class="al-icon sm-md al-ico-back pointer m-auto" smClickStopPropagation></i>
+    <mat-icon fontSet="al" fontIcon="al-ico-back" class="al-icon sm-md pointer m-auto" (click)="goBack.emit()" data-id="customBackButton" smClickStopPropagation></mat-icon>
     <h3>{{title() ?? 'Select metadata key to display'}}</h3>
   </div>
   <sm-search

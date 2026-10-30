@@ -17,6 +17,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-inline-edit',
@@ -27,6 +28,7 @@ import {MatIconButton} from '@angular/material/button';
     '(document:click)': 'stopEditing()'
   },
   imports: [
+    MatIconModule,
     FormsModule,
     UniqueNameValidatorDirective,
     TooltipDirective,

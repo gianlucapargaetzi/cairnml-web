@@ -14,6 +14,7 @@ import {FormsModule} from '@angular/forms';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {HasSelectedPipe} from '@common/experiments/dumb/select-metric-for-custom-col/has-selected.pipe';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 
 export interface SelectionEvent {
   variant: MetricVariantResult;
@@ -27,6 +28,7 @@ export interface SelectionEvent {
     styleUrls: ['./select-metric-for-custom-col.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         SearchComponent,
         ClickStopPropagationDirective,
         MatProgressSpinner,

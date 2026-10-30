@@ -21,6 +21,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {SlicePipe} from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
 
 export interface DeleteData {
   numSelected: number;
@@ -38,6 +39,7 @@ export interface DeleteData {
   templateUrl: './common-delete-dialog.component.html',
   styleUrls: ['./common-delete-dialog.component.scss'],
   imports: [
+    MatIconModule,
     DialogTemplateComponent,
     CopyClipboardComponent,
     MatIcon,

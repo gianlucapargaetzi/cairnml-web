@@ -9,6 +9,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {
   ShowTooltipIfEllipsisDirective
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-param-selector',
@@ -16,6 +17,7 @@ import {
   styleUrl: './param-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     MenuComponent,
     ClickStopPropagationDirective,
     GroupedCheckedFilterListComponent,

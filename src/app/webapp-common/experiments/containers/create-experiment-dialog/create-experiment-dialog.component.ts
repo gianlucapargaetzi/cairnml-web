@@ -52,6 +52,7 @@ import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
 import {TaskTypeOptions} from '~/features/dashboard-search/dashboard-search.consts';
 import {EXPERIMENTS_TYPE_LABELS} from '~/shared/constants/non-common-consts';
+import {MatIconModule} from '@angular/material/icon';
 
 const venvOptions = [
   {label: 'Discover', value: 'discover'},
@@ -101,6 +102,7 @@ type ScriptType = typeof scriptTypes[number];
   styleUrl: './create-experiment-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     MatStepper,
     MatStep,
     MatFormField,

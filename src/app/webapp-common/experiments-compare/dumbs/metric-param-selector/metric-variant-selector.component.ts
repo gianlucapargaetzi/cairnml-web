@@ -8,10 +8,12 @@ import {MetricVariantToNamePipe} from '@common/shared/pipes/metric-variant-to-na
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MetricValueTypeStrings} from '@common/shared/utils/tableParamEncode';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-metric-variant-selector',
     imports: [
+    MatIconModule,
         MenuComponent,
         MetricVariantToNamePipe,
         TooltipDirective,

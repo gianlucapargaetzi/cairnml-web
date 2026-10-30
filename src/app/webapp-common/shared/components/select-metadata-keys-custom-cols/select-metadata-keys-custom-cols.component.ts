@@ -5,6 +5,7 @@ import {MenuItemComponent} from '@common/shared/ui-components/panel/menu-item/me
 import {SimpleFilterPipe} from '@common/shared/pipes/simple-filter.pipe';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-select-metadata-keys-custom-cols',
@@ -12,6 +13,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
     styleUrls: ['./select-metadata-keys-custom-cols.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         SearchComponent,
         MenuItemComponent,
         SimpleFilterPipe,

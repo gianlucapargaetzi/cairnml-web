@@ -16,6 +16,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {
   ShowTooltipIfEllipsisDirective
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-open-dataset-card',
@@ -23,6 +24,7 @@ import {
   styleUrls: ['./open-dataset-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
+    MatIconModule,
     PipelineCardMenuComponent,
     CircleCounterComponent,
     TagListComponent,

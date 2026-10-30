@@ -62,6 +62,7 @@ import {ColGetterPipe} from '@common/shared/pipes/col-getter.pipe';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {IsRowSelectedPipe} from '@common/shared/ui-components/data/table/is-rwo-selected.pipe';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-models-table',
@@ -69,6 +70,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
   styleUrls: ['./models-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     TableFilterSortComponent,
     TableCardFilterComponent,
     TableCardComponent,

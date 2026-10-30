@@ -1,5 +1,4 @@
 @use "variables";
-@use "mixins/empty";
 
 :host {
   .sm-card-list-layout {
@@ -23,5 +22,7 @@
     background-color: var(--color-surface);
     margin-bottom: -12px;
   }
-  @include empty.empty-card-mixin();
+  sm-empty-state {
+    grid-column: 1 / -1;
+  }
 }

@@ -19,9 +19,7 @@
 ></sm-graph-settings-bar>
 <div class="list">
   <div class="d-flex align-items-center">Default Scalars
-    <i class="al-icon al-ico-info-circle sm ms-3"
-       smTooltip="Control which metrics to display by default when viewing project's tasks/models scalars"
-    ></i></div>
+    <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="al-icon sm ms-3" smTooltip="Control which metrics to display by default when viewing project's tasks/models scalars"></mat-icon></div>
   <sm-selectable-grouped-filter-list
     [list]="scalarList()"
     [nested]="settingsGroupBy() === 'none'"

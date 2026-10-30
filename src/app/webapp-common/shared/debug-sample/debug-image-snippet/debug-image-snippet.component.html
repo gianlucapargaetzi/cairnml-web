@@ -21,7 +21,7 @@
                      (click)="createEmbedCodeClicked($event)"
                      smTooltip="Copy embed code"
                      data-id="copyToReportButton">
-                  <i class="al-icon al-ico-code sm"></i>
+                  <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
                 </div>
               </div>
             }
@@ -57,7 +57,7 @@
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
                      (click)="createEmbedCodeClicked($event)"
                      smTooltip="Copy embed code" data-id="CopyToReportButton">
-                  <i class="al-icon al-ico-code sm"></i>
+                  <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
                 </div>
               }
             </div>
@@ -85,7 +85,7 @@
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
                      (click)="createEmbedCodeClicked($event)"
                      smTooltip="Copy embed code" data-id="CopyToReportButton">
-                  <i class="al-icon al-ico-code sm"></i>
+                  <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
                 </div>
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
                      ngxClipboard
@@ -93,14 +93,14 @@
                      data-id="CopyURLButton"
                      [cbContent]="source"
                      (cbOnSuccess)="copyToClipboardSuccess(true)">
-                  <i class="al-icon al-ico-copy-to-clipboard sm"></i>
+                  <mat-icon fontSet="al" fontIcon="al-ico-copy-to-clipboard" class="al-icon sm"></mat-icon>
                 </div>
                 @if (!blockUserScripts()) {
                   <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
                        smTooltip="Open URL in a new Tab"
                        data-id="openURLInNewTab"
                        (click)="openInNewTab(source)">
-                    <i class="al-icon al-ico-export sm"></i>
+                    <mat-icon fontSet="al" fontIcon="al-ico-export" class="al-icon sm"></mat-icon>
                   </div>
                 }
               </div>

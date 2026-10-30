@@ -39,18 +39,13 @@
       ></sm-pipeline-card>
     }
   } @else {
-    <div class="empty-state">
-      <div class="title-icon">
-        <mat-icon fontSet="al" fontIcon="al-ico-pipelines" class="xxl"></mat-icon>
-      </div>
-      <div class="title">No pipelines to show</div>
-      <div class="sub-title">Run your first pipeline to see it displayed here
-        @if (allExamples) {
-          or <a href="" (click)="$event.preventDefault(); createExamples()">generate example</a>
-        }
-      </div>
-      <sm-pipelines-empty-state [initPipelineCode]="initPipelineCode" [createButton]="true"></sm-pipelines-empty-state>
-    </div>
+    <sm-empty-state icon="al-ico-pipelines" title="No pipelines to show"
+      description="Run your first pipeline to see it displayed here">
+      @if (allExamples) {
+        or <a href="" (click)="$event.preventDefault(); createExamples()">generate example</a>
+      }
+    </sm-empty-state>
+    <sm-pipelines-empty-state [initPipelineCode]="initPipelineCode" [createButton]="true"></sm-pipelines-empty-state>
   }
 
   @if ((noMoreProjects$ | ngrxPush) === false && (projectsList$ | ngrxPush)?.length > 0) {

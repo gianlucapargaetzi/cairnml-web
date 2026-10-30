@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 @use "variables";
 @use "../../../assets/fonts/variables" as font;
 
@@ -40,7 +41,7 @@
   }
 
   .btn-expand-view {
-    @media (min-width: 1400px) {
+    @include bp.up(bp.$bp-xl) {
       display: inline-block;
     }
   }
@@ -172,7 +173,7 @@
     border: none;
 
     .md-layout {
-      @media (max-width: 990px) {
+      @include bp.down(bp.$bp-md) {
         .preview-container {
           display: none;
         }
@@ -313,7 +314,7 @@
         }
       }
 
-      @media (max-width: 990px) {
+      @include bp.down(bp.$bp-md) {
         .editor-panel {
           border-right: none;
         }
@@ -495,7 +496,7 @@
           overflow-x: auto;
         }
 
-        @media (max-width: 960px) {
+        @include bp.down(bp.$bp-md) {
           .grid {
             display: block;
           }
@@ -537,7 +538,7 @@
   font-weight: 500;
 }
 
-@media (max-width: 990px) {
+@include bp.down(bp.$bp-md) {
   .preview-header {
     display: none;
   }
@@ -550,7 +551,7 @@
   }
 }
 
-@media (max-width: 990px) {
+@include bp.down(bp.$bp-md) {
   .md-content .preview-toggle {
     display: block;
   }

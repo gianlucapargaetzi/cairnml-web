@@ -36,20 +36,13 @@
       ></sm-open-dataset-card>
     }
   } @else {
-    <div class="empty-state">
-      <div class="title-icon">
-        <mat-icon fontSet="al" fontIcon="al-ico-datasets" class="xxl"></mat-icon>
-      </div>
-      <div class="title">No datasets to show</div>
-      <div class="sub-title">Run your first dataset to see it displayed here
-        @if (allExamples) {
-          or <a href="" (click)="$event.preventDefault(); createExamples()" class="link">generate
-          example
-        </a>
+    <sm-empty-state icon="al-ico-datasets" title="No datasets to show"
+      description="Run your first dataset to see it displayed here">
+      @if (allExamples) {
+        or <a href="" (click)="$event.preventDefault(); createExamples()" class="link">generate example</a>
       }
-    </div>
+    </sm-empty-state>
     <sm-dataset-empty [showButton]="true"></sm-dataset-empty>
-  </div>
 }
 
 @if ((noMoreProjects$ | ngrxPush) === false && (projectsList$ | ngrxPush)?.length > 0) {

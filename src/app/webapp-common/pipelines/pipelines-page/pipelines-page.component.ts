@@ -44,12 +44,14 @@ import {PushPipe} from '@ngrx/component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 
 @Component({
   selector: 'sm-pipelines-page',
   templateUrl: './pipelines-page.component.html',
   styleUrls: ['./pipelines-page.component.scss'],
   imports: [
+    EmptyStateComponent,
     ProjectsHeaderComponent,
     ButtonToggleComponent,
     PipelineCardComponent,

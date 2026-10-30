@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 
 :host {
   position: relative;
@@ -22,7 +23,7 @@
     }
   }
 
-  @media(max-width: 1620px) {
+  @include bp.down(bp.$bp-xl) {
     #searchDiff {
       position: static;
       transform: unset;
