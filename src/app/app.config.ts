@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import { coreProviders} from './core/core.providers';
@@ -28,6 +28,7 @@ import { Environment } from '../environments/base';
 import {OVERLAY_DEFAULT_CONFIG, OverlayDefaultConfig} from '@angular/cdk/overlay';
 import {WebappInterceptor} from '@common/core/interceptors/webapp-interceptor';
 import {userPrefMetaFactory} from '~/core/core.config';
+import {GlobalErrorHandler} from '@common/shared/ui-components/feedback/error-boundary/global-error-handler';
 
 export const getAppConfig = (configData: Environment): ApplicationConfig => {
   return {
@@ -69,6 +70,7 @@ export const getAppConfig = (configData: Environment): ApplicationConfig => {
       provideHttpClient(withInterceptorsFromDi()),
       {provide: HTTP_INTERCEPTORS, useClass: WebappInterceptor, multi: true},
       {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},
+      {provide: ErrorHandler, useClass: GlobalErrorHandler},
       provideAppInitializer(() => {
         const matIconRegistry = inject(MatIconRegistry);
         matIconRegistry.registerFontClassAlias('al', 'al-icon');

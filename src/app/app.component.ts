@@ -28,6 +28,7 @@ import {SpinnerComponent} from '@common/shared/ui-components/overlay/spinner/spi
 import {HeaderComponent} from '@common/layout/header/header.component';
 import {ServerNotificationDialogContainerComponent} from '@common/layout/server-notification-dialog-container/server-notification-dialog-container.component';
 import {SideNavComponent} from '~/layout/side-nav/side-nav.component';
+import {ErrorBoundaryComponent} from '@common/shared/ui-components/feedback/error-boundary/error-boundary.component';
 import {ColorPickerWrapperComponent} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {MatIconRegistry} from '@angular/material/icon';
 import {NotifierContainerComponent} from '@common/angular-notifier/src/components/notifier-container.component';
@@ -50,7 +51,8 @@ import {NotifierContainerComponent} from '@common/angular-notifier/src/component
       ServerNotificationDialogContainerComponent,
       SideNavComponent,
       ColorPickerWrapperComponent,
-      NotifierContainerComponent
+      NotifierContainerComponent,
+      ErrorBoundaryComponent
     ]
 })
 export class AppComponent {
