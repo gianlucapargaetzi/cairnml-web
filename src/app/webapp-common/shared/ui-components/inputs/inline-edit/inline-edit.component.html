@@ -9,7 +9,7 @@
     <ng-content></ng-content>
     @if (editable() && !inlineDisabled()) {
       <div class="editable-pen h-100 d-flex-center">
-        <button mat-icon-button class="sm">
+        <button aria-label="Edit" mat-icon-button class="sm">
           <mat-icon fontSet="al" fontIcon="al-ico-edit" data-id="Edit Description"></mat-icon>
         </button>
       </div>
@@ -51,10 +51,10 @@
           </textarea>
         }
         <div class="buttons" smClickStopPropagation>
-          <button mat-icon-button [disabled]="inlineInput()?.invalid || !form.checkValidity() || inlineValue()?.trim().length < minLength()" class="inline-edit-approve sm" (click)="$event.stopPropagation(); form.checkValidity() && inlineSaved()" data-id="ApproveButton">
+          <button aria-label="Save" mat-icon-button [disabled]="inlineInput()?.invalid || !form.checkValidity() || inlineValue()?.trim().length < minLength()" class="inline-edit-approve sm" (click)="$event.stopPropagation(); form.checkValidity() && inlineSaved()" data-id="ApproveButton">
             <mat-icon fontSet="al" fontIcon="al-ico-success"></mat-icon>
           </button>
-          <button mat-icon-button class="inline-edit-close sm" (click)="$event.stopPropagation(); cancelClicked($event)" [id]="cancelButton" data-id="CancelButton">
+          <button aria-label="Cancel" mat-icon-button class="inline-edit-close sm" (click)="$event.stopPropagation(); cancelClicked($event)" [id]="cancelButton" data-id="CancelButton">
             <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
           </button>
         </div>

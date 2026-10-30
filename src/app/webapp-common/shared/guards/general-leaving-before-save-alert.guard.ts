@@ -21,11 +21,12 @@ export const generalLeavingBeforeSaveAlertGuard: CanDeactivateFn<DirtyState> = (
     data: {
       title: 'Attention',
       body: 'You have unsaved changes. Do you want to stay on this page or leave without saving?',
-      yes: 'Leave',
+      yes: 'Discard changes',
       no: 'Stay',
       iconClass: 'al-ico-alert',
       iconColor: 'var(--color-warning)',
       centerText: true,
+      destructive: true
     },
     panelClass: 'dialog-md'
   }).afterClosed()

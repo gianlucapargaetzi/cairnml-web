@@ -1,6 +1,6 @@
 <div class="filter-sort-container d-flex align-items-center" data-id="Detailed View Filter"
   [class]="isFiltering() ? 'active' : 'deactive'">
-  <button mat-icon-button [matMenuTriggerFor]="menu" data-id="filterIcon" #trigger="matMenuTrigger" [class.menu-opened]="trigger.menuOpen">
+  <button aria-label="Filter" mat-icon-button [matMenuTriggerFor]="menu" data-id="filterIcon" #trigger="matMenuTrigger" [class.menu-opened]="trigger.menuOpen">
     <mat-icon fontSet="al" [fontIcon]="isFiltering() ? 'al-ico-filter-on' : 'al-ico-filter-off'">
       <span class="path1"></span><span class="path2"></span>
     </mat-icon>
@@ -28,7 +28,7 @@
                   autocomplete="off"
                 >
                 @if (searchTerms[option.key]) {
-                  <button mat-icon-button matSuffix class="me-1" (click)="clearSearch(col)">
+                  <button aria-label="Clear search" mat-icon-button matSuffix class="me-1" (click)="clearSearch(col)">
                     <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
                   </button>
                 } @else {

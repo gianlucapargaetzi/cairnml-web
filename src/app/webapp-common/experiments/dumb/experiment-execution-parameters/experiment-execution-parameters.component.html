@@ -48,12 +48,12 @@
               [class.current-match]="searchIndexList[matchIndex]?.index === $index && searchIndexList[matchIndex]?.col==='value'"
               matInput/>
             @if (parameter.isMaximize || parameter.value.length > 24) {
-              <button matSuffix mat-icon-button (click)="openJsonViewer(parameter, false)" class="sm">
+              <button aria-label="Edit value" matSuffix mat-icon-button (click)="openJsonViewer(parameter, false)" class="sm">
                 <mat-icon fontSet="al" fontIcon="al-ico-edit"></mat-icon>
               </button>
             }
           </mat-form-field>
-          <button mat-icon-button class="remove-button" data-id="deleteUserProperty" (click)="removeRow($index)">
+          <button aria-label="Delete parameter" mat-icon-button class="remove-button" data-id="deleteUserProperty" (click)="removeRow($index)">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
           </button>
         </div>
@@ -89,7 +89,7 @@
         @switch (col.id) {
           @case ('description') {
             @if (row.type !== 'legacy' && (row.description || row.type)) {
-              <button
+              <button aria-label="Show description"
                 mat-icon-button
                 class="allow-multi-space sm"
                 customClass="hyper-parameters-tooltip"

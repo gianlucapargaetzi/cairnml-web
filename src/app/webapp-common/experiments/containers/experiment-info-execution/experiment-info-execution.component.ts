@@ -201,6 +201,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
         no: 'Cancel',
         iconClass: 'al-ico-trash',
         centerText: true,
+        destructive: true
       }
     }).afterClosed()
       .pipe(
@@ -307,9 +308,10 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
       data: {
         title: `Reset python packages`,
         body: `Are you sure you want to reset python packages?<br>This will set the packages to originally recorded values.`,
-        yes: 'Reset',
-        no: 'Keep',
+        yes: 'Reset packages',
+        no: 'Cancel',
         iconClass: 'al-ico-reset ',
+        destructive: true
       }
     }).afterClosed().pipe(take(1)).subscribe((confirmed) => {
       if (confirmed) {
@@ -349,9 +351,10 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
         title: `Clear ${title}`,
         body: `Are you sure you want to clear the entire contents of ${title.charAt(0).toUpperCase() + title.slice(1)}?`,
         yes: 'Clear',
-        no: 'Keep',
+        no: 'Cancel',
         iconClass: 'al-ico-trash',
         centerText: true,
+        destructive: true
       },
       panelClass: 'dialog-md'
     }).afterClosed();

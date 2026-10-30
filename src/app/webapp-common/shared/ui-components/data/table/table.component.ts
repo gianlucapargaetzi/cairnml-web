@@ -563,6 +563,16 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
     return this.sortFields()?.find(field => field.field === colId)?.order;
   }
 
+  // Keyboard equivalent of a row click (Enter or Space on the focused row). Keys pressed on a control inside the row,
+  // such as a row action, are left to that control.
+  rowKeyActivated(e: Event, data: D) {
+    if (e.target !== e.currentTarget || this.minimizedView()) {
+      return;
+    }
+    e.preventDefault();
+    this.rowClicked.emit({e: e as unknown as MouseEvent, data});
+  }
+
   checkClick(param: { data: D; e: MouseEvent }) {
     if (param.e.type === 'dblclick' || this.waitForClick) {
       window.clearTimeout(this.waitForClick);

@@ -5,7 +5,7 @@
         @if (!editMode) {
         <div class="actions-buttons">
           @if (editModeChanged.observed) {
-            <button
+            <button [attr.aria-label]="isExpand() ? 'Minimize view' : 'Expand view'"
               mat-stroked-button
               class="btn-expand-view me-2 icon-only"
               [smTooltip]="isExpand() ? 'Minimize view' : 'Expand view'"
@@ -64,7 +64,7 @@
                     <mat-icon fontSet="al" [fontIcon]="resource.unused ? 'al-ico-broken-file' : 'al-ico-image'"></mat-icon>
                     <div class="d-flex align-items-center">
                       <span class="ellipsis">{{resource.url | baseName}}</span>
-                      <button mat-icon-button (click)="$event.stopPropagation(); $event.preventDefault(); deleteResource.emit(resource.url)">
+                      <button aria-label="Remove resource" mat-icon-button (click)="$event.stopPropagation(); $event.preventDefault(); deleteResource.emit(resource.url)">
                         <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                       </button>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="action src-empty">No uploads yet</div>
               }
             </mat-menu>
-            <button
+            <button aria-label="Image resources"
               mat-button
               [matMenuTriggerFor]="imageActions"
               (menuOpened)="imageMenuOpened.emit(getData())"
@@ -91,7 +91,7 @@
         </md-editor>
       </div>
       <div class="md-footer">
-        <button mat-icon-button class="help" data-id="markdownCheatSheetButton" (click)="openMDCCheatSheet()" smTooltip="Markdown cheat sheet">
+        <button aria-label="Markdown cheat sheet" mat-icon-button class="help" data-id="markdownCheatSheetButton" (click)="openMDCCheatSheet()" smTooltip="Markdown cheat sheet">
           <mat-icon fontSet="al" fontIcon="al-ico-markdown"></mat-icon>
         </button>
         <div [class]="(editMode && isDirty() ? 'active' : '') + ' md-warning'">

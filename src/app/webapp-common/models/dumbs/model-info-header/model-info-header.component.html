@@ -23,13 +23,13 @@
           <sm-id-badge [id]="model()?.id" (copied)="copyToClipboard()"></sm-id-badge>
         }
         @if (minimized()) {
-          <button class="line-item" mat-icon-button (click)="maximizedClicked.emit()" smTooltip="View Full Screen" data-id="fullscreenIcon">
+          <button aria-label="View full screen" class="line-item" mat-icon-button (click)="maximizedClicked.emit()" smTooltip="View Full Screen" data-id="fullscreenIcon">
             <mat-icon fontSet="al" fontIcon="al-ico-info-max"></mat-icon>
           </button>
         }
 
         @if (model() && (!minimized()) && !isSharedAndNotOwner()) {
-          <button class="line-item" mat-icon-button (click)="minimizeClicked.emit()" smTooltip="View in models table" data-id="experimentDetailsView">
+          <button aria-label="View in models table" class="line-item" mat-icon-button (click)="minimizeClicked.emit()" smTooltip="View in models table" data-id="experimentDetailsView">
             <mat-icon fontSet="al" fontIcon="al-ico-info-min"></mat-icon>
           </button>
         }
@@ -46,7 +46,7 @@
           (tagSelected)="addTag($event)"
           (getCompanyTags)="getCompanyTags()"
         ></sm-model-menu-extended>
-        <button class="line-item" mat-icon-button (click)="closeInfoClicked.emit()" data-id="closeButton">
+        <button aria-label="Close" class="line-item" mat-icon-button (click)="closeInfoClicked.emit()" data-id="closeButton">
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       </div>

@@ -23,7 +23,7 @@
           }
           <span class="segment-value">
             @if (segment.type === 'link') {
-              <a href="" (click)="linkActionWrapper($event, segment.value)"><ng-container *ngTemplateOutlet="noLink"></ng-container></a>
+              <a aria-label="Open link" href="" (click)="linkActionWrapper($event, segment.value)"><ng-container *ngTemplateOutlet="noLink"></ng-container></a>
             } @else {
               @for (part of (search ? split(segment.description, search) : [[segment.description, search]]); track part; let last = $last) {
                 <span class="segment-description"

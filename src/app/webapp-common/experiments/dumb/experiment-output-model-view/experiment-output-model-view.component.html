@@ -5,7 +5,7 @@
         {{model?.name}}
       </a>
       @if (model?.uri && !isLocalFile) {
-        <button mat-icon-button class="sm-md- ms-2" (click)="artifactFilePathClicked(model.uri)">
+        <button aria-label="Download model" mat-icon-button class="sm-md- ms-2" (click)="artifactFilePathClicked(model.uri)">
           <mat-icon fontSet="al" fontIcon="al-ico-download "></mat-icon>
         </button>
       }

@@ -118,10 +118,11 @@ export class QueuesComponent {
       data: {
         title: 'Clear all pending tasks',
         body: `Are you sure you want to dequeue the ${queue.entries_count} task${queue.entries_count > 1 ? 's' : ''} currently pending on the <b>${htmlTextShort(queue.caption, 200)}</b> queue?`,
-        yes: 'Clear Queue',
+        yes: 'Clear queue',
         no: 'Cancel',
         iconClass: 'al-ico-alert',
-        iconColor: 'var(--color-warning)'
+        iconColor: 'var(--color-warning)',
+        destructive: true
       },
       panelClass: 'dialog-md'
     }).afterClosed()

@@ -32,7 +32,7 @@
         [delay]="1000" [action]="'leave'"
         (smHesitate)="menuHesitate.hesitateStatus && menu.closed.emit()"
         >
-        <button
+        <button aria-label="Description"
           mat-icon-button
           data-id="descriptionIcon"
           #trigger="matMenuTrigger"
@@ -71,13 +71,13 @@
       }
 
       @if (minimized()) {
-        <button class="line-item" mat-icon-button (click)="maximizedClicked.emit()" smTooltip="View Full Screen" data-id="fullscreenIcon">
+        <button aria-label="View full screen" class="line-item" mat-icon-button (click)="maximizedClicked.emit()" smTooltip="View Full Screen" data-id="fullscreenIcon">
           <mat-icon fontSet="al" fontIcon="al-ico-info-max"></mat-icon>
         </button>
       }
 
       @if (experiment() && (!minimized()) && !isSharedNotInWorkspaces() && !isPipeline()) {
-        <button class="line-item" mat-icon-button (click)="minimizeClicked.emit()" smTooltip="View in tasks table" data-id="tasksDetailsView">
+        <button aria-label="View in tasks table" class="line-item" mat-icon-button (click)="minimizeClicked.emit()" smTooltip="View in tasks table" data-id="tasksDetailsView">
           <mat-icon fontSet="al" fontIcon="al-ico-info-min"></mat-icon>
         </button>
       }
@@ -99,7 +99,7 @@
         ></sm-experiment-menu-extended>
       }
       @if (minimized()) {
-        <button class="line-item" mat-icon-button (click)="closeInfoClicked.emit()" data-id="Cross Button">
+        <button aria-label="Close" class="line-item" mat-icon-button (click)="closeInfoClicked.emit()" data-id="Cross Button">
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       }

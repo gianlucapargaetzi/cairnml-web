@@ -177,7 +177,7 @@
 <ng-template #noData let-noDataTop="noDataTop" let-minimizedView="minimizedView">
     <div class="no-output" [class.centered]="minimizedView" [style.top.px]="noDataTop">
       @if (hasActiveFilters()) {
-        <span>No matching results. <a class="link" (click)="clearTableFiltersAndSearch.emit(tableFilters())">Clear filters</a></span>
+        <span>No matching results. <button type="button" class="link" (click)="clearTableFiltersAndSearch.emit(tableFilters())">Clear filters</button></span>
       } @else {
         <sm-serving-empty-state class="center-message"></sm-serving-empty-state>
       }

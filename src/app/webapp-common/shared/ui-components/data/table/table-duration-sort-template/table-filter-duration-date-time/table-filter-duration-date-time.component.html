@@ -21,7 +21,7 @@
       [readonly]="!_greaterThan.date"
       (onDurationChanged)="onTimeHandler($event, '_greaterThan')"
     ></sm-duration-input-list>
-    <button mat-icon-button
+    <button [attr.aria-label]="hasGreaterThanValue ? 'Clear start date' : 'Set start date to now'" mat-icon-button
             (click)="hasGreaterThanValue ? onResetHandler('greaterThan') : onAutoFillCurrentTimeHandler('greaterThan')"
             [smTooltip]="hasGreaterThanValue ? 'Clear' : 'Autofill current time'"
     >
@@ -53,7 +53,7 @@
       [returnFactor]="1000"
     ></sm-duration-input-list>
     @if (hasLessThanValue) {
-      <button mat-icon-button
+      <button [attr.aria-label]="hasLessThanValue ? 'Clear end date' : 'Set end date to now'" mat-icon-button
               (click)="hasLessThanValue ? onResetToDateInput() : onFakeNowCheckbox()"
               [smTooltip]="hasLessThanValue ? 'Clear' : 'Autofill current time'"
       >

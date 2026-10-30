@@ -28,7 +28,7 @@
        <div class="scalar-buttons">
          @if (routerConfig().includes('scalars')) {
            <div class="table-graph-toggle" [class.maximized]="!minimized">
-             <button mat-icon-button data-id="metricValuesView" (click)="toggleTableView()"
+             <button [attr.aria-label]="(metricValuesView$ | ngrxPush) === false ? 'Metric values' : 'Graphs'" mat-icon-button data-id="metricValuesView" (click)="toggleTableView()"
                      [smTooltip]="(metricValuesView$ | ngrxPush) === false ? 'Metric values': 'Graphs'"
              >
                <mat-icon fontSet="al" [fontIcon]="(metricValuesView$ | ngrxPush)===false? 'al-ico-table-view': 'al-ico-charts-view'"></mat-icon>
@@ -36,7 +36,7 @@
           </div>
          }
          @if ((metricValuesView$ | ngrxPush) === false && routerConfig().includes('scalars') && minimized) {
-          <button mat-icon-button data-id="scalar settings" [matMenuTriggerFor]="graphSettingsMenu" smTooltip="Settings">
+          <button aria-label="Settings" mat-icon-button data-id="scalar settings" [matMenuTriggerFor]="graphSettingsMenu" smTooltip="Settings">
             <mat-icon fontSet="al" fontIcon="al-ico-tune"></mat-icon>
           </button>
           <mat-menu #graphSettingsMenu="matMenu">
