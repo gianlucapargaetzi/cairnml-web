@@ -18,8 +18,8 @@
       @case ('contribution') {
         <sm-project-contribution
           [projectId]="projectId()"
-          [periodDays]="contributionOptions.periodDays"
-          [topContributors]="contributionOptions.topContributors"
+          [periodDays]="contributionOptions().periodDays"
+          [topContributors]="contributionOptions().topContributors"
         ></sm-project-contribution>
       }
       @case ('description') {

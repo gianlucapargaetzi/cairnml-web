@@ -24,10 +24,7 @@ import {MatExpansionPanel, MatExpansionPanelContent, MatExpansionPanelHeader, Ma
 import {MatButton} from '@angular/material/button';
 import {ProjectStatsComponent} from '@common/project-info/conteiners/project-stats/project-stats.component';
 import {ProjectContributionComponent} from '@common/project-info/contribution/project-contribution.component';
-import {
-  DEFAULT_CONTRIBUTION_OPTIONS,
-  resolveOverviewPanels
-} from '@common/project-info/overview-panels';
+import {OverviewSettingsService} from '@common/project-info/overview-settings.service';
 
 
 @Component({
@@ -50,6 +47,7 @@ export class ProjectInfoComponent {
   private store = inject(Store);
   private contextMenuService = inject(HeaderMenuService);
   private archive = injectQueryParams('archive');
+  private overviewSettings = inject(OverviewSettingsService);
 
   protected blockUserScripts = this.store.selectSignal(selectBlockUserScript);
   public panelOpen = signal(false);
@@ -58,9 +56,10 @@ export class ProjectInfoComponent {
   protected projectId = computed(() => this.project()?.id);
   protected info = computed(() => this.project()?.description);
   protected loading = computed(() => !this.project());
-  // Panels in render order. Nothing stores a panel configuration yet, so every project gets the default page.
-  protected visiblePanels = computed(() => resolveOverviewPanels(null).filter(panel => panel.shown));
-  protected contributionOptions = DEFAULT_CONTRIBUTION_OPTIONS;
+  // The layout of this user for this project: the default page until the user changes it in the project settings.
+  protected overview = computed(() => this.overviewSettings.settings(this.projectId() ?? ''));
+  protected visiblePanels = computed(() => this.overview().panels.filter(panel => panel.shown));
+  protected contributionOptions = computed(() => this.overview().contribution);
   protected descriptionEditor = viewChild<MarkdownEditorComponent>('descriptionEditor');
   public theme = this.store.selectSignal(selectThemeMode);
 

@@ -1,0 +1,45 @@
+<div class="description">
+  Show, hide and order the panels of the project overview. Hidden panels are kept and can be shown again.
+  These settings apply to you only.
+</div>
+
+<ol class="panel-list" aria-label="Overview panels">
+  @for (panel of settings().panels; track panel.id; let first = $first; let last = $last) {
+    <li class="panel-row">
+      <mat-slide-toggle
+        [checked]="panel.shown"
+        (change)="setShown(panel.id, $event)"
+        [attr.data-id]="'overviewPanel-' + panel.id"
+      >{{ labels[panel.id] }}</mat-slide-toggle>
+      <span class="row-actions">
+        <button mat-icon-button type="button" [disabled]="first" (click)="move(panel.id, -1)"
+          [attr.aria-label]="'Move ' + labels[panel.id] + ' up'" smTooltip="Move up">
+          <mat-icon fontSet="al" fontIcon="al-ico-arrow-up"></mat-icon>
+        </button>
+        <button mat-icon-button type="button" [disabled]="last" (click)="move(panel.id, 1)"
+          [attr.aria-label]="'Move ' + labels[panel.id] + ' down'" smTooltip="Move down">
+          <mat-icon fontSet="al" fontIcon="al-ico-arrow-down"></mat-icon>
+        </button>
+      </span>
+    </li>
+  }
+</ol>
+
+<div class="options">
+  <div class="option">
+    <div class="option-label" id="overview-period-label">Contribution period</div>
+    <mat-radio-group aria-labelledby="overview-period-label" [value]="settings().contribution.periodDays" (change)="setPeriod($event)">
+      @for (days of periodOptions; track days) {
+        <mat-radio-button [value]="days">{{ periodLabel(days) }}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+  <div class="option">
+    <div class="option-label" id="overview-top-label">Contributors listed</div>
+    <mat-radio-group aria-labelledby="overview-top-label" [value]="settings().contribution.topContributors" (change)="setTopContributors($event)">
+      @for (count of topOptions; track count) {
+        <mat-radio-button [value]="count">Top {{ count }}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </div>
+</div>
