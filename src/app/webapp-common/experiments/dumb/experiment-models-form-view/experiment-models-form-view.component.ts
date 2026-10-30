@@ -1,3 +1,4 @@
+import {RouterLink} from '@angular/router';
 import {Component, OnDestroy, inject, input, output, computed} from '@angular/core';
 import {IModelInfo, IModelInfoSource} from '../../shared/common-experiment-model.model';
 import {MatDialog} from '@angular/material/dialog';
@@ -21,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
   templateUrl: './experiment-models-form-view.component.html',
   styleUrls: ['./experiment-models-form-view.component.scss'],
   imports: [
+    RouterLink,
     LabeledRowComponent,
     CopyClipboardComponent,
     IdBadgeComponent,

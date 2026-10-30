@@ -74,7 +74,7 @@
     <a
       class="arr-link"
       target="_blank"
-      [href]="'/projects/' + project() + '/tasks/' + entity()?.id + '/output/execution'">
+      [routerLink]="['/projects', project(), 'tasks', entity()?.id, 'output', 'execution']">
       Task information<i class="al-icon al-ico-link-arrow sm" data-id="taskInfoIcon" ></i>
     </a>
   </footer>
