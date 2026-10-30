@@ -4,15 +4,15 @@
   [closeOnX]="false"
   (xClicked)="closeDialog(false)"
 >
-  <form class="d-flex gap-3 flex-column light-theme" (submit)="$event.preventDefault(); specifyValid() && priorityControl.valid && closeDialog(true)">
+  <form class="d-flex gap-3 flex-column light-theme" (submit)="$event.preventDefault(); queueControl.valid && closeDialog(true)">
     @if (reference()) {
       <p>
         <b [smTooltip]="reference().length > 80 ? reference() : undefined">{{ reference().length > 80 ? (reference() | slice:0:77) + '...' : reference() }}</b>
         @if (data.retryMode) {
           <span> {{ data.taskIds.length > 1 ? 'have' : 'has' }} previously failed - Make sure you’ve corrected the problem before rerunning.</span>
-          <div>Choose what the experiment needs and when it runs.</div>
+          <div>Select queue for execution.</div>
         } @else {
-          <span> will be scheduled for execution on a worker that has the resources it needs.</span>
+          <span> will be scheduled for execution through the selected queue.</span>
         }
       </p>
     }
@@ -23,51 +23,48 @@
           <br>If enqueued to run, they might produce no results.</b>
       </p>
     }
-    <div class="compute-mode">
-      <span class="field-label">Compute</span>
-      @if (computeMode.value === 'whole') {
-        <button mat-flat-button type="button" (click)="computeMode.setValue('whole')">Whole machine</button>
-        <button mat-stroked-button type="button" (click)="computeMode.setValue('specify')">Specify</button>
-      } @else {
-        <button mat-stroked-button type="button" (click)="computeMode.setValue('whole')">Whole machine</button>
-        <button mat-flat-button type="button" (click)="computeMode.setValue('specify')">Specify</button>
+    <mat-form-field appearance="outline" class="thin short" floatLabel="always">
+      <mat-label class="field-label">Queue</mat-label>
+      <input
+        type="text"
+        #text
+        data-id="Select Queue"
+        tabindex="0"
+        matInput
+        smRequiredAutocompleteSelectionValidator
+        [formControl]="queueControl"
+        [matAutocomplete]="auto"
+      >
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (closed)="selectQueueFromSearch()">
+        @if ((userAllowedToCreateQueue()) && queueControl.value &&
+          !(($any(queueControl.value)?.name ?? queueControl.value) | stringIncludedInArray: queuesNames()) &&
+          !(($any(queueControl.value)?.name ?? queueControl.value) | stringIncludedInArray: queuesDisplays())
+        ) {
+          <mat-option
+            class="item"
+            [value]="{name: $any(queueControl.value)?.name ?? queueControl.value}"
+          >"{{ displayFn(queueControl.value) }}"<span class="new">(Create New)</span></mat-option>
+        }
+        @for (option of filteredOptions(); track option.id) {
+          <mat-option
+            [value]="option"
+            [smTooltip]="option.display_name ? option.display_name + ' (' + option.name + ')' : option.name"
+            smShowTooltipIfEllipsis
+          >
+            @for (part of (text.value ? split(option.caption, text.value) : [[option.caption, text.value]]); track part[0] + part[1]; let last = $last) {
+              <span class="pointer-events-none"
+              >{{ part[0] }}@if (!last) {
+                <b>{{ part[1] }}</b>
+              }</span>
+            }
+          </mat-option>
+        }
+      </mat-autocomplete>
+      @if (queueControl.hasError('requiredAutocompleteSelection') || queueControl.hasError('required')) {
+        <mat-error>
+          Please provide a value
+        </mat-error>
       }
-    </div>
-    @if (computeMode.value === 'whole') {
-      <p class="hint">The experiment runs alone on a machine.</p>
-    } @else {
-      <div class="requirements">
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>CPUs</mat-label>
-          <input matInput type="number" min="1" [formControl]="cpusControl">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>RAM (GB)</mat-label>
-          <input matInput type="number" min="0.1" step="0.1" [formControl]="ramControl">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>GPUs</mat-label>
-          <input matInput type="number" min="0" [formControl]="gpusControl">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>GPU memory (GB)</mat-label>
-          <input matInput type="number" min="0" [formControl]="gpuMemoryControl">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>Disk (GB)</mat-label>
-          <input matInput type="number" min="0" [formControl]="diskControl">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="thin short">
-          <mat-label>Max run time (min)</mat-label>
-          <input matInput type="number" min="1" [formControl]="runtimeControl">
-        </mat-form-field>
-      </div>
-      <p class="hint">All of CPUs, RAM, GPUs and disk, or the whole machine.</p>
-    }
-
-    <mat-form-field appearance="outline" class="thin short">
-      <mat-label>Priority (0 to 100, higher runs first)</mat-label>
-      <input matInput type="number" min="0" max="100" [formControl]="priorityControl">
     </mat-form-field>
 
   </form>
@@ -75,7 +72,7 @@
     <button mat-stroked-button (click)="closeDialog(false)" data-id="CancelButton">
       CANCEL
     </button>
-    <button mat-flat-button (click)="closeDialog(true)" [disabled]="!specifyValid() || priorityControl.invalid" data-id="EnqueueButton">
+    <button mat-flat-button (click)="closeDialog(true)" [disabled]="!queueControl.valid || !selectedQueue()" data-id="EnqueueButton">
       ENQUEUE
     </button>
   </div>

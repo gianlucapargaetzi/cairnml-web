@@ -31,21 +31,3 @@
   color: var(--color-primary);
   margin-left: 6px;
 }
-
-.compute-mode {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.requirements {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.hint {
-  font-size: 12px;
-  opacity: 0.7;
-  margin: 0;
-}
