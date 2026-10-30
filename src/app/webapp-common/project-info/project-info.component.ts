@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed, effect, signal, inject, untracked
+  computed, effect, signal, inject, untracked, viewChild
 } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {combineLatest} from 'rxjs';
@@ -23,6 +23,11 @@ import {MarkdownEditorComponent} from '@common/shared/components/markdown-editor
 import {MatExpansionPanel, MatExpansionPanelContent, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatButton} from '@angular/material/button';
 import {ProjectStatsComponent} from '@common/project-info/conteiners/project-stats/project-stats.component';
+import {ProjectContributionComponent} from '@common/project-info/contribution/project-contribution.component';
+import {
+  DEFAULT_CONTRIBUTION_OPTIONS,
+  resolveOverviewPanels
+} from '@common/project-info/overview-panels';
 
 
 @Component({
@@ -37,7 +42,8 @@ import {ProjectStatsComponent} from '@common/project-info/conteiners/project-sta
     MatExpansionPanelHeader,
     MatExpansionPanelContent,
     MatButton,
-    ProjectStatsComponent
+    ProjectStatsComponent,
+    ProjectContributionComponent
   ]
 })
 export class ProjectInfoComponent {
@@ -49,9 +55,13 @@ export class ProjectInfoComponent {
   public panelOpen = signal(false);
   protected project = this.store.selectSignal(selectSelectedProject);
   protected example = computed(() => isExample(this.project()));
-  private projectId = computed(() => this.project()?.id);
+  protected projectId = computed(() => this.project()?.id);
   protected info = computed(() => this.project()?.description);
   protected loading = computed(() => !this.project());
+  // Panels in render order. Nothing stores a panel configuration yet, so every project gets the default page.
+  protected visiblePanels = computed(() => resolveOverviewPanels(null).filter(panel => panel.shown));
+  protected contributionOptions = DEFAULT_CONTRIBUTION_OPTIONS;
+  protected descriptionEditor = viewChild<MarkdownEditorComponent>('descriptionEditor');
   public theme = this.store.selectSignal(selectThemeMode);
 
   constructor() {
