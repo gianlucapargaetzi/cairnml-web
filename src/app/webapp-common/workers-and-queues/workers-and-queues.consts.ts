@@ -16,8 +16,12 @@ export const WORKERS_TABLE_COL_FIELDS = {
   TASK             : 'task.name',
   TASK_RUNNING_TIME: 'task.running_time',
   TASK_ITERATIONS  : 'task.last_iteration',
-  LAST_SEEN        : 'last_seen'
+  LAST_SEEN        : 'last_seen',
+  VERSION          : 'agent_version'
 };
+
+// The version and mode column is hidden below the design system's tablet breakpoint (--bp-md, 960px)
+export const AGENT_VERSION_COLUMN_MIN_WIDTH_QUERY = '(min-width: 960px)';
 
 // An agent that has not reported for this long is shown as offline (owner decision, issue #16)
 export const AGENT_OFFLINE_AFTER_MS = 60 * 60 * 1000;

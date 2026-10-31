@@ -1,0 +1,30 @@
+<section class="dataset-model" data-id="datasetModelPanel" aria-labelledby="dataset-model-title">
+  <h2 id="dataset-model-title">How datasets work</h2>
+  <ul>
+    <li>
+      <strong>A dataset is a Git repository.</strong>
+      Git holds the metadata: <code>dataset.yaml</code>, the footprint <code>dataset.lock.json</code> and the verify check.
+      Each commit is one version of the data.
+    </li>
+    <li>
+      <strong>The data lives in Git LFS or in DVC storage.</strong>
+      The storage is chosen when the dataset is created. With LFS the files are in the GitHub LFS of the repository;
+      with S3 (the default) DVC keeps them in the dataset storage behind the CairnML server.
+    </li>
+    <li>
+      <strong>The registry records the pin. </strong><code>cairnml dataset register</code> adds the repository to the dataset registry at its default branch. Public
+      readers use the registry entry by name.
+    </li>
+    <li>
+      <strong>A run records the version it used.</strong>
+      The run keeps the repository, the commit and the content hash, so the runs listed below use exactly the version
+      shown.
+    </li>
+    <li>
+      <strong>Fetching a version by hand.</strong>
+      With LFS: <code>git clone</code>, <code>git checkout</code> the commit, <code>git lfs pull</code>. With S3:
+      <code>cairnml dataset get</code> with the repository and the commit. The commands for each version are below.
+    </li>
+  </ul>
+  <a class="docs-link" [href]="docsUrl" target="_blank" rel="noopener">Dataset documentation</a>
+</section>

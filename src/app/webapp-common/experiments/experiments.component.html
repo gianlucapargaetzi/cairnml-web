@@ -62,8 +62,8 @@
     [class.closed]="minimizedView() && splitSize() >= 99"
   >
     <as-split-area
-      [size]="100 - splitSize()"
-      [minSize]="1"
+      [size]="phoneDetails() ? 0 : 100 - splitSize()"
+      [minSize]="phoneDetails() ? 0 : 1"
       [maxSize]="99"
     >
       <sm-experiments-table
@@ -119,7 +119,7 @@
     </as-split-area>
     <as-split-area
       style="display: flex; flex-direction: column;"
-      [size]="splitSize()"
+      [size]="phoneDetails() ? 100 : splitSize()"
       [class.info-disabled]="infoDisabled"
       [visible]="minimizedView()"
     >

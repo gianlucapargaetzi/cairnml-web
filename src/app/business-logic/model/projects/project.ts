@@ -57,6 +57,10 @@ export interface Project {
      * The default output destination URL for new tasks under this project
      */
     default_output_destination?: string;
+    /**
+     * True when a notification webhook is set for the project. The address itself is never returned.
+     */
+    has_notification_webhook?: boolean;
     stats?: Stats;
     dataset_stats?: ProjectsGetAllResponseSingleDatasetStats;
     /**

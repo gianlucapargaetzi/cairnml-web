@@ -19,6 +19,8 @@
         </sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Registered">{{selectedWorker()?.register_time ? (selectedWorker()?.register_time | timeAgo) : '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="IP address">{{selectedWorker()?.ip ?? '—'}}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Agent version">{{selectedWorker()?.agent_version || '—'}}</sm-vertical-labeled-row>
+        <sm-vertical-labeled-row label="Run mode">{{selectedWorker()?.run_mode || '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Owner" [tooltip]="selectedWorker()?.user?.name">{{selectedWorker()?.user?.name ?? '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Current Task" [tooltip]="selectedWorker()?.task?.name">
           @if (selectedWorker()?.task?.name ) {

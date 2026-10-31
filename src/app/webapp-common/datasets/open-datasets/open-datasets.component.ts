@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {
@@ -20,6 +20,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
+import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
+import {DatasetGitListComponent} from '@common/datasets/dataset-git/dataset-git-list.component';
 
 @Component({
   selector: 'sm-open-datasets',
@@ -34,10 +36,13 @@ import {PushPipe} from '@ngrx/component';
     MatIconModule,
     FormsModule,
     MatButton,
-    PushPipe
+    PushPipe,
+    DatasetModelPanelComponent,
+    DatasetGitListComponent
   ]
 })
 export class OpenDatasetsComponent extends PipelinesPageComponent implements OnInit {
+  gitDatasetCount = signal(0);
 
   public override projectCardClicked(project: ProjectsGetAllResponseSingle) {
     this.router.navigate(['simple', project.id, 'tasks'], {relativeTo: this.projectId? this.route.parent.parent: this.route});

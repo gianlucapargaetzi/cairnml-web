@@ -8,6 +8,7 @@ import {ProjectScalarDefaultsComponent} from '@common/shared/project-dialog/proj
 import {ProjectMembersComponent} from '@common/shared/project-dialog/project-settings/project-members/project-members.component';
 import {ProjectQueuesComponent} from '@common/shared/project-dialog/project-settings/project-queues/project-queues.component';
 import {ProjectOverviewSettingsComponent} from '@common/shared/project-dialog/project-settings/project-overview-settings/project-overview-settings.component';
+import {ProjectNotificationsComponent} from '@common/shared/project-dialog/project-settings/project-notifications/project-notifications.component';
 import {ProjectGeneralSettingsComponent} from '@common/shared/project-dialog/project-settings/project-general-settings/project-general-settings.component';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
@@ -15,7 +16,7 @@ import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
 import {setSelectedProjectId} from '@common/core/actions/projects.actions';
 
 /**
- * The project settings as a page: general, overview, scalar view defaults, queues and users.
+ * The project settings as a page: general, overview, scalar view defaults, queues, notifications and users.
  */
 @Component({
   selector: 'sm-project-settings-page',
@@ -29,7 +30,8 @@ import {setSelectedProjectId} from '@common/core/actions/projects.actions';
     ProjectScalarDefaultsComponent,
     ProjectMembersComponent,
     ProjectQueuesComponent,
-    ProjectOverviewSettingsComponent
+    ProjectOverviewSettingsComponent,
+    ProjectNotificationsComponent
   ]
 })
 export class ProjectSettingsPageComponent {

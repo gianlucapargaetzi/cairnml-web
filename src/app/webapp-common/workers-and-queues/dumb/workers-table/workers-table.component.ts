@@ -1,7 +1,21 @@
-import {ChangeDetectionStrategy, Component, effect, input, output, viewChild} from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  input,
+  output,
+  viewChild
+} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {map} from 'rxjs/operators';
 import {ColHeaderTypeEnum, ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {get} from 'lodash-es';
-import {WORKERS_TABLE_COL_FIELDS} from '../../workers-and-queues.consts';
+import {AGENT_VERSION_COLUMN_MIN_WIDTH_QUERY, WORKERS_TABLE_COL_FIELDS} from '../../workers-and-queues.consts';
 import {BaseTableView} from '@common/shared/ui-components/data/table/base-table-view';
 import {WorkerExt} from '@common/workers-and-queues/actions/workers.actions';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
@@ -40,7 +54,13 @@ export class WorkersTableComponent extends BaseTableView {
   override entitiesKey = 'workers';
   override selectedEntitiesKey = 'selectedWorker';
 
-  protected cols = [
+  private breakpointObserver = inject(BreakpointObserver);
+  private wideScreen = toSignal(
+    this.breakpointObserver.observe(AGENT_VERSION_COLUMN_MIN_WIDTH_QUERY).pipe(map(result => result.matches)),
+    {initialValue: true}
+  );
+
+  protected cols = computed(() => [
     {
       id: WORKERS_TABLE_COL_FIELDS.ID,
       headerType: ColHeaderTypeEnum.sortFilter,
@@ -83,7 +103,15 @@ export class WorkersTableComponent extends BaseTableView {
       style: {width: '120px', maxWidth: '160px'},
       sortable: true,
     },
-  ] as ISmCol[];
+    {
+      id: WORKERS_TABLE_COL_FIELDS.VERSION,
+      headerType: ColHeaderTypeEnum.sortFilter,
+      header: 'Version and mode',
+      style: {width: '220px', maxWidth: '300px'},
+      sortable: true,
+      hidden: !this.wideScreen(),
+    },
+  ] as ISmCol[]);
   protected readonly WORKERS_TABLE_COL_FIELDS = WORKERS_TABLE_COL_FIELDS;
   protected readonly AGENT_STATUS_LABELS = AGENT_STATUS_LABELS;
 
@@ -97,17 +125,36 @@ export class WorkersTableComponent extends BaseTableView {
 
   tableContainer = viewChild<HTMLDivElement>('tableContainer');
 
+  private readonly injector = inject(Injector);
+  private scrolledToSelectedId: string;
+
   constructor() {
     super();
     effect(() => {
-      if (this.workers() && this.selectedWorker()) {
-        this.table()?.focusSelected();
-        const index = this.workers().findIndex(w => w.id === this.selectedWorker().id)
-        if (index > -1) {
-          this.table().scrollToIndex(index);
-        }
+      const table = this.table();
+      const workers = this.workers();
+      const selected = this.selectedWorker();
+      // The table is only usable once it is rendered with the workers, so wait for the first render after that.
+      if (!table || !workers?.length || !selected || this.scrolledToSelectedId === selected.id) {
+        return;
       }
+      this.scrolledToSelectedId = selected.id;
+      afterNextRender(() => this.scrollToSelected(), {injector: this.injector});
     });
+  }
+
+  private scrollToSelected() {
+    const table = this.table();
+    const index = this.workers()?.findIndex(w => w.id === this.selectedWorker()?.id) ?? -1;
+    if (!table || index < 0) {
+      return;
+    }
+    table.focusSelected();
+    table.scrollToIndex(index);
+  }
+
+  versionAndMode(worker: WorkerExt): string {
+    return `Version ${worker.agent_version || '—'} · Mode ${worker.run_mode || '—'}`;
   }
 
   getBodyData(rowData: any, col: ISmCol): any {

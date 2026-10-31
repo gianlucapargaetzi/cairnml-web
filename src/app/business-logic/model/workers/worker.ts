@@ -53,4 +53,12 @@ export interface Worker {
      * Worker entry key
      */
     key?: string;
+    /**
+     * Version of the agent. Empty for agents that do not report it
+     */
+    agent_version?: string;
+    /**
+     * How the agent runs jobs: docker, venv or host. Empty for agents that do not report it
+     */
+    run_mode?: string;
 }
