@@ -15,6 +15,11 @@
   sm-queue-stats {
     margin: 0 24px;
   }
+
+  // The stats charts take most of the height: keep room for the table, its empty and error messages.
+  as-split {
+    min-height: 240px;
+  }
 }
 
 @media (max-height: 750px) {
