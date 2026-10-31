@@ -16,11 +16,13 @@
   (toggleNestedView)="toggleNestedView($event)"
   class="nested-project-view"
   >
-
-  <button mat-flat-button create-button (click)="createExamples()">
+  <sm-page-header page-header title="Datasets">
+    <button mat-flat-button actions (click)="createExamples()">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
     New dataset
   </button>
+  </sm-page-header>
+
 
   <div empty-state class="empty-state">
     <div class="title-icon">

@@ -1,8 +1,6 @@
 <sm-overlay [backdropActive]="backdropActive()"></sm-overlay>
-<div class="d-flex">
-  <div class="middle-col">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center model-name-cont">
+<sm-page-header>
+  <div title-edit class="d-flex align-items-center model-name-cont">
         <mat-icon fontSet="al" fontIcon="al-ico-model" class="lg me-3"></mat-icon>
         <sm-inline-edit
           class="edit-name"
@@ -18,7 +16,7 @@
           </div>
         </sm-inline-edit>
       </div>
-      <div class="d-flex align-items-center gap-3">
+  <div actions class="d-flex align-items-center gap-3">
         @if (model()?.id) {
           <sm-id-badge [id]="model()?.id" (copied)="copyToClipboard()"></sm-id-badge>
         }
@@ -50,7 +48,8 @@
           <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
         </button>
       </div>
-    </div>
+</sm-page-header>
+  <div class="middle-col">
     <div class="tags-list">
       @if (editable()) {
         <sm-tag-list
@@ -80,4 +79,3 @@
       ></sm-tags-menu>
     </div>
   </div>
-</div>

@@ -52,12 +52,18 @@ import {ReportsListComponent} from '@common/reports/reports-list/reports-list.co
 import {ReportsHeaderComponent} from '@common/reports/reports-filters/reports-header.component';
 import {PushPipe} from '@ngrx/component';
 import {convertFiltersToRecord, decodeFilter, encodeFilters} from '@common/shared/utils/tableParamEncode';
+import {MatIcon} from '@angular/material/icon';
+import {MatButton} from '@angular/material/button';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-reports-page',
   templateUrl: './reports-page.component.html',
   styleUrls: ['./reports-page.component.scss'],
   imports: [
+    MatIcon,
+    MatButton,
+    PageHeaderComponent,
     ReportsListComponent,
     ReportsHeaderComponent,
     PushPipe

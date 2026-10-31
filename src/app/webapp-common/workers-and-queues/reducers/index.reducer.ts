@@ -24,6 +24,7 @@ export const selectQueuesState = createSelector(workersAndQueues, state => state
 export const selectQueues = createSelector(selectQueuesState, state => state.data);
 export const selectSelectedQueueId = createSelector(selectRouterQueryParams, params => params?.id);
 export const selectSelectedQueue = createSelector(selectQueuesState, (state) => state.selected);
+export const selectQueuesError = createSelector(selectQueuesState, state => state.error);
 export const selectQueuesTasks = createSelector(selectQueuesState, state => state.tasks);
 export const selectQueueStats = createSelector(selectQueuesState, state => state.stats);
 export const selectQueuesStatsTimeFrame  = createSelector(selectQueuesState, state => state.selectedStatsTimeFrame);

@@ -1,7 +1,6 @@
-<div class="header">
-  <div class="name ellipsis" [smTooltip]="report()?.name" smShowTooltipIfEllipsis>{{report()?.name}}</div>
+<sm-page-header [title]="report()?.name ?? ''">
   @if ((editMode$ | ngrxPush) !== true) {
-    <div class="actions">
+    <div actions class="actions">
       <sm-tag-list
         [tags]="report()?.tags"
         (add)="openTagMenu($event, tagsMenuTrigger, tagsMenu)"
@@ -60,7 +59,7 @@
         ></sm-tags-menu>
       </div>
     }
-  </div>
+</sm-page-header>
   @if (report()) {
     <div class="content report">
       @if (!editor.editMode) {

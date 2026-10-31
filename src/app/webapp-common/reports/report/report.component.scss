@@ -1,39 +1,24 @@
 
 :host {
   display: grid !important;
-  grid-template-rows: 64px calc(100% - 64px);
+  grid-template-rows: 56px calc(100% - 56px);
 
-  .header {
+  .actions {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
-    overflow: hidden;
-
-    .name {
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 1.5;
-      padding-right: 24px;
+    .g-btns {
+      display: inherit;
+      margin-left: 12px;
+      gap: 12px;
     }
 
-    .actions {
-      display: flex;
-      align-items: center;
-      .g-btns {
-        display: inherit;
-        margin-left: 12px;
-        gap: 12px;
-      }
-
-      sm-tag-list {
-        max-width: 400px;
-      }
+    sm-tag-list {
+      max-width: 400px;
     }
+  }
 
-    .trigger {
-      position: absolute;
-    }
+  .trigger {
+    position: absolute;
   }
 
   .content {

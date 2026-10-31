@@ -3,7 +3,6 @@ import {DatePipe} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {lastValueFrom} from 'rxjs';
 import {HTTP} from '~/app.constants';
@@ -16,6 +15,9 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {PrimeTemplate} from 'primeng/api';
 
 export interface DeviceView {
   id: string;
@@ -41,10 +43,11 @@ const KIND_LABELS: Record<string, string> = {
     DatePipe,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule,
     TooltipDirective,
     TimeAgoPipe,
-    PageHeaderComponent
+    PageHeaderComponent,
+    TableComponent,
+    PrimeTemplate
   ]
 })
 export class DevicesComponent implements OnInit {
@@ -58,6 +61,15 @@ export class DevicesComponent implements OnInit {
   protected owners = signal<Map<string, string>>(new Map());
   protected loading = signal(true);
   protected error = signal<string | null>(null);
+  protected readonly columns: ISmCol[] = [
+    {id: 'name', header: 'Name', style: {minWidth: '200px'}},
+    {id: 'kind', header: 'Kind', style: {width: '120px'}},
+    {id: 'owner', header: 'Owner', style: {width: '160px'}},
+    {id: 'created', header: 'Created', style: {width: '140px'}},
+    {id: 'last_used', header: 'Last used', style: {width: '140px'}},
+    {id: 'status', header: 'Status', style: {width: '120px'}},
+    {id: 'actions', header: '', style: {width: '64px'}},
+  ];
 
   ngOnInit() {
     this.load();
@@ -100,6 +112,10 @@ export class DevicesComponent implements OnInit {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
         `The device could not be revoked. ${error?.meta?.result_msg ?? ''}`.trim()));
     }
+  }
+
+  protected retry() {
+    this.load();
   }
 
   private async load() {

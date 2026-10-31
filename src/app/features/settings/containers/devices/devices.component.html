@@ -5,47 +5,44 @@
     its next request is refused. Admins see the devices of all users.
   </p>
 
-  @if (error()) {
-    <div class="devices-error" role="alert">{{ error() }}</div>
-  }
-
-  @if (loading()) {
-    <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
-  } @else if (!devices().length && !error()) {
-    <div class="devices-empty">No devices are enrolled for your account.</div>
-  } @else if (devices().length) {
-    <table class="devices-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Kind</th>
-          <th>Owner</th>
-          <th>Created</th>
-          <th>Last used</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (device of devices(); track device.id) {
-          <tr [class.revoked]="device.revoked">
-            <td><span class="name ellipsis" [smTooltip]="device.id" smShowTooltipIfEllipsis matTooltipShowDelay="500">{{ device.name || device.id }}</span></td>
-            <td>{{ kindLabel(device.kind) }}</td>
-            <td>{{ ownerName(device.user) }}</td>
-            <td [smTooltip]="device.created | date: timeFormatString" matTooltipShowDelay="500">{{ device.created ? (device.created | date: 'mediumDate') : '' }}</td>
-            <td [smTooltip]="device.last_used | date: timeFormatString" matTooltipShowDelay="500">{{ device.last_used ? (device.last_used | timeAgo) : 'Never' }}</td>
-            <td>
-              <span class="status" [class.revoked-status]="device.revoked">{{ device.revoked ? 'Revoked' : 'Active' }}</span>
-            </td>
-            <td class="actions">
-              <button mat-icon-button smTooltip="Revoke" matTooltipShowDelay="500"
-                      [disabled]="device.revoked" (click)="confirmRevoke(device)" data-id="revokeDeviceButton">
-                <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
-              </button>
-            </td>
-          </tr>
+  <sm-table
+    class="devices-table"
+    [tableData]="loading() ? null : devices()"
+    [columns]="columns"
+    [selectionMode]="null"
+    [rowHeight]="40"
+    [rowsNumber]="devices().length"
+    [errorMessage]="error()"
+    emptyMessage="No devices are enrolled for your account."
+    (retry)="retry()"
+  >
+    <ng-template let-col let-device="rowData" pTemplate="body">
+      @switch (col.id) {
+        @case ('name') {
+          <span class="name ellipsis" [smTooltip]="device.id" smShowTooltipIfEllipsis matTooltipShowDelay="500">{{ device.name || device.id }}</span>
         }
-      </tbody>
-    </table>
-  }
+        @case ('kind') {
+          {{ kindLabel(device.kind) }}
+        }
+        @case ('owner') {
+          {{ ownerName(device.user) }}
+        }
+        @case ('created') {
+          <span [smTooltip]="device.created | date: timeFormatString" matTooltipShowDelay="500">{{ device.created ? (device.created | date: 'mediumDate') : '' }}</span>
+        }
+        @case ('last_used') {
+          <span [smTooltip]="device.last_used | date: timeFormatString" matTooltipShowDelay="500">{{ device.last_used ? (device.last_used | timeAgo) : 'Never' }}</span>
+        }
+        @case ('status') {
+          <span class="status" [class.revoked-status]="device.revoked">{{ device.revoked ? 'Revoked' : 'Active' }}</span>
+        }
+        @case ('actions') {
+          <button mat-icon-button smTooltip="Revoke" matTooltipShowDelay="500"
+                  [disabled]="device.revoked" (click)="confirmRevoke(device)" data-id="revokeDeviceButton">
+            <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+          </button>
+        }
+      }
+    </ng-template>
+  </sm-table>
 </div>

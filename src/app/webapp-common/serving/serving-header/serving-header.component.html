@@ -1,4 +1,12 @@
-<div class="sm-entity-page-header">
+<sm-page-header title="Model endpoints">
+  <div actions smTooltip="Download table as CSV">
+    <button aria-label="Download CSV" mat-icon-button class="download-btn" [disabled]="noData()" (click)="!noData() && downloadTableAsCSV.emit()" data-id="downloadCSVButton">
+      <mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
+    </button>
+  </div>
+  <sm-refresh-button actions (setAutoRefresh)="setAutoRefresh.emit($event)"></sm-refresh-button>
+</sm-page-header>
+<div class="serving-toolbar">
   <div class="d-flex-center">
     @if (!hideNavigation()) {
       <sm-button-toggle
@@ -18,11 +26,5 @@
         (clearTableFilters)="clearTableFilters.emit(tableFilters())"
       ></sm-clear-filters-button>
     }
-    <div smTooltip="Download table as CSV">
-      <button aria-label="Download CSV" mat-icon-button class="download-btn" [disabled]="noData()" (click)="!noData() && downloadTableAsCSV.emit()" data-id="downloadCSVButton">
-        <mat-icon fontSet="al" fontIcon="al-ico-download"></mat-icon>
-      </button>
-    </div>
-    <sm-refresh-button (setAutoRefresh)="setAutoRefresh.emit($event)"></sm-refresh-button>
   </div>
 </div>

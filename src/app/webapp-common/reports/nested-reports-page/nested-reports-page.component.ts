@@ -21,12 +21,14 @@ import {MatIcon} from '@angular/material/icon';
 import {decodeFilter, encodeFilters} from '@common/shared/utils/tableParamEncode';
 import {setURLParams} from '@common/core/actions/router.actions';
 import {FilterMetadata} from 'primeng/api';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
     selector: 'sm-nested-reports-page',
     templateUrl: './nested-reports-page.component.html',
     styleUrls: ['../../nested-project-view/nested-project-view-page/nested-project-view-page.component.scss'],
   imports: [
+    PageHeaderComponent,
     CircleCounterComponent,
     PushPipe,
     MatButton,

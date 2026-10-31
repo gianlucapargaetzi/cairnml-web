@@ -13,13 +13,15 @@
   (loadMore)="loadMore()"
   (toggleNestedView)="toggleNestedView($event)"
   >
-
-  <button create-button
+  <sm-page-header page-header title="Datasets">
+    <button actions
     mat-flat-button
     (click)="createExamples()">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
     New dataset
   </button>
+  </sm-page-header>
+
 
   <div empty-state class="empty-datasets">
     <div class="title-icon"><i class="al-icon al-ico-datasets xxl"></i></div>
