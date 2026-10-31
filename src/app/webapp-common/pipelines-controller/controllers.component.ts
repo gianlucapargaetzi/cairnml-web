@@ -64,7 +64,6 @@ import {NgTemplateOutlet} from '@angular/common';
   ]
 })
 export class ControllersComponent extends ExperimentsComponent {
-
   override contextMenu = viewChild.required<ExperimentMenuComponent>(PipelineControllerMenuComponent);
   protected override get entityType() {
     return EntityTypeEnum.controller;

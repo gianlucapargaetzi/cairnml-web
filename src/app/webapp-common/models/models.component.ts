@@ -71,6 +71,7 @@ import {EntityFooterComponent} from '@common/shared/entity-page/entity-footer/en
 import {PushPipe} from '@ngrx/component';
 import {ModelHeaderComponent} from '@common/models/dumbs/model-header/model-header.component';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {injectNarrowScreen} from '@common/shared/utils/narrow-screen';
 
 
 @Component({
@@ -90,6 +91,7 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   ]
 })
 export class ModelsComponent extends BaseEntityPageComponent implements OnDestroy {
+  protected narrowScreen = injectNarrowScreen();
   public readonly originalTableColumns = MODELS_TABLE_COLS;
   public entityTypeEnum = EntityTypeEnum;
   private modelsFeature = false;

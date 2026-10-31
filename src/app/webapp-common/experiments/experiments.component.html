@@ -56,7 +56,7 @@
   }
 </ng-template>
 <div class="experiment-body" [class.with-page-header]="getTableModeFromURL() !== 'compare'">
-  <as-split
+  <as-split [direction]="narrowScreen() ? 'vertical' : 'horizontal'"
     [gutterSize]=1
     [useTransition]="true"
     [gutterDblClickDuration]="400"

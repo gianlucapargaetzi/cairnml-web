@@ -24,6 +24,7 @@ import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {ServingHeaderComponent} from '@common/serving/serving-header/serving-header.component';
 import {PushPipe} from '@ngrx/component';
 import {selectSearchQuery} from '@common/common-search/common-search.reducer';
+import {injectNarrowScreen} from '@common/shared/utils/narrow-screen';
 
 type EndpointsTableViewMode = 'active' | 'loading';
 
@@ -41,6 +42,7 @@ type EndpointsTableViewMode = 'active' | 'loading';
   ]
 })
 export class ServingComponent extends BaseEntityPageComponent implements OnDestroy {
+  protected narrowScreen = injectNarrowScreen();
   public readonly originalTableColumns = servingTableCols;
   public entityTypeEnum = EntityTypeEnum;
   public override showAllSelectedIsActive$: Observable<boolean> = of(false);
