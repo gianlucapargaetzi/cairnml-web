@@ -47,6 +47,17 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'git-credentials',
+        loadComponent: () => import('~/features/settings/containers/git-credentials/git-credentials.component').then(m => m.GitCredentialsComponent),
+        data: {
+          workspaceNeutral: true,
+          staticBreadcrumb: [[settingsBreadcrumb, {
+            name: 'Git Credentials',
+            type: CrumbTypeEnum.SubFeature
+          }]]
+        }
+      },
+      {
         path: 'storage-credentials',
         loadComponent: () => import('@common/settings/storage-credentials/storage-credentials.component').then(m => m.StorageCredentialsComponent),
         data: {
