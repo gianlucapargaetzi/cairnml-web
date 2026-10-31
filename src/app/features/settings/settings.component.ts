@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {NgTemplateOutlet} from '@angular/common';
@@ -24,4 +26,5 @@ import {injectNarrowScreen} from '@common/shared/utils/narrow-screen';
 })
 export class SettingsComponent {
   protected narrowScreen = injectNarrowScreen();
+  protected isAdmin = inject(Store).selectSignal(selectIsAdmin);
 }
