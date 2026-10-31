@@ -7,6 +7,7 @@ import {datasetsOfHyperparams, RawDatasetTask} from './dataset-git.model';
 @Component({
   selector: 'sm-task-datasets',
   templateUrl: './task-datasets.component.html',
+  styleUrls: ['./task-datasets.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, SectionHeaderComponent]
 })
