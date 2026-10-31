@@ -60,7 +60,7 @@ sm-empty-state {
     position: absolute;
     bottom: 6px;
     left: 56px;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
   }
 }
 

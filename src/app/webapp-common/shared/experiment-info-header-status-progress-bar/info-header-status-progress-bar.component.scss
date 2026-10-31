@@ -10,10 +10,10 @@
   height: layout.$project-info-progress-height;
   opacity: 1;
   text-align: center;
-  color: #596386;
+  color: var(--color-on-surface-variant);
   font-weight: 500;
   font-size: 11px;
-  background-color: #FFFFFF;
+  background-color: var(--color-surface-container-lowest);
   transition: variables.$transition-fast;
 
 
@@ -22,15 +22,15 @@
   }
 
   &.in_progress {
-    background-color: #50e3c2;
+    background-color: var(--color-running);
   }
 
   &.queued {
-    background-color: #c4f0e4;
+    background-color: var(--color-running-container);
   }
 
   &.created {
-    background-color: #dbdee6;
+    background-color: var(--color-surface-variant);
   }
 
   &.failed {

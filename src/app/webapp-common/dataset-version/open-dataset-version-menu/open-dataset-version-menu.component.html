@@ -1,9 +1,9 @@
 @if (activateFromMenuButton()) {
-  <div [matMenuTriggerFor]="experimentMenu"
-    class="p-0 cell menu-button al-icon sm-md al-ico-bars-menu"
+  <div [matMenuTriggerFor]="experimentMenu" role="button" tabindex="0" aria-label="Open menu"
+    class="sp-p-0 cell menu-button al-icon sm-md al-ico-bars-menu"
   ></div>
 } @else {
-  <div class="menu-anchor"
+  <div class="menu-anchor" aria-hidden="true"
     [style.left.px]="position().x"
     [style.top.px]="position().y"
     [matMenuTriggerFor]="experimentMenu">
@@ -70,15 +70,15 @@
 ></sm-tags-menu>
 
 <ng-template #publishTemplate let-selectedExperiments>
-  <div class="mb-3">
+  <div class="sp-mb-3">
     @if(selectedExperiments.length === 1){
       <span
-        class="ellipsis inline font-weight-bold me-1 max-w-200"
+        class="ellipsis inline font-weight-bold sp-me-1 max-w-200"
         [smTooltip]="selectedExperiments[0]?.name"
         smShowTooltipIfEllipsis
       >{{selectedExperiments[0]?.name}}</span>
     } @else {
-      <span class="font-weight-bold me-1">{{selectedExperiments.length}} dataset versions</span>
+      <span class="font-weight-bold sp-me-1">{{selectedExperiments.length}} dataset versions</span>
     }
     <span class="inline">status will be set to Published.</span>
   </div>

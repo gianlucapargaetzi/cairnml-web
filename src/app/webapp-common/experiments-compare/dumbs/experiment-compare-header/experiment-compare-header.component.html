@@ -31,7 +31,7 @@
           (selectionChange)="changeView($event)"
           >
           <mat-select-trigger class="d-flex">
-            <mat-icon fontSet="al" [fontIcon]="viewModeToIcon[viewMode] ?? 'al-ico-description'" data-id="viewTypeMenuOption" class="me-2"></mat-icon>
+            <mat-icon fontSet="al" [fontIcon]="viewModeToIcon[viewMode] ?? 'al-ico-description'" data-id="viewTypeMenuOption" class="sp-me-2"></mat-icon>
             @switch (true) {
               @case (currentPage === 'hyper-params' && viewMode === 'graph') {
                 <span>Parallel Coordinates</span>
@@ -52,29 +52,29 @@
           </mat-select-trigger>
           @if (currentPage === 'scalars') {
             <mat-option value="values" class="compare-mat-option">
-              <mat-icon fontSet="al" fontIcon="al-ico-description" class="me-2"></mat-icon>Last Values
+              <mat-icon fontSet="al" fontIcon="al-ico-description" class="sp-me-2"></mat-icon>Last Values
             </mat-option>
             @if (currentPage === 'scalars') {
               <mat-option value="min-values" class="compare-mat-option">
-                <mat-icon fontSet="al" fontIcon="al-ico-description" class="me-2"></mat-icon>Min Values
+                <mat-icon fontSet="al" fontIcon="al-ico-description" class="sp-me-2"></mat-icon>Min Values
               </mat-option>
             }
             @if (currentPage === 'scalars') {
               <mat-option value="max-values" class="compare-mat-option">
-                <mat-icon fontSet="al" fontIcon="al-ico-description" class="me-2"></mat-icon>Max Values
+                <mat-icon fontSet="al" fontIcon="al-ico-description" class="sp-me-2"></mat-icon>Max Values
               </mat-option>
             }
           } @else {
             <mat-option value="values" class="compare-mat-option">
-              <mat-icon fontSet="al" fontIcon="al-ico-description" class="me-2"></mat-icon>Values
+              <mat-icon fontSet="al" fontIcon="al-ico-description" class="sp-me-2"></mat-icon>Values
             </mat-option>
           }
           <mat-option value="graph" class="compare-mat-option">
-            <mat-icon fontSet="al" fontIcon="al-ico-charts-view" class="me-2"></mat-icon>{{ currentPage === 'hyper-params' ? 'Parallel Coordinates' : 'Graph' }}
+            <mat-icon fontSet="al" fontIcon="al-ico-charts-view" class="sp-me-2"></mat-icon>{{ currentPage === 'hyper-params' ? 'Parallel Coordinates' : 'Graph' }}
           </mat-option>
           @if (currentPage === 'hyper-params') {
             <mat-option value="scatter" class="compare-mat-option">
-              <mat-icon fontSet="al" fontIcon="al-ico-scatter-view" class="me-2"></mat-icon>Scatter Plot
+              <mat-icon fontSet="al" fontIcon="al-ico-scatter-view" class="sp-me-2"></mat-icon>Scatter Plot
             </mat-option>
           }
         </mat-select>

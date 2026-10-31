@@ -1,9 +1,9 @@
 <sm-dialog-template iconClass="al-ico-access-key" (xClicked)="xClicked()" [header]="title">
   @if (data?.provider === 'gcs') {
     <div class="gcs-note" ><a href="https://accounts.google.com/AccountChooser?prompt=select_account" target="_blank">signing in</a> with your google account to view <b>{{bucket}}</b> bucket content, and <a href="#" (click)="$event.preventDefault(); reload()">reload</a> the page.</div>
-    <mat-checkbox class="my-2" [(ngModel)]="useGcsHmac" (change)="dontShowGcsAgain = false">Use <a class="mx-1" href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys#create" target="_blank">HMAC</a> instead</mat-checkbox>
+    <mat-checkbox class="sp-my-2" [(ngModel)]="useGcsHmac" (change)="dontShowGcsAgain = false">Use <a class="sp-mx-1" href="https://cloud.google.com/storage/docs/authentication/managing-hmackeys#create" target="_blank">HMAC</a> instead</mat-checkbox>
     @if (!useGcsHmac) {
-      <mat-checkbox class="d-block my-2" [(ngModel)]="dontShowGcsAgain">Don’t show again for <span class="ellipsis bucket-name">{{bucket}}</span> bucket</mat-checkbox>
+      <mat-checkbox class="d-block sp-my-2" [(ngModel)]="dontShowGcsAgain">Don’t show again for <span class="ellipsis bucket-name">{{bucket}}</span> bucket</mat-checkbox>
     }
   }
   @if (data?.provider !== 'gcs'|| useGcsHmac) {
@@ -23,7 +23,7 @@
     </sm-s3-access-dialog>
   }
   @if ( dontShowGcsAgain && !useGcsHmac) {
-    <div class="w-100 d-flex justify-content-center mt-4">
+    <div class="w-100 d-flex justify-content-center sp-mt-4">
       <button mat-flat-button (click)="saveS3Credentials({Bucket: bucket, Key: '', Secret: ''})">Save</button>
     </div>  }
 </sm-dialog-template>

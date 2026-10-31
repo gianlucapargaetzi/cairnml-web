@@ -33,15 +33,15 @@
             <mat-icon fontSet="al" fontIcon="al-ico-card-example" class="xl foreground"></mat-icon>
             <span class="background"></span>
           </span>
-          <div class="mt-2">Start with the <a target="_blank" href="https://github.com/gianlucapargaetzi/cairnml-examples">CairnML examples</a>: a first run, a full training run, and the same training on a dataset from the registry.</div>
+          <div class="sp-mt-2">Start with the <a target="_blank" href="https://github.com/gianlucapargaetzi/cairnml-examples">CairnML examples</a>: a first run, a full training run, and the same training on a dataset from the registry.</div>
         </div>
         <div class="info">
           <mat-icon fontSet="al" fontIcon="al-ico-help-outlined" class="xl"></mat-icon>
-          <div class="mt-2">Browse "Pro Tips" in the Help menu to jump start your work flow.</div>
+          <div class="sp-mt-2">Browse "Pro Tips" in the Help menu to jump start your work flow.</div>
         </div>
         <div class="info">
           <mat-icon fontSet="al" fontIcon="al-ico-documentation" class="xl"></mat-icon>
-          <div class="mt-2">Check out the <a target="_blank" [href]="docsLink()">docs</a> for advanced information and in depth how-to’s.
+          <div class="sp-mt-2">Check out the <a target="_blank" [href]="docsLink()">docs</a> for advanced information and in depth how-to’s.
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
               <mat-tab label="Jupyter notebook" data-id="JupyterNotebookTab"></mat-tab>
             </mat-tab-group>
           }
-          <div class="sub-note mt-2 mb-2">{{isJupyter() ? 'Set the CairnML environment for your notebook':'Run the CairnML setup script'}}</div>
+          <div class="sub-note sp-mt-2 sp-mb-2">{{isJupyter() ? 'Set the CairnML environment for your notebook':'Run the CairnML setup script'}}</div>
           <div class="code">
             <div class="content" #stepCode>{{step.code}}</div>
             <sm-copy-clipboard
@@ -78,9 +78,9 @@
             ></sm-copy-clipboard>
           </div>
           @if (step.subNote || (isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
-            <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm"></mat-icon>
+            <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sp-me-1 sm"></mat-icon>
             @if ((isJupyter() && ((queue && $index === 2) || (!queue && $index === 1)))) {
-              Enrol this machine with <span class="ms-1">{{queue ? 'cairnml-agent init' : 'cairnml init'}}</span>, which opens your sign-in page.
+              Enrol this machine with <span class="sp-ms-1">{{queue ? 'cairnml-agent init' : 'cairnml init'}}</span>, which opens your sign-in page.
             } @else {
               {{step.subNote}}
             }
@@ -100,26 +100,26 @@
           <div class="content">
             <span class="variable">api</span> &#123;
             @if (credentialsComment()) {
-              <div class="ms-2">
+              <div class="sp-ms-2">
                 <span class="comment"># {{credentialsComment()}}</span>
               </div>
             }
-            <div class="ms-2">
-              <span class="variable">web_server</span> <span class="operation me-1">:</span> <span class="string">{{WEB_SERVER_URL}}</span>
+            <div class="sp-ms-2">
+              <span class="variable">web_server</span> <span class="operation sp-me-1">:</span> <span class="string">{{WEB_SERVER_URL}}</span>
             </div>
-            <div class="ms-2">
-              <span class="variable">api_server</span><span class="operation me-1">:</span> <span class="string">{{configService.apiServerUrl()}}</span>
+            <div class="sp-ms-2">
+              <span class="variable">api_server</span><span class="operation sp-me-1">:</span> <span class="string">{{configService.apiServerUrl()}}</span>
             </div>
-            <div class="ms-2">
+            <div class="sp-ms-2">
               <span class="variable">credentials</span> &#123;
             </div>
-            <div class="ms-4">
-              <span class="string">"access_key"</span><span class="operation mx-1">=</span><span class="string">"{{accessKey()}}"</span>
+            <div class="sp-ms-4">
+              <span class="string">"access_key"</span><span class="operation sp-mx-1">=</span><span class="string">"{{accessKey()}}"</span>
             </div>
-            <div class="ms-4">
-              <span class="string">"secret_key"</span><span class="operation mx-1">=</span><span class="string">"{{secretKey()}}"</span>
+            <div class="sp-ms-4">
+              <span class="string">"secret_key"</span><span class="operation sp-mx-1">=</span><span class="string">"{{secretKey()}}"</span>
             </div>
-            <div class="ms-2">
+            <div class="sp-ms-2">
               &#125;
             </div>
             &#125;
@@ -130,7 +130,7 @@
             [clipboardText]="getCopyConfig()"></sm-copy-clipboard>
         </div>
     @if (!showTabs) {
-      <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="me-1 sm info"></mat-icon>Enrol this machine with cairnml init, which opens your sign-in page.</div>
+      <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sp-me-1 sm info"></mat-icon>Enrol this machine with cairnml init, which opens your sign-in page.</div>
     }
   </div>
 </div>
@@ -172,7 +172,7 @@
             <div>
               <span class="variable">for</span> i <span class="variable">in</span> range(100):
             </div>
-            <div class="ms-2">task.get_logger().report_scalar(title=<span class="string">"graph title"</span>, series=<span class="string">"linear"</span>, value=i*2, iteration=i)</div>
+            <div class="sp-ms-2">task.get_logger().report_scalar(title=<span class="string">"graph title"</span>, series=<span class="string">"linear"</span>, value=i*2, iteration=i)</div>
           </div>
         }
         <sm-copy-clipboard
@@ -187,13 +187,13 @@
 @if (!queue && (currentLink === links[2])) {
   <div class="step-container">
     <div class="step">1. Clone a previously run task</div>
-    <div class="sub-note mt-2">Use the <span class="bolder">“Clone”</span> action to create a new draft copy.</div>
+    <div class="sub-note sp-mt-2">Use the <span class="bolder">“Clone”</span> action to create a new draft copy.</div>
     <div class="sub-note">You can change any of the new task's configurations.</div>
-    <div class="sub-note mt-3">Tasks table</div>
+    <div class="sub-note sp-mt-3">Tasks table</div>
     <div class="new-experiment-table"></div>
     <div class="step">2. Run your task</div>
-    <div class="sub-note mt-2">Use the <span class="bolder">“Enqueue”</span> action to enqueue the new task on an available queue.</div>
-    <div class="sub-note mb-1">To have an agent service a queue, on your target machine run:</div>
+    <div class="sub-note sp-mt-2">Use the <span class="bolder">“Enqueue”</span> action to enqueue the new task on an available queue.</div>
+    <div class="sub-note sp-mb-1">To have an agent service a queue, on your target machine run:</div>
     <div class="code">
       <div #content class="content">cairnml-agent daemon --queue &lt;queue name&gt;</div>
       <sm-copy-clipboard

@@ -48,7 +48,7 @@
       >
         @for (status of statusOptions(); track status) {
           <mat-chip-option [value]="status">
-            <span class="d-flex gap-2 ps-2">
+            <span class="d-flex gap-2 sp-ps-2">
               <sm-status-icon-label [externalStatusLabels]="statusOptionsLabels()" [status]="status"></sm-status-icon-label>
             </span>
           </mat-chip-option>
@@ -69,7 +69,7 @@
       >
         @for (type of typeOptions(); track type) {
           <mat-chip-option [value]="type">
-            <span class="d-flex gap-2 ps-2">
+            <span class="d-flex gap-2 sp-ps-2">
               <mat-icon fontSet="al" [fontIcon]="'al-ico-type-' + (type?.replace('_', '-') ?? 'training')" class="sm"></mat-icon>
               {{ type | replaceViaMapPipe: EXPERIMENTS_STATUS_LABELS }}
             </span>
@@ -79,7 +79,7 @@
     </section>
   }
   <section>
-    <div class="filter-head mb-1">
+    <div class="filter-head sp-mb-1">
       <h4>Tags</h4>
       <button aria-label="Add tag filter" mat-icon-button class="sm" data-id="addTagFilterButton" (click)="openTagMenu()">
         <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>

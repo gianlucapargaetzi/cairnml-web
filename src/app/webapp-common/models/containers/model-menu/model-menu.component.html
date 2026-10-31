@@ -4,7 +4,7 @@
   </button>
 }
 @if (!activateFromMenuButton()) {
-  <div class="menu-anchor"
+  <div class="menu-anchor" aria-hidden="true"
     [style.left.px]="position().x"
     [style.top.px]="position().y"
     [matMenuTriggerFor]="modelMenu">

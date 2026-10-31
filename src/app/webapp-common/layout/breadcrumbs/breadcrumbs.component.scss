@@ -31,6 +31,8 @@ span {
   .crumb {
     font-size: 15px;
     color: var(--color-on-primary-container);
+    min-height: 24px; // touch target (issue 34)
+    line-height: 24px;
 
     &:hover {
 
@@ -184,7 +186,7 @@ span {
   font-size: 16px;
   font-weight: 500;
   text-align: left;
-  color: #1a1e2b;
+  color: var(--color-on-surface);
 }
 
 .top {

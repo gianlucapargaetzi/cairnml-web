@@ -2,18 +2,18 @@
 @use "src/app/webapp-common/assets/fonts/variables" as font;
 
 $type-colors: (
-  string: #FF6B6B,
-  link: #FF6B6B,
-  number: #009688,
-  boolean: #b938a4,
-  date: #05668D,
+  string: var(--color-json-string),
+  link: var(--color-json-string),
+  number: var(--color-json-number),
+  boolean: var(--color-json-boolean),
+  date: var(--color-json-date),
 
-  array: #999,
-  object: #999,
-  function: #999,
+  array: var(--color-on-surface-variant),
+  object: var(--color-on-surface-variant),
+  function: var(--color-on-surface-variant),
 
-  'null': #fff,
-  undefined: #fff
+  'null': var(--color-on-surface),
+  undefined: var(--color-on-surface)
 );
 
 .ngx-json-viewer {
@@ -56,7 +56,7 @@ $type-colors: (
       }
 
       .segment-key {
-        color: #a06bc7;
+        color: var(--color-json-key);
       }
 
       .segment-separator {

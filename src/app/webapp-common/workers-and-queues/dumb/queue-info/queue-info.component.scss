@@ -75,7 +75,7 @@
     }
     .menu {
       visibility: hidden;
-      color: var(--color-outline);
+      color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
       transition: color 0.35s;
 
       &:hover {

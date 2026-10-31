@@ -10,7 +10,7 @@
   <sm-section-header label="Description:"></sm-section-header>
   <textarea #description
     rows="4"
-    class="mb-2"
+    class="sp-mb-2"
     data-id="descriptionTextField"
   [(ngModel)]="experimentCommentText" [readOnly]="!experimentDescriptionSection.inEditMode()"></textarea>
 </sm-editable-section>
@@ -82,7 +82,7 @@
         target="_blank">{{ experiment()?.parent?.name }}</a>
         <sm-copy-clipboard [smallIcon]="true" [clipboardText]="experiment()?.parent?.id"
           [label]="''"
-        [tooltipText]="'Copy parent task ID to clipboard'" class="copy-btn ms-2"></sm-copy-clipboard>
+        [tooltipText]="'Copy parent task ID to clipboard'" class="copy-btn sp-ms-2"></sm-copy-clipboard>
       </div>
     } @else {
       {{ null| NA }}

@@ -1,4 +1,4 @@
-<div mat-menu-item [disabled]="disabled()" (click)="buttonClickedEvent($event)" (keydown.enter)="$event.target === $event.currentTarget && (buttonClickedEvent($any($any($event))))" (keydown.space)="$event.target === $event.currentTarget && (buttonClickedEvent($any($any($event)))); $event.target === $event.currentTarget && $event.preventDefault()">
+<div mat-menu-item [disabled]="disabled()" (click)="buttonClickedEvent($event)" (keydown.enter)="$event.target === $event.currentTarget && (buttonClickedEvent($any($event)))" (keydown.space)="$event.target === $event.currentTarget && (buttonClickedEvent($any($event))); $event.target === $event.currentTarget && $event.preventDefault()">
   <div class="item-container"  >
     @if (selectable()) {
       <mat-checkbox smClickStopPropagation data-id="customColumnsCheckbox"
@@ -12,7 +12,7 @@
     <div class="item-label" [class.placeForIcon]="enableIcon()">
       <div class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="enableTooltip()? (itemTooltip() || itemLabel()): ''" data-id="sortByOption">{{ itemLabel() }}</div>
       @if (sortOrder()) {
-        <i class="ms-2 al-icon sm-md" [class]="sortOrder() === TABLE_SORT_ORDER.ASC ? 'al-ico-sort-asc' : 'al-ico-sort-desc' " data-id="orderTypeIcon"></i>
+        <i class="sp-ms-2 al-icon sm-md" [class]="sortOrder() === TABLE_SORT_ORDER.ASC ? 'al-ico-sort-asc' : 'al-ico-sort-desc' " data-id="orderTypeIcon"></i>
       }
     </div>
     @if (removable()) {

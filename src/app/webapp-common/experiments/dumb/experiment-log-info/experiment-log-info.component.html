@@ -10,7 +10,7 @@
   </div>
 </cdk-virtual-scroll-viewport>
 @if (fetching()) {
-  <mat-spinner [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+  <mat-spinner aria-label="Loading" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
 }
 
 @if (!fetching()) {

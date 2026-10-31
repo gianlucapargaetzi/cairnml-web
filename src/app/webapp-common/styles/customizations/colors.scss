@@ -84,30 +84,49 @@
     --color-surface-variant: #DBE3F1;
     //--color-on-surface-variant: #404753;
 
-    --color-total: #87A9FF;
+    --color-total: #074EFF;
 
     --color-draft: #5D5E62;
     --color-pending: #005B4C;
-    --color-running: #147A4A;
-    --color-completed: #0071B8;
+    --color-running: #137145;
+    --color-completed: #0068A9;
     --color-failed: #A4020D;
-    --color-published: #4c6f00;
+    --color-published: #4A6C00;
     --color-draft-container:  #D9D9DD;
     --color-pending-container: #68DAC0;
     --color-running-container: #91D5AD;
-    --color-completed-container: #4fb9ff;
+    --color-completed-container: #5EBFFF;
     --color-failed-container: #FFB4AB;
     --color-published-container: #D3FF00;
     --color-skipped-container: #{color.adjust(#cc9054, $lightness: 30%)};
     --color-cached-container: #{color.adjust(#9e54cc, $lightness: 30%)};
     --color-executed-container: #{color.adjust(#4040d5, $lightness: 30%)};
-    --color-warning: #C24600;
-    --color-success: #127A2C;
+    --color-warning: #AE3F00;
+    --color-on-warning: #FFFFFF;
+    --color-on-success: #FFFFFF;
+    --color-white: #FFFFFF;
+    --color-accent-teal: #00e3b9;
+    --color-json-string: #EA0000;
+    --color-json-number: #008276;
+    --color-json-boolean: #B938A4;
+    --color-json-date: #05668D;
+    --color-json-key: #9458C0;
+    --color-filetype-1: #596c71;
+    --color-filetype-2: #3a7777;
+    --color-filetype-3: #846300;
+    --color-filetype-4: #833e65;
+    --color-filetype-5: #145f82;
+    --color-filetype-6: #803d3d;
+    --color-filetype-7: #615555;
+    --color-filetype-8: #48507f;
+    --color-filetype-9: #d1902e;
+    --color-filetype-10: #a35151;
+    --color-success: #11732A;
     --color-neon-surface: #74C87A;
     --color-on-neon-surface: #223723;
 
     // Darkened from neutral 70 (2.2:1 on the surface) to pass 4.5:1 for text.
-    --color-empty-state: #6E6E72;
+    --color-empty-state: #636366;
 
   // DARK
   } @else {
@@ -126,28 +145,52 @@
     --color-surface-variant: #404753;
     //--color-on-surface-variant: #BFC7D5;
 
-    --color-total: #8492c2;
+    --color-total: #ADB6D6;
 
     --color-draft:  #D9D9DD;
     --color-pending: #68DAC0;
     --color-running: #50e3c2;
-    --color-completed: #15a1ff;
+    --color-completed: #5FBFFF;
     --color-failed: #FFB4AB;
     --color-published: #D3FF00;
     --color-draft-container: #5D5E62;
     --color-pending-container: #005B4C;
-    --color-running-container: #32937e;
-    --color-completed-container: #009aff;
-    --color-failed-container: #d65b52;
-    --color-published-container: #98B800;
-    --color-skipped-container: #cc9054;
-    --color-cached-container: #9e54cc;
+    --color-running-container: #256D5D;
+    --color-completed-container: #0066A8;
+    --color-failed-container: #B6342B;
+    --color-published-container: #556600;
+    --color-skipped-container: #875828;
+    --color-cached-container: #8B39BE;
     --color-executed-container: #4040d5;
-    --color-warning: #FD8934;
+    --color-warning: #FDA05C;
+    --color-on-warning: #1A1C1E;
+    --color-on-success: #003919;
+    --color-card-tab-1: #384161;
+    --color-card-tab-1-hover: #5A658E;
+    --color-card-footer: #2C3246;
+    --color-card-tab-2: #2C3246;
+    --color-card-tab-2-hover: #202432;
+    --color-white: #FFFFFF;
+    --color-accent-teal: #00e3b9;
+    --color-json-string: #FF6B6B;
+    --color-json-number: #009688;
+    --color-json-boolean: #CA50B6;
+    --color-json-date: #078ABE;
+    --color-json-key: #A06BC7;
+    --color-filetype-1: #596c71;
+    --color-filetype-2: #3a7777;
+    --color-filetype-3: #846300;
+    --color-filetype-4: #833e65;
+    --color-filetype-5: #145f82;
+    --color-filetype-6: #803d3d;
+    --color-filetype-7: #615555;
+    --color-filetype-8: #48507f;
+    --color-filetype-9: #d1902e;
+    --color-filetype-10: #a35151;
     --color-success: #95f4a8;
     --color-neon-surface: #95F4DC;
     --color-on-neon-surface:  #005143;
     // Lightened from neutral 50 (4.1:1 on the dark surface) to pass 4.5:1 for text.
-    --color-empty-state: #84858A;
+    --color-empty-state: #B6B6B9;
   }
 }

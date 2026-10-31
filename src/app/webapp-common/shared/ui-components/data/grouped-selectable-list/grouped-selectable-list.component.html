@@ -12,7 +12,7 @@
       <button aria-label="Show or hide item"
         mat-icon-button
         data-id="showHideGraphList"
-        class="sm me-2"
+        class="sm sp-me-2"
         (click)="node.parent ? itemCheck.emit( {pathString: node.parent + node.name, parent: node.parent}) : groupCheck(node); $event.stopPropagation()"
       >
         <mat-icon fontSet=al [fontIcon]="(node.parent ? (node.parent + node.name | stringIncludedInArray: checkedList()) : checkedList()?.includes(node.name)) ? checkIcon[0] : checkIcon[1]"></mat-icon>
@@ -24,12 +24,12 @@
     <span matTreeNodeToggle class="panel parent-node"
           [class.expanded]="tree().isExpanded(node)"
           [class.unchecked]="shouldUncheckParent()[node.name]">
-      <mat-icon fontSet="al" fontIcon="al-ico-next" class="me-1 al-icon toggle-icon sm"></mat-icon>
-      <span class="ellipsis flex-grow-1 pe-1" [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{ node.displayName ?? node.name }}</span>
+      <mat-icon fontSet="al" fontIcon="al-ico-next" class="sp-me-1 al-icon toggle-icon sm"></mat-icon>
+      <span class="ellipsis flex-grow-1 sp-pe-1" [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{ node.displayName ?? node.name }}</span>
       <button aria-label="Select all in group"
         mat-icon-button
         data-id="showHideGraphList"
-        class="sm me-2"
+        class="sm sp-me-2"
         (click)="groupCheck(node); $event.stopPropagation()"
       >
         <mat-icon fontSet=al [fontIcon]="(node.childrenNames | arrayIncludedInArray:checkedList())? checkIcon[0] : checkIcon[1]"></mat-icon>

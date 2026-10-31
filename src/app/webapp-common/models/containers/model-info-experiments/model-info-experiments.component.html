@@ -1,11 +1,11 @@
 <div class="lineage-container">
-  <header class="d-flex align-items-center pb-3">
-    <h4 class="m-0">Created by</h4>
-    <a class="ms-3"
+  <header class="d-flex align-items-center sp-pb-3">
+    <h4 class="sp-m-0">Created by</h4>
+    <a class="sp-ms-3"
        target="_blank" [routerLink]="selectedModelCreatingTaskLink()">{{ selectedModel()?.task?.name }}
     </a>
     @if (selectedModel()?.task?.id) {
-      <sm-id-badge class="ms-3" [id]="selectedModel()?.task?.id" (copied)="copyToClipboard()"></sm-id-badge>
+      <sm-id-badge class="sp-ms-3" [id]="selectedModel()?.task?.id" (copied)="copyToClipboard()"></sm-id-badge>
     }
   </header>
   @if (model() !== null) {

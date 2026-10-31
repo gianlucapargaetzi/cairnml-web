@@ -1,7 +1,7 @@
 <div class="card">
   @if (showFolder()) {
     <div class="folder-tab" smClickStopPropagation>
-      <div class="first-tab-parts" (click)="activeTab.set(1)"
+      <div class="first-tab-parts" (click)="activeTab.set(1)" aria-label="Show first tab"
            [class.hide-second-tab]="oneTabMode()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(1))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(1)); $event.target === $event.currentTarget && $event.preventDefault()"
       >
         <svg class="tabs" xmlns="http://www.w3.org/2000/svg" width="64" height="20" viewBox="0 0 64 20">
@@ -25,7 +25,7 @@
           class="second-tab text"
           [class.tab-hovered]="secondTabIsHovered"
           (click)="activeTab.set(2)"
-          [class.active]="activeTab() === 2" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(2))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(2)); $event.target === $event.currentTarget && $event.preventDefault()"
+          [class.active]="activeTab() === 2" tabindex="0" role="button" [attr.aria-label]="subFolderTitle() || 'Show second tab'" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(2))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(2)); $event.target === $event.currentTarget && $event.preventDefault()"
         >{{subFolderTitle()}}</div>
         <div
           class="second-tab"

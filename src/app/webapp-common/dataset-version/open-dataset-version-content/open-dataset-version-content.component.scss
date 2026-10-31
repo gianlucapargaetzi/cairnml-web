@@ -14,7 +14,7 @@
   ::ng-deep sm-table {
     [filetype]::before {
       content: fonts.$al-ico-file; // fallback icon (file)
-      color: #596c71;
+      color: var(--color-filetype-1);
       font-family: #{fonts.$icomoon-font-family};
       font-size: 24px;
       margin-right: 12px;
@@ -32,7 +32,7 @@
     [filetype="jpeg"]::before,
     [filetype="gif"]::before {
       content: fonts.$al-ico-image;
-      color: #3a7777;
+      color: var(--color-filetype-2);
     }
 
     // Video
@@ -41,7 +41,7 @@
     [filetype="wmv"]::before,
     [filetype="avi"]::before {
       content: fonts.$al-ico-video;
-      color: #846300;
+      color: var(--color-filetype-3);
     }
 
     // Audio
@@ -49,40 +49,40 @@
     [filetype="aac"]::before,
     [filetype="wav"]::before {
       content: fonts.$al-ico-audio;
-      color: #833e65;
+      color: var(--color-filetype-4);
     }
 
     [filetype="csv"]::before {
       content: fonts.$al-ico-csv;
-      color: #145f82;
+      color: var(--color-filetype-5);
     }
 
     [filetype="txt"]::before {
       content: fonts.$al-ico-txt;
-      color: #803d3d;
+      color: var(--color-filetype-6);
     }
 
     [filetype="zip"]::before,
     [filetype="gz"]::before {
       content: fonts.$al-ico-zip;
-      color: #615555;
+      color: var(--color-filetype-7);
     }
 
     [filetype="pkl"]::before {
       content: fonts.$al-ico-pkl;
-      color: #48507f;
+      color: var(--color-filetype-8);
     }
 
     [filetype="py"]::before {
       content: fonts.$al-ico-py;
-      color: #d1902e;
+      color: var(--color-filetype-9);
     }
 
     [filetype="html"]::before,
     [filetype="yaml"]::before,
     [filetype="json"]::before {
       content: fonts.$al-ico-code-file;
-      color: #a35151;
+      color: var(--color-filetype-10);
     }
   }
 }

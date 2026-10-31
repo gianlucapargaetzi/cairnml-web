@@ -1,5 +1,5 @@
 <div class="selected-project-row">
-  <div class="ms-2 ellipsis" smShowTooltipIfEllipsis [smTooltip]="project().name">{{ project()?.name }}</div>
+  <div class="sp-ms-2 ellipsis" smShowTooltipIfEllipsis [smTooltip]="project().name">{{ project()?.name }}</div>
   <div>
   @if (!hideTrash()) {
     <button aria-label="Remove" mat-icon-button class="sm" (click)=" $event.preventDefault(); toggleSelection.emit()">

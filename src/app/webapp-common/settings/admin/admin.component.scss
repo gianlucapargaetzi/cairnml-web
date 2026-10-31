@@ -75,7 +75,7 @@
     color: var(--color-on-primary-container);
     font-size: 16px;
     i {
-      color: var(--color-outline);
+      color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
       &:hover {
         color: var(--color-on-surface-variant);
       }
@@ -93,7 +93,7 @@
     display: flex;
     align-items: center;
     margin-left: 12px;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
 
     &:hover {
       color: var(--color-primary);

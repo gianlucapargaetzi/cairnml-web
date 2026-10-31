@@ -15,11 +15,11 @@
         }
       </div>
       @if (editable()) {
-        <button aria-label="Select model" mat-icon-button smTooltip="Select model" class="ms-3" data-id="selectModelButton" (click)="chooseModel()">
+        <button aria-label="Select model" mat-icon-button smTooltip="Select model" class="sp-ms-3" data-id="selectModelButton" (click)="chooseModel()">
           <mat-icon fontSet="al" fontIcon="al-ico-edit"></mat-icon>
         </button>
         @if (model()?.id) {
-          <button aria-label="Remove model" mat-icon-button class="ms-3" smTooltip="Remove model" (click)="removeModel()">
+          <button aria-label="Remove model" mat-icon-button class="sp-ms-3" smTooltip="Remove model" (click)="removeModel()">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
           </button>
         }

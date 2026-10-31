@@ -20,7 +20,7 @@
         >
       </sm-custom-columns-list>
       <div class="loader" [class.d-none]="!isLoading()">
-        <mat-spinner class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+        <mat-spinner aria-label="Loading" class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
       </div>
       <div [class.loading]="isLoading()"
            [class.loaded]="!isLoading()">

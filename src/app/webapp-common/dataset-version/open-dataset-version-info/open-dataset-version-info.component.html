@@ -56,7 +56,7 @@
   @if (showLog()) {
     <div class="header toggle">
       <div class="log-name">
-        <mat-icon fontSet="al" fontIcon="al-ico-console" class="al-icon me-2"></mat-icon>
+        <mat-icon fontSet="al" fontIcon="al-ico-console" class="al-icon sp-me-2"></mat-icon>
         @if ((selected$ | ngrxPush); as selected) {
           <span>
             {{selected?.name}}@if (selected?.runtime?.version) {

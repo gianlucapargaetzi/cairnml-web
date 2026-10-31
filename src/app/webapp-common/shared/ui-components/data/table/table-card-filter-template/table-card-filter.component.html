@@ -28,11 +28,11 @@
                   autocomplete="off"
                 >
                 @if (searchTerms[option.key]) {
-                  <button aria-label="Clear search" mat-icon-button matSuffix class="me-1" (click)="clearSearch(col)">
+                  <button aria-label="Clear search" mat-icon-button matSuffix class="sp-me-1" (click)="clearSearch(col)">
                     <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
                   </button>
                 } @else {
-                  <mat-icon matSuffix fontSet="al" fontIcon="al-ico-search" class="me-1"></mat-icon>
+                  <mat-icon matSuffix fontSet="al" fontIcon="al-ico-search" class="sp-me-1"></mat-icon>
                 }
               </mat-form-field>
             </form>
@@ -63,7 +63,7 @@
               <sm-dots-load-more
                 [loading]="loading()"
                 (loadMore)="loadMore(col)"
-                class="mx-auto my-2"
+                class="mx-auto sp-my-2"
               ></sm-dots-load-more>
             }
           </div>

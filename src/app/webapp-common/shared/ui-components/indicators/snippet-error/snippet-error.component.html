@@ -11,7 +11,7 @@
     @if (heightAboveLimit()) {
       <div
         class="label"
-        [class.mt-2]="missingSource()">
+        [class.sp-mt-2]="missingSource()">
         {{missingSource() ? 'Source not available' : 'Unable to load image'}}
       </div>
     }

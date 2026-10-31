@@ -9,7 +9,7 @@
     >{{experimentsStatusLabels()[status()] || status() | titlecase}}</div>
   }
   @if (showSpinner() && enableSpinner()) {
-    <mat-progress-spinner
+    <mat-progress-spinner aria-label="Loading"
       class="spinner"
       [class.show]="showSpinner() && progress()"
       [value]="progress()"

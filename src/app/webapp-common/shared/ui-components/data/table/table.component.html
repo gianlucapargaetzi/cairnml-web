@@ -44,7 +44,7 @@
               <button mat-button type="button" data-id="tableRetry" (click)="retry.emit()">Retry</button>
             </div>
           } @else if (tableSate().loading()) {
-            <mat-progress-spinner class="table-loading" mode="indeterminate" [diameter]="24" [strokeWidth]="2" data-id="tableLoading"></mat-progress-spinner>
+            <mat-progress-spinner aria-label="Loading" class="table-loading" mode="indeterminate" [diameter]="24" [strokeWidth]="2" data-id="tableLoading"></mat-progress-spinner>
           } @else if (!noDataTemplate()) {
             <span class="no-data">{{ emptyMessage() }}</span>
           }
@@ -169,7 +169,7 @@
             </td>
           }
         } @else {
-          <td class="pointer p-0" role="button">
+          <td class="pointer sp-p-0" role="button">
             <div class="card-wrapper">
               <div class="collapse-animation" [style.max-height.px]="cardsCollapsed()? 48 : cardHeight()">
                 <ng-container

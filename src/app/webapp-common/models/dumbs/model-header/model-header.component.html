@@ -9,13 +9,13 @@
         (toggleArchived)="onIsArchivedChanged($event)"></sm-toggle-archive>
     }
     <sm-button-toggle
-      class="ms-3"
+      class="sp-ms-3"
       [disabled]="!tableMode() || noData()"
       [options]="[{label: 'Table view', value: 'table', icon: 'al-ico-table-view'}, {label: 'Details view', value: 'info', icon: 'al-ico-experiment-view'}]"
       [rippleEffect]="rippleEffect()"
       [ngModel]="!noData() && tableMode()"
       (ngModelChange)="tableModeChanged.emit($any($event))"></sm-button-toggle>
-    <sm-common-search class="ms-3"></sm-common-search>
+    <sm-common-search class="sp-ms-3"></sm-common-search>
 
   </div>
   <div class="right-buttons gap-3">

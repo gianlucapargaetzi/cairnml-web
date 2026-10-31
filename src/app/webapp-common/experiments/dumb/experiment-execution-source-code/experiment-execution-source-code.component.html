@@ -110,7 +110,7 @@
           {{sourceCodeForm.controls.binary.value}}
           @if (sourceCodeForm.controls.binary.value && !(sourceCodeForm.controls.binary.value.substring(sourceCodeForm.controls.binary.value.lastIndexOf('/')+1)).match(binaryValidationRegexp)) {
             <i
-              class="al-icon al-ico-alert-outline sm ms-2"
+              class="al-icon al-ico-alert-outline sm sp-ms-2"
               smTooltip="This binary is not supported by the agent - System python will be used for execution"
             ></i>
           }

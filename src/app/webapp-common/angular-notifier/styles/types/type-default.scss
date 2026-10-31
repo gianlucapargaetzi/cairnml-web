@@ -1,8 +1,8 @@
 // NOTIFIER: DEFAULT TYPE STYLES
 
-$notifier-default-background-color: #444 !default;
-$notifier-default-font-color: #FFF !default;
-$notifier-default-icon-color: #FFF !default;
+$notifier-default-background-color: var(--color-inverse-surface) !default;
+$notifier-default-font-color: var(--color-inverse-on-surface) !default;
+$notifier-default-icon-color: var(--color-inverse-on-surface) !default;
 
 .notifier__notification--default {
 	background-color: $notifier-default-background-color;

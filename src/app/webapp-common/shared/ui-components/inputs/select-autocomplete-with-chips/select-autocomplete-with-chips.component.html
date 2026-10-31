@@ -24,7 +24,7 @@
     @if (!disabled()) {
       <i
         matSuffix
-        class="al-icon me-2"
+        class="al-icon sp-me-2"
         data-id="filterBylabelDropdownIcon"
         [class]="selected()?.length > 0 && !multiple() && !clearable() ? 'al-ico-dialog-x sm-md pointer' : 'al-ico-dropdown-arrow sm-md'"
         (click)="$event.stopPropagation(); !!selected() && !(multiple() && clearable()) ? clear() : openDropdown()"

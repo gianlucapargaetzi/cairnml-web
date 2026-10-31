@@ -1,8 +1,8 @@
 // NOTIFIER: INFO TYPE STYLES
 
-$notifier-info-background-color: #5BC0DE !default;
-$notifier-info-font-color: #FFF !default;
-$notifier-info-icon-color: #FFF !default;
+$notifier-info-background-color: var(--color-completed) !default;
+$notifier-info-font-color: var(--color-on-primary) !default;
+$notifier-info-icon-color: var(--color-on-primary) !default;
 
 .notifier__notification--info {
 	background-color: $notifier-info-background-color;

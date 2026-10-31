@@ -4,7 +4,7 @@
   }
   .input-duration.disabled {
     ::ng-deep input {
-      color: var(--color-outline);
+      color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
     }
   }
 }

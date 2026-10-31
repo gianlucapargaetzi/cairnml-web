@@ -125,7 +125,7 @@
               {{ experiment.name }}
             </div>
             @if (experiment?.system_tags?.includes('shared')) {
-              <mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm ms-2"></mat-icon>
+              <mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm sp-ms-2"></mat-icon>
             }
           </div>
         }
@@ -230,11 +230,11 @@
         (click)="selected && cardClicked($event, experiment)"
         >
         @if (experiment?.system_tags?.includes('shared')) {
-          <div sm-name-icon><mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm-md ms-2"></mat-icon></div>
+          <div sm-name-icon><mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm-md sp-ms-2"></mat-icon></div>
         }
         @if (experiment?.runtime?.version || experiment?.hyperparams?.properties?.version?.value) {
           <div sm-name-version
-            class="me-5">
+            class="sp-me-5">
             <span class="dot">●</span>
             v {{ (entityType() === 'version' || entityType() === entityTypes.controller) ? experiment?.runtime?.version || experiment?.hyperparams?.properties?.version?.value : experiment?.hyperparams?.properties?.version?.value }}
           </div>

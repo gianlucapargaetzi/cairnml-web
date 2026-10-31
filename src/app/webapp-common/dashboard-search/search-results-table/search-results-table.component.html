@@ -73,7 +73,7 @@
                   <button mat-button (click)="loadMoreClicked.emit(activeLinkConfiguration()[i].name)">
                     <div class="d-flex-center gap-2">
                       @if (loading()) {
-                        <mat-spinner [diameter]="16" [strokeWidth]="2" mode="indeterminate"></mat-spinner>
+                        <mat-spinner aria-label="Loading" [diameter]="16" [strokeWidth]="2" mode="indeterminate"></mat-spinner>
                       }
                       <span>Load more</span>
                     </div>

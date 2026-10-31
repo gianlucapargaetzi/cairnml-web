@@ -53,7 +53,7 @@
       <button aria-label="Previous result" mat-icon-button [disabled]="empty() || searchCounterIndex() < 1" (click)="findNext(true)">
         <mat-icon fontSet="al" fontIcon="al-ico-ico-chevron-up" data-id="previousSearchResultButton"></mat-icon>
       </button>
-      <button aria-label="Next result" class="me-1" mat-icon-button [disabled]="empty() || searchCounterIndex() + 1 === searchResultsCount() || !searchResultsCount()" (click)="findNext()">
+      <button aria-label="Next result" class="sp-me-1" mat-icon-button [disabled]="empty() || searchCounterIndex() + 1 === searchResultsCount() || !searchResultsCount()" (click)="findNext()">
         <mat-icon fontSet="al" fontIcon="al-ico-ico-chevron-down" data-id="nextSearchResultButton"></mat-icon>
       </button>
     }
