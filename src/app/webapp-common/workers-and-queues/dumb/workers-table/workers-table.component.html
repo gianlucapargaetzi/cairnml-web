@@ -5,7 +5,7 @@
     [reorderableColumns]="false"
     [resizableColumns]="false"
     [scrollable]="true"
-    [columns]="cols"
+    [columns]="cols()"
     [rowsNumber]="100"
     [rowHeight]="40"
     (rowSelectionChanged)="onRowClicked($event)"
@@ -25,6 +25,9 @@
         }
         @case (WORKERS_TABLE_COL_FIELDS.STATUS) {
           <sm-status-icon-label [status]="worker.online ? 'active' : 'stopped'" [externalStatusLabels]="AGENT_STATUS_LABELS"></sm-status-icon-label>
+        }
+        @case (WORKERS_TABLE_COL_FIELDS.VERSION) {
+          <span class="ellipsis" [smTooltip]="versionAndMode(worker)" smShowTooltipIfEllipsis>{{versionAndMode(worker)}}</span>
         }
         @case (WORKERS_TABLE_COL_FIELDS.LAST_SEEN) {
           <span class="ellipsis">{{worker.last_seen ? (worker.last_seen | timeAgo) : '—'}}</span>
