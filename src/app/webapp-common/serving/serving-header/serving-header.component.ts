@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-serving-header',
@@ -23,6 +24,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrls: ['./serving-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
     RefreshButtonComponent,
     CommonSearchComponent,
     ClearFiltersButtonComponent,

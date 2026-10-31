@@ -26,12 +26,14 @@ import {TagListComponent} from '@common/shared/ui-components/tags/tag-list/tag-l
 import {PushPipe} from '@ngrx/component';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
     selector: 'sm-nested-open-datasets-page',
     templateUrl: './nested-open-datasets-page.component.html',
     styleUrls: ['../../../webapp-common/nested-project-view/nested-project-view-page/nested-project-view-page.component.scss'],
   imports: [
+    PageHeaderComponent,
     CircleCounterComponent,
     ClickStopPropagationDirective,
     TagListComponent,

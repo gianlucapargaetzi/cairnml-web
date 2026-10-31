@@ -107,7 +107,9 @@ export class QueuesTableComponent extends BaseTableView {
   queues = input<Queue[]>();
   selectedQueue = input<Queue[]>();
   short = input(true);
+  errorMessage = input<string>();
   queueSelected = output<string>();
+  retry = output();
   deleteQueue = output<Queue>();
   renameQueue = output<Queue>();
   clearQueue = output<Queue>();

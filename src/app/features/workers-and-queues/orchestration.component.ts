@@ -6,13 +6,15 @@ import {headerActions} from '@common/core/actions/router.actions';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {RouterOutlet} from '@angular/router';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-orchestration',
   templateUrl: './orchestration.component.html',
   styleUrls: ['./orchestration.component.scss'],
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    PageHeaderComponent
   ]
 })
 export class OrchestrationComponent {

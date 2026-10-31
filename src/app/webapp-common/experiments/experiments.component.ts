@@ -137,6 +137,8 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {MatButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {concatLatestFrom} from '@ngrx/operators';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {NgTemplateOutlet} from '@angular/common';
 
 
 @Component({
@@ -145,6 +147,8 @@ import {concatLatestFrom} from '@ngrx/operators';
   styleUrls: ['./experiments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
+    NgTemplateOutlet,
     SplitComponent,
     SplitAreaComponent,
     RouterOutlet,

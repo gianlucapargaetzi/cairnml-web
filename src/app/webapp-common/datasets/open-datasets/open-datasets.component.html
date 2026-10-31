@@ -1,3 +1,9 @@
+<sm-page-header title="Datasets">
+  <button actions mat-flat-button (click)="createDataset()" data-id="New Dataset">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    New dataset
+  </button>
+</sm-page-header>
 <div class="sm-card-list-layout projects"
   [class.in-empty-state]="!(((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching)">
   <sm-projects-header
@@ -16,10 +22,6 @@
             ]"
       (ngModelChange)="!(!!projectId && $event) && toggleNestedView($event)"
     ></sm-button-toggle>
-    <button mat-flat-button (click)="createDataset()" data-id="New Dataset">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-      New dataset
-    </button>
   </sm-projects-header>
   @if (((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching) {
     @for (project of projectsList$ | ngrxPush; track project.id + $index) {

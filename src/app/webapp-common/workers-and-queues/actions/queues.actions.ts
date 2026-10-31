@@ -14,6 +14,7 @@ export const queueActions = createActionGroup({
   events: {
     'get queues': props<{autoRefresh?: boolean}>(),
     'set queues': props<{ queues: Queue[] }>(),
+    'queues load failed': props<{ message: string }>(),
     'queues table sort changed': props<{ colId: string; isShift: boolean }>(),
     'queues table set sort': props<{ orders: SortMeta[] }>(),
     'clear queue': props<{ queue?: Queue }>(),

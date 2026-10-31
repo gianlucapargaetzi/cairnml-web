@@ -36,6 +36,8 @@ import {MatButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {NgTemplateOutlet} from '@angular/common';
 
 @Component({
   selector: 'sm-controllers',
@@ -43,6 +45,8 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
   styleUrls: ['./controllers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
+    NgTemplateOutlet,
     SplitAreaComponent,
     SplitComponent,
     RouterOutlet,

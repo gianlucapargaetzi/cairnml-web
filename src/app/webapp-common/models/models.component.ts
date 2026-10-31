@@ -70,6 +70,7 @@ import {RouterOutlet} from '@angular/router';
 import {EntityFooterComponent} from '@common/shared/entity-page/entity-footer/entity-footer.component';
 import {PushPipe} from '@ngrx/component';
 import {ModelHeaderComponent} from '@common/models/dumbs/model-header/model-header.component';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 
 @Component({
@@ -78,6 +79,7 @@ import {ModelHeaderComponent} from '@common/models/dumbs/model-header/model-head
   styleUrls: ['./models.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
     SplitAreaComponent,
     SplitComponent,
     RouterOutlet,

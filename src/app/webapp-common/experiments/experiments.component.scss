@@ -5,6 +5,11 @@
     width: 100%;
     height: calc(100% - #{layout.$project-header-height});
     transition: height 0.3s;
+
+    // With the shared page header (56px) above the 48px toolbar.
+    &.with-page-header {
+      height: calc(100% - #{layout.$project-header-height} - 48px);
+    }
   }
 
   .info-disabled {
