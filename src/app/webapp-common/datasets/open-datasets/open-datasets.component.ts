@@ -22,12 +22,14 @@ import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
 import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
 import {DatasetGitListComponent} from '@common/datasets/dataset-git/dataset-git-list.component';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-open-datasets',
   templateUrl: './open-datasets.component.html',
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
+    PageHeaderComponent,
     DatasetEmptyComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,

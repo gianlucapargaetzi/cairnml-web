@@ -14,6 +14,7 @@ export interface State {
   stats: {wait: Topic[]; length: Topic[]};
   selectedStatsTimeFrame: string;
   tableSortFields: SortMeta[];
+  error: string | null;
 }
 
 const initQueues: State = {
@@ -23,11 +24,14 @@ const initQueues: State = {
   stats: {wait: null, length: null},
   selectedStatsTimeFrame: (3 * TIME_INTERVALS.HOUR).toString(),
   tableSortFields: [{field: QUEUES_TABLE_COL_FIELDS.NAME, order: TABLE_SORT_ORDER.ASC}],
+  error: null,
 };
 
 export const reducer = createReducer(
   initQueues,
-  on(queueActions.setQueues, (state, action): State => ({...state, data: action.queues})),
+  on(queueActions.getQueues, (state, action): State => ({...state, ...(!action.autoRefresh && {error: null})})),
+  on(queueActions.setQueues, (state, action): State => ({...state, data: action.queues, error: null})),
+  on(queueActions.queuesLoadFailed, (state, action): State => ({...state, error: action.message})),
   on(queueActions.fetchQueue, (state, action): State =>
     ({...state, ...(!action.autoRefresh && {selected: initQueues.selected})})),
   on(queueActions.fetchQueueSuccess, (state, action): State =>

@@ -16,12 +16,14 @@ import {MatIcon} from '@angular/material/icon';
 import {
   PipelinesEmptyStateComponent
 } from '@common/pipelines/pipelines-page/pipelines-empty-state/pipelines-empty-state.component';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
     selector: 'sm-nested-pipeline-page',
     templateUrl: './nested-pipeline-page.component.html',
     styleUrls: ['../../nested-project-view/nested-project-view-page/nested-project-view-page.component.scss'],
   imports: [
+    PageHeaderComponent,
     CircleCounterComponent,
     TagListComponent,
     ClickStopPropagationDirective,

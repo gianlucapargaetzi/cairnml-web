@@ -1,3 +1,4 @@
+<ng-content select="[page-header]"></ng-content>
 <div class="sm-card-list-layout projects"
   [class.in-empty-state]="!(projectsList()?.length !== 0 || searching())">
   <sm-projects-header
@@ -17,7 +18,6 @@
       (ngModelChange)="toggleNestedView.emit($any($event))"
     ></sm-button-toggle>
     <div class="d-flex">
-      <ng-content select="[create-button]"></ng-content>
       <ng-content select="[extendedButtons]"></ng-content>
     </div>
   </sm-projects-header>

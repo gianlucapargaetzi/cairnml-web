@@ -19,6 +19,8 @@
     [scrollable]="true"
     [virtualScroll]="true"
     [columnResizeMode]="'fit'"
+    [errorMessage]="errorMessage()"
+    (retry)="retry.emit()"
     [selection]="selectedQueue()"
     [contextMenuOpen]="menuOpen()"
     [activeContextRow]="contextQueue"

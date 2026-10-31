@@ -1,3 +1,4 @@
+@let projectId = selectedProjectId$ | ngrxPush;
 <sm-reports-list
   [reports]="reports$ | ngrxPush"
   [archive]="archive$ | ngrxPush"
@@ -15,6 +16,14 @@
   (removeTag)="removeTag($event)"
   (moveToArchive)="moveToArchive($event)"
 >
+  <sm-page-header page-header title="Reports">
+    <button actions mat-flat-button data-id="createNewReport"
+            [disabled]="archive$ | ngrxPush"
+            (click)="openCreateReportDialog(projectId)">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      New report
+    </button>
+  </sm-page-header>
   <sm-reports-header
     [archive]="archive$ | ngrxPush"
     [allTags]="reportsTags$ |ngrxPush"
@@ -22,7 +31,6 @@
     [sortByField]="reportsOrderBy$ | ngrxPush"
     [projectId]="selectedProjectId$ | ngrxPush"
     (toggleNestedView)="toggleNestedView($event)"
-    (createReportClicked)="openCreateReportDialog($event)"
     (archiveToggled)="toggleArchive($event)"
     (orderByChanged)="orderByChanged($event)"
   ></sm-reports-header>

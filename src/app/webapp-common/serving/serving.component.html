@@ -16,7 +16,7 @@
 
 ></sm-serving-header>
 <div class="models-body">
-  <as-split #split
+  <as-split [direction]="narrowScreen() ? 'vertical' : 'horizontal'" #split
             [gutterSize]=1
             [useTransition]="true"
             [gutterDblClickDuration]="400"

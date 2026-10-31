@@ -30,17 +30,19 @@ $table-row-padding: 10px;
     cursor: move;
   }
 
+  // Same look as sm-table: 40px header and rows, 12px cell padding, 12px/500 secondary header text.
   .headers {
     line-height: 40px;
-    border-bottom: 1px solid var(--color-outline-variant);
+    padding: 0 12px;
+    border-bottom: 1px solid var(--row-border-color);
     font-weight: 500;
     font-size: 12px;
+    color: var(--color-on-surface-variant);
   }
 
   .table-row {
     line-height: $table-row-height;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 8px 12px;
 
     ::ng-deep .flashing-icon {
       opacity: 0;
@@ -58,9 +60,7 @@ $table-row-padding: 10px;
       background-color: var(--color-surface);
     }
 
-    &:last-of-type {
-      border-bottom: 1px solid var(--color-outline-variant);
-    }
+    border-bottom: 1px solid var(--row-border-color);
 
     &.toggleable {
       cursor: pointer;
@@ -83,7 +83,7 @@ $table-row-padding: 10px;
 
   .empty-state {
     text-align: center;
-    padding-top: 12px;
+    padding: 12px;
     color: var(--color-empty-state);
   }
 }

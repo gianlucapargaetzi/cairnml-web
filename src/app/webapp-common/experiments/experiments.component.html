@@ -1,4 +1,11 @@
 <sm-overlay [backdropActive]="backdropActive$|ngrxPush"></sm-overlay>
+@if (getTableModeFromURL() !== 'compare') {
+  <sm-page-header title="Tasks">
+    <div actions class="d-flex">
+      <ng-container *ngTemplateOutlet="addButton; context: {smallScreen: false}"></ng-container>
+    </div>
+  </sm-page-header>
+}
 <sm-experiment-header
   [tableCols]="tableMode() === 'compare' ? (tableCompareView() === 'plots' ? (compareSelectedMetricsPlots$ | ngrxPush) : (compareSelectedMetricsScalars$ | ngrxPush)) : (filteredTableCols$| ngrxPush)"
   [isArchived]="inArchivedMode()"
@@ -12,7 +19,7 @@
   [showCompareScalarSettings]="showCompareScalarSettings$ | ngrxPush"
   [compareView]="tableCompareView()"
   [rippleEffect]="tableModeAwareness$ | ngrxPush"
-  [addButtonTemplate]="addButton"
+  [addButtonTemplate]="getTableModeFromURL() === 'compare' ? addButton : null"
   [noData]="!((experiments$ | ngrxPush)?.length > 0)"
   [entityType]="entityType"
   (isArchivedChanged)="archivedChanged($event)"
@@ -48,8 +55,8 @@
     </button>
   }
 </ng-template>
-<div class="experiment-body">
-  <as-split
+<div class="experiment-body" [class.with-page-header]="getTableModeFromURL() !== 'compare'">
+  <as-split [direction]="narrowScreen() ? 'vertical' : 'horizontal'"
     [gutterSize]=1
     [useTransition]="true"
     [gutterDblClickDuration]="400"

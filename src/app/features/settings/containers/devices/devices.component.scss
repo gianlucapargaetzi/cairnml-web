@@ -13,57 +13,11 @@
   max-width: 720px;
 }
 
-.devices-error {
-  color: var(--color-error);
-  margin-bottom: 16px;
-}
-
-.devices-empty {
-  color: var(--color-on-surface-variant);
-}
-
 .devices-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 24px;
-
-  thead th {
-    border-bottom: solid 1px var(--color-outline-variant);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-on-surface-variant);
-    padding: 0 12px;
-    height: 40px;
-    text-align: left;
-  }
-
-  tbody tr {
-    height: 40px;
-    border-bottom: solid 1px var(--color-surface-container-high);
-
-    &:hover {
-      background-color: var(--color-surface-container-low);
-    }
-
-    &.revoked td {
-      color: var(--color-outline);
-    }
-
-    td {
-      color: var(--color-on-surface-variant);
-      padding: 0 12px;
-      white-space: nowrap;
-
-      .name {
-        display: inline-block;
-        max-width: 280px;
-      }
-    }
-
-    td.actions {
-      width: 64px;
-      text-align: center;
-    }
+  .name {
+    display: inline-block;
+    max-width: 280px;
+    vertical-align: middle;
   }
 
   .status {

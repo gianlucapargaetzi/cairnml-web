@@ -137,6 +137,9 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {MatButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {concatLatestFrom} from '@ngrx/operators';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {NgTemplateOutlet} from '@angular/common';
+import {injectNarrowScreen} from '@common/shared/utils/narrow-screen';
 
 
 @Component({
@@ -145,6 +148,8 @@ import {concatLatestFrom} from '@ngrx/operators';
   styleUrls: ['./experiments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
+    NgTemplateOutlet,
     SplitComponent,
     SplitAreaComponent,
     RouterOutlet,
@@ -160,6 +165,7 @@ import {concatLatestFrom} from '@ngrx/operators';
   ]
 })
 export class ExperimentsComponent extends BaseEntityPageComponent implements OnDestroy {
+  protected narrowScreen = injectNarrowScreen();
   protected get tableCols() {
     return INITIAL_EXPERIMENT_TABLE_COLS;
   }

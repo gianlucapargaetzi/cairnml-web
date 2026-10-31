@@ -1,5 +1,5 @@
-<div class="d-flex align-items-center">
-  <div class="d-flex align-items-center experiment-name-cont">
+<sm-page-header>
+  <div title-edit class="d-flex align-items-center experiment-name-cont">
     @if (experiment()) {
       <sm-experiment-type-icon-label
         class="me-3" data-id="experimentIcon" [showLabel]="false" [type]="experiment()?.type" iconClass="lg"
@@ -19,7 +19,7 @@
       </div>
     </sm-inline-edit>
   </div>
-  <div class="d-flex align-items-center ms-auto gap-3">
+  <div actions class="d-flex align-items-center gap-3">
     @if ((!minimized()) && shared()) {
       <div class="shared line-item"
         ><i class="al-icon al-ico-link sm-md"></i></div>
@@ -104,7 +104,7 @@
         </button>
       }
     </div>
-  </div>
+</sm-page-header>
   <div class="middle-col">
     @if (editable()) {
       <sm-tag-list

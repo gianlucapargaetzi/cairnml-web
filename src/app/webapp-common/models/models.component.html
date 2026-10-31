@@ -1,3 +1,4 @@
+<sm-page-header title="Models"></sm-page-header>
 <sm-model-header
   [minimizedView]="minimizedView()"
   [isArchived]="isArchived$ | ngrxPush"
@@ -25,7 +26,7 @@
 
 ></sm-model-header>
 <div class="models-body">
-  <as-split
+  <as-split [direction]="narrowScreen() ? 'vertical' : 'horizontal'"
     [gutterSize]=1
     [useTransition]="true"
     [gutterDblClickDuration]="400"

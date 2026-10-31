@@ -3,7 +3,7 @@
 :host {
   .models-body {
     width: 100%;
-    height: calc(100% - #{layout.$project-header-height});
+    height: calc(100% - #{layout.$project-header-height} - 48px);
     transition: height 0.3s;
   }
 

@@ -9,6 +9,7 @@ import {TagListComponent} from '@common/shared/ui-components/tags/tag-list/tag-l
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
     selector: 'sm-nested-datasets-page',
@@ -18,6 +19,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
         '../../../webapp-common/datasets/open-datasets/open-datasets.component.scss'
     ],
   imports: [
+    PageHeaderComponent,
     AsyncPipe,
     CircleCounterComponent,
     TagListComponent,

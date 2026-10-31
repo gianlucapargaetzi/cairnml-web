@@ -49,6 +49,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {
   PipelineControllerStepComponent
 } from '@common/pipelines-controller/pipeline-controller-step/pipeline-controller-step.component';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 // import {pipelineDummyConfiguration} from '@common/pipelines-controller/pipeline-controller-info/pipeline-dummydata';
 
 export interface PipelineItem extends DagModelItem {
@@ -83,6 +84,7 @@ export enum StatusOption {
   providers: [DagManagerUnsortedService],
   host: {'(document:keydown)': 'onKeyDown($event)'},
   imports: [
+    PageHeaderComponent,
     PushPipe,
     OpenDatasetVersionPreviewComponent,
     ExperimentOutputLogComponent,
@@ -125,6 +127,7 @@ export class PipelineControllerInfoComponent implements OnDestroy {
 
   public maximizeResults: boolean;
   protected selected$ = this.store.select(selectPipelineSelectedStepWithFallback);
+  protected selectedRun$ = this.store.select(selectSelectedExperiment);
   protected projectId$ = this.store.select(selectRouterProjectId);
 
   protected dagModel$ = this._dagManager.dagModel$

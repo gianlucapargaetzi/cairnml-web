@@ -1,3 +1,4 @@
+<ng-content select="[page-header]"></ng-content>
 <div class="sm-card-list-layout" [class.in-empty-state]="!(!newReport.observed || reports() === null || reports()?.length > 0)">
   <ng-content></ng-content>
   @if (!newReport.observed || reports() === null || reports()?.length > 0) {

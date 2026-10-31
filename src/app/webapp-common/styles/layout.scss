@@ -27,6 +27,13 @@
   height: inherit;
   align-items: center;
 
+  // Below 960px the toolbar keeps its height and scrolls sideways instead of clipping its controls.
+  @media (max-width: 959px) {
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
   .recent-title {
     display: flex;
     align-items: center;
@@ -38,14 +45,6 @@
       cursor: pointer;
     }
   }
-}
-
-.sm-entity-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 24px;
-  height: layout.$project-header-height;
 }
 
 .stick-to-corner {
