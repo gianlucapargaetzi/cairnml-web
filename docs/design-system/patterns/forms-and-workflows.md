@@ -13,7 +13,7 @@ Inline edit for a single value (Enter saves, Esc cancels); section edit toggle f
 
 ## Delete flow
 
-Menu item "Delete…" (with ellipsis, since it opens a dialog) → confirm dialog (title with object, consequence text, `Cancel` + destructive `Delete`) → on success toast "Task deleted", return to list. For bulk: count in the title.
+Menu item "Delete" (no ellipsis, see [navigation rules](../components/navigation.md)) → confirm dialog (title with object, consequence text, `Cancel` + destructive `Delete`) → on success toast "Task deleted", return to list. For bulk: count in the title.
 
 ## Enqueue flow (task → queue)
 
