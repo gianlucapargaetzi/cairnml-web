@@ -33,6 +33,22 @@ export interface ContributionSummary {
 }
 
 const RUNNING_STATUSES = ['in_progress', 'queued'];
+const UNKNOWN_USER = 'Unknown user';
+
+/**
+ * The counts of the period as the server computes them (`projects.get_contributions`). Days are local calendar
+ * days (`YYYY-MM-DD`) in the time zone the request gave, and only days with runs are listed.
+ */
+export interface ContributionAggregate {
+  period_days: number;
+  total: number;
+  completed: number;
+  failed: number;
+  running: number;
+  days: {date: string; runs: number}[];
+  contributors: {id: string; name: string; runs: number}[];
+  contributor_count: number;
+}
 
 /** Local calendar day start, so that a run belongs to the day the user saw it on. */
 export function startOfLocalDay(date: Date): Date {
@@ -44,6 +60,54 @@ export function periodStart(now: Date, periodDays: number): Date {
   const start = startOfLocalDay(now);
   start.setDate(start.getDate() - (periodDays - 1));
   return start;
+}
+
+/** Local calendar day as `YYYY-MM-DD`, the key of `ContributionAggregate.days`. */
+export function localDayKey(date: Date): string {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+/** Minutes east of UTC of the local time zone, the value the server needs to assign runs to local days. */
+export function utcOffsetMinutes(date: Date): number {
+  return -date.getTimezoneOffset();
+}
+
+function levelDays(days: ContributionDay[]) {
+  const busiest = Math.max(0, ...days.map(day => day.runs));
+  for (const day of days) {
+    day.level = day.runs === 0 ? 0 : Math.min(4, Math.ceil((day.runs / busiest) * 4));
+  }
+}
+
+/** Same summary as `buildContributionSummary`, from the counts the server computed. */
+export function buildContributionSummaryFromAggregate(
+  aggregate: ContributionAggregate, now: Date, periodDays: number, topContributors: number
+): ContributionSummary {
+  const start = periodStart(now, periodDays);
+  const runsByDay = new Map(aggregate.days.map(day => [day.date, day.runs]));
+  const days: ContributionDay[] = [];
+  for (let i = 0; i < periodDays; i++) {
+    const date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+    days.push({date, runs: runsByDay.get(localDayKey(date)) ?? 0, level: 0});
+  }
+  levelDays(days);
+
+  return {
+    total: aggregate.total,
+    completed: aggregate.completed,
+    failed: aggregate.failed,
+    running: aggregate.running,
+    days,
+    leadingBlanks: Array.from({length: (start.getDay() + 6) % 7}, (_, i) => i),
+    contributors: aggregate.contributors.slice(0, topContributors).map(contributor => ({
+      id: contributor.id,
+      name: contributor.name || UNKNOWN_USER,
+      runs: contributor.runs
+    })),
+    contributorCount: aggregate.contributor_count
+  };
 }
 
 export function buildContributionSummary(
@@ -86,10 +150,7 @@ export function buildContributionSummary(
     byUser.set(run.userId, contributor);
   }
 
-  const busiest = Math.max(0, ...days.map(day => day.runs));
-  for (const day of days) {
-    day.level = day.runs === 0 ? 0 : Math.min(4, Math.ceil((day.runs / busiest) * 4));
-  }
+  levelDays(days);
 
   const contributors = [...byUser.entries()]
     .map(([id, {name, runs}]) => ({id, name, runs}))
