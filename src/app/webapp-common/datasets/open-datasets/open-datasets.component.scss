@@ -1,3 +1,4 @@
+@use "../../styles/mixins/breakpoints" as bp;
 @use "variables";
 
 :host {
@@ -29,7 +30,7 @@
 
 // Phone width: the shared card grid uses a fixed 352px column, which does not fit beside the navigation rail and
 // was clipped. On this page the column takes the available width below 600px.
-@media (max-width: 599px) {
+@include bp.down(bp.$bp-md) {
   :host .sm-card-list-layout {
     grid-template-columns: minmax(0, 1fr);
     padding: 0 16px 16px;

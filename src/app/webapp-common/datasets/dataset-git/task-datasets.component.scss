@@ -1,3 +1,4 @@
+@use "../../styles/mixins/breakpoints" as bp;
 :host {
   display: block;
 }
@@ -36,7 +37,7 @@
 }
 
 // Indented like the other detail sections on wide screens; flush on phones, like them.
-@media (min-width: 600px) {
+@include bp.up(bp.$bp-md) {
   .task-datasets {
     padding-left: var(--space-5);
     padding-right: var(--space-5);
