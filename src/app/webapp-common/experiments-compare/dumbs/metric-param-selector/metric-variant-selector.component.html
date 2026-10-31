@@ -1,5 +1,6 @@
 @if (multiSelect) {
-  <div class="d-flex title-container align-items-center" (click)="metricSelect.openMenu()">
+  <div class="d-flex title-container align-items-center" (click)="metricSelect.openMenu()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (metricSelect.openMenu())" (keydown.space)="$event.target === $event.currentTarget && (metricSelect.openMenu()); $event.target === $event.currentTarget && $event.preventDefault()"
+  >
     <span class="param-selector-title pointer">{{ title }}</span>
     <sm-menu #metricSelect iconClass="al-ico-dropdown-arrow" buttonTooltip="Select metric"
              smMenuClass="custom-columns" (menuClosed)="selectMetric.resetSearch()"
@@ -15,7 +16,8 @@
     </sm-menu>
   </div>
 } @else {
-  <div class="like-select d-flex justify-content-between align-items-center pointer" (click)="metricSelect.openMenu()">
+  <div class="like-select d-flex justify-content-between align-items-center pointer" (click)="metricSelect.openMenu()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (metricSelect.openMenu())" (keydown.space)="$event.target === $event.currentTarget && (metricSelect.openMenu()); $event.target === $event.currentTarget && $event.preventDefault()"
+  >
     <span class="selected-parameter ellipsis" smShowTooltipIfEllipsis
           [smTooltip]="(selectedMetricVariants[0] |metricVariantToName) + ' ' + (MetricValueTypeStrings[selectedMetricVariants[0]?.valueType] ?? '')">{{ selectedMetricVariants[0] ? (selectedMetricVariants[0] |metricVariantToName) : 'Select Metric' }} {{ (MetricValueTypeStrings[selectedMetricVariants[0]?.valueType] ?? '') }}</span>
     <sm-menu #metricSelect iconClass="al-ico-dropdown-arrow" buttonTooltip="Select metric"
@@ -37,7 +39,8 @@
     @for (selectedMetricVariant of selectedMetricVariants; track $index) {
       <div class="multi-selected-parameter" smShowTooltipIfEllipsis [smTooltip]="(selectedMetricVariant |metricVariantToName) + ' ' + (MetricValueTypeStrings[selectedMetricVariant?.valueType] ?? '')">
         <span class="multi-selected-parameter-name ellipsis">{{ selectedMetricVariant |metricVariantToName }} {{ (MetricValueTypeStrings[selectedMetricVariant?.valueType] ?? '') }}</span>
-        <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" aria-label="Remove metric" aria-hidden="false" (click)="removeMetric.emit(selectedMetricVariant)"></mat-icon></div>
+        <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" aria-label="Remove metric" aria-hidden="false" (click)="removeMetric.emit(selectedMetricVariant)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (removeMetric.emit(selectedMetricVariant))" (keydown.space)="$event.target === $event.currentTarget && (removeMetric.emit(selectedMetricVariant)); $event.target === $event.currentTarget && $event.preventDefault()"
+        ></mat-icon></div>
     }
   } @else {
     <div class="no-data">No metrics selected</div>

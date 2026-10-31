@@ -15,8 +15,8 @@
   #diagramContainer
   class="pipeline-container"
   [class.extend]="showLog()"
-  (click)="selectStep()"
-  >
+  (click)="selectStep()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (selectStep())" (keydown.space)="$event.target === $event.currentTarget && (selectStep()); $event.target === $event.currentTarget && $event.preventDefault()"
+>
   @if (dagModel$ | ngrxPush; as dagModel) {
     @for (row of dagModel | reverse; track row) {
       <div class="level" [style.width.px]="chartWidth">
@@ -68,9 +68,9 @@
     <sm-button-toggle
       [ngModel]="detailsPanelMode()"
         [options]="[
-          {label: 'CONTENT', value: statusOption.content},
-          {label: 'PREVIEW', value: statusOption.preview},
-          {label: 'CONSOLE', value: statusOption.log}
+          {label: 'Content', value: statusOption.content},
+          {label: 'Preview', value: statusOption.preview},
+          {label: 'Console', value: statusOption.log}
         ]"
       (ngModelChange)="detailsPanelMode.set($event)"
     ></sm-button-toggle>

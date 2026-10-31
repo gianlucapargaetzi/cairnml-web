@@ -35,15 +35,17 @@
       }
     </div>
     <div class="d-flex third actions">
-      <div (click)="embedCodeClick($event)" aria-label="Copy embed code"
+      <div tabindex="0" role="button" (click)="embedCodeClick($event)" (keydown.enter)="$event.target === $event.currentTarget && (embedCodeClick($any($any($event))))" (keydown.space)="$event.target === $event.currentTarget && (embedCodeClick($any($any($event)))); $event.target === $event.currentTarget && $event.preventDefault()" aria-label="Copy embed code"
            smTooltip="Copy embed code" data-id="copyEmbedCodeButton" class="icon-container"
            [style.visibility]="embedFunction ? 'visible' : 'hidden'">
         <mat-icon fontSet="al" fontIcon="al-ico-code-square" class="al-icon"></mat-icon>
       </div>
-      <div (click)="downloadImage()" aria-label="Open in a new tab" [smTooltip]="'Open in a new tab'" data-id="downloadButton" class="icon-container">
+      <div (click)="downloadImage()" aria-label="Open in a new tab" [smTooltip]="'Open in a new tab'" data-id="downloadButton" class="icon-container" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (downloadImage())" (keydown.space)="$event.target === $event.currentTarget && (downloadImage()); $event.target === $event.currentTarget && $event.preventDefault()"
+      >
         <mat-icon fontSet="al" fontIcon="al-ico-export" class="al-icon sm-md"></mat-icon>
       </div>
-      <div (click)="closeImageViewer()" aria-label="Close" smTooltip="Close" data-id="closeButton" class="icon-container">
+      <div (click)="closeImageViewer()" aria-label="Close" smTooltip="Close" data-id="closeButton" class="icon-container" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (closeImageViewer())" (keydown.space)="$event.target === $event.currentTarget && (closeImageViewer()); $event.target === $event.currentTarget && $event.preventDefault()"
+      >
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon"></mat-icon>
       </div>
     </div>
@@ -80,31 +82,37 @@
       <div (click)="fitToScreen()" aria-label="Fit to window"
            class="fit-to-screen controller icon-container"
            smTooltip="Fit to window" data-id="fitToScreenButton" matTooltipPosition="left"
-           [class.disabled]="scaleOffset().scale === autoFitScale">
+           [class.disabled]="scaleOffset().scale === autoFitScale" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (fitToScreen())" (keydown.space)="$event.target === $event.currentTarget && (fitToScreen()); $event.target === $event.currentTarget && $event.preventDefault()"
+      >
         <mat-icon fontSet="al" fontIcon="al-ico-fit" class="al-icon" data-id="fitToScreen"></mat-icon>
       </div>
       <div class="zoom controller">
         <div class="icon-container" [class.disabled]="maxScale <= scaleOffset()?.scale">
-          <mat-icon fontSet="al" fontIcon="al-ico-plus" class="al-icon" aria-label="Zoom in" aria-hidden="false" (click)="calculateNewScale(true)" smTooltip="Zoom in" matTooltipPosition="left" data-id="ZoomInButton"></mat-icon>
+          <mat-icon fontSet="al" fontIcon="al-ico-plus" class="al-icon" aria-label="Zoom in" aria-hidden="false" (click)="calculateNewScale(true)" smTooltip="Zoom in" matTooltipPosition="left" data-id="ZoomInButton" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (calculateNewScale(true))" (keydown.space)="$event.target === $event.currentTarget && (calculateNewScale(true)); $event.target === $event.currentTarget && $event.preventDefault()"
+          ></mat-icon>
         </div>
         <div class="d-flex flex-column justify-content-around align-items-center icon-container" (click)="resetScale()" aria-label="Zoom to 1:1"
              smTooltip="Zoom to 1:1" matTooltipPosition="left"
-             [class.disabled]="scaleOffset().scale === 1">
+             [class.disabled]="scaleOffset().scale === 1" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (resetScale())" (keydown.space)="$event.target === $event.currentTarget && (resetScale()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <mat-icon fontSet="al" fontIcon="al-ico-zoom-1-to-1" class="al-icon sm-md" data-id="zoomTo1:1Ratio"></mat-icon>
         </div>
         <div class="icon-container">
           <div class="al-icon al-ico-minus" (click)="calculateNewScale(false)" aria-label="Zoom out"
-               smTooltip="Zoom out" matTooltipPosition="left" data-id="zoomOutButton"></div>
+               smTooltip="Zoom out" matTooltipPosition="left" data-id="zoomOutButton" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (calculateNewScale(false))" (keydown.space)="$event.target === $event.currentTarget && (calculateNewScale(false)); $event.target === $event.currentTarget && $event.preventDefault()"
+          ></div>
         </div>
       </div>
     </div>
     @if (!data.withoutNavigation) {
       <div class="navigation">
         <div class="icon-container controller next"
-             (click)="canGoNext() && next()" aria-label="Next" [class.disabled]="endOfTime$ | ngrxPush">
+             (click)="canGoNext() && next()" aria-label="Next" [class.disabled]="endOfTime$ | ngrxPush" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (canGoNext() && next())" (keydown.space)="$event.target === $event.currentTarget && (canGoNext() && next()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <mat-icon fontSet="al" fontIcon="al-ico-next" class="al-icon" data-id="nextButton"></mat-icon></div>
         <div class="icon-container controller previous"
-             (click)="canGoBack() && previous()" aria-label="Previous" [class.disabled]="beginningOfTime$ | ngrxPush">
+             (click)="canGoBack() && previous()" aria-label="Previous" [class.disabled]="beginningOfTime$ | ngrxPush" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (canGoBack() && previous())" (keydown.space)="$event.target === $event.currentTarget && (canGoBack() && previous()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <mat-icon fontSet="al" fontIcon="al-ico-previous" class="al-icon" data-id="previousButton"></mat-icon></div>
       </div>
     }

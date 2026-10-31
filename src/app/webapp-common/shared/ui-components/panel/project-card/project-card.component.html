@@ -3,7 +3,7 @@
   tabindex="0"
   [attr.aria-label]="project.basename"
   (click)="projectClicked()"
-  (keydown.enter)="projectKeyActivated($event)"
+  (keydown.enter)="projectKeyActivated($any($event))"
   [isExample]="!['All Experiments'].includes(project.name) && !isRootProject() && (!project.company || ! project.company.id)"
   [showFolder]="true"
   [oneTabMode]="!(project?.sub_projects?.length > 0)"
@@ -74,7 +74,7 @@
     }</div>
     @if (project?.stats) {
       <div class="footer-title">
-        COMPUTE TIME: {{ computeTime }}
+        Compute time: {{ computeTime }}
       </div>
     }
     <div class="tag"></div>

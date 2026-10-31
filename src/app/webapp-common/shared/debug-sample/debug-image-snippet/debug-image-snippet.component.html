@@ -13,12 +13,12 @@
               (error)="mediaError($event)"
               (click)="imageClicked.emit({src: source})"
               (load)="loadedMedia()"
-              [class.loading]="loading()"
+              [class.loading]="loading()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (imageClicked.emit({src: source}))" (keydown.space)="$event.target === $event.currentTarget && (imageClicked.emit({src: source})); $event.target === $event.currentTarget && $event.preventDefault()"
             >
             @if (!noHoverEffects()) {
               <div class="toolbar top">
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
-                     (click)="createEmbedCodeClicked($event)"
+                     tabindex="0" role="button" (click)="createEmbedCodeClicked($event)" (keydown.enter)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event))))" (keydown.space)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event)))); $event.target === $event.currentTarget && $event.preventDefault()"
                      smTooltip="Copy embed code"
                      data-id="copyToReportButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
@@ -55,7 +55,7 @@
             <div class="toolbar top">
               @if (!noHoverEffects()) {
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
-                     (click)="createEmbedCodeClicked($event)"
+                     tabindex="0" role="button" (click)="createEmbedCodeClicked($event)" (keydown.enter)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event))))" (keydown.space)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event)))); $event.target === $event.currentTarget && $event.preventDefault()"
                      smTooltip="Copy embed code" data-id="CopyToReportButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
                 </div>
@@ -83,7 +83,7 @@
             @if (!noHoverEffects()) {
               <div class="toolbar">
                 <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
-                     (click)="createEmbedCodeClicked($event)"
+                     tabindex="0" role="button" (click)="createEmbedCodeClicked($event)" (keydown.enter)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event))))" (keydown.space)="$event.target === $event.currentTarget && (createEmbedCodeClicked($any($any($event)))); $event.target === $event.currentTarget && $event.preventDefault()"
                      smTooltip="Copy embed code" data-id="CopyToReportButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-code" class="al-icon sm"></mat-icon>
                 </div>
@@ -99,7 +99,8 @@
                   <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
                        smTooltip="Open URL in a new Tab"
                        data-id="openURLInNewTab"
-                       (click)="openInNewTab(source)">
+                       (click)="openInNewTab(source)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (openInNewTab(source))" (keydown.space)="$event.target === $event.currentTarget && (openInNewTab(source)); $event.target === $event.currentTarget && $event.preventDefault()"
+                  >
                     <mat-icon fontSet="al" fontIcon="al-ico-export" class="al-icon sm"></mat-icon>
                   </div>
                 }

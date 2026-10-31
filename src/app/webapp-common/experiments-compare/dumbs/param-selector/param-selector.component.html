@@ -1,5 +1,6 @@
 @if (!single()) {
-  <div class="d-flex align-items-center title-container" (click)="paramSelect.openMenu()">
+  <div class="d-flex align-items-center title-container" (click)="paramSelect.openMenu()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (paramSelect.openMenu())" (keydown.space)="$event.target === $event.currentTarget && (paramSelect.openMenu()); $event.target === $event.currentTarget && $event.preventDefault()"
+  >
     <span class="param-selector-title pointer">{{ title() }}</span>
     <sm-menu #paramSelect iconClass="al-ico-dropdown-arrow" (menuClosed)="checklist.searchQ('')"
              buttonTooltip="Select parameter" smMenuClass="light-theme custom-columns">
@@ -23,14 +24,16 @@
         <div class="selected-parameter">
           @let cleanName = selectedItemsListMapper()(hyperParam);
           <span class="ellipsis parameter-name" smShowTooltipIfEllipsis [smTooltip]="cleanName">{{ cleanName }}</span>
-          <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" aria-label="Remove parameter" aria-hidden="false" (click)="removeHyperParam(hyperParam)"></mat-icon></div>
+          <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" aria-label="Remove parameter" aria-hidden="false" (click)="removeHyperParam(hyperParam)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (removeHyperParam(hyperParam))" (keydown.space)="$event.target === $event.currentTarget && (removeHyperParam(hyperParam)); $event.target === $event.currentTarget && $event.preventDefault()"
+          ></mat-icon></div>
       }
     </div>
   } @else {
     <div class="no-data">No parameters selected</div>
   }
 } @else {
-  <div class="like-select pointer d-flex justify-content-between align-items-center" (click)="paramSelect.openMenu()">
+  <div class="like-select pointer d-flex justify-content-between align-items-center" (click)="paramSelect.openMenu()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (paramSelect.openMenu())" (keydown.space)="$event.target === $event.currentTarget && (paramSelect.openMenu()); $event.target === $event.currentTarget && $event.preventDefault()"
+  >
     @let cleanName = selectedHyperParams()?.length > 0 ? selectedItemsListMapper()(selectedHyperParams()?.[0]) : null;
     <span class="ellipsis selected-parameter" smShowTooltipIfEllipsis [smTooltip]="cleanName ?? ''">
       {{ cleanName ?? 'Select Parameter' }}

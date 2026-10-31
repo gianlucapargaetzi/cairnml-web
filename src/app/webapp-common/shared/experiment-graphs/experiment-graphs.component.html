@@ -76,7 +76,8 @@
           <div [id]="experimentGraphidPrefix + metric" class="graph-id">
             <div #groupElement>
               @if (isGroupGraphs() && graphsDataHighlighted()?.[metric]) {
-                <div class="metric-group-header" [class.disable-resize]="disableResize()" (click)="collapseGroup(groupElement)">
+                <div class="metric-group-header" [class.disable-resize]="disableResize()" (click)="collapseGroup(groupElement)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (collapseGroup(groupElement))" (keydown.space)="$event.target === $event.currentTarget && (collapseGroup(groupElement)); $event.target === $event.currentTarget && $event.preventDefault()"
+                >
                   <div class="flex-placeholder"></div>
                   <div class="header-text">{{ metric }}
                     @if (visibility()[metric]?.length > 1) {

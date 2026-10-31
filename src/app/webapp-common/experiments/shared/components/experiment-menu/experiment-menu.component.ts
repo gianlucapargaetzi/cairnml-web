@@ -164,7 +164,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType);
           } else if (showRunningWarningDialog) {
             this.showConfirmArchiveExperiments(selectedExperiments, entityType, 'Archive a running task',
-              'Some of the tasks you are about to archive are running or queued.<br>Archiving running tasks will also <b>RESET</b> them.<br>Archive tasks?',
+              'Some of the tasks you are about to archive are running or queued.<br>Archiving running tasks will also <b>reset</b> them.<br>Archive tasks?',
               false);
           } else {
             this.store.dispatch(commonMenuActions.archiveSelectedExperiments({

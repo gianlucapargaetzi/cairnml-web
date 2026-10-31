@@ -7,5 +7,5 @@
     aria-label="Expand column"
     class="al-icon sm ms-2 al-ico-line-expand"
     [class.rotate-180]="roundedMetricValue.noRound"
-  (click)="expandColToggle($event, col)"></i>
+  tabindex="0" role="button" (click)="expandColToggle($event, col)" (keydown.enter)="expandColToggle($event, col)" (keydown.space)="expandColToggle($event, col); $event.preventDefault()"></i>
 }

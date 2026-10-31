@@ -64,7 +64,8 @@
         }
       }
       <div [class.visible]="failedEntities()?.length > 0" class="files-list-container">
-        <div (click)="openToggleEntities()" class="pointer">
+        <div (click)="openToggleEntities()" class="pointer" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (openToggleEntities())" (keydown.space)="$event.target === $event.currentTarget && (openToggleEntities()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <mat-icon fontSet="al" fontIcon="al-ico-caret-right" class="more-info-icon" [class.info-open]="isOpenEntities()"></mat-icon>The following {{entityType}}s were not deleted:
         </div>
         <div class="more-info" [class]="{'info-open': isOpenEntities()}">
@@ -79,7 +80,8 @@
         </div>
       </div>
       <div [class.visible]="failedFiles()?.length > 0" class="files-list-container">
-        <div (click)="openToggle()" class="pointer">
+        <div (click)="openToggle()" class="pointer" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (openToggle())" (keydown.space)="$event.target === $event.currentTarget && (openToggle()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <mat-icon fontSet="al" fontIcon="al-ico-caret-right" class="more-info-icon" [class.info-open]="isOpen()"></mat-icon>The following artifacts were not deleted:
         </div>
         <div class="more-info mono" [class]="{'info-open': isOpen()}">

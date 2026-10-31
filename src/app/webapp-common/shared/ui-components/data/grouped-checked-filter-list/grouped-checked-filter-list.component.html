@@ -33,7 +33,8 @@
                [class.disabled]="selectionLimitReached() && !item.checked"
                [smTooltip]="!item.checked && selectionLimitReached()? 'You can only select up to ' + limitSelection() + ' parameters' : ''"
                customClass="parameter-tooltip"
-               (click)="(!selectionLimitReached() || item.checked) && toggleParamToDisplay(category.key, item.value, item.checked)">
+               (click)="(!selectionLimitReached() || item.checked) && toggleParamToDisplay(category.key, item.value, item.checked)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && ((!selectionLimitReached() || item.checked) && toggleParamToDisplay(category.key, item.value, item.checked))" (keydown.space)="$event.target === $event.currentTarget && ((!selectionLimitReached() || item.checked) && toggleParamToDisplay(category.key, item.value, item.checked)); $event.target === $event.currentTarget && $event.preventDefault()"
+          >
             <mat-checkbox data-id="selectParametersCheckbox" smClickStopPropagation [checked]="item.checked" (change)="(!selectionLimitReached() || item.checked) && toggleParamToDisplay(category.key, item.value, item.checked)">
               <div class="ellipsis" [smTooltip]="item.value" smShowTooltipIfEllipsis>{{ item.value }}</div>
             </mat-checkbox>
