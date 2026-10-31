@@ -1,0 +1,22 @@
+:host {
+  display: block;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+  }
+}
+
+.intro {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.none {
+  color: var(--color-error);
+  margin: 0;
+}

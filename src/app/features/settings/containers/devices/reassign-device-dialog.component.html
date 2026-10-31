@@ -1,0 +1,24 @@
+<sm-dialog-template iconClass="al-ico-move-to" header="Reassign device">
+  <div class="content">
+    <p class="intro">
+      <b>{{ data.deviceName }}</b> keeps running and keeps its key. Only its owner changes. The new owner must be an
+      enabled admin; the server refuses any other user.
+    </p>
+    @if (data.users.length) {
+      <mat-form-field floatLabel="always">
+        <mat-label>New owner</mat-label>
+        <mat-select [value]="user()" (selectionChange)="user.set($event.value)" data-id="reassignDeviceOwner">
+          @for (candidate of data.users; track candidate.id) {
+            <mat-option [value]="candidate.id">{{ candidate.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else {
+      <p class="none" role="alert">No other user exists in this company to take over the device.</p>
+    }
+  </div>
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="cancel()" data-id="cancelReassignDevice">Cancel</button>
+    <button mat-flat-button [disabled]="!user()" (click)="apply()" data-id="confirmReassignDevice">Reassign</button>
+  </mat-dialog-actions>
+</sm-dialog-template>
