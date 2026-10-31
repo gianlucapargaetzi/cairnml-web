@@ -25,6 +25,9 @@ import {MatButton} from '@angular/material/button';
 import {ProjectStatsComponent} from '@common/project-info/conteiners/project-stats/project-stats.component';
 import {ProjectContributionComponent} from '@common/project-info/contribution/project-contribution.component';
 import {OverviewSettingsService} from '@common/project-info/overview-settings.service';
+import {ProjectStateComponent} from '@common/project-info/project-state/project-state.component';
+import {RecentExperimentsComponent} from '@common/project-info/recent-experiments/recent-experiments.component';
+import {RouterLink} from '@angular/router';
 
 
 @Component({
@@ -40,7 +43,10 @@ import {OverviewSettingsService} from '@common/project-info/overview-settings.se
     MatExpansionPanelContent,
     MatButton,
     ProjectStatsComponent,
-    ProjectContributionComponent
+    ProjectContributionComponent,
+    ProjectStateComponent,
+    RecentExperimentsComponent,
+    RouterLink
   ]
 })
 export class ProjectInfoComponent {
@@ -59,6 +65,7 @@ export class ProjectInfoComponent {
   // The layout of this user for this project: the default page until the user changes it in the project settings.
   protected overview = computed(() => this.overviewSettings.settings(this.projectId() ?? ''));
   protected visiblePanels = computed(() => this.overview().panels.filter(panel => panel.shown));
+  protected noPanelsShown = computed(() => this.visiblePanels().length === 0);
   protected contributionOptions = computed(() => this.overview().contribution);
   protected descriptionEditor = viewChild<MarkdownEditorComponent>('descriptionEditor');
   public theme = this.store.selectSignal(selectThemeMode);

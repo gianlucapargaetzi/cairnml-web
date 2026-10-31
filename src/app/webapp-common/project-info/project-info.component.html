@@ -1,6 +1,20 @@
 <div class="info-content" [class.h-100]="descriptionEditor()?.editMode">
+  @if (noPanelsShown()) {
+    <div class="no-panels-hint" role="status" data-id="noOverviewPanels">
+      <span>All overview panels are hidden, so this page is empty.</span>
+      @if (projectId()) {
+        <a [routerLink]="['/projects', projectId(), 'settings']">Show panels in project settings</a>
+      }
+    </div>
+  }
   @for (panel of visiblePanels(); track panel.id) {
     @switch (panel.id) {
+      @case ('project-state') {
+        <sm-project-state [project]="project()"></sm-project-state>
+      }
+      @case ('recent-experiments') {
+        <sm-recent-experiments [projectId]="projectId()"></sm-recent-experiments>
+      }
       @case ('metric-snapshot') {
         <div class="metric-panel" [class.open]="panelOpen()">
           <mat-expansion-panel (opened)="setMetricsPanel(true)" (closed)="setMetricsPanel(false)" [expanded]="panelOpen()">

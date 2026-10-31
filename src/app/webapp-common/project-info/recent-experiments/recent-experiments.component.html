@@ -1,0 +1,26 @@
+<section class="recent-panel" aria-labelledby="recent-experiments-title">
+  <header class="panel-header">
+    <h2 id="recent-experiments-title" class="panel-title">Recent experiments</h2>
+    <a class="panel-link" [routerLink]="['/projects', projectId(), 'tasks']">All experiments</a>
+  </header>
+
+  @if (experiments(); as experiments) {
+    @if (experiments.length) {
+      <ul class="recent-list">
+        @for (experiment of experiments; track experiment.id) {
+          <li>
+            <a class="experiment-name" [routerLink]="['/projects', projectId(), 'tasks', experiment.id]">{{ experiment.name }}</a>
+            <sm-status-icon-label [status]="experiment.status"></sm-status-icon-label>
+            <span class="experiment-time">{{ experiment.created | timeAgo }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="panel-status">No experiments yet.</div>
+    }
+  } @else if (content().state === 'error') {
+    <div class="panel-status error" role="alert">Experiments could not be loaded. Reload the page to try again.</div>
+  } @else {
+    <div class="panel-status">Loading experiments…</div>
+  }
+</section>

@@ -1,4 +1,11 @@
-import {buildContributionSummary, ContributionRun, periodStart} from './contribution-stats';
+import {
+  buildContributionSummary,
+  buildContributionSummaryFromAggregate,
+  ContributionAggregate,
+  ContributionRun,
+  localDayKey,
+  periodStart
+} from './contribution-stats';
 
 describe('contribution stats', () => {
   // Wednesday 2026-10-28, local time
@@ -72,5 +79,39 @@ describe('contribution stats', () => {
     const summary = buildContributionSummary([runAt(0, 'completed', 'ana')], now, 7, 5);
     expect(summary.contributors).toEqual([{id: 'id-ana', name: 'ana', runs: 1}]);
     expect(summary.contributorCount).toBe(1);
+  });
+
+  it('builds the same summary from the counts of the server', () => {
+    const aggregate: ContributionAggregate = {
+      period_days: 7,
+      total: 4,
+      completed: 1,
+      failed: 1,
+      running: 2,
+      days: [{date: localDayKey(now), runs: 3}, {date: localDayKey(new Date(2026, 9, 26)), runs: 1}],
+      contributors: [{id: 'a', name: 'ana', runs: 3}, {id: 'b', name: '', runs: 1}],
+      contributor_count: 2
+    };
+    const summary = buildContributionSummaryFromAggregate(aggregate, now, 7, 1);
+    expect(summary.total).toBe(4);
+    expect(summary.completed).toBe(1);
+    expect(summary.failed).toBe(1);
+    expect(summary.running).toBe(2);
+    expect(summary.days.length).toBe(7);
+    expect(summary.days[6].runs).toBe(3);
+    expect(summary.days[6].level).toBe(4);
+    expect(summary.days[4].runs).toBe(1);
+    expect(summary.days[4].level).toBe(2);
+    expect(summary.days[0].level).toBe(0);
+    expect(summary.contributors).toEqual([{id: 'a', name: 'ana', runs: 3}]);
+    expect(summary.contributorCount).toBe(2);
+  });
+
+  it('names a contributor without a name as an unknown user', () => {
+    const aggregate: ContributionAggregate = {
+      period_days: 7, total: 1, completed: 1, failed: 0, running: 0, days: [],
+      contributors: [{id: 'x', name: '', runs: 1}], contributor_count: 1
+    };
+    expect(buildContributionSummaryFromAggregate(aggregate, now, 7, 5).contributors[0].name).toBe('Unknown user');
   });
 });

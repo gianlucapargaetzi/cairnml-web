@@ -41,6 +41,22 @@
     }
   }
 
+  .no-panels-hint {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 16px;
+    padding: 16px;
+    border: 1px solid var(--color-surface-container-high);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-container-low);
+    font-size: 14px;
+    color: var(--color-on-surface-variant);
+  }
+
   .overview-placeholder {
     min-height: 320px;
     flex: 1;
