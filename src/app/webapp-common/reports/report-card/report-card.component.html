@@ -19,7 +19,7 @@
         <span class="d-flex align-items-center">
           <span class="report-name" [smTooltip]="report().name | cleanProjectPath" smShowTooltipIfEllipsis>{{report().name}}</span>
           @if (report()?.project?.name !== '.reports') {
-            <mat-icon fontSet="al" fontIcon="al-ico-project-path" class="al-icon sm ms-2" [smTooltip]="report()?.project?.name | cleanProjectPath"></mat-icon>
+            <mat-icon fontSet="al" fontIcon="al-ico-project-path" class="al-icon sm sp-ms-2" [smTooltip]="report()?.project?.name | cleanProjectPath"></mat-icon>
           }
         </span>
       </sm-inline-edit>

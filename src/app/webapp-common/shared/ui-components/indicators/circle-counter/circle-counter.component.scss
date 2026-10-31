@@ -7,7 +7,7 @@ $reqWidth: 56px;
 }
 
 .dataview-versions {
-  background-color: #00e3b9;
+  background-color: var(--color-accent-teal);
 }
 
 .dataview-enumeration {
@@ -96,7 +96,7 @@ $reqWidth: 56px;
 
     &.leave-space {
       min-height: 17px;
-      color: var(--color-outline);
+      color: var(--color-on-surface-variant);
     }
   }
 }

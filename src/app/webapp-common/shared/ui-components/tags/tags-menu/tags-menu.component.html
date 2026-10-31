@@ -18,7 +18,7 @@
           autocomplete="off"
           (keydown.enter)="$event.preventDefault(); submit()"
         >
-        <div matSuffix class="d-flex-center mx-2">
+        <div matSuffix class="d-flex-center sp-mx-2">
           @if (!disableFilterByProject() && companyTags() !== null && isAllProject() === false) {
             <button aria-label="Show project tags only" mat-icon-button smClickStopPropagation
                     (click)="$event.preventDefault(); projectTagsFilterToggle()"

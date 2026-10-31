@@ -9,6 +9,7 @@
          matTooltipShowDelay="500">
       <mat-button-toggle
         [value]="option.value"
+        [aria-label]="option.label"
         [disabled]="disabled()"
         appearance="legacy"
         [attr.data-id]="option.value"

@@ -56,12 +56,12 @@
     border: 1px solid;
     background-color: var(--color-surface-container-high);
     border-color: var(--color-outline-variant);
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
     //transition: background-color 0.3s ease, color 0.3s ease;
 
     &:hover {
       background-color: var(--color-surface-container-highest);
-      color: var(--color-outline);
+      color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
     }
 
     .label {

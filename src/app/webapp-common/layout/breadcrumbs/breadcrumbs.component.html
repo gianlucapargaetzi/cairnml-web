@@ -9,7 +9,7 @@
       @for (breadcrumb of breadcrumbGroup; track (breadcrumb.name + breadcrumb.url); let lastCrumb = $last; let firstCrumb = $first) {
         <span class="sub-projects-breadcrumbs" [class.last]="lastCrumb && lastGroup">
           @if (breadcrumb.hidden) {
-            <mat-icon fontSet="al" fontIcon="al-ico-ghost" class="al-icon sm me-1 align-ghost"></mat-icon>
+            <mat-icon fontSet="al" fontIcon="al-ico-ghost" class="al-icon sm sp-me-1 align-ghost"></mat-icon>
           }
           @if (breadcrumb.url && !(lastCrumb && lastGroup)) {
             <a class="crumb url"
@@ -53,7 +53,7 @@
       }
     } @else {
       @if (breadcrumbGroup?.length > 0) {
-        <i [matMenuTriggerFor]="subProjectsMenu"
+        <i [matMenuTriggerFor]="subProjectsMenu" role="button" tabindex="0" aria-label="Show sub-projects"
           data-id="breadcrumbSubProjectMenu"
           class="menu-trigger-icon al-icon msm pointer"
           [class.al-ico-d-menu-down]="!subProjectsMenuIsOpen"
@@ -88,6 +88,10 @@
         #menuTrigger="matMenuTrigger"
         [matMenuTriggerFor]="shareModal"
         (menuOpened)="openShareModal()"
+        [attr.role]="showShareButton && !isCommunity() ? 'button' : null"
+        [attr.tabindex]="showShareButton && !isCommunity() ? 0 : -1"
+        [attr.aria-label]="showShareButton && !isCommunity() ? 'Share' : null"
+        [attr.aria-hidden]="showShareButton && !isCommunity() ? null : 'true'"
         >
         @if (showShareButton && !isCommunity()) {
           <mat-icon fontSet="al" fontIcon="al-ico-shared-item" class="share pointer" smTooltip="Share"></mat-icon>
@@ -118,7 +122,7 @@
       </mat-menu>
     </div>
     @if (showArchive()) {
-      <div data-id="Archive Label" class="archive"><mat-icon fontSet="al" fontIcon="al-ico-archive" class="xs me-1"></mat-icon>Archive
+      <div data-id="Archive Label" class="archive"><mat-icon fontSet="al" fontIcon="al-ico-archive" class="xs sp-me-1"></mat-icon>Archive
     </div>
   }
 </div>

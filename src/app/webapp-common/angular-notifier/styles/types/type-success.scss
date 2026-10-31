@@ -1,8 +1,8 @@
 // NOTIFIER: SUCCESS TYPE STYLES
 
-$notifier-success-background-color: #5CB85C !default;
-$notifier-success-font-color: #FFF !default;
-$notifier-success-icon-color: #FFF !default;
+$notifier-success-background-color: var(--color-success) !default;
+$notifier-success-font-color: var(--color-on-success) !default;
+$notifier-success-icon-color: var(--color-on-success) !default;
 
 .notifier__notification--success {
 	background-color: $notifier-success-background-color;

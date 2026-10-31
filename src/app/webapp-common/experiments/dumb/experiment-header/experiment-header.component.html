@@ -11,12 +11,12 @@
     ></sm-toggle-archive>
     <sm-button-toggle
       [disabled]="!tableMode() || noData()"
-      class="ms-3"
+      class="sp-ms-3"
       [options]="toggleButtons()"
       [rippleEffect]="rippleEffect()"
       [ngModel]="!noData() && tableMode()"
       (ngModelChange)="tableModeChanged.emit($any($event))"></sm-button-toggle>
-    <sm-common-search class="ms-3"></sm-common-search>
+    <sm-common-search class="sp-ms-3"></sm-common-search>
 
   </div>
 

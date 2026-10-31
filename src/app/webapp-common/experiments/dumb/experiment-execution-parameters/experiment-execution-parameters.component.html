@@ -2,7 +2,7 @@
   <form [class.editable]="editable()" #hyperParameters="ngForm">
     <cdk-virtual-scroll-viewport #formContainer class="form-container" itemSize="58" minBufferPx="280" maxBufferPx="560">
       @for (parameter of form(); track parameter.id) {
-        <div class="w-100 d-flex pe-2 align-items-start">
+        <div class="w-100 d-flex sp-pe-2 align-items-start">
           <mat-form-field
             [hintLabel]="parameterKey.invalid && parameterKey?.errors?.required? '*Required': ''"
             appearance="outline"

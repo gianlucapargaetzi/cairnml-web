@@ -9,7 +9,7 @@ $z-index-colorpicker: 1001;
     background-color: var(--color-surface-container-low);
 
     .cursor {
-      box-shadow: 0 0 0 2px #fff;
+      outline: 2px solid var(--color-white);
     }
 
     .saturation-lightness {

@@ -5,7 +5,7 @@
       (change)="statsChange($event)"
       [checked]="show()"
       color="accent"
-      ><span class="d-flex-center">Show Hidden Projects<mat-icon fontSet="al" fontIcon="al-ico-ghost" class="al-icon sm ms-3"></mat-icon></span>
+      ><span class="d-flex-center">Show Hidden Projects<mat-icon fontSet="al" fontIcon="al-ico-ghost" class="al-icon sm sp-ms-3"></mat-icon></span>
     </mat-slide-toggle>
   }
   <mat-slide-toggle
@@ -21,11 +21,11 @@
     >
       <div class="d-flex-center">
         Disable HiDPI browser scale override
-        <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info ms-3"
+        <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info sp-ms-3"
                   data-id="hidpiInfoIcon"
                   smTooltip="CairnML dynamically sets the browser scaling factor for an optimal page layout. Disable for default desktop scale."
         ></mat-icon>
-        <a href="#" class="reload hidden ms-3" [class.hidden]="!disableHidpiChanged" (click)="$event.preventDefault(); reload($event)">Reload to apply</a>
+        <a href="#" class="reload hidden sp-ms-3" [class.hidden]="!disableHidpiChanged" (click)="$event.preventDefault(); reload($event)">Reload to apply</a>
       </div>
     </mat-slide-toggle>
   }
@@ -44,7 +44,7 @@
   >
     <div class="d-flex-center">
       Block running user's scripts in the browser
-      <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info ms-3"
+      <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info sp-ms-3"
                 data-id="blockScriptsInfoIcon"
                 [smTooltip]="blockScriptNotice()"
       ></mat-icon>
@@ -56,11 +56,11 @@
     >
       <div class="d-flex-center">
         Hide specific container arguments
-        <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info ms-3"
+        <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info sp-ms-3"
                   data-id="hideSpecificargInfoIcon"
                   smTooltip="Redact the values for the specified container environment variables in the task execution page"
         ></mat-icon>
-        <button class="ms-2" mat-button data-id="editButton" (click)="editHideSpecificContainerArguments()">Edit</button>
+        <button class="sp-ms-2" mat-button data-id="editButton" (click)="editHideSpecificContainerArguments()">Edit</button>
       </div>
     </mat-slide-toggle>
 </div>

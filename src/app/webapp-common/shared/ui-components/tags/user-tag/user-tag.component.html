@@ -15,6 +15,6 @@
   <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm remove" aria-label="Remove" aria-hidden="false" data-id="TagCrossButton" [style.color]="colors()?.foreground" tabindex="0" role="button" (click)="$event.stopPropagation(); onRemoveClicked(caption())" (keydown.enter)="$event.stopPropagation(); onRemoveClicked(caption())" (keydown.space)="$event.stopPropagation(); onRemoveClicked(caption()); $event.preventDefault()"></mat-icon>
 }
 @if (disabledRemove() === caption()) {
-  <mat-spinner class="al-icon sm white" [diameter]="12" [strokeWidth]="1" color="accent"></mat-spinner>
+  <mat-spinner aria-label="Loading" class="al-icon sm white" [diameter]="12" [strokeWidth]="1" color="accent"></mat-spinner>
 }
 <div class="arrow" [class.add-button]="add.observers.length > 0" [style.backgroundColor]="colors()?.background"></div>

@@ -29,7 +29,7 @@
   } @else {
     <div class="d-flex h-100 flex-grow-1">
       @if (!metadataKeys()) {
-        <mat-spinner class="spinner" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+        <mat-spinner aria-label="Loading" class="spinner" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
       }
       @if (metadataKeys()) {
         <div class="empty-state">No data to show</div>

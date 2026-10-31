@@ -11,7 +11,7 @@
   padding: 0 24px;
   > span  {
     font-size: 11px;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
     cursor: pointer;
     &:hover {
       color: var(--color-hover);

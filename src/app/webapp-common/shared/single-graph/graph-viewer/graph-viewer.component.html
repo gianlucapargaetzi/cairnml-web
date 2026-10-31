@@ -31,7 +31,7 @@
                 [min]="minMaxIterations.minIteration"
                 [step]="1"
                 discrete
-                class="ms-4 indicator-position-bottom"
+                class="sp-ms-4 indicator-position-bottom"
                 (mouseup)="fakeInput.focus()"
               >
                 <input matSliderThumb
@@ -106,7 +106,7 @@
                       [(ngModel)]="smoothWeight"
                       (ngModelChange)="setFreezeColor()"/>
               </mat-slider>
-              <span class="weight ms-3">{{ smoothWeight() }}</span>
+              <span class="weight sp-ms-3">{{ smoothWeight() }}</span>
             </div>
           </div>
         }
@@ -123,12 +123,12 @@
                       [(ngModel)]="sigma"
                       (ngModelChange)="setFreezeColor()"/>
               </mat-slider>
-              <span class="weight ms-3">{{ sigma() }}</span>
+              <span class="weight sp-ms-3">{{ sigma() }}</span>
             </div>
           </div>
         }
         @if (smoothType() && smoothType() !== smoothTypeEnum.any) {
-          <div class="d-flex field  ms-3">
+          <div class="d-flex field  sp-ms-3">
             <span class="label-text axis-text-margin-left">Show Originals:</span>
             <mat-slide-toggle class="smooth-slide-field" [(ngModel)]="showOrigin" labelPosition="after"></mat-slide-toggle>
           </div>

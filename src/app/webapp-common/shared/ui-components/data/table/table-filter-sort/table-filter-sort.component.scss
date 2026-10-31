@@ -4,7 +4,11 @@
     z-index: 20;
 
     .btn-sort {
-      width:8px;
+      // 24 px touch target; the margins keep the icon where it was (issue 34)
+      width: 24px;
+      height: 24px;
+      padding: 0 0 0 8px;
+      margin: -8px -4px -8px -8px;
       background-color: transparent;
       border: 0;
       padding: 0;
@@ -31,7 +35,7 @@
   text-align: right;
 
   .link {
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
 
     &.selected {
       color: var(--color-on-surface);
@@ -62,6 +66,8 @@
   font-size: 12px;
   font-weight: 500;
   margin-right: 2px;
+  min-height: 24px; // touch target (issue 34)
+  line-height: 24px;
 }
 
 sm-menu {

@@ -5,14 +5,14 @@
         {{model?.name}}
       </a>
       @if (model?.uri && !isLocalFile) {
-        <button aria-label="Download model" mat-icon-button class="sm-md- ms-2" (click)="artifactFilePathClicked(model.uri)">
+        <button aria-label="Download model" mat-icon-button class="sm-md- sp-ms-2" (click)="artifactFilePathClicked(model.uri)">
           <mat-icon fontSet="al" fontIcon="al-ico-download "></mat-icon>
         </button>
       }
       @if (model?.uri && isLocalFile) {
         <sm-copy-clipboard
           label=""
-          class="ps-2"
+          class="sp-ps-2"
           [clipboardText]="model.uri"
         ></sm-copy-clipboard>
       }

@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between">
       <div class="title me-auto" [smTooltip]="experiment()?.name" smShowTooltipIfEllipsis>{{experiment()?.name }}</div>
     </div>
-    <div class="pt-2">
+    <div class="sp-pt-2">
       <div class="d-flex align-items-center justify-content-start">
         <span class="sub-title">ID:  {{ experiment()?.id}} </span>
         <sm-copy-clipboard [clipboardText]="experiment()?.id" [label]="''"></sm-copy-clipboard>

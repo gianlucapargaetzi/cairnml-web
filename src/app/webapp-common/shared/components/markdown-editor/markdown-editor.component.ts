@@ -105,7 +105,7 @@ export class MarkdownEditorComponent {
 
   public postRender = (dirty: string): string => {
     if (this.blockUserScripts()) {
-      return '<div class="d-flex-center flex-column h-100 mt-4">' +
+      return '<div class="d-flex-center flex-column h-100 sp-mt-4">' +
         '<div>Preview not available because 3rd party scripts are blocked.</div>' +
         '<div>You can enable it in under <a href="settings/webapp-configuration">User Preferences</a>.</div>' +
         '</div>';

@@ -26,7 +26,7 @@
          smShowTooltipIfEllipsis
          [showAlwaysTooltip]="(project.name?.includes('/'))"
     >
-      <span class="project-name me-2">{{ project.basename }}</span>
+      <span class="project-name sp-me-2">{{ project.basename }}</span>
     </div>
     @if (!hideMenu() && project.default_output_destination) {
       <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sm info-icon" [smTooltip]="'Default output destination: ' + project.default_output_destination"></mat-icon>

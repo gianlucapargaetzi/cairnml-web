@@ -16,8 +16,8 @@
   ></sm-search>
   <div class="metrics" [class.has-title]="goBack.observed">
     @if (!filteredMetricTree && !(searchText?.length > 0)) {
-      <div class="p-4 pe-none">
-        <mat-spinner class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
+      <div class="sp-p-4 pe-none">
+        <mat-spinner aria-label="Loading" class="m-auto" [diameter]="32" [strokeWidth]="4" color="accent"></mat-spinner>
       </div>
     }
     <div class="actions">
@@ -101,7 +101,7 @@
                       (change)="toggleMetricToDisplay(variant, true, $event.value)"
                     >
                       <mat-radio-button class="sm" value="value">Last</mat-radio-button>
-                      <mat-radio-button class="sm px-3" value="min_value">Min</mat-radio-button>
+                      <mat-radio-button class="sm sp-px-3" value="min_value">Min</mat-radio-button>
                       <mat-radio-button class="sm" value="max_value">Max</mat-radio-button>
                     </mat-radio-group>
                   </div>

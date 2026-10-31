@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -73,7 +74,7 @@ export interface TableContextMenuSelectEventExt extends Omit<TableContextMenuSel
     MultiLineTooltipComponent
   ]
 })
-export class TableComponent<D extends { id: string }> implements AfterContentInit, OnDestroy {
+export class TableComponent<D extends { id: string }> implements AfterContentInit, AfterViewInit, OnDestroy {
   private element = inject(ElementRef);
   private cdr = inject(ChangeDetectorRef);
   private store = inject(Store);
@@ -334,6 +335,16 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
       selected = null;
     }, 0);
 
+  }
+
+  ngAfterViewInit(): void {
+    // A scrolling table must be reachable by keyboard, or its contents cannot be scrolled to (axe: scrollable-region-focusable).
+    const scroller = this.element.nativeElement.querySelector('.p-datatable-table-container');
+    if (scroller) {
+      scroller.setAttribute('tabindex', '0');
+      scroller.setAttribute('role', 'region');
+      scroller.setAttribute('aria-label', 'Table');
+    }
   }
 
   ngAfterContentInit(): void {

@@ -6,7 +6,7 @@
         [class.empty]="!circle.name"
         [class]="circle.class"
         [class.long]="circle.initials?.length > 4"
-        [class.me-2]="$index === 0 && data().length === 1"
+        [class.sp-me-2]="$index === 0 && data().length === 1"
         [style.left.px]="-6 * $index"
         [smTooltip]="circle.name"
       >

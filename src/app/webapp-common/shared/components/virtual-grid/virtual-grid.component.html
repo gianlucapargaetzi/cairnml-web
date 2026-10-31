@@ -20,13 +20,13 @@
   </div>
   @if (showLoadMoreButton() && (itemRows$ | ngrxPush)?.length) {
     @if (autoLoadMore()) {
-      <sm-dots-load-more class="my-2" (loadMore)="loadMoreClicked.emit()" [loading]="itemsState().loading()"></sm-dots-load-more>
+      <sm-dots-load-more class="sp-my-2" (loadMore)="loadMoreClicked.emit()" [loading]="itemsState().loading()"></sm-dots-load-more>
     } @else {
       <div class="load-more" [style.height.px]="cardHeight()">
         <button mat-flat-button (click)="loadMoreClicked.emit()">
           <div class="d-flex-center gap-2">
             @if (itemsState().loading()) {
-              <mat-spinner [diameter]="16" [strokeWidth]="2" mode="indeterminate"></mat-spinner>
+              <mat-spinner aria-label="Loading" [diameter]="16" [strokeWidth]="2" mode="indeterminate"></mat-spinner>
             }
             <span>Load more</span>
           </div>

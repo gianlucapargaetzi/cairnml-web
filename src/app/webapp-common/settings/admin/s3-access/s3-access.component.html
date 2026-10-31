@@ -40,7 +40,7 @@
             </mat-form-field>
             <div class="d-flex justify-content-end">
               @if (endpoint.value.startsWith('http://') && secured) {
-                <span class="alert-icon me-2" smTooltip="Embedding images through a non-secure transport (HTTP) in a secure web application might require special configuration of your browser">
+                <span class="alert-icon sp-me-2" smTooltip="Embedding images through a non-secure transport (HTTP) in a secure web application might require special configuration of your browser">
                 <mat-icon fontSet="al" fontIcon="al-ico-alert" class="al-icon sm-md"></mat-icon>
               </span>
               }
@@ -53,7 +53,7 @@
       }
     </div>
     <div>
-      <button mat-stroked-button class="mb-4" (click)="addBucket({})" data-id="addAccessKeysButton">
+      <button mat-stroked-button class="sp-mb-4" (click)="addBucket({})" data-id="addAccessKeysButton">
         <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
         Add access keys
       </button>

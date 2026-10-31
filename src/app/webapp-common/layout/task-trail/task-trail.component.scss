@@ -11,6 +11,8 @@
 }
 
 .crumb {
+  min-height: 24px; // touch target (issue 34)
+  line-height: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 220px;

@@ -1035,19 +1035,19 @@
 .al-ico-filter-off {
   &:before {
     content: variables.$al-ico-filter-off;
-    color: var(--color-outline); // don't overwrite
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34) // don't overwrite
   }
 }
 .al-ico-sort-off {
   &:before {
     content: variables.$al-ico-sort-off;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
   }
 }
 .al-ico-sort-on-down .path1 {
   &:before {
     content: variables.$al-ico-sort-on-down-path1;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
   }
 }
 .al-ico-sort-on-down .path2 {
@@ -1060,7 +1060,7 @@
 .al-ico-sort-on-up .path1 {
   &:before {
     content: variables.$al-ico-sort-on-up-path1;
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
   }
 }
 .al-ico-sort-on-up .path2 {

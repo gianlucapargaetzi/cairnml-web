@@ -12,7 +12,7 @@
   text-align: right;
 
   .link {
-    color: var(--color-outline);
+    color: var(--color-on-surface-variant); // text: outline is below 4.5:1 (issue 34)
 
     &.selected {
       color: var(--color-on-surface);

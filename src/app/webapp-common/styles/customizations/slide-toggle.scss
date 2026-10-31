@@ -17,6 +17,13 @@
     --mat-slide-toggle-selected-track-outline-width: 0;
   }
 
+  // The switch is 16 px high; the 24 px minimum target is the button box, so the track stays centred (issue 34).
+  .mat-mdc-slide-toggle .mdc-switch {
+    min-height: 24px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .mat-mdc-slide-toggle  {
     --mat-slide-toggle-label-text-size: 14px;
   }

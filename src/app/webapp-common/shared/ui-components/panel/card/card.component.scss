@@ -14,7 +14,7 @@
     .first-tab-parts {
       flex: 0 0 64px;
       width: 60px;
-      height: 20px;
+      height: 24px; // touch target (issue 34)
       line-height: 0;
 
       .tab {

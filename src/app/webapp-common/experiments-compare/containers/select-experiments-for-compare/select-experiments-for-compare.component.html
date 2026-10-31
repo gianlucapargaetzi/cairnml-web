@@ -3,7 +3,7 @@
     <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
   </button>
   <div mat-dialog-title class="dialog-title">{{ 'Select compared ' + data.entityType + 's' }}</div>
-  <div class="px-5 h-100">
+  <div class="sp-px-5 h-100">
   <ng-container *ngTemplateOutlet="mainContent"></ng-container>
   </div>
   <mat-dialog-actions>
@@ -45,7 +45,7 @@
 <ng-template #mainContent>
   <div class="d-block h-100">
     <div class="select-experiments-container">
-      <div class="search-experiment-for-compare d-flex justify-content-between mb-3">
+      <div class="search-experiment-for-compare d-flex justify-content-between sp-mb-3">
         <sm-search
           #search
           class="search outline"
@@ -57,7 +57,7 @@
         <div class="d-flex-center">
           @if (popupMode) {
             <mat-slide-toggle
-              class="me-2"
+              class="sp-me-2"
               [checked]="showArchived()"
               (change)="toShowArchived($event)"
             >Include Archived

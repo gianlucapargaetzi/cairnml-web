@@ -27,7 +27,7 @@
             </div>
           }
           @for (metadataItem of metadataGroup.controls.metadata.controls; track metadataItem.value.id) {
-            <div [formGroupName]="$index" class="d-flex align-items-start me-3 mb-2">
+            <div [formGroupName]="$index" class="d-flex align-items-start sp-me-3 sp-mb-2">
               <mat-form-field
                 appearance="outline" class="w-100"
                 [hintLabel]="metadataItem.controls.key.invalid && metadataItem.controls.key.errors?.required ? '*Required': ''"
@@ -85,7 +85,7 @@
           }
         </div>
       </form>
-      <button aria-label="Add metadata row" mat-stroked-button class="icon-only plus mt-2" (click)="addRow()" data-id="addMetaDataButton">
+      <button aria-label="Add metadata row" mat-stroked-button class="icon-only plus sp-mt-2" (click)="addRow()" data-id="addMetaDataButton">
         <mat-icon fontSet="al" fontIcon="al-ico-plus"></mat-icon>
       </button>
     } @else {

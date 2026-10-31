@@ -123,7 +123,7 @@
 
         <i matSuffix
            [attr.aria-label]="form.controls.queue.value ? 'Clear queue' : 'Search queues'"
-           class="al-icon sm-md search-icon me-2"
+           class="al-icon sm-md search-icon sp-me-2"
            [class]="form.controls.queue.value ? 'al-ico-dialog-x pointer' : 'al-ico-search'"
            (click)="form.controls.queue.value && clearQueue()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (form.controls.queue.value && clearQueue())" (keydown.space)="$event.target === $event.currentTarget && (form.controls.queue.value && clearQueue()); $event.target === $event.currentTarget && $event.preventDefault()"
         ></i>

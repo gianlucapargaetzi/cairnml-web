@@ -2,6 +2,7 @@
   #trigger="matMenuTrigger"
   [class.menu-opened]="trigger.menuOpen && (prefixIconClass() || header() || showCart())"
   mat-button smClickStopPropagation
+  [attr.aria-label]="header() || buttonTooltip() || 'Open menu'"
   [disableRipple]="true"
   [matMenuTriggerFor]="menuHandle"
   class="menu-button"
@@ -39,11 +40,11 @@
              (input)="searchValueChanged.emit($any($event.target).value)"
              [(ngModel)]="searchValue" autocomplete="off">
       @if (searchValue()) {
-      <button aria-label="Clear search" mat-icon-button matSuffix class="me-1" (click)="clearSearch()">
+      <button aria-label="Clear search" mat-icon-button matSuffix class="sp-me-1" (click)="clearSearch()">
         <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
       </button>
       } @else {
-        <mat-icon matSuffix fontSet="al" fontIcon="al-ico-search" class="me-1"></mat-icon>
+        <mat-icon matSuffix fontSet="al" fontIcon="al-ico-search" class="sp-me-1"></mat-icon>
       }
     </mat-form-field>
   }

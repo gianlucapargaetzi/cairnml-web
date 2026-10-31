@@ -9,10 +9,10 @@
     --card-tab2-bg: var(--color-inverse-primary);
     --card-tab2-bg-hover: color-mix(in srgb, var(--color-inverse-primary), var(--color-on-surface) 5%);
   } @else {
-    --card-tab1-bg: #{variables.$blue-500};
-    --card-tab1-hover-bg: #{variables.$blue-400};
-    --card-footer-bg: #{variables.$blue-600};
-    --card-tab2-bg: #{variables.$blue-600};
-    --card-tab2-bg-hover: #{variables.$blue-700};
+    --card-tab1-bg: var(--color-card-tab-1);
+    --card-tab1-hover-bg: var(--color-card-tab-1-hover);
+    --card-footer-bg: var(--color-card-footer);
+    --card-tab2-bg: var(--color-card-tab-2);
+    --card-tab2-bg-hover: var(--color-card-tab-2-hover);
   }
 }

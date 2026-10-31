@@ -8,7 +8,7 @@
               [smTooltip]="controller() ? 'Export pipeline information (JSON)' : 'Export step information (JSON)'"
               (click)="$event.stopPropagation();exportPipelineInfo()"
               data-id="exportInfo"
-              class="sm me-3">
+              class="sm sp-me-3">
         <mat-icon fontSet="al" fontIcon="al-ico-export"></mat-icon>
       </button>
     }
@@ -34,13 +34,13 @@
                    data-id="infoStepStatus"
               >{{ stepWithStatus().data.status }}
               </div>
-              <sm-id-badge class="ms-1" [id]="stepWithStatus().data.job_id" (copied)="copyToClipboard()"></sm-id-badge>
+              <sm-id-badge class="sp-ms-1" [id]="stepWithStatus().data.job_id" (copied)="copyToClipboard()"></sm-id-badge>
             </div>
           }
         </header>
       } @else {
         @if (entity()?.id) {
-          <div class="d-flex justify-content-end my-2">
+          <div class="d-flex justify-content-end sp-my-2">
             <sm-id-badge [id]="entity().id" (copied)="copyToClipboard()"></sm-id-badge>
           </div>
         }

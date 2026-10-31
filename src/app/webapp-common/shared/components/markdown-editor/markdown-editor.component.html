@@ -7,7 +7,7 @@
           @if (editModeChanged.observed) {
             <button [attr.aria-label]="isExpand() ? 'Minimize view' : 'Expand view'"
               mat-stroked-button
-              class="btn-expand-view me-2 icon-only"
+              class="btn-expand-view sp-me-2 icon-only"
               [smTooltip]="isExpand() ? 'Minimize view' : 'Expand view'"
               matTooltipPosition="below"
               data-id="expandMinimizeButton"
