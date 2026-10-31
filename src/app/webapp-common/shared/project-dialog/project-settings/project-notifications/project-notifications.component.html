@@ -23,9 +23,15 @@
     }
   </mat-form-field>
 
-  <div class="hint">
-    Only https addresses are accepted. The stored address is not shown: saving replaces it, and Clear removes it.
+  <div class="status" data-id="notificationWebhookStatus">
+    @if (hasWebhook()) {
+      A webhook is set. Its address is not shown: saving replaces it, and Clear removes it.
+    } @else {
+      No webhook is set.
+    }
   </div>
+
+  <div class="hint">Only https addresses are accepted.</div>
 
   @if (!canAdmin() && !locked()) {
     <div class="hint" data-id="notificationWebhookAdminOnly">Only project admins can change the webhook.</div>

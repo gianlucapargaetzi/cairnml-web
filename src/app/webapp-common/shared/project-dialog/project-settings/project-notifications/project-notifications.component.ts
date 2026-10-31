@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal} from '@angular/core';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors} from '@angular/forms';
 import {lastValueFrom} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
@@ -48,6 +48,8 @@ export class ProjectNotificationsComponent {
   project = input.required<Project>();
 
   protected readonly control = new FormControl('', {nonNullable: true, validators: [httpsUrlValidator]});
+  /** Whether a webhook is set: the server reports it, never the address. Updated after a save. */
+  protected readonly hasWebhook = linkedSignal(() => !!this.project().has_notification_webhook);
   protected readonly busy = signal(false);
   protected readonly error = signal<string>(null);
   protected readonly saved = signal(false);
@@ -99,6 +101,7 @@ export class ProjectNotificationsComponent {
     this.busy.set(true);
     try {
       await lastValueFrom(this.projectsApi.projectsUpdate({project: this.project().id, notification_webhook: value}));
+      this.hasWebhook.set(value !== '');
       this.control.reset('');
       this.saved.set(true);
     } catch (error) {
