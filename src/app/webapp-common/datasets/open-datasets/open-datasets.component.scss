@@ -25,3 +25,30 @@
   }
   @include empty.empty-card-mixin();
 }
+
+// Phone width: the shared card grid uses a fixed 352px column, which does not fit beside the navigation rail and
+// was clipped. On this page the column takes the available width below 600px.
+@media (max-width: 599px) {
+  :host .sm-card-list-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 16px 16px;
+  }
+
+  // the header row keeps its controls and wraps them, so the New dataset button stays inside the screen
+  :host sm-projects-header {
+    height: auto;
+    padding-top: 8px;
+    margin-bottom: 0;
+  }
+
+  :host ::ng-deep .sm-card-list-header {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 8px;
+  }
+
+  :host ::ng-deep .recent-title {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+}

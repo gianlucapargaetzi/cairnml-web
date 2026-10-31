@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
-import {ConfigurationService} from '@common/shared/services/configuration.service';
+import {ChangeDetectionStrategy, Component, computed, input, signal} from '@angular/core';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor/code-editor.component';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
@@ -19,37 +18,20 @@ import {NgTemplateOutlet} from '@angular/common';
   ]
 })
 export class DatasetEmptyComponent {
-  protected readonly confService = inject(ConfigurationService);
+  initDatasetCLICode = `pip install "cairnml[dataset]"
 
-  initDatasetCLICode = `curl -o Affairs.csv https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv
+# needs git, the GitHub command line (gh, logged in) and the CairnML server
+cairnml dataset create cars-data --from /path/to/measurements --storage lfs
+cairnml dataset doctor
+cairnml dataset register`;
 
-cairnml-data create --project DatasetProject --name HelloDataset
+  initDatasetSDKCode = `from cairnml import Task
+from cairnml.datasets import Dataset
 
-cairnml-data add --files Affairs.csv
-
-cairnml-data close`;
-
-  initDatasetSDKCode = `# create example dataset
-from cairnml import StorageManager, Dataset
-
-# Download sample csv file
-csv_file = StorageManager.get_local_copy(
-    remote_url="https://vincentarelbundock.github.io/Rdatasets/csv/AER/Affairs.csv"
-)
-
-# Create a dataset with CairnML\`s Dataset class
-dataset = Dataset.create(
-    dataset_project="DatasetProject", dataset_name="HelloDataset"
-)
-
-# add the example csv
-dataset.add_files(path=csv_file)
-
-# Upload dataset to the server (customizable)
-dataset.upload()
-
-# commit dataset changes
-dataset.finalize()`;
+# a commit, tag or branch of a dataset repository; the run records the commit it used
+task = Task.init(project_name="cars", task_name="train")
+data = Dataset.get("https://github.com/acme/cars-data.git", "3f2a9c1")
+print(data.path)   # a folder with the files`;
   showButton = input();
   index = signal(0);
   emptyStateTab = computed(() => this.index() === 0 ? 'cli' : 'sdk');
