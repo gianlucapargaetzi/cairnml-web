@@ -175,6 +175,11 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
   private sortFields: SortMeta[];
 
   protected override splitSize = this.store.selectSignal(selectSplitSize);
+
+  // Phone width: with a task open, its details take the whole width and the list is hidden until they close.
+  private phoneQuery = window.matchMedia('(max-width: 599px)');
+  protected phoneWidth = signal(this.phoneQuery.matches);
+  protected phoneDetails = computed(() => this.phoneWidth() && this.minimizedView());
   protected override showAllSelectedIsActive$ = this.store.select(selectShowAllSelectedIsActive);
 
   protected isPipeline$ = this.store.select(selectIsPipelines);
@@ -260,6 +265,7 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
 
   constructor() {
     super();
+    this.phoneQuery.addEventListener('change', event => this.phoneWidth.set(event.matches));
     this.setSplitSizeAction = experimentsActions.setSplitSize;
     this.addTag = addTag;
     this.syncAppSearch();

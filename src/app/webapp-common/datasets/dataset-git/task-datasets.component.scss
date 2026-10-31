@@ -34,3 +34,11 @@
     word-break: break-all;
   }
 }
+
+// Indented like the other detail sections on wide screens; flush on phones, like them.
+@media (min-width: 600px) {
+  .task-datasets {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+}
