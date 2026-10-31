@@ -122,7 +122,7 @@ export class ProjectInfoComponent {
             },
             ...(isDeep && selectedProject?.id !== '*' && {
               subFeatureBreadcrumb: {
-                name: 'All Experiments'
+                name: 'All Tasks'
               }
             }),
             projectsOptions: {
@@ -132,7 +132,7 @@ export class ProjectInfoComponent {
               showSelectedProject: selectedProject?.id !== '*',
               ...(selectedProject && {
                 selectedProjectBreadcrumb: {
-                  name: selectedProject?.id === '*' ? 'All Experiments' : selectedProject?.basename,
+                  name: selectedProject?.id === '*' ? 'All Tasks' : selectedProject?.basename,
                   url: `projects/${selectedProject?.id}/projects`
                 }
               })

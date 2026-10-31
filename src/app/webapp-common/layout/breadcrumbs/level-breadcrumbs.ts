@@ -5,7 +5,7 @@ import {IBreadcrumbsLink} from './breadcrumbs.component';
  *   project dashboard  ->  Project Dashboard / <project>
  *   task (folder)      ->  <task>: Dashboard / <project>
  *   experiment         ->  <experiment>: Experiment / <project>
- *   all experiments    ->  All Experiments / <project>
+ *   all tasks          ->  All Tasks / <project>
  * Returns null for pages outside these levels, which keep their own breadcrumbs.
  */
 export const levelBreadcrumbs = (
@@ -27,10 +27,10 @@ export const levelBreadcrumbs = (
     return [[{name: `${decodeURIComponent(child)}: Dashboard`}, project]];
   }
   if (section === 'tasks' && !child) {
-    return [[{name: 'All Experiments'}, project]];
+    return [[{name: 'All Tasks'}, project]];
   }
   if (section === 'tasks' && child && child !== 'compare') {
-    return [[{name: `${experimentName(child)}: Experiment`}, project]];
+    return [[{name: `${experimentName(child)}: Task`}, project]];
   }
   return null;
 };

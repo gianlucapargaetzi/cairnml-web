@@ -13,7 +13,7 @@ export const OVERVIEW_PANEL_LABELS: Record<OverviewPanelId, string> = {
   'metric-snapshot': 'Metric Snapshot',
   'description': 'Project overview',
   'project-state': 'Project state',
-  'recent-experiments': 'Recent experiments',
+  'recent-experiments': 'Recent tasks',
   'contribution': 'Contributions'
 };
 
