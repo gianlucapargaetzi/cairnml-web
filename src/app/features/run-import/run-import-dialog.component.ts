@@ -5,7 +5,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {RunImportApiService, RunImportResult, StagedUpload} from './run-import-api.service';
 
-type Part = { number: number; etag: string };
+interface Part {
+  number: number;
+  etag: string;
+}
 
 class UploadError extends Error {}
 
