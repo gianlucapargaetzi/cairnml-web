@@ -4,7 +4,7 @@
   It contains no parameters and no secrets.
 </div>
 
-<form class="notifications-form" (ngSubmit)="save()">
+<form class="notifications-form" (submit)="$event.preventDefault(); save()">
   <mat-form-field appearance="outline">
     <mat-label>Webhook URL</mat-label>
     <input matInput
