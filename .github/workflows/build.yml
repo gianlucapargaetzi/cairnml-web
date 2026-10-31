@@ -58,6 +58,10 @@ jobs:
       - name: Check design tokens in changed styles
         run: sh scripts/check-design-tokens.sh
 
+      # The specs listed in angular.json (test "include") must pass. Specs outside that list are not run yet.
+      - name: Run unit tests
+        run: pnpm exec ng test trains-webapp --watch=false --browsers=ChromeHeadlessNoSandbox
+
       - name: Run build
         run: pnpm run build
 

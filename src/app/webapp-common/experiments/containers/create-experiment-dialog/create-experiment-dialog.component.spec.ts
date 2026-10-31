@@ -4,7 +4,6 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { CreateExperimentDialogComponent } from './create-experiment-dialog.component';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { selectQueueFeature } from '@common/experiments/shared/components/select-queue/select-queue.reducer';
-import { vi } from 'vitest';
 
 (window as any).IntersectionObserver = class {
   observe() {}
@@ -25,7 +24,7 @@ describe('CreateExperimentDialogComponent', () => {
 
   beforeEach(async () => {
     dialogRef = {
-      close: vi.fn()
+      close: jasmine.createSpy('close')
     };
 
     await TestBed.configureTestingModule({
@@ -161,7 +160,7 @@ describe('CreateExperimentDialogComponent', () => {
 
       component.close('save');
 
-      expect(dialogRef.close).toHaveBeenCalledWith(expect.objectContaining({
+      expect(dialogRef.close).toHaveBeenCalledWith(jasmine.objectContaining({
         action: 'save',
         name: 'test experiment',
         script: 'main.py'
@@ -174,7 +173,7 @@ describe('CreateExperimentDialogComponent', () => {
         scriptType: 'module'
       });
       component.close('run');
-      expect(dialogRef.close).toHaveBeenCalledWith(expect.objectContaining({
+      expect(dialogRef.close).toHaveBeenCalledWith(jasmine.objectContaining({
         script: '-m my.module'
       }));
     });
@@ -188,7 +187,7 @@ describe('CreateExperimentDialogComponent', () => {
       fixture.detectChanges();
 
       component.close('run');
-      expect(dialogRef.close).toHaveBeenCalledWith(expect.objectContaining({
+      expect(dialogRef.close).toHaveBeenCalledWith(jasmine.objectContaining({
         script: '-c echo hello'
       }));
     });
