@@ -27,7 +27,9 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 
 ## 3.2 Page structure (Target)
 
-Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated so far: dashboard, projects list, storage credentials, settings configuration ("User preferences"), settings devices. Other pages still build their own header (`.sm-entity-page-header` in the serving toolbar, the reports and pipeline detail headers). The structure:
+Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated: dashboard, projects list, storage credentials, settings configuration ("User preferences"), settings devices, tasks list ("Tasks"; "Pipeline runs" for the pipeline tasks view), models list, model endpoints, reports list and report detail, datasets (list and nested view), pipelines (nested view), agents and queues. The title is rendered once: the top bar breadcrumb drops its last crumb when it repeats the header title, and the breadcrumb area is hidden when no crumb is left. Primary actions (New run, New report, New dataset) go in `[actions]`; toolbars keep search, filters and view toggles below the header.
+
+Not yet migrated: the task and model detail headers (inside the split-panel info views, with inline rename and minimize/maximize) and the pipeline run detail header (the run info panel). These keep their panel headers until the panel controls are redesigned. The structure:
 
 ```text
 Page
@@ -43,7 +45,7 @@ Page
 └── Footer actions (forms only, see configuration-pages)
 ```
 
-Header height 56px. The 64px `.page-header` class is **retired** (removed): it duplicated the 64px application header directly above it. The projects list header was 80px and is now 56px, with its toolbar (48px) below.
+Header height 56px. The 64px `.page-header` class is **retired** (removed): it duplicated the 64px application header directly above it. The projects list header was 80px and is now 56px, with its toolbar (48px) below. The `.sm-entity-page-header` toolbar class is removed; toolbars use their own 48px rows.
 
 ## 3.3 Page templates
 

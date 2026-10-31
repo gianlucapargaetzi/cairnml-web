@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
 
+:host.empty {
+  display: none;
+}
+
 span {
   font-size: 15px;
 }
