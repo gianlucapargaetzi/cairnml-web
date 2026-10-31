@@ -68,6 +68,28 @@
   --color-scrim: #{mat.get-theme-color($theme, scrim)};
   --color-shadow: #{mat.get-theme-color($theme, shadow)};
 
+  // Tag colours: predefined tag backgrounds, with white text. Same in both themes (issue 27).
+  --color-tag-1: #803d3d;
+  --color-tag-2: #833e65;
+  --color-tag-3: #492d4e;
+  --color-tag-4: #5b3b80;
+  --color-tag-5: #38406e;
+  --color-tag-6: #013b6a;
+  --color-tag-7: #023f5c;
+  --color-tag-8: #385879;
+  --color-tag-9: #3a7777;
+  --color-tag-10: #326c34;
+  --color-tag-11: #2e521b;
+  --color-tag-12: #44573f;
+  --color-tag-13: #605c2b;
+  --color-tag-14: #846300;
+  --color-tag-15: #895200;
+  --color-tag-16: #7b331e;
+  --color-tag-17: #6e5056;
+  --color-tag-18: #596c71;
+  --color-tag-19: #2a4958;
+  --color-tag-20: #434141;
+
   // LIGHT
   @if mat.get-theme-type($theme) == light {
     --color-on-primary-container-lower: #{mat.get-theme-color($theme, primary, 40)};

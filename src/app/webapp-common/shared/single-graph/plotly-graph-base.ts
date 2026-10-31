@@ -6,25 +6,27 @@ import {Store} from '@ngrx/store';
 import {TinyColor} from '@ctrl/tinycolor';
 import {explicitEffect} from 'ngxtension/explicit-effect';
 import {ChartHoverModeEnum} from '@common/experiments/shared/common-experiments.const';
+import {themeColor} from '@common/shared/utils/theme-color';
 
+// Plot chrome. Values are design tokens, resolved with themeColor() when a plot is drawn.
 export const Colors = {
   dark: {
-    font: '#e3e2e6',
-    lines: '#282c33',
-    tick: '#9ea1a8',
-    legend: '#bfc7d5',
-    icon: '#a1c9ff',
-    iconActive: '#fff',
+    font: '--color-on-surface',
+    lines: '--color-outline-variant',
+    tick: '--color-on-surface-variant',
+    legend: '--color-on-surface-variant',
+    icon: '--color-primary',
+    iconActive: '--color-on-surface',
     polarbgcolor: 'transparent'
 
   },
   light: {
-    font: '#1a1c1e',
-    lines: '#dee1ed',
-    tick: '#666',
-    legend: '#666',
-    icon: '#0060a8',
-    iconActive: '#00152c',
+    font: '--color-on-surface',
+    lines: '--color-outline-variant',
+    tick: '--color-on-surface-variant',
+    legend: '--color-on-surface-variant',
+    icon: '--color-primary',
+    iconActive: '--color-on-primary-container',
     polarbgcolor: 'transparent'
   }
 };
@@ -110,7 +112,10 @@ export abstract class PlotlyGraphBaseComponent implements OnDestroy {
 
   theme = this.store.selectSignal(selectThemeMode);
   protected isDarkTheme = computed(() => this.darkTheme() ?? this.theme() === 'dark');
-  protected themeColors = computed(() => this.isDarkTheme() ? Colors.dark : Colors.light);
+  protected themeColors = computed(() => {
+    const colors = this.isDarkTheme() ? Colors.dark : Colors.light;
+    return Object.fromEntries(Object.entries(colors).map(([key, value]) => [key, themeColor(value)])) as typeof colors;
+  });
 
   protected constructor() {
     explicitEffect(

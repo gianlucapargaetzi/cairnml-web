@@ -17,7 +17,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {PALLET} from '@common/constants';
+import {themeColor} from '@common/shared/utils/theme-color';
 import {ColorHashService} from '@common/shared/services/color-hash/color-hash.service';
 import {
   generateColorKey,
@@ -344,11 +344,11 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
     this.title = this.hideTitle ? '' : this.getTitle(graph);
     let layout = {
       ...this.hideDownloadButtons ? {} : this.addParametersIfDarkTheme({
-        paper_bgcolor: PALLET.blue950
+        paper_bgcolor: themeColor('--color-surface-container-lowest')
       }),
       ...this.addParametersIfDarkTheme({
         font: {
-          color: '#FFFFFF',
+          color: themeColor('--color-on-surface'),
           family: '"Heebo", sans-serif'
         }
       }),
@@ -367,7 +367,7 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
       title: {
         ...this.addParametersIfDarkTheme({
           font: {
-            color: this.isDarkTheme() ? 'PALLET.blue100' : 'dce0ee'
+            color: themeColor('--color-on-surface')
           }
         })
       },
@@ -438,14 +438,14 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
         // override header design
         data.header = {
           ...data.header,
-          line: {width: 1, color: this.isDarkTheme() ? '#5a658e' : '#d4d6e0'},
+          line: {width: 1, color: themeColor('--color-outline-variant')},
           height: 29,
           align: 'left',
           font: {
             color: [this.themeColors().font],
             size: 12
           },
-          fill: {...data.header?.fill, color: this.isDarkTheme() ? '#262a31' : '#e5e8f1'}
+          fill: {...data.header?.fill, color: themeColor('--color-surface-container-high')}
         };
 
         // override cells design
@@ -458,7 +458,7 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
             color: [this.themeColors().font],
             size: 12
           },
-          fill: {...data.cells, color: this.isDarkTheme() ? '#0f141a' : '#ffffff'},
+          fill: {...data.cells, color: themeColor('--color-surface-container-lowest')},
           line: {width: 1, color: this.themeColors().lines}
         };
         layout.width = Math.max((data?.cells?.values?.length ?? 0) * 100, this.plotlyContainer.nativeElement.offsetWidth - 3);
@@ -666,7 +666,7 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
           const svg = pathElement.parentElement;
           this.chartElm.layout.showlegend = !this.chartElm.layout.showlegend;
           svg.parentElement.attributes['data-title'].value = this.getHideButtonTitle();
-          pathElement.style.fill = this.chartElm.layout?.showlegend ? 'rgb(77, 102, 255)' : 'rgb(143, 157, 201)';
+          pathElement.style.fill = this.chartElm.layout?.showlegend ? themeColor('--color-primary') : themeColor('--color-on-surface-variant');
           if (this.chartElm.layout.showlegend && this.chart.type !== 'pie') {
             setTimeout(() => {
               this.repositionModeBar(this.plotlyContainer.nativeElement);
@@ -690,7 +690,7 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
         click: (element, ev: MouseEvent) => {
           const pathElement = (ev.target as HTMLElement).tagName === 'path' ? (ev.target as HTMLElement) : (ev.target as HTMLElement).querySelector('path');
           const svg = pathElement.parentElement;
-          pathElement.style.fill = this.ratio ? 'rgb(77, 102, 255)' : 'rgb(143, 157, 201)';
+          pathElement.style.fill = this.ratio ? themeColor('--color-primary') : themeColor('--color-on-surface-variant');
           svg.parentElement.attributes['data-title'].value = this.getLockRatioTitle();
           this.ratio = this.ratio ? null : this.originalChart.layout.width / this.originalChart.layout.height;
           this.drawGraph$.next({forceRedraw: true, forceSkipReact: true});
@@ -817,7 +817,7 @@ export class SingleGraphComponent extends PlotlyGraphBaseComponent {
     const graph = select(this.plotlyContainer.nativeElement);
     if (this.isDarkTheme()) {
       graph.selectAll('.axis .domain')
-        .style('stroke', Colors.dark.lines)
+        .style('stroke', themeColor(Colors.dark.lines))
         .style('stroke-opacity', 1);
     }
     // graph.selectAll('.legendpoints path')

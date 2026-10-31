@@ -12,6 +12,7 @@ import {TinyColor} from '@ctrl/tinycolor';
 import {BaseChartDirective} from 'ng2-charts';
 import {Store} from '@ngrx/store';
 import {selectThemeMode} from '@common/core/reducers/view.reducer';
+import {themeColor} from '@common/shared/utils/theme-color';
 
 Chart.register(zoomPlugin);
 
@@ -131,7 +132,7 @@ export class ScatterPlotComponent {
           autoSkip: true,
           autoSkipPadding: 50,
           maxRotation: 0,
-          ...(this.theme() === 'dark' && {color: '#c1cdf3'})
+          ...(this.theme() === 'dark' && {color: themeColor('--color-on-surface-variant')})
         },
         time: {
           displayFormats: {
@@ -154,25 +155,25 @@ export class ScatterPlotComponent {
         ...options.scales.x,
         title: {
           ...options.scales.x.title,
-          color: '#c1cdf3'
+          color: themeColor('--color-on-surface-variant')
         },
-        ticks: {color: '#c1cdf3'}, grid: {color: '#39405f'}
+        ticks: {color: themeColor('--color-on-surface-variant')}, grid: {color: themeColor('--color-outline-variant')}
       };
       options.scales.y = {
         ...options.scales.y,
         title: {
           ...options.scales.y.title,
-          color: '#c1cdf3'
+          color: themeColor('--color-on-surface-variant')
         },
-        ticks: {color: '#c1cdf3'}, grid: {color: '#39405f'}
+        ticks: {color: themeColor('--color-on-surface-variant')}, grid: {color: themeColor('--color-outline-variant')}
       };
       options.plugins.tooltip = {
         ...options.plugins.tooltip,
         backgroundColor: 'black',
-        borderColor: '#8492c2',
-        bodyColor: '#c3cdf0'
+        borderColor: themeColor('--color-outline'),
+        bodyColor: themeColor('--color-on-surface-variant')
       };
-      options.plugins.legend.labels.color = '#c1cdf3';
+      options.plugins.legend.labels.color = themeColor('--color-on-surface-variant');
     }
     return options;
   });

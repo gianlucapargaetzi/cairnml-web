@@ -99,7 +99,7 @@ export class ReportComponent implements OnDestroy {
     table: {border: '1px solid gray'},
     th: {border: '1px solid gray'},
     td: {border: '1px solid gray'},
-    details: {border: '1px solid #ccc', margin: '6px 0', padding: '6px'},
+    details: {border: '1px solid var(--color-outline-variant)', margin: '6px 0', padding: '6px'},
 
     code: {'white-space': 'pre'},
     iframe: {border: 'none', width: '840px'}

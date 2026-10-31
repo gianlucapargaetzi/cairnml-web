@@ -3,6 +3,7 @@ import {setTagColors, TagColor} from '../../core/actions/projects.actions';
 import {Store} from '@ngrx/store';
 import {selectTagColors, selectTagsColors} from '../../core/reducers/projects.reducer';
 import {map} from 'rxjs/operators';
+import {themeColor} from '../utils/theme-color';
 
 
 @Injectable({
@@ -10,26 +11,26 @@ import {map} from 'rxjs/operators';
 })
 export class TagColorService {
   public static predefined = [
-    {foreground: 'white', background: '#803d3d'},
-    {foreground: 'white', background: '#833e65'},
-    {foreground: 'white', background: '#492d4e'},
-    {foreground: 'white', background: '#5b3b80'},
-    {foreground: 'white', background: '#38406e'},
-    {foreground: 'white', background: '#013b6a'},
-    {foreground: 'white', background: '#023f5c'},
-    {foreground: 'white', background: '#385879'},
-    {foreground: 'white', background: '#3a7777'},
-    {foreground: 'white', background: '#326c34'},
-    {foreground: 'white', background: '#2e521b'},
-    {foreground: 'white', background: '#44573f'},
-    {foreground: 'white', background: '#605c2b'},
-    {foreground: 'white', background: '#846300'},
-    {foreground: 'white', background: '#895200'},
-    {foreground: 'white', background: '#7b331e'},
-    {foreground: 'white', background: '#6e5056'},
-    {foreground: 'white', background: '#596c71'},
-    {foreground: 'white', background: '#2a4958'},
-    {foreground: 'white', background: '#434141'},
+    {foreground: 'white', background: 'var(--color-tag-1)'},
+    {foreground: 'white', background: 'var(--color-tag-2)'},
+    {foreground: 'white', background: 'var(--color-tag-3)'},
+    {foreground: 'white', background: 'var(--color-tag-4)'},
+    {foreground: 'white', background: 'var(--color-tag-5)'},
+    {foreground: 'white', background: 'var(--color-tag-6)'},
+    {foreground: 'white', background: 'var(--color-tag-7)'},
+    {foreground: 'white', background: 'var(--color-tag-8)'},
+    {foreground: 'white', background: 'var(--color-tag-9)'},
+    {foreground: 'white', background: 'var(--color-tag-10)'},
+    {foreground: 'white', background: 'var(--color-tag-11)'},
+    {foreground: 'white', background: 'var(--color-tag-12)'},
+    {foreground: 'white', background: 'var(--color-tag-13)'},
+    {foreground: 'white', background: 'var(--color-tag-14)'},
+    {foreground: 'white', background: 'var(--color-tag-15)'},
+    {foreground: 'white', background: 'var(--color-tag-16)'},
+    {foreground: 'white', background: 'var(--color-tag-17)'},
+    {foreground: 'white', background: 'var(--color-tag-18)'},
+    {foreground: 'white', background: 'var(--color-tag-19)'},
+    {foreground: 'white', background: 'var(--color-tag-20)'},
   ] as TagColor[];
 
   private tagsColors: { [p: string]: TagColor };
@@ -43,11 +44,16 @@ export class TagColorService {
       .pipe(map(tagColor => tagColor ? tagColor : this.calcColor(tag) ));
   }
 
-  calcColor(tag: string) {
+  calcColor(tag: string): TagColor {
     const sum = Array.from(tag)
       .map(chr => chr.charCodeAt(0))
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-    return  {...TagColorService.predefined[sum % 20]};
+    return TagColorService.resolve(TagColorService.predefined[sum % 20]);
+  }
+
+  // Predefined colours are tokens; consumers such as colour pickers need the value.
+  static resolve(color: TagColor): TagColor {
+    return {...color, background: themeColor(color.background as string)} as TagColor;
   }
 
   setColor(tag: string, colors: Partial<TagColor>) {

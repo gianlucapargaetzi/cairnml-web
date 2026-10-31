@@ -71,7 +71,22 @@ All text pairs must reach 4.5:1 (3:1 for 18px+ or 14px bold+ and for UI componen
 
 ## Rules
 
-1. No hex, `rgb()` or named colors in component SCSS, templates or TypeScript. At the time of writing there were 270 distinct hex values in SCSS and 132 hex literals in templates/TS; they are migrated per the plan.
+1. No hex, `rgb()` or named colors in component SCSS, templates or TypeScript, except the data-colour exceptions listed below. `scripts/check-design-tokens.sh` (run by CI) fails on new hex literals in SCSS and TypeScript outside that list, and fails when a listed file no longer exists.
 2. The SCSS palette variables in `variables.scss` (`$blue-*`, `$neon-*`, …) are legacy for the old dark theme and must not be used in new code. `cairnml-palette.scss` also contains an unused first palette (`$palettes1`, primary #545D7F) next to the active one (verify and delete).
 3. Charts use their own categorical palette (`--color-total` etc.); do not reuse status colors for chart series.
 4. Every new color need is first expressed with an existing role. Add a variable only for a new *meaning*, in both themes, in `customizations/colors.scss`.
+
+## Literal colors in TypeScript
+
+Plotting libraries (Plotly, Chart.js) and canvas code need literal colour values, not `var()`. Code that draws with those libraries reads the theme tokens at draw time with `themeColor()` (`shared/utils/theme-color.ts`), for example `themeColor('--color-on-surface')`. Plot chrome (paper, grid, ticks, fonts, status fills) uses tokens this way.
+
+Data colours are the exception. They are not themeable: a series must stay distinguishable from the other series, and it must keep the same colour in both themes so that a chart can be compared across them. The files below are the complete exception list. `scripts/check-design-tokens.sh` reads this list (the paths between the markers) and fails when a TypeScript file outside the list adds a hex literal.
+
+<!-- colour-exceptions:start -->
+- `src/app/webapp-common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component.ts`: the palette offered for data series (categorical, ten hues). Reason: series identity; the palette must stay distinguishable and is the same in both themes.
+- `src/app/webapp-common/shared/services/color-hash/color-hash.utils.ts`: the fallback colour for a series name without a stored colour. Reason: series identity, as above.
+- `src/app/webapp-common/experiments-compare/containers/compare-scatter-plot/compare-scatter-plot.component.ts`: the colour of one data series in the comparison scatter plot. Reason: data series.
+- `src/app/webapp-common/shared/components/charts/line-chart/line-chart.component.ts`: the default series colour scheme of the line chart. Reason: data series; callers can pass their own colours.
+<!-- colour-exceptions:end -->
+
+Also an exception, outside the check (templates): the `colorScheme` of `workers-and-queues/containers/workers-stats/workers-stats.component.html` is a categorical data palette for the chart.

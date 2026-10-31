@@ -73,3 +73,41 @@ END {
   print "No design-token violations in added lines."
 }
 '
+
+# TypeScript: a hex literal may be added only in a file on the colour exception list. The list is the set of
+# `src/...ts` paths between the markers in docs/design-system/05-color-system.md (data colours, see that file).
+DOC=docs/design-system/05-color-system.md
+EXC=$(sed -n '/<!-- colour-exceptions:start -->/,/<!-- colour-exceptions:end -->/p' "$DOC" | grep -o '`src/[^`]*\.ts`' | tr -d '`' | tr '\n' ' ')
+if [ -z "$EXC" ]; then
+  echo "No colour exception list found in $DOC." >&2
+  exit 1
+fi
+ts_failures=0
+for f in $EXC; do
+  if [ ! -f "$f" ]; then
+    echo "$DOC: colour exception $f does not exist any more; remove it from the list." >&2
+    ts_failures=$((ts_failures + 1))
+  fi
+done
+git diff -U0 --no-color --no-ext-diff "$MERGE_BASE" -- '*.ts' ':!*.spec.ts' | awk -v exc="$EXC" '
+BEGIN { n = split(exc, arr, " "); for (i = 1; i <= n; i++) allowed[arr[i]] = 1; failures = 0 }
+/^\+\+\+ / { file = substr($0, 7); next }
+/^@@/ { split($3, p, ","); lineno = substr(p[1], 2) + 0; next }
+/^\+/ {
+  text = substr($0, 2)
+  current = lineno
+  lineno++
+  if (text ~ /^[ \t]*(\/\/|\/\*|\*)/) next
+  if (file in allowed) next
+  if (text ~ /#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]+([^0-9A-Za-z_-]|$)/) {
+    printf "%s:%d: hex colour in TypeScript: use a theme token (themeColor() for drawing libraries), or add the file to the colour exception list in %s\n    %s\n", file, current, "docs/design-system/05-color-system.md", text > "/dev/stderr"
+    failures++
+  }
+}
+END { exit (failures > 0) }
+' || ts_failures=$((ts_failures + 1))
+if [ "$ts_failures" -gt 0 ]; then
+  echo "$ts_failures TypeScript colour check failure(s)." >&2
+  exit 1
+fi
+echo "No TypeScript colour violations in added lines."
