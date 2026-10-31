@@ -64,7 +64,7 @@
     </a>
   </sm-labeled-row>
 
-  <sm-labeled-row label="Worker:">
+  <sm-labeled-row label="Agent:">
     <a [routerLink]="'/workers-and-queues/workers'" [queryParams]="{id: experiment()?.last_worker}" [class.na]="!experiment()?.last_worker">
       {{ experiment()?.last_worker | NA }}
     </a>

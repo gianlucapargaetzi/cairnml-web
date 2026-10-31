@@ -6,10 +6,10 @@
 
 @if (currentUser()) {
   <div #container class="items-container" [class.on-scrolling]="scrolling()">
-    <a aria-label="Agents and queues" class="item al-ico-queues"
+    <a aria-label="Agents & Queues" class="item al-ico-queues"
        routerLink="/workers-and-queues"
        routerLinkActive="active"
-       smTooltip="Agents & queues"
+       smTooltip="Agents & Queues"
     ></a>
     <a aria-label="Datasets" class="item al-ico-datasets"
        [routerLink]="defaultNestedModeForFeature()?.['datasets']? '/datasets/simple/*/projects' : '/datasets'"

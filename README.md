@@ -18,10 +18,10 @@ CairnML Web is the browser interface of CairnML. It shows your projects, tasks, 
 
 ## Features
 
-- A dashboard with your projects and recent experiments.
-- Project pages with tasks, experiments and models, and side-by-side comparisons.
+- A dashboard with your projects and recent tasks.
+- Project pages with tasks and models, and side-by-side comparisons.
 - Datasets and their versions.
-- Workers and queues, with the jobs waiting for them.
+- Agents and queues, with the tasks waiting for them.
 - Pipelines, reports and settings.
 
 ## Prerequisites
