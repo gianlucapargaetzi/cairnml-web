@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {Store} from '@ngrx/store';
+import {selectCurrentUser} from '@common/core/reducers/users-reducer';
 import {lastValueFrom} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
@@ -18,16 +19,21 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {PrimeTemplate} from 'primeng/api';
+import {ReassignDeviceDialogComponent, ReassignDeviceDialogConfig} from './reassign-device-dialog.component';
 
 export interface DeviceView {
   id: string;
   user: string;
+  owner_name: string | null;
+  owner_disabled: boolean;
   kind: 'client' | 'agent';
   name: string;
   created: string | null;
   last_used: string | null;
   revoked: boolean;
 }
+
+const ADMIN_ROLES = ['admin', 'root'];
 
 const KIND_LABELS: Record<string, string> = {
   client: 'Client',
@@ -58,17 +64,18 @@ export class DevicesComponent implements OnInit {
 
   protected readonly timeFormatString = TIME_FORMAT_STRING;
   protected devices = signal<DeviceView[]>([]);
-  protected owners = signal<Map<string, string>>(new Map());
+  private currentUser = this.store.selectSignal(selectCurrentUser);
+  protected isAdmin = computed(() => ADMIN_ROLES.includes(this.currentUser()?.role));
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected readonly columns: ISmCol[] = [
     {id: 'name', header: 'Name', style: {minWidth: '200px'}},
     {id: 'kind', header: 'Kind', style: {width: '120px'}},
-    {id: 'owner', header: 'Owner', style: {width: '160px'}},
+    {id: 'owner', header: 'Owner', style: {width: '180px'}},
     {id: 'created', header: 'Created', style: {width: '140px'}},
     {id: 'last_used', header: 'Last used', style: {width: '140px'}},
     {id: 'status', header: 'Status', style: {width: '120px'}},
-    {id: 'actions', header: '', style: {width: '64px'}},
+    {id: 'actions', header: '', style: {width: '104px'}},
   ];
 
   ngOnInit() {
@@ -79,8 +86,47 @@ export class DevicesComponent implements OnInit {
     return KIND_LABELS[kind] ?? kind;
   }
 
-  protected ownerName(userId: string) {
-    return this.owners().get(userId) ?? userId;
+  protected ownerLabel(device: DeviceView) {
+    return device.owner_name || device.user;
+  }
+
+  protected statusLabel(device: DeviceView) {
+    if (device.revoked) {
+      return 'Revoked';
+    }
+    return device.owner_disabled ? 'Owner disabled' : 'Active';
+  }
+
+  protected async reassign(device: DeviceView) {
+    let res;
+    try {
+      res = await lastValueFrom(this.usersApi.usersGetAllEx({only_fields: ['id', 'name']}));
+    } catch (error) {
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
+        `The users could not be loaded. ${error?.meta?.result_msg ?? ''}`.trim()));
+      return;
+    }
+    const users = (res.users ?? []).filter(u => u.id !== device.user).map(u => ({id: u.id, name: u.name}));
+    const data: ReassignDeviceDialogConfig = {deviceName: device.name || device.id, users};
+    this.dialog.open<ReassignDeviceDialogComponent, ReassignDeviceDialogConfig, string>(ReassignDeviceDialogComponent, {
+      data,
+      panelClass: 'dialog-md'
+    }).afterClosed().subscribe(userId => {
+      if (userId) {
+        this.moveDevice(device, userId);
+      }
+    });
+  }
+
+  private async moveDevice(device: DeviceView, userId: string) {
+    try {
+      await lastValueFrom(this.apiRequest.post(`${HTTP.API_BASE_URL}/devices.reassign`, {id: device.id, user: userId}, {}));
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Device reassigned'));
+      await this.load();
+    } catch (error) {
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
+        `The device could not be reassigned. ${error?.meta?.result_msg ?? ''}`.trim()));
+    }
   }
 
   protected confirmRevoke(device: DeviceView) {
@@ -128,16 +174,6 @@ export class DevicesComponent implements OnInit {
       this.error.set(error?.meta?.result_msg ?? 'The devices could not be loaded.');
     } finally {
       this.loading.set(false);
-    }
-    await this.loadOwners();
-  }
-
-  private async loadOwners() {
-    try {
-      const res = await lastValueFrom(this.usersApi.usersGetAllEx({only_fields: ['id', 'name']}));
-      this.owners.set(new Map((res.users ?? []).map(u => [u.id, u.name])));
-    } catch {
-      // without the names the owner column shows the user id
     }
   }
 

@@ -25,7 +25,12 @@
           {{ kindLabel(device.kind) }}
         }
         @case ('owner') {
-          {{ ownerName(device.user) }}
+          <span class="owner">
+            <span class="ellipsis">{{ ownerLabel(device) }}</span>
+            @if (device.owner_disabled) {
+              <span class="owner-disabled" smTooltip="The owner is disabled, so this device is refused. Reassign it to an enabled admin." matTooltipShowDelay="500">Disabled</span>
+            }
+          </span>
         }
         @case ('created') {
           <span [smTooltip]="device.created | date: timeFormatString" matTooltipShowDelay="500">{{ device.created ? (device.created | date: 'mediumDate') : '' }}</span>
@@ -34,9 +39,15 @@
           <span [smTooltip]="device.last_used | date: timeFormatString" matTooltipShowDelay="500">{{ device.last_used ? (device.last_used | timeAgo) : 'Never' }}</span>
         }
         @case ('status') {
-          <span class="status" [class.revoked-status]="device.revoked">{{ device.revoked ? 'Revoked' : 'Active' }}</span>
+          <span class="status" [class.revoked-status]="device.revoked" [class.owner-disabled-status]="!device.revoked && device.owner_disabled">{{ statusLabel(device) }}</span>
         }
         @case ('actions') {
+          @if (isAdmin()) {
+            <button mat-icon-button aria-label="Reassign" smTooltip="Reassign to another admin" matTooltipShowDelay="500"
+                    [disabled]="device.revoked" (click)="reassign(device)" data-id="reassignDeviceButton">
+              <mat-icon fontSet="al" fontIcon="al-ico-move-to"></mat-icon>
+            </button>
+          }
           <button mat-icon-button aria-label="Revoke" smTooltip="Revoke" matTooltipShowDelay="500"
                   [disabled]="device.revoked" (click)="confirmRevoke(device)" data-id="revokeDeviceButton">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>

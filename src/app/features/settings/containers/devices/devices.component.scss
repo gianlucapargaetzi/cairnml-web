@@ -27,4 +27,24 @@
   .revoked-status {
     color: var(--color-outline);
   }
+
+  .owner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .owner-disabled {
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 0 8px;
+    border-radius: 4px;
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning);
+  }
+
+  .owner-disabled-status {
+    color: var(--color-warning);
+  }
 }
