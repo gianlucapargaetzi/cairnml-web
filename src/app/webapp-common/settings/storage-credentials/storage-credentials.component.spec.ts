@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { EMPTY } from 'rxjs';
 import { selectCredentials } from '~/features/settings/settings.selectors';
 
 import { StorageCredentialsComponent } from './storage-credentials.component';
@@ -11,7 +13,7 @@ describe('DeleteCredsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StorageCredentialsComponent],
-      providers: [provideMockStore({
+      providers: [provideMockActions(() => EMPTY), provideMockStore({
         selectors: [
           { selector: selectCredentials, value: { aws: { buckets: [] }, google: { buckets: [] }, azure: { containers: [] } } }
         ]

@@ -13,8 +13,8 @@ describe('ProjectCardComponent.convertSecToDaysHrsMinsSec', () => {
   });
 
   it('labels one and several days', () => {
-    expect(format(86400 + 3600 + 61)).toBe('1 DAY 01:01:01');
-    expect(format(3 * 86400 + 59)).toBe('3 DAYS 00:00:59');
+    expect(format(86400 + 3600 + 61)).toBe('1 day 01:01:01');
+    expect(format(3 * 86400 + 59)).toBe('3 days 00:00:59');
   });
 
   it('shows zero for an empty duration', () => {

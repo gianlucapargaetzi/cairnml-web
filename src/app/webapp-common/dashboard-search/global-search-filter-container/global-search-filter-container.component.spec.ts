@@ -14,15 +14,17 @@ describe('GlobalSearchFilterContainerComponent', () => {
       providers: [
         provideMockStore({
           initialState: {
-            dashboardSearch: {
+            users: { currentUser: { id: 'user-1' } },
+            search: {
               tabsColumnFilters: {},
-              searchTags: []
+              searchTags: [],
+              term: { query: '' }
             },
-            projects: {
-              allUsers: []
-            },
-            users: {
-              currentUser: null
+            rootProjects: {
+              allUsers: [],
+              selectedProject: null,
+              users: [],
+              extraUsers: []
             }
           }
         }),
