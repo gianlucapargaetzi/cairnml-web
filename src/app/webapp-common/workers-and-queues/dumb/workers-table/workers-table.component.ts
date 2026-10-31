@@ -1,4 +1,15 @@
-import {ChangeDetectionStrategy, Component, computed, effect, inject, input, output, viewChild} from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  Injector,
+  input,
+  output,
+  viewChild
+} from '@angular/core';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs/operators';
@@ -114,17 +125,32 @@ export class WorkersTableComponent extends BaseTableView {
 
   tableContainer = viewChild<HTMLDivElement>('tableContainer');
 
+  private readonly injector = inject(Injector);
+  private scrolledToSelectedId: string;
+
   constructor() {
     super();
     effect(() => {
-      if (this.workers() && this.selectedWorker()) {
-        this.table()?.focusSelected();
-        const index = this.workers().findIndex(w => w.id === this.selectedWorker().id)
-        if (index > -1) {
-          this.table().scrollToIndex(index);
-        }
+      const table = this.table();
+      const workers = this.workers();
+      const selected = this.selectedWorker();
+      // The table is only usable once it is rendered with the workers, so wait for the first render after that.
+      if (!table || !workers?.length || !selected || this.scrolledToSelectedId === selected.id) {
+        return;
       }
+      this.scrolledToSelectedId = selected.id;
+      afterNextRender(() => this.scrollToSelected(), {injector: this.injector});
     });
+  }
+
+  private scrollToSelected() {
+    const table = this.table();
+    const index = this.workers()?.findIndex(w => w.id === this.selectedWorker()?.id) ?? -1;
+    if (!table || index < 0) {
+      return;
+    }
+    table.focusSelected();
+    table.scrollToIndex(index);
   }
 
   versionAndMode(worker: WorkerExt): string {
