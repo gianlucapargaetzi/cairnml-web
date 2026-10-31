@@ -1,0 +1,47 @@
+<sm-dialog-template header="Import run" iconClass="al-ico-import">
+  <p class="intro">
+    Choose the ZIP that <code>cairnml import prepare</code> wrote. The import creates a new task in the project named in the
+    ZIP's manifest, with the run's parameters, scalars and files. It never changes an existing task.
+  </p>
+  <div class="file-row">
+    <label class="file-label">
+      <span class="file-button" [class.disabled]="busy()">Choose ZIP</span>
+      <input class="file-input" type="file" accept=".zip,application/zip" (change)="chooseFile($event)"
+             [disabled]="busy()" data-id="runImportFile"/>
+    </label>
+    <span class="file-name" data-id="runImportFileName">{{ file()?.name ?? 'No file chosen' }}</span>
+  </div>
+  @if (fileError()) {
+    <div class="error" role="alert">{{ fileError() }}</div>
+  }
+  @if (progress()) {
+    <div class="progress" role="status" data-id="runImportProgress">
+      <mat-progress-spinner mode="indeterminate" [diameter]="16" [strokeWidth]="2"></mat-progress-spinner>
+      {{ progress() }}…
+    </div>
+  }
+  @if (error()) {
+    <div class="error" role="alert" data-id="runImportError">{{ error() }}</div>
+  }
+  @if (result(); as done) {
+    <div class="result" role="status" data-id="runImportResult">
+      <div class="result-title">Imported task “{{ done.name }}” in project {{ done.project }}</div>
+      <div class="result-line">{{ done.scalars }} scalar values, {{ done.artifacts.length }} files attached</div>
+      @for (warning of done.warnings; track warning) {
+        <div class="result-line warning">{{ warning }}</div>
+      }
+    </div>
+  }
+  <div class="actions">
+    <button mat-stroked-button type="button" (click)="close()" data-id="RunImportCloseButton">
+      {{ result() ? 'Close' : 'Cancel' }}
+    </button>
+    <button mat-flat-button type="button" (click)="importRun()" [disabled]="!file() || busy() || !!result()"
+            data-id="RunImportButton">
+      @if (busy()) {
+        <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
+      }
+      {{ busy() ? 'Importing…' : 'Import' }}
+    </button>
+  </div>
+</sm-dialog-template>

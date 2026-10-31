@@ -68,3 +68,9 @@ sm-dashboard-experiments {
   font-size: $font-size-regular;
   color: $error-color;
 }
+
+.card-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

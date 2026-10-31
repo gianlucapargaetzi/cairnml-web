@@ -8,7 +8,10 @@
       <div class="sm-card-list-layout">
         <div class="sm-card-list-header">
           <div class="recent-title">Tasks</div>
-          <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">All tasks</button>
+          <div class="card-list-actions">
+            <button mat-stroked-button data-id="importRunButton" (click)="openImport()">Import run</button>
+            <button mat-flat-button data-id="allExperimentsButton" [routerLink]="allExperimentsLink()">All tasks</button>
+          </div>
         </div>
         @for (folder of folders(); track folder.id) {
           <sm-project-card
