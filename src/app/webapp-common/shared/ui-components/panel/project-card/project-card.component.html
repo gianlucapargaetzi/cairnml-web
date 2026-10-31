@@ -4,7 +4,7 @@
   [attr.aria-label]="project.basename"
   (click)="projectClicked()"
   (keydown.enter)="projectKeyActivated($any($event))"
-  [isExample]="!['All Experiments'].includes(project.name) && !isRootProject() && (!project.company || ! project.company.id)"
+  [isExample]="!['All Tasks'].includes(project.name) && !isRootProject() && (!project.company || ! project.company.id)"
   [showFolder]="true"
   [oneTabMode]="!(project?.sub_projects?.length > 0)"
   [subFolderTitle]="project?.sub_projects?.length + ' sub projects'"

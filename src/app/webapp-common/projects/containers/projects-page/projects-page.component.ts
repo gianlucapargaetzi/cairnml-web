@@ -69,7 +69,7 @@ export class ProjectsPageComponent implements OnDestroy {
 
   public ALL_EXPERIMENTS_CARD: ProjectsGetAllResponseSingle = {
     id: '*',
-    name: 'All Experiments',
+    name: 'All Tasks',
     stats: {
       active: {
         status_count: {queued: '∞' as any, in_progress: '∞' as any, published: '∞' as any},
@@ -215,8 +215,8 @@ export class ProjectsPageComponent implements OnDestroy {
     return [{
       ...((selectedProjectId && selectedProject?.id) ? selectedProject : this.ALL_EXPERIMENTS_CARD),
       id: selectedProjectId ? selectedProjectId : '*',
-      name: 'All Experiments',
-      basename: 'All Experiments',
+      name: 'All Tasks',
+      basename: 'All Tasks',
       sub_projects: null
     } as ProjectsGetAllResponseSingle];
   }
@@ -322,7 +322,7 @@ export class ProjectsPageComponent implements OnDestroy {
   }
 
   public projectCardClicked(project: ProjectsGetAllResponseSingle) {
-    const allExperiments = project.name === 'All Experiments';
+    const allExperiments = project.name === 'All Tasks';
     if (allExperiments) {
       this.store.dispatch(setDeep({deep: true}));
     }

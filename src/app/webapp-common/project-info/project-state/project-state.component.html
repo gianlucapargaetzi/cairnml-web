@@ -6,10 +6,10 @@
   <div class="state-groups">
     <div class="state-group" data-id="experimentsState">
       <div class="group-header">
-        <span class="group-title">Experiments</span>
+        <span class="group-title">Tasks</span>
         <span class="group-total">{{ experiments()?.total_tasks ?? 0 }} total</span>
       </div>
-      <ul class="status-list" aria-label="Experiments by status">
+      <ul class="status-list" aria-label="Tasks by status">
         @for (status of statuses; track status) {
           <li>
             <sm-status-icon-label [status]="status"></sm-status-icon-label>

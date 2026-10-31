@@ -23,7 +23,7 @@ import {TENANT_HEADER} from '~/core/interceptors/webapp-interceptor';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 
 export const experimentOutputLogEvents = eventGroup({
-  source: 'Experiment Output Log',
+  source: 'Task Output Log',
   events: {
     getLogs: type<{ id: string; direction: string; from?: number; refresh?: boolean }>(),
     resetLog: type<void>(),

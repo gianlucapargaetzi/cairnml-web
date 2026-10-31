@@ -18,7 +18,7 @@ export class RetryFooterItem extends ItemFooterModel {
       disable: retry?.disable,
       preventCurrentItem: state.selectionAllIsArchive,
       description: this.menuItemText.transform(retry?.available, 'Retry'),
-      disableDescription: state.selectionIsOnlyExamples ? 'Retry' : `You can only retry experiments with ‘Failed' status`
+      disableDescription: state.selectionIsOnlyExamples ? 'Retry' : `You can only retry tasks with ‘Failed' status`
 
     };
   }

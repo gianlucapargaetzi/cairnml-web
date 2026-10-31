@@ -242,7 +242,7 @@ export class ExperimentsTableComponent extends BaseTableView {
       this.sortOptionsList(
         Array.from(new Set(this.parents().concat(this.activeParentsFilter() || [])))
           .map(parent => ({
-            label: parent.name ? parent.name : 'Unknown Experiment',
+            label: parent.name ? parent.name : 'Unknown task',
             value: parent.id,
             tooltip: `${parent.project?.name} / ${parent.name}`
           })),

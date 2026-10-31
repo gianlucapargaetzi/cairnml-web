@@ -8,7 +8,7 @@ export const PROJECT_ROUTES = [
   {header: 'overview', label: 'Overview', id: 'overviewTab'},
   {header: 'workloads', label: 'Workloads', id: 'workloadTab'},
   {header: 'folders', label: 'Tasks', id: 'tasksTab'},
-  {header: 'tasks', label: 'Experiments', id: 'experimentsTab'},
+  {header: 'tasks', label: 'Task list', id: 'experimentsTab'},
   {header: 'models', label: 'Models', id: 'modelsTab'},
   {header: 'settings', label: 'Project settings', id: 'settingsTab'}
 ] as HeaderNavbarTabConfig[];

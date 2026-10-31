@@ -38,7 +38,7 @@ import {MatIconModule} from '@angular/material/icon';
 export class ReportCardComponent {
 
   report = input.required<IReport>();
-  isExample = computed(() => !['All Experiments'].includes(this.report().name) && (!this.report().company || !this.report().company['id']));
+  isExample = computed(() => !['All Tasks'].includes(this.report().name) && (!this.report().company || !this.report().company['id']));
 
   projectsNames = input<string[]>();
   allTags = input<string[]>();
