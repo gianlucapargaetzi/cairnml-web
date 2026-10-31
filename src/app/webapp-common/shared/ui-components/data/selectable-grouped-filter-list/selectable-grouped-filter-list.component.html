@@ -11,9 +11,11 @@
 ></sm-search>
 <div class="toggle-all-text">
   @if (searchTerm()) {
-    <span (click)="toggleHideMatching()" data-id="hideShowMatchingButton">{{ allFilteredSelected() ? 'Hide matching' : 'Show matching' }}</span>
+    <span (click)="toggleHideMatching()" data-id="hideShowMatchingButton" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (toggleHideMatching())" (keydown.space)="$event.target === $event.currentTarget && (toggleHideMatching()); $event.target === $event.currentTarget && $event.preventDefault()"
+    >{{ allFilteredSelected() ? 'Hide matching' : 'Show matching' }}</span>
   } @else {
-  <span (click)="toggleHideAll()" data-id="hideShowAllButton">{{ allSelected() ? 'Hide all' : 'Show all' }}</span>
+  <span (click)="toggleHideAll()" data-id="hideShowAllButton" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (toggleHideAll())" (keydown.space)="$event.target === $event.currentTarget && (toggleHideAll()); $event.target === $event.currentTarget && $event.preventDefault()"
+  >{{ allSelected() ? 'Hide all' : 'Show all' }}</span>
   }
 </div>
 <div class="toggle-all-text">

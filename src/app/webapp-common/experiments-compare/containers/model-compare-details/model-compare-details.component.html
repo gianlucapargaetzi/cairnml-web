@@ -34,7 +34,8 @@
                       [class]="node?.data?.classStyle"
                       [class.selected-diff]="checkIfSelectedPath(node.data)"
                       [class.hovered]="checkIfHoveredPath(node.data)"
-                      [class.identical-row]="!allPaths[node.data.path]">
+                      [class.identical-row]="!allPaths[node.data.path]" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (toggleNode(node))" (keydown.space)="$event.target === $event.currentTarget && (toggleNode(node)); $event.target === $event.currentTarget && $event.preventDefault()"
+                    >
                       <mat-icon fontSet="al" [style.margin-left.px]="2 + node.level * 20"
                       class="sm" [class.rotate-right]="!treeControl.isExpanded(node)" fontIcon="al-ico-ico-chevron-down" data-id="expandDetailTab"
                     ></mat-icon>
@@ -54,7 +55,8 @@
                 }
                 @if (!node.hasChildren) {
                   <div class="section" (click)="keyClicked(node.data)"
-                    (mouseenter)="rowHovered(node.data?.path)">
+                    (mouseenter)="rowHovered(node.data?.path)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (keyClicked(node.data))" (keydown.space)="$event.target === $event.currentTarget && (keyClicked(node.data)); $event.target === $event.currentTarget && $event.preventDefault()"
+                  >
                 <div [style.padding-left.px]="2 + node.level * 20" [class]="{
                   'node-item-container': true,
                   'identical-row': checkIfIdenticalRow(node.data),
@@ -76,10 +78,11 @@
                             {{node.data.key |
                             hideHash}}<span
                             class="pointer link"
-                          (click)="linkClicked(node.data.value.link)">{{node.data.value.dataValue}}</span>
+                          (click)="linkClicked(node.data.value.link)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (linkClicked(node.data.value.link))" (keydown.space)="$event.target === $event.currentTarget && (linkClicked(node.data.value.link)); $event.target === $event.currentTarget && $event.preventDefault()"
+                            >{{node.data.value.dataValue}}</span>
                         } @else {
                           {{node.data.key | hideHash}}{{node.data.value}}
-                          }<i aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis" (click)="toggleEllipsis(); $event.stopPropagation()"></i>
+                          }<i aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis" tabindex="0" role="button" (click)="toggleEllipsis(); $event.stopPropagation()" (keydown.enter)="toggleEllipsis()" (keydown.space)="toggleEllipsis(); $event.preventDefault()"></i>
                         </pre>
                       }
                     </div>

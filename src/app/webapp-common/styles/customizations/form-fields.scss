@@ -16,7 +16,7 @@
 
   --mat-form-field-state-layer-color: transparent;
   --mat-form-field-filled-container-color: transparent;
-  --mat-form-field-outlined-input-text-placeholder-color: var(--color-outline);
+  --mat-form-field-outlined-input-text-placeholder-color: var(--color-on-surface-variant); // placeholder text: outline is 4.3:1 on light surfaces (issue 34)
 
   --mat-checkbox-unselected-icon-color: var(--color-primary);
   --mat-checkbox-selected-icon-color: var(--color-primary);
@@ -30,7 +30,7 @@
   --mat-menu-item-label-text-line-height: 16px;
 
   .mat-mdc-select-placeholder {
-    --mat-select-placeholder-text-color: var(--color-outline);
+    --mat-select-placeholder-text-color: var(--color-on-surface-variant);
   }
 
   &.no-bottom {

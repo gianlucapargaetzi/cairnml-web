@@ -1,6 +1,7 @@
 <div smClickStopPropagation class="meta-container ">
   <div class="head">
-    <mat-icon fontSet="al" fontIcon="al-ico-back" class="al-icon sm-md pointer m-auto" (click)="goBack.emit()" aria-label="Back" aria-hidden="false" data-id="customBackButton" smClickStopPropagation></mat-icon>
+    <mat-icon fontSet="al" fontIcon="al-ico-back" class="al-icon sm-md pointer m-auto" (click)="goBack.emit()" aria-label="Back" aria-hidden="false" data-id="customBackButton" smClickStopPropagation tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (goBack.emit())" (keydown.space)="$event.target === $event.currentTarget && (goBack.emit()); $event.target === $event.currentTarget && $event.preventDefault()"
+    ></mat-icon>
     <h3>{{title() ?? 'Select metadata key to display'}}</h3>
   </div>
   <sm-search

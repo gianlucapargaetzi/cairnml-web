@@ -2,7 +2,8 @@
   @if (showFolder()) {
     <div class="folder-tab" smClickStopPropagation>
       <div class="first-tab-parts" (click)="activeTab.set(1)"
-           [class.hide-second-tab]="oneTabMode()">
+           [class.hide-second-tab]="oneTabMode()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(1))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(1)); $event.target === $event.currentTarget && $event.preventDefault()"
+      >
         <svg class="tabs" xmlns="http://www.w3.org/2000/svg" width="64" height="20" viewBox="0 0 64 20">
           @if (!oneTabMode()) {
             <g [class]="(activeTab() === 2 ? 'first' : 'second') + '-tab'">
@@ -24,13 +25,13 @@
           class="second-tab text"
           [class.tab-hovered]="secondTabIsHovered"
           (click)="activeTab.set(2)"
-          [class.active]="activeTab() === 2"
+          [class.active]="activeTab() === 2" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(2))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(2)); $event.target === $event.currentTarget && $event.preventDefault()"
         >{{subFolderTitle()}}</div>
         <div
           class="second-tab"
           [class.tab-hovered]="secondTabIsHovered"
           [class.active]="activeTab() === 2"
-          (click)="activeTab.set(2)"
+          (click)="activeTab.set(2)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (activeTab.set(2))" (keydown.space)="$event.target === $event.currentTarget && (activeTab.set(2)); $event.target === $event.currentTarget && $event.preventDefault()"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" viewBox="0 0 28 20">
               <path class="tab" d="M3.61,0C17.37,0,12.82,12.36,28,20H0V0Z"/>

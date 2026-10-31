@@ -6,7 +6,8 @@
       <span class="ellipsis flex-grow-1"
             [class.unchecked]="node.parent ? !(node.parent + node.name | stringIncludedInArray: checkedList()) : shouldUncheckParent()[node.name]"
             [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis
-            (click)="itemSelect.emit(node.parent + node.name)" data-id="toggleGraphItems">{{ node.displayName ?? node.name }}</span>
+            (click)="itemSelect.emit(node.parent + node.name)" data-id="toggleGraphItems" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (itemSelect.emit(node.parent + node.name))" (keydown.space)="$event.target === $event.currentTarget && (itemSelect.emit(node.parent + node.name)); $event.target === $event.currentTarget && $event.preventDefault()"
+      >{{ node.displayName ?? node.name }}</span>
 
       <button aria-label="Show or hide item"
         mat-icon-button

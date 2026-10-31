@@ -9,7 +9,7 @@
                      (cancelClicked)="cancelHyperParametersChange(); executionParamsForm.cancel()"
                      (saveClicked)="sectionSaved(); executionParamsForm?.hyperParameters()?.form.markAsPristine()"
                      (activateEditClicked)="activateEditChanged('hyperparams')">
-  <sm-section-header [label]="(selectedSection() | replaceViaMapPipe:sectionReplaceMap) | uppercase "></sm-section-header>
+  <sm-section-header [label]="(selectedSection() | replaceViaMapPipe:sectionReplaceMap)"></sm-section-header>
   <sm-search search-button
              #search
              class="outline"

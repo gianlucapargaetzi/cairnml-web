@@ -11,16 +11,14 @@
           class="d-flex-center nav-item h-100"
           [class.selected]="link === currentLink"
           (click)="showSection(link)"
-          (keyup)="showSection(link)"
-          tabindex="1"
+          role="button" (keydown.enter)="showSection(link)" (keydown.space)="showSection(link); $event.preventDefault()" tabindex="0"
         >{{link}}</div>
       }
       <div
         class="d-flex-center nav-item h-100"
         [class.selected]="currentLink === 'videoTab'"
         (click)="showSection('videoTab')"
-        (keyup)="showSection('videoTab')"
-        tabindex="1"
+        role="button" (keydown.enter)="showSection('videoTab')" (keydown.space)="showSection('videoTab'); $event.preventDefault()" tabindex="0"
       >
         <mat-icon fontSet="al" fontIcon="al-ico-video" class="al-icon sm-md"></mat-icon>
       </div>

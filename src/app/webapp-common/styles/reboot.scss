@@ -1,10 +1,6 @@
 @use "variables";
 
 // Keyboard users see where focus is. The ring shows only for keyboard focus (:focus-visible), not for a mouse click.
-:focus {
-  outline: none;
-}
-
 // "html" raises the specificity above Material's own "outline: none" on buttons, which otherwise hides the ring.
 html :focus-visible {
   outline: 2px solid var(--color-primary);

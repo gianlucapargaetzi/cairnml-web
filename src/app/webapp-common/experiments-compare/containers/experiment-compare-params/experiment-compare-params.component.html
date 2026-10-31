@@ -37,7 +37,8 @@
                       [class]="node?.data?.classStyle"
                       [class.selected-diff]="checkIfSelectedPath(node.data)"
                       [class.hovered]="checkIfHoveredPath(node.data)"
-                      [class.identical-row]="!allPaths[node.data.path]">
+                      [class.identical-row]="!allPaths[node.data.path]" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (toggleNode(node))" (keydown.space)="$event.target === $event.currentTarget && (toggleNode(node)); $event.target === $event.currentTarget && $event.preventDefault()"
+                    >
                       <mat-icon fontSet="al" [style.margin-left.px]="2 + node.level * 20"
                       class="sm" [class.rotate-right]="!treeControl.isExpanded(node)" fontIcon="al-ico-ico-chevron-down" data-id="expandDetailTab"
                     ></mat-icon>
@@ -48,7 +49,8 @@
                 }
                 @if (!node.hasChildren) {
                   <div class="section" (click)="keyClicked(node.data)"
-                    (mouseenter)="rowHovered(node.data?.path)">
+                    (mouseenter)="rowHovered(node.data?.path)" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (keyClicked(node.data))" (keydown.space)="$event.target === $event.currentTarget && (keyClicked(node.data)); $event.target === $event.currentTarget && $event.preventDefault()"
+                  >
                 <div [style.padding-left.px]="2 + node.level * 20" [class]="{
                   'node-item-container': true,
                   'identical-row': checkIfIdenticalRow(node.data),
@@ -68,14 +70,14 @@
                             [class.ellipsis]="showEllipsis"
                             >{{node.data.key}}<i aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle"
                             [class.rotate-180]="!showEllipsis"
-                          (click)="toggleEllipsis(); $event.stopPropagation()"></i>
+                          tabindex="0" role="button" (click)="toggleEllipsis(); $event.stopPropagation()" (keydown.enter)="toggleEllipsis()" (keydown.space)="toggleEllipsis(); $event.preventDefault()"></i>
                         </pre>
                         <pre class="node-val"
                           [style.width.px]="showEllipsis ? nativeWidth - 180 - node.level * 20 : null"
                           [class.no-ellipsis]="node.data.value?.length < 15"
                           [class.ellipsis]="showEllipsis" data-id="diffDataRow">{{node.data.value}}<i
                           aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis"
-                        (click)="toggleEllipsis(); $event.stopPropagation()"></i>
+                        tabindex="0" role="button" (click)="toggleEllipsis(); $event.stopPropagation()" (keydown.enter)="toggleEllipsis()" (keydown.space)="toggleEllipsis(); $event.preventDefault()"></i>
                       </pre>
                       @if (node.data.tooltip) {
                         <mat-icon fontSet="al" fontIcon="al-ico-description" class="al-icon sm node-icon" customClass="hyper-parameters-tooltip" [smTooltip]="node.data.tooltip"></mat-icon>

@@ -14,7 +14,7 @@
       [class.toggleable]="isRowToggleable(i)"
       [class.open]="open[i]"
       [class.draggable]="enableDragAndDrop()"
-      (click)="toggleRow(i)"
+      tabindex="0" role="button" (click)="toggleRow(i)" (keydown.enter)="$event.target === $event.currentTarget && (toggleRow(i))" (keydown.space)="$event.target === $event.currentTarget && (toggleRow(i)); $event.target === $event.currentTarget && $event.preventDefault()"
       >
       <ng-template
         [ngTemplateOutlet]="templateRef()"

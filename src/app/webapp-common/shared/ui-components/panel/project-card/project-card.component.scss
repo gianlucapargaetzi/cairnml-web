@@ -23,6 +23,8 @@ hr {
 .footer-title {
   flex: 1;
   @include common.counter-label();
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   text-align: center;
   font-size: 10px;
   padding: 12px

@@ -16,7 +16,8 @@
       <div class="navigator-container" [class.active]="bindNavigationMode()" [class.first]="$first"
         [class.last]="$last" [style.display]="hideNavigation() ? 'none' : 'flex'">
         <div data-id="syncBrowsing" class="connector-icon-container pointer" smTooltip="Sync browsing" [matTooltipShowDelay]="500"
-          [class.active]="bindNavigationMode()" [class.hidden]="$last" (click)="toggleConnectNavigation()">
+          [class.active]="bindNavigationMode()" [class.hidden]="$last" (click)="toggleConnectNavigation()" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (toggleConnectNavigation())" (keydown.space)="$event.target === $event.currentTarget && (toggleConnectNavigation()); $event.target === $event.currentTarget && $event.preventDefault()"
+        >
           <i class="al-icon" [class.al-ico-connect]="bindNavigationMode()" [class.al-ico-disconnect]="!bindNavigationMode()"></i>
         </div>
         @if (!thereAreNoMetrics(experimentId) && !disableStatusRefreshFilter()) {
@@ -42,18 +43,21 @@
             <div [class.disabled]="beginningOfTime()?.[experimentId]"
               (click)="nextBatch({task: experimentId, metric: metricSelect.value})"
               class="al-icon al-ico-next-batch"
-            smTooltip="Older images" data-id="OlderImages"></div>
+            smTooltip="Older images" data-id="OlderImages" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (nextBatch({task: experimentId, metric: metricSelect.value}))" (keydown.space)="$event.target === $event.currentTarget && (nextBatch({task: experimentId, metric: metricSelect.value})); $event.target === $event.currentTarget && $event.preventDefault()"
+            ></div>
             <b class="text-right">{{debugImages?.[experimentId]?.data?.slice(-1)[0].iter}}</b>
             <div class="al-icon al-ico-between"></div>
             <b>{{debugImages?.[experimentId]?.data?.[0].iter}}</b>
             <div [class.disabled]="timeIsNow()?.[experimentId]"
               (click)="previousBatch({task: experimentId, metric: metricSelect.value})"
               class="al-icon al-ico-prev-batch"
-            smTooltip="Newer images" data-id="NewerImages"></div>
+            smTooltip="Newer images" data-id="NewerImages" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (previousBatch({task: experimentId, metric: metricSelect.value}))" (keydown.space)="$event.target === $event.currentTarget && (previousBatch({task: experimentId, metric: metricSelect.value})); $event.target === $event.currentTarget && $event.preventDefault()"
+            ></div>
             <div [class.disabled]="timeIsNow()?.[experimentId] && !allowAutorefresh"
               (click)="backToNow({task: experimentId, metric: metricSelect.value})"
               class="al-icon al-ico-back-to-top"
-            smTooltip="Newest samples" data-id="NewestSamples"></div>
+            smTooltip="Newest samples" data-id="NewestSamples" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (backToNow({task: experimentId, metric: metricSelect.value}))" (keydown.space)="$event.target === $event.currentTarget && (backToNow({task: experimentId, metric: metricSelect.value})); $event.target === $event.currentTarget && $event.preventDefault()"
+            ></div>
           </div>
         }
       </div>

@@ -5,7 +5,7 @@
   [class.is-description]="multiline()"
   (click)="active() && $event.stopPropagation()"
 >
-  <div class="value" (click)="(!inlineDisabled()) && inlineActivated($event)">
+  <div class="value" tabindex="0" role="button" (click)="(!inlineDisabled()) && inlineActivated($event)" (keydown.enter)="$event.target === $event.currentTarget && ((!inlineDisabled()) && inlineActivated($any($event)))" (keydown.space)="$event.target === $event.currentTarget && ((!inlineDisabled()) && inlineActivated($any($event))); $event.target === $event.currentTarget && $event.preventDefault()">
     <ng-content></ng-content>
     @if (editable() && !inlineDisabled()) {
       <div class="editable-pen h-100 d-flex-center">

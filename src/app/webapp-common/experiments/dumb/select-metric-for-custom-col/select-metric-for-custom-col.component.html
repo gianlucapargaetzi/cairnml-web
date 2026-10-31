@@ -1,7 +1,8 @@
 <div smClickStopPropagation class="metrics-container">
   @if (goBack.observed) {
     <div class="head">
-      <mat-icon fontSet="al" fontIcon="al-ico-back" class="al-icon sm-md pointer m-auto" (click)="goBack.emit()" aria-label="Back" aria-hidden="false" data-id="Back button" smClickStopPropagation></mat-icon>
+      <mat-icon fontSet="al" fontIcon="al-ico-back" class="al-icon sm-md pointer m-auto" (click)="goBack.emit()" aria-label="Back" aria-hidden="false" data-id="Back button" smClickStopPropagation tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (goBack.emit())" (keydown.space)="$event.target === $event.currentTarget && (goBack.emit()); $event.target === $event.currentTarget && $event.preventDefault()"
+      ></mat-icon>
       <h3>Select metric to display</h3>
     </div>
   }
