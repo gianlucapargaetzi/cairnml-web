@@ -52,13 +52,6 @@
         Share
       </button>
     }
-    @if (isArchive()) {
-      <button mat-menu-item (click)="deleteExperimentPopup()" data-id="Delete Option"
-              [disabled]="selectedDisableAvailable()[menuItems.delete].disable">
-        <mat-icon fontSet="al" [fontIcon]="icons.REMOVE"></mat-icon>
-        {{selectedDisableAvailable()[menuItems.delete].available | menuItemText : 'Delete' : selectedDisableAvailableIsMultiple()}}
-      </button>
-    }
     <button mat-menu-item (click)="restoreArchive()" data-id="Archive Option"
             [disabled]="selectedDisableAvailable()[menuItems.archive].disable">
       <mat-icon fontSet="al" [fontIcon]="isArchive() ? icons.RESTORE : icons.ARCHIVE"></mat-icon>
@@ -131,6 +124,13 @@
     <button mat-menu-item data-id="exportTaskButton" (click)="exportTask()">
       <mat-icon fontSet="al" fontIcon="al-ico-export"></mat-icon>
       <span>Export</span>
+    </button>
+    <hr>
+    <button mat-menu-item (click)="deleteExperimentPopup()" data-id="Delete Option"
+            class="delete-menu-item"
+            [disabled]="selectedDisableAvailable()[menuItems.delete].disable">
+      <mat-icon fontSet="al" [fontIcon]="icons.REMOVE"></mat-icon>
+      {{selectedDisableAvailable()[menuItems.delete].available | menuItemText : 'Delete' : selectedDisableAvailableIsMultiple()}}
     </button>
     <ng-content select="[extended]"></ng-content>
   }

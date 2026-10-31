@@ -66,7 +66,10 @@ export const selectionDisabledAbortAllChildren = (selectedElements: any[]) => {
   return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
 };
 export const selectionDisabledDelete = (selectedElements: any[]) => {
-  const selectedFiltered = selectedElements.filter(_selected => selectionIsArchive(_selected) && !isReadOnly(_selected));
+  // A running task must be aborted first, so the agent is not left running it.
+  const deletableStatuses = [TaskStatusEnum.Created, TaskStatusEnum.Queued, TaskStatusEnum.Stopped, TaskStatusEnum.Completed, TaskStatusEnum.Failed];
+  const selectedFiltered = selectedElements.filter(_selected =>
+    deletableStatuses.includes(_selected?.status) && !isReadOnly(_selected));
   return {selectedFiltered, ...countAvailableAndIsDisable(selectedFiltered)};
 };
 export const selectionDisabledMoveTo = (selectedElements: any[]) => {
