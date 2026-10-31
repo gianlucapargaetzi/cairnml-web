@@ -32,6 +32,7 @@ import {selectMetricVariants} from '@common/experiments/reducers';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
+import {themeColor} from '@common/shared/utils/theme-color';
 
 @Component({
   selector: 'sm-project-stats',
@@ -188,19 +189,19 @@ export class ProjectStatsComponent implements OnDestroy {
 
     switch (status) {
       case 'Completed or Stopped':
-        color = '#009aff';
+        color = themeColor('--color-completed');
         break;
       case TaskStatusEnum.Failed:
-        color = '#ff001f';
+        color = themeColor('--color-failed');
         break;
       case TaskStatusEnum.Published:
-        color = '#d3ff00';
+        color = themeColor('--color-published');
         break;
       case TaskStatusEnum.InProgress:
-        color = '#14aa8c';
+        color = themeColor('--color-running');
         break;
       default:
-        color = '#50e3c2';
+        color = themeColor('--color-pending');
         break;
     }
     return color;

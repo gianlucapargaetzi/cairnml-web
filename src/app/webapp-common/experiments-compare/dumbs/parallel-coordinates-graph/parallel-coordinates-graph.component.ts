@@ -16,6 +16,7 @@ import {
   Colors, ExtLayout,
   PlotlyGraphBaseComponent
 } from '@common/shared/single-graph/plotly-graph-base';
+import {themeColor} from '@common/shared/utils/theme-color';
 import {SlicePipe} from '@angular/common';
 import {debounceTime, filter, take} from 'rxjs/operators';
 import {from} from 'rxjs';
@@ -352,7 +353,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
       ...(this.isDarkTheme() && {
         paper_bgcolor: 'transparent',
         font: {
-          color: Colors.dark.tick
+          color: themeColor(Colors.dark.tick)
         }
       })
     } as ExtLayout;
@@ -385,7 +386,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
       graph.selectAll('.axis .tick text').text((d: string) => this.wrap(d)).append('title').text((d: string) => d);
       graph.selectAll('.axis .tick text').style('pointer-events', 'auto');
       if (this.isDarkTheme()) {
-        graph.selectAll('.axis .domain').style('stroke', Colors.dark.lines).style('stroke-opacity', 1);
+        graph.selectAll('.axis .domain').style('stroke', themeColor(Colors.dark.lines)).style('stroke-opacity', 1);
       }
       graph.selectAll('.tick').on('mouseover', (event: MouseEvent) => {
         const tick = event.currentTarget as SVGGElement;

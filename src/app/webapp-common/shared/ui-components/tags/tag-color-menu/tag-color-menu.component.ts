@@ -51,7 +51,7 @@ export class TagColorMenuComponent implements OnDestroy {
 
   filterText: string;
   public tags$: Observable<Tag[]>;
-  presetColors = TagColorService.predefined.map(color => color.background) as string[];
+  presetColors = TagColorService.predefined.map(color => TagColorService.resolve(color).background) as string[];
   currTag: string;
   currColor = signal<string>(null);
   protected picker = viewChild(ColorPickerDirective);

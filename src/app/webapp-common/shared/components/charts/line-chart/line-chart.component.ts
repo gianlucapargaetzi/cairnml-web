@@ -29,6 +29,7 @@ import {fileSizeConfigCount} from '@common/shared/pipes/filesize.pipe';
 import {filesize} from 'filesize';
 import {Store} from '@ngrx/store';
 import {selectDarkTheme} from '@common/core/reducers/view.reducer';
+import {themeColor} from '@common/shared/utils/theme-color';
 
 
 declare module 'chart.js' {
@@ -148,7 +149,7 @@ export class LineChartComponent {
               autoSkip: true,
               autoSkipPadding: 50,
               maxRotation: 0,
-              ...(this.darkTheme() && {color: '#c1cdf3'}),
+              ...(this.darkTheme() && {color: themeColor('--color-on-surface-variant')}),
             },
             time: {
               tooltipFormat: this.minUnit() === 'day' ? 'P' : 'P pp',
@@ -163,14 +164,14 @@ export class LineChartComponent {
             },
             grid: {
               display: this.showGrid(),
-              ...(this.darkTheme() && {color: '#39405f'}),
+              ...(this.darkTheme() && {color: themeColor('--color-outline-variant')}),
             },
           },
           y: {
             title: {
               display: !!this.yLabel(),
               text: this.yLabel(),
-              ...(this.darkTheme() && {color: '#c1cdf3'}),
+              ...(this.darkTheme() && {color: themeColor('--color-on-surface-variant')}),
             },
             position: 'left',
             suggestedMin: 0,
@@ -180,13 +181,13 @@ export class LineChartComponent {
               autoSkip: true,
               count: 5,
               precision:this.precision(),
-              ...(this.darkTheme() && {color: '#c1cdf3'}),
+              ...(this.darkTheme() && {color: themeColor('--color-on-surface-variant')}),
               callback: value =>
                 typeof value === 'number' ? this.yTickFormatter()(value) : value,
             },
             grid: {
               display: this.showGrid(),
-              ...(this.darkTheme() && {color: '#39405f'}),
+              ...(this.darkTheme() && {color: themeColor('--color-outline-variant')}),
             },
           },
           ...(this.data()?.some(topic => topic.secondAxis) && {y1: {
@@ -205,7 +206,7 @@ export class LineChartComponent {
                 autoSkip: true,
                 count: 5,
                 precision: 0,
-                ...(this.darkTheme() && {color: '#c1cdf3'}),
+                ...(this.darkTheme() && {color: themeColor('--color-on-surface-variant')}),
                 callback: value =>
                   typeof value === 'number' ? this.yTickFormatter()(value) : value,
               },
@@ -220,7 +221,7 @@ export class LineChartComponent {
             display: !this.hideLegend(),
             position: 'bottom',
             labels: {
-              ...(this.darkTheme() && {color: '#dce0ee'}),
+              ...(this.darkTheme() && {color: themeColor('--color-on-surface')}),
               font: {weight: 'normal', size: 12},
               padding: 20,
               usePointStyle: true,
@@ -235,7 +236,7 @@ export class LineChartComponent {
           },
           hoverLine: {
             dash: [6, 6],
-            ...(this.darkTheme() && {color: '#8492c2'}),
+            ...(this.darkTheme() && {color: themeColor('--color-outline')}),
             width: 1,
           },
         },
@@ -283,7 +284,7 @@ export class LineChartComponent {
       order: topic.order,
       label: topic.topicName,
       pointRadius: topic.dates?.length < 2 ? 4 : 0,
-      pointBorderColor: '#1a1e2c',
+      pointBorderColor: themeColor('--color-surface-container-lowest'),
       borderWidth: topic.secondAxis ? 2 : 1.4,
       ...(topic.dashed && {borderDash: [15, 5]}),
       lineTension: 0,
