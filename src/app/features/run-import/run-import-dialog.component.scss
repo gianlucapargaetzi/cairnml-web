@@ -1,0 +1,100 @@
+:host {
+  display: block;
+}
+
+.intro {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.file-label {
+  position: relative;
+  cursor: pointer;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.file-button {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid var(--color-outline);
+  border-radius: 4px;
+  color: var(--color-primary);
+  font-weight: 500;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.file-label:focus-within .file-button {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.file-name {
+  color: var(--color-on-surface-variant);
+  overflow-wrap: anywhere;
+}
+
+.error {
+  color: var(--color-error);
+  margin: 16px 0 0;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--color-on-surface-variant);
+}
+
+.result {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--color-outline);
+  border-radius: 4px;
+}
+
+.result-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.result-line {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+
+  &.warning {
+    color: var(--color-error);
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+
+  mat-progress-spinner {
+    display: inline-block;
+    margin-right: 8px;
+  }
+}

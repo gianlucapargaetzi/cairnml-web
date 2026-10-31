@@ -4,6 +4,7 @@ import {DatePipe} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialog} from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
@@ -15,6 +16,7 @@ import {groupTaskFolders, TaskFolder} from '@common/tasks/task-folders.utils';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
 import {FolderExperiment, TaskFoldersApiService} from './task-folders-api.service';
 import {UNASSIGNED_FOLDER, UNASSIGNED_LABEL} from './task-folders.consts';
+import {RunImportDialogComponent} from '../run-import/run-import-dialog.component';
 
 /** How many experiments the "recent" list at the bottom shows. */
 const RECENT_LIMIT = 20;
@@ -43,6 +45,7 @@ export class TaskFoldersComponent {
   private store = inject(Store);
   private router = inject(Router);
   private headerMenu = inject(HeaderMenuService);
+  private dialog = inject(MatDialog);
 
   protected readonly projectId = toSignal(this.store.select(selectRouterParams).pipe(map(params => params?.projectId ?? '')), {initialValue: ''});
   protected readonly experiments = resource({
@@ -129,6 +132,16 @@ export class TaskFoldersComponent {
       return 0;
     }
     return Math.max(0, (new Date(experiment.last_update).getTime() - new Date(experiment.started).getTime()) / 1000);
+  }
+
+  protected openImport() {
+    this.dialog.open<RunImportDialogComponent, unknown, boolean>(RunImportDialogComponent, {
+      panelClass: 'dialog-md'
+    }).afterClosed().subscribe(imported => {
+      if (imported) {
+        this.experiments.reload();
+      }
+    });
   }
 
   protected openFolder(folder: FolderCard) {
