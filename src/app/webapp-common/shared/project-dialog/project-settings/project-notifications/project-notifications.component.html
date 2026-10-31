@@ -1,0 +1,45 @@
+<div class="description">
+  The server posts a message to this address when a task of the project completes, fails or is stopped.
+  The message holds the project name, the task id and name, the status, the duration and a link to the task.
+  It contains no parameters and no secrets.
+</div>
+
+<form class="notifications-form" (ngSubmit)="save()">
+  <mat-form-field appearance="outline">
+    <mat-label>Webhook URL</mat-label>
+    <input matInput
+           type="url"
+           name="notification_webhook"
+           autocomplete="off"
+           placeholder="https://"
+           data-id="notificationWebhookInput"
+           [formControl]="control"
+           [readonly]="disabled()"
+           [attr.aria-invalid]="control.invalid"
+           (blur)="control.markAsTouched()"
+    >
+    @if (control.touched && control.invalid) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="hint">
+    Only https addresses are accepted. The stored address is not shown: saving replaces it, and Clear removes it.
+  </div>
+
+  @if (!canAdmin() && !locked()) {
+    <div class="hint" data-id="notificationWebhookAdminOnly">Only project admins can change the webhook.</div>
+  }
+
+  @if (error()) {
+    <div class="notifications-error" role="alert">{{ error() }}</div>
+  }
+  @if (saved()) {
+    <div class="notifications-saved" role="status">The webhook is saved.</div>
+  }
+
+  <div class="actions">
+    <button mat-stroked-button type="button" (click)="clear()" [disabled]="disabled() || busy()" data-id="clearNotificationWebhookButton">Clear</button>
+    <button mat-flat-button type="submit" [disabled]="disabled() || busy() || control.invalid || control.value.trim() === ''" data-id="saveNotificationWebhookButton">Save</button>
+  </div>
+</form>
