@@ -1,0 +1,17 @@
+@if (groups().length) {
+  <div class="task-datasets" data-id="taskDatasets">
+    <sm-section-header label="Datasets used"></sm-section-header>
+    @for (group of groups(); track group.key) {
+      @for (version of group.versions; track version.commit) {
+        <div class="dataset-row">
+          <span class="label">{{ group.name }}</span>
+          <a class="dataset-link" data-id="taskDatasetLink"
+            [routerLink]="['/datasets']" [queryParams]="{dataset: group.key}">
+            {{ group.name }} at {{ version.commit || 'unknown version' }}
+          </a>
+          <span class="meta">{{ group.kind === 'own' ? group.repo : 'registry ' + group.repo }}</span>
+        </div>
+      }
+    }
+  </div>
+}

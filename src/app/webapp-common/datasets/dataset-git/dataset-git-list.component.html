@@ -1,0 +1,99 @@
+<section class="dataset-git-list" data-id="datasetGitList" aria-labelledby="dataset-git-list-title">
+  <div class="list-header">
+    <h2 id="dataset-git-list-title">Datasets used by runs</h2>
+    @if (!loading() && !failed()) {
+      <span class="count" data-id="datasetGitCount">{{ groups().length }}</span>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="state">Loading the datasets of your runs...</div>
+  } @else if (failed()) {
+    <div class="state" role="alert">
+      The datasets of your runs could not be loaded.
+      <button mat-button type="button" (click)="load()">Retry</button>
+    </div>
+  } @else if (groups().length === 0) {
+    <div class="state">No run has used a dataset yet. A run that calls <code>Dataset.get</code> is listed here with its dataset version.</div>
+  } @else {
+    @if (truncated()) {
+      <p class="note">Only the {{ taskLimit }} most recent tasks are read; datasets used only by older runs do not appear.</p>
+    }
+    @for (group of groups(); track group.key) {
+      <mat-expansion-panel class="dataset" [attr.data-id]="'dataset-' + group.name" [attr.data-key]="group.key"
+        [expanded]="focusKey() === group.key">
+        <mat-expansion-panel-header collapsedHeight="auto" expandedHeight="auto">
+          <mat-panel-title>
+            <span class="dataset-name">{{ group.name }}</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span class="repo">{{ group.repo }}</span>
+            <span class="summary">{{ group.versions.length }} {{ group.versions.length === 1 ? 'version' : 'versions' }} · {{ group.runCount }} {{ group.runCount === 1 ? 'run' : 'runs' }}</span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        @for (version of group.versions; track version.commit) {
+          <div class="version" data-id="datasetVersion">
+            <div class="version-head">
+              <span class="label">Version</span>
+              <code class="commit" [title]="version.commit">{{ version.commit || 'unknown' }}</code>
+              @if (group.kind === 'own') {
+                <span class="meta">{{ storageLabel(version.storage) }}</span>
+              }
+              @if (version.contentHash) {
+                <span class="meta">content {{ version.contentHash }}</span>
+              }
+            </div>
+
+            @if (group.kind === 'own') {
+              @if (version.fetchCommands) {
+                <div class="fetch">
+                  <div class="fetch-head">
+                    <span class="label">Fetch this version</span>
+                    <sm-copy-clipboard [clipboardText]="version.fetchCommands.join('\n')" label="Copy" tooltipText="Copy the fetch commands"></sm-copy-clipboard>
+                  </div>
+                  <pre class="commands" data-id="fetchCommands">{{ version.fetchCommands.join('\n') }}</pre>
+                </div>
+              } @else {
+                <p class="meta">The fetch commands are not shown: this version has no recorded storage or its repository address is not a plain URL.</p>
+              }
+            } @else {
+              <p class="meta">A public dataset from the dataset registry. Read it by name in a script: <code>Dataset.get_external("{{ group.name }}")</code>.</p>
+            }
+
+            <div class="runs-head"><span class="label">Runs using this version ({{ version.runs.length }})</span></div>
+            <ul class="runs">
+              @for (run of version.runs; track run.taskId) {
+                <li>
+                  <a class="run-link" [routerLink]="['/projects', run.projectId, 'tasks', run.taskId]" data-id="datasetRunLink">{{ run.taskName }}</a>
+                  @if (run.projectName) {
+                    <span class="meta">{{ run.projectName }}</span>
+                  }
+                  <span class="meta" data-id="datasetRunStatus">{{ run.status }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </mat-expansion-panel>
+    }
+  }
+
+  @if (unused().length) {
+    <div class="unused" data-id="datasetUnused">
+      <h3>Registered, no run has used them yet</h3>
+      <ul>
+        @for (entry of unused(); track entry.name) {
+          <li data-id="datasetUnusedItem">
+            <span class="dataset-name">{{ entry.name }}</span>
+            @if (entry.link) {
+              <span class="repo">{{ entry.link }}</span>
+            }
+            <span class="meta">{{ entry.source === 'repo' ? 'dataset of our own' : 'public dataset, source ' + entry.source }}</span>
+            <span class="meta">No run has used this dataset yet.</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</section>
