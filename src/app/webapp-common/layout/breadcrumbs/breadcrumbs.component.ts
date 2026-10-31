@@ -173,7 +173,11 @@ export class BreadcrumbsComponent {
       if (this.breadCrumbsContainer()) {
         this.shouldCollapse = false;
         this.cd.detectChanges();
-        const lastCrumb = this.crumbElements().at(-1).nativeElement;
+        const lastCrumb = this.crumbElements().at(-1)?.nativeElement;
+        if (!lastCrumb) {
+          this.cd.markForCheck();
+          return;
+        }
         const dummyContainer = document.createElement('span');
         dummyContainer.style.position = 'fixed';
         this.breadCrumbsContainer().nativeElement.appendChild(dummyContainer);
