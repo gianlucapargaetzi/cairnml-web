@@ -18,10 +18,13 @@
   (toggleNestedView)="toggleNestedView($event)"
   class="nested-project-view"
   >
-  <button create-button mat-flat-button (click)="createPipeline()">
+  <sm-page-header page-header title="Pipelines">
+    <button actions mat-flat-button (click)="createPipeline()">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
     New pipeline
   </button>
+  </sm-page-header>
+  
 
   <div empty-state class="empty-state">
     <div class="title-icon">

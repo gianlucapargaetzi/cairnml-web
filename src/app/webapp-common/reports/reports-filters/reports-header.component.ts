@@ -33,7 +33,6 @@ import {IOption} from '@common/constants';
 export class ReportsHeaderComponent {
 
   archive = input<boolean>();
-  disableCreate = input(false);
   disableSort = input(false);
   sortOrder = input<TableSortOrderEnum>();
   allTags = input<string[]>([]);
@@ -45,7 +44,6 @@ export class ReportsHeaderComponent {
 
   reportsFilterChanged = output<string>();
   orderByChanged = output<string>();
-  createReportClicked = output<string>();
   archiveToggled = output<boolean>();
   toggleNestedView = output<boolean>();
 }

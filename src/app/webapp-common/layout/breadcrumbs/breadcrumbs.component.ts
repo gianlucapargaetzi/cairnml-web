@@ -42,6 +42,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {selectRouterConfig, selectRouterUrl} from '@common/core/reducers/router-reducer';
 import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
 import {ExperimentNameService} from './experiment-name.service';
+import {PageHeaderTitleService} from '@common/shared/ui-components/layout/page-header/page-header-title.service';
 import {levelBreadcrumbs} from './level-breadcrumbs';
 
 export enum CrumbTypeEnum {
@@ -145,12 +146,22 @@ export class BreadcrumbsComponent {
     }
   });
 
-  protected breadcrumbs = computed(() => (this.levelLinks() ?? this.breadcrumbLinks())
-    .map(breadcrumbsGroup => breadcrumbsGroup?.filter( breadcrumb =>
-      (!breadcrumb.hidden) || (this.showHidden() && this.projectFeature())
-    ))
-    .filter(breadcrumbsGroup => breadcrumbsGroup?.length > 0) ?? []
-  );
+  private pageHeaderTitle = inject(PageHeaderTitleService).title;
+
+  // The last crumb is dropped when it repeats the title of the page header (the title is shown once, in the header).
+  protected breadcrumbs = computed(() => {
+    const groups = (this.levelLinks() ?? this.breadcrumbLinks())
+      .map(breadcrumbsGroup => breadcrumbsGroup?.filter( breadcrumb =>
+        (!breadcrumb.hidden) || (this.showHidden() && this.projectFeature())
+      ))
+      .filter(breadcrumbsGroup => breadcrumbsGroup?.length > 0) ?? [];
+    const title = this.pageHeaderTitle();
+    const lastGroup = groups.at(-1);
+    if (title && lastGroup?.at(-1)?.name === title) {
+      return [...groups.slice(0, -1), lastGroup.slice(0, -1)].filter(group => group.length > 0);
+    }
+    return groups;
+  });
   protected isCommunity = computed(() => this.environment().communityServer);
   protected shouldCollapse: boolean;
 

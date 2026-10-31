@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {queueActions, Queue} from '../../actions/queues.actions';
 import {
   selectQueuesTableSortFields,
+  selectQueuesError,
   selectSelectedQueue, selectSortedQueues
 } from '../../reducers/index.reducer';
 import {filter, map, take} from 'rxjs/operators';
@@ -71,6 +72,7 @@ export class QueuesComponent {
   protected shortScreen$ = this.breakpointObserver.observe(['(max-height: 750px)'])
     .pipe(map(res => res.matches));
   protected queuesManager = this.store.selectSignal(selectCanManageQueues);
+  protected queuesError = this.store.selectSignal(selectQueuesError);
 
   constructor() {
     this.store.dispatch(initSearch({payload: 'Search for queues'}));
@@ -107,6 +109,10 @@ export class QueuesComponent {
       queryParams: {id},
       queryParamsHandling: 'merge'
     });
+  }
+
+  retryLoadQueues() {
+    this.store.dispatch(queueActions.getQueues({}));
   }
 
   deleteQueue(queue: Queue) {

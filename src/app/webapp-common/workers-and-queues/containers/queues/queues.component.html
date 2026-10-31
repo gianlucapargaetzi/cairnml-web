@@ -21,6 +21,8 @@
       [selectedQueue]="queueId() && $any([{id: queueId()}])"
       [tableSortFields]="tableSortFields()"
       [short]="!(shortScreen$ | ngrxPush)"
+      [errorMessage]="queuesError()"
+      (retry)="retryLoadQueues()"
       (sortedChanged)="sortedChanged($any($event))"
       (deleteQueue)="deleteQueue($any($event))"
       (renameQueue)="renameQueue($any($event))"

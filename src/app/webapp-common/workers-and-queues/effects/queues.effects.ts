@@ -63,7 +63,11 @@ export class QueuesEffect {
             queueActions.setQueues({queues: sortTable(orderFields, calculateQueuesCaption(res.queues) as any[])}),
             deactivateLoader(action.type)
           ]),
-          catchError(err => [deactivateLoader(action.type), requestFailed(err)])
+          catchError(err => [
+            deactivateLoader(action.type),
+            queueActions.queuesLoadFailed({message: err?.meta?.result_msg ?? 'The queues could not be loaded.'}),
+            requestFailed(err)
+          ])
         ))
     )
   });

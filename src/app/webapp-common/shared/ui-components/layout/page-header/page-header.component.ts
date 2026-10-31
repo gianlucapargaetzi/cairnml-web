@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, effect, inject, input} from '@angular/core';
+import {PageHeaderTitleService} from './page-header-title.service';
 
 /**
  * Shared page header (docs/design-system/03-layout-system.md, 3.2).
@@ -17,4 +18,11 @@ import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 export class PageHeaderComponent {
   title = input.required<string>();
   description = input<string>();
+
+  private titleService = inject(PageHeaderTitleService);
+
+  constructor() {
+    effect(() => this.titleService.title.set(this.title()));
+    inject(DestroyRef).onDestroy(() => this.titleService.title.set(null));
+  }
 }
