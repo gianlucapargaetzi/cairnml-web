@@ -1,5 +1,6 @@
 @use '../layout/layout';
 @use "variables";
+@use "mixins/breakpoints" as bp;
 
 .sm-card-list-layout {
   display: grid;
@@ -27,8 +28,8 @@
   height: inherit;
   align-items: center;
 
-  // Below 960px the toolbar keeps its height and scrolls sideways instead of clipping its controls.
-  @media (max-width: 959px) {
+  // At or below 960px the toolbar keeps its height and scrolls sideways instead of clipping its controls.
+  @include bp.down(bp.$bp-md) {
     justify-content: flex-start;
     overflow-x: auto;
     white-space: nowrap;
