@@ -54,6 +54,7 @@ import {
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-report',
@@ -61,6 +62,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrls: ['./report.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
     MarkdownEditorComponent,
     TagsMenuComponent,
     TagListComponent,

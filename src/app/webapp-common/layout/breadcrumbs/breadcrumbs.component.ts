@@ -92,6 +92,7 @@ export interface IBreadcrumbsOptions {
     templateUrl: './breadcrumbs.component.html',
     styleUrls: ['./breadcrumbs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {'[class.empty]': 'breadcrumbs().length === 0 && !isCommunity()'},
   imports: [
     MatMenuModule,
     TooltipDirective,
