@@ -1,0 +1,59 @@
+<section class="state-panel" aria-labelledby="project-state-title">
+  <header class="panel-header">
+    <h2 id="project-state-title" class="panel-title">Project state</h2>
+  </header>
+
+  <div class="state-groups">
+    <div class="state-group" data-id="experimentsState">
+      <div class="group-header">
+        <span class="group-title">Experiments</span>
+        <span class="group-total">{{ experiments()?.total_tasks ?? 0 }} total</span>
+      </div>
+      <ul class="status-list" aria-label="Experiments by status">
+        @for (status of statuses; track status) {
+          <li>
+            <sm-status-icon-label [status]="status"></sm-status-icon-label>
+            <span class="status-count">{{ countOf(experiments(), status) }}</span>
+          </li>
+        }
+      </ul>
+      @if (archived()) {
+        <div class="group-note">{{ archived() }} archived</div>
+      }
+    </div>
+
+    <div class="state-group" data-id="pipelinesState">
+      <div class="group-header">
+        <span class="group-title">Pipelines</span>
+        @if (pipelines().state === 'ready') {
+          <span class="group-total">{{ pipelineCounts()?.total_tasks ?? 0 }} total</span>
+        }
+      </div>
+      @switch (pipelines().state) {
+        @case ('ready') {
+          <ul class="status-list" aria-label="Pipelines by status">
+            @for (status of statuses; track status) {
+              <li>
+                <sm-status-icon-label [status]="status"></sm-status-icon-label>
+                <span class="status-count">{{ countOf(pipelineCounts(), status) }}</span>
+              </li>
+            }
+          </ul>
+        }
+        @case ('error') {
+          <div class="group-note error" role="alert">Pipelines could not be loaded.</div>
+        }
+        @default {
+          <div class="group-note">Loading pipelines…</div>
+        }
+      }
+    </div>
+
+    <div class="state-group" data-id="modelsState">
+      <div class="group-header">
+        <span class="group-title">Models</span>
+        <span class="group-total">{{ models() }} total</span>
+      </div>
+    </div>
+  </div>
+</section>

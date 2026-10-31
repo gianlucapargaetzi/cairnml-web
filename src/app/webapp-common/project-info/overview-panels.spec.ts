@@ -21,7 +21,9 @@ describe('overview panels', () => {
   it('keeps the saved order and visibility', () => {
     const saved = [
       {id: 'contribution' as const, shown: true},
+      {id: 'recent-experiments' as const, shown: true},
       {id: 'description' as const, shown: false},
+      {id: 'project-state' as const, shown: true},
       {id: 'metric-snapshot' as const, shown: true}
     ];
     expect(resolveOverviewPanels(saved)).toEqual(saved);
@@ -36,7 +38,9 @@ describe('overview panels', () => {
     expect(resolveOverviewPanels(saved)).toEqual([
       {id: 'contribution', shown: true},
       {id: 'metric-snapshot', shown: true},
-      {id: 'description', shown: true}
+      {id: 'description', shown: true},
+      {id: 'project-state', shown: false},
+      {id: 'recent-experiments', shown: false}
     ]);
   });
 
@@ -47,11 +51,12 @@ describe('overview panels', () => {
   it('moves a panel up and down and keeps the panels at the edges in place', () => {
     const panels = resolveOverviewPanels(null);
     expect(moveOverviewPanel(panels, 'description', -1).map(panel => panel.id))
-      .toEqual(['description', 'metric-snapshot', 'contribution']);
+      .toEqual(['description', 'metric-snapshot', 'project-state', 'recent-experiments', 'contribution']);
     expect(moveOverviewPanel(panels, 'metric-snapshot', 1).map(panel => panel.id))
-      .toEqual(['description', 'metric-snapshot', 'contribution']);
+      .toEqual(['description', 'metric-snapshot', 'project-state', 'recent-experiments', 'contribution']);
     expect(moveOverviewPanel(panels, 'metric-snapshot', -1)).toEqual(panels);
-    expect(panels.map(panel => panel.id)).toEqual(['metric-snapshot', 'description', 'contribution']);
+    expect(panels.map(panel => panel.id))
+      .toEqual(['metric-snapshot', 'description', 'project-state', 'recent-experiments', 'contribution']);
   });
 
   it('falls back to the default period and size for values the panel does not offer', () => {
@@ -65,7 +70,9 @@ describe('overview panels', () => {
       panels: [
         {id: 'contribution', shown: true},
         {id: 'metric-snapshot', shown: true},
-        {id: 'description', shown: true}
+        {id: 'description', shown: true},
+        {id: 'project-state', shown: false},
+        {id: 'recent-experiments', shown: false}
       ],
       contribution: DEFAULT_CONTRIBUTION_OPTIONS
     });

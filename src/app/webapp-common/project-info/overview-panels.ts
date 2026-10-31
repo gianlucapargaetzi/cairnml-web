@@ -5,13 +5,15 @@
  * `resolveOverviewPanels` drops unknown panel ids and appends missing panels hidden, so a project without a
  * saved layout keeps the default page.
  */
-export const OVERVIEW_PANEL_IDS = ['metric-snapshot', 'description', 'contribution'] as const;
+export const OVERVIEW_PANEL_IDS = ['metric-snapshot', 'description', 'project-state', 'recent-experiments', 'contribution'] as const;
 
 export type OverviewPanelId = typeof OVERVIEW_PANEL_IDS[number];
 
 export const OVERVIEW_PANEL_LABELS: Record<OverviewPanelId, string> = {
   'metric-snapshot': 'Metric Snapshot',
   'description': 'Project overview',
+  'project-state': 'Project state',
+  'recent-experiments': 'Recent experiments',
   'contribution': 'Contributions'
 };
 
@@ -38,6 +40,8 @@ export const CONTRIBUTION_TOP_OPTIONS = [5, 10, 20] as const;
 export const DEFAULT_OVERVIEW_PANELS: OverviewPanelSetting[] = [
   {id: 'metric-snapshot', shown: true},
   {id: 'description', shown: true},
+  {id: 'project-state', shown: false},
+  {id: 'recent-experiments', shown: false},
   {id: 'contribution', shown: false}
 ];
 
