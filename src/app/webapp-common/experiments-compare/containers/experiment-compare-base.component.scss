@@ -71,7 +71,7 @@ $extra-header-min-height: 50px;
     color: var(--color-on-surface-variant);
 
     .virtual-scroll-container {
-      height: 100% !important;
+      height: 100%;
 
       .content {
         display: flex;
@@ -86,7 +86,7 @@ $extra-header-min-height: 50px;
           }
 
           &.hide-field {
-            background-color: var(--color-surface-container-low) !important;
+            background-color: var(--color-surface-container-low);
 
             &.al-danger {
               border-left: 1px var(--color-error-container) solid;
@@ -138,7 +138,7 @@ $extra-header-min-height: 50px;
       }
 
       &.not-existing-on-compared {
-        background-color: var(--color-surface) !important;
+        background-color: var(--color-surface);
       }
 
       &.not-existing-on-origin.not-existing-on-compared.equal-row {
@@ -255,14 +255,14 @@ $extra-header-min-height: 50px;
         border: none;
 
         pre {
-          visibility: hidden !important;
+          visibility: hidden;
         }
       }
 
       &.not-existing-on-compared {
         position: relative;
         width: 100%;
-        background-color: var(--color-surface) !important;
+        background-color: var(--color-surface);
         border-left: 1px var(--color-error-container) solid;
 
         .tab-forward {

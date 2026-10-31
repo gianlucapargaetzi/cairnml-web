@@ -65,12 +65,12 @@ sm-tag-list {
   }
 
   .legendlines path {
-    stroke-width: 12px !important;
+    stroke-width: 12px;
     transform: scale(0.7) translate(16px, 2px);
   }
 
   .legendpoints path:not(.scatterpts) {
-    d: path('M8,8H-8V-8H8Z') !important;
+    d: path('M8,8H-8V-8H8Z');
     transform: scale(.7) translate(28px, 2px);
   }
 
@@ -107,7 +107,7 @@ sm-tag-list {
 ::ng-deep .js-plotly-plot .plotly {
   .svg-container {
     svg.main-svg {
-      background: transparent !important;
+      background: transparent;
     }
   }
 }
@@ -119,7 +119,7 @@ sm-tag-list {
     padding-right: 0;
     margin-left: 8px;
     border-left: 1px solid var(--color-surface-container-low);
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   .modebar-btn {
@@ -132,7 +132,7 @@ sm-tag-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    top: 6px !important;
+    top: 6px;
     padding-right: 12px;
 
   }
@@ -159,10 +159,10 @@ sm-tag-list {
 }
 
 .dark-theme {
-  background: transparent !important;
+  background: transparent;
 
   ::ng-deep .parcoords .tick text {
-    text-shadow: rgb(0 0 0) 1px 1px 1px, rgb(0 0 0) -1px -1px 1px, rgb(0 0 0) 1px -1px 1px, rgb(0 0 0) -1px 1px 1px !important;
+    text-shadow: rgb(0 0 0) 1px 1px 1px, rgb(0 0 0) -1px -1px 1px, rgb(0 0 0) 1px -1px 1px, rgb(0 0 0) -1px 1px 1px;
   }
 
   ::ng-deep .js-plotly-plot .plotly {
@@ -185,12 +185,12 @@ sm-tag-list {
     }
 
     .node-label {
-      fill: white !important;;
-      text-shadow: var(--color-shadow) 1px 1px 1px !important;
+      fill: white;;
+      text-shadow: var(--color-shadow) 1px 1px 1px;
     }
 
     svg.main-svg {
-      background: transparent !important;
+      background: transparent;
 
       .scrollbar-kit .scrollbar .scrollbar-glyph {
         stroke: var(--color-surface-container);
@@ -218,22 +218,22 @@ sm-tag-list {
     }
 
     .hoverlayer .spikeline:nth-child(odd) {
-      stroke: transparent !important;
+      stroke: transparent;
     }
 
     .selectionlayer path,
     .zoomlayer .select-outline {
-      stroke: var(--color-on-surface) !important;
-      fill: var(--color-surface-container-lowest) !important;
+      stroke: var(--color-on-surface);
+      fill: var(--color-surface-container-lowest);
     }
 
     .hovertext {
       rect {
-        fill: var(--color-surface-bright) !important;
+        fill: var(--color-surface-bright);
       }
 
       .name {
-        fill: var(--color-on-surface) !important;
+        fill: var(--color-on-surface);
       }
     }
 

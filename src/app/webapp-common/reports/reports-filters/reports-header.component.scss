@@ -15,7 +15,7 @@
     height: 64px;
   }
 
-  ::ng-deep .search-input-container.active {
-    width: 100% !important;
+  ::ng-deep .search-input-container.active.active {
+    width: 100%;
   }
 }

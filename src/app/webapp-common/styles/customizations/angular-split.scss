@@ -49,10 +49,10 @@ as-split {
         display: none;
         position: absolute;
         z-index: 101;
-        width: 20px !important;
-        height: 20px !important;
-        background-image: none !important;
-        border: none !important;
+        width: 20px;
+        height: 20px;
+        background-image: none;
+        border: none;
         border-radius: 20px;
         &::after {
           // arrow
@@ -72,7 +72,7 @@ as-split {
       .as-split-gutter-icon {
         display: block;
         left: -10px;
-        background: var(--color-primary) !important;
+        background: var(--color-primary);
         &::after {
           // arrow direction right
           left: 6px;
@@ -94,7 +94,7 @@ as-split {
       .as-split-gutter-icon {
         display: block;
         right: -10px;
-        background: var(--color-primary) !important;
+        background: var(--color-primary);
         &::after {
           // arrow direction left
           left: 8px;

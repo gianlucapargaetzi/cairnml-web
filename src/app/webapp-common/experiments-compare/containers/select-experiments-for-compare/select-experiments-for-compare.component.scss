@@ -70,8 +70,8 @@
 
     &.card-view {
       .p-datatable-thead::after {
-        background-color: var(--color-surface) !important;
-        border-bottom: 1px solid var(--color-outline-variant) !important;
+        background-color: var(--color-surface);
+        border-bottom: 1px solid var(--color-outline-variant);
 
       }
       .card-header {

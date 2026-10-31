@@ -1,6 +1,6 @@
 
 :host {
-  display: grid !important;
+  display: grid;
   grid-template-rows: 64px calc(100% - 64px);
 
   .header {

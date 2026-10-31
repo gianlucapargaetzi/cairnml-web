@@ -41,7 +41,7 @@
 
     .resize-active.resize-ghost-element {
       .whitebg {
-        height: 100% !important;
+        height: 100%;
       }
     }
   }
@@ -246,7 +246,7 @@
     }
 
     &.less-padding {
-      padding: 0 !important;
+      padding: 0;
     }
 
     .less-padding:last-child {
@@ -313,7 +313,7 @@
   }
 
   .hidden {
-    display: none !important;
+    display: none;
   }
 
   .resize-overlay {

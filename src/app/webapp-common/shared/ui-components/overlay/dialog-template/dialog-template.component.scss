@@ -65,10 +65,10 @@
   }
   ::ng-deep .background-transparent {
     .mat-mdc-dialog-container {
-      max-height: none !important;
-      height: 97vh !important;
+      max-height: none;
+      height: 97vh;
       background-color: transparent;
-      box-shadow: none !important;
+      box-shadow: none;
       overflow: hidden;
     }
   }

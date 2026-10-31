@@ -49,10 +49,10 @@
 }
 
 .stick-to-corner {
-  position: absolute !important;
+  position: absolute;
   top: 0;
 
-  z-index: variables.$generic-base-z-index + 99 !important;
+  z-index: variables.$generic-base-z-index + 99;
   margin: 16px;
 
   &.right {
@@ -65,17 +65,17 @@
 }
 
 .no-gutters > [class*="col-"] {
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .d-flex-center {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &.gap {
-    gap: 12px !important;
+    gap: 12px;
   }
 }
 

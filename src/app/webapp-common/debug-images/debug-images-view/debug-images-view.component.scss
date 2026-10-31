@@ -81,7 +81,7 @@
 
     &-header {
       padding: 0 8px;
-      height: 32px !important;
+      height: 32px;
       &:hover {
         .mat-expansion-panel-header-title {
           color: var(--color-on-surface);

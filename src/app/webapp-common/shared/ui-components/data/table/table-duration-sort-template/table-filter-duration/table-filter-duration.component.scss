@@ -4,7 +4,7 @@
   }
   .input-duration.disabled {
     ::ng-deep input {
-      color: var(--color-outline) !important;
+      color: var(--color-outline);
     }
   }
 }
