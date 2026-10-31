@@ -78,7 +78,7 @@ export class ProjectNotificationsComponent {
   protected clear() {
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
-        title: 'Remove the notification webhook?',
+        title: 'Remove webhook?',
         body: 'The server stops posting task updates to this address.',
         yes: 'Remove',
         no: 'Cancel',
