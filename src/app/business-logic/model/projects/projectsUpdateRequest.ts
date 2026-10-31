@@ -37,4 +37,8 @@ export interface ProjectsUpdateRequest {
      * The default output destination URL for new tasks under this project
      */
     default_output_destination?: string;
+    /**
+     * URL that receives a POST with JSON when a task of this project completes, fails or is stopped. Requires project admin. Use an empty value or null to clear it. Only https URLs are accepted.
+     */
+    notification_webhook?: string;
 }
