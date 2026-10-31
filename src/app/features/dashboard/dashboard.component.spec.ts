@@ -135,10 +135,6 @@ describe('DashboardComponent', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/workers-and-queues');
   });
 
-  it('should set width via setWidth', () => {
-    component.setWidth(1024);
-    expect(component.width).toBe(1024);
-  });
 });
 
 

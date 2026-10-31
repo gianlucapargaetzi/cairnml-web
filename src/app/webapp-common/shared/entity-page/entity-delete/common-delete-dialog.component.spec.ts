@@ -7,7 +7,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { selectNumberOfSourcesToDelete, selectFilesFailedToDelete, selectEntitiesFailedToDelete } from './common-delete-dialog.reducer';
 import { resetDeleteState } from './common-delete-dialog.actions';
 import { EntityTypeEnum } from '~/shared/constants/non-common-consts';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 describe('CommonDeleteDialogComponent', () => {
   let component: CommonDeleteDialogComponent;
@@ -23,7 +22,7 @@ describe('CommonDeleteDialogComponent', () => {
   };
 
   beforeEach(async () => {
-    dialogRefSpy = { close: vi.fn() };
+    dialogRefSpy = { close: jasmine.createSpy('close') };
 
     await TestBed.configureTestingModule({
       imports: [CommonDeleteDialogComponent],
@@ -49,7 +48,7 @@ describe('CommonDeleteDialogComponent', () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
+    jasmine.clock().uninstall();
   });
 
   it('should create', () => {
@@ -57,7 +56,7 @@ describe('CommonDeleteDialogComponent', () => {
   });
 
   it('should delete files successfully and close dialog', async () => {
-    const dispatchSpy = vi.spyOn(store, 'dispatch');
+    const dispatchSpy = spyOn(store, 'dispatch');
 
     // Trigger delete
     component.delete();
@@ -78,7 +77,7 @@ describe('CommonDeleteDialogComponent', () => {
   });
 
   it('should not close dialog if there are failed files', async () => {
-    vi.useFakeTimers();
+    jasmine.clock().install();
     // Trigger delete
     component.delete();
     fixture.detectChanges();
@@ -100,7 +99,7 @@ describe('CommonDeleteDialogComponent', () => {
     expect(dialogRefSpy.close).not.toHaveBeenCalled();
 
     // Wait for timeout (1000ms)
-    vi.advanceTimersByTime(1000);
+    jasmine.clock().tick(1000);
     fixture.detectChanges();
     await Promise.resolve();
 

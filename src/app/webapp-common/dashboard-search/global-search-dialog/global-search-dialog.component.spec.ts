@@ -3,8 +3,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ApiProjectsService } from '~/business-logic/api-services/projects.service';
-import { ApiDatasetsService } from '~/business-logic/api-services/datasets.service';
-import { ApiDataviewsService } from '~/business-logic/api-services/dataviews.service';
 import { ApiOrganizationService } from '~/business-logic/api-services/organization.service';
 import { ApiModelsService } from '~/business-logic/api-services/models.service';
 import { ApiTasksService } from '~/business-logic/api-services/tasks.service';
@@ -70,8 +68,6 @@ describe('GlobalSearchDialogComponent', () => {
           }
         }),
         { provide: ApiProjectsService, useValue: {} },
-        { provide: ApiDatasetsService, useValue: {} },
-        { provide: ApiDataviewsService, useValue: {} },
         { provide: ApiOrganizationService, useValue: {} },
         { provide: ApiModelsService, useValue: {} },
         { provide: ApiTasksService, useValue: {} },

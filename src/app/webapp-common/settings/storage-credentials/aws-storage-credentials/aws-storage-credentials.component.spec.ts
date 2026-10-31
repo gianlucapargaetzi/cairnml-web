@@ -3,7 +3,7 @@ import { FormBuilder, FormGroupDirective, ReactiveFormsModule } from '@angular/f
 
 import { AwsStorageCredentialsComponent } from './aws-storage-credentials.component';
 
-describe('AzureStorageCredentialsComponent', () => {
+describe('AwsStorageCredentialsComponent', () => {
   let component: AwsStorageCredentialsComponent;
   let fixture: ComponentFixture<AwsStorageCredentialsComponent>;
 
