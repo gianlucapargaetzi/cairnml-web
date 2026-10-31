@@ -130,16 +130,16 @@
   }
 }
 
-// Below 960px the settings menu stacks above the content instead of taking a side column.
+// Below 960px the settings menu stacks above the content (normal block flow) instead of taking a side column.
 @media (max-width: 959px) {
   :host .settings-container.settings-container {
-    display: flex;
-    flex-direction: column;
+    display: block;
     height: 100%;
+    overflow: auto;
 
-    > .mat-drawer-container > mat-drawer.mat-drawer,
     mat-drawer.mat-drawer {
-      position: relative;
+      position: static;
+      display: block;
       width: 100%;
       height: auto;
       transform: none;
@@ -150,16 +150,15 @@
     }
 
     mat-drawer-content.mat-drawer-content {
-      position: relative;
+      position: static;
+      display: block;
+      height: auto;
       margin-left: 0;
       transform: none;
-      flex: 1 1 auto;
-      min-height: 0;
 
       .section {
         height: auto;
-        min-height: 0;
-        flex: 1 1 auto;
+        overflow: visible;
       }
     }
   }
