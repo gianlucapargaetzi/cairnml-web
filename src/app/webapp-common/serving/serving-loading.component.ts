@@ -22,6 +22,7 @@ import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
 import {ServingHeaderComponent} from '@common/serving/serving-header/serving-header.component';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {PushPipe} from '@ngrx/component';
+import {injectNarrowScreen} from '@common/shared/utils/narrow-screen';
 
 @Component({
   selector: 'sm-serving-loading',
@@ -37,6 +38,7 @@ import {PushPipe} from '@ngrx/component';
   ]
 })
 export class ServingLoadingComponent extends BaseEntityPageComponent implements OnDestroy {
+  protected narrowScreen = injectNarrowScreen();
   public readonly originalTableColumns = servingLoadingTableCols;
   public entityTypeEnum = EntityTypeEnum;
   public override showAllSelectedIsActive$: Observable<boolean> = of(false);
