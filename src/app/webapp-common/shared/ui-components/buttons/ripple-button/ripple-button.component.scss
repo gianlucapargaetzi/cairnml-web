@@ -16,7 +16,7 @@
     top: 0%;
     left: 0%;
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--color-running);
+    border: 2px solid var(--color-running);
     animation: glow-grow 2s ease-out infinite;
     position: absolute;
   }
