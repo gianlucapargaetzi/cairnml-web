@@ -130,36 +130,30 @@
   }
 }
 
-// Below 960px the settings menu stacks above the content (normal block flow) instead of taking a side column.
-@media (max-width: 959px) {
-  :host .settings-container.settings-container {
-    display: block;
-    height: 100%;
-    overflow: auto;
+// Below 960px the settings menu is plain markup above the content (see settings.component.html).
+.settings-stacked {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
 
-    mat-drawer.mat-drawer {
-      position: static;
-      display: block;
-      width: 100%;
-      height: auto;
-      transform: none;
-      visibility: visible;
-      border-right: none;
-      border-bottom: 1px solid var(--color-surface-container-high);
-      background: none;
-    }
+  .settings-stacked-menu {
+    flex: 0 0 auto;
+    border-bottom: 1px solid var(--color-surface-container-high);
+    background: color-mix(in srgb, var(--color-surface-container-lowest) 40%, transparent);
+  }
 
-    mat-drawer-content.mat-drawer-content {
-      position: static;
-      display: block;
-      height: auto;
-      margin-left: 0;
-      transform: none;
+  .settings-stacked-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface-container-lowest);
 
-      .section {
-        height: auto;
-        overflow: visible;
-      }
+    .section {
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 0;
     }
   }
 }
