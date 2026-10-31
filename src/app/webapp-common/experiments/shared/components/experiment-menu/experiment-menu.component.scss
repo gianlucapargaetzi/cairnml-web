@@ -2,3 +2,8 @@ button {
   display: flex;
   align-items: center;
 }
+
+.delete-menu-item {
+  --mat-menu-item-label-text-color: var(--color-error);
+  --mat-menu-item-icon-color: var(--color-error);
+}
