@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,7 +45,8 @@ describe('DashboardComponent', () => {
     firstLogin$ = new Subject<boolean>();
     recentTasks$ = new Subject<any[]>();
 
-    store = jasmine.createSpyObj<Store<any>>('Store', ['select', 'dispatch']);
+    store = jasmine.createSpyObj<Store<any>>('Store', ['select', 'dispatch', 'selectSignal']);
+    (store.selectSignal as jasmine.Spy).and.returnValue(signal([]));
     (store.select as jasmine.Spy).and.callFake((selector: any) => {
       switch (selector) {
         case selectActiveSearch:
@@ -94,30 +96,30 @@ describe('DashboardComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(initSearch({payload: 'Search for all'}));
   });
 
-  it('should navigate to search when active search becomes true', fakeAsync(() => {
+  it('should navigate to search when active search becomes true', () => {
     activeSearch$.next(false);
     activeSearch$.next(true);
-    tick();
 
     expect(router.navigate).toHaveBeenCalledWith(
       ['search'],
       {relativeTo: activatedRoute, queryParamsHandling: 'preserve'}
     );
-  }));
+  });
 
-  it('should dispatch recent entities actions when user and showOnlyUserWork are set', fakeAsync(() => {
+  it('should dispatch recent entities actions when user and showOnlyUserWork are set', async () => {
     const initialDispatchCount = store.dispatch.calls.count();
 
     showOnlyUserWork$.next(true);
     currentUser$.next({id: 'user-1'});
 
-    tick(150);
+    // the component debounces the change by 100 ms
+    await new Promise(resolve => setTimeout(resolve, 150));
 
     expect(store.dispatch.calls.count()).toBeGreaterThan(initialDispatchCount);
     expect(store.dispatch).toHaveBeenCalledWith(getRecentProjects());
     expect(store.dispatch).toHaveBeenCalledWith(getRecentExperiments());
     expect(store.dispatch).toHaveBeenCalledWith(getRecentReports());
-  }));
+  });
 
   it('should show welcome dialog on first login and dispatch firstLogin(false) after closing', () => {
     firstLogin$.next(true);

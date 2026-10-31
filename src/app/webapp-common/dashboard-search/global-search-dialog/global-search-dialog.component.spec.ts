@@ -33,7 +33,8 @@ describe('GlobalSearchDialogComponent', () => {
                 url: '',
               }
             },
-            search: {},
+            search: { tabsColumnFilters: {}, searchTags: [], term: { query: '' } },
+            rootProjects: { selectedProject: null, allUsers: [], users: [], extraUsers: [] },
             users: {
               currentUser: {
                 id: '123'
