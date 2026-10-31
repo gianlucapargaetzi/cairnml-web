@@ -21,4 +21,4 @@
 6. Back buttons in headers (arrow-left icon button, existing in storage credentials) are for drill-in states inside a page, not a replacement for breadcrumbs.
 7. Keyboard: Ctrl+K opens global search (existing); tabs support arrow keys (Material).
 8. The side nav "Projects" item points to `/dashboard`; the naming differs from its target. Keep "Projects" as the label and treat the dashboard as the projects landing view.
-9. **Menu item labels** are plain verbs with no ellipsis, including items that open a confirm dialog (Archive, Reset, Publish, Delete). A count appended by the shared menu pipe is the only suffix: "Delete (1 item)". Destructive items go last, after a divider, in `--color-error`.
+9. **Every menu item has no ellipsis**: plain verb labels for actions, nouns for submenu triggers ("Add Tag"), and the same for items that open a dialog or a confirm (Archive, Reset, Publish, Delete). A count appended by the shared menu pipe is the only suffix: "Delete (1 item)". Destructive items go last, after a divider, in `--color-error`.
