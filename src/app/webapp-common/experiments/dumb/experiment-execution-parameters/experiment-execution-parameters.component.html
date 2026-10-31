@@ -132,7 +132,7 @@
                 >{{ row.value }}</span>
                 @if (row.isMaximize && row.value.length >= 150) {
                   <sm-multi-line-tooltip [smallIcon]="true" [wordBreak]="true" iconClass="al-ico-line-expand">
-                    <div style="white-space: pre-line">{{ (row.value | jsonIndent).slice(0, 150) }}</div>
+                    <div class="text-pre-line">{{ (row.value | jsonIndent).slice(0, 150) }}</div>
                     @if (row.value.length >= 150 - 4) {
                       <div class="dots-slice">● ● ●</div>
                       <mat-divider class="divider"></mat-divider>

@@ -72,7 +72,7 @@
     <sm-dots-load-more [class.hidden]="data() === null || noMoreOptions" [loading]="state().loading()" (loadMore)="!state().loading() && loadMoreEntities({label: inputRef.value})"></sm-dots-load-more>
     <!-- Empty mat-option, so the autocomplete menu will always pop -->
     @if (data()?.length > 0){
-      <mat-option disabled style="height: 0; min-height: 0; padding:0"></mat-option>
+      <mat-option class="option-spacer" disabled></mat-option>
     }
   </mat-autocomplete>
 </mat-form-field>

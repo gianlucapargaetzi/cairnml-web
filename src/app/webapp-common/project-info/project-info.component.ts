@@ -1,3 +1,4 @@
+import {MatIconModule} from '@angular/material/icon';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,6 +37,7 @@ import {RouterLink} from '@angular/router';
   styleUrls: ['./project-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     MarkdownEditorComponent,
     MatExpansionPanelTitle,
     MatExpansionPanel,

@@ -34,16 +34,16 @@
   }
 
   ::ng-deep p-table table {
-    width: 100% !important;
+    width: 100%;
 
     .p-datatable-selectable-row  {
-      cursor: default !important;
+      cursor: default;
     }
   }
 
   ::ng-deep .generic-container {
-    max-height: unset !important;
-    padding: 24px 42px 0 42px !important;
+    max-height: unset;
+    padding: 24px 48px 0 48px;
   }
 }
 

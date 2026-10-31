@@ -45,7 +45,7 @@
         >
         @if (handleUpload()) {
           <div custom-btns class="extra-buttons">
-            <input #imgInput type="file" accept=".jpg,.jpeg,.png,.webm" multiple="multiple" style="display: none" (change)="uploadImg($event)" />
+            <input class="d-none" #imgInput type="file" accept=".jpg,.jpeg,.png,.webm" multiple="multiple" (change)="uploadImg($event)" />
             <mat-menu
               #imageActions=matMenu
               smClickStopPropagation

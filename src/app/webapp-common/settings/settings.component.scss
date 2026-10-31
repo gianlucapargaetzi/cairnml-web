@@ -157,3 +157,8 @@
     }
   }
 }
+
+// Padding that the navigation list had as an inline style; the list has its own padding rule.
+mat-list.nav-list {
+  padding-top: 24px;
+}

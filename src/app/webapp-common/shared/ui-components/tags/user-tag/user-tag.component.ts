@@ -3,6 +3,7 @@ import {TagColor} from '@common/core/actions/projects.actions';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-user-tag',
@@ -10,8 +11,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     styleUrls: ['./user-tag.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         TooltipDirective,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatIconModule
     ]
 })
 export class UserTagComponent {

@@ -85,7 +85,7 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
 }
 
 .filter-header-cell {
-  border-right: $tableBodyCellBorder !important;
+  border-right: $tableBodyCellBorder;
   overflow: unset;
 }
 
@@ -124,17 +124,17 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
   border-bottom-width: 0;
   color: var(--color-primary);
   font-weight: 500;
-  padding-left: 24px !important;
-  left: 0 !important;
+  padding-left: 24px;
+  left: 0;
 }
 
 .variants-column {
   width: 200px;
   max-width: 200px;
-  border-right: 1px solid var(--color-surface-container-high) !important;
+  border-right: 1px solid var(--color-surface-container-high);
   border-left-width: 0;
   font-weight: 500;
-  left: 217px !important;
+  left: 217px;
 }
 
 .variant-cell {
@@ -200,7 +200,7 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
 
   &.no-rows {
     table {
-      table-layout: fixed !important;
+      table-layout: fixed;
     }
   }
   &.p-datatable {
@@ -292,7 +292,7 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
 
 
     .p-scroller {
-      height: 100% !important;
+      height: 100%;
     }
   }
 
@@ -307,8 +307,8 @@ $tableBottomPaginatorBorderWidth: 0 0 1px 0 !default;
 
   tr td:last-child,
   tr th:last-child {
-    width: auto !important;
-    max-width: none !important;
+    width: auto;
+    max-width: none;
   }
 }
 

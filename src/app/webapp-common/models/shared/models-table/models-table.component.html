@@ -121,7 +121,7 @@
           <div class="d-flex flex-row flex-nowrap ellipsis">
             <div class="model-name" [smTooltip]="model.name" smShowTooltipIfEllipsis>{{model.name}}</div>
             @if (model?.system_tags?.includes('shared')) {
-              <i class="al-icon al-ico-link sm ms-2"></i>
+              <mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm ms-2"></mat-icon>
             }
           </div>
         }
@@ -193,7 +193,7 @@
         (click)="selected && cardClicked($event, model)"
         >
         <div sm-name-icon>@if (model?.system_tags.includes('shared')) {
-          <i class="al-icon al-ico-link sm-md ms-2"></i>
+          <mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm-md ms-2"></mat-icon>
         }
       </div>
         @if (cardsCollapsed() && model?.tags?.length > 0) {

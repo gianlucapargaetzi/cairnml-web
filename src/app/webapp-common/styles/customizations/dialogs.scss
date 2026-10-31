@@ -57,8 +57,8 @@ html.cdk-global-scrollblock {
     --mat-dialog-container-small-max-width: 300px;
 
     .generic-container {
-      padding: 32px !important;
-      max-height: unset !important;
+      padding: 32px;
+      max-height: unset;
     }
   }
 }

@@ -37,7 +37,7 @@
           <span class="status" [class.revoked-status]="device.revoked">{{ device.revoked ? 'Revoked' : 'Active' }}</span>
         }
         @case ('actions') {
-          <button mat-icon-button smTooltip="Revoke" matTooltipShowDelay="500"
+          <button mat-icon-button aria-label="Revoke" smTooltip="Revoke" matTooltipShowDelay="500"
                   [disabled]="device.revoked" (click)="confirmRevoke(device)" data-id="revokeDeviceButton">
             <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
           </button>

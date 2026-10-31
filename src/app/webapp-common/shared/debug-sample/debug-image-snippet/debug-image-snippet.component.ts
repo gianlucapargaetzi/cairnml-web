@@ -31,6 +31,7 @@ import {AsyncPipe} from '@angular/common';
 import {
   ShowTooltipIfEllipsisDirective
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 // import {Event} from '@common/debug-images/debug-images-types';
 
@@ -40,6 +41,7 @@ import {
   styleUrls: ['./debug-image-snippet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     SnippetErrorComponent,
     ClipboardModule,
     TooltipDirective,

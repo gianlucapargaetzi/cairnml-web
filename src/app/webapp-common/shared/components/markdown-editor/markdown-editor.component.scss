@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 @use "variables";
 @use "../../../assets/fonts/variables" as font;
 
@@ -40,7 +41,7 @@
   }
 
   .btn-expand-view {
-    @media (min-width: 1400px) {
+    @include bp.up(bp.$bp-xl) {
       display: inline-block;
     }
   }
@@ -73,7 +74,7 @@
   }
 
   .btn:focus {
-    box-shadow: none !important;
+    box-shadow: none;
   }
 
   &:not(.edit-mode)::after {
@@ -157,13 +158,13 @@
 :host {
   ::ng-deep {
     .preview-container {
-      display: var(--sm-md-preview-display, block) !important;
+      display: var(--sm-md-preview-display, block);
     }
     .editor-container > div:first-child {
-      display: var(--sm-md-editor-display, block) !important;
+      display: var(--sm-md-editor-display, block);
     }
     md-editor.scripts-blocked .md-layout .preview-panel {
-      height: 100% !important;
+      height: 100%;
     }
   }
 
@@ -172,21 +173,21 @@
     border: none;
 
     .md-layout {
-      @media (max-width: 990px) {
+      @include bp.down(bp.$bp-md) {
         .preview-container {
           display: none;
         }
       }
 
       .btn-group::before {
-        background-color: transparent !important;
+        background-color: transparent;
       }
 
       .tool-bar {
         display: flex;
         padding: 6px;
-        background-color: color-mix(in srgb, var(--color-surface-container-high), transparent 80%) !important;
-        border-bottom-color: var(--color-surface-container-high) !important;
+        background-color: color-mix(in srgb, var(--color-surface-container-high), transparent 80%);
+        border-bottom-color: var(--color-surface-container-high);
 
         .btn:first-child:before {
           display: none;
@@ -195,10 +196,10 @@
         .btn-group {
           display: inline-flex;
           gap: 4px;
-          padding: 0 12px !important;
+          padding: 0 12px;
           border-right: 1px solid var(--color-outline-variant);
           &:nth-child(1) {
-            padding-left: 0 !important;
+            padding-left: 0;
           }
 
           button {
@@ -313,17 +314,17 @@
         }
       }
 
-      @media (max-width: 990px) {
+      @include bp.down(bp.$bp-md) {
         .editor-panel {
           border-right: none;
         }
       }
 
       .preview-panel {
-        padding: 24px !important;
-        height: unset !important;
-        background-color: transparent !important;
-        border-left: none !important;
+        padding: 24px;
+        height: unset;
+        background-color: transparent;
+        border-left: none;
 
         code {
           padding: 2px 6px;
@@ -495,7 +496,7 @@
           overflow-x: auto;
         }
 
-        @media (max-width: 960px) {
+        @include bp.down(bp.$bp-md) {
           .grid {
             display: block;
           }
@@ -537,7 +538,7 @@
   font-weight: 500;
 }
 
-@media (max-width: 990px) {
+@include bp.down(bp.$bp-md) {
   .preview-header {
     display: none;
   }
@@ -550,7 +551,7 @@
   }
 }
 
-@media (max-width: 990px) {
+@include bp.down(bp.$bp-md) {
   .md-content .preview-toggle {
     display: block;
   }

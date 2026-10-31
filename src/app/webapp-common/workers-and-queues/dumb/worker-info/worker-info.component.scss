@@ -20,11 +20,11 @@
 
   ::ng-deep .table-row {
     height: 40px;
-    line-height: normal !important;
-    padding: 0 !important;
+    line-height: normal;
+    padding: 0;
     display: flex;
     &:last-of-type {
-      border-bottom-color: var(--color-surface-container-high) !important;
+      border-bottom-color: var(--color-surface-container-high);
     }
   }
 
@@ -46,7 +46,7 @@
     height: inherit;
     .headers, .body {
       width: 100%;
-      display: grid !important;
+      display: grid;
       grid-template-columns: 30% 50% 15%;
       align-items: center;
       grid-gap: 12px;

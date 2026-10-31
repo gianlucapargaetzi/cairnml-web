@@ -14,6 +14,7 @@ import {FormsModule} from '@angular/forms';
 import {MatSlider, MatSliderThumb} from '@angular/material/slider';
 import {PushPipe} from '@ngrx/component';
 import {ToPercentagePipe} from '@common/shared/pipes/to-precentage.pipe';
+import {MatIconModule} from '@angular/material/icon';
 
 const VIEWER_AUTO_REFRESH_INTERVAL = 60 * 1000;
 
@@ -23,6 +24,7 @@ const VIEWER_AUTO_REFRESH_INTERVAL = 60 * 1000;
   styleUrls: ['./image-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     TooltipDirective,
     ShowTooltipIfEllipsisDirective,
     FormsModule,

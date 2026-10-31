@@ -61,8 +61,8 @@ $header-height: 60px;
   }
 
   ::ng-deep al-drawer sm-card2 .card-container {
-    border-radius: 6px 0 0 6px !important;
-    border-right: none !important;
+    border-radius: 8px 0 0 8px;
+    border-right: none;
   }
 
   ::ng-deep al-drawer button.drawer-toggle {

@@ -3,14 +3,14 @@
   display: block;
 
   &.collapsed {
-    width: 24px !important;
+    width: 24px;
 
     .drawer-toggle {
       border-radius: 6px;
     }
 
     ::ng-deep .card-container.bordered {
-      border-color: transparent !important;
+      border-color: transparent;
     }
   }
 

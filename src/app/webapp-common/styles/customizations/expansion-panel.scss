@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
-body mat-expansion-panel.mat-expansion-panel {
-  box-shadow: none !important;
+html body mat-expansion-panel.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
   --mat-expansion-container-shape: 4px;
   --mat-expansion-container-background-color:  transparent;
 

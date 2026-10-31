@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {pageSize} from '@common/projects/common-projects.consts';
 import {ProjectsPageComponent} from '@common/projects/containers/projects-page/projects-page.component';
 import {isExample} from '@common/shared/utils/shared-utils';
@@ -58,7 +59,8 @@ import {FormsModule} from '@angular/forms';
     PushPipe,
     MatButton,
     FormsModule,
-    PipelinesEmptyStateComponent
+    PipelinesEmptyStateComponent,
+    EmptyStateComponent
   ]
 })
 export class PipelinesPageComponent extends ProjectsPageComponent implements OnInit, OnDestroy {

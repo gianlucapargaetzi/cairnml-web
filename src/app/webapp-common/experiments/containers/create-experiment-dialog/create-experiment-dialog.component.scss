@@ -5,11 +5,11 @@
   --mat-expansion-header-text-weight: normal;
 
   ::ng-deep .generic-container {
-    padding: 32px 24px 0 !important;
+    padding: 32px 24px 0;
     --mat-stepper-container-color: transparent;
 
     .ace_scroller {
-      bottom: 2px !important;
+      bottom: 2px;
     }
   }
 }
@@ -108,7 +108,7 @@ mat-form-field {
 .terminal {
   resize:  none;
   font-family: variables.$font-family-monospace;
-  font-size: 13px !important;
+  font-size: 13px;
   line-height: 1.6;
   padding: 6px;
 }
@@ -147,4 +147,8 @@ sm-code-editor {
 
 textarea {
   resize: none;
+}
+
+.task-type-field {
+  width: 300px;
 }

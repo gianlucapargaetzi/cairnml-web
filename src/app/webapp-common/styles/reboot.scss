@@ -17,15 +17,15 @@ html :focus-visible {
 }
 
 // Users who ask for less motion get no transitions and no looping animation (spinners stop turning and stay
-// visible). The !important is needed because component styles set their own animations.
+// visible). The is needed because component styles set their own animations.
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
 }
 

@@ -23,7 +23,7 @@
     <span matTreeNodeToggle class="panel parent-node"
           [class.expanded]="tree().isExpanded(node)"
           [class.unchecked]="shouldUncheckParent()[node.name]">
-      <i class="me-1 al-icon al-ico-next toggle-icon sm"></i>
+      <mat-icon fontSet="al" fontIcon="al-ico-next" class="me-1 al-icon toggle-icon sm"></mat-icon>
       <span class="ellipsis flex-grow-1 pe-1" [smTooltip]="node.displayName ?? node.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{ node.displayName ?? node.name }}</span>
       <button aria-label="Select all in group"
         mat-icon-button

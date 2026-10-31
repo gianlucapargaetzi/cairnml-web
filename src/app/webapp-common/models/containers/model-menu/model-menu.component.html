@@ -4,8 +4,7 @@
   </button>
 }
 @if (!activateFromMenuButton()) {
-  <div
-    style="visibility: hidden; position: fixed"
+  <div class="menu-anchor"
     [style.left.px]="position().x"
     [style.top.px]="position().y"
     [matMenuTriggerFor]="modelMenu">

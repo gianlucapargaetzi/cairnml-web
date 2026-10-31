@@ -19,12 +19,14 @@ import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {Role} from '~/business-logic/model/auth/role';
 import {getBlockNotice} from '~/features/settings/settings.util';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-profile-preferences',
     templateUrl: './profile-preferences.component.html',
     styleUrls: ['./profile-preferences.component.scss'],
     imports: [
+    MatIconModule,
         MatSlideToggle,
         TooltipDirective,
         UsageStatsComponent,

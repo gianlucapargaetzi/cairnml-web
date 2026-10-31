@@ -65,14 +65,14 @@
   }
 
   .no-ellipsis {
-    cursor: default !important;
+    cursor: default;
 
     .extend-toggle {
-      visibility: hidden !important;
+      visibility: hidden;
     }
   }
 .section {
-  display: block !important;
+  display: block;
 }
   ::ng-deep .with-ellipsis .cdk-virtual-scroll-content-wrapper {
     width: 100%;

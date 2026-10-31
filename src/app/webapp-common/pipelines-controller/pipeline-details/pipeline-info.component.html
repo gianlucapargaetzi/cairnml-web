@@ -20,10 +20,10 @@
           @if (stepWithStatus()?.data.isStage) {
             <mat-icon fontSet="al" fontIcon="al-ico-grid-view"></mat-icon>
           } @else {
-            <i
+            <mat-icon
               class="al-icon md"
               [class]="'al-ico-type-' + (entity()?.type ? (entity().type.toString()).replace('_', '-') : 'training')"
-            ></i>
+            ></mat-icon>
           }
 
           <div class="name" [smTooltip]="stepWithStatus().name" smShowTooltipIfEllipsis>{{ stepWithStatus().name }}</div>
@@ -144,7 +144,7 @@
         class="arr-link"
         target="_blank"
         [routerLink]="['/projects', project(), 'tasks', entity()?.id, 'output', 'execution']">
-        Full details<i class="al-icon al-ico-link-arrow sm" data-id="fullDetailsArrow"></i>
+        Full details<mat-icon fontSet="al" fontIcon="al-ico-link-arrow" class="al-icon sm" data-id="fullDetailsArrow"></mat-icon>
       </a>
     </footer>
   }

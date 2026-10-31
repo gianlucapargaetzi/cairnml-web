@@ -66,7 +66,7 @@
                           <pre class="node-key"
                             [class.no-ellipsis]="node.data.key.length < 15"
                             [class.ellipsis]="showEllipsis"
-                            >{{node.data.key}}<i class="al-icon sm al-ico-line-expand extend-toggle"
+                            >{{node.data.key}}<i aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle"
                             [class.rotate-180]="!showEllipsis"
                           (click)="toggleEllipsis(); $event.stopPropagation()"></i>
                         </pre>
@@ -74,12 +74,11 @@
                           [style.width.px]="showEllipsis ? nativeWidth - 180 - node.level * 20 : null"
                           [class.no-ellipsis]="node.data.value?.length < 15"
                           [class.ellipsis]="showEllipsis" data-id="diffDataRow">{{node.data.value}}<i
-                          class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis"
+                          aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis"
                         (click)="toggleEllipsis(); $event.stopPropagation()"></i>
                       </pre>
                       @if (node.data.tooltip) {
-                        <i class="al-icon sm al-ico-description node-icon"
-                        customClass="hyper-parameters-tooltip" [smTooltip]="node.data.tooltip"></i>
+                        <mat-icon fontSet="al" fontIcon="al-ico-description" class="al-icon sm node-icon" customClass="hyper-parameters-tooltip" [smTooltip]="node.data.tooltip"></mat-icon>
                       }
                     </div>
                   }

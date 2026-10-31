@@ -44,6 +44,7 @@ import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
 import {ExperimentNameService} from './experiment-name.service';
 import {PageHeaderTitleService} from '@common/shared/ui-components/layout/page-header/page-header-title.service';
 import {levelBreadcrumbs} from './level-breadcrumbs';
+import {MatIconModule} from '@angular/material/icon';
 
 export enum CrumbTypeEnum {
   Workspace = 'Workspace',
@@ -94,6 +95,7 @@ export interface IBreadcrumbsOptions {
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'[class.empty]': 'breadcrumbs().length === 0 && !isCommunity()'},
   imports: [
+    MatIconModule,
     MatMenuModule,
     TooltipDirective,
     ShowTooltipIfEllipsisDirective,
