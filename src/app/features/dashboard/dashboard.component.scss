@@ -32,6 +32,9 @@
   sm-dashboard-experiments {
     display: block;
     padding-top: 24px;
+    // the page gutter, so the header buttons and the table do not touch the window edge on narrow widths
+    padding-left: var(--page-padding-x);
+    padding-right: var(--page-padding-x);
     margin: 0 auto;
     height: calc(100% - 620px);
   }
