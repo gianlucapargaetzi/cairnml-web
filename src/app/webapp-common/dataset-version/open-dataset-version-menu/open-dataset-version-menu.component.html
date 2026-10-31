@@ -3,8 +3,7 @@
     class="p-0 cell menu-button al-icon sm-md al-ico-bars-menu"
   ></div>
 } @else {
-  <div
-    style="visibility: hidden; position: fixed"
+  <div class="menu-anchor"
     [style.left.px]="position().x"
     [style.top.px]="position().y"
     [matMenuTriggerFor]="experimentMenu">
@@ -74,8 +73,7 @@
   <div class="mb-3">
     @if(selectedExperiments.length === 1){
       <span
-        class="ellipsis inline font-weight-bold me-1"
-        style="max-width: 200px;"
+        class="ellipsis inline font-weight-bold me-1 max-w-200"
         [smTooltip]="selectedExperiments[0]?.name"
         smShowTooltipIfEllipsis
       >{{selectedExperiments[0]?.name}}</span>

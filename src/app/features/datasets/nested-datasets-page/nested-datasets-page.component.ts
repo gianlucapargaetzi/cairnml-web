@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {NestedProjectViewPageComponent, ProjectTypeEnum} from '@common/nested-project-view/nested-project-view-page/nested-project-view-page.component';
 import {CircleTypeEnum} from '~/shared/constants/non-common-consts';
 import { AsyncPipe } from '@angular/common';
@@ -25,7 +26,8 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
     MatIcon,
     ClickStopPropagationDirective,
     NestedProjectViewPageComponent,
-    DatasetEmptyComponent
+    DatasetEmptyComponent,
+    EmptyStateComponent
   ]
 })
 export class NestedDatasetsPageComponent extends ProjectsPageComponent {

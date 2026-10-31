@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   NestedProjectViewPageComponent,
   ProjectTypeEnum
@@ -39,7 +40,8 @@ import {MatButton} from '@angular/material/button';
     MatIcon,
     MatButton,
     DatasetEmptyComponent,
-    NestedProjectViewPageComponent
+    NestedProjectViewPageComponent,
+    EmptyStateComponent
   ]
 })
 export class NestedOpenDatasetsPageComponent extends ProjectsPageComponent implements OnInit, OnDestroy {

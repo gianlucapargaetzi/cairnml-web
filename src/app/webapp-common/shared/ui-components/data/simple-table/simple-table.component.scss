@@ -51,7 +51,7 @@ $table-row-padding: 10px;
     }
 
     &:not(:hover) ::ng-deep .flashing-icon {
-      opacity: 0 !important;
+      opacity: 0;
     }
 
     &:nth-child(even) {

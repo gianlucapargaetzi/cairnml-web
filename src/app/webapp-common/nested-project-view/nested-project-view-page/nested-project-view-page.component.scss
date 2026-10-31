@@ -1,5 +1,4 @@
 @use "variables";
-@use "mixins/empty";
 
 :host {
   display: block;
@@ -38,7 +37,6 @@
     margin-bottom: -12px;
   }
 
-  @include empty.empty-card-mixin();
 }
 
 .content {

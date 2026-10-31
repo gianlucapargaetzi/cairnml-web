@@ -13,7 +13,8 @@ import {MatIconModule} from '@angular/material/icon';
     imports: [
     MatIconModule,
         TooltipDirective,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatIconModule
     ]
 })
 export class UserTagComponent {

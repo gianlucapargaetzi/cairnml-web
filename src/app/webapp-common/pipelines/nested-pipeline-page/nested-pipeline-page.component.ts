@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {
   NestedProjectViewPageComponent,
@@ -29,7 +30,8 @@ import {
     MatButton,
     MatIcon,
     PipelinesEmptyStateComponent,
-    NestedProjectViewPageComponent
+    NestedProjectViewPageComponent,
+    EmptyStateComponent
   ]
 })
 export class NestedPipelinePageComponent extends PipelinesPageComponent {

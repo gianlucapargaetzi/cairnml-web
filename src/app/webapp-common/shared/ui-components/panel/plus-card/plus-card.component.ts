@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
 import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
 
 @Component({
@@ -7,7 +8,8 @@ import {CardComponent} from '@common/shared/ui-components/panel/card/card.compon
   styleUrls: ['./plus-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CardComponent
+    CardComponent,
+    MatIconModule
   ]
 })
 export class PlusCardComponent {

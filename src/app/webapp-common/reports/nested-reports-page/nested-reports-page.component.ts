@@ -1,4 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   NestedProjectViewPageComponent,
   ProjectTypeEnum
@@ -31,7 +32,8 @@ import {FilterMetadata} from 'primeng/api';
     PushPipe,
     MatButton,
     MatIcon,
-    NestedProjectViewPageComponent
+    NestedProjectViewPageComponent,
+    EmptyStateComponent
   ]
 })
 export class NestedReportsPageComponent extends ReportsPageComponent implements OnInit, OnDestroy {

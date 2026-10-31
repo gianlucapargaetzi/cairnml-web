@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {pageSize} from '@common/projects/common-projects.consts';
 import {ProjectsPageComponent} from '@common/projects/containers/projects-page/projects-page.component';
 import {isExample} from '@common/shared/utils/shared-utils';
@@ -44,14 +45,12 @@ import {PushPipe} from '@ngrx/component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
-import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 
 @Component({
   selector: 'sm-pipelines-page',
   templateUrl: './pipelines-page.component.html',
   styleUrls: ['./pipelines-page.component.scss'],
   imports: [
-    EmptyStateComponent,
     ProjectsHeaderComponent,
     ButtonToggleComponent,
     PipelineCardComponent,
@@ -60,7 +59,8 @@ import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-s
     PushPipe,
     MatButton,
     FormsModule,
-    PipelinesEmptyStateComponent
+    PipelinesEmptyStateComponent,
+    EmptyStateComponent
   ]
 })
 export class PipelinesPageComponent extends ProjectsPageComponent implements OnInit, OnDestroy {

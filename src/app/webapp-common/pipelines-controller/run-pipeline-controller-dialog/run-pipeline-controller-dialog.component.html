@@ -5,7 +5,7 @@
 
   <form [formGroup]="form" class="d-flex gap-3 flex-column light-theme form-container">
     <!-- Trap focus if strictly necessary, otherwise consider removing -->
-    <input name="focus_trap" style="opacity: 0; height: 0; width: 0">
+    <input class="focus-trap" name="focus_trap">
     @if (form.controls.createNewPipeline.value) {
       <div class="section-title">New Pipeline Details</div>
       <div class="param-line">
@@ -122,6 +122,7 @@
                data-id="queueField">
 
         <i matSuffix
+           [attr.aria-label]="form.controls.queue.value ? 'Clear queue' : 'Search queues'"
            class="al-icon sm-md search-icon me-2"
            [class]="form.controls.queue.value ? 'al-ico-dialog-x pointer' : 'al-ico-search'"
            (click)="form.controls.queue.value && clearQueue()"

@@ -79,7 +79,7 @@
                           (click)="linkClicked(node.data.value.link)">{{node.data.value.dataValue}}</span>
                         } @else {
                           {{node.data.key | hideHash}}{{node.data.value}}
-                          }<i class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis" (click)="toggleEllipsis(); $event.stopPropagation()"></i>
+                          }<i aria-label="Show more or less" class="al-icon sm al-ico-line-expand extend-toggle" [class.rotate-180]="!showEllipsis" (click)="toggleEllipsis(); $event.stopPropagation()"></i>
                         </pre>
                       }
                     </div>

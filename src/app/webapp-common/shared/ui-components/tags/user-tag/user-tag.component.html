@@ -7,12 +7,12 @@
   [smTooltip]="tooltip() ? caption() : undefined"
   >
   @if (add.observed) {
-    <i class="al-icon al-ico-add xs"></i>
+    <mat-icon fontSet="al" fontIcon="al-ico-add" class="al-icon xs"></mat-icon>
   }
   {{caption()}}
 </span>
 @if (remove.observed && !disabledRemove()) {
-  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm remove" data-id="TagCrossButton" [style.color]="colors()?.foreground" (click)="$event.stopPropagation(); onRemoveClicked(caption())"></mat-icon>
+  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm remove" aria-label="Remove" aria-hidden="false" data-id="TagCrossButton" [style.color]="colors()?.foreground" (click)="$event.stopPropagation(); onRemoveClicked(caption())"></mat-icon>
 }
 @if (disabledRemove() === caption()) {
   <mat-spinner class="al-icon sm white" [diameter]="12" [strokeWidth]="1" color="accent"></mat-spinner>

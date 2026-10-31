@@ -19,7 +19,7 @@
 <sm-editable-section [hideEditButton]="true" [disableEditable]="true" class="section">
   <sm-section-header label="Task details"></sm-section-header>
   <sm-labeled-row label="Archived:">
-    <div style="width: 93px">{{ experiment()?.system_tags?.includes('archived') ? 'Yes' : 'No' }}</div>
+    <div class="yes-no-value">{{ experiment()?.system_tags?.includes('archived') ? 'Yes' : 'No' }}</div>
   </sm-labeled-row>
 
   <sm-labeled-row label="Changed at:">

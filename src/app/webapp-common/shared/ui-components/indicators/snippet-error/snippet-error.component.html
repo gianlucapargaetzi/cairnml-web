@@ -21,6 +21,7 @@
     <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
       [class.disabled]="missingSource()"
       ngxClipboard
+      aria-label="Copy image URL"
       smTooltip="Copy Image URL"
       [cbContent]="copyContent()"
       (cbOnSuccess)="copyToClipboardSuccess(true)">
@@ -29,6 +30,7 @@
     <div class="clickable-icon d-flex align-items-center justify-content-center pointer"
       smTooltip="Open Image"
       (click)="openImageClicked.emit()"
+      aria-label="Open image"
       >
       <mat-icon fontSet="al" fontIcon="al-ico-export" class="al-icon sm-md"></mat-icon>
     </div>
