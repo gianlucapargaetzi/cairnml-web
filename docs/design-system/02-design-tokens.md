@@ -116,6 +116,8 @@ The app is desktop-first and designed for ≥ 960px wide (body has `overflow: hi
 
 Replace 990 → 960; 1080/1300 → 1200; 1400/1620/1740 → 1600 case by case. Phones are not a supported target; tablets (≥ 960px) are.
 
+Implementation: Sass variables `$bp-md`, `$bp-lg`, `$bp-xl` and the mixins `bp.down()` / `bp.up()` in `webapp-common/styles/mixins/breakpoints.scss` (Sass media queries cannot read CSS variables). Height queries (`max-height: 750px`) are not width breakpoints and stay as they are.
+
 ## Proposed token block
 
 Add to `styles/customizations/` as `tokens.scss`, included in `:root`:

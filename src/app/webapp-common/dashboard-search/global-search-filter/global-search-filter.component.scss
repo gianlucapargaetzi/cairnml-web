@@ -78,7 +78,7 @@
     }
 
     .mat-mdc-chip-graphic {
-      display: none !important;
+      display: none;
     }
 
     .mdc-evolution-chip__action {
@@ -86,7 +86,7 @@
     }
 
     .status-icon-container, {
-      grid-template-columns: 14px auto !important;
+      grid-template-columns: 14px auto;
     }
 
     .type-icon {
@@ -96,7 +96,7 @@
 
     &.mat-mdc-chip-selected {
       .status-icon-container {
-        color: var(--color-on-primary) !important;
+        color: var(--color-on-primary);
       }
 
       .type-icon {
@@ -115,8 +115,8 @@
       flex-wrap: wrap;
       gap: 6px;
       padding-top: 6px;
-      max-height: 260px !important;
-      border: none !important;
+      max-height: 260px;
+      border: none;
     }
   }
 }
@@ -134,6 +134,6 @@
 }
 
 ::ng-deep .user-options-filter-menu .user-option-row {
-  grid-template-columns: 32px 140px 1fr !important;
+  grid-template-columns: 32px 140px 1fr;
 }
 

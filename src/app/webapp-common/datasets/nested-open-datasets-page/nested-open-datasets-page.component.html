@@ -24,20 +24,15 @@
   </sm-page-header>
 
 
-  <div empty-state class="empty-state">
-    <div class="title-icon">
-      <mat-icon fontSet="al" fontIcon="al-ico-datasets" class="xxl"></mat-icon>
-    </div>
-    <div class="title">No datasets to show</div>
-    <div class="sub-title">Run your first dataset to see it displayed here
+  <div class="empty-container">
+    <sm-empty-state empty-state icon="al-ico-datasets" title="No datasets to show"
+      description="Run your first dataset to see it displayed here">
       @if (allExamples) {
-        or <a href="" (click)="$event.preventDefault(); createExamples()" class="link">generate
-        example
-      </a>
-    }
+        <a href="" (click)="$event.preventDefault(); createExamples()" class="link">Generate example</a>
+      }
+    </sm-empty-state>
+    <sm-dataset-empty [showButton]="true"></sm-dataset-empty>
   </div>
-  <sm-dataset-empty [showButton]="true"></sm-dataset-empty>
-</div>
 
 </sm-nested-project-view-page>
 

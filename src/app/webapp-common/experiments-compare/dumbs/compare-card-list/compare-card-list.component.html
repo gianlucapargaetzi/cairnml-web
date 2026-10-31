@@ -20,7 +20,7 @@
         [showBorder]="baseExperiment.id === experiment.id || hovered[i]"
         >
         <!--[cdkAutoScroller]="detailsContainer"-->
-        <div extra-header style="width: 100%">
+        <div class="w-100" extra-header>
           <ng-container *ngTemplateOutlet="extraHeaderTemplate; context: {$implicit: experiment, index: i}">
           </ng-container>
         </div>
@@ -55,7 +55,7 @@
   @if (tasksLimitExceeded) {
     <div class="limit-message-container">
       <div class="limit-message" data-id="limitMessageText">
-        <i class="al-icon al-ico-info-circle mb-2"></i>Only the first 10 tasks are available for this view...
+        <mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="al-icon mb-2"></mat-icon>Only the first 10 tasks are available for this view...
       </div>
     </div>
   }

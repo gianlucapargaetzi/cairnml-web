@@ -35,7 +35,7 @@ import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dial
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {SearchTextDirective} from '@common/shared/ui-components/directives/searchText.directive';
 import {ApiPipelinesService} from '~/business-logic/api-services/pipelines.service';
-import {MatIcon} from "@angular/material/icon";
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 
 
 export interface RunPipelineResult {
@@ -73,6 +73,7 @@ const queueValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
   styleUrls: ['./run-pipeline-controller-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    InlineAlertComponent,
     ReactiveFormsModule,
     MatFormField,
     MatInput,
@@ -87,8 +88,7 @@ const queueValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
     MatButton,
     MatDialogClose,
     MatError,
-    PaginatedEntitySelectorComponent,
-    MatIcon
+    PaginatedEntitySelectorComponent
   ]
 })
 export class RunPipelineControllerDialogComponent implements OnDestroy {

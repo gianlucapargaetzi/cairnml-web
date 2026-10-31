@@ -24,7 +24,7 @@
           smShowTooltipIfEllipsis
         >{{project.basename}}</span>
           @if (!hideProjectPathIcon() && (project.name | cleanProjectPath: false); as path) {
-            <i [smTooltip]="path" class="al-icon al-ico-project-path sm ms-2"></i>
+            <mat-icon fontSet="al" fontIcon="al-ico-project-path" class="al-icon sm ms-2" [smTooltip]="path"></mat-icon>
           }</span>
       </sm-inline-edit>
       @if (!hideMenu()) {

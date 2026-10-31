@@ -24,6 +24,7 @@ import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
 
 
 interface StepObject {
@@ -49,6 +50,7 @@ export interface WelcomeMessageData {
     styleUrls: ['./welcome-message.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         DialogTemplateComponent,
         CopyClipboardComponent,
         YouTubePlayerModule,

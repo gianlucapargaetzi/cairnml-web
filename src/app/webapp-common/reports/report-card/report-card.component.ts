@@ -14,12 +14,14 @@ import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-la
 import {TagListComponent} from '@common/shared/ui-components/tags/tag-list/tag-list.component';
 import {ReportCardMenuComponent} from '@common/reports/report-card-menu/report-card-menu.component';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-report-card',
     templateUrl: './report-card.component.html',
     styleUrls: ['./report-card.component.scss'],
     imports: [
+    MatIconModule,
         CardComponent,
         InlineEditComponent,
         TooltipDirective,

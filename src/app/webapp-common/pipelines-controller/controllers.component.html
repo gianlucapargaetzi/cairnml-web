@@ -134,8 +134,7 @@
       >
       </sm-experiments-table>
     </as-split-area>
-    <as-split-area
-      style="display: flex; flex-direction: column; overflow: hidden;"
+    <as-split-area class="d-flex flex-column overflow-hidden"
       [class.light-theme]="getTableModeFromURL() === 'compare'"
       [size]="splitSize()"
       [visible]="minimizedView()"

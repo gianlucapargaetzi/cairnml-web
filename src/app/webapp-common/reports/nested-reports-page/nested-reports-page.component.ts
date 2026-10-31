@@ -1,4 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   NestedProjectViewPageComponent,
   ProjectTypeEnum
@@ -33,7 +34,8 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
     PushPipe,
     MatButton,
     MatIcon,
-    NestedProjectViewPageComponent
+    NestedProjectViewPageComponent,
+    EmptyStateComponent
   ]
 })
 export class NestedReportsPageComponent extends ReportsPageComponent implements OnInit, OnDestroy {

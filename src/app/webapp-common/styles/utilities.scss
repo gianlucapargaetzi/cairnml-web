@@ -11,7 +11,7 @@
 }
 
 .pointer-events-none {
-  pointer-events: none !important;
+  pointer-events: none;
 }
 
 .noselect {
@@ -19,7 +19,7 @@
 }
 
 .resize-none {
-  resize: none !important;
+  resize: none;
 }
 
 .hidden {
@@ -47,4 +47,49 @@
 :root {
   --font-family-base: 'Heebo', sans-serif; // Assumes the browser default, typically `16px`
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+// Invisible anchor that opens a menu at a position set by the component.
+.menu-anchor {
+  visibility: hidden;
+  position: fixed;
+}
+
+// Placeholder option that takes no space in a select list.
+.option-spacer.mat-mdc-option {
+  height: 0;
+  min-height: 0;
+  padding: 0;
+}
+
+// Input that only takes focus from a slider or a dialog and stays invisible.
+.focus-trap {
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.max-w-200 {
+  max-width: 200px;
+}
+
+.text-pre-line {
+  white-space: pre-line;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+// Full-width column that holds an empty state together with the example below it.
+.empty-container {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 2400px;
+  margin: 0 auto;
+  color: var(--color-empty-state);
+  text-align: center;
 }

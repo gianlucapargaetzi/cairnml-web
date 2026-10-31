@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, effect, inject, untracked} from '@angular/core';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {DateFnsAdapter, MAT_DATE_FNS_FORMATS, provideDateFnsAdapter} from '@angular/material-date-fns-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {addDays, format, parseISO, startOfDay, subSeconds} from 'date-fns';
@@ -48,6 +49,7 @@ import {PeriodSelectorComponent} from '@common/shared/components/period-selector
     FormsModule,
     MatIconModule,
     PeriodSelectorComponent,
+    EmptyStateComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: enGB},

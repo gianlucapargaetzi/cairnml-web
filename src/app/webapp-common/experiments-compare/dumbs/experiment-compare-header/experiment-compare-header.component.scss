@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 
 :host {
   position: relative;
@@ -13,16 +14,16 @@
       font-size: 12px;
 
       &.prev {
-        border-right-color: transparent !important;
+        border-right-color: transparent;
       }
 
       &.next {
-        border-left-color: transparent !important;
+        border-left-color: transparent;
       }
     }
   }
 
-  @media(max-width: 1620px) {
+  @include bp.down(bp.$bp-xl) {
     #searchDiff {
       position: static;
       transform: unset;

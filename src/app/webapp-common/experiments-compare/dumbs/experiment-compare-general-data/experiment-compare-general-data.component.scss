@@ -60,7 +60,7 @@
   }
   ::ng-deep sm-status-icon-label {
     .status-icon-container {
-      display: flex !important;
+      display: flex;
     }
     mat-icon, .label {
       color: var(--color-on-surface-variant)

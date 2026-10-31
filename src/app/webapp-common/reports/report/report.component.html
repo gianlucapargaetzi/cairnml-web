@@ -119,7 +119,7 @@
             >
             @if (!example() && report() && draft()) {
               <div no-data class="flex-middle empty-state">
-                <i class="al-icon al-ico-reports xxl"></i>
+                <mat-icon fontSet="al" fontIcon="al-ico-reports" class="al-icon xxl"></mat-icon>
                 <div class="no-data-title">There's nothing here yet…</div>
                 <button mat-flat-button data-id="editReportButton" (click)="editor.editClicked()">
                   <span>Start editing the report</span>

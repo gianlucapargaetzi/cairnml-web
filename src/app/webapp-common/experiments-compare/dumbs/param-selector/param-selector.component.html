@@ -23,7 +23,7 @@
         <div class="selected-parameter">
           @let cleanName = selectedItemsListMapper()(hyperParam);
           <span class="ellipsis parameter-name" smShowTooltipIfEllipsis [smTooltip]="cleanName">{{ cleanName }}</span>
-          <i class="al-icon sm al-ico-dialog-x pointer" (click)="removeHyperParam(hyperParam)"></i></div>
+          <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" aria-label="Remove parameter" aria-hidden="false" (click)="removeHyperParam(hyperParam)"></mat-icon></div>
       }
     </div>
   } @else {

@@ -15,7 +15,7 @@
       <span>{{ data.dialogTitle || title() }}</span>
       <sm-tag-list [tags]="chart()?.tags"></sm-tag-list>
     </div>
-    <input #fakeInput name="Don't remove - it take the autofocus from slider" style="opacity: 0; height: 0; width: 0">
+    <input class="focus-trap" #fakeInput name="Don't remove - it take the autofocus from slider">
     @if (!disableNavigation) {
       <div class="viewer-iteration">
         @if (minMaxIterations(); as minMaxIterations) {

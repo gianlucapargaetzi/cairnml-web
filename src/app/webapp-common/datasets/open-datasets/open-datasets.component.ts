@@ -1,3 +1,4 @@
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {Component, OnInit, signal} from '@angular/core';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
@@ -31,6 +32,7 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   imports: [
     PageHeaderComponent,
     DatasetEmptyComponent,
+    EmptyStateComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,
     ButtonToggleComponent,

@@ -23,14 +23,14 @@
 
 ::ng-deep .light-theme {
   .mat-pseudo-checkbox {
-    display: none !important;
+    display: none;
   }
 
   .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
-    background: none !important;
+    background: none;
 
     .mdc-list-item__primary-text {
-      color: inherit !important;
+      color: inherit;
     }
   }
 }
@@ -43,10 +43,10 @@
 
 mat-option {
   height: 42px;
-  padding: 0 !important;
+  padding: 0;
   ::ng-deep {
     .mdc-list-item__content {
-      padding: 0 !important;
+      padding: 0;
     }
     .mdc-list-item__primary-text {
       width: 100%;

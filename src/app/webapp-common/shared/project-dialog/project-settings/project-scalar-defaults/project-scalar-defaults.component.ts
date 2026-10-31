@@ -26,6 +26,7 @@ import {
 } from '@common/shared/ui-components/data/selectable-grouped-filter-list/selectable-grouped-filter-list.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
+import {MatIconModule} from '@angular/material/icon';
 
 /** The default scalar view of a project: smoothing, x-axis, grouping and which metrics are shown by default. */
 @Component({
@@ -33,7 +34,8 @@ import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings
   templateUrl: './project-scalar-defaults.component.html',
   styleUrls: ['./project-scalar-defaults.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GraphSettingsBarComponent, SelectableGroupedFilterListComponent, TooltipDirective]
+  imports: [
+    MatIconModule,GraphSettingsBarComponent, SelectableGroupedFilterListComponent, TooltipDirective]
 })
 export class ProjectScalarDefaultsComponent {
   private store = inject(Store);

@@ -77,6 +77,7 @@ import {ReplaceViaMapPipe} from '@common/shared/pipes/replaceViaMap';
 import {DurationPipe} from '@common/shared/pipes/duration.pipe';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {FilterPipe} from '@common/shared/pipes/filter.pipe';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-experiments-table',
@@ -88,6 +89,7 @@ import {FilterPipe} from '@common/shared/pipes/filter.pipe';
     useValue: {showDelay: 500, position: 'above'} as MatTooltipDefaultOptions,
   }],
   imports: [
+    MatIconModule,
     TooltipDirective,
     NgTemplateOutlet,
     TableCardComponent,

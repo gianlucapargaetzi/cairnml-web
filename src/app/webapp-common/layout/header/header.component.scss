@@ -1,7 +1,7 @@
 @use "../../layout/layout";
 
-::ng-deep.mat-mdc-menu-panel.search-menu {
-  max-width: fit-content !important;
+::ng-deep.mat-mdc-menu-panel.mat-mdc-menu-panel.search-menu {
+  max-width: fit-content;
 }
 :host {
   display: block;

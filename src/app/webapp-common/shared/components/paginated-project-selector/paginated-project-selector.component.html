@@ -41,7 +41,7 @@
       }
       <sm-dots-load-more smClickStopPropagation [class.hidden]="!projects()?.length || noMoreOptions()" [loading]="loading()" (loadMore)="loadMoreEntities(data())"></sm-dots-load-more>
       <!-- Empty mat-option, so the autocomplete menu will always pop -->
-      <mat-option disabled style="height: 0; min-height: 0; padding:0"></mat-option>
+      <mat-option class="option-spacer" disabled></mat-option>
     </mat-autocomplete>
   </mat-form-field>
 

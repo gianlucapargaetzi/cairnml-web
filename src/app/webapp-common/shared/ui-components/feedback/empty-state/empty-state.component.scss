@@ -1,6 +1,7 @@
 :host {
   display: flex;
   justify-content: center;
+  grid-column: 1 / -1;
   width: 100%;
   padding: var(--space-6, 32px) var(--space-5, 24px);
 }
