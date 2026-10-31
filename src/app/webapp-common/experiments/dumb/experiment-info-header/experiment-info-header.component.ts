@@ -49,12 +49,14 @@ import {
   ExperimentInfoEditDescriptionComponent
 } from '@common/experiments/dumb/experiment-info-edit-description/experiment-info-edit-description.component';
 import {MatIconModule} from '@angular/material/icon';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
   selector: 'sm-experiment-info-header',
   templateUrl: './experiment-info-header.component.html',
   styleUrls: ['./experiment-info-header.component.scss'],
   imports: [
+    PageHeaderComponent,
     ExperimentTypeIconLabelComponent,
     TagsMenuComponent,
     MatMenu,

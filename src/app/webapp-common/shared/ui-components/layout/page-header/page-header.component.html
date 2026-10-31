@@ -1,7 +1,10 @@
 <header class="sm-page-header">
   <div class="title-row">
     <ng-content select="[back]"></ng-content>
-    <h1 class="title">{{ title() }}</h1>
+    <h1 class="title">
+      <ng-content select="[title-edit]"></ng-content>
+      {{ title() }}
+    </h1>
     <ng-content select="[status]"></ng-content>
   </div>
   @if (description()) {
