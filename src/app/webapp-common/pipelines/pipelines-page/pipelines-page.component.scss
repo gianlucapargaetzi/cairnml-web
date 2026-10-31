@@ -1,5 +1,4 @@
 @use "variables";
-@use "mixins/empty";
 
 :host {
   display: block;
@@ -13,6 +12,10 @@
     }
   }
 
+  sm-empty-state {
+    grid-column: 1 / -1;
+  }
+
   sm-projects-header {
     height: variables.$nav-bar-height;
     grid-column: 1 / -1;
@@ -23,6 +26,4 @@
     margin-bottom: -12px;
   }
 
-
-  @include empty.empty-card-mixin();
 }

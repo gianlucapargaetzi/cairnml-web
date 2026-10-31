@@ -57,13 +57,10 @@
           </div>
 
           @if (existingPipelineWarning()) {
-            <div class="warning-message">
-              <mat-icon fontSet="al" fontIcon="al-ico-alert" class="sm"></mat-icon>
-              <div>
-                <b>{{ form.controls.project.value }}</b> project already contains a <b>{{ form.controls.pipelineName.value }}</b> pipeline.
-                Clicking <b>Run</b> will create a new run in that pipeline, based on this run's structure and parameters.
-              </div>
-            </div>
+            <sm-inline-alert severity="warning">
+              <b>{{ form.controls.project.value }}</b> project already contains a <b>{{ form.controls.pipelineName.value }}</b> pipeline.
+              Clicking <b>Run</b> will create a new run in that pipeline, based on this run's structure and parameters.
+            </sm-inline-alert>
           }
         </div>
       </div>

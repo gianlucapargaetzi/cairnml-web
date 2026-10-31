@@ -78,8 +78,7 @@
                         (click)="toggleEllipsis(); $event.stopPropagation()"></i>
                       </pre>
                       @if (node.data.tooltip) {
-                        <i class="al-icon sm al-ico-description node-icon"
-                        customClass="hyper-parameters-tooltip" [smTooltip]="node.data.tooltip"></i>
+                        <mat-icon fontSet="al" fontIcon="al-ico-description" class="al-icon sm node-icon" customClass="hyper-parameters-tooltip" [smTooltip]="node.data.tooltip"></mat-icon>
                       }
                     </div>
                   }

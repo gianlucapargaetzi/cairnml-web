@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 
 :host {
   .modal-container {
@@ -89,7 +90,7 @@
 
   .graph-container {
     padding-top: 16px;
-    @media (max-width: 1740px) {
+    @include bp.down(bp.$bp-xl) {
       padding-top: 24px;
     }
 
@@ -140,7 +141,7 @@
     .smooth-options .label-text {
       padding-right: 16px;
     }
-    @media (max-width: 1740px) {
+    @include bp.down(bp.$bp-xl) {
       top: 64px;
       padding: 0 24px;
 
@@ -158,7 +159,7 @@
 
   .field {
     align-items: center;
-    @media (max-width: 1740px) {
+    @include bp.down(bp.$bp-xl) {
       align-items: unset;
       flex-direction: column;
       .label-text {

@@ -31,6 +31,7 @@ import {
 } from '~/business-logic/model/organization/organizationGetProjectWorkloadsResponse';
 import {Workloads} from '~/business-logic/model/organization/workloads';
 import {PeriodSelectorComponent} from '@common/shared/components/period-selector/period-selector.component';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 
 @Component({
   selector: 'sm-workloads-page',
@@ -38,6 +39,7 @@ import {PeriodSelectorComponent} from '@common/shared/components/period-selector
   styleUrl: './workloads-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    EmptyStateComponent,
     MatSelectModule,
     ReactiveFormsModule,
     LineChartComponent,

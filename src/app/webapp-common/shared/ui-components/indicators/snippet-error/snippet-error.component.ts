@@ -9,6 +9,7 @@ import {
   ShowTooltipIfEllipsisDirective
 } from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {MESSAGES_SEVERITY} from '@common/constants';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'sm-snippet-error',
@@ -16,6 +17,7 @@ import {MESSAGES_SEVERITY} from '@common/constants';
   styleUrls: ['./snippet-error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatIconModule,
     ClipboardModule,
     TooltipDirective,
     ShowTooltipIfEllipsisDirective,

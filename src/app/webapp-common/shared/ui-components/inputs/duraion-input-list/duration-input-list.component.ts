@@ -17,6 +17,7 @@ import {
 } from '@common/shared/ui-components/directives/keydown-stop-propagation.directive';
 
 import {trackByIndex} from '@common/shared/utils/forms-track-by';
+import {MatIconModule} from '@angular/material/icon';
 
 export type DURATION_INPUT_TYPE = 'hours' | 'seconds' | 'ms' | 'days' | 'minutes';
 
@@ -77,6 +78,7 @@ export function durationInputFactory(values: (DURATION_INPUT_TYPE | DurationInpu
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         TooltipDirective,
         FormsModule,
         MatInputModule,

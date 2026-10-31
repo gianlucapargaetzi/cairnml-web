@@ -15,6 +15,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {take} from 'rxjs/operators';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-storage-credentials',
@@ -22,6 +23,7 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
     styleUrl: './storage-credentials.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         MatFormFieldModule,
         MatCheckboxModule,
         MatInputModule,

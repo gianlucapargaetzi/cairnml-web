@@ -20,12 +20,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 
 @Component({
   selector: 'sm-open-datasets',
   templateUrl: './open-datasets.component.html',
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
+    EmptyStateComponent,
     DatasetEmptyComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,

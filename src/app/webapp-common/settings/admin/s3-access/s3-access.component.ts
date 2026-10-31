@@ -10,6 +10,7 @@ import {MatFormField, MatInput} from '@angular/material/input';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-s3-access',
@@ -17,6 +18,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions} from '@angul
     styleUrls: ['./s3-access.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         ReactiveFormsModule,
         TooltipDirective,
         MatInput,

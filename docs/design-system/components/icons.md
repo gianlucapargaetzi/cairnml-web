@@ -7,7 +7,7 @@ One icon set: the custom **`al` icon font** (`webapp-common/assets/fonts/trains.
 | Markup | Count | Status |
 |---|---|---|
 | `<mat-icon fontSet="al" fontIcon="al-ico-NAME">` | 372 | **Standard** |
-| `<i class="al-icon al-ico-NAME sm-md">` | 82 | Allowed only where the icon is inline in text (legacy); do not use in new buttons or menus |
+| `<i class="al-icon al-ico-NAME">` | about 30 | Legacy. Glyph icons with size `sm`, `sm-md` or `xl` were converted to the standard markup (`mat-icon` keeps the `al-icon` class for its size rules). Remaining: `xs`, `msm`, `md`, `lg`, `xxl`, `xxxl` sizes and brand images (`i-*`), which have no matching `mat-icon` size yet |
 | `<a class="item al-ico-NAME">` (side nav) | 5 | Exception for the side nav; needs `aria-label` |
 | Plain Material ligature icons (`<mat-icon>name</mat-icon>`) | 0 | Do not introduce |
 | Font Awesome / PrimeIcons / Bootstrap Icons | 1 stray | Do not use |

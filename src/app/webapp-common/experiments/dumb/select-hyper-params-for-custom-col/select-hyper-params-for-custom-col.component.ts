@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {GroupedCheckedFilterListComponent, HyperParams} from '@common/shared/ui-components/data/grouped-checked-filter-list/grouped-checked-filter-list.component';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'sm-select-hyper-params-for-custom-col',
@@ -8,6 +9,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
     styleUrls: ['./select-hyper-params-for-custom-col.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         GroupedCheckedFilterListComponent,
         ClickStopPropagationDirective
     ]

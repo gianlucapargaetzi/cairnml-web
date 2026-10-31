@@ -1,3 +1,4 @@
+@use "mixins/breakpoints" as bp;
 :host {
   display: block;
   height: inherit;
@@ -38,7 +39,7 @@
       margin-right: 0;
     }
 
-    @media(max-width: 1200px) {
+    @include bp.down(bp.$bp-lg) {
       grid-template-columns: 0 1fr 200px;
     }
   }

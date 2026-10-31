@@ -37,7 +37,7 @@
     @for (selectedMetricVariant of selectedMetricVariants; track $index) {
       <div class="multi-selected-parameter" smShowTooltipIfEllipsis [smTooltip]="(selectedMetricVariant |metricVariantToName) + ' ' + (MetricValueTypeStrings[selectedMetricVariant?.valueType] ?? '')">
         <span class="multi-selected-parameter-name ellipsis">{{ selectedMetricVariant |metricVariantToName }} {{ (MetricValueTypeStrings[selectedMetricVariant?.valueType] ?? '') }}</span>
-        <i class="al-icon sm al-ico-dialog-x pointer" (click)="removeMetric.emit(selectedMetricVariant)"></i></div>
+        <mat-icon fontSet="al" fontIcon="al-ico-dialog-x" class="al-icon sm pointer" (click)="removeMetric.emit(selectedMetricVariant)"></mat-icon></div>
     }
   } @else {
     <div class="no-data">No metrics selected</div>

@@ -7,6 +7,7 @@ import {ArrayIncludedInArrayPipe} from '@common/shared/pipes/array-starts-with-i
 import {StringIncludedInArrayPipe} from '@common/shared/pipes/string-included-in-array.pipe';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 
 interface GroupItem {
@@ -27,6 +28,7 @@ interface GroupItem {
     styleUrls: ['./grouped-selectable-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+    MatIconModule,
         TooltipDirective,
         ShowTooltipIfEllipsisDirective,
         MatTreeModule,
