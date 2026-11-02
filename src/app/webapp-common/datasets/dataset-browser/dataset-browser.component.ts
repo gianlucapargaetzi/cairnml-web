@@ -18,6 +18,7 @@ import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
+import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {
   DatasetGroup,
   groupDatasetRuns,
@@ -226,7 +227,7 @@ export class DatasetBrowserComponent {
     const laneWidth = 24;
     const left = 16;
     const top = 24;
-    const palette = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+    const palette = presetColors;
     const active: string[] = [];
     const laneColor: string[] = [];
     let branches = 0;
