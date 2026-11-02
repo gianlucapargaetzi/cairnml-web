@@ -1,0 +1,66 @@
+<sm-dialog-template iconClass="al-ico-datasets" header="New dataset">
+  <mat-tab-group [(selectedIndex)]="topTab" animationDuration="0ms" class="top-tabs">
+    <mat-tab label="Local / custom dataset">
+      <div class="tab-body">
+        <p class="text">
+          Track a dataset that lives on your host or behind your own storage. The dataset is versioned in a Git
+          repository, its files are kept in DVC storage or in Git LFS, and every run records the commit it used.
+          Local and closed datasets stay private to you and your server.
+        </p>
+
+        <sm-section-header label="DVC"></sm-section-header>
+        <p class="text">The files go to DVC storage. This is the default.</p>
+        <sm-code-editor [code]="dvcCode" [readonly]="true" mode="sh" [showCopyButton]="true"
+          [style.height.px]="height(dvcCode)"></sm-code-editor>
+
+        <sm-section-header label="Git LFS"></sm-section-header>
+        <p class="text">The files go into the Git LFS storage of the repository.</p>
+        <sm-code-editor [code]="lfsCode" [readonly]="true" mode="sh" [showCopyButton]="true"
+          [style.height.px]="height(lfsCode)"></sm-code-editor>
+
+        <sm-section-header label="Use it in a run"></sm-section-header>
+        <p class="text">Fetch a dataset by its repository and commit inside a task. The folder holds the files of that commit.</p>
+        <sm-code-editor [code]="useLocalCode" [readonly]="true" mode="python" [showCopyButton]="true"
+          [style.height.px]="height(useLocalCode)"></sm-code-editor>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Web dataset">
+      <div class="tab-body">
+        <p class="text">
+          Manage web datasets in the dataset registry. A registry entry does not copy the data. It names the web
+          address of each file, a checksum, and an adapter that reads the files into the CairnML format. Entries are
+          added through a pull request to the registry.
+        </p>
+
+        <sm-section-header label="Add an entry"></sm-section-header>
+        <sm-code-editor [code]="registryCode" [readonly]="true" mode="sh" [showCopyButton]="true"
+          [style.height.px]="height(registryCode)"></sm-code-editor>
+        <p class="text">The entry, datasets/cars-web.yaml:</p>
+        <sm-code-editor [code]="entryYaml" [readonly]="true" mode="yaml" [showCopyButton]="true"
+          [style.height.px]="height(entryYaml)"></sm-code-editor>
+
+        <sm-section-header label="Use it in a run"></sm-section-header>
+        <sm-code-editor [code]="useWebCode" [readonly]="true" mode="python" [showCopyButton]="true"
+          [style.height.px]="height(useWebCode)"></sm-code-editor>
+      </div>
+    </mat-tab>
+    <mat-tab label="Use a dataset">
+      <div class="tab-body">
+        <p class="text">
+          A training script fetches the dataset inside the task, so the run records the dataset and the commit it used.
+          The folder that <code>data.path</code> points to holds the files of that commit.
+        </p>
+
+        <sm-section-header label="Training script"></sm-section-header>
+        <sm-code-editor [code]="trainingCode" [readonly]="true" mode="python" [showCopyButton]="true"
+          [style.height.px]="height(trainingCode)"></sm-code-editor>
+
+        <p class="text">
+          The column names and the file names come from your dataset. The commit, the dataset and its content hash are
+          listed under the task's configuration.
+        </p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</sm-dialog-template>

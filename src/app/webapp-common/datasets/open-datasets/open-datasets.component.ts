@@ -11,6 +11,7 @@ import {showExampleDatasets} from '../../projects/common-projects.actions';
 import {selectShowDatasetExamples} from '../../projects/common-projects.reducer';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {DatasetEmptyComponent} from '@common/datasets/dataset-empty/dataset-empty.component';
+import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
 import {withLatestFrom} from 'rxjs/operators';
 import {selectDefaultNestedModeForFeature} from '@common/core/reducers/projects.reducer';
 import {DotsLoadMoreComponent} from '@common/shared/ui-components/indicators/dots-load-more/dots-load-more.component';
@@ -22,7 +23,7 @@ import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
 import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
-import {DatasetGitListComponent} from '@common/datasets/dataset-git/dataset-git-list.component';
+import {DatasetBrowserComponent} from '@common/datasets/dataset-browser/dataset-browser.component';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
 @Component({
@@ -42,7 +43,7 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
     MatButton,
     PushPipe,
     DatasetModelPanelComponent,
-    DatasetGitListComponent
+    DatasetBrowserComponent
   ]
 })
 export class OpenDatasetsComponent extends PipelinesPageComponent implements OnInit {
@@ -66,7 +67,7 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
   }
 
   createDataset() {
-    this.dialog.open(DatasetEmptyComponent, {
+    this.dialog.open(DatasetHowToComponent, {
       panelClass: 'dialog-xxl'
     });
   }
