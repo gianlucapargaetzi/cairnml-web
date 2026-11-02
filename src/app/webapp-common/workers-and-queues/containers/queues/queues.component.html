@@ -1,12 +1,10 @@
 <sm-queue-stats [queue]="queueId()" [caption]="queueId() && selectedQueue()?.caption"></sm-queue-stats>
 <div class="queues-header">
   <sm-common-search [searchActive]="true"></sm-common-search>
-  @if (queuesManager()) {
-    <button mat-flat-button (click)="addQueue()">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-      New queue
-    </button>
-  }
+  <button mat-flat-button (click)="addQueue()" data-id="createQueueButton">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    Create queue
+  </button>
 <!--  <sm-refresh-button (setAutoRefresh)="setAutoRefresh($event)"></sm-refresh-button>-->
 </div>
 <as-split
@@ -22,7 +20,10 @@
       [tableSortFields]="tableSortFields()"
       [short]="!(shortScreen$ | ngrxPush)"
       [errorMessage]="queuesError()"
+      [searching]="searching()"
       (retry)="retryLoadQueues()"
+      (createQueue)="addQueue()"
+      (clearSearch)="clearSearch()"
       (sortedChanged)="sortedChanged($any($event))"
       (deleteQueue)="deleteQueue($any($event))"
       (renameQueue)="renameQueue($any($event))"

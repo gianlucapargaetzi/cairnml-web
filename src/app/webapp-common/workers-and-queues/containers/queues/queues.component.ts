@@ -1,4 +1,3 @@
-import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
 import {ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject} from '@angular/core';
 import {Task} from '~/business-logic/model/tasks/task';
 import {Store} from '@ngrx/store';
@@ -68,10 +67,10 @@ export class QueuesComponent {
   protected tableSortFields = this.store.selectSignal(selectQueuesTableSortFields);
   private searchQuery = this.store.selectSignal(selectSearchQuery);
   protected filteredData = computed(() => !this.searchQuery()?.query ? this.queues() : this.filteredQueues());
+  protected searching = computed(() => !!this.searchQuery()?.query);
 
   protected shortScreen$ = this.breakpointObserver.observe(['(max-height: 750px)'])
     .pipe(map(res => res.matches));
-  protected queuesManager = this.store.selectSignal(selectCanManageQueues);
   protected queuesError = this.store.selectSignal(selectQueuesError);
 
   constructor() {
@@ -108,6 +107,16 @@ export class QueuesComponent {
       relativeTo: this.route,
       queryParams: {id},
       queryParamsHandling: 'merge'
+    });
+  }
+
+  // The search lives in the URL (q), so clearing it is a navigation
+  clearSearch() {
+    return this.router.navigate([], {
+      relativeTo: this.route,
+      replaceUrl: true,
+      queryParamsHandling: 'merge',
+      queryParams: {q: undefined}
     });
   }
 
@@ -166,9 +175,10 @@ export class QueuesComponent {
     this.store.dispatch(queueActions.moveExperimentInQueue({queueId: this.queueId(), task, current, previous}));
   }
 
+  // Every company user can create a queue and becomes its owner
   addQueue() {
     this.dialog.open<QueueCreateDialogComponent, unknown, boolean>(QueueCreateDialogComponent, {
-        panelClass: 'dialog-sm'
+        panelClass: 'dialog-md'
       }).afterClosed()
       .pipe(
         filter(queue => !!queue),

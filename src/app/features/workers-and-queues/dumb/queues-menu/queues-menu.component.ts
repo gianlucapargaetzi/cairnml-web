@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, output} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
+import {selectCanManageQueue} from '@common/core/reducers/users-reducer';
 import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {BaseContextMenuComponent} from '@common/shared/components/base-context-menu/base-context-menu.component';
 import {MenuItemComponent} from '@common/shared/ui-components/panel/menu-item/menu-item.component';
@@ -27,5 +27,7 @@ export class QueuesMenuComponent extends BaseContextMenuComponent {
   renameQueue = output<Queue>();
   clearQueue = output<Queue>();
   protected readonly icons = ICONS;
-  protected queuesManager = inject(Store).selectSignal(selectCanManageQueues);
+  // Owner and admins only: the menu is not opened for other users (see QueuesTableComponent)
+  private canManageQueue = inject(Store).selectSignal(selectCanManageQueue);
+  protected canManage = computed(() => this.canManageQueue()(this.selectedQueue()));
 }

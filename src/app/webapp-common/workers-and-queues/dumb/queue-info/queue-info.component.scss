@@ -16,6 +16,11 @@
     overflow: auto;
   }
 
+  .queue-details {
+    padding: 0 var(--space-4);
+    flex-shrink: 0;
+  }
+
   .experiments-table .body {
     height: 100%;
     display: grid;

@@ -55,6 +55,7 @@ Do not explain the interface with long paragraphs on working pages. Do not requi
 | Filter/search | Toolbar above the list; state kept in the URL/store; "Clear filters" |
 | Archive/restore | Same placement and wording as delete, no confirmation needed for archive |
 | Enqueue | Dialog with a queue picker (restored in the recent commits), result toast naming the queue, status updates to Queued |
+| Owner-scoped actions | An entity has an owner (its creator). Owner and admins see its change, delete, grant and metadata controls; other users see a read-only view with those controls hidden, not disabled. A row menu that would have no items does not open. Entities without an owner are managed by admins only |
 
 ## 8.6 Long-running operations (tasks, agents, endpoints)
 

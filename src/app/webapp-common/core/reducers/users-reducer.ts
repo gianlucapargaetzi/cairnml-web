@@ -44,8 +44,12 @@ export const selectSettings = createSelector(users, (state) => state?.settings);
 export const selectMaxDownloadItems = createSelector(selectSettings, (state): number => state?.max_download_items ?? 1000);
 export const selectCurrentUser = createSelector(users, state => state.currentUser);
 export const selectIsAdmin = createSelector(users, state => state.currentUser?.role === RoleEnum.Admin);
-// Queues are managed by company admins (and the root admin): the server refuses the same operations for everyone else
-export const selectCanManageQueues = createSelector(users, state => state.currentUser?.role === RoleEnum.Admin || state.currentUser?.role === 'root');
+export const selectCurrentUserId = createSelector(selectCurrentUser, user => user?.id ?? null);
+// Company admins (and the root admin) manage every queue
+export const selectIsQueueAdmin = createSelector(users, state => state.currentUser?.role === RoleEnum.Admin || state.currentUser?.role === 'root');
+// A queue can be changed by its owner (the user who created it) and by admins. Queues without an owner are admin-managed.
+export const selectCanManageQueue = createSelector(selectIsQueueAdmin, selectCurrentUserId,
+  (isAdmin, userId) => (queue: {created_by?: string | null}): boolean => isAdmin || (!!userId && queue?.created_by === userId));
 export const selectActiveWorkspace = createSelector(users, state => state?.activeWorkspace);
 export const selectActiveWorkspaceTier = createSelector(selectActiveWorkspace, workspace => workspace?.tier);
 export const selectUserWorkspaces = createSelector(users, state => state.userWorkspaces);

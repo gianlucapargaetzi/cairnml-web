@@ -34,6 +34,7 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 - **Loading** (first load): spinner centered in the table area, header stays. Background refresh: no spinner, subtle updated timestamp ([ux](../08-ux-guidelines.md)).
   `sm-table` shows a 24px spinner while it has no rows yet (`tableSate().loading()`).
 - **Empty:** `table-empty-message` mixin text centered (14px, `--color-empty-state`); one sentence plus the action to create the first item when the user can ("No tasks yet. Create one with the SDK" + link to setup help). When filters hide everything: "No tasks match the filters" + "Clear filters".
+- **Empty with a create action (queues):** when the list is empty (not loading), `sm-empty-state` replaces the table body and the table is hidden, so no row height constrains it. Title "No queues yet", one sentence, `Create queue` as the primary button. The search variant is "No queues match the search" + "Clear search". `sm-table`'s `noDataTemplate` is not used for this: it renders inside a fixed-height row and clips the action.
 - **Error:** inline message in the table area with "Retry"; keep the toolbar. `sm-table` takes `errorMessage` (shown instead of the empty text) and emits `retry` when Retry is pressed. The empty text is `emptyMessage` (default "No data to show").
 
 ## Exceptions (documented)

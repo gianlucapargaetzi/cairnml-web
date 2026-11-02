@@ -1,6 +1,8 @@
 import {
   ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   HostListener,
   input,
   output,
@@ -26,8 +28,13 @@ import {MatIconButton} from '@angular/material/button';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
 import {Store} from '@ngrx/store';
-import {selectCanManageQueues} from '@common/core/reducers/users-reducer';
+import {selectCanManageQueue} from '@common/core/reducers/users-reducer';
 import {QueueUsersComponent} from '../queue-users/queue-users.component';
+import {QueueProjectsComponent} from '../queue-projects/queue-projects.component';
+import {LabeledRowComponent} from '@common/shared/ui-components/data/labeled-row/labeled-row.component';
+import {ApiUsersService} from '~/business-logic/api-services/users.service';
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'sm-queue-info',
@@ -44,6 +51,8 @@ import {QueueUsersComponent} from '../queue-users/queue-users.component';
     TooltipDirective,
     MatIconButton,
     QueueUsersComponent,
+    QueueProjectsComponent,
+    LabeledRowComponent,
     MatTab,
     MatTabGroup
   ]
@@ -52,7 +61,17 @@ export class QueueInfoComponent {
   private changeDetector = inject(ChangeDetectorRef);
   private blTaskService = inject(BlTasksService);
   private dialog = inject(MatDialog);
-  protected canManageQueues = inject(Store).selectSignal(selectCanManageQueues);
+  private usersApi = inject(ApiUsersService);
+  private canManageQueue = inject(Store).selectSignal(selectCanManageQueue);
+  private userNames = signal<Map<string, string>>(new Map());
+  private userNamesRequested = false;
+  // Owner and admins see the grants and change the tasks of the queue; other users get a read-only view
+  protected canManage = computed(() => this.canManageQueue()(this.selectedQueue()));
+  // A queue without an owner was created before ownership existed and is managed by the admins
+  protected ownerName = computed(() => {
+    const owner = this.selectedQueue()?.created_by;
+    return owner ? this.userNames().get(owner) ?? owner : 'Admins';
+  });
 
   selectedQueue = input<Queue>();
   queues = input<Queue[]>();
@@ -74,6 +93,21 @@ export class QueueInfoComponent {
     {header: '', class: ''},
     {header: '', class: ''}
   ];
+  constructor() {
+    effect(() => {
+      if (this.selectedQueue()?.created_by && !this.userNamesRequested) {
+        this.userNamesRequested = true;
+        this.usersApi.usersGetAllEx({only_fields: ['id', 'name']})
+          .pipe(catchError(() => of(null)))
+          .subscribe(res => {
+            if (res) {
+              this.userNames.set(new Map((res.users ?? []).map(u => [u.id, u.name])));
+            }
+          });
+      }
+    });
+  }
+
   public readonly workersCols = [
     {header: 'Name', class: ''},
     {header: 'IP', class: ''},

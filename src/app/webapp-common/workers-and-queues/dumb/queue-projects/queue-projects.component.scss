@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  padding: var(--space-4);
+}
+
+.loading {
+  margin: var(--space-4) auto;
+}
+
+.projects-error {
+  color: var(--color-error);
+  font-size: 12px;
+}
+
+.empty {
+  color: var(--color-empty-state);
+  text-align: center;
+  padding: var(--space-5) 0;
+}
+
+.projects-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--row-border-color);
+  }
+}
