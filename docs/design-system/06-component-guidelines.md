@@ -35,6 +35,9 @@ Use this table first. Detailed rules are in `components/`. "Std" = the component
 | Empty list | empty-state mixin (`empty-card-mixin` / `table-empty-message`) | blank area | [feedback](components/feedback.md) |
 | Choose a date / duration | Material date adapter / `sm-duration-input` | free text | |
 | Edit code / JSON | `sm-code-editor` / `edit-json` dialog | textarea | |
+| Show code the user copies (commands, snippets) | `sm-code-editor`, read-only, `[showCopyButton]="true"`, height from its content | a scrollable box or a `<pre>` | [dialogs](components/dialogs.md) |
+| Show read-only markdown (a description, DATASET.md) | rendered with the page tokens; code blocks as `sm-code-editor` | the markdown editor (it has its own toolbar and a light preview box) | [dialogs](components/dialogs.md) |
+| Show a list and the details of the selected item | list-and-detail split view | a page per item | [list pages](patterns/list-pages.md) |
 
 ## Component libraries in use
 
