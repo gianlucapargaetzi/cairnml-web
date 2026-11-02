@@ -4,6 +4,7 @@ import * as createQueueSelectors from './queue-create-dialog.reducer';
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
+import {selectCanManageQueue} from '@common/core/reducers/users-reducer';
 import {CREATION_STATUS} from './queue-create-dialog.reducer';
 import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
@@ -29,6 +30,9 @@ export class QueueCreateDialogComponent {
   private readonly destroy = inject(DestroyRef);
 
   queues = this.store.selectSignal(createQueueSelectors.selectQueues);
+  private canManageQueue = this.store.selectSignal(selectCanManageQueue);
+  // The public flag is set by the creator (on create) and by the owner or an admin (on update); other users may not set it
+  protected canSetPublic = () => !this.queue.id || this.canManageQueue()(this.queue);
   public queue     = {name: null, id: null, display_name: null} as Queue;
 
   constructor() {

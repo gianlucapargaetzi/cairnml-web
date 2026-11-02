@@ -2,6 +2,12 @@
   <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
 </button>
 
+@if (selectedQueue()?.id) {
+  <div class="queue-details">
+    <sm-labeled-row label="Owner" data-id="queueOwner">{{ ownerName() }}</sm-labeled-row>
+  </div>
+}
+
 <mat-tab-group [mat-stretch-tabs]="false" mat-align-tabs="center" class="h-100">
   <mat-tab label="Tasks" class="tab-link">
     @if (selectedQueue()?.entries?.length === 0) {
@@ -11,21 +17,27 @@
       <sm-simple-table-2
         [cols]="experimentsCols"
         [rowsData]="selectedQueue()?.entries"
-        [enableDragAndDrop]="true"
+        [enableDragAndDrop]="canManage()"
         noDataMessage=" "
         (entryDropped)="experimentDropped($event)"
         class="experiments-table"
       >
         <ng-template let-i="rowIndex" let-row="row">
           <div class="body">
-            <mat-icon fontSet="al" fontIcon="al-ico-drag"></mat-icon>
+            @if (canManage()) {
+              <mat-icon fontSet="al" fontIcon="al-ico-drag"></mat-icon>
+            } @else {
+              <span></span>
+            }
             <div>{{i + 1}}</div>
             <a class="ellipsis" [smTooltip]="row?.task?.name" smShowTooltipIfEllipsis [matTooltipShowDelay]="500"
                [routerLink]="['/projects', ((row?.task?.project?.id) ? row?.task?.project?.id : '*'), 'tasks', row?.task?.id]"
             >{{row?.task?.name}}</a>
-            <button aria-label="Queue actions" class="menu" mat-icon-button (click)="openContextMenu($event, row?.task)">
-              <mat-icon fontSet="al" fontIcon="al-ico-dots-v-menu"></mat-icon>
-            </button>
+            @if (canManage()) {
+              <button aria-label="Queue actions" class="menu" mat-icon-button (click)="openContextMenu($event, row?.task)">
+                <mat-icon fontSet="al" fontIcon="al-ico-dots-v-menu"></mat-icon>
+              </button>
+            }
           </div>
         </ng-template>
       </sm-simple-table-2>
@@ -57,14 +69,19 @@
       </sm-simple-table-2>
     }
   </mat-tab>
-  @if (canManageQueues() && selectedQueue()?.id) {
+  @if (selectedQueue()?.id) {
+    <mat-tab label="Projects" class="tab-link">
+      <sm-queue-projects [queueId]="selectedQueue().id"></sm-queue-projects>
+    </mat-tab>
+  }
+  @if (canManage() && selectedQueue()?.id) {
     <mat-tab label="Users" class="tab-link">
       <sm-queue-users [queueId]="selectedQueue().id"></sm-queue-users>
     </mat-tab>
   }
 </mat-tab-group>
 
-@if (menuOpen()) {
+@if (menuOpen() && canManage()) {
   <sm-menu
   smMenuClass="experiments-in-queue-list"
   panelClasses="dark"

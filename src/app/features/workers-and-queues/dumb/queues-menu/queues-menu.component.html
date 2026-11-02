@@ -6,7 +6,7 @@
     [showOverlay]="false"
     [openOnInit]="true"
   >
-    @if (queuesManager()) {
+    @if (canManage()) {
       <sm-menu-item
         itemLabel="Delete"
         [disabled]="selectedQueue()?.entries_count > 0"
@@ -17,11 +17,11 @@
         [disabled]="!!selectedQueue().profile_connection"
         (itemClicked)="renameQueue.emit(selectedQueue())"
       ></sm-menu-item>
+      <sm-menu-item
+        itemLabel="Clear"
+        (itemClicked)="clearQueue.emit(selectedQueue())"
+        [disabled]="selectedQueue()?.entries_count === 0"
+      ></sm-menu-item>
     }
-    <sm-menu-item
-      itemLabel="Clear"
-      (itemClicked)="clearQueue.emit(selectedQueue())"
-      [disabled]="selectedQueue()?.entries_count === 0"
-    ></sm-menu-item>
   </sm-menu>
 }

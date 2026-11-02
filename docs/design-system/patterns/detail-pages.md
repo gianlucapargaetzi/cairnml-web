@@ -21,6 +21,7 @@ Tab names come from the routes of the task page (`general`, `execution`, `artifa
 - **Actions:** primary = the next logical step for the current status (Draft → "Enqueue" primary; Queued → "Dequeue" secondary; Running → "Abort" secondary, no primary; Completed/Failed → "Clone" primary). Everything else in the ⋮ menu. Destructive items last, separated by a divider, in `--color-error`.
 - **Metadata:** key-value rows with `sm-labeled-row`: label 12px secondary, value 14px; ids monospace with copy.
 - **Related resources:** links to the project, the queue, the agent, input/output models, parent task. Every id displayed as a link to its entity.
+- **Ownership (queue detail):** the first row is `Owner` (`sm-labeled-row`): the owner's name, or the id when the name is not resolved. An entity without an owner (created before ownership existed) shows "Admins". Owner-only sections (grants) are tabs that only the owner and admins see; other viewers do not see the tab at all. Allocations to projects are a tab every viewer sees.
 - **Activity/history:** operations log and status history as a tab or section, newest first, with timestamps and the user.
 - **Editing:** inline edit for name, description and tags; section edit for execution and hyper-parameters; read-only when the status forbids it (explain why in a tooltip).
 - **Tabs keep their own scroll position and are reachable by URL.**

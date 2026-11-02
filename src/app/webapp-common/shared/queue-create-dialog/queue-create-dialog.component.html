@@ -1,4 +1,4 @@
-<sm-dialog-template iconClass="al-ico-queues" [header]="queue.id ? 'Update queue' : 'New queue'">
-  <sm-create-new-queue-form (queueCreated)="createQueue($event)" [queue]="queue" [queues]="queues()">
+<sm-dialog-template iconClass="al-ico-queues" [header]="queue.id ? 'Update queue' : 'Create queue'">
+  <sm-create-new-queue-form (queueCreated)="createQueue($event)" [queue]="queue" [queues]="queues()" [canSetPublic]="canSetPublic()">
   </sm-create-new-queue-form>
 </sm-dialog-template>

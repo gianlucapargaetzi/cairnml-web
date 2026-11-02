@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input, signal} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {lastValueFrom} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import {
   AddQueueUserResult
 } from './add-queue-user-dialog/add-queue-user-dialog.component';
 
-/** The users granted access to a queue, with adding and removing them (admins only; the server refuses others). */
+/** The users granted access to a queue, with adding and removing them. Owner and admins only: the parent shows the tab to them. */
 @Component({
   selector: 'sm-queue-users',
   templateUrl: './queue-users.component.html',
@@ -24,7 +24,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButton, MatIcon, MatIconButton, DatePipe, TooltipDirective]
 })
-export class QueueUsersComponent implements OnInit {
+export class QueueUsersComponent {
   private queuesApi = inject(ApiQueuesService);
   private usersApi = inject(ApiUsersService);
   private dialog = inject(MatDialog);
@@ -36,8 +36,9 @@ export class QueueUsersComponent implements OnInit {
   protected error = signal<string>(null);
   protected busy = signal(false);
 
-  ngOnInit() {
-    this.load();
+  constructor() {
+    // reloads when the selected queue changes while the tab stays open
+    effect(() => this.load());
   }
 
   protected nameOf(user: string): string {
@@ -45,6 +46,7 @@ export class QueueUsersComponent implements OnInit {
   }
 
   protected async load() {
+    this.users.set([]);
     try {
       const res = await lastValueFrom(this.queuesApi.queuesGetUsers({queue: this.queueId()}));
       this.users.set(res.users ?? []);

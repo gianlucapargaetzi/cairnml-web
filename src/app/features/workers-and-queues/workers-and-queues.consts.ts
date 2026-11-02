@@ -5,4 +5,4 @@ export const ORCHESTRATION_ROUTES = [
   {header: 'queues', label: 'Queues', featureName: 'queues', link: 'workers-and-queues/queues'},
 ] as HeaderNavbarTabConfig[];
 
-export const queueFields = ['display_name', 'last_update', 'name', 'tags', 'workers', 'entries'];
+export const queueFields = ['created_by', 'display_name', 'last_update', 'name', 'tags', 'workers', 'entries'];

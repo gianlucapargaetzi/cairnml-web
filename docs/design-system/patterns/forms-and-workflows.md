@@ -7,6 +7,10 @@
 3. > 5 fields or follow-up work: a configuration page, then navigate to the created entity.
 4. Success: close dialog, navigate to the entity (or highlight the new row), toast only if the user stays on the list ("Queue 'gpu' created").
 
+## Fields the user may not set
+
+A field that only some users may set (for example the public flag of a queue, set by its owner and admins) is left out of the form for the others. It is not shown disabled. When the form is saved without it, the stored value is kept.
+
 ## Edit flow
 
 Inline edit for a single value (Enter saves, Esc cancels); section edit toggle for groups; page form for configuration. Always show who/when changed on detail pages when the API provides it.

@@ -1,4 +1,19 @@
 <div #tableContainer class="queues-container" [class.short]="!short()">
+  @if (showEmptyState()) {
+    @if (searching()) {
+      <sm-empty-state icon="al-ico-queues" title="No queues match the search" variant="filtered">
+        <button mat-button type="button" (click)="clearSearch.emit()" data-id="clearQueueSearch">Clear search</button>
+      </sm-empty-state>
+    } @else {
+      <sm-empty-state icon="al-ico-queues" title="No queues yet"
+        description="Create a queue to run tasks in order on the agents that serve it.">
+        <button mat-flat-button type="button" (click)="createQueue.emit()" data-id="createQueueEmptyButton">
+          <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+          Create queue
+        </button>
+      </sm-empty-state>
+    }
+  }
   <sm-queues-menu
     [menuOpen]="menuOpen()"
     [menuPosition]="menuPosition()"
@@ -10,6 +25,7 @@
     (menuClosed)="menuOpen.set(false)"
   ></sm-queues-menu>
   <sm-table
+    [class.table-hidden]="showEmptyState()"
     [tableData]="queues()"
     [columns]="cols()"
     [rowsNumber]="100"
@@ -34,6 +50,25 @@
         [column]="col"
         [sortOrder]="tableSortFieldsObject()[col.id]">
       </sm-table-filter-sort>
+    </ng-template>
+    <ng-template #noQueues>
+      @if (!errorMessage()) {
+        <td [attr.colspan]="cols().length" class="no-queues">
+          @if (searching()) {
+            <sm-empty-state icon="al-ico-queues" title="No queues match the search" variant="filtered">
+              <button mat-button type="button" (click)="clearSearch.emit()" data-id="clearQueueSearch">Clear search</button>
+            </sm-empty-state>
+          } @else {
+            <sm-empty-state icon="al-ico-queues" title="No queues yet"
+              description="Create a queue to run tasks in order on the agents that serve it.">
+              <button mat-flat-button type="button" (click)="createQueue.emit()" data-id="createQueueEmptyButton">
+                <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+                Create queue
+              </button>
+            </sm-empty-state>
+          }
+        </td>
+      }
     </ng-template>
     <ng-template let-col let-queue="rowData" pTemplate="body">
       @switch (col.id) {

@@ -27,6 +27,10 @@ import {MatMenuItem} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {QueuesMenuComponent} from '~/features/workers-and-queues/dumb/queues-menu/queues-menu.component';
+import {Store} from '@ngrx/store';
+import {selectCanManageQueue} from '@common/core/reducers/users-reducer';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {MatButton} from '@angular/material/button';
 
 
 @Component({
@@ -46,6 +50,8 @@ import {QueuesMenuComponent} from '~/features/workers-and-queues/dumb/queues-men
     ClipboardModule,
     MatMenuItem,
     TimeAgoPipe,
+    EmptyStateComponent,
+    MatButton,
   ]
 })
 export class QueuesTableComponent extends BaseTableView {
@@ -53,6 +59,9 @@ export class QueuesTableComponent extends BaseTableView {
   override selectedEntitiesKey = 'selectedQueue';
 
   private changeDetector = inject(ChangeDetectorRef);
+  protected canManageQueue = inject(Store).selectSignal(selectCanManageQueue);
+  // An empty list (not a loading one, which is null) shows the empty state in place of the table
+  protected showEmptyState = computed(() => !this.errorMessage() && this.queues()?.length === 0);
 
   protected cols = computed(() => {
     const columns = [
@@ -118,6 +127,10 @@ export class QueuesTableComponent extends BaseTableView {
         colId: ISmCol['id'];
     }>();
   copySuccess = output<string>();
+  createQueue = output();
+  clearSearch = output();
+  // true while the search box narrows the list, so the empty message can offer to clear the search instead of creating
+  searching = input(false);
 
   constructor() {
     super();
@@ -138,6 +151,10 @@ export class QueuesTableComponent extends BaseTableView {
   }
 
   openContextMenu(data: {e: MouseEvent; rowData: Queue}) {
+    // Only owners and admins have actions on a queue; for everyone else the browser menu stays
+    if (!this.canManageQueue()(data.rowData)) {
+      return;
+    }
     data.e.preventDefault();
     this.table().menu().hide()
     this.contextQueue = data.rowData;

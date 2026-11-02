@@ -43,6 +43,7 @@ export class CreateNewQueueFormComponent {
 
   queues = input<SelectQueue[]>();
   queue = input<SelectQueue>({name: null, id: null} as SelectQueue);
+  canSetPublic = input(false);
   queueCreated = output<QueueFormData>();
 
   protected queuesNames = computed(() => {
@@ -71,7 +72,9 @@ export class CreateNewQueueFormComponent {
 
   send() {
     if (this.queueForm.valid) {
-      this.queueCreated.emit(this.queueForm.value as QueueFormData);
+      // A value the user may not set is left out, so the server keeps the stored one
+      const value = this.queueForm.value as QueueFormData;
+      this.queueCreated.emit(this.canSetPublic() ? value : {...value, public: undefined});
     }
   }
 }
