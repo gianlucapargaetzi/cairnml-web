@@ -1,9 +1,9 @@
 .tab-body {
-  padding: 16px 0 8px;
+  padding: var(--space-4) 0 var(--space-2);
 }
 
 .text {
-  margin: 8px 0 12px;
+  margin: var(--space-2) 0 var(--space-3);
   color: var(--color-on-surface-variant);
   max-width: 720px;
 }
@@ -13,5 +13,5 @@ sm-code-editor {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
