@@ -3,7 +3,7 @@
 } @else if (projects() === null) {
   <mat-progress-spinner aria-label="Loading" class="loading" mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
 } @else if (projects().length === 0) {
-  <div class="empty">This queue is not allocated to any project yet. Project owners allocate queues in the project settings.</div>
+  <div class="empty">No projects are allocated to this queue. Project owners allocate queues in the project settings.</div>
 } @else {
   <ul class="projects-list">
     @for (project of projects(); track project.id) {

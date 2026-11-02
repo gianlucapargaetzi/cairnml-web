@@ -32,9 +32,9 @@ export interface Queue {
      */
     user?: string;
     /**
-     * Id of the user who created the queue, its owner. Null for queues created before queue ownership existed (managed by company admins).
+     * ID of the user who created the queue (owner); empty for queues created before ownership
      */
-    created_by?: string | null;
+    created_by?: string;
     /**
      * Company id
      */

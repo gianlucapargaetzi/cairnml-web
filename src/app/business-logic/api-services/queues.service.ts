@@ -73,6 +73,8 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 import {QueuesGetByTaskIdRequest} from '~/business-logic/model/queues/queuesGetByTaskIdRequest';
 import {QueuesGetByTaskIdResponse} from '~/business-logic/model/queues/queuesGetByTaskIdResponse';
+import {QueuesGetProjectsRequest} from '~/business-logic/model/queues/queuesGetProjectsRequest';
+import {QueuesGetProjectsResponse} from '~/business-logic/model/queues/queuesGetProjectsResponse';
 
 
 @Injectable({providedIn: 'root'})
@@ -473,6 +475,22 @@ export class ApiQueuesService {
                 observe: 'body',
                 reportProgress: false
             }
+        );
+    }
+
+    /**
+     * Root projects the queue is allocated to that the caller may see
+     * @param request request body
+     * @param options flags and headers to use in webapp
+     */
+    public queuesGetProjects(request: QueuesGetProjectsRequest, options?: ApiOptions): Observable<QueuesGetProjectsResponse> {
+        return this.apiRequest.post<QueuesGetProjectsResponse>(`${this.basePath}/queues.get_projects`,
+            request,
+            {
+                headers: this.defaultHeaders,
+                withCredentials: this.configuration.withCredentials
+            },
+            options
         );
     }
 
