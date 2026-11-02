@@ -1,0 +1,124 @@
+@if (rows().length) {
+<div class="browser-body">
+  <as-split [gutterSize]="1" direction="horizontal">
+    <as-split-area [size]="58" [minSize]="30">
+      <sm-table
+        class="align-self-stretch"
+        selectionMode="single"
+        [columns]="columns"
+        [tableData]="tableData()"
+        [scrollable]="true"
+        [resizableColumns]="true"
+        (rowClicked)="select($event.data.id)"
+      >
+        <ng-template let-col let-line="rowData" pTemplate="body">
+          <div>
+            @switch (col.id) {
+              @case ('name') {
+                <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
+              }
+              @default {
+                <div class="ellipsis">{{ line[col.id] }}</div>
+              }
+            }
+          </div>
+        </ng-template>
+      </sm-table>
+    </as-split-area>
+
+    <as-split-area [size]="42" [minSize]="25" class="d-flex flex-column">
+      @let details = selectedDetails.value();
+      @if (selectedRow() && details) {
+        <div class="info-panel">
+          <div class="info-header">
+            <h2 class="info-title">{{ details.name }}</h2>
+            <span class="info-repo">{{ details.link }}</span>
+          </div>
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="General">
+              <div class="tab-content">
+                <sm-section-header label="Dataset"></sm-section-header>
+                <sm-labeled-row label="Repository:">
+                  @if (details.kind === 'own' && repoLink(details).targetUrl) {
+                    <a [href]="repoLink(details).targetUrl" target="_blank" class="d-inline-flex repo-link">
+                      <mat-icon class="repo-icon" [class]="'i-' + repoLink(details).type"></mat-icon>{{ details.link }}
+                    </a>
+                  } @else {
+                    <a [href]="details.link" target="_blank" class="repo-link">{{ details.link }}</a>
+                  }
+                </sm-labeled-row>
+                <sm-labeled-row label="Kind:">{{ details.kind === 'own' ? 'Your own dataset' : 'Registry' + (details.source ? ', source ' + details.source : '') }}</sm-labeled-row>
+                <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>
+                <sm-labeled-row label="Samples:">{{ details.metadata?.samples ? (details.metadata!.samples! | number) : '–' }}</sm-labeled-row>
+                <sm-labeled-row label="Used by runs:">{{ selectedRow()!.runs }}</sm-labeled-row>
+
+                <sm-section-header label="Modalities"></sm-section-header>
+                @for (m of entries(details.metadata?.modalities); track m[0]) {
+                  <sm-labeled-row [label]="m[0] + ':'">{{ m[1] }}</sm-labeled-row>
+                } @empty {
+                  <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
+                }
+
+                <sm-section-header label="Splits"></sm-section-header>
+                @for (s of entries(details.metadata?.splits); track s[0]) {
+                  <sm-labeled-row [label]="s[0] + ':'">{{ s[1] | number }}</sm-labeled-row>
+                } @empty {
+                  <p class="note">No split sizes.</p>
+                }
+
+                <sm-section-header label="Labels"></sm-section-header>
+                @for (l of entries(details.metadata?.labels); track l[0]) {
+                  <sm-labeled-row [label]="l[0] + ':'">{{ l[1] }}</sm-labeled-row>
+                } @empty {
+                  <p class="note">No labels.</p>
+                }
+
+                <sm-section-header label="Description"></sm-section-header>
+                @if (details.description) {
+                  @for (block of descriptionBlocks(details); track $index) {
+                    @if (block.code !== undefined) {
+                      <sm-code-editor [code]="block.code" [readonly]="true" [mode]="block.mode" [showCopyButton]="true"
+                        [style.height.px]="codeHeight(block.code)"></sm-code-editor>
+                    } @else {
+                      <div class="readme" [innerHTML]="block.html"></div>
+                    }
+                  }
+                } @else {
+                  <p class="note">{{ details.kind === 'own' ? 'No DATASET.md in this repository.' : 'The registry entry has no description.' }}</p>
+                }
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Git graph">
+              <div class="tab-content">
+                @if (details.kind === 'own') {
+                  <sm-section-header label="History of the dataset repository"></sm-section-header>
+                  @let g = graph(details);
+                  <div class="graph-scroll">
+                    <svg class="graph" role="img" [attr.width]="g.graphWidth + 500" [attr.height]="g.height"
+                      [attr.aria-label]="'Commit graph with ' + g.nodes.length + ' commits'">
+                      @for (e of g.edges; track $index) {
+                        <path [attr.d]="curve(e)" fill="none" [attr.stroke]="e.from.color" stroke-width="2"/>
+                      }
+                      @for (n of g.nodes; track n.sha) {
+                        <circle [attr.cx]="n.x" [attr.cy]="n.y" r="6" [attr.fill]="n.color" stroke="var(--color-surface-container-lowest)" stroke-width="2"/>
+                        <text class="message" [attr.x]="g.graphWidth" [attr.y]="n.y + 4">{{ n.message }}</text>
+                        <text class="sha" [attr.x]="g.graphWidth + 260" [attr.y]="n.y + 4">{{ n.sha.slice(0, 7) }}</text>
+                        <text class="meta" [attr.x]="g.graphWidth + 340" [attr.y]="n.y + 4">{{ n.author }} · {{ n.date | date: 'mediumDate' }}</text>
+                      }
+                    </svg>
+                  </div>
+                } @else {
+                  <p class="note">Registry datasets are read from their publisher, so their history is not in your repository.</p>
+                }
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      } @else {
+        <p class="note panel-empty">Select a dataset to see its details.</p>
+      }
+    </as-split-area>
+  </as-split>
+</div>
+}

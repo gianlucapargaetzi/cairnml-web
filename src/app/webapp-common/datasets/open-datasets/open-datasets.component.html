@@ -25,7 +25,7 @@
   </sm-projects-header>
   @if (!projectId) {
     <sm-dataset-model-panel></sm-dataset-model-panel>
-    <sm-dataset-git-list (loaded)="gitDatasetCount.set($event)"></sm-dataset-git-list>
+    <sm-dataset-browser (loaded)="gitDatasetCount.set($event)"></sm-dataset-browser>
   }
   @if (((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching) {
     @for (project of projectsList$ | ngrxPush; track project.id + $index) {

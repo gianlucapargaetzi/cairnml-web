@@ -1,0 +1,132 @@
+@use '../../layout/layout' as layout;
+
+:host {
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.browser-body {
+  width: 100%;
+  height: 70vh;
+}
+
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  padding: 0 24px;
+  overflow-y: auto;
+}
+
+.info-header {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0 8px;
+}
+
+.info-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.info-repo {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.tab-content {
+  padding: 16px 0;
+}
+
+.mono {
+  font-family: var(--font-family-monospace);
+  font-size: 12px;
+}
+
+.note {
+  color: var(--color-on-surface-variant);
+  font-size: 12px;
+}
+
+.panel-empty {
+  padding: 24px;
+}
+
+.repo-link {
+  align-items: center;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.repo-icon {
+  margin-right: 8px;
+  flex: 0 0 20px;
+}
+
+:host-context(.dark-mode) {
+  .repo-icon.i-github {
+    filter: brightness(0) invert(1);
+  }
+}
+
+sm-code-editor {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.graph-scroll {
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.graph text {
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  fill: var(--color-on-surface);
+}
+
+.graph text.meta {
+  font-size: 12px;
+  fill: var(--color-on-surface-variant);
+}
+
+.graph text.sha {
+  font-family: var(--font-family-monospace);
+  font-size: 12px;
+  fill: var(--color-on-surface-variant);
+}
+
+.readme {
+  color: var(--color-on-surface);
+  font-size: 14px;
+  line-height: 20px;
+  max-width: 720px;
+  overflow-wrap: anywhere;
+  margin-bottom: 12px;
+
+  ::ng-deep h1, ::ng-deep h2, ::ng-deep h3 {
+    color: var(--color-on-surface);
+    font-weight: 500;
+    margin: 16px 0 8px;
+  }
+
+  ::ng-deep h1 { font-size: 16px; }
+  ::ng-deep h2, ::ng-deep h3 { font-size: 14px; }
+  ::ng-deep p, ::ng-deep ul, ::ng-deep ol { margin: 0 0 12px; }
+  ::ng-deep ul, ::ng-deep ol { padding-left: 20px; }
+  ::ng-deep a { color: var(--color-primary); }
+
+  ::ng-deep code {
+    font-family: var(--font-family-monospace);
+    font-size: 12px;
+    background: var(--color-surface-container-high);
+    border-radius: 3px;
+    padding: 1px 4px;
+  }
+}
