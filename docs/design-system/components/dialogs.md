@@ -56,3 +56,14 @@ For deletions of many items, state the count: "Delete 12 tasks?".
 ## Popovers and menus
 
 `mat-menu` panels: 1px border, 4px padding, 14px items with 20px icons, min 114px / max 450px width. Use for lists of actions. Popovers with forms are not allowed; use a dialog.
+
+## Information dialogs with tabs (New dataset)
+
+Use an information dialog, not a page, for "how to" content that the user reads and copies from. The New dataset popup is the reference: `dialog-xxl`, `sm-dialog-template`, and a `mat-tab-group` whose tabs are alternatives (Local / custom dataset, Web dataset, Use a dataset). Each tab holds sections (`sm-section-header`, a 14px paragraph, then the content).
+
+Code shown to the user is a read-only `sm-code-editor` with the copy button (`[showCopyButton]="true"`), in `mode` `sh`, `python` or `yaml`. A code cell has no internal scroll: its height is set to its content, one line about 21px plus 20px padding, so a reader sees all of a command at once. The padding and gaps around it use the spacing tokens.
+
+## Markdown and code in a panel
+
+A markdown text that the app shows (a dataset description, DATASET.md) is rendered read-only with the page's own type and colours, never inside a white preview box: text colour `--color-on-surface`, headings at the section scale (16px and 14px, weight 500), inline code and links from the tokens. Fenced code blocks inside it are rendered as the code cells above, so the same command looks the same wherever it appears. The HTML is sanitized before it is shown.
+
