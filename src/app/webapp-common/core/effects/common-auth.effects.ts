@@ -7,7 +7,7 @@ import {requestFailed} from '../actions/http.actions';
 import {activeLoader, addMessage, deactivateLoader, setServerError} from '../actions/layout.actions';
 import {catchError, filter, finalize, map, mergeMap, switchMap, throttleTime} from 'rxjs/operators';
 import {AuthGetCredentialsResponse} from '~/business-logic/model/auth/authGetCredentialsResponse';
-import {Action, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {selectCurrentUser} from '../reducers/users-reducer';
 import {GetCurrentUserResponseUserObject} from '~/business-logic/model/users/getCurrentUserResponseUserObject';
 import {AdminService} from '~/shared/services/admin.service';
@@ -18,11 +18,6 @@ import {
   selectSignedUrls
 } from '@common/core/reducers/common-auth-reducer';
 import {EMPTY, forkJoin, of} from 'rxjs';
-import {
-  S3AccessDialogData,
-  S3AccessDialogResult,
-  S3AccessResolverComponent
-} from '@common/layout/s3-access-resolver/s3-access-resolver.component';
 import {MatDialog} from '@angular/material/dialog';
 import {isGoogleCloudUrl, SignResponse} from '@common/settings/admin/base-admin-utils';
 import {selectRouterQueryParams} from '@common/core/reducers/router-reducer';
@@ -39,7 +34,6 @@ export class CommonAuthEffects {
   private adminService = inject(AdminService);
   private errorService = inject(ErrorService);
   private matDialog = inject(MatDialog);
-  private signAfterPopup: Action[] = [];
   private openPopup: Record<string, boolean> = {};
 
   activeLoader = createEffect(() => this.actions.pipe(
@@ -150,46 +144,4 @@ export class CommonAuthEffects {
       )
     );
   });
-
-  s3popup = createEffect(() => this.actions.pipe(
-    ofType(authActions.showS3PopUp),
-    throttleTime(500),
-    concatLatestFrom(() => [
-      this.store.select(selectDontShowAgainForBucketEndpoint),
-      this.store.select(selectS3BucketCredentialsBucketCredentials)
-    ]),
-    filter(([action, dontShowAgain]) =>
-      action?.credentials?.Bucket + action?.credentials?.Endpoint !== dontShowAgain &&
-      !this.openPopup[action?.credentials?.Bucket]),
-    filter(([action, , bucketCredentials]) => {
-        const creExists = bucketCredentials.find(cred => cred.Bucket === action?.credentials?.Bucket);
-        return creExists?.Key !== '' && creExists?.Secret !== '';
-      }),
-    switchMap(([action]) => {
-      if (action?.credentials?.Bucket) {
-        this.openPopup[action.credentials.Bucket] = true;
-      }
-      return this.matDialog.open<S3AccessResolverComponent, S3AccessDialogData, S3AccessDialogResult>(
-        S3AccessResolverComponent, {data: action, maxWidth: 700}
-      ).afterClosed()
-        .pipe(
-          concatLatestFrom(() => this.store.select(selectS3BucketCredentialsBucketCredentials)),
-          switchMap(([data, bucketCredentials]) => {
-            let actions = [];
-            if (data) {
-              actions = [...this.signAfterPopup];
-              if (!data.success) {
-                const emptyCredentials = bucketCredentials.find((cred => cred?.Bucket === data.Bucket)) === undefined;
-                const dontAskAgainForBucketName = emptyCredentials ? '' : data.Bucket + data.Endpoint;
-                return [authActions.cancelS3Credentials({dontAskAgainForBucketName})];
-              }
-              return [authActions.saveS3Credentials({newCredential: data}), ...actions];
-            }
-            this.signAfterPopup = [];
-            return actions;
-          }),
-          finalize(() => action?.credentials?.Bucket && delete this.openPopup[action.credentials.Bucket])
-        );
-    })
-  ));
 }
