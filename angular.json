@@ -75,7 +75,6 @@
               "localforage",
               "dom-to-image",
               "hocon-parser",
-              "taira",
               "base64",
               "base-64",
               "export-to-csv",
@@ -219,9 +218,7 @@
               "src/app/webapp-common/shared/pipes/filter-monitor-metric.pipe.spec.ts",
               "src/app/webapp-common/shared/pipes/humanize-result.pipe.spec.ts",
               "src/app/webapp-common/shared/pipes/sort.pipe.spec.ts",
-              "src/app/webapp-common/shared/pipes/vulgar-fraction.pipe.spec.ts",
               "src/app/webapp-common/shared/services/login.service.spec.ts",
-              "src/app/webapp-common/shared/services/lucene-parser/lucene-parser.service.spec.ts",
               "src/app/webapp-common/shared/services/theme.service.spec.ts",
               "src/app/webapp-common/shared/ui-components/overlay/rename-dialog/rename-dialog.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/panel/project-card/project-card.component.spec.ts",
@@ -316,7 +313,6 @@
               "dom-to-image",
               "dompurify",
               "string-to-color",
-              "taira",
               "url"
             ],
             "browser": "src/app/webapp-common/cairnml-applications/report-widgets/src/main.ts"
