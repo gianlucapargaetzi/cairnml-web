@@ -16,7 +16,7 @@ import {getParcoords, getPlot, getSample, getScalar, getSingleValues, paramDecod
 import {appFeature} from './app.reducer';
 import {ExtFrame} from '@common/shared/single-graph/plotly-graph-base';
 import {DebugSample} from '@common/shared/debug-sample/debug-sample.reducer';
-import {getSignedUrl, setS3Credentials} from '@common/core/actions/common-auth.actions';
+import {getSignedUrl} from '@common/core/actions/common-auth.actions';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 import {_mergeVariants, allowedMergedTypes, checkIfLegendToTitle, convertMultiPlots, createMultiSingleValuesChart, mergeMultiMetricsGroupedVariant, prepareMultiPlots, tryParseJson} from '@common/tasks/tasks.utils';
 import {selectSignedUrl} from '@common/core/reducers/common-auth-reducer';

@@ -12,9 +12,7 @@ import {selectCurrentUser} from '../reducers/users-reducer';
 import {GetCurrentUserResponseUserObject} from '~/business-logic/model/users/getCurrentUserResponseUserObject';
 import {AdminService} from '~/shared/services/admin.service';
 import {
-  selectDontShowAgainForBucketEndpoint,
-  selectS3BucketCredentialsBucketCredentials,
-  selectSignedUrl,
+      selectSignedUrl,
   selectSignedUrls
 } from '@common/core/reducers/common-auth-reducer';
 import {EMPTY, forkJoin, of} from 'rxjs';
