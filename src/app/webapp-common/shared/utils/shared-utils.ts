@@ -1,4 +1,5 @@
 import {MEDIA_VIDEO_EXTENSIONS, MediaContentTypeEnum} from '~/app.constants';
+import {escapeRegex} from '@common/shared/utils/escape-regex';
 import {ActivatedRoute} from '@angular/router';
 import {EXPERIMENT_GRAPH_ID_PREFIX} from '../../experiments/shared/common-experiments.const';
 import {capitalize, escape, get, last, snakeCase} from 'lodash-es';
@@ -269,7 +270,7 @@ export const getBaseName = (url: string): string => {
 };
 
 export const splitLine = (line: string, search: string) => {
-  const regex = new RegExp(search, 'gi');
+  const regex = new RegExp(escapeRegex(search), 'gi');
   const match = line.match(regex);
   return line.split(regex).map((part, i) => [part, match?.[i]]);
 };

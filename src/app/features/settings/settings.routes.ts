@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
 import {settingsProviders} from '~/features/settings/settings.providers';
+import {adminGuard} from '@common/shared/guards/admin.guard';
 
 const settingsBreadcrumb = {
   name: 'Settings',
@@ -48,6 +49,7 @@ export const routes: Routes = [
       },
       {
         path: 'git-credentials',
+        canActivate: [adminGuard],
         loadComponent: () => import('~/features/settings/containers/git-credentials/git-credentials.component').then(m => m.GitCredentialsComponent),
         data: {
           workspaceNeutral: true,
@@ -59,6 +61,7 @@ export const routes: Routes = [
       },
       {
         path: 'storage-credentials',
+        canActivate: [adminGuard],
         loadComponent: () => import('@common/settings/storage-credentials/storage-credentials.component').then(m => m.StorageCredentialsComponent),
         data: {
           workspaceNeutral: true,

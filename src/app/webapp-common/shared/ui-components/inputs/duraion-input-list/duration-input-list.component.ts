@@ -45,7 +45,7 @@ export class DurationInput implements DurationInputInterface {
 
 export function durationInputFactory(values: (DURATION_INPUT_TYPE | DurationInput | DurationInputInterface)[]): DurationInput[] {
 
-  if (!values && values.length === 0) { return null; }
+  if (!values || values.length === 0) { return null; }
 
   // the class it self
   if (values[0] instanceof DurationInput) {

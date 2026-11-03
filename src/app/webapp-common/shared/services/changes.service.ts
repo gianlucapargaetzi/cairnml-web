@@ -73,7 +73,8 @@ export class ChangesService {
       .pipe(
         withLatestFrom(this.store.select(selectFeatures)),
         map(([changesConfig, features]: [{ changes: Change[] }, FeaturesEnum[]]) => ({
-          changes: changesConfig.changes.filter(change => !change.feature || !features || features.includes(change.feature) &&
+          changes: changesConfig.changes.filter(change =>
+            (!change.feature || !features || features.includes(change.feature)) &&
             semverGt(change.version ?? '0.0.0', this.currentUser().created_in_version || '0.0.0'))
         })),
         filter((changesConfig: { changes: Change[] }) => changesConfig?.changes?.length > 0),

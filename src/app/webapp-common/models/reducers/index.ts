@@ -21,7 +21,7 @@ export const reducers: ActionReducerMap<ModelsState> = {
 const models = (state) => state.models;
 
 // view selectors.
-export const selectModelsView = createSelector(models, (state): ModelsViewState => state.view ?? {});
+export const selectModelsView = createSelector(models, (state): ModelsViewState => state?.view ?? {});
 export const selectModelsList = createSelector(selectModelsView, (state) => state.models);
 export const selectCurrentScrollId = createSelector(selectModelsView, (state) => state.scrollId);
 export const selectGlobalFilter = createSelector(selectModelsView, (state) => state.globalFilter);

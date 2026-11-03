@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, input, output, viewChild } from '@angular/core';
+import {escapeRegex} from '@common/shared/utils/escape-regex';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 import {CopyClipboardComponent} from '@common/shared/ui-components/indicators/copy-clipboard/copy-clipboard.component';
@@ -75,7 +76,7 @@ export class ScrollTextareaComponent {
   }
 
   split(line: string, search: string) {
-    const regex = new RegExp(search, 'gi');
+    const regex = new RegExp(escapeRegex(search), 'gi');
     const match = line.match(regex);
     return line.split(regex).map( (part, i) => [part, match?.[i]]);
   }

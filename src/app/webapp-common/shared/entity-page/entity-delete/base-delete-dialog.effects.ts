@@ -263,7 +263,8 @@ export class DeleteDialogEffectsBase {
       }, {} as Record<string, string[]>);
       return Object.entries(filesPerBucket);
     }),
-    mergeMap(([[, files]]) => this.adminService.deleteS3Files(files, false)),
+    mergeMap(bucketEntries => bucketEntries),
+    mergeMap(([, files]) => this.adminService.deleteS3Files(files, false)),
     // mergeMap(fetchPromise => forkJoin(fetchPromise)),
     map((failedFiles: { success: boolean; files: string[] }) => {
       if (failedFiles.success) {

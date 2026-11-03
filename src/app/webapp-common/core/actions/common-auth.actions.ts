@@ -53,10 +53,6 @@ export const cancelS3Credentials = createAction(
 );
 export const resetDontShowAgainForBucketEndpoint = createAction(AUTH_PREFIX + 'RESET_DONT_SHOW_AGAIN_FOR_BUCKET_ENDPOINT');
 export const resetShowS3Popup = createAction(AUTH_PREFIX + 'RESET_SHOW_S3_POPUP');
-export const showS3PopUp = createAction(
-  AUTH_PREFIX + 'SHOW_S3_POPUP',
-  props<{credentials: Credentials; credentialsError: string; provider: 's3' | 'azure' | 'gcs'}>()
-);
 export const getTutorialBucketCredentials = createAction(AUTH_PREFIX + 'GET_TUTORIAL_BUCKET_CREDENTIALS');
 export const showLocalFilePopUp = createAction(
   AUTH_PREFIX + 'SHOW_LOCAL_FILE_POPUP',

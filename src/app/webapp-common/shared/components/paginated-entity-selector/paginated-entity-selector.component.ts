@@ -7,7 +7,8 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
-  Validators
+  Validators,
+  ValidatorFn
 } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule, MatLabel} from '@angular/material/input';
@@ -58,6 +59,7 @@ export interface baseEntity {
 })
 export class PaginatedEntitySelectorComponent implements ControlValueAccessor, Validator {
   protected control = new FormControl<string>(null);
+  private readonly appliedValidators = new Map<string, ValidatorFn>();
   protected noMoreOptions = signal(false);
   protected error: string = null;
   private previousLength: number;
@@ -100,23 +102,24 @@ export class PaginatedEntitySelectorComponent implements ControlValueAccessor, V
     });
 
     effect(() => {
-      if(this.isRequired()) {
-        this.control.addValidators([Validators.required]);
-      } else {
-        this.control.removeValidators([Validators.required]);
-      }
-      if(this.minLength()) {
-        this.control.addValidators([minLengthTrimmed(this.minLength())]);
-      } else {
-        this.control.removeValidators([minLengthTrimmed(this.minLength())]);
-      }
-      if(this.emptyNameValidator()) {
-        this.control.addValidators([uniqueNameValidator([])]);
-      } else {
-        this.control.removeValidators([uniqueNameValidator([])]);
-      }
+      this.syncValidator('required', this.isRequired() ? Validators.required : null);
+      this.syncValidator('minLength', this.minLength() ? minLengthTrimmed(this.minLength()) : null);
+      this.syncValidator('uniqueName', this.emptyNameValidator() ? uniqueNameValidator([]) : null);
       this.control.updateValueAndValidity();
     });
+  }
+
+  // Angular removes a validator only by the same function reference, so each applied one is kept until it is replaced.
+  private syncValidator(key: string, validator: ValidatorFn | null) {
+    const applied = this.appliedValidators.get(key);
+    if (applied) {
+      this.control.removeValidators(applied);
+      this.appliedValidators.delete(key);
+    }
+    if (validator) {
+      this.control.addValidators(validator);
+      this.appliedValidators.set(key, validator);
+    }
   }
 
   displayFn(item: string | baseEntity): string {

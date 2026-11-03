@@ -20,13 +20,15 @@ export const getStatsData = (usages: Workloads, weighted: boolean, localRuns = f
 }
 
 export const getTotalsData = (usages: Workloads, weighted: boolean, localRuns = false) => {
-  const sum = usages?.total?.reduce((sum, queue) => sum + queue.gpu_usage, 0) ?? 0;
+  const gpuSum = usages?.total?.reduce((sum, queue) => sum + queue.gpu_usage, 0) ?? 0;
+  const durationSum = usages?.total?.reduce((sum, queue) => sum + queue.duration, 0) ?? 0;
+  const base = weighted ? gpuSum : durationSum;
   return  usages?.total?.map((series, index) => ({
     name: series.name === null ?
       localRuns === true ? 'Local Runs' : 'Unknown' :
       `${series.name}${weighted && series.gpu_artificial_weights ? '*' : ''}`,
     id: index,
     quantity: +((weighted ? series.gpu_usage : series.duration) / 3600).toFixed(3),
-    percentage: sum === 0 ? 0 : +(weighted ? series.gpu_usage : series.duration / sum * 100).toFixed(3),
+    percentage: base === 0 ? 0 : +((weighted ? series.gpu_usage : series.duration) / base * 100).toFixed(3),
   } as DonutChartData)) ?? []
 }

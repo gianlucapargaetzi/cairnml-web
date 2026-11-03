@@ -72,7 +72,7 @@ export class ProjectDialogEffects {
             addMessage(MESSAGES_SEVERITY.SUCCESS, `${(new ShortProjectNamePipe()).transform(action.req.name)} has been updated successfully in ${(new ProjectLocationPipe()).transform(action.req.name)}`),
           ]
         ),
-        catchError(error => [deactivateLoader(action.type), requestFailed(error), addMessage(MESSAGES_SEVERITY.ERROR, 'Project Created Failed'), newProjectActions.setCreationStatus({status: CREATION_STATUS.FAILED})])
+        catchError(error => [deactivateLoader(action.type), requestFailed(error), addMessage(MESSAGES_SEVERITY.ERROR, 'Project Update Failed'), newProjectActions.setCreationStatus({status: CREATION_STATUS.FAILED})])
       )
     )
   ));

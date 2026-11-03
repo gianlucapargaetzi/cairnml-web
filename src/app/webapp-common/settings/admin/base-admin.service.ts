@@ -223,15 +223,14 @@ export class BaseAdminService {
     const s3 = this.findOrInitBucketS3(bucketKeyEndpoint) as S3Client;
 
 
-    const command = new DeleteObjectsCommand({
-      Bucket: bucketKeyEndpoint.Bucket,
-      Delete: {
-        Quiet: true,
-        Objects: files.map(file => ({Key: file} as ObjectIdentifier))
-      }
-    });
-
     if (s3) {
+      const command = new DeleteObjectsCommand({
+        Bucket: bucketKeyEndpoint.Bucket,
+        Delete: {
+          Quiet: true,
+          Objects: files.map(file => ({Key: file} as ObjectIdentifier))
+        }
+      });
       s3.send(command).then(response => {
         if (response.Errors?.length > 0) {
           this.deleteS3FilesSubject.next({success: false, files});
@@ -240,10 +239,7 @@ export class BaseAdminService {
         }
       });
     } else {
-      delete bucketKeyEndpoint.Key;
-      // TODO: use store
-      // this.showS3PopUp(bucketKeyEndpoint).pipe(skip(1), take(1))
-      //   .subscribe(() => this.deleteS3Files(files, true));
+      return of({success: false, files});
     }
     return !skipSubjectReturn && this.deleteS3FilesSubject.asObservable();
   }

@@ -149,10 +149,13 @@ export class StorageCredentialsComponent {
   save() {
     this.saving.set(true);
     this.actions$.pipe(
-      ofType(CredentialsSettingsActions.setCredentials),
+      ofType(CredentialsSettingsActions.setCredentials, CredentialsSettingsActions.setCredentialsFailed),
       take(1)
-    ).subscribe(() => {
+    ).subscribe(action => {
       this.saving.set(false);
+      if (action.type === CredentialsSettingsActions.setCredentialsFailed.type) {
+        return;
+      }
       this.saved.set(true);
       setTimeout(() => {
         this.storageForm.markAsPristine();

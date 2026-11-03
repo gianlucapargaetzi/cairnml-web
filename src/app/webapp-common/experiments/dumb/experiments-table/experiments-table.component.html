@@ -8,7 +8,7 @@
     [columnsOrder]="colsOrder()"
     [reorderableColumns]="reorderableColumns()"
     [resizableColumns]="resizableColumns()"
-    [columns]="tableCols()"
+    [columns]="displayedCols()"
     [lazyLoading]="true"
     [minimizedView]="minimizedView()"
     minimizedTableHeader="{{entityDisplayName(entityType()).replace('pipeline ', '')}}S LIST"
@@ -203,7 +203,7 @@
       @for (exp of [experiment]; track exp) {
         <tr>
           <td></td>
-          @for (col of tableCols(); track col) {
+          @for (col of displayedCols(); track col) {
             <td>
               {{ exp[col.id] }}
             </td>
@@ -217,7 +217,7 @@
         [showColor]="showColors()"
         [selected]="selected"
         [cardName]="experiment.name"
-        [columns]="tableCols()"
+        [columns]="displayedCols()"
         [rowData]="experiment"
         [checked]="experiments() | isRowSelected:experiment"
         [activeContextRow]="contextExperiment()"

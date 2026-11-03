@@ -7,6 +7,7 @@ export const CredentialsSettingsActions = createActionGroup({
   events: {
     'get credentials': emptyProps(),
     'set credentials': props<{credentials: StorageGetSettingsResponse}>(),
+    'set credentials failed': emptyProps(),
     'update credentials': props<{credentials: StorageGetSettingsResponse}>()
   }
 });

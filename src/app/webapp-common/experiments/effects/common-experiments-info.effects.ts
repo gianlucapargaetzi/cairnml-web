@@ -146,7 +146,7 @@ export class CommonExperimentsInfoEffects {
             if (configurations) {
               Object.keys(configurations).forEach(name => {
                 if (!res.configurations[0]?.names.includes(name)) {
-                  delete configurations.name;
+                  delete configurations[name];
                 }
               });
             } else {

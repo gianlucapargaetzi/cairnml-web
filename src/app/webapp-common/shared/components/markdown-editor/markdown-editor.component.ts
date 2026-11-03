@@ -1,16 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  EventEmitter,
-  inject,
-  input,
-  output,
-  Output,
-  signal,
-  viewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, EventEmitter, inject, input, output, Output, signal, viewChild, OnDestroy} from '@angular/core';
 import {
   LMarkdownEditorModule,
   MarkdownEditorComponent as MDComponent,
@@ -30,6 +18,7 @@ import {FormsModule} from '@angular/forms';
 import {MatMenuModule} from '@angular/material/menu';
 import {BaseNamePipe} from '@common/shared/pipes/base-name.pipe';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
+import {ReportEditStateService} from '@common/shared/services/report-edit-state.service';
 import {ReportCodeEmbedBaseService} from '@common/shared/services/report-code-embed-base.service';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -61,9 +50,10 @@ const BREAK_POINT = 990;
     MatIconButton
   ]
 })
-export class MarkdownEditorComponent {
+export class MarkdownEditorComponent implements OnDestroy {
   private store = inject(Store);
   private reportService = inject(ReportCodeEmbedBaseService);
+  private reportEditState = inject(ReportEditStateService);
   protected dialog = inject(MatDialog);
 
   protected isDirty = signal(false);
@@ -139,7 +129,7 @@ export class MarkdownEditorComponent {
 
   set editMode(editMode: boolean) {
     this._editMode.set(editMode);
-    (window as unknown as {holdIframe: boolean}).holdIframe = editMode;
+    this.reportEditState.editMode.set(editMode);
     this.editModeChanged.emit();
     window.setTimeout(() => this.ace?.resize(), 500);
   }
@@ -162,6 +152,10 @@ export class MarkdownEditorComponent {
   deleteResource = output<string>();
   imageMenuOpened = output<string>();
   editorComponent = viewChild(MDComponent);
+
+  ngOnDestroy() {
+    DOMPurify.removeHook('uponSanitizeElement');
+  }
 
   onResize() {
     this.innerWidth.set(window.innerWidth);

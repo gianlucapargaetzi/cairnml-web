@@ -56,11 +56,11 @@ export const getHumanizedTimeUsage = (initialUnit: string, timeCount: number) =>
   const totalSeconds = timeCount * (unitMap[initialUnit.toLowerCase()] || 1);
 
   // 2. Determine the highest unit to use
-  let unitIndex = 2;
+  let unitIndex = 0;
   if (totalSeconds >= 86400) unitIndex = 3;      // Days
   else if (totalSeconds >= 3600) unitIndex = 2; // Hours
-  else if (totalSeconds >= 60) unitIndex = 2;   // Minutes
-  else unitIndex = 2;                           // Seconds
+  else if (totalSeconds >= 60) unitIndex = 1;   // Minutes
+  else unitIndex = 0;                           // Seconds
   const majorUnit = units[unitIndex];
 
   // 3. If it's the smallest unit (s), just return it

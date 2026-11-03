@@ -412,8 +412,13 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
     const compare = (a: string, b: string) => {
       const aFloat = parseFloat(a);
       const bFloat = parseFloat(b);
-      if (!Number.isNaN(a) && !Number.isNaN(b)) {
+      const aIsNumber = !Number.isNaN(aFloat);
+      const bIsNumber = !Number.isNaN(bFloat);
+      if (aIsNumber && bIsNumber) {
         return aFloat - bFloat;
+      }
+      if (aIsNumber !== bIsNumber) {
+        return aIsNumber ? -1 : 1;
       }
       return collator.compare(a, b);
     };

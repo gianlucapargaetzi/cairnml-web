@@ -156,7 +156,7 @@ export const getEntityStatQuery = (action, searchHidden, filters, advanced) => (
     ),
     search_hidden: true,
     shallow_search: false,
-    system_tags: [-'archived', 'pipeline']
+    system_tags: ['-archived', 'pipeline']
   },
   dataset_versions: {
     ...(advanced ?
@@ -170,7 +170,7 @@ export const getEntityStatQuery = (action, searchHidden, filters, advanced) => (
     ),
     search_hidden: true,
     shallow_search: false,
-    system_tags: [-'archived', 'dataset']
+    system_tags: ['-archived', 'dataset']
   },
   reports: {
     ...(advanced ?

@@ -1,4 +1,4 @@
-<form [formGroup]="reportForm" (submit)="reportForm.invalid && send()" class="d-flex gap-3 flex-column">
+<form [formGroup]="reportForm" (submit)="reportForm.valid && send()" class="d-flex gap-3 flex-column">
   <mat-form-field appearance="outline" class="mat-light">
     <mat-label>Report name</mat-label>
     @if (reportForm.controls.name.touched && reportForm.controls.name.errors; as errors) {

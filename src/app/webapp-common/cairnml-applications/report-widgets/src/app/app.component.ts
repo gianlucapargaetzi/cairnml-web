@@ -16,7 +16,7 @@ import {getParcoords, getPlot, getSample, getScalar, getSingleValues, paramDecod
 import {appFeature} from './app.reducer';
 import {ExtFrame} from '@common/shared/single-graph/plotly-graph-base';
 import {DebugSample} from '@common/shared/debug-sample/debug-sample.reducer';
-import {getSignedUrl, setS3Credentials} from '@common/core/actions/common-auth.actions';
+import {getSignedUrl} from '@common/core/actions/common-auth.actions';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 import {_mergeVariants, allowedMergedTypes, checkIfLegendToTitle, convertMultiPlots, createMultiSingleValuesChart, mergeMultiMetricsGroupedVariant, prepareMultiPlots, tryParseJson} from '@common/tasks/tasks.utils';
 import {selectSignedUrl} from '@common/core/reducers/common-auth-reducer';
@@ -109,14 +109,6 @@ export class AppComponent implements OnInit {
     this.otherSearchParams = this.getOtherSearchParams();
     this.xaxis = this.searchParams.get('xaxis') as ScalarKeyEnum;
 
-    try {
-      const data = JSON.parse(localStorage.getItem('_saved_state_'));
-      if (data.auth) {
-        this.store.dispatch(setS3Credentials(data.auth.s3BucketCredentials));
-      }
-    } catch (e) {
-      console.log(e);
-    }
 
   }
 
@@ -131,9 +123,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      if (!(window.top as any).holdIframe) {
-        this.activate();
-      }
+      // Reading the top window throws when the page is embedded from another origin: that is the external-tool case.
+      void window.top.document;
+      // Ask the page whether an editor is open; the answer comes back as a message.
+      window.top.postMessage({requestEditState: true}, window.location.origin);
     } catch {
       this.externalTool = true;
       this.hideMaximize = 'hide';
@@ -159,6 +152,16 @@ export class AppComponent implements OnInit {
     }
 
     window.addEventListener('message', (e) => {
+      // Only messages from this page's own origin may drive the widget.
+      if (e.origin !== window.location.origin) {
+        return;
+      }
+      if (e.data?.holdIframe !== undefined) {
+        if (!e.data.holdIframe) {
+          this.activate();
+        }
+        return;
+      }
       if (e.data == 'renderPlot') {
         this.activate();
       } else if (e.data == 'resizePlot' && this.plotLoaded) {
