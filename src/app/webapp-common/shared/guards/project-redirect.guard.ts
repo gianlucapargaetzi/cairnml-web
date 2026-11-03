@@ -1,30 +1,40 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
+import {of} from 'rxjs';
+import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {selectSelectedMetricVariantForCurrProject, selectSelectedProject} from '../../core/reducers/projects.reducer';
-import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
 import {setSelectedProjectId} from '@common/core/actions/projects.actions';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '~/app.constants';
-import {of} from 'rxjs';
-import {timeout} from 'rxjs/operators';
+import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
 
-// How long to wait for the requested project before treating it as not found.
-const PROJECT_LOAD_TIMEOUT_MS = 10000;
+// The server answers 400 with subcode 401 ('Invalid project id') for a project that does not exist or that the user cannot see.
+const INVALID_PROJECT_SUBCODE = 401;
 
 export const projectRedirectGuardGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const store = inject(Store);
   const router = inject(Router);
-  return store.select(selectSelectedProject).pipe(
-    tap(project => project === null && store.dispatch(setSelectedProjectId({projectId: route.params.projectId}))),
-    filter(project => project?.id === route.params.projectId),
-    timeout({first: PROJECT_LOAD_TIMEOUT_MS, with: () => of(null)}),
-    withLatestFrom(store.select(selectSelectedMetricVariantForCurrProject)),
-    map(([project, metVar]) => {
-      if (!project) {
-        store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'The project was not found.'));
-        return router.parseUrl('/dashboard');
-      }
-      return router.parseUrl(`projects/${project.id}/${(project.description || metVar) ? 'overview' : 'folders'}`);
-    }));
+  const projectsApi = inject(ApiProjectsService);
+  const projectId: string = route.params.projectId;
+
+  const toDashboard = (message: string) => {
+    store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, message));
+    return router.parseUrl('/dashboard');
+  };
+
+  return projectsApi.projectsGetById({project: projectId}).pipe(
+    switchMap(() => store.select(selectSelectedProject).pipe(
+      tap(project => project === null && store.dispatch(setSelectedProjectId({projectId}))),
+      filter(project => project?.id === projectId),
+      withLatestFrom(store.select(selectSelectedMetricVariantForCurrProject)),
+      map(([project, metVar]) => router.parseUrl(`projects/${project.id}/${(project.description || metVar) ? 'overview' : 'folders'}`))
+    )),
+    catchError(error => {
+      const subcode = error?.error?.meta?.result_subcode ?? error?.meta?.result_subcode;
+      return of(subcode === INVALID_PROJECT_SUBCODE
+        ? toDashboard('The project was not found.')
+        : toDashboard('The project could not be opened.'));
+    })
+  );
 };

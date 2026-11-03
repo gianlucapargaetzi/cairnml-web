@@ -96,16 +96,6 @@ describe('DashboardComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(initSearch({payload: 'Search for all'}));
   });
 
-  it('should navigate to search when active search becomes true', () => {
-    activeSearch$.next(false);
-    activeSearch$.next(true);
-
-    expect(router.navigate).toHaveBeenCalledWith(
-      ['search'],
-      {relativeTo: activatedRoute, queryParamsHandling: 'preserve'}
-    );
-  });
-
   it('should dispatch recent entities actions when user and showOnlyUserWork are set', async () => {
     const initialDispatchCount = store.dispatch.calls.count();
 

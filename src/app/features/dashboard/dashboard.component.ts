@@ -13,7 +13,6 @@ import {firstLogin} from '@common/core/actions/layout.actions';
 import {selectRecentTasks} from '@common/dashboard/common-dashboard.reducer';
 import {initSearch} from '@common/common-search/common-search.actions';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {selectActiveSearch} from '@common/common-search/common-search.reducer';
 import {DashboardReportsComponent} from '@common/dashboard/containers/dashboard-reports/dashboard-reports.component';
 import {MatButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -47,13 +46,6 @@ export class DashboardComponent {
   constructor() {
     this.store.dispatch(setDeep({deep: false}));
     this.store.dispatch(initSearch({payload: 'Search for all'}));
-
-    this.store.select(selectActiveSearch)
-      .pipe(
-        takeUntilDestroyed(),
-        filter(active => active)
-      )
-      .subscribe(() => this.router.navigate(['search'], {relativeTo: this.activatedRoute, queryParamsHandling: 'preserve'}));
 
    combineLatest([
      this.store.select(selectShowOnlyUserWork),

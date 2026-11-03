@@ -334,7 +334,7 @@ export class SelectExperimentsForCompareComponent implements OnInit, OnDestroy {
     switch (colId) {
       case 'project.name':
         if (this.projectId() === '*' && !value.loadMore) {
-          this.dispatcher.dispatch(selectTaskEvents.compareAddTableFilterChanged({projectId: this.projectId(), filter: {col: 'project.name', value: this.selectTaskStore.projectColumnFilters()[this.projectId()]?.['project.name']?.value ?? [], filterMatchMode: undefined}}));
+          this.dispatcher.dispatch(selectTaskEvents.compareAddTableFilterChanged({projectId: this.projectId(), filter: {col: 'project.name', value: [], filterMatchMode: undefined}}));
           this.dispatcher.dispatch(tableEvents.setProjectsOptions({projects: [], projectsFilterOptionsScrillId: null}));
         }
         //need to pass selector
