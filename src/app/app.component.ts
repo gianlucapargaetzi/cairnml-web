@@ -10,6 +10,7 @@ import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {ServerUpdatesService} from '@common/shared/services/server-updates.service';
 import {selectAvailableUpdates} from './core/reducers/view.reducer';
 import {aceReady, firstLogin, plotlyReady, setScaleFactor, visibilityChanged} from '@common/core/actions/layout.actions';
+import {ReportEditStateService} from '@common/shared/services/report-edit-state.service';
 import {UiUpdatesService} from '@common/shared/services/ui-updates.service';
 import {getScaleFactor} from '@common/shared/utils/shared-utils';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
@@ -60,6 +61,7 @@ export class AppComponent {
   private store = inject(Store);
   public serverUpdatesService = inject(ServerUpdatesService);
   private uiUpdatesService = inject(UiUpdatesService);
+  private reportEditState = inject(ReportEditStateService);
   private tipsService = inject(TipsService);
   private renderer = inject(Renderer2);
   private config = inject(ConfigurationService);
@@ -84,6 +86,11 @@ export class AppComponent {
     window.addEventListener('message', e => {
       // Only messages from this page's own origin may resize report frames.
       if (e.origin !== window.location.origin) {
+        return;
+      }
+      // A report frame asks whether an editor is open; it is answered on the same channel.
+      if (e.data?.requestEditState) {
+        (e.source as Window).postMessage({holdIframe: this.reportEditState.editMode()}, e.origin);
         return;
       }
       if (e.data.maximizing) {

@@ -147,6 +147,15 @@ export class ExperimentsTableComponent extends BaseTableView {
   searchQuery = input<string>();
   enableMultiSelect = input(true);
 
+  // With multi-select off, the first column is hidden. The view gets a copy, so the input objects are not changed.
+  protected displayedCols = computed(() => {
+    const cols = this.tableCols();
+    if (this.enableMultiSelect() || !cols?.length) {
+      return cols;
+    }
+    return [{...cols[0], hidden: true}, ...cols.slice(1)];
+  });
+
   experimentSelectionChanged = output<{
     experiment: ITableExperiment;
     openInfo?: boolean;
@@ -296,11 +305,6 @@ export class ExperimentsTableComponent extends BaseTableView {
       }
     });
 
-    effect(() => {
-      if (!this.enableMultiSelect()) {
-        this.tableCols()[0].hidden = true;
-      }
-    })
   }
 
   calcOptionalTagsList() {

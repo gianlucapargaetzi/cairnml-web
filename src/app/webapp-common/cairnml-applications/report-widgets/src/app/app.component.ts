@@ -123,9 +123,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      if (!(window.top as any).holdIframe) {
-        this.activate();
-      }
+      // Reading the top window throws when the page is embedded from another origin: that is the external-tool case.
+      void window.top.document;
+      // Ask the page whether an editor is open; the answer comes back as a message.
+      window.top.postMessage({requestEditState: true}, window.location.origin);
     } catch {
       this.externalTool = true;
       this.hideMaximize = 'hide';
@@ -153,6 +154,12 @@ export class AppComponent implements OnInit {
     window.addEventListener('message', (e) => {
       // Only messages from this page's own origin may drive the widget.
       if (e.origin !== window.location.origin) {
+        return;
+      }
+      if (e.data?.holdIframe !== undefined) {
+        if (!e.data.holdIframe) {
+          this.activate();
+        }
         return;
       }
       if (e.data == 'renderPlot') {
