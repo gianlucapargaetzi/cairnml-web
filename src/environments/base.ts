@@ -101,7 +101,7 @@ export const BASE_ENV = {
   plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
   docsLink: 'https://github.com/gianlucapargaetzi/cairnml#readme',
   supportEmail: '',
-  branding: {logo: 'assets/mlops-flow-logo.png', logoSmall: 'assets/mlops-flow-icon.png'},
+  branding: {logo: 'assets/cairnml-symbol-white.svg', logoSmall: 'assets/cairnml-symbol-white.svg'},
   serverDownMessage: 'The server is currently unavailable.<BR>' +
     'Please try to reload this page in a little while.<BR>' +
     'If the problem persists, verify your network connection is working and check the server logs for possible errors',
