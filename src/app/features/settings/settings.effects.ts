@@ -35,6 +35,7 @@ export class SettingsEffects {
       .pipe(
         map(() => CredentialsSettingsActions.setCredentials({credentials: action.credentials})),
         catchError(() => [
+          CredentialsSettingsActions.setCredentialsFailed(),
           addMessage('error', 'Update storage credentials failed')
         ])
       ))

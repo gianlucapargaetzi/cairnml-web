@@ -153,7 +153,7 @@ export class CommonDeleteDialogComponent {
       case EntityTypeEnum.openDataset: {
         const entitiesBreakDown2 = getDeleteProjectPopupStatsBreakdown(stats, 'total', `version`);
         const single = Object.values(stats).reduce((a, b) => a + (b.total || 0), 0) == 1;
-        return entitiesBreakDown2.trim().length > 0 ? `${entitiesBreakDown2} will be deleted and ${single ? 'its' : 'their'}this.data. This may take a few minutes.` : '';
+        return entitiesBreakDown2.trim().length > 0 ? `${entitiesBreakDown2} will be deleted and ${single ? 'its' : 'their'} data. This may take a few minutes.` : '';
       }
     }
     return '';

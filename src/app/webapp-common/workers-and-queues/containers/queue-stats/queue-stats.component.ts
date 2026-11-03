@@ -62,7 +62,7 @@ export class QueueStatsComponent {
       const selectedQueue = this.selectedQueue();
       if (queue === (selectedQueue?.id ?? null)) {
         if (queue !== this.selectedQueueId) {
-          const maxPoints = this.waitChartRef().nativeElement.clientWidth | 1000;
+          const maxPoints = this.waitChartRef().nativeElement.clientWidth || 1000;
           untracked(() => {
             this.store.dispatch(queueActions.resetStats());
             this.store.dispatch(queueActions.getStats({maxPoints}));
@@ -90,11 +90,11 @@ export class QueueStatsComponent {
         takeUntilDestroyed(),
       )
       .subscribe(() => {
-        this.store.dispatch(queueActions.getStats({maxPoints: this.waitChartRef().nativeElement.clientWidth | 1000}));
+        this.store.dispatch(queueActions.getStats({maxPoints: this.waitChartRef().nativeElement.clientWidth || 1000}));
       })
   }
 
   timeFrameChanged(value: string) {
-    this.store.dispatch(queueActions.setStatsParams({timeFrame: value, maxPoints: this.waitChartRef().nativeElement.clientWidth | 1000}));
+    this.store.dispatch(queueActions.setStatsParams({timeFrame: value, maxPoints: this.waitChartRef().nativeElement.clientWidth || 1000}));
   }
 }

@@ -291,7 +291,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
               requirements: {
                 ...this.formData.requirements,
                 ...((this.formData.requirements?.pip && this.formData.requirements.orgPip) && {pip: this.formData.requirements.orgPip}),
-                ...((this.formData.requirements?.conda && this.formData.requirements.orgConda) && {pip: this.formData.requirements.orgConda}),
+                ...((this.formData.requirements?.conda && this.formData.requirements.orgConda) && {conda: this.formData.requirements.orgConda}),
               }
             }
           }));
@@ -320,7 +320,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
             requirements: {
               ...this.formData.requirements,
               ...((this.formData.requirements?.pip && this.formData.requirements.orgPip) && {pip: this.formData.requirements.orgPip}),
-              ...((this.formData.requirements?.conda && this.formData.requirements.orgConda) && {pip: this.formData.requirements.orgConda}),
+              ...((this.formData.requirements?.conda && this.formData.requirements.orgConda) && {conda: this.formData.requirements.orgConda}),
             }
           }
         }));

@@ -82,6 +82,10 @@ export class AppComponent {
     this.matIconRegistry.registerFontClassAlias('al', 'al-icon');
 
     window.addEventListener('message', e => {
+      // Only messages from this page's own origin may resize report frames.
+      if (e.origin !== window.location.origin) {
+        return;
+      }
       if (e.data.maximizing) {
         const drawerContent = document.querySelector('sm-report mat-drawer-container');
         const iframeElement = document.querySelector(`iframe[name="${e.data.name}"]`);

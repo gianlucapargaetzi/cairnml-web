@@ -172,19 +172,24 @@ export class ExperimentsCompareChartsEffects {
                 : EMPTY
               ),
               reduce((acc, [, data]) => merge(acc, data.plots), {})
-            ))
+            )),
+          mergeMap(plots => [
+            chartActions.setExperimentPlots({plots}),
+            deactivateLoader(chartActions.getMultiPlotCharts.type)]),
+          // Caught inside the request: a failure must not end the effect for later requests.
+          catchError(error => [
+            requestFailed(error), deactivateLoader(chartActions.getMultiPlotCharts.type)
+            // setServerError(error, null, 'Failed to get Plot Charts', action.autoRefresh)
+          ])
           );
         } else {
-          return of({});
+          return of({}).pipe(
+            mergeMap(plots => [
+              chartActions.setExperimentPlots({plots}),
+              deactivateLoader(chartActions.getMultiPlotCharts.type)])
+          );
         }
-      }),
-      mergeMap(plots => [
-        chartActions.setExperimentPlots({plots}),
-        deactivateLoader(chartActions.getMultiPlotCharts.type)]),
-      catchError(error => [
-        requestFailed(error), deactivateLoader(chartActions.getMultiPlotCharts.type)
-        // setServerError(error, null, 'Failed to get Plot Charts', action.autoRefresh)
-      ])
+      })
     )
   );
 

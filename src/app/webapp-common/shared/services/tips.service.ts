@@ -65,7 +65,7 @@ export class TipsService {
         if (this.tipsConfig()?.['global'].length || this.tipsConfig()?.[urlConfig]) {
           const allTips = [...this.tipsConfig()['global']];
           if (this.tipsConfig()[urlConfig]) {
-            allTips.concat(this.tipsConfig()[urlConfig]);
+            allTips.push(...this.tipsConfig()[urlConfig]);
           }
           if (this.shouldDisplayTips()) {
             this.showTipsModal(allTips);

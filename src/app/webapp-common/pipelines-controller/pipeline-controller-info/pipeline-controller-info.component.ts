@@ -155,7 +155,7 @@ export class PipelineControllerInfoComponent implements OnDestroy {
 
   onKeyDown(e: KeyboardEvent) {
     if ((e.key == 'Escape')) {
-      this.showLog = signal(false);
+      this.showLog.set(false);
     }
   }
 
@@ -456,7 +456,7 @@ export class PipelineControllerInfoComponent implements OnDestroy {
             name: step.name
           }
         }));
-        this.showLog = signal(false);
+        this.showLog.set(false);
       }
       this.selectedEntity.set(step);
     } else if (!this.dragging) {

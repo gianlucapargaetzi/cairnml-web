@@ -159,6 +159,10 @@ export class AppComponent implements OnInit {
     }
 
     window.addEventListener('message', (e) => {
+      // Only messages from this page's own origin may drive the widget.
+      if (e.origin !== window.location.origin) {
+        return;
+      }
       if (e.data == 'renderPlot') {
         this.activate();
       } else if (e.data == 'resizePlot' && this.plotLoaded) {

@@ -190,7 +190,7 @@ export const reducer = createReducer(
   on(ServingActions.setLoadingColumnWidth, (state, action): State => ({
     ...state,
     loadingColumnsWidth: {
-      ...state.columnsWidth,
+      ...state.loadingColumnsWidth,
       [action.columnId]: action.widthPx
     }
   })),

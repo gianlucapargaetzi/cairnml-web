@@ -45,9 +45,9 @@
               class="al-icon al-ico-next-batch"
             smTooltip="Older images" data-id="OlderImages" tabindex="0" role="button" (keydown.enter)="$event.target === $event.currentTarget && (nextBatch({task: experimentId, metric: metricSelect.value}))" (keydown.space)="$event.target === $event.currentTarget && (nextBatch({task: experimentId, metric: metricSelect.value})); $event.target === $event.currentTarget && $event.preventDefault()"
             ></div>
-            <b class="text-right">{{debugImages?.[experimentId]?.data?.slice(-1)[0].iter}}</b>
+            <b class="text-right">{{debugImages?.[experimentId]?.data?.slice(-1)[0]?.iter}}</b>
             <div class="al-icon al-ico-between"></div>
-            <b>{{debugImages?.[experimentId]?.data?.[0].iter}}</b>
+            <b>{{debugImages?.[experimentId]?.data?.[0]?.iter}}</b>
             <div [class.disabled]="timeIsNow()?.[experimentId]"
               (click)="previousBatch({task: experimentId, metric: metricSelect.value})"
               class="al-icon al-ico-prev-batch"

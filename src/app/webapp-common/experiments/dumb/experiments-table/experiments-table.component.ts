@@ -226,7 +226,7 @@ export class ExperimentsTableComponent extends BaseTableView {
   private readonly titleCasePipe = new TitleCasePipe();
   protected filtersOptions = computed(() => ({
     [EXPERIMENTS_TABLE_COL_FIELDS.STATUS]: FILTERED_EXPERIMENTS_STATUS_OPTIONS(this.entityType() === EntityTypeEnum.dataset),
-    [EXPERIMENTS_TABLE_COL_FIELDS.TYPE]: uniq((this.experimentTypes() ?? []).concat(this.filtersValues[EXPERIMENTS_TABLE_COL_FIELDS.TYPE]))
+    [EXPERIMENTS_TABLE_COL_FIELDS.TYPE]: uniq((this.experimentTypes() ?? []).concat(this.filtersValues()[EXPERIMENTS_TABLE_COL_FIELDS.TYPE]))
       .filter(type => !!type)
       .map((type: string) => ({
         label: (type?.length < 4 ? type.toUpperCase() : this.titleCasePipe.transform((new NoUnderscorePipe()).transform(type))),
