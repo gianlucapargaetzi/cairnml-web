@@ -1,7 +1,6 @@
 import {AUTH_PREFIX} from '@common/core/actions/common-auth.actions';
 import {PROJECTS_PREFIX as ROOT_PROJECTS_PREFIX} from '@common/core/actions/projects.actions';
 import {createUserPrefReducer} from '@common/core/meta-reducers/user-pref-reducer';
-import {messagesReducer} from '@common/core/reducers/messages-reducer';
 import {projectsReducer} from '@common/core/reducers/projects.reducer';
 import {routerReducer} from '@common/core/reducers/router-reducer';
 import {PROJECTS_PREFIX} from '@common/projects/common-projects.consts';
@@ -22,7 +21,6 @@ import {colorPreferenceReducer} from '@common/shared/ui-components/directives/ch
 export const reducers = {
   auth: authReducer,
   router: routerReducer,
-  messages: messagesReducer,
   recentTasks: recentTasksReducer,
   views: viewReducer,
   users: usersReducer,

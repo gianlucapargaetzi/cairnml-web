@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, computed, inject, output, signal, Se
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {rxResource, toSignal} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
+import {RouterLink} from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIcon} from '@angular/material/icon';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
@@ -19,6 +20,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
+import {CopyClipboardComponent} from '@common/shared/ui-components/indicators/copy-clipboard/copy-clipboard.component';
 import {
   DatasetGroup,
   groupDatasetRuns,
@@ -72,6 +74,8 @@ interface GraphNode {
     ShowTooltipIfEllipsisDirective,
     DatePipe,
     DecimalPipe,
+    RouterLink,
+    CopyClipboardComponent,
   ],
 })
 export class DatasetBrowserComponent {
@@ -138,6 +142,12 @@ export class DatasetBrowserComponent {
     return this.rows().find(row => row.id === id) ?? null;
   });
 
+  // The runs of the selected dataset, by version. A registry entry that no run has used has no group.
+  protected readonly selectedGroup = computed<DatasetGroup | null>(() => {
+    const key = this.selectedRow()?.id;
+    return this.listed()?.groups.find(group => group.key === key) ?? null;
+  });
+
   private requestOf(row: DatasetRow): DatasetDetailsRequest {
     return row.kind === 'own'
       ? {repository: row.repository ?? undefined, commit: row.commit ?? undefined}
@@ -197,6 +207,14 @@ export class DatasetBrowserComponent {
 
   protected entries(record: Record<string, string | number> | undefined | null): [string, string | number][] {
     return Object.entries(record ?? {});
+  }
+
+  protected storageLabel(storage: string | null): string {
+    switch (storage) {
+      case 'lfs': return 'GitHub LFS';
+      case 's3': return 'DVC storage';
+      default: return 'storage not recorded';
+    }
   }
 
   protected shortSha(sha: string | null): string {

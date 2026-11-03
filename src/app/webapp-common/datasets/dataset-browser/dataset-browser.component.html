@@ -28,15 +28,18 @@
 
     <as-split-area [size]="42" [minSize]="25" class="d-flex flex-column">
       @let details = selectedDetails.value();
-      @if (selectedRow() && details) {
+      @if (selectedRow()) {
         <div class="info-panel">
           <div class="info-header">
-            <h2 class="info-title">{{ details.name }}</h2>
-            <span class="info-repo">{{ details.link }}</span>
+            <h2 class="info-title">{{ details?.name ?? selectedRow()!.name }}</h2>
+            <span class="info-repo">{{ details?.link }}</span>
           </div>
           <mat-tab-group animationDuration="0ms">
             <mat-tab label="General">
               <div class="tab-content">
+                @if (!details) {
+                  <p class="note">{{ selectedDetails.isLoading() ? 'Loading the details of the dataset...' : 'The details of this dataset could not be read.' }}</p>
+                } @else {
                 <sm-section-header label="Dataset"></sm-section-header>
                 <sm-labeled-row label="Repository:">
                   @if (details.kind === 'own' && repoLink(details).targetUrl) {
@@ -86,12 +89,15 @@
                 } @else {
                   <p class="note">{{ details.kind === 'own' ? 'No DATASET.md in this repository.' : 'The registry entry has no description.' }}</p>
                 }
+                }
               </div>
             </mat-tab>
 
             <mat-tab label="Git graph">
               <div class="tab-content">
-                @if (details.kind === 'own') {
+                @if (!details) {
+                  <p class="note">The history of the dataset could not be read.</p>
+                } @else if (details.kind === 'own') {
                   <sm-section-header label="History of the dataset repository"></sm-section-header>
                   @let g = graph(details);
                   <div class="graph-scroll">
@@ -110,6 +116,45 @@
                   </div>
                 } @else {
                   <p class="note">Registry datasets are read from their publisher, so their history is not in your repository.</p>
+                }
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Runs">
+              <div class="tab-content" data-id="datasetRuns">
+                @let group = selectedGroup();
+                @if (group && group.versions.length) {
+                  @for (version of group.versions; track version.commit) {
+                    <sm-section-header [label]="'Version ' + (version.commit || 'unknown')"></sm-section-header>
+                    <div class="version-meta">
+                      @if (group.kind === 'own') {
+                        <span class="meta">{{ storageLabel(version.storage) }}</span>
+                      }
+                      @if (version.contentHash) {
+                        <span class="meta">content {{ version.contentHash }}</span>
+                      }
+                    </div>
+                    @if (group.kind === 'own' && version.fetchCommands) {
+                      <div class="fetch-head">
+                        <span class="meta">Fetch this version</span>
+                        <sm-copy-clipboard [clipboardText]="version.fetchCommands.join('\n')" label="Copy" tooltipText="Copy the fetch commands"></sm-copy-clipboard>
+                      </div>
+                      <pre class="commands" data-id="fetchCommands">{{ version.fetchCommands.join('\n') }}</pre>
+                    }
+                    <ul class="runs">
+                      @for (run of version.runs; track run.taskId) {
+                        <li>
+                          <a class="run-link" [routerLink]="['/projects', run.projectId, 'tasks', run.taskId]" data-id="datasetRunLink">{{ run.taskName }}</a>
+                          @if (run.projectName) {
+                            <span class="meta">{{ run.projectName }}</span>
+                          }
+                          <span class="meta" data-id="datasetRunStatus">{{ run.status }}</span>
+                        </li>
+                      }
+                    </ul>
+                  }
+                } @else {
+                  <p class="note">No run has used this dataset yet.</p>
                 }
               </div>
             </mat-tab>

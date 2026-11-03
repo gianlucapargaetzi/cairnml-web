@@ -55,7 +55,7 @@ export class ServingEffects {
   private tasksApi = inject(ApiTasksService);
 
   activeLoader = createEffect(() => this.actions$.pipe(
-    ofType(ServingActions.getNextServingEndpoints, ServingActions.fetchServingEndpoints, ServingActions.fetchLoadingEndpoints),
+    ofType(ServingActions.fetchServingEndpoints, ServingActions.fetchLoadingEndpoints),
     filter((action) => !(action as unknown as ReturnType<typeof ServingActions.refreshEndpoints>).hideLoader),
     map(() => activeLoader('Fetch Endpoint'))
   ));
@@ -222,17 +222,6 @@ export class ServingEffects {
     ofType(ServingActions.servingEndpointSelectionChanged),
     tap(action => this.navigateAfterEndpointSelectionChanged(action.servingEndpoint)),
     mergeMap(() => [ServingActions.setTableViewMode({mode: 'info'})])
-  ));
-
-  selectNextEndpointEffect = createEffect(() => this.actions$.pipe(
-    ofType(ServingActions.getNextServingEndpoints),
-    concatLatestFrom(() => [
-      this.store.select(servingFeature.selectSortedFilteredEndpoints),
-      this.store.select(servingFeature.selectTableMode)
-    ]),
-    filter(([, , tableMode]) => tableMode === 'info'),
-    tap(([, endpoints]) => this.navigateAfterEndpointSelectionChanged(endpoints[0] as EndpointStats, true)),
-    mergeMap(([, endpoints]) => [ServingActions.setTableViewMode({mode: endpoints.length > 0 ? 'info' : 'table'})])
   ));
 
   private previousSelectedId: string;
