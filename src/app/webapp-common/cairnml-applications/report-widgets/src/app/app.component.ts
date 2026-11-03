@@ -109,14 +109,6 @@ export class AppComponent implements OnInit {
     this.otherSearchParams = this.getOtherSearchParams();
     this.xaxis = this.searchParams.get('xaxis') as ScalarKeyEnum;
 
-    try {
-      const data = JSON.parse(localStorage.getItem('_saved_state_'));
-      if (data.auth) {
-        this.store.dispatch(setS3Credentials(data.auth.s3BucketCredentials));
-      }
-    } catch (e) {
-      console.log(e);
-    }
 
   }
 

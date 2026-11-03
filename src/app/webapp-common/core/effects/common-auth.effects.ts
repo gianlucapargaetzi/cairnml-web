@@ -80,8 +80,7 @@ export class CommonAuthEffects {
         switchMap((res: SignResponse) => {
             switch (res.type) {
               case 'popup':
-                this.signAfterPopup.push(action);
-                return [authActions.showS3PopUp({credentials: res.bucket, provider: res.provider, credentialsError: null})];
+                return [addMessage(MESSAGES_SEVERITY.ERROR, 'The server cannot sign links for this storage bucket.')];
               case 'sign':
                 return [authActions.setSignedUrl({url: action.url, signed: res.signed, expires: res.expires})];
               default:
@@ -133,15 +132,8 @@ export class CommonAuthEffects {
               }, {});
             return Object.keys(groups).map(type => {
               switch (type) {
-                case 'popup': {
-                  this.signAfterPopup.push(action);
-                  const res = groups[type][0].res;
-                  return [authActions.showS3PopUp({
-                    credentials: res.bucket,
-                    provider: res.provider,
-                    credentialsError: null
-                  })];
-                }
+                case 'popup':
+                  return [addMessage(MESSAGES_SEVERITY.ERROR, 'The server cannot sign links for this storage bucket.')];
                 case 'sign':
                   return setSignedUrls({
                     signed: groups['sign'].map((res: { res: SignResponse, orgUrl: string }) =>

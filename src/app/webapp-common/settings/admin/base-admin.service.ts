@@ -239,10 +239,7 @@ export class BaseAdminService {
         }
       });
     } else {
-      delete bucketKeyEndpoint.Key;
-      // TODO: use store
-      // this.showS3PopUp(bucketKeyEndpoint).pipe(skip(1), take(1))
-      //   .subscribe(() => this.deleteS3Files(files, true));
+      return of({success: false, files});
     }
     return !skipSubjectReturn && this.deleteS3FilesSubject.asObservable();
   }

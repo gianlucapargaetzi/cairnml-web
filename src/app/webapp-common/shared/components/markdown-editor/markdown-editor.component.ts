@@ -1,16 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  EventEmitter,
-  inject,
-  input,
-  output,
-  Output,
-  signal,
-  viewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, EventEmitter, inject, input, output, Output, signal, viewChild, OnDestroy} from '@angular/core';
 import {
   LMarkdownEditorModule,
   MarkdownEditorComponent as MDComponent,
@@ -61,7 +49,7 @@ const BREAK_POINT = 990;
     MatIconButton
   ]
 })
-export class MarkdownEditorComponent {
+export class MarkdownEditorComponent implements OnDestroy {
   private store = inject(Store);
   private reportService = inject(ReportCodeEmbedBaseService);
   protected dialog = inject(MatDialog);
@@ -162,6 +150,10 @@ export class MarkdownEditorComponent {
   deleteResource = output<string>();
   imageMenuOpened = output<string>();
   editorComponent = viewChild(MDComponent);
+
+  ngOnDestroy() {
+    DOMPurify.removeHook('uponSanitizeElement');
+  }
 
   onResize() {
     this.innerWidth.set(window.innerWidth);

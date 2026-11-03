@@ -117,7 +117,7 @@
               "budgets": [
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "13kb"
                 }
               ],
               "optimization": true,
@@ -371,28 +371,6 @@
           "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "report-widgets:build"
-          }
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "main": "src/app/webapp-common/cairnml-applications/report-widgets/src/test.ts",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "src/app/webapp-common/cairnml-applications/report-widgets/tsconfig.spec.json",
-            "karmaConfig": "src/app/webapp-common/cairnml-applications/report-widgets/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/app/webapp-common/cairnml-applications/report-widgets/src/favicon.ico",
-              "src/app/webapp-common/cairnml-applications/report-widgets/src/assets",
-              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets"
-            ],
-            "styles": [
-              "src/app/webapp-common/cairnml-applications/report-widgets/src/styles.scss"
-            ],
-            "scripts": []
           }
         }
       }

@@ -199,7 +199,12 @@ export class DebugImagesComponent {
       .pipe(
         takeUntilDestroyed(),
         debounceTime(50),
-        map(([, debugImages, metricForTask]) => !debugImages ? {} : Object.entries(debugImages).reduce(((acc, val: [string, EventsDebugImagesResponse]) => {
+        map(([, debugImages, metricForTask]) => {
+          if (!debugImages) {
+            return {};
+          }
+          const urlsToSign: { url: string }[] = [];
+          const result = Object.entries(debugImages).reduce(((acc, val: [string, EventsDebugImagesResponse]) => {
           const id = val[0];
           const iterations: DebugImagesResponseIterations[] = val[1].metrics.find(m => m.task === id).iterations;
           if (iterations?.length === 0) {
@@ -221,15 +226,16 @@ export class DebugImagesComponent {
             metric: metrics[0],
             scrollId: val[1].scroll_id,
           };
-          this.store.dispatch(signUrls({
-            sign: iterations.map(iteration =>
-              iteration.events.map((event: MetricsImageEvent) =>
-                ({url: event.url})
-              )
-            ).flat()
-          }));
+          urlsToSign.push(...iterations.map(iteration =>
+            iteration.events.map((event: MetricsImageEvent) =>
+              ({url: event.url})
+            )
+          ).flat());
           return acc;
-        }), {}))
+        }), {});
+          this.store.dispatch(signUrls({sign: urlsToSign}));
+          return result;
+        })
       )
       .subscribe(debugImages => {
         this.debugImages = debugImages;
