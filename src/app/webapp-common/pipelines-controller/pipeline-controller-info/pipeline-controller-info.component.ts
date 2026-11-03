@@ -50,7 +50,6 @@ import {
   PipelineControllerStepComponent
 } from '@common/pipelines-controller/pipeline-controller-step/pipeline-controller-step.component';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
-// import {pipelineDummyConfiguration} from '@common/pipelines-controller/pipeline-controller-info/pipeline-dummydata';
 
 export interface PipelineItem extends DagModelItem {
   name: string;
@@ -317,7 +316,6 @@ export class PipelineControllerInfoComponent implements OnDestroy {
     let pipelineObj;
     try {
       pipelineObj = JSON.parse(pipeline);
-      // pipelineObj = pipelineDummyConfiguration;
       this.hasStages.set(Object.values(pipelineObj).some((value: TreeStep) => !!value?.stage));
 
       pipelineObj = Object.entries(pipelineObj).reduce((acc, [key, val]: [string, TreeStep]) => {
