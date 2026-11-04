@@ -16,6 +16,12 @@ import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {AddGitCredentialDialogComponent} from './add-git-credential-dialog.component';
+import {PrimeTemplate} from 'primeng/api';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
+import {computed} from '@angular/core';
 
 export interface GitCredentialView {
   host: string;
@@ -36,7 +42,11 @@ export interface GitCredentialView {
     MatProgressSpinnerModule,
     TooltipDirective,
     TimeAgoPipe,
-    PageHeaderComponent
+    PageHeaderComponent,
+    TableComponent,
+    PrimeTemplate,
+    EmptyStateComponent,
+    InlineAlertComponent,
   ]
 })
 export class GitCredentialsComponent implements OnInit {
@@ -47,6 +57,22 @@ export class GitCredentialsComponent implements OnInit {
   protected readonly timeFormatString = TIME_FORMAT_STRING;
   protected credentials = signal<GitCredentialView[]>([]);
   protected loading = signal(true);
+
+  protected readonly columns: ISmCol[] = [
+    {id: 'host', header: 'Host', sortable: false},
+    {id: 'path', header: 'Path prefix', sortable: false},
+    {id: 'username', header: 'User name', sortable: false},
+    {id: 'updated', header: 'Updated', sortable: false},
+    {id: 'actions', header: '', sortable: false},
+  ];
+  protected readonly rows = computed(() => this.credentials().map(credential => ({
+    id: credential.host + '/' + credential.path,
+    host: credential.host,
+    path: this.pathLabel(credential.path),
+    username: credential.username,
+    updated: credential.updated,
+    credential,
+  })));
   protected error = signal<string | null>(null);
 
   ngOnInit() {

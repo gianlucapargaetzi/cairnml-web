@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, input} from '@angular/core';
 import {RepoAccess} from '@common/shared/services/repo-access.service';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {MatIconModule} from '@angular/material/icon';
 
 // How a repository is reached: "Publicly accessible", "Accessible via GitHub App X", "Accessible via token for host",
 // or "Access refused" (with the reason in the tooltip).
@@ -9,7 +10,7 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
   templateUrl: './repo-access-badge.component.html',
   styleUrls: ['./repo-access-badge.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TooltipDirective],
+  imports: [TooltipDirective, MatIconModule],
 })
 export class RepoAccessBadgeComponent {
   access = input<RepoAccess | null>(null);
@@ -28,4 +29,13 @@ export class RepoAccessBadgeComponent {
   });
 
   protected readonly refused = computed(() => this.access()?.state === 'refused');
+
+  // icon and label together: the colour is never the only signal
+  protected readonly icon = computed(() => {
+    switch (this.access()?.state) {
+      case 'public': return 'al-ico-lock-open';
+      case 'refused': return 'al-ico-alert';
+      default: return 'al-ico-lock';
+    }
+  });
 }
