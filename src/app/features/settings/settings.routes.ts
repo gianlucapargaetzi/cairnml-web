@@ -59,18 +59,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'git-credentials',
-        canActivate: [adminGuard],
-        loadComponent: () => import('~/features/settings/containers/git-credentials/git-credentials.component').then(m => m.GitCredentialsComponent),
-        data: {
-          workspaceNeutral: true,
-          staticBreadcrumb: [[settingsBreadcrumb, {
-            name: 'Git Credentials',
-            type: CrumbTypeEnum.SubFeature
-          }]]
-        }
-      },
-      {
         path: 'storage-credentials',
         canActivate: [adminGuard],
         loadComponent: () => import('@common/settings/storage-credentials/storage-credentials.component').then(m => m.StorageCredentialsComponent),

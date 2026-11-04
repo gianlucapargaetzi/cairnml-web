@@ -1,20 +1,22 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatError, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {lastValueFrom} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 
-export type AddAccessKind = 'token' | 'app';
+export interface AddCredentialData {
+  isAdmin: boolean;
+}
 
-// scope 'company': the server's GitHub App, for every user; only an admin may add it
-
-// Adds one of the user's accesses. The secret (token or App key) is sent once and is not shown again after saving.
+// Adds one credential: a token or a GitHub App, for the user or, for an admin, for the whole company. A company token
+// is a Git credential for a host, as the company credentials are stored. The secret is sent once and never shown again.
 @Component({
   selector: 'sm-add-access-dialog',
   templateUrl: './add-access-dialog.component.html',
@@ -23,7 +25,9 @@ export type AddAccessKind = 'token' | 'app';
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatError,
     MatInputModule,
+    MatSelectModule,
     MatProgressSpinnerModule,
     DialogTemplateComponent,
     MatDialogClose,
@@ -33,18 +37,19 @@ export class AddAccessDialogComponent {
   private fb = inject(FormBuilder);
   private api = inject(SmApiRequestsService);
   private dialogRef = inject(MatDialogRef<AddAccessDialogComponent>);
-  protected data = inject<{kind: AddAccessKind; scope?: 'user' | 'company'}>(MAT_DIALOG_DATA);
-  protected readonly companyScope = this.data.scope === 'company';
+  protected data = inject<AddCredentialData>(MAT_DIALOG_DATA);
 
-  protected readonly isApp = this.data.kind === 'app';
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
   protected keyFileName = signal<string | null>(null);
 
   protected readonly form = this.fb.group({
+    kind: ['token', Validators.required],
+    scope: ['user', Validators.required],
     label: ['', [Validators.required, Validators.maxLength(80)]],
-    host: ['github.com'],
+    host: ['github.com', Validators.required],
     path: [''],
+    username: [''],
     token: [''],
     app_id: [''],
     api_url: [''],
@@ -52,12 +57,33 @@ export class AddAccessDialogComponent {
   });
 
   constructor() {
-    if (this.isApp) {
-      this.form.controls.app_id.setValidators([Validators.required, Validators.pattern(/^\d{1,12}$/)]);
-      this.form.controls.key.setValidators([Validators.required]);
-    } else {
-      this.form.controls.token.setValidators([Validators.required]);
-    }
+    this.applyRules();
+    this.form.valueChanges.subscribe(() => this.applyRules());
+  }
+
+  protected get isApp() {
+    return this.form.controls.kind.value === 'app';
+  }
+
+  protected get companyScope() {
+    return this.form.controls.scope.value === 'company';
+  }
+
+  // Which fields are needed depends on the kind and the scope
+  private applyRules() {
+    const need = (name: string, validators: ValidatorFn[]) => {
+      const control = this.form.get(name);
+      control?.setValidators(validators);
+      control?.updateValueAndValidity({emitEvent: false});
+    };
+    const app = this.isApp;
+    const company = this.companyScope;
+    need('label', [Validators.required, Validators.maxLength(80)]);
+    need('host', app ? [] : [Validators.required]);
+    need('username', !app && company ? [Validators.required] : []);
+    need('token', !app ? [Validators.required] : []);
+    need('app_id', app ? [Validators.required, Validators.pattern(/^\d{1,12}$/)] : []);
+    need('key', app ? [Validators.required] : []);
   }
 
   // The key file is read in the browser and sent with the request; the text is not shown.
@@ -77,15 +103,23 @@ export class AddAccessDialogComponent {
     this.saving.set(true);
     this.error.set(null);
     const value = this.form.getRawValue();
-    const endpoint = this.isApp ? 'user_access.add_app' : 'user_access.add_token';
-    const body = this.isApp
-      ? {label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: this.data.scope ?? 'user'}
-      : {label: value.label, host: value.host, path: value.path, token: value.token};
     try {
-      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/${endpoint}`, body, {}));
+      if (value.kind === 'app') {
+        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_app`, {
+          label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: value.scope,
+        }, {}));
+      } else if (value.scope === 'company') {
+        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/git_credentials.set`, {
+          host: value.host, path: value.path, username: value.username, secret: value.token,
+        }, {}));
+      } else {
+        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_token`, {
+          label: value.label, host: value.host, path: value.path, token: value.token,
+        }, {}));
+      }
       this.dialogRef.close(true);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The access could not be saved.');
+      this.error.set(error?.meta?.result_msg ?? 'The credential could not be saved.');
     } finally {
       this.saving.set(false);
     }

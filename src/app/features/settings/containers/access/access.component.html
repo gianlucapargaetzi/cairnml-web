@@ -1,24 +1,14 @@
 <sm-page-header title="Access">
-  @if (isAdmin()) {
-    <button actions mat-stroked-button type="button" (click)="addCompanyApp()" data-id="addCompanyAppButton">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-      Set company GitHub App
-    </button>
-  }
-  <button actions mat-stroked-button type="button" (click)="add('token')" data-id="addAccessTokenButton">
+  <button actions mat-flat-button type="button" (click)="add()" data-id="addCredentialButton">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-    Add token
-  </button>
-  <button actions mat-flat-button type="button" (click)="add('app')" data-id="addAccessAppButton">
-    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-    Add GitHub App
+    Add credential
   </button>
 </sm-page-header>
 <div class="access">
   <p class="access-description">
-    Accesses let CairnML read repositories that are not public. A GitHub App is installed on the repositories it may
-    read; a token reaches what its owner can reach. Secrets are written once, encrypted on the server, and never shown
-    again. Only you can check or delete your accesses. Projects use them through the repositories of their tasks.
+    Credentials let CairnML read repositories that are not public: a token, or a GitHub App installed on the repositories
+    it may read. Each one shows its owner, what it is valid for, and whether it works. Secrets are written once, encrypted
+    on the server, and never shown again. An owner changes their own credentials; an admin changes the company's.
   </p>
 
   @if (error()) {
@@ -27,102 +17,66 @@
 
   @if (loading()) {
     <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
+  } @else if (!credentials().length) {
+    <sm-empty-state icon="al-ico-lock" title="No credentials yet"
+      description="Add a token, or a GitHub App, to read private repositories."></sm-empty-state>
   } @else {
-    <h3 class="access-section">Your accesses</h3>
-    @if (!own().length) {
-      <sm-empty-state icon="al-ico-lock" title="No accesses yet"
-        description="Add a token, or a GitHub App, to read private repositories."></sm-empty-state>
-    } @else {
-      <sm-table class="access-table" data-id="ownAccessesTable" [columns]="ownColumns" [tableData]="ownRows()"
-        selectionMode="single" [scrollable]="true">
-        <ng-template let-col let-line="rowData" pTemplate="body">
-          <div>
-            @switch (col.id) {
-              @case ('label') {
-                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.label">{{ line.label }}</span>
+    <sm-table class="access-table" data-id="credentialsTable" [columns]="columns" [tableData]="rows()"
+      selectionMode="single" [scrollable]="true">
+      <ng-template let-col let-line="rowData" pTemplate="body">
+        <div>
+          @switch (col.id) {
+            @case ('status') {
+              <span [class.invalid]="isInvalid(line.state)" [smTooltip]="line.credential.message">
+                <mat-icon fontSet="al" [fontIcon]="isInvalid(line.state) ? 'al-ico-alert' : 'al-ico-lock'" class="al-icon"></mat-icon>
+                {{ line.status }}
+              </span>
+              @if (line.credential.last_checked) {
+                <span class="meta">{{ line.credential.last_checked | timeAgo }}</span>
               }
-              @case ('state') {
-                <span [class.refused]="line.access.last_state === 'refused'" [smTooltip]="line.access.last_message ?? ''">{{ line.state }}</span>
-                @if (line.access.last_checked) {
-                  <span class="meta">{{ line.access.last_checked | timeAgo }}</span>
-                }
-              }
-              @case ('shared') {
-                @for (projectId of line.access.granted_projects; track projectId) {
-                  <span class="share-chip">
-                    <span class="ellipsis">{{ projectName(projectId) }}</span>
-                    <button mat-icon-button [attr.aria-label]="'Stop sharing with ' + projectName(projectId)"
-                            smTooltip="Stop sharing" [disabled]="busy() === line.access.id"
-                            (click)="unshare(line.access, projectId)" data-id="unshareButton">
+            }
+            @case ('valid_for') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.valid_for">{{ line.valid_for }}</span>
+            }
+            @case ('name') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
+            }
+            @case ('shared') {
+              @for (projectId of line.credential.granted_projects; track projectId) {
+                <span class="share-chip">
+                  <span class="ellipsis">{{ projectName(projectId) }}</span>
+                  @if (line.credential.can_edit) {
+                    <button mat-icon-button [attr.aria-label]="'Stop sharing with ' + projectName(projectId)" smTooltip="Stop sharing"
+                            [disabled]="busy() === line.id" (click)="unshare(line.credential, projectId)" data-id="unshareButton">
                       <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
                     </button>
-                  </span>
-                }
-                <button mat-stroked-button type="button" [disabled]="busy() === line.access.id"
-                        (click)="share(line.access)" data-id="shareAccessButton">Share</button>
+                  }
+                </span>
               }
-              @case ('actions') {
-                <button mat-icon-button aria-label="Check access" smTooltip="Check access now"
-                        [disabled]="busy() === line.access.id" (click)="check(line.access)" data-id="checkAccessButton">
+              @if (canShare(line.credential)) {
+                <button mat-stroked-button type="button" [disabled]="busy() === line.id" (click)="share(line.credential)" data-id="shareAccessButton">Share</button>
+              }
+            }
+            @case ('actions') {
+              @if (line.credential.source === 'access' && line.credential.can_edit) {
+                <button mat-icon-button aria-label="Check credential" smTooltip="Check now"
+                        [disabled]="busy() === line.id" (click)="check(line.credential)" data-id="checkAccessButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
                 </button>
-                <button mat-icon-button aria-label="Delete access" smTooltip="Delete access"
-                        [disabled]="busy() === line.access.id" (click)="confirmDelete(line.access)" data-id="deleteAccessButton">
+              }
+              @if (line.credential.can_edit) {
+                <button mat-icon-button aria-label="Delete credential" smTooltip="Delete credential"
+                        [disabled]="busy() === line.id" (click)="confirmDelete(line.credential)" data-id="deleteAccessButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                 </button>
               }
-              @default {
-                <div class="ellipsis">{{ line[col.id] }}</div>
-              }
             }
-          </div>
-        </ng-template>
-      </sm-table>
-    }
-
-    <h3 class="access-section">Company GitHub App</h3>
-    <p class="access-note">The server's GitHub App, used for every repository and dataset no personal access reaches.
-      {{ isAdmin() ? 'You can check it or replace it.' : 'Contact an admin if it does not work.' }}</p>
-    @if (!companyApps().length) {
-      <sm-empty-state icon="al-ico-lock" title="No GitHub App is added"
-        description="An admin adds the server's GitHub App here. Until then, only public repositories and personal accesses work."></sm-empty-state>
-    } @else {
-      @for (app of companyApps(); track app.id) {
-        <div class="company-app" data-id="companyAppRow">
-          <span class="ellipsis">{{ app.label }} · App {{ app.app_id }}</span>
-          <span [class.refused]="app.last_state === 'refused'" [smTooltip]="app.last_message ?? ''">{{ stateLabel(app.last_state) }}</span>
-          @if (isAdmin()) {
-            <button mat-stroked-button type="button" [disabled]="busy() === app.id" (click)="check(app)" data-id="checkCompanyAppButton">Check</button>
-            <button mat-icon-button aria-label="Remove the company GitHub App" smTooltip="Remove the company GitHub App"
-                    [disabled]="busy() === app.id" (click)="confirmDelete(app)" data-id="deleteCompanyAppButton">
-              <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
-            </button>
+            @default {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
           }
         </div>
-      }
-    }
-
-    <h3 class="access-section">Company accesses</h3>
-    <p class="access-note">Set by an admin for the whole company. You can use them, but not change them.</p>
-    @if (!company().length) {
-      <sm-empty-state icon="al-ico-lock" title="No company accesses"
-        description="No company token credentials are stored."></sm-empty-state>
-    } @else {
-      <sm-table class="access-table" data-id="companyAccessesTable" [columns]="companyColumns" [tableData]="companyRows()"
-        selectionMode="single" [scrollable]="true">
-        <ng-template let-col let-line="rowData" pTemplate="body">
-          <div>
-            @switch (col.id) {
-              @case ('reaches') {
-                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.reaches">{{ line.reaches }}</span>
-              }
-              @default {
-                <div class="ellipsis">{{ line[col.id] }}</div>
-              }
-            }
-          </div>
-        </ng-template>
-      </sm-table>
-    }
+      </ng-template>
+    </sm-table>
   }
 </div>

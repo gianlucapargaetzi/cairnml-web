@@ -8,20 +8,11 @@
   gap: var(--space-3);
 }
 
-.access-description,
-.access-note {
+.access-description {
   margin: 0;
   max-width: 720px;
   color: var(--color-on-surface-variant);
   font-size: var(--font-size-md);
-}
-
-// a section title in a page: sentence case, 14px, weight 500 (docs/design-system/04-typography.md)
-.access-section {
-  margin: var(--space-4) 0 0;
-  font-size: var(--font-size-md);
-  font-weight: 500;
-  color: var(--color-on-surface);
 }
 
 .access-table {
@@ -30,8 +21,15 @@
   min-width: 0;
 }
 
-.refused {
+.invalid {
   color: var(--color-failed);
+}
+
+.al-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
 }
 
 .meta {
@@ -54,12 +52,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.company-app {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--font-size-md);
 }

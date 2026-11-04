@@ -1,52 +1,51 @@
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
-import {PrimeTemplate} from 'primeng/api';
-import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
-import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
-import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
-import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
-import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {lastValueFrom} from 'rxjs';
+import {PrimeTemplate} from 'primeng/api';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {addMessage} from '@common/core/actions/layout.actions';
-import {MESSAGES_SEVERITY, TIME_FORMAT_STRING} from '@common/constants';
+import {MESSAGES_SEVERITY} from '@common/constants';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {AddAccessDialogComponent, AddAccessKind} from './add-access-dialog.component';
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
+import {AddAccessDialogComponent} from './add-access-dialog.component';
 import {ShareAccessDialogComponent, ShareableProject} from './share-access-dialog.component';
 
-export interface OwnAccessView {
+// One credential, as the server lists it: a personal token or GitHub App, the company's GitHub App, or a company Git
+// credential for another host. "git" rows are the company's Git credentials; the others are accesses.
+export interface CredentialView {
   id: string;
-  kind: 'token' | 'app';
-  label: string;
-  host: string;
-  path: string;
-  app_id: string | null;
-  api_url: string | null;
-  created: string | null;
+  source: 'access' | 'git';
+  type: string;
+  name: string;
+  owner: string;
+  scope: 'user' | 'company';
+  valid_for: string;
+  state: 'ok' | 'refused' | 'unreachable' | 'unverified' | 'unchecked';
+  message: string;
   last_checked: string | null;
-  last_state: 'ok' | 'refused' | 'unreachable' | 'unverified' | null;
-  last_message: string | null;
   granted_projects: string[];
+  can_edit: boolean;
+  app_id: string | null;
+  host?: string;
+  path?: string;
 }
 
-export interface CompanyAccessView {
-  host: string;
-  path: string;
-  username: string;
-}
-
-// The user's own repository accesses (tokens and GitHub Apps), and the company's token credentials, which are read-only
-// here. The secret of an access is written once and never shown again; only its owner can check or delete it.
+// The credentials of the user, in one table like the devices: the owner, what each is valid for, whether it is valid,
+// and what this user may do with it. Only the owner changes an own credential; an admin changes the company's.
 @Component({
   selector: 'sm-access',
   templateUrl: './access.component.html',
@@ -57,13 +56,13 @@ export interface CompanyAccessView {
     MatButtonModule,
     MatProgressSpinnerModule,
     TooltipDirective,
+    ShowTooltipIfEllipsisDirective,
     TimeAgoPipe,
     PageHeaderComponent,
     TableComponent,
     PrimeTemplate,
     EmptyStateComponent,
     InlineAlertComponent,
-    ShowTooltipIfEllipsisDirective,
   ],
 })
 export class AccessComponent implements OnInit {
@@ -71,63 +70,47 @@ export class AccessComponent implements OnInit {
   private dialog = inject(MatDialog);
   private store = inject(Store);
 
-  protected readonly timeFormatString = TIME_FORMAT_STRING;
-  protected own = signal<OwnAccessView[]>([]);
-  protected company = signal<CompanyAccessView[]>([]);
+  protected credentials = signal<CredentialView[]>([]);
   protected projects = signal<ShareableProject[]>([]);
-  protected companyApps = signal<OwnAccessView[]>([]);
-  // only an admin adds, checks and removes the company's GitHub App
-  protected isAdmin = this.store.selectSignal(selectIsAdmin);
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected busy = signal<string | null>(null);
 
-  protected readonly ownColumns: ISmCol[] = [
-    {id: 'label', header: 'Name', sortable: false},
-    {id: 'kind', header: 'Kind', sortable: false},
-    {id: 'reaches', header: 'Reaches', sortable: false},
-    {id: 'state', header: 'Last check', sortable: false},
+  protected isAdmin = this.store.selectSignal(selectIsAdmin);
+
+  protected readonly columns: ISmCol[] = [
+    {id: 'name', header: 'Name', sortable: false},
+    {id: 'type', header: 'Type', sortable: false},
+    {id: 'owner', header: 'Owner', sortable: false},
+    {id: 'valid_for', header: 'Valid for', sortable: false},
+    {id: 'status', header: 'Status', sortable: false},
     {id: 'shared', header: 'Shared with', sortable: false},
     {id: 'actions', header: '', sortable: false},
   ];
-  protected readonly companyColumns: ISmCol[] = [
-    {id: 'kind', header: 'Kind', sortable: false},
-    {id: 'reaches', header: 'Reaches', sortable: false},
-    {id: 'username', header: 'User name', sortable: false},
-  ];
-  protected readonly ownRows = computed(() => this.own().map(access => ({
-    id: access.id,
-    label: access.label,
-    kind: this.kindLabel(access.kind),
-    reaches: this.targetOf(access),
-    state: this.stateLabel(access.last_state),
-    access,
-  })));
-  protected readonly companyRows = computed(() => this.company().map(access => ({
-    id: access.host + '/' + access.path,
-    kind: 'Token',
-    reaches: access.path ? `${access.host}/${access.path}` : access.host,
-    username: access.username,
+
+  protected readonly rows = computed(() => this.credentials().map(credential => ({
+    id: credential.id,
+    name: credential.name,
+    type: credential.type,
+    owner: credential.owner,
+    valid_for: credential.valid_for,
+    status: this.stateLabel(credential.state),
+    state: credential.state,
+    shared: credential.granted_projects.map(id => this.projectName(id)).join(', '),
+    credential,
   })));
 
   ngOnInit() {
     this.load();
   }
 
-  protected kindLabel(kind: 'token' | 'app') {
-    return kind === 'app' ? 'GitHub App' : 'Token';
+  protected projectName(id: string) {
+    return this.projects().find(project => project.id === id)?.name ?? id;
   }
 
-  protected targetOf(access: OwnAccessView) {
-    if (access.kind === 'app') {
-      return `App ${access.app_id}`;
-    }
-    return access.path ? `${access.host}/${access.path}` : access.host;
-  }
-
-  protected stateLabel(state: OwnAccessView['last_state']) {
+  protected stateLabel(state: CredentialView['state']) {
     switch (state) {
-      case 'ok': return 'Works';
+      case 'ok': return 'Valid';
       case 'refused': return 'Refused';
       case 'unreachable': return 'Not reachable';
       case 'unverified': return 'Not verified';
@@ -135,38 +118,30 @@ export class AccessComponent implements OnInit {
     }
   }
 
-  protected addCompanyApp() {
-    this.dialog.open<AddAccessDialogComponent, {kind: AddAccessKind; scope: 'company'}, boolean>(AddAccessDialogComponent, {
-      data: {kind: 'app', scope: 'company'},
+  protected isInvalid(state: CredentialView['state']) {
+    return state === 'refused' || state === 'unreachable';
+  }
+
+  protected canShare(credential: CredentialView) {
+    return credential.source === 'access' && credential.scope === 'user' && credential.can_edit;
+  }
+
+  protected add() {
+    this.dialog.open<AddAccessDialogComponent, {isAdmin: boolean}, boolean>(AddAccessDialogComponent, {
+      data: {isAdmin: this.isAdmin()},
       panelClass: 'dialog-md',
     }).afterClosed().subscribe(saved => {
       if (saved) {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The company GitHub App is saved'));
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Credential saved'));
         this.load();
       }
     });
   }
 
-  protected add(kind: AddAccessKind) {
-    this.dialog.open<AddAccessDialogComponent, {kind: AddAccessKind}, boolean>(AddAccessDialogComponent, {
-      data: {kind},
-      panelClass: 'dialog-md',
-    }).afterClosed().subscribe(saved => {
-      if (saved) {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Access saved'));
-        this.load();
-      }
-    });
-  }
-
-  protected projectName(id: string) {
-    return this.projects().find(project => project.id === id)?.name ?? id;
-  }
-
-  protected share(access: OwnAccessView) {
-    const available = this.projects().filter(project => !access.granted_projects.includes(project.id));
+  protected share(credential: CredentialView) {
+    const available = this.projects().filter(project => !credential.granted_projects.includes(project.id));
     this.dialog.open<ShareAccessDialogComponent, unknown, boolean>(ShareAccessDialogComponent, {
-      data: {id: access.id, label: access.label, projects: available},
+      data: {id: credential.id, label: credential.name, projects: available},
       panelClass: 'dialog-md',
     }).afterClosed().subscribe(shared => {
       if (shared) {
@@ -176,29 +151,21 @@ export class AccessComponent implements OnInit {
     });
   }
 
-  protected async unshare(access: OwnAccessView, projectId: string) {
-    this.busy.set(access.id);
-    try {
-      await lastValueFrom(this.apiRequest.post(`${HTTP.API_BASE_URL}/user_access.revoke`,
-        {id: access.id, project: projectId}, {}));
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Sharing stopped'));
-      await this.load();
-    } catch (error) {
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'Sharing could not be stopped.'));
-    } finally {
-      this.busy.set(null);
-    }
+  protected async unshare(credential: CredentialView, projectId: string) {
+    await this.run(credential.id, 'user_access.revoke', {id: credential.id, project: projectId},
+      'Sharing stopped', 'Sharing could not be stopped.');
   }
 
-  protected async check(access: OwnAccessView) {
-    await this.run(access.id, 'user_access.check', 'The access was checked', 'The access could not be checked.');
+  protected async check(credential: CredentialView) {
+    await this.run(credential.id, 'user_access.check', {id: credential.id}, 'The credential was checked',
+      'The credential could not be checked.');
   }
 
-  protected confirmDelete(access: OwnAccessView) {
+  protected confirmDelete(credential: CredentialView) {
     const data: ConfirmDialogConfig = {
-      title: `Delete ${access.label}?`,
-      body: `The secret is removed from the server. Jobs that use it through a project will fail until another access reaches the repository.`,
-      yes: 'Delete access',
+      title: `Delete ${credential.name}?`,
+      body: 'The secret is removed from the server. Jobs that use it will no longer reach the repositories it reached.',
+      yes: 'Delete',
       no: 'Cancel',
       iconClass: 'al-ico-alert',
       iconColor: 'var(--color-warning)',
@@ -208,16 +175,23 @@ export class AccessComponent implements OnInit {
       data,
       panelClass: 'dialog-sm',
     }).afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.run(access.id, 'user_access.delete', 'Access deleted', 'The access could not be deleted.');
+      if (!confirmed) {
+        return;
+      }
+      if (credential.source === 'git') {
+        this.run(credential.id, 'git_credentials.delete', {host: credential.host, path: credential.path},
+          'Credential deleted', 'The credential could not be deleted.');
+      } else {
+        this.run(credential.id, 'user_access.delete', {id: credential.id}, 'Credential deleted',
+          'The credential could not be deleted.');
       }
     });
   }
 
-  private async run(id: string, endpoint: string, success: string, failure: string) {
+  private async run(id: string, endpoint: string, body: unknown, success: string, failure: string) {
     this.busy.set(id);
     try {
-      await lastValueFrom(this.apiRequest.post(`${HTTP.API_BASE_URL}/${endpoint}`, {id}, {}));
+      await lastValueFrom(this.apiRequest.post(`${HTTP.API_BASE_URL}/${endpoint}`, body, {}));
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, success));
       await this.load();
     } catch (error) {
@@ -232,14 +206,12 @@ export class AccessComponent implements OnInit {
     this.error.set(null);
     try {
       const res = await lastValueFrom(this.apiRequest.post<{
-        own: OwnAccessView[]; company: CompanyAccessView[]; projects: ShareableProject[];
+        credentials: CredentialView[]; projects: ShareableProject[];
       }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
-      this.own.set(res.own ?? []);
-      this.company.set(res.company ?? []);
+      this.credentials.set(res.credentials ?? []);
       this.projects.set(res.projects ?? []);
-      this.companyApps.set((res as {company_apps?: OwnAccessView[]}).company_apps ?? []);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The accesses could not be loaded.');
+      this.error.set(error?.meta?.result_msg ?? 'The credentials could not be loaded.');
     } finally {
       this.loading.set(false);
     }
