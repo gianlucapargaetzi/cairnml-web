@@ -7,6 +7,14 @@
     working for the project when its owner leaves the project or is deactivated.
   </p>
 
+  <mat-slide-toggle [checked]="agentTokens()" [disabled]="busy() || !settingsStore.isOwner()"
+                    (change)="setAgentTokens($event.checked)" data-id="agentTokensToggle">
+    Allow personal tokens on this project's agents
+  </mat-slide-toggle>
+  <p class="accesses-note">
+    A personal token reaches everything its owner can reach, not only one repository. GitHub Apps are not affected.
+  </p>
+
   @if (error()) {
     <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
   }

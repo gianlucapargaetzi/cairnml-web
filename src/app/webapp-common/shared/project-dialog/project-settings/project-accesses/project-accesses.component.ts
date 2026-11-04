@@ -9,6 +9,7 @@ import {lastValueFrom} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {Store} from '@ngrx/store';
@@ -39,7 +40,17 @@ export interface ProjectGrantView {
   templateUrl: './project-accesses.component.html',
   styleUrls: ['./project-accesses.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatIconButton, TooltipDirective, TableComponent, PrimeTemplate, EmptyStateComponent, ShowTooltipIfEllipsisDirective, InlineAlertComponent],
+  imports: [
+    MatIcon,
+    MatIconButton,
+    MatSlideToggleModule,
+    TooltipDirective,
+    TableComponent,
+    PrimeTemplate,
+    EmptyStateComponent,
+    ShowTooltipIfEllipsisDirective,
+    InlineAlertComponent,
+  ],
 })
 export class ProjectAccessesComponent implements OnInit {
   private api = inject(SmApiRequestsService);
@@ -50,6 +61,8 @@ export class ProjectAccessesComponent implements OnInit {
   projectId = input.required<string>();
 
   protected grants = signal<ProjectGrantView[]>([]);
+  // whether the agents of this project may be given personal tokens shared with it (on by default)
+  protected agentTokens = signal(true);
 
   protected readonly columns: ISmCol[] = [
     {id: 'label', header: 'Name', sortable: false},
@@ -83,6 +96,22 @@ export class ProjectAccessesComponent implements OnInit {
 
   protected inEffect(grant: ProjectGrantView) {
     return grant.owner_active && grant.owner_is_member;
+  }
+
+  // Applies at once. Only the owner of the project may change it; the warning is shown on the access, when it is shared.
+  protected async setAgentTokens(allowed: boolean) {
+    this.busy.set(true);
+    try {
+      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.set_agent_tokens`,
+        {project: this.projectId(), allowed}, {}));
+      this.agentTokens.set(allowed);
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
+        allowed ? 'Personal tokens are allowed on this project\'s agents' : 'Personal tokens are blocked on this project\'s agents'));
+    } catch (error) {
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'The setting could not be saved.'));
+    } finally {
+      this.busy.set(false);
+    }
   }
 
   protected stop(grant: ProjectGrantView) {
@@ -119,9 +148,10 @@ export class ProjectAccessesComponent implements OnInit {
   private async load() {
     this.error.set(null);
     try {
-      const res = await lastValueFrom(this.api.post<{grants: ProjectGrantView[]}>(
+      const res = await lastValueFrom(this.api.post<{grants: ProjectGrantView[]; agent_tokens_allowed: boolean}>(
         `${HTTP.API_BASE_URL}/user_access.project_grants`, {project: this.projectId()}, {}));
       this.grants.set(res.grants ?? []);
+      this.agentTokens.set(res.agent_tokens_allowed !== false);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The shared accesses could not be loaded.');
     }
