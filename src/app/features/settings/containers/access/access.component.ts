@@ -21,6 +21,7 @@ import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {AddAccessDialogComponent, AddAccessKind} from './add-access-dialog.component';
+import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {ShareAccessDialogComponent, ShareableProject} from './share-access-dialog.component';
 
 export interface OwnAccessView {
@@ -74,6 +75,9 @@ export class AccessComponent implements OnInit {
   protected own = signal<OwnAccessView[]>([]);
   protected company = signal<CompanyAccessView[]>([]);
   protected projects = signal<ShareableProject[]>([]);
+  protected companyApps = signal<OwnAccessView[]>([]);
+  // only an admin adds, checks and removes the company's GitHub App
+  protected isAdmin = this.store.selectSignal(selectIsAdmin);
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected busy = signal<string | null>(null);
@@ -129,6 +133,18 @@ export class AccessComponent implements OnInit {
       case 'unverified': return 'Not verified';
       default: return 'Not checked yet';
     }
+  }
+
+  protected addCompanyApp() {
+    this.dialog.open<AddAccessDialogComponent, {kind: AddAccessKind; scope: 'company'}, boolean>(AddAccessDialogComponent, {
+      data: {kind: 'app', scope: 'company'},
+      panelClass: 'dialog-md',
+    }).afterClosed().subscribe(saved => {
+      if (saved) {
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The company GitHub App is saved'));
+        this.load();
+      }
+    });
   }
 
   protected add(kind: AddAccessKind) {
@@ -221,6 +237,7 @@ export class AccessComponent implements OnInit {
       this.own.set(res.own ?? []);
       this.company.set(res.company ?? []);
       this.projects.set(res.projects ?? []);
+      this.companyApps.set((res as {company_apps?: OwnAccessView[]}).company_apps ?? []);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The accesses could not be loaded.');
     } finally {

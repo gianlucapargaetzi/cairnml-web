@@ -1,4 +1,4 @@
-<sm-dialog-template [header]="isApp ? 'Add GitHub App' : 'Add token'" iconClass="al-ico-lock">
+<sm-dialog-template [header]="companyScope ? 'Add company GitHub App' : isApp ? 'Add GitHub App' : 'Add token'" iconClass="al-ico-lock">
   <p class="intro">
     @if (isApp) {
       The App's private key (a .pem file) is checked with GitHub and stored encrypted. It is never shown again.

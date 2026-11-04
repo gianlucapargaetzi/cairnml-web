@@ -12,6 +12,8 @@ import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dial
 
 export type AddAccessKind = 'token' | 'app';
 
+// scope 'company': the server's GitHub App, for every user; only an admin may add it
+
 // Adds one of the user's accesses. The secret (token or App key) is sent once and is not shown again after saving.
 @Component({
   selector: 'sm-add-access-dialog',
@@ -31,7 +33,8 @@ export class AddAccessDialogComponent {
   private fb = inject(FormBuilder);
   private api = inject(SmApiRequestsService);
   private dialogRef = inject(MatDialogRef<AddAccessDialogComponent>);
-  protected data = inject<{kind: AddAccessKind}>(MAT_DIALOG_DATA);
+  protected data = inject<{kind: AddAccessKind; scope?: 'user' | 'company'}>(MAT_DIALOG_DATA);
+  protected readonly companyScope = this.data.scope === 'company';
 
   protected readonly isApp = this.data.kind === 'app';
   protected readonly saving = signal(false);
@@ -76,7 +79,7 @@ export class AddAccessDialogComponent {
     const value = this.form.getRawValue();
     const endpoint = this.isApp ? 'user_access.add_app' : 'user_access.add_token';
     const body = this.isApp
-      ? {label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key}
+      ? {label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: this.data.scope ?? 'user'}
       : {label: value.label, host: value.host, path: value.path, token: value.token};
     try {
       await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/${endpoint}`, body, {}));

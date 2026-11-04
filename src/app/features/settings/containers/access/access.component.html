@@ -1,4 +1,10 @@
 <sm-page-header title="Access">
+  @if (isAdmin()) {
+    <button actions mat-stroked-button type="button" (click)="addCompanyApp()" data-id="addCompanyAppButton">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Set company GitHub App
+    </button>
+  }
   <button actions mat-stroked-button type="button" (click)="add('token')" data-id="addAccessTokenButton">
     <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
     Add token
@@ -72,6 +78,28 @@
           </div>
         </ng-template>
       </sm-table>
+    }
+
+    <h3 class="access-section">Company GitHub App</h3>
+    <p class="access-note">The server's GitHub App, used for every repository and dataset no personal access reaches.
+      {{ isAdmin() ? 'You can check it or replace it.' : 'Contact an admin if it does not work.' }}</p>
+    @if (!companyApps().length) {
+      <sm-empty-state icon="al-ico-lock" title="No GitHub App is added"
+        description="An admin adds the server's GitHub App here. Until then, only public repositories and personal accesses work."></sm-empty-state>
+    } @else {
+      @for (app of companyApps(); track app.id) {
+        <div class="company-app" data-id="companyAppRow">
+          <span class="ellipsis">{{ app.label }} · App {{ app.app_id }}</span>
+          <span [class.refused]="app.last_state === 'refused'" [smTooltip]="app.last_message ?? ''">{{ stateLabel(app.last_state) }}</span>
+          @if (isAdmin()) {
+            <button mat-stroked-button type="button" [disabled]="busy() === app.id" (click)="check(app)" data-id="checkCompanyAppButton">Check</button>
+            <button mat-icon-button aria-label="Remove the company GitHub App" smTooltip="Remove the company GitHub App"
+                    [disabled]="busy() === app.id" (click)="confirmDelete(app)" data-id="deleteCompanyAppButton">
+              <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+            </button>
+          }
+        </div>
+      }
     }
 
     <h3 class="access-section">Company accesses</h3>
