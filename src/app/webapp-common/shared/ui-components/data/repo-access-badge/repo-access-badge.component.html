@@ -1,0 +1,5 @@
+@if (access(); as access) {
+  <span class="repo-access" [class.refused]="refused()" [smTooltip]="access.message" data-id="repoAccessBadge">
+    <span class="dot"></span>{{ label() }}
+  </span>
+}

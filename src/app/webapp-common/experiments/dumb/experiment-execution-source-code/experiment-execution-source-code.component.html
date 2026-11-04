@@ -11,6 +11,7 @@
         } @else {
           {{sourceCodeForm.controls.repository.value}}
         }
+        <sm-repo-access-badge class="ms-2" [access]="repoAccess()"></sm-repo-access-badge>
       } @else {
         <mat-form-field appearance="outline" class="w-100 no-bottom">
           <input matInput formControlName="repository" data-id="repositoryField">
