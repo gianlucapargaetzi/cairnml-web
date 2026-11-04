@@ -27,14 +27,6 @@
 
 <div class="options">
   <div class="option">
-    <div class="option-label" id="overview-period-label">Contribution period</div>
-    <mat-radio-group aria-labelledby="overview-period-label" [value]="settings().contribution.periodDays" (change)="setPeriod($event)">
-      @for (days of periodOptions; track days) {
-        <mat-radio-button [value]="days">{{ periodLabel(days) }}</mat-radio-button>
-      }
-    </mat-radio-group>
-  </div>
-  <div class="option">
     <div class="option-label" id="overview-top-label">Contributors listed</div>
     <mat-radio-group aria-labelledby="overview-top-label" [value]="settings().contribution.topContributors" (change)="setTopContributors($event)">
       @for (count of topOptions; track count) {

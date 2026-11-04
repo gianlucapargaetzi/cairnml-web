@@ -14,6 +14,7 @@ import {
   buildContributionSummary,
   buildContributionSummaryFromAggregate,
   buildWeeks,
+  periodDaysFor,
   ContributionAggregate,
   ContributionRun,
   ContributionSummary,
@@ -61,7 +62,6 @@ export class ProjectContributionComponent {
   private apiRequest = inject(SmApiRequestsService);
 
   projectId = input.required<string>();
-  periodDays = input(365);
   topContributors = input(5);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -80,7 +80,9 @@ export class ProjectContributionComponent {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly periodLabel = computed(() => this.periodDays() === 365 ? 'Last year' : `Last ${this.periodDays()} days`);
+  /** The period the panel counts: the weeks that fit its width, as the grid shows them. */
+  protected readonly periodDays = computed(() => periodDaysFor(this.columns(), new Date()));
+  protected readonly periodLabel = computed(() => `Last ${Math.ceil(this.periodDays() / 7)} weeks`);
 
   private readonly query = computed(() => ({
     projectId: this.projectId(),

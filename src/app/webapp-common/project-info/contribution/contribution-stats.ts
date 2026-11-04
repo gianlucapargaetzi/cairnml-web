@@ -81,6 +81,18 @@ export interface ContributionWeek {
   monthLabel: string | null;
 }
 
+/** Longest period the server counts. */
+export const MAX_PERIOD_DAYS = 365;
+
+/**
+ * Days from the Monday that starts the first of `columns` weeks up to today: the period the activity grid shows, with
+ * the tiles and the ranking counting the same runs as the grid. Capped at the longest period the server counts.
+ */
+export function periodDaysFor(columns: number, today: Date): number {
+  const daysSinceMonday = (startOfLocalDay(today).getDay() + 6) % 7;
+  return Math.min(MAX_PERIOD_DAYS, (columns - 1) * 7 + daysSinceMonday + 1);
+}
+
 /**
  * The last `columns` weeks, Monday first, ending with the week of `today`. Days after today are empty cells, and so are
  * days before the period the data covers. Each week is one column of the grid.
