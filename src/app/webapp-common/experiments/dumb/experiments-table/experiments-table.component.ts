@@ -46,6 +46,7 @@ import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/share
 import {computedPrevious} from 'ngxtension/computed-previous';
 import {FILTERED_EXPERIMENTS_STATUS_OPTIONS} from '~/features/experiments/experiments.consts';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {TaskNameComponent} from '@common/shared/ui-components/data/task-name/task-name.component';
 import {TableCardComponent} from '@common/shared/ui-components/data/table-card/table-card.component';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {
@@ -89,6 +90,7 @@ import {MatIconModule} from '@angular/material/icon';
     useValue: {showDelay: 500, position: 'above'} as MatTooltipDefaultOptions,
   }],
   imports: [
+    TaskNameComponent,
     MatIconModule,
     TooltipDirective,
     NgTemplateOutlet,

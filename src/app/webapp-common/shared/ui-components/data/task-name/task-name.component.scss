@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.task-name {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.separator {
+  flex: 0 0 auto;
+}
+
+.id {
+  flex: 0 0 auto;
+  font-family: var(--font-family-monospace);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-on-surface-variant);
+}
+
+.italic .name {
+  font-style: italic;
+}

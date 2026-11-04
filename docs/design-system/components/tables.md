@@ -48,3 +48,7 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 - Do not use cards where records are compared on attributes.
 - Do not put a second scroll container inside a table cell.
 - Do not use color alone for the status column (icon + label are in the component).
+
+## Task name cell (`sm-task-name`)
+
+Used by the experiments table and the dashboard's recent tasks table. A task in a table is shown as `name: id`: the name, a colon, then the task's id (the hash) in monospace. The name shrinks with an ellipsis when the cell is narrow, and the id stays visible. The full text is in a tooltip. Development tasks show the name in italics. Inputs: `name`, `taskId`, `italic`.

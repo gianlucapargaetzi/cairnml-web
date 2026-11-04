@@ -1,29 +1,154 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatIcon} from '@angular/material/icon';
+import {MatDialog} from '@angular/material/dialog';
+import {Store} from '@ngrx/store';
+import {PrimeTemplate} from 'primeng/api';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {lastValueFrom} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {SectionHeaderComponent} from '@common/shared/components/section-header/section-header.component';
 import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor/code-editor.component';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
+import {selectIsAdmin} from '@common/core/reducers/users-reducer';
+import {ApiUsersService} from '~/business-logic/api-services/users.service';
+import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
+import {RegistryRecord} from '../dataset-git/dataset-git.model';
 
-// How to create and use a dataset from the SDK on a host. The code cells are sized to their content.
+interface RegistryRow {
+  id: string;
+  repository: string;
+  url: string;
+  added: string;
+  added_by: string;
+}
+
+// How to create and use a dataset from the SDK on a host, and the dataset registries of the server. The code cells are
+// sized to their content. Only an admin adds or removes a registry; everyone else sees the list.
 @Component({
   selector: 'sm-dataset-how-to',
   templateUrl: './dataset-how-to.component.html',
   styleUrls: ['./dataset-how-to.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    DatePipe,
+    FormsModule,
     MatTab,
     MatTabGroup,
+    MatButton,
+    MatIconButton,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatIcon,
     DialogTemplateComponent,
     SectionHeaderComponent,
     CodeEditorComponent,
+    TableComponent,
+    PrimeTemplate,
+    TooltipDirective,
   ],
 })
 export class DatasetHowToComponent {
+  private registryApi = inject(DatasetRegistryService);
+  private usersApi = inject(ApiUsersService);
+  private store = inject(Store);
+  private dialog = inject(MatDialog);
+
   protected readonly topTab = signal(0);
+  protected readonly isAdmin = toSignal(this.store.select(selectIsAdmin), {initialValue: false});
+
+  protected readonly registries = signal<RegistryRecord[]>([]);
+  protected readonly names = signal<Map<string, string>>(new Map());
+  protected readonly loading = signal(false);
+  protected readonly busy = signal(false);
+  protected readonly error = signal<string>(null);
+  protected readonly newRepository = signal('');
+
+  protected readonly registryColumns: ISmCol[] = [
+    {id: 'url', header: 'Repository', sortable: false},
+    {id: 'added', header: 'Added', sortable: false},
+    {id: 'added_by', header: 'Added by', sortable: false},
+    {id: 'actions', header: '', sortable: false},
+  ];
+
+  protected readonly registryRows = computed<RegistryRow[]>(() => this.registries().map(registry => ({
+    id: registry.repository,
+    repository: registry.repository,
+    url: registry.url || registry.repository,
+    added: registry.added,
+    added_by: this.names().get(registry.added_by) ?? registry.added_by,
+  })));
+
+  constructor() {
+    this.loadRegistries();
+  }
 
   // One line of a code cell is about 21px high; the cell adds a little padding.
   protected height(code: string): number {
     return code.split('\n').length * 21 + 20;
+  }
+
+  protected async loadRegistries() {
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      this.registries.set(await lastValueFrom(this.registryApi.registries()));
+      const users = await lastValueFrom(this.usersApi.usersGetAllEx({only_fields: ['id', 'name']}));
+      this.names.set(new Map((users.users ?? []).map(user => [user.id, user.name])));
+    } catch (error) {
+      this.error.set(error?.meta?.result_msg ?? 'The registries could not be loaded.');
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  protected async addRegistry() {
+    const repository = this.newRepository().trim();
+    if (!repository) {
+      return;
+    }
+    await this.run(() => lastValueFrom(this.registryApi.add(repository)));
+    this.newRepository.set('');
+  }
+
+  protected removeRegistry(row: RegistryRow) {
+    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
+      data: {
+        title: `Remove ${row.repository}?`,
+        body: 'Its datasets stop being listed on the Datasets page. Runs that already used them keep their recorded commit.',
+        yes: 'Remove',
+        no: 'Cancel',
+        iconClass: 'al-ico-dialog-x',
+        destructive: true,
+      },
+      panelClass: 'dialog-sm',
+    }).afterClosed().subscribe(async confirmed => {
+      if (confirmed) {
+        await this.run(() => lastValueFrom(this.registryApi.remove(row.repository)));
+      }
+    });
+  }
+
+  private async run(action: () => Promise<unknown>) {
+    this.busy.set(true);
+    this.error.set(null);
+    try {
+      await action();
+      await this.loadRegistries();
+    } catch (error) {
+      this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');
+    } finally {
+      this.busy.set(false);
+    }
   }
 
   protected readonly dvcCode = `pip install "cairnml[dataset]"
