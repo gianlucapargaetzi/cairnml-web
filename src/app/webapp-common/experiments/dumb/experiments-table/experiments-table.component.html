@@ -117,13 +117,11 @@
         }
         @case (experimentsTableColFields.NAME) {
           <div class="d-flex align-items-center ellipsis">
-            <div
-              class="experiment-name"
-              [class.italic]="isDevelopment(experiment)"
-              smShowTooltipIfEllipsis
-              [smTooltip]="experiment.name">
-              {{ experiment.name }}
-            </div>
+            <sm-task-name
+              [name]="experiment.name"
+              [taskId]="experiment.id"
+              [italic]="isDevelopment(experiment)"
+            ></sm-task-name>
             @if (experiment?.system_tags?.includes('shared')) {
               <mat-icon fontSet="al" fontIcon="al-ico-link" class="al-icon sm sp-ms-2"></mat-icon>
             }

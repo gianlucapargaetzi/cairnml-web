@@ -16,12 +16,7 @@
         <sm-experiment-type-icon-label [type]="experiment?.type"></sm-experiment-type-icon-label>
       }
       @case (RECENT_TASKS_TABLE_COL_FIELDS.NAME) {
-        <div
-          class="experiment-name"
-          smShowTooltipIfEllipsis
-          [smTooltip]="experiment.name">
-          {{experiment.name}}
-        </div>
+        <sm-task-name [name]="experiment.name" [taskId]="experiment.id"></sm-task-name>
       }
       @case (RECENT_TASKS_TABLE_COL_FIELDS.PROJECT) {
         <div

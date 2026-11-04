@@ -7,6 +7,7 @@ import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indic
 import {ExperimentTypeIconLabelComponent} from '@common/shared/experiment-type-icon-label/experiment-type-icon-label.component';
 import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {TaskNameComponent} from '@common/shared/ui-components/data/task-name/task-name.component';
 import {PrimeTemplate} from 'primeng/api';
 import {DatePipe} from '@angular/common';
 
@@ -16,6 +17,7 @@ import {DatePipe} from '@angular/common';
   styleUrls: ['./recent-experiment-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TaskNameComponent,
     TableComponent,
     ShowTooltipIfEllipsisDirective,
     ShowTooltipIfEllipsisDirective,
