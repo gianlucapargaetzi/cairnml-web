@@ -2,14 +2,16 @@
   display: block;
 }
 
+// text blocks take the page header's 24px gutter; tables run edge to edge
 .devices {
-  padding: 24px;
+  padding: 0;
 }
 
 .devices-description {
   font-size: 14px;
   color: var(--color-on-surface-variant);
   margin: 0 0 24px;
+  padding: 24px 24px 0;
   max-width: 720px;
 }
 

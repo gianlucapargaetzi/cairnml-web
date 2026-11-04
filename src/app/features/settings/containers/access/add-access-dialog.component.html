@@ -45,11 +45,12 @@
         <mat-hint>Empty for github.com; set it for GitHub Enterprise</mat-hint>
       </mat-form-field>
       <div class="key-file">
-        <label class="key-label" for="accessKeyFile">Private key (.pem)</label>
-        <input id="accessKeyFile" type="file" accept=".pem,text/plain" (change)="keyFileChosen($event)" data-id="accessKeyFile"/>
-        @if (keyFileName()) {
-          <span class="meta">{{ keyFileName() }} is ready to be sent</span>
-        }
+        <span class="key-label">Private key (.pem)</span>
+        <div class="key-row">
+          <button mat-stroked-button type="button" (click)="keyInput.click()" data-id="accessKeyFile">Choose key file</button>
+          <span class="meta">{{ keyFileName() ?? 'No file chosen' }}</span>
+        </div>
+        <input #keyInput hidden type="file" accept=".pem,text/plain" (change)="keyFileChosen($event)"/>
       </div>
     } @else {
       <mat-form-field appearance="outline" class="w-100">

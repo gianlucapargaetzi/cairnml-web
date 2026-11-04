@@ -2,14 +2,16 @@
   display: block;
 }
 
+// text takes the page header's 24px gutter; the table spans the full width
 .access {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 0;
 }
 
 .access-description {
   margin: 0;
+  padding: 24px 24px 24px;
   max-width: 720px;
   color: var(--color-on-surface-variant);
   font-size: var(--font-size-md);
