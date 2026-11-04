@@ -6,7 +6,6 @@ import {MatIcon} from '@angular/material/icon';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {OverviewSettingsService} from '@common/project-info/overview-settings.service';
 import {
-  CONTRIBUTION_PERIOD_OPTIONS,
   CONTRIBUTION_TOP_OPTIONS,
   moveOverviewPanel,
   OVERVIEW_PANEL_LABELS,
@@ -31,7 +30,6 @@ export class ProjectOverviewSettingsComponent {
   projectId = input.required<string>();
 
   protected readonly labels = OVERVIEW_PANEL_LABELS;
-  protected readonly periodOptions = CONTRIBUTION_PERIOD_OPTIONS;
   protected readonly topOptions = CONTRIBUTION_TOP_OPTIONS;
   protected readonly settings = computed(() => this.overviewSettings.settings(this.projectId()));
 
@@ -45,16 +43,8 @@ export class ProjectOverviewSettingsComponent {
     this.update({panels: moveOverviewPanel(this.settings().panels, id, direction)});
   }
 
-  protected setPeriod(event: MatRadioChange) {
-    this.update({contribution: {...this.settings().contribution, periodDays: event.value}});
-  }
-
   protected setTopContributors(event: MatRadioChange) {
     this.update({contribution: {...this.settings().contribution, topContributors: event.value}});
-  }
-
-  protected periodLabel(days: number) {
-    return `Last ${days} days`;
   }
 
   private update(changes: Partial<OverviewSettings>) {
