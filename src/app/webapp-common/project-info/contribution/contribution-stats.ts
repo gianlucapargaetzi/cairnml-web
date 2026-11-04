@@ -81,8 +81,8 @@ export interface ContributionWeek {
   monthLabel: string | null;
 }
 
-/** Longest period the server counts. */
-export const MAX_PERIOD_DAYS = 365;
+/** Longest period the server counts (`MAX_CONTRIBUTIONS_PERIOD_DAYS` in the API server). */
+export const MAX_PERIOD_DAYS = 730;
 
 /**
  * Days from the Monday that starts the first of `columns` weeks up to today: the period the activity grid shows, with
