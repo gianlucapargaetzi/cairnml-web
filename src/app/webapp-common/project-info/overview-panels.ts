@@ -46,7 +46,7 @@ export const DEFAULT_OVERVIEW_PANELS: OverviewPanelSetting[] = [
 ];
 
 export const DEFAULT_CONTRIBUTION_OPTIONS: ContributionPanelOptions = {
-  periodDays: 30,
+  periodDays: 365,
   topContributors: 5
 };
 
