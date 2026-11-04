@@ -1,8 +1,8 @@
 <sm-dialog-template header="Share access" iconClass="al-ico-lock">
-  <p class="warning" role="note" data-id="shareWarning">
+  <sm-inline-alert severity="warning" data-id="shareWarning">
     <strong>{{ data.label }}</strong> will be usable by every member of the project you choose. Members can read every
     repository this access reaches, although they never see its secret. Stop sharing at any time.
-  </p>
+  </sm-inline-alert>
   @if (data.projects.length) {
     <form [formGroup]="form" (ngSubmit)="share()" class="form" autocomplete="off">
       <mat-form-field appearance="outline" class="w-100">

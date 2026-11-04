@@ -1,6 +1,6 @@
 <div class="accesses">
   <div class="accesses-header">
-    <div class="section-title">Shared accesses</div>
+    <h3 class="section-title">Shared accesses</h3>
   </div>
   <p class="accesses-note">
     Members of this project can use these accesses in its tasks, but cannot read their secrets. An access stops
@@ -8,40 +8,40 @@
   </p>
 
   @if (error()) {
-    <div class="accesses-error" role="alert">{{ error() }}</div>
+    <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
   }
 
-  <table class="accesses-table" data-id="projectAccessesTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Reaches</th>
-        <th>Shared by</th>
-        <th>Status</th>
-        <th><span class="visually-hidden">Actions</span></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (grant of grants(); track grant.id) {
-        <tr>
-          <td><span class="ellipsis">{{ grant.label }}</span></td>
-          <td><span class="ellipsis">{{ reaches(grant) }}</span></td>
-          <td><span class="ellipsis">{{ grant.owner_name }}</span></td>
-          <td [class.inactive]="!inEffect(grant)">{{ inEffect(grant) ? 'In use' : 'Not in effect' }}</td>
-          <td class="row-actions">
-            @if (settingsStore.isOwner()) {
-              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + grant.label"
-                      smTooltip="Stop sharing" (click)="stop(grant)" data-id="stopShareButton">
-                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
-              </button>
+  @if (grants().length) {
+    <sm-table data-id="projectAccessesTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
+      <ng-template let-col let-line="rowData" pTemplate="body">
+        <div>
+          @switch (col.id) {
+            @case ('label') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.label">{{ line.label }}</span>
             }
-          </td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="5" class="empty">No access is shared with this project.</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+            @case ('reaches') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.reaches">{{ line.reaches }}</span>
+            }
+            @case ('status') {
+              <span [class.inactive]="!line.inEffect">{{ line.status }}</span>
+            }
+            @case ('actions') {
+              @if (settingsStore.isOwner()) {
+                <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + line.label"
+                        smTooltip="Stop sharing" (click)="stop(line.grant)" data-id="stopShareButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                </button>
+              }
+            }
+            @default {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
+          }
+        </div>
+      </ng-template>
+    </sm-table>
+  } @else {
+    <sm-empty-state icon="al-ico-lock" title="No shared accesses"
+      description="No access is shared with this project yet. Members can share one of their accesses from their Access settings."></sm-empty-state>
+  }
 </div>

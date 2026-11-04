@@ -9,6 +9,7 @@ import {lastValueFrom} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 
 export interface ShareableProject {
   id: string;
@@ -35,6 +36,7 @@ export interface ShareAccessData {
     MatProgressSpinnerModule,
     DialogTemplateComponent,
     MatDialogClose,
+    InlineAlertComponent,
   ],
 })
 export class ShareAccessDialogComponent {

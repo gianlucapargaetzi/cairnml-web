@@ -2,71 +2,30 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: 16px;
+  padding: var(--space-3);
 }
 
-.accesses-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+// a section title: 14px, weight 500, sentence case (docs/design-system/04-typography.md)
 .section-title {
-  font-size: 14px;
+  margin: 0;
+  font-size: var(--font-size-md);
   font-weight: 500;
+  color: var(--color-on-surface);
 }
 
 .accesses-note {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   color: var(--color-on-surface-variant);
 }
 
-.accesses-error {
-  color: var(--color-error);
-  font-size: 12px;
-}
-
-.accesses-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  table-layout: fixed;
-
-  th {
-    height: 40px;
-    padding: 0 12px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-on-surface-variant);
-    background: var(--row-header-color);
-  }
-
-  td {
-    height: 40px;
-    padding: 0 12px;
-    border-bottom: 1px solid var(--row-border-color);
-    min-width: 0;
-  }
-
-  .inactive {
-    color: var(--color-warning);
-  }
-
-  .row-actions {
-    width: 48px;
-    text-align: right;
-  }
-
-  .empty {
-    text-align: center;
-    color: var(--color-empty-state);
-  }
+.inactive {
+  color: var(--color-warning);
 }
 
 .ellipsis {
   display: block;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

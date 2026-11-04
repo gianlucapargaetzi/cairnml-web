@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
+import {PrimeTemplate} from 'primeng/api';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
+import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {lastValueFrom} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
@@ -33,7 +39,7 @@ export interface ProjectGrantView {
   templateUrl: './project-accesses.component.html',
   styleUrls: ['./project-accesses.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatIconButton, TooltipDirective],
+  imports: [MatIcon, MatIconButton, TooltipDirective, TableComponent, PrimeTemplate, EmptyStateComponent, ShowTooltipIfEllipsisDirective, InlineAlertComponent],
 })
 export class ProjectAccessesComponent implements OnInit {
   private api = inject(SmApiRequestsService);
@@ -44,6 +50,23 @@ export class ProjectAccessesComponent implements OnInit {
   projectId = input.required<string>();
 
   protected grants = signal<ProjectGrantView[]>([]);
+
+  protected readonly columns: ISmCol[] = [
+    {id: 'label', header: 'Name', sortable: false},
+    {id: 'reaches', header: 'Reaches', sortable: false},
+    {id: 'owner', header: 'Shared by', sortable: false},
+    {id: 'status', header: 'Status', sortable: false},
+    {id: 'actions', header: '', sortable: false},
+  ];
+  protected readonly rows = computed(() => this.grants().map(grant => ({
+    id: grant.id,
+    label: grant.label,
+    reaches: this.reaches(grant),
+    owner: grant.owner_name,
+    status: this.inEffect(grant) ? 'In use' : 'Not in effect',
+    inEffect: this.inEffect(grant),
+    grant,
+  })));
   protected error = signal<string | null>(null);
   protected busy = signal(false);
 

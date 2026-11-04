@@ -16,7 +16,7 @@
   </p>
 
   @if (error()) {
-    <div class="access-error" role="alert">{{ error() }}</div>
+    <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
   }
 
   @if (loading()) {
@@ -24,87 +24,77 @@
   } @else {
     <h3 class="access-section">Your accesses</h3>
     @if (!own().length) {
-      <div class="access-empty" data-id="ownAccessesEmpty">
-        You have no accesses yet. Add a token, or a GitHub App, to read private repositories.
-      </div>
+      <sm-empty-state icon="al-ico-lock" title="No accesses yet"
+        description="Add a token, or a GitHub App, to read private repositories."></sm-empty-state>
     } @else {
-      <table class="access-table" data-id="ownAccessesTable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Kind</th>
-            <th>Reaches</th>
-            <th>Last check</th>
-            <th>Shared with</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (access of own(); track access.id) {
-            <tr>
-              <td data-label="Name"><span class="ellipsis">{{ access.label }}</span></td>
-              <td data-label="Kind">{{ kindLabel(access.kind) }}</td>
-              <td data-label="Reaches"><span class="ellipsis">{{ targetOf(access) }}</span></td>
-              <td data-label="Last check">
-                <span [class.refused]="access.last_state === 'refused'"
-                      [smTooltip]="access.last_message ?? ''">{{ stateLabel(access.last_state) }}</span>
-                @if (access.last_checked) {
-                  <span class="meta">{{ access.last_checked | timeAgo }}</span>
+      <sm-table class="access-table" data-id="ownAccessesTable" [columns]="ownColumns" [tableData]="ownRows()"
+        selectionMode="single" [scrollable]="true">
+        <ng-template let-col let-line="rowData" pTemplate="body">
+          <div>
+            @switch (col.id) {
+              @case ('label') {
+                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.label">{{ line.label }}</span>
+              }
+              @case ('state') {
+                <span [class.refused]="line.access.last_state === 'refused'" [smTooltip]="line.access.last_message ?? ''">{{ line.state }}</span>
+                @if (line.access.last_checked) {
+                  <span class="meta">{{ line.access.last_checked | timeAgo }}</span>
                 }
-              </td>
-              <td data-label="Shared with">
-                @for (projectId of access.granted_projects; track projectId) {
+              }
+              @case ('shared') {
+                @for (projectId of line.access.granted_projects; track projectId) {
                   <span class="share-chip">
                     <span class="ellipsis">{{ projectName(projectId) }}</span>
-                    <button mat-icon-button aria-label="Stop sharing with {{ projectName(projectId) }}" smTooltip="Stop sharing"
-                            [disabled]="busy() === access.id" (click)="unshare(access, projectId)" data-id="unshareButton">
+                    <button mat-icon-button [attr.aria-label]="'Stop sharing with ' + projectName(projectId)"
+                            smTooltip="Stop sharing" [disabled]="busy() === line.access.id"
+                            (click)="unshare(line.access, projectId)" data-id="unshareButton">
                       <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
                     </button>
                   </span>
                 }
-                <button mat-stroked-button type="button" [disabled]="busy() === access.id" (click)="share(access)" data-id="shareAccessButton">
-                  Share
-                </button>
-              </td>
-              <td class="actions" data-label="">
-                <button mat-icon-button aria-label="Check access" smTooltip="Check access now" matTooltipShowDelay="500"
-                        [disabled]="busy() === access.id" (click)="check(access)" data-id="checkAccessButton">
+                <button mat-stroked-button type="button" [disabled]="busy() === line.access.id"
+                        (click)="share(line.access)" data-id="shareAccessButton">Share</button>
+              }
+              @case ('actions') {
+                <button mat-icon-button aria-label="Check access" smTooltip="Check access now"
+                        [disabled]="busy() === line.access.id" (click)="check(line.access)" data-id="checkAccessButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
                 </button>
-                <button mat-icon-button aria-label="Delete access" smTooltip="Delete access" matTooltipShowDelay="500"
-                        [disabled]="busy() === access.id" (click)="confirmDelete(access)" data-id="deleteAccessButton">
+                <button mat-icon-button aria-label="Delete access" smTooltip="Delete access"
+                        [disabled]="busy() === line.access.id" (click)="confirmDelete(line.access)" data-id="deleteAccessButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                 </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+              }
+              @default {
+                <div class="ellipsis">{{ line[col.id] }}</div>
+              }
+            }
+          </div>
+        </ng-template>
+      </sm-table>
     }
 
     <h3 class="access-section">Company accesses</h3>
     <p class="access-note">Set by an admin for the whole company. You can use them, but not change them.</p>
     @if (!company().length) {
-      <div class="access-empty">No company token credentials are stored.</div>
+      <sm-empty-state icon="al-ico-lock" title="No company accesses"
+        description="No company token credentials are stored."></sm-empty-state>
     } @else {
-      <table class="access-table" data-id="companyAccessesTable">
-        <thead>
-          <tr>
-            <th>Kind</th>
-            <th>Reaches</th>
-            <th>User name</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (access of company(); track access.host + '/' + access.path) {
-            <tr>
-              <td data-label="Kind">Token</td>
-              <td data-label="Reaches"><span class="ellipsis">{{ access.path ? access.host + '/' + access.path : access.host }}</span></td>
-              <td data-label="User name"><span class="ellipsis">{{ access.username }}</span></td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <sm-table class="access-table" data-id="companyAccessesTable" [columns]="companyColumns" [tableData]="companyRows()"
+        selectionMode="single" [scrollable]="true">
+        <ng-template let-col let-line="rowData" pTemplate="body">
+          <div>
+            @switch (col.id) {
+              @case ('reaches') {
+                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.reaches">{{ line.reaches }}</span>
+              }
+              @default {
+                <div class="ellipsis">{{ line[col.id] }}</div>
+              }
+            }
+          </div>
+        </ng-template>
+      </sm-table>
     }
   }
 </div>

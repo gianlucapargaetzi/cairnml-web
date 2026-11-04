@@ -1,6 +1,12 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import {PrimeTemplate} from 'primeng/api';
+import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
+import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
+import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
@@ -45,7 +51,19 @@ export interface CompanyAccessView {
   templateUrl: './access.component.html',
   styleUrls: ['./access.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatButtonModule, MatProgressSpinnerModule, TooltipDirective, TimeAgoPipe, PageHeaderComponent],
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    TooltipDirective,
+    TimeAgoPipe,
+    PageHeaderComponent,
+    TableComponent,
+    PrimeTemplate,
+    EmptyStateComponent,
+    InlineAlertComponent,
+    ShowTooltipIfEllipsisDirective,
+  ],
 })
 export class AccessComponent implements OnInit {
   private apiRequest = inject(SmApiRequestsService);
@@ -59,6 +77,34 @@ export class AccessComponent implements OnInit {
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected busy = signal<string | null>(null);
+
+  protected readonly ownColumns: ISmCol[] = [
+    {id: 'label', header: 'Name', sortable: false},
+    {id: 'kind', header: 'Kind', sortable: false},
+    {id: 'reaches', header: 'Reaches', sortable: false},
+    {id: 'state', header: 'Last check', sortable: false},
+    {id: 'shared', header: 'Shared with', sortable: false},
+    {id: 'actions', header: '', sortable: false},
+  ];
+  protected readonly companyColumns: ISmCol[] = [
+    {id: 'kind', header: 'Kind', sortable: false},
+    {id: 'reaches', header: 'Reaches', sortable: false},
+    {id: 'username', header: 'User name', sortable: false},
+  ];
+  protected readonly ownRows = computed(() => this.own().map(access => ({
+    id: access.id,
+    label: access.label,
+    kind: this.kindLabel(access.kind),
+    reaches: this.targetOf(access),
+    state: this.stateLabel(access.last_state),
+    access,
+  })));
+  protected readonly companyRows = computed(() => this.company().map(access => ({
+    id: access.host + '/' + access.path,
+    kind: 'Token',
+    reaches: access.path ? `${access.host}/${access.path}` : access.host,
+    username: access.username,
+  })));
 
   ngOnInit() {
     this.load();
