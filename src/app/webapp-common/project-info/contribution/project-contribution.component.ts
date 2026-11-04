@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {afterNextRender, ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, input, signal} from '@angular/core';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -13,6 +13,7 @@ import {Task} from '~/business-logic/model/tasks/task';
 import {
   buildContributionSummary,
   buildContributionSummaryFromAggregate,
+  buildWeeks,
   ContributionAggregate,
   ContributionRun,
   ContributionSummary,
@@ -21,6 +22,13 @@ import {
 } from '@common/project-info/contribution/contribution-stats';
 
 const PAGE_SIZE = 500;
+// Layout of the activity grid, in pixels. They match the styles of the panel: the cells, the gap between them, the
+// weekday labels with their gap, and the panel's padding and border.
+const CELL_PX = 12;
+const CELL_GAP_PX = 3;
+const WEEKDAY_COLUMN_PX = 36;
+const PANEL_CHROME_PX = 34;
+const DEFAULT_COLUMNS = 53;
 const ONLY_FIELDS = ['created', 'status', 'user.name'];
 const UNKNOWN_USER = 'Unknown user';
 
@@ -29,6 +37,12 @@ const UNKNOWN_USER = 'Unknown user';
  * The panel then counts the runs in the browser for the rest of the session.
  */
 let contributionsEndpointMissing = false;
+
+/** The number of weeks whose cells fit in the width of the panel. */
+function columnsFor(hostWidth: number): number {
+  const available = hostWidth - PANEL_CHROME_PX - WEEKDAY_COLUMN_PX;
+  return Math.max(1, Math.floor((available + CELL_GAP_PX) / (CELL_PX + CELL_GAP_PX)));
+}
 
 type ContributionState =
   | {state: 'loading'}
@@ -47,10 +61,26 @@ export class ProjectContributionComponent {
   private apiRequest = inject(SmApiRequestsService);
 
   projectId = input.required<string>();
-  periodDays = input(30);
+  periodDays = input(365);
   topContributors = input(5);
 
-  protected readonly periodLabel = computed(() => `Last ${this.periodDays()} days`);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  /** Weeks that fit the width of the panel, one column per week. */
+  protected readonly columns = signal(DEFAULT_COLUMNS);
+
+  constructor() {
+    const updateColumns = () => this.columns.set(columnsFor(this.host.nativeElement.clientWidth));
+    afterNextRender(() => {
+      const observer = new ResizeObserver(updateColumns);
+      observer.observe(this.host.nativeElement);
+      this.destroyRef.onDestroy(() => observer.disconnect());
+      updateColumns();
+    });
+  }
+
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly periodLabel = computed(() => this.periodDays() === 365 ? 'Last year' : `Last ${this.periodDays()} days`);
 
   private readonly query = computed(() => ({
     projectId: this.projectId(),
@@ -73,6 +103,11 @@ export class ProjectContributionComponent {
   protected readonly summary = computed(() => {
     const content = this.content();
     return content.state === 'ready' ? content.summary : null;
+  });
+
+  protected readonly weeks = computed(() => {
+    const summary = this.summary();
+    return summary ? buildWeeks(summary.days, this.columns(), new Date()) : [];
   });
 
   protected userFilterLink(userId: string) {

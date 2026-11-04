@@ -24,17 +24,38 @@
       </div>
     </div>
 
-    <div class="activity" role="img" [attr.aria-label]="'Runs per day, ' + periodLabel().toLowerCase() + ', ' + summary.total + ' in total'">
-      @for (blank of summary.leadingBlanks; track blank) {
-        <span class="day blank" aria-hidden="true"></span>
-      }
-      @for (day of summary.days; track day.date.getTime()) {
-        <span
-          class="day"
-          [attr.data-level]="day.level"
-          [title]="day.date.toLocaleDateString(undefined, {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'}) + ': ' + day.runs + (day.runs === 1 ? ' run' : ' runs')"
-        ></span>
-      }
+    <div class="heatmap">
+      <div class="weekday-labels" aria-hidden="true">
+        <span class="weekday-spacer"></span>
+        <span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span></span>
+      </div>
+      <div class="weeks" role="img" [attr.aria-label]="'Runs per day, ' + periodLabel().toLowerCase() + ', ' + summary.total + ' in total'">
+        @for (week of weeks(); track $index) {
+          <div class="week">
+            <span class="month-label" aria-hidden="true">{{ week.monthLabel }}</span>
+            @for (cell of week.cells; track $index) {
+              @if (cell) {
+                <span
+                  class="day"
+                  [attr.data-level]="cell.level"
+                  [title]="cell.date.toLocaleDateString(undefined, {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'}) + ': ' + cell.runs + (cell.runs === 1 ? ' run' : ' runs')"
+                ></span>
+              } @else {
+                <span class="day blank" aria-hidden="true"></span>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span>Less</span>
+      <span class="day" data-level="0"></span>
+      <span class="day" data-level="1"></span>
+      <span class="day" data-level="2"></span>
+      <span class="day" data-level="3"></span>
+      <span class="day" data-level="4"></span>
+      <span>More</span>
     </div>
 
     <div class="contributors-header">

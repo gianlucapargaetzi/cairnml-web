@@ -74,6 +74,44 @@ export function utcOffsetMinutes(date: Date): number {
   return -date.getTimezoneOffset();
 }
 
+/** One column of the activity grid: seven cells, Monday first; `null` is an empty cell outside the period. */
+export interface ContributionWeek {
+  cells: (ContributionDay | null)[];
+  /** The month name, on the first week that starts in a new month. */
+  monthLabel: string | null;
+}
+
+/**
+ * The last `columns` weeks, Monday first, ending with the week of `today`. Days after today are empty cells, and so are
+ * days before the period the data covers. Each week is one column of the grid.
+ */
+export function buildWeeks(days: ContributionDay[], columns: number, today: Date): ContributionWeek[] {
+  const byDay = new Map(days.map(day => [localDayKey(day.date), day]));
+  const todayStart = startOfLocalDay(today);
+  const daysSinceMonday = (todayStart.getDay() + 6) % 7;
+  const firstMonday = new Date(
+    todayStart.getFullYear(), todayStart.getMonth(), todayStart.getDate() - daysSinceMonday - (columns - 1) * 7
+  );
+
+  const weeks: ContributionWeek[] = [];
+  let shownMonth = -1;
+  for (let column = 0; column < columns; column++) {
+    const cells: (ContributionDay | null)[] = [];
+    for (let row = 0; row < 7; row++) {
+      const date = new Date(firstMonday.getFullYear(), firstMonday.getMonth(), firstMonday.getDate() + column * 7 + row);
+      cells.push(date > todayStart ? null : byDay.get(localDayKey(date)) ?? null);
+    }
+    const firstOfWeek = new Date(firstMonday.getFullYear(), firstMonday.getMonth(), firstMonday.getDate() + column * 7);
+    let monthLabel: string | null = null;
+    if (firstOfWeek.getMonth() !== shownMonth) {
+      shownMonth = firstOfWeek.getMonth();
+      monthLabel = firstOfWeek.toLocaleDateString(undefined, {month: 'short'});
+    }
+    weeks.push({cells, monthLabel});
+  }
+  return weeks;
+}
+
 function levelDays(days: ContributionDay[]) {
   const busiest = Math.max(0, ...days.map(day => day.runs));
   for (const day of days) {
