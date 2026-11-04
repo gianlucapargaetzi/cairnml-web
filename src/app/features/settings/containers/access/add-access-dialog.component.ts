@@ -20,6 +20,7 @@ export interface AddCredentialData {
 @Component({
   selector: 'sm-add-access-dialog',
   templateUrl: './add-access-dialog.component.html',
+  styleUrls: ['./add-access-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

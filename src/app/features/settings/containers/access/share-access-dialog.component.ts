@@ -27,6 +27,7 @@ export interface ShareAccessData {
 @Component({
   selector: 'sm-share-access-dialog',
   templateUrl: './share-access-dialog.component.html',
+  styleUrls: ['./share-access-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
