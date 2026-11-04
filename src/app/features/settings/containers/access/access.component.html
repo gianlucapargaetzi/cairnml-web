@@ -1,0 +1,95 @@
+<sm-page-header title="Access">
+  <button actions mat-stroked-button type="button" (click)="add('token')" data-id="addAccessTokenButton">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    Add token
+  </button>
+  <button actions mat-flat-button type="button" (click)="add('app')" data-id="addAccessAppButton">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    Add GitHub App
+  </button>
+</sm-page-header>
+<div class="access">
+  <p class="access-description">
+    Accesses let CairnML read repositories that are not public. A GitHub App is installed on the repositories it may
+    read; a token reaches what its owner can reach. Secrets are written once, encrypted on the server, and never shown
+    again. Only you can check or delete your accesses. Projects use them through the repositories of their tasks.
+  </p>
+
+  @if (error()) {
+    <div class="access-error" role="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
+  } @else {
+    <h3 class="access-section">Your accesses</h3>
+    @if (!own().length) {
+      <div class="access-empty" data-id="ownAccessesEmpty">
+        You have no accesses yet. Add a token, or a GitHub App, to read private repositories.
+      </div>
+    } @else {
+      <table class="access-table" data-id="ownAccessesTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Kind</th>
+            <th>Reaches</th>
+            <th>Last check</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (access of own(); track access.id) {
+            <tr>
+              <td data-label="Name"><span class="ellipsis">{{ access.label }}</span></td>
+              <td data-label="Kind">{{ kindLabel(access.kind) }}</td>
+              <td data-label="Reaches"><span class="ellipsis">{{ targetOf(access) }}</span></td>
+              <td data-label="Last check">
+                <span [class.refused]="access.last_state === 'refused'"
+                      [smTooltip]="access.last_message ?? ''">{{ stateLabel(access.last_state) }}</span>
+                @if (access.last_checked) {
+                  <span class="meta">{{ access.last_checked | timeAgo }}</span>
+                }
+              </td>
+              <td class="actions" data-label="">
+                <button mat-icon-button aria-label="Check access" smTooltip="Check access now" matTooltipShowDelay="500"
+                        [disabled]="busy() === access.id" (click)="check(access)" data-id="checkAccessButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Delete access" smTooltip="Delete access" matTooltipShowDelay="500"
+                        [disabled]="busy() === access.id" (click)="confirmDelete(access)" data-id="deleteAccessButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    <h3 class="access-section">Company accesses</h3>
+    <p class="access-note">Set by an admin for the whole company. You can use them, but not change them.</p>
+    @if (!company().length) {
+      <div class="access-empty">No company token credentials are stored.</div>
+    } @else {
+      <table class="access-table" data-id="companyAccessesTable">
+        <thead>
+          <tr>
+            <th>Kind</th>
+            <th>Reaches</th>
+            <th>User name</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (access of company(); track access.host + '/' + access.path) {
+            <tr>
+              <td data-label="Kind">Token</td>
+              <td data-label="Reaches"><span class="ellipsis">{{ access.path ? access.host + '/' + access.path : access.host }}</span></td>
+              <td data-label="User name"><span class="ellipsis">{{ access.username }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</div>

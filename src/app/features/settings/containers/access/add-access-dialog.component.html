@@ -1,0 +1,69 @@
+<sm-dialog-template [header]="isApp ? 'Add GitHub App' : 'Add token'" iconClass="al-ico-lock">
+  <p class="intro">
+    @if (isApp) {
+      The App's private key (a .pem file) is checked with GitHub and stored encrypted. It is never shown again.
+    } @else {
+      The token is stored encrypted. It is never shown again after saving. Use a read-only token where you can.
+    }
+  </p>
+  <form [formGroup]="form" (ngSubmit)="save()" class="form" autocomplete="off">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="label" cdkFocusInitial data-id="accessLabel"/>
+      <mat-hint>How you will recognise it</mat-hint>
+    </mat-form-field>
+
+    @if (isApp) {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>App ID</mat-label>
+        <input matInput formControlName="app_id" data-id="accessAppId"/>
+        @if (form.controls.app_id.hasError('pattern')) {
+          <mat-error>The App ID is a number</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>API address</mat-label>
+        <input matInput formControlName="api_url" placeholder="https://api.github.com" data-id="accessApiUrl"/>
+        <mat-hint>Empty for github.com; set it for GitHub Enterprise</mat-hint>
+      </mat-form-field>
+      <div class="key-file">
+        <label class="key-label" for="accessKeyFile">Private key (.pem)</label>
+        <input id="accessKeyFile" type="file" accept=".pem,text/plain" (change)="keyFileChosen($event)" data-id="accessKeyFile"/>
+        @if (keyFileName()) {
+          <span class="meta">{{ keyFileName() }} is ready to be sent</span>
+        }
+      </div>
+    } @else {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Host</mat-label>
+        <input matInput formControlName="host" data-id="accessHost"/>
+        <mat-hint>github.com, or the host of another Git server</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Path prefix</mat-label>
+        <input matInput formControlName="path" placeholder="acme/" data-id="accessPath"/>
+        <mat-hint>Optional: an organisation or a path on the host. Empty for everything the token reaches</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Token</mat-label>
+        <input matInput type="password" formControlName="token" autocomplete="new-password" data-id="accessToken"/>
+        @if (form.controls.token.hasError('required')) {
+          <mat-error>Enter the token</mat-error>
+        }
+      </mat-form-field>
+    }
+
+    @if (error()) {
+      <div class="error" role="alert">{{ error() }}</div>
+    }
+    <div class="actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelButton">Cancel</button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid || saving()" data-id="SaveAccessButton">
+        @if (saving()) {
+          <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
+        }
+        Save
+      </button>
+    </div>
+  </form>
+</sm-dialog-template>

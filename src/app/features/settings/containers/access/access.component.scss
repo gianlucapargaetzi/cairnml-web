@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.access {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.access-description,
+.access-note {
+  margin: 0;
+  max-width: 720px;
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+}
+
+.access-section {
+  margin: var(--space-4) 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-secondary-container);
+  text-transform: uppercase;
+}
+
+.access-empty {
+  color: var(--color-empty-state);
+  font-size: 14px;
+}
+
+.access-error {
+  color: var(--color-error);
+  font-size: 12px;
+}
+
+.access-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+
+  th {
+    height: 40px;
+    padding: 0 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-on-surface-variant);
+    background: var(--row-header-color);
+  }
+
+  td {
+    height: 40px;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--row-border-color);
+    min-width: 0;
+  }
+
+  .refused {
+    color: var(--color-failed);
+  }
+
+  .meta {
+    margin-left: var(--space-2);
+    font-size: 12px;
+    color: var(--color-on-surface-variant);
+  }
+
+  .actions {
+    width: 96px;
+    text-align: right;
+  }
+}
+
+.ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
