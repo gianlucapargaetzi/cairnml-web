@@ -2,11 +2,22 @@
 @use "variables";
 
 :host {
+  // The grid has the header, the model panel and the empty state as rows, so it sizes its rows to its content. A
+  // fixed "1fr" row would be given to the model panel and push the empty state to the bottom of the page.
   .sm-card-list-layout {
     &.in-empty-state {
       height: 100%;
-      grid-template-rows: 64px 1fr;
     }
+  }
+
+  // the empty state fills the space below the model panel and centres its content there
+  .empty-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
   }
 
   display: block;
