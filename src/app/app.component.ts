@@ -1,3 +1,4 @@
+import {GithubAppStatusService} from '@common/core/services/github-app-status.service';
 import {selectCurrentUser} from '@common/core/reducers/users-reducer';
 import {Component, ViewEncapsulation, HostListener, Renderer2, inject, ChangeDetectionStrategy} from '@angular/core';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
@@ -64,6 +65,7 @@ export class AppComponent {
   private reportEditState = inject(ReportEditStateService);
   private tipsService = inject(TipsService);
   private renderer = inject(Renderer2);
+  private githubAppStatus = inject(GithubAppStatusService);
   private config = inject(ConfigurationService);
   private routerSerice = inject(RouterEffects);
   private breadcrumbsService = inject(BreadcrumbsService); // don't delete
@@ -120,6 +122,7 @@ export class AppComponent {
         this.store.dispatch(getAllSystemProjects({}));
         this.store.dispatch(getTutorialBucketCredentials());
         this.uiUpdatesService.checkForUiUpdate();
+        this.githubAppStatus.announce();
         this.tipsService.initTipsService(false);
         let loginTime = parseInt(localStorage.getItem(USER_PREFERENCES_KEY.firstLogin) || '0', 10);
         if (!loginTime) {

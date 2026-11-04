@@ -10,7 +10,6 @@ import {
 import {showExampleDatasets} from '../../projects/common-projects.actions';
 import {selectShowDatasetExamples} from '../../projects/common-projects.reducer';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
-import {DatasetEmptyComponent} from '@common/datasets/dataset-empty/dataset-empty.component';
 import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
 import {withLatestFrom} from 'rxjs/operators';
 import {selectDefaultNestedModeForFeature} from '@common/core/reducers/projects.reducer';
@@ -32,7 +31,6 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
     PageHeaderComponent,
-    DatasetEmptyComponent,
     EmptyStateComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,

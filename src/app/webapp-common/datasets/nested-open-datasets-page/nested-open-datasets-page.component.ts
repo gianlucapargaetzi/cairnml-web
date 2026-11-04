@@ -41,7 +41,6 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
     PushPipe,
     MatIcon,
     MatButton,
-    DatasetEmptyComponent,
     NestedProjectViewPageComponent,
     EmptyStateComponent
   ]

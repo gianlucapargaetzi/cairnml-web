@@ -162,6 +162,14 @@ export interface RegistryEntry {
   link: string;
 }
 
+// A registry the server reads: a GitHub repository with one file per entry (dataset_registry.get_registries).
+export interface RegistryRecord {
+  repository: string;
+  url: string;
+  added: string;
+  added_by: string;
+}
+
 // A repository address compared the way GitHub compares it: case, a trailing slash and a .git suffix do not matter.
 export function repoKey(address: string): string {
   return (address ?? '').trim().replace(/\/+$/, '').replace(/\.git$/, '').toLowerCase();
