@@ -2,6 +2,7 @@ import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angu
 import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {IExecutionForm, sourceTypesEnum} from '~/features/experiments/shared/experiment-execution.model';
+import {selectRouterProjectId} from '@common/core/reducers/projects.reducer';
 import {selectIsExperimentEditable, selectShowExtraDataSpinner} from '~/features/experiments/reducers';
 import * as commonInfoActions from '../../actions/common-experiments-info.actions';
 import {
@@ -92,6 +93,8 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
   private formDataSubscription: Subscription;
   public minimized = this.route.snapshot.routeConfig?.data?.minimized ?? false;
   public executionInfo$ = this.store.select(selectExperimentExecutionInfoData);
+  // the project the task belongs to: its shared accesses count for the repository badge
+  public routerProjectId = this.store.selectSignal(selectRouterProjectId);
   public showExtraDataSpinner = this.store.selectSignal(selectShowExtraDataSpinner);
   public editable = this.store.selectSignal(selectIsExperimentEditable);
   public isInDev = this.store.selectSignal(selectIsSelectedExperimentInDev);

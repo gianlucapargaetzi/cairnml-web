@@ -35,6 +35,7 @@
             <th>Kind</th>
             <th>Reaches</th>
             <th>Last check</th>
+            <th>Shared with</th>
             <th></th>
           </tr>
         </thead>
@@ -50,6 +51,20 @@
                 @if (access.last_checked) {
                   <span class="meta">{{ access.last_checked | timeAgo }}</span>
                 }
+              </td>
+              <td data-label="Shared with">
+                @for (projectId of access.granted_projects; track projectId) {
+                  <span class="share-chip">
+                    <span class="ellipsis">{{ projectName(projectId) }}</span>
+                    <button mat-icon-button aria-label="Stop sharing with {{ projectName(projectId) }}" smTooltip="Stop sharing"
+                            [disabled]="busy() === access.id" (click)="unshare(access, projectId)" data-id="unshareButton">
+                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                    </button>
+                  </span>
+                }
+                <button mat-stroked-button type="button" [disabled]="busy() === access.id" (click)="share(access)" data-id="shareAccessButton">
+                  Share
+                </button>
               </td>
               <td class="actions" data-label="">
                 <button mat-icon-button aria-label="Check access" smTooltip="Check access now" matTooltipShowDelay="500"

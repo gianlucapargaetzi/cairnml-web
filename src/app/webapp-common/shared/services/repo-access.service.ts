@@ -17,11 +17,13 @@ export interface RepoAccess {
 export class RepoAccessService {
   private api = inject(SmApiRequestsService);
 
-  resolve(repositories: string[]): Observable<RepoAccess[]> {
+  // The access for each repository, for the signed-in user; the accesses shared with the project count too.
+  resolve(repositories: string[], project?: string | null): Observable<RepoAccess[]> {
     if (!repositories.length) {
       return of([]);
     }
-    return this.api.post<{ repositories?: RepoAccess[] }>(`${HTTP.API_BASE_URL}/repo_access.resolve`, {repositories}, {})
+    const body = project ? {repositories, project} : {repositories};
+    return this.api.post<{ repositories?: RepoAccess[] }>(`${HTTP.API_BASE_URL}/repo_access.resolve`, body, {})
       .pipe(
         map(response => response?.repositories ?? []),
         // a failed check shows no badge; the page itself still works

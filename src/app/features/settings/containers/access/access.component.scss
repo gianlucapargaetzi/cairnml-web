@@ -79,3 +79,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.share-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  margin-right: var(--space-2);
+  font-size: 12px;
+}

@@ -1,0 +1,31 @@
+.warning {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--color-on-surface);
+  background: var(--color-warning-container, var(--color-surface-container-high));
+}
+
+.meta {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}

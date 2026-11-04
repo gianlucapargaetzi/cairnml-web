@@ -58,6 +58,8 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
   protected readonly repoAccess = signal<RepoAccess | null>(null);
 
   editable = input<boolean>();
+  // the project of the task: the accesses shared with it count for the badge
+  projectId = input<string | null>(null);
   protected readonly sourceTypesEnum = sourceTypesEnum;
   sourceCodeForm = this.formBuilder.group({
     repository: [''],
@@ -122,7 +124,7 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
         debounceTime(400),
         distinctUntilChanged(),
         switchMap(repository => repository ?
-          this.repoAccessApi.resolve([repository]).pipe(map(results => results[0] ?? null)) :
+          this.repoAccessApi.resolve([repository], this.projectId()).pipe(map(results => results[0] ?? null)) :
           of(null)),
       )
       .subscribe(access => this.repoAccess.set(access));
