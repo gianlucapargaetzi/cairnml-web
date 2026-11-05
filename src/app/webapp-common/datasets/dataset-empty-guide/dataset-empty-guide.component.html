@@ -1,0 +1,17 @@
+<sm-empty-state icon="al-ico-datasets" title="No datasets to show"
+  description="Create your first dataset to see it displayed here"></sm-empty-state>
+
+<div class="guide">
+  <p class="text">
+    A dataset is a Git repository. Its files are kept in Git LFS or in DVC storage, and each commit is one version of the data.
+  </p>
+
+  <p class="text">Create a local dataset from a folder:</p>
+  <sm-code-editor [code]="localCode" [readonly]="true" mode="sh" [showCopyButton]="true"
+    [style.height.px]="height(localCode)"></sm-code-editor>
+
+  <p class="note">
+    Public datasets from a dataset registry can be used too, by name. An admin adds a registry under
+    <strong>New dataset</strong>, then <strong>Web dataset</strong>; its datasets are listed here.
+  </p>
+</div>

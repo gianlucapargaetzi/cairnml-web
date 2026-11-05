@@ -38,6 +38,8 @@ Toasts are fired with `addMessage(MESSAGES_SEVERITY.SUCCESS | WARN | ERROR, text
 
 Mixins exist in `styles/mixins/empty.scss`. Structure: icon (48px, `--color-empty-state`), title (16px/500), one explanatory sentence (14px, `--color-on-surface`), optional primary action. Title says what is missing ("No tasks yet"); the sentence says how to fill it ("Run a script that calls Task.init, or clone an existing task"); the action does it when the user can. Never leave a blank area. Empty because of filters is a different message with "Clear filters".
 
+**Guide variant (datasets).** When a page is a first-use page for a concept, the empty state may be followed by a guide block: a short "how it works" paragraph, one code sample for the first action (`sm-code-editor`, read-only), and one note about the other way to get items. The guide sits directly under the `sm-empty-state`, is centred in the same column as the empty state and is at most 720px wide. The full explanation panel appears only once items exist. Keep the guide to one screen; longer documentation links to the docs.
+
 ## Error states (page level)
 
 | Type | Message | Action |
