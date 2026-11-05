@@ -3,8 +3,9 @@ import {DatePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatFormField, MatHint, MatInput, MatLabel} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
+import {MatOption, MatSelect} from '@angular/material/select';
 import {MatDialog} from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
@@ -18,10 +19,13 @@ import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {selectIsAdmin} from '@common/core/reducers/users-reducer';
+import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
+import {addMessage} from '@common/core/actions/layout.actions';
+import {MESSAGES_SEVERITY} from '@common/constants';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
 import {RegistryRecord} from '../dataset-git/dataset-git.model';
+import {DatasetAccessService, DatasetVisibility} from '../dataset-git/dataset-access.service';
 
 interface RegistryRow {
   id: string;
@@ -29,6 +33,8 @@ interface RegistryRow {
   url: string;
   added: string;
   added_by: string;
+  ownerId: string;
+  dataId: string | null;
 }
 
 // How to create and use a dataset from the SDK on a host, and the dataset registries of the server. The code cells are
@@ -48,7 +54,10 @@ interface RegistryRow {
     MatFormField,
     MatInput,
     MatLabel,
+    MatHint,
     MatIcon,
+    MatSelect,
+    MatOption,
     DialogTemplateComponent,
     SectionHeaderComponent,
     CodeEditorComponent,
@@ -59,6 +68,7 @@ interface RegistryRow {
 })
 export class DatasetHowToComponent {
   private registryApi = inject(DatasetRegistryService);
+  private datasetApi = inject(DatasetAccessService);
   private usersApi = inject(ApiUsersService);
   private store = inject(Store);
   private dialog = inject(MatDialog);
@@ -71,7 +81,15 @@ export class DatasetHowToComponent {
   protected readonly loading = signal(false);
   protected readonly busy = signal(false);
   protected readonly error = signal<string>(null);
-  protected readonly newRepository = signal('');
+  protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
+  protected readonly addKind = signal<'repo' | 'registry'>('repo');
+  protected readonly addUrl = signal('');
+  protected readonly addVisibility = signal<DatasetVisibility>('user');
+  protected readonly visibilityOptions: {value: DatasetVisibility; label: string}[] = [
+    {value: 'user', label: 'User only'},
+    {value: 'projects', label: 'Projects'},
+    {value: 'Public', label: 'Public'},
+  ];
 
   protected readonly registryColumns: ISmCol[] = [
     {id: 'url', header: 'Repository', sortable: false},
@@ -86,6 +104,8 @@ export class DatasetHowToComponent {
     url: registry.url || registry.repository,
     added: registry.added,
     added_by: this.names().get(registry.added_by) ?? registry.added_by,
+    ownerId: registry.added_by,
+    dataId: registry.id ?? null,
   })));
 
   constructor() {
@@ -111,13 +131,33 @@ export class DatasetHowToComponent {
     }
   }
 
-  protected async addRegistry() {
-    const repository = this.newRepository().trim();
-    if (!repository) {
+  // Adds a repository or a registry as a dataset. A dataset with no access is still added: the banner says which one.
+  protected async addDataset() {
+    const url = this.addUrl().trim();
+    if (!url) {
       return;
     }
-    await this.run(() => lastValueFrom(this.registryApi.add(repository)));
-    this.newRepository.set('');
+    this.busy.set(true);
+    this.error.set(null);
+    try {
+      const dataset = await lastValueFrom(this.datasetApi.add(this.addKind(), url, this.addVisibility()));
+      if (dataset.state === 'no_access') {
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, dataset.state_message));
+      } else {
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Added ${dataset.name}`));
+      }
+      this.addUrl.set('');
+      await this.loadRegistries();
+    } catch (error) {
+      this.error.set(error?.meta?.result_msg ?? 'The dataset could not be added.');
+    } finally {
+      this.busy.set(false);
+    }
+  }
+
+  // An admin, or the user who added the registry, may remove it. An older registry (no dataset id) is removed by an admin.
+  protected canRemove(row: RegistryRow): boolean {
+    return this.isAdmin() || (row.dataId !== null && row.ownerId === this.currentUserId());
   }
 
   protected removeRegistry(row: RegistryRow) {
@@ -133,7 +173,9 @@ export class DatasetHowToComponent {
       panelClass: 'dialog-sm',
     }).afterClosed().subscribe(async confirmed => {
       if (confirmed) {
-        await this.run(() => lastValueFrom(this.registryApi.remove(row.repository)));
+        await this.run(() => lastValueFrom(row.dataId
+          ? this.datasetApi.remove(row.dataId)
+          : this.registryApi.remove(row.repository)));
       }
     });
   }

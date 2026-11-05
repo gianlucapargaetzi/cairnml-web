@@ -1,0 +1,49 @@
+<div class="datasets">
+  <div class="datasets-header">
+    <div class="section-title">Datasets</div>
+    <button mat-flat-button (click)="addDatasets()" [disabled]="busy()" data-id="addProjectDatasetButton">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Add dataset
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="datasets-error" role="alert">{{ error() }}</div>
+  }
+
+  <table class="datasets-table">
+    <thead>
+      <tr>
+        <th scope="col">Dataset</th>
+        <th scope="col">Visibility</th>
+        <th scope="col">Credential</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of datasets(); track row.id) {
+        <tr>
+          <td>{{ row.name }}</td>
+          <td>{{ visibilityLabel(row.visibility) }}</td>
+          <td>
+            @if (row.state === 'no_access') {
+              <span class="no-access" [attr.title]="row.state_message">No access</span>
+            } @else {
+              <span>{{ row.credential ? 'Shared access' : 'None needed' }}</span>
+            }
+          </td>
+          <td class="row-actions">
+            <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
+              (click)="removeDataset(row)" data-id="removeProjectDatasetButton">
+              <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="empty">No datasets are shared with this project.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
