@@ -27,8 +27,8 @@
           <td>{{ row.name }}</td>
           <td>{{ levelLabel(row) }}</td>
           <td class="row-actions">
-            @if (settingsStore.isOwner()) {
-              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove" (click)="removeQueue(row)" data-id="removeProjectQueueButton">
+            @if (canRevoke(row)) {
+              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project" (click)="removeQueue(row)" data-id="removeProjectQueueButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
               </button>
             }
