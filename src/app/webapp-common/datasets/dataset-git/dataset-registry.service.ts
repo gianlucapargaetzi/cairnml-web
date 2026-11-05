@@ -15,7 +15,7 @@ export class DatasetRegistryService {
       .pipe(map(response => response?.datasets ?? []));
   }
 
-  // The registries the server reads, for everyone. Only an admin can add or remove one.
+  // The registries the server reads, for everyone. A registry is removed as its dataset (DatasetAccessService.remove).
   registries(): Observable<RegistryRecord[]> {
     return this.api.post<{ registries?: RegistryRecord[] }>(`${HTTP.API_BASE_URL}/dataset_registry.get_registries`, {}, {})
       .pipe(map(response => response?.registries ?? []));
@@ -23,9 +23,5 @@ export class DatasetRegistryService {
 
   add(repository: string): Observable<unknown> {
     return this.api.post(`${HTTP.API_BASE_URL}/dataset_registry.add`, {repository}, {});
-  }
-
-  remove(repository: string): Observable<unknown> {
-    return this.api.post(`${HTTP.API_BASE_URL}/dataset_registry.remove`, {repository}, {});
   }
 }

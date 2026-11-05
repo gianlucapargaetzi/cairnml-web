@@ -155,9 +155,10 @@ export class DatasetHowToComponent {
     }
   }
 
-  // An admin, or the user who added the registry, may remove it. An older registry (no dataset id) is removed by an admin.
+  // An admin, or the user who added the registry, may remove it. A registry without a dataset id (an older one) cannot be
+  // removed: the server removes a registry only as its dataset.
   protected canRemove(row: RegistryRow): boolean {
-    return this.isAdmin() || (row.dataId !== null && row.ownerId === this.currentUserId());
+    return row.dataId !== null && (this.isAdmin() || row.ownerId === this.currentUserId());
   }
 
   protected removeRegistry(row: RegistryRow) {
@@ -172,10 +173,8 @@ export class DatasetHowToComponent {
       },
       panelClass: 'dialog-sm',
     }).afterClosed().subscribe(async confirmed => {
-      if (confirmed) {
-        await this.run(() => lastValueFrom(row.dataId
-          ? this.datasetApi.remove(row.dataId)
-          : this.registryApi.remove(row.repository)));
+      if (confirmed && row.dataId !== null) {
+        await this.run(() => lastValueFrom(this.datasetApi.remove(row.dataId)));
       }
     });
   }

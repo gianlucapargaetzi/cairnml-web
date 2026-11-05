@@ -30,3 +30,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.read-only {
+  color: var(--color-on-surface-variant);
+}

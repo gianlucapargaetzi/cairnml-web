@@ -34,7 +34,10 @@
               <span [class.inactive]="!line.inEffect">{{ line.status }}</span>
             }
             @case ('actions') {
-              @if (settingsStore.isOwner()) {
+              @if (line.fromDataset) {
+                <mat-icon fontSet="al" fontIcon="al-ico-lock" class="read-only" [attr.aria-label]="datasetHint"
+                          [smTooltip]="datasetHint" data-id="datasetCredentialLock"></mat-icon>
+              } @else if (settingsStore.canManageMembers()) {
                 <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + line.label"
                         smTooltip="Stop sharing" (click)="stop(line.grant)" data-id="stopShareButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
@@ -48,6 +51,9 @@
         </div>
       </ng-template>
     </sm-table>
+    @if (rows().some(row => row.fromDataset)) {
+      <p class="accesses-note" data-id="datasetCredentialHint">{{ datasetHint }}</p>
+    }
   } @else {
     <sm-empty-state icon="al-ico-lock" title="No shared accesses"
       description="No access is shared with this project yet. Members can share one of their accesses from their Access settings."></sm-empty-state>

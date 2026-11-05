@@ -14,6 +14,7 @@ import {
   DatasetAccessService,
   DatasetVisibility
 } from '@common/datasets/dataset-git/dataset-access.service';
+import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {
   AddProjectDatasetsDialogComponent,
   AddProjectDatasetsDialogData,
@@ -41,6 +42,7 @@ export class ProjectDatasetsComponent implements OnInit {
   private datasetsApi = inject(DatasetAccessService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
+  protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
 
