@@ -24,6 +24,10 @@ import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-cont
 import {AccessDatasetProjectShare} from '@common/datasets/dataset-git/dataset-access.service';
 import {ProjectShareService} from '../project-share.service';
 
+// An App-discovered repository that the server keeps no record of has an id of this form. It cannot be shared until
+// the server keeps it as a dataset, so it is not offered.
+const APP_ROW_PREFIX = 'app:';
+
 const VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
   user: 'User only',
   projects: 'Projects',
@@ -89,10 +93,11 @@ export class ProjectDatasetsComponent implements OnInit {
   }
 
   // The datasets the user can share: their own, and public or shared-with-projects ones they can see that are not here yet.
+  // Only rows with a record are offered (see APP_ROW_PREFIX).
   protected async addDatasets() {
     this.error.set(null);
     const shared = new Set(this.datasets().map(d => d.id));
-    const available = this.visible().filter(d => !shared.has(d.id)
+    const available = this.visible().filter(d => !d.id.startsWith(APP_ROW_PREFIX) && !shared.has(d.id)
       && (d.visibility !== 'user' || d.owner === this.currentUserId()));
     this.dialog.open<AddProjectDatasetsDialogComponent, AddProjectDatasetsDialogData, AddProjectDatasetsResult>(
       AddProjectDatasetsDialogComponent, {data: {datasets: available}, panelClass: 'dialog-sm'},
