@@ -19,6 +19,18 @@ Implementation: Material outlined form fields customised in `styles/customizatio
 | Code or JSON | `sm-code-editor` / edit-JSON dialog |
 | File | a button that opens the file picker plus the file name; drag-and-drop is optional |
 
+## Sharing control (`sm-share-control`)
+
+Shares one resource (queue, dataset, registry or credential) with projects, with every company user, or keeps it to its owner. Implementation: `ui-components/inputs/share-control`. It takes `resourceType` and `resourceId`, loads `access.list` and `user_access.get_all` (the projects the user owns or is a member of), and applies each change at once through `access.share` and `access.unshare`.
+
+- **Who sees it:** only users who may manage the sharing of the resource (the `manage_sharing` action: collaborator level, or owner, or admin). The server refuses `access.list` to everyone else, and the control then renders nothing. Other users see no sharing section at all.
+- **Scope:** `Only me`, `Projects`, `Public`, as a radio group (3 options). `Only me` is the absence of shares and has no action; stop the shares to return to it.
+- **Level:** shown only for Projects, as a radio group of the levels the type has: queue and dataset Read, Read/Write, Collaborator; registry and credential Read, Collaborator. Public is always Read, so no level is shown for it.
+- **Projects:** a checkbox per project that does not hold a share yet (one share record per project). Share creates one share per checked project.
+- **Stop sharing:** a row icon button opens a destructive confirmation (`dialog-sm`) that states who loses access. Owners and collaborators of the resource may stop any share on it.
+- **Inherited shares** (added by a task run) are listed with "(added by a task run)" and stopped the same way.
+- Terminology: "Projects", "Public", "Only me" and the level names are the words in the access model. A share to one user (queues only) shows the user id, because the server returns no name for it (open item).
+
 ## Layout and spacing
 
 - Label above the field (Material floating label, custom-positioned). Do not build your own labels except in key-value displays.
