@@ -37,7 +37,7 @@
               @if (line.fromDataset) {
                 <mat-icon fontSet="al" fontIcon="al-ico-lock" class="read-only" [attr.aria-label]="datasetHint"
                           [smTooltip]="datasetHint" data-id="datasetCredentialLock"></mat-icon>
-              } @else if (settingsStore.canManageMembers()) {
+              } @else if (line.canRevoke) {
                 <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + line.label"
                         smTooltip="Stop sharing" (click)="stop(line.grant)" data-id="stopShareButton">
                   <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>

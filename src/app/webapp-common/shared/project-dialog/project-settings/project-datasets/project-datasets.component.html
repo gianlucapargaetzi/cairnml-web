@@ -15,6 +15,7 @@
     <thead>
       <tr>
         <th scope="col">Dataset</th>
+        <th scope="col">Level</th>
         <th scope="col">Visibility</th>
         <th scope="col">Credential</th>
         <th scope="col"><span class="visually-hidden">Actions</span></th>
@@ -23,7 +24,13 @@
     <tbody>
       @for (row of datasets(); track row.id) {
         <tr>
-          <td>{{ row.name }}</td>
+          <td>
+            {{ row.name }}
+            @if (shareOf(row)?.inherited) {
+              <span class="inherited" data-id="inheritedDatasetState">Inherited from an agent run</span>
+            }
+          </td>
+          <td>{{ levelLabel(shareOf(row)) }}</td>
           <td>{{ visibilityLabel(row.visibility) }}</td>
           <td>
             @if (row.state === 'no_access') {
@@ -33,7 +40,7 @@
             }
           </td>
           <td class="row-actions">
-            @if (settingsStore.canManageMembers()) {
+            @if (canRevoke(row)) {
               <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
                 (click)="removeDataset(row)" data-id="removeProjectDatasetButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
@@ -43,7 +50,7 @@
         </tr>
       } @empty {
         <tr>
-          <td colspan="4" class="empty">No datasets are shared with this project.</td>
+          <td colspan="5" class="empty">No datasets are shared with this project.</td>
         </tr>
       }
     </tbody>

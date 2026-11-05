@@ -52,3 +52,7 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 ## Task name cell (`sm-task-name`)
 
 Used by the experiments table and the dashboard's recent tasks table. A task in a table is shown as `name: id`: the name, a colon, then the task's id (the hash) in monospace. The name shrinks with an ellipsis when the cell is narrow, and the id stays visible. The full text is in a tooltip. Development tasks show the name in italics. Inputs: `name`, `taskId`, `italic`.
+
+## Project settings sections (queues, datasets, credentials)
+
+The project settings sections (`shared/project-dialog/project-settings/`) list the shares of a project. Each has a **Level** column (the share's level label from `SHARE_LEVEL_LABELS`). A dataset row that a run made (inherited) shows "Inherited from an agent run" under its name. A credential row that a dataset or a run brought in is read-only: a lock icon with the hint "Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.", decided by the server's `inherited` flag. A revoke action is shown only where the signed-in user may act on the row (project owner, collaborators and admins; the owner of the dataset or the credential), and it revokes through `access.unshare` with the share's id. Queues keep their owner-only remove action.

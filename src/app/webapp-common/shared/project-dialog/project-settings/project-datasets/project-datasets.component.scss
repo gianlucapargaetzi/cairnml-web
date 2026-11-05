@@ -6,30 +6,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 
 .section-title {
-  font-size: 14px;
+  font-size: var(--font-size-md);
   font-weight: 500;
 }
 
 .datasets-error {
   color: var(--color-error);
-  font-size: 12px;
-  margin-bottom: 16px;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
 }
 
 .datasets-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--font-size-md);
 
   th {
     height: 40px;
-    padding: 0 12px;
+    padding: 0 var(--space-3);
     text-align: left;
-    font-size: 12px;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: var(--color-on-surface-variant);
     background: var(--row-header-color);
@@ -37,12 +37,12 @@
 
   td {
     height: 40px;
-    padding: 0 12px;
+    padding: 0 var(--space-3);
     border-bottom: 1px solid var(--row-border-color);
   }
 
   .row-actions {
-    width: 48px;
+    width: var(--space-7);
     text-align: right;
   }
 
@@ -54,4 +54,10 @@
 
 .no-access {
   color: var(--color-error);
+}
+
+.inherited {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
 }

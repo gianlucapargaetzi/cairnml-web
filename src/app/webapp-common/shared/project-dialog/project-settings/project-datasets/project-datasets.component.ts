@@ -20,6 +20,9 @@ import {
   AddProjectDatasetsDialogData,
   AddProjectDatasetsResult
 } from './add-project-datasets-dialog/add-project-datasets-dialog.component';
+import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
+import {AccessDatasetProjectShare} from '@common/datasets/dataset-git/dataset-access.service';
+import {ProjectShareService} from '../project-share.service';
 
 const VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
   user: 'User only',
@@ -28,8 +31,9 @@ const VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
 };
 
 /**
- * The datasets shared with a project. A member shares a dataset they can see, and takes it back; the project then uses
- * the credential that reads the dataset, shared with it at the same time.
+ * The datasets shared with a project, with the level of each share. A member shares a dataset they can see. The owner
+ * and collaborators of the project, the owner of a dataset and admins take a share back, through access.unshare; the
+ * credential that reads the dataset is shared with the project at the same time.
  */
 @Component({
   selector: 'sm-project-datasets',
@@ -40,6 +44,7 @@ const VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
 })
 export class ProjectDatasetsComponent implements OnInit {
   private datasetsApi = inject(DatasetAccessService);
+  private shares = inject(ProjectShareService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
   protected settingsStore = inject(ProjectSettingsStore);
@@ -58,6 +63,21 @@ export class ProjectDatasetsComponent implements OnInit {
 
   protected visibilityLabel(visibility: DatasetVisibility): string {
     return VISIBILITY_LABELS[visibility] ?? visibility;
+  }
+
+  // The share of the dataset with this project: its level, its share id and whether a run made it.
+  protected shareOf(row: AccessDataset): AccessDatasetProjectShare | undefined {
+    return row.project_shares?.find(share => share.project === this.projectId());
+  }
+
+  protected levelLabel(share?: AccessDatasetProjectShare): string {
+    return share ? (SHARE_LEVEL_LABELS[share.level] ?? share.level) : '';
+  }
+
+  // The project's stewards (owner, collaborators, admins) and the owner of the dataset may take a share back.
+  protected canRevoke(row: AccessDataset): boolean {
+    return !!this.shareOf(row)
+      && (this.settingsStore.canManageMembers() || row.owner === this.currentUserId());
   }
 
   protected async load() {
@@ -88,11 +108,15 @@ export class ProjectDatasetsComponent implements OnInit {
   }
 
   protected removeDataset(row: AccessDataset) {
+    const share = this.shareOf(row);
+    if (!share) {
+      return;
+    }
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
         title: `Remove ${row.name}?`,
-        body: 'The project loses this dataset. Its jobs can no longer read it. The dataset itself is not changed.',
+        body: 'The project loses this dataset. Its agents can no longer read it. The dataset itself is not changed.',
         yes: 'Remove',
         no: 'Cancel',
         iconClass: 'al-ico-dialog-x',
@@ -101,7 +125,7 @@ export class ProjectDatasetsComponent implements OnInit {
       panelClass: 'dialog-sm',
     }).afterClosed().subscribe(async confirmed => {
       if (confirmed) {
-        await this.run(() => lastValueFrom(this.datasetsApi.unallocate(row.id, this.projectId())));
+        await this.run(() => lastValueFrom(this.shares.unshare(share.share_id)));
       }
     });
   }

@@ -6,6 +6,7 @@ import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-s
 import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {lastValueFrom} from 'rxjs';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
@@ -19,7 +20,9 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
-import {DatasetAccessService} from '@common/datasets/dataset-git/dataset-access.service';
+import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
+import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
+import {ProjectShareService} from '../project-share.service';
 
 export interface ProjectGrantView {
   id: string;
@@ -32,14 +35,20 @@ export interface ProjectGrantView {
   owner_name: string;
   owner_active: boolean;
   owner_is_member: boolean;
+  // the project's share of this access, from its share record
+  level: 'read' | 'read_write' | 'collaborator';
+  share_id: string;
+  // true when a run made the share (a dataset brought the credential in); such a row is read-only here
+  inherited: boolean;
 }
 
 // Shown on a credential that a dataset shared with the project brought in: it is read-only here.
 export const DATASET_CREDENTIAL_HINT =
   'Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.';
 
-// The accesses shared with this project. Members see who shared each one and whether it is still in effect; the
-// owner of the project can stop a share. The secret of an access is never shown here.
+// The accesses shared with this project. Members see who shared each one, its level and whether it is still in effect.
+// The owner and collaborators of the project, the owner of an access and admins can stop a share. The secret of an
+// access is never shown here.
 @Component({
   selector: 'sm-project-accesses',
   templateUrl: './project-accesses.component.html',
@@ -61,14 +70,13 @@ export class ProjectAccessesComponent implements OnInit {
   private api = inject(SmApiRequestsService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
-  private datasetsApi = inject(DatasetAccessService);
+  private shares = inject(ProjectShareService);
   protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
 
   protected grants = signal<ProjectGrantView[]>([]);
-  // the ids of the credentials that the datasets shared with this project read with
-  protected datasetCredentials = signal<Set<string>>(new Set());
+  protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
   protected readonly datasetHint = DATASET_CREDENTIAL_HINT;
   // whether the agents of this project may be given personal tokens shared with it (on by default)
   protected agentTokens = signal(true);
@@ -76,6 +84,7 @@ export class ProjectAccessesComponent implements OnInit {
   protected readonly columns: ISmCol[] = [
     {id: 'label', header: 'Name', sortable: false},
     {id: 'reaches', header: 'Reaches', sortable: false},
+    {id: 'level', header: 'Level', sortable: false},
     {id: 'owner', header: 'Shared by', sortable: false},
     {id: 'status', header: 'Status', sortable: false},
     {id: 'actions', header: '', sortable: false},
@@ -84,10 +93,12 @@ export class ProjectAccessesComponent implements OnInit {
     id: grant.id,
     label: grant.label,
     reaches: this.reaches(grant),
+    level: SHARE_LEVEL_LABELS[grant.level] ?? grant.level,
     owner: grant.owner_name,
     status: this.inEffect(grant) ? 'In use' : 'Not in effect',
     inEffect: this.inEffect(grant),
-    fromDataset: this.datasetCredentials().has(grant.id),
+    fromDataset: grant.inherited,
+    canRevoke: !grant.inherited && (this.settingsStore.canManageMembers() || grant.owner === this.currentUserId()),
     grant,
   })));
   protected error = signal<string | null>(null);
@@ -127,7 +138,7 @@ export class ProjectAccessesComponent implements OnInit {
   protected stop(grant: ProjectGrantView) {
     const data: ConfirmDialogConfig = {
       title: `Stop sharing ${grant.label}?`,
-      body: `Jobs of this project can no longer use ${grant.label} owned by ${grant.owner_name}.`,
+      body: `Agents of this project can no longer use ${grant.label} owned by ${grant.owner_name}.`,
       yes: 'Stop sharing',
       no: 'Cancel',
       iconClass: 'al-ico-alert',
@@ -143,8 +154,7 @@ export class ProjectAccessesComponent implements OnInit {
       }
       this.busy.set(true);
       try {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.revoke`,
-          {id: grant.id, project: this.projectId()}, {}));
+        await lastValueFrom(this.shares.unshare(grant.share_id));
         this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The access is no longer shared with this project'));
         await this.load();
       } catch (error) {
@@ -158,17 +168,10 @@ export class ProjectAccessesComponent implements OnInit {
   private async load() {
     this.error.set(null);
     try {
-      const [res, datasets] = await Promise.all([
-        lastValueFrom(this.api.post<{grants: ProjectGrantView[]; agent_tokens_allowed: boolean}>(
-          `${HTTP.API_BASE_URL}/user_access.project_grants`, {project: this.projectId()}, {})),
-        lastValueFrom(this.datasetsApi.visible()),
-      ]);
+      const res = await lastValueFrom(this.api.post<{grants: ProjectGrantView[]; agent_tokens_allowed: boolean}>(
+        `${HTTP.API_BASE_URL}/user_access.project_grants`, {project: this.projectId()}, {}));
       this.grants.set(res.grants ?? []);
       this.agentTokens.set(res.agent_tokens_allowed !== false);
-      // a dataset shared with the project reads with its credential, which the project then has as well
-      this.datasetCredentials.set(new Set(datasets
-        .filter(dataset => dataset.credential && dataset.projects.includes(this.projectId()))
-        .map(dataset => dataset.credential)));
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The shared accesses could not be loaded.');
     }

@@ -14,6 +14,13 @@ import {
   AddProjectQueuesDialogData,
   AddProjectQueuesResult
 } from './add-project-queues-dialog/add-project-queues-dialog.component';
+import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
+
+// A queue of the project with the level of its share (read, read_write or collaborator) from the share record.
+interface ProjectQueueRow extends ProjectsQueueSummary {
+  level?: 'read' | 'read_write' | 'collaborator';
+  share_id?: string;
+}
 
 /**
  * The queues allocated to a project. Only the owner allocates and removes them; members see the list.
@@ -32,7 +39,7 @@ export class ProjectQueuesComponent implements OnInit {
 
   projectId = input.required<string>();
 
-  protected queues = signal<ProjectsQueueSummary[]>([]);
+  protected queues = signal<ProjectQueueRow[]>([]);
   protected error = signal<string>(null);
   protected busy = signal(false);
 
@@ -43,10 +50,14 @@ export class ProjectQueuesComponent implements OnInit {
   protected async load() {
     try {
       const res = await lastValueFrom(this.projectsApi.projectsGetQueues({project: this.projectId()}));
-      this.queues.set(res.queues ?? []);
+      this.queues.set((res.queues ?? []) as ProjectQueueRow[]);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The queues of the project could not be loaded.');
     }
+  }
+
+  protected levelLabel(queue: ProjectQueueRow): string {
+    return queue.level ? (SHARE_LEVEL_LABELS[queue.level] ?? queue.level) : '';
   }
 
   protected async addQueues() {
@@ -64,12 +75,12 @@ export class ProjectQueuesComponent implements OnInit {
     });
   }
 
-  protected removeQueue(row: ProjectsQueueSummary) {
+  protected removeQueue(row: ProjectQueueRow) {
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
         title: `Remove ${row.name}?`,
-        body: 'The project loses this queue. Jobs of the project can no longer run on it, unless another queue is allocated.',
+        body: 'The project loses this queue. Agents of the project can no longer run on it, unless another queue is allocated.',
         yes: 'Remove',
         no: 'Cancel',
         iconClass: 'al-ico-dialog-x',
