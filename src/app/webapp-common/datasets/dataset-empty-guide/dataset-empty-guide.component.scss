@@ -1,0 +1,33 @@
+// a centred column: the empty state above, then the guide, left-aligned within a 720px column (about 80 characters a line)
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.guide {
+  width: 100%;
+  max-width: 720px;
+  padding-bottom: var(--space-4);
+  text-align: left;
+}
+
+.text,
+.note {
+  margin: 0 0 var(--space-3);
+  color: var(--color-on-surface);
+  font-size: var(--font-size-md);
+}
+
+.note {
+  color: var(--color-on-surface-variant);
+}
+
+sm-code-editor {
+  display: block;
+  width: 100%;
+  margin-bottom: var(--space-3);
+  border-radius: 4px;
+  overflow: hidden;
+}

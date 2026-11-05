@@ -69,35 +69,36 @@ export class QueuesTableComponent extends BaseTableView {
         id: QUEUES_TABLE_COL_FIELDS.NAME,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Queue',
-        style:  {width: '250px', minWidth: this.selectedQueue() ? '250px' : '600px'},
+        // columns size to their content; a minimum keeps a label readable, and the table scrolls only below the sum of minimums
+        style:  {minWidth: this.selectedQueue() ? '200px' : '260px'},
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.WORKERS,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Agents',
-        style: {width: '100px'},
+        style: {minWidth: '90px'},
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.TASK,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Next task',
-        style: {width: '250px' ,minWidth: this.selectedQueue() ? '250px' : '500px'},
+        style: {minWidth: this.selectedQueue() ? '200px' : '220px'},
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.LAST_UPDATED,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Last updated',
-        style: {width: '180px', minWidth: '180px'},
+        style: {minWidth: '150px'},
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.IN_QUEUE,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'In queue',
-        style: {width: '150px', minWidth: '150px'},
+        style: {minWidth: '120px'},
         sortable: true,
       }
     ]
@@ -105,7 +106,8 @@ export class QueuesTableComponent extends BaseTableView {
       id: 'last',
       headerType: ColHeaderTypeEnum.title,
       header: '',
-      style: {width: '600px'}
+      // the filler after the last column takes the rest of the width; it has no width of its own
+      style: {}
     }];
   })
 

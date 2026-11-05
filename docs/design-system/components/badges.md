@@ -24,3 +24,7 @@ Only for counts attached to a tab or a nav item. 11-12px, `--color-primary-conta
 ## Active/inactive
 
 For enabled/disabled entities use text "Active"/"Disabled" with the status component (`active` status exists). Do not invent a toggle-looking badge.
+
+## Repository access (`sm-repo-access-badge`)
+
+How a repository is reached, shown next to it in a task's source section and on a dataset: "Publicly accessible", "Accessible via GitHub App X", "Accessible via token (host)", or "Access refused". It is an icon and a label, never colour alone: an open padlock for public, a closed padlock for reached through an access, an alert for refused. The colour is the status token (`--color-failed` for refused), and the reason is in the tooltip. Input: `access` (the result of `RepoAccessService.resolve`).

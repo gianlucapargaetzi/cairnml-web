@@ -4,10 +4,32 @@
 
 .sm-card-list-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 352px);
+  // cards of at least 352px that share the page width: full-width items (toolbar, panels, empty states) span both edges
+  grid-template-columns: repeat(auto-fill, minmax(352px, 1fr));
   grid-gap: 24px;
   padding: 0 24px 24px;
-  justify-content: center;
+  // start-aligned, as the page title and toolbar: the cards line up with the title, not in the middle of the page
+  justify-content: start;
+
+  // a card fills its column
+  > * {
+    min-width: 0;
+    justify-self: stretch;
+  }
+
+  // an empty state is centred across the full width of the page
+  > sm-empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+  }
+
+  > .empty-container {
+    grid-column: 1 / -1;
+  }
 
   .load-more {
     display: flex;

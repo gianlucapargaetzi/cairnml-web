@@ -6,6 +6,11 @@
   width: 100%;
 }
 
+// with no dataset to list, the browser takes no row of the page (its empty state is the Datasets guide)
+:host:not(:has(.browser-body)) {
+  display: none;
+}
+
 .browser-body {
   width: 100%;
   height: 70vh;

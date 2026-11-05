@@ -49,6 +49,7 @@
                   } @else {
                     <a [href]="details.link" target="_blank" class="repo-link">{{ details.link }}</a>
                   }
+                  <sm-repo-access-badge class="ms-2" [access]="repoAccess.value()"></sm-repo-access-badge>
                 </sm-labeled-row>
                 <sm-labeled-row label="Kind:">{{ details.kind === 'own' ? 'Your own dataset' : 'Registry' + (details.source ? ', source ' + details.source : '') }}</sm-labeled-row>
                 <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>

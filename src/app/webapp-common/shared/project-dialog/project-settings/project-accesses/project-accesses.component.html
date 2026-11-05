@@ -1,0 +1,55 @@
+<div class="accesses">
+  <div class="accesses-header">
+    <h3 class="section-title">Shared accesses</h3>
+  </div>
+  <p class="accesses-note">
+    Members of this project can use these accesses in its tasks, but cannot read their secrets. An access stops
+    working for the project when its owner leaves the project or is deactivated.
+  </p>
+
+  <mat-slide-toggle [checked]="agentTokens()" [disabled]="busy() || !settingsStore.isOwner()"
+                    (change)="setAgentTokens($event.checked)" data-id="agentTokensToggle">
+    Allow personal tokens on this project's agents
+  </mat-slide-toggle>
+  <p class="accesses-note">
+    A personal token reaches everything its owner can reach, not only one repository. GitHub Apps are not affected.
+  </p>
+
+  @if (error()) {
+    <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
+  }
+
+  @if (grants().length) {
+    <sm-table data-id="projectAccessesTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
+      <ng-template let-col let-line="rowData" pTemplate="body">
+        <div>
+          @switch (col.id) {
+            @case ('label') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.label">{{ line.label }}</span>
+            }
+            @case ('reaches') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.reaches">{{ line.reaches }}</span>
+            }
+            @case ('status') {
+              <span [class.inactive]="!line.inEffect">{{ line.status }}</span>
+            }
+            @case ('actions') {
+              @if (settingsStore.isOwner()) {
+                <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + line.label"
+                        smTooltip="Stop sharing" (click)="stop(line.grant)" data-id="stopShareButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                </button>
+              }
+            }
+            @default {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
+          }
+        </div>
+      </ng-template>
+    </sm-table>
+  } @else {
+    <sm-empty-state icon="al-ico-lock" title="No shared accesses"
+      description="No access is shared with this project yet. Members can share one of their accesses from their Access settings."></sm-empty-state>
+  }
+</div>

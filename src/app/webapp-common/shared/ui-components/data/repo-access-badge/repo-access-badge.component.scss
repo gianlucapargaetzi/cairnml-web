@@ -1,0 +1,24 @@
+:host {
+  display: inline-block;
+}
+
+.repo-access {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+
+  .al-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+
+  // a refused repository is the status colour; the icon and the words say it too
+  &.refused {
+    color: var(--color-failed);
+  }
+}

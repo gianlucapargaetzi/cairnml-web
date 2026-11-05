@@ -29,6 +29,8 @@ import {
   unusedRegistryEntries
 } from '../dataset-git/dataset-git.model';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
+import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
+import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
 
 const TASK_LIMIT = 500;
@@ -76,6 +78,7 @@ interface GraphNode {
     DecimalPipe,
     RouterLink,
     CopyClipboardComponent,
+    RepoAccessBadgeComponent,
   ],
 })
 export class DatasetBrowserComponent {
@@ -83,6 +86,7 @@ export class DatasetBrowserComponent {
   private registry = inject(DatasetRegistryService);
   private detailsApi = inject(DatasetDetailsService);
   private sanitizer = inject(DomSanitizer);
+  private repoAccessApi = inject(RepoAccessService);
 
   // The number of datasets listed, so the page can decide whether to show its empty state.
   loaded = output<number>();
@@ -166,6 +170,14 @@ export class DatasetBrowserComponent {
         catchError(() => of(null)),
       ))).pipe(map(pairs => new Map(pairs.filter((pair): pair is [string, DatasetDetails] => pair !== null))));
     },
+  });
+
+  // how the selected dataset's repository is reached (only for datasets of our own, which have a repository)
+  protected readonly repoAccess = rxResource<RepoAccess | null, string | null>({
+    params: () => this.selectedRow()?.kind === 'own' ? this.selectedRow()!.repository : null,
+    stream: ({params}) => params
+      ? this.repoAccessApi.resolve([params]).pipe(map(results => results[0] ?? null))
+      : of(null),
   });
 
   protected readonly selectedDetails = rxResource<DatasetDetails | null, DatasetRow | null>({

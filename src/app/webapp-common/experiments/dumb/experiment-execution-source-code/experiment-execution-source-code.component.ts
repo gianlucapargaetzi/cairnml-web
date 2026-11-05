@@ -4,13 +4,16 @@ import {
   inject,
   forwardRef,
   ChangeDetectionStrategy,
-  linkedSignal
+  linkedSignal,
+  signal
 } from '@angular/core';
 import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IExecutionForm, sourceTypesEnum} from '~/features/experiments/shared/experiment-execution.model';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {debounceTime, filter, map, startWith} from 'rxjs/operators';
-import {pairwise} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, startWith, switchMap} from 'rxjs/operators';
+import {of, pairwise} from 'rxjs';
+import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
+import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {LabeledRowComponent} from '@common/shared/ui-components/data/labeled-row/labeled-row.component';
@@ -43,13 +46,20 @@ import {MatIconModule} from '@angular/material/icon';
     MatIconModule,
     ReplaceViaMapPipe,
     MatError,
-    MatLabel
+    MatLabel,
+    RepoAccessBadgeComponent
   ]
 })
 export class ExperimentExecutionSourceCodeComponent implements ControlValueAccessor {
   private formBuilder = inject(FormBuilder);
+  private repoAccessApi = inject(RepoAccessService);
+
+  // how the repository is reached, shown next to it; checked again when the repository changes
+  protected readonly repoAccess = signal<RepoAccess | null>(null);
 
   editable = input<boolean>();
+  // the project of the task: the accesses shared with it count for the badge
+  projectId = input<string | null>(null);
   protected readonly sourceTypesEnum = sourceTypesEnum;
   sourceCodeForm = this.formBuilder.group({
     repository: [''],
@@ -108,6 +118,17 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
   private originalData: IExecutionForm['source'];
 
   constructor() {
+    this.sourceCodeForm.controls.repository.valueChanges
+      .pipe(
+        takeUntilDestroyed(),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap(repository => repository ?
+          this.repoAccessApi.resolve([repository], this.projectId()).pipe(map(results => results[0] ?? null)) :
+          of(null)),
+      )
+      .subscribe(access => this.repoAccess.set(access));
+
     this.sourceCodeForm.valueChanges
       .pipe(
         takeUntilDestroyed(),

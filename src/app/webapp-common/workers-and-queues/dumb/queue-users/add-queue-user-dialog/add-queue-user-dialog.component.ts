@@ -18,6 +18,7 @@ export interface AddQueueUserResult {
 @Component({
   selector: 'sm-add-queue-user-dialog',
   templateUrl: './add-queue-user-dialog.component.html',
+  styleUrls: ['./add-queue-user-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DialogTemplateComponent, MatDialogActions, MatFormField, MatLabel, MatOption, MatSelect, MatButton]
 })

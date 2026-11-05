@@ -41,3 +41,9 @@
 sm-empty-state {
   grid-column: 1 / -1;
 }
+
+// an empty reports page: the empty state is centred in the height that is left below the toolbar
+.sm-card-list-layout.fill-empty {
+  height: 100%;
+  grid-template-rows: auto 1fr;
+}

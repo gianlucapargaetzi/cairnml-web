@@ -48,13 +48,12 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'git-credentials',
-        canActivate: [adminGuard],
-        loadComponent: () => import('~/features/settings/containers/git-credentials/git-credentials.component').then(m => m.GitCredentialsComponent),
+        path: 'access',
+        loadComponent: () => import('~/features/settings/containers/access/access.component').then(m => m.AccessComponent),
         data: {
           workspaceNeutral: true,
           staticBreadcrumb: [[settingsBreadcrumb, {
-            name: 'Git Credentials',
+            name: 'Access',
             type: CrumbTypeEnum.SubFeature
           }]]
         }

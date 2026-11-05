@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+// text takes the page header's 24px gutter; the table spans the full width
+.access {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.access-description {
+  margin: 0;
+  padding: 24px 24px 24px;
+  max-width: 720px;
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-md);
+}
+
+.access-table {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.invalid {
+  color: var(--color-failed);
+}
+
+.al-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.meta {
+  margin-left: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.share-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  margin-right: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.ellipsis {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

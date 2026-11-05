@@ -1,0 +1,49 @@
+.intro {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-md);
+}
+
+// fields are spaced like the project settings form: 24px between fields, plus the hint line under each field
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+// a file choice reads like a form field: its label above, the button and the file name in one row
+.key-file {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.key-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+// the actions are centred, with Cancel first and the action after it (as the other dialogs)
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.key-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}

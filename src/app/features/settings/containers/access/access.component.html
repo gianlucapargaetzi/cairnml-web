@@ -1,0 +1,82 @@
+<sm-page-header title="Access">
+  <button actions mat-flat-button type="button" (click)="add()" data-id="addCredentialButton">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    Add credential
+  </button>
+</sm-page-header>
+<div class="access">
+  <p class="access-description">
+    Credentials let CairnML read repositories that are not public: a token, or a GitHub App installed on the repositories
+    it may read. Each one shows its owner, what it is valid for, and whether it works. Secrets are written once, encrypted
+    on the server, and never shown again. An owner changes their own credentials; an admin changes the company's.
+  </p>
+
+  @if (error()) {
+    <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
+  }
+
+  @if (loading()) {
+    <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
+  } @else if (!credentials().length) {
+    <sm-empty-state icon="al-ico-lock" title="No credentials yet"
+      description="Add a token, or a GitHub App, to read private repositories."></sm-empty-state>
+  } @else {
+    <sm-table class="access-table" data-id="credentialsTable" [columns]="columns" [tableData]="rows()"
+      selectionMode="single" [scrollable]="true">
+      <ng-template let-col let-line="rowData" pTemplate="body">
+        <div>
+          @switch (col.id) {
+            @case ('status') {
+              <span [class.invalid]="isInvalid(line.state)" [smTooltip]="line.credential.message">
+                <mat-icon fontSet="al" [fontIcon]="isInvalid(line.state) ? 'al-ico-alert' : 'al-ico-lock'" class="al-icon"></mat-icon>
+                {{ line.status }}
+              </span>
+              @if (line.credential.last_checked) {
+                <span class="meta">{{ line.credential.last_checked | timeAgo }}</span>
+              }
+            }
+            @case ('valid_for') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.valid_for">{{ line.valid_for }}</span>
+            }
+            @case ('name') {
+              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
+            }
+            @case ('shared') {
+              @for (projectId of line.credential.granted_projects; track projectId) {
+                <span class="share-chip">
+                  <span class="ellipsis">{{ projectName(projectId) }}</span>
+                  @if (line.credential.can_edit) {
+                    <button mat-icon-button [attr.aria-label]="'Stop sharing with ' + projectName(projectId)" smTooltip="Stop sharing"
+                            [disabled]="busy() === line.id" (click)="unshare(line.credential, projectId)" data-id="unshareButton">
+                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                    </button>
+                  }
+                </span>
+              }
+              @if (canShare(line.credential)) {
+                <button mat-stroked-button type="button" [disabled]="busy() === line.id" (click)="share(line.credential)" data-id="shareAccessButton">Share</button>
+              }
+            }
+            @case ('actions') {
+              @if (line.credential.source === 'access' && line.credential.can_edit) {
+                <button mat-icon-button aria-label="Check credential" smTooltip="Check now"
+                        [disabled]="busy() === line.id" (click)="check(line.credential)" data-id="checkAccessButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                </button>
+              }
+              @if (line.credential.can_edit) {
+                <button mat-icon-button aria-label="Delete credential" smTooltip="Delete credential"
+                        [disabled]="busy() === line.id" (click)="confirmDelete(line.credential)" data-id="deleteAccessButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                </button>
+              }
+            }
+            @default {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
+          }
+        </div>
+      </ng-template>
+    </sm-table>
+  }
+</div>

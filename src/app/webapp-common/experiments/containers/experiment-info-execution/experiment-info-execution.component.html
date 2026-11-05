@@ -37,6 +37,7 @@
             #sourceCode
             class="form-section"
             [editable]="(editable() && !isInDev()) && sourceSection.inEditMode()"
+            [projectId]="routerProjectId()"
             [ngModel]="formData.source"
           ></sm-experiment-execution-source-code>
         </sm-editable-section>

@@ -1,4 +1,3 @@
-import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {Component, OnInit, signal} from '@angular/core';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
@@ -24,6 +23,7 @@ import {PushPipe} from '@ngrx/component';
 import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
 import {DatasetBrowserComponent} from '@common/datasets/dataset-browser/dataset-browser.component';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/dataset-empty-guide.component';
 
 @Component({
   selector: 'sm-open-datasets',
@@ -31,7 +31,6 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
     PageHeaderComponent,
-    EmptyStateComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,
     ButtonToggleComponent,
@@ -41,7 +40,8 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
     MatButton,
     PushPipe,
     DatasetModelPanelComponent,
-    DatasetBrowserComponent
+    DatasetBrowserComponent,
+    DatasetEmptyGuideComponent
   ]
 })
 export class OpenDatasetsComponent extends PipelinesPageComponent implements OnInit {

@@ -1,0 +1,6 @@
+@if (access(); as access) {
+  <span class="repo-access" [class.refused]="refused()" [smTooltip]="access.message" data-id="repoAccessBadge">
+    <mat-icon fontSet="al" [fontIcon]="icon()" class="al-icon"></mat-icon>
+    <span>{{ label() }}</span>
+  </span>
+}
