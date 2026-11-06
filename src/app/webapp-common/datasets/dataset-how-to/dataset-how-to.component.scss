@@ -1,3 +1,5 @@
+@use "mixins/dialog-form" as dialog-form;
+
 .tab-body {
   padding: var(--space-4) 0 var(--space-2);
 }
@@ -45,3 +47,5 @@ sm-code-editor {
 .kind-input {
   flex: 0 1 180px;
 }
+
+@include dialog-form.option-meta();

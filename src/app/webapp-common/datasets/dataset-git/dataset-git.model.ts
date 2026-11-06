@@ -281,6 +281,19 @@ export function datasetListRows(sources: DatasetListSources): DatasetRow[] {
       id: 'registry-entry|' + key + '|' + entry.name, name: entry.name, kind: 'registry', registryName: entry.name,
     }));
   }
+  // A repository dataset that no run uses yet is listed too, so one just added shows at once. A repository that is an
+  // entry of a registry is listed under it, as above.
+  const usedRepos = new Set(groups.filter(g => g.kind === 'own').map(g => repoKey(g.repo)));
+  const registryRepos = new Set(entries.filter(e => e.source === 'repo').map(e => repoKey(e.link)));
+  for (const dataset of visible) {
+    const key = repoKey(dataset.ref);
+    if (dataset.kind !== 'repo' || usedRepos.has(key) || registryRepos.has(key)) {
+      continue;
+    }
+    topRows.push(blank({
+      id: 'own|' + key, name: dataset.name, kind: 'own', repository: dataset.ref, access: dataset,
+    }));
+  }
 
   const groupRows = [...registryByKey.entries()]
     .sort(([, a], [, b]) => a.repository.localeCompare(b.repository))

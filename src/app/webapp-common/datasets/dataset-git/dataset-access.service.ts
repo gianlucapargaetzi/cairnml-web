@@ -66,9 +66,11 @@ export class DatasetAccessService {
 
   // Adds a repository (kind 'repo') or a registry (kind 'registry') without creating anything. The dataset is returned
   // even when it has no access: its state says so.
-  add(kind: 'repo' | 'registry', url: string, visibility: DatasetVisibility, project?: string): Observable<AccessDataset> {
+  // A repository is read with the credential given (an id from credentials()); with none it is public.
+  add(kind: 'repo' | 'registry', url: string, visibility: DatasetVisibility, project?: string,
+      credential?: string): Observable<AccessDataset> {
     return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.add`,
-      {kind, url, visibility, project}, {}).pipe(map(response => response.dataset));
+      {kind, url, visibility, project, credential: credential || undefined}, {}).pipe(map(response => response.dataset));
   }
 
   setVisibility(id: string, visibility: DatasetVisibility, projects: string[] = []): Observable<AccessDataset> {

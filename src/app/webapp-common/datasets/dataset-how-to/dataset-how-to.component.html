@@ -4,8 +4,8 @@
       <div class="tab-body">
         <p class="text">
           Add a dataset that already exists. Nothing is created or copied: the dataset stays in its repository. A public
-          repository needs no credential. A private one is read with the first of your accesses, or the accesses shared
-          with a project, that can read it. A registry adds every dataset it lists.
+          repository needs no credential. A private one is read with the credential you choose, which must be one of your
+          own or the company's. A registry adds every dataset it lists.
         </p>
 
         <div class="add-registry">
@@ -30,6 +30,21 @@
             </mat-select>
             <mat-hint>Projects: shared from each project's settings.</mat-hint>
           </mat-form-field>
+          @if (addKind() === 'repo') {
+            <mat-form-field appearance="outline" class="registry-input">
+              <mat-label>Credential</mat-label>
+              <mat-select [value]="addCredential()" (selectionChange)="addCredential.set($event.value)" data-id="addDatasetCredential">
+                <mat-option value="">No credential (public repository)</mat-option>
+                @for (credential of credentials(); track credential.id) {
+                  <mat-option [value]="credential.id">
+                    <span class="ellipsis">{{ credential.name }}</span>
+                    <span class="option-meta">{{ credential.type }}, {{ credential.scope === 'company' ? 'company' : 'yours' }}</span>
+                  </mat-option>
+                }
+              </mat-select>
+              <mat-hint>A private repository needs one</mat-hint>
+            </mat-form-field>
+          }
           <button mat-flat-button [disabled]="busy() || !addUrl().trim()" (click)="addDataset()" data-id="addDatasetButton">
             <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
             Add dataset

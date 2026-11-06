@@ -24,3 +24,12 @@
     margin-top: var(--space-4);
   }
 }
+
+// The type of a credential's kind and scope, shown after its name in a select.
+@mixin option-meta() {
+  .option-meta {
+    margin-left: var(--space-2);
+    color: var(--color-on-surface-variant);
+    font-size: var(--font-size-sm);
+  }
+}

@@ -9,7 +9,8 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom, of} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {SectionHeaderComponent} from '@common/shared/components/section-header/section-header.component';
 import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor/code-editor.component';
@@ -22,7 +23,7 @@ import {MESSAGES_SEVERITY} from '@common/constants';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
 import {RegistryRecord} from '../dataset-git/dataset-git.model';
-import {DatasetAccessService, DatasetVisibility} from '../dataset-git/dataset-access.service';
+import {DatasetAccessService, DatasetVisibility, StoredCredential} from '../dataset-git/dataset-access.service';
 import {DatasetRemovalService} from '../dataset-git/dataset-removal.service';
 
 interface RegistryRow {
@@ -83,6 +84,9 @@ export class DatasetHowToComponent {
   protected readonly addKind = signal<'repo' | 'registry'>('repo');
   protected readonly addUrl = signal('');
   protected readonly addVisibility = signal<DatasetVisibility>('user');
+  // the credential a repository is read with ('' for a public repository); the credentials the user may choose
+  protected readonly addCredential = signal('');
+  protected readonly credentials = signal<StoredCredential[]>([]);
   protected readonly visibilityOptions: {value: DatasetVisibility; label: string}[] = [
     {value: 'user', label: 'User only'},
     {value: 'projects', label: 'Projects'},
@@ -108,6 +112,15 @@ export class DatasetHowToComponent {
 
   constructor() {
     this.loadRegistries();
+    this.loadCredentials();
+  }
+
+  // The credentials the user may choose for a repository: their own, and the company's. Without them, the form still works
+  // (a public repository needs none).
+  private loadCredentials() {
+    this.datasetApi.credentials()
+      .pipe(catchError(() => of([] as StoredCredential[])))
+      .subscribe(list => this.credentials.set(list));
   }
 
   // One line of a code cell is about 21px high; the cell adds a little padding.
@@ -138,7 +151,8 @@ export class DatasetHowToComponent {
     this.busy.set(true);
     this.error.set(null);
     try {
-      const dataset = await lastValueFrom(this.datasetApi.add(this.addKind(), url, this.addVisibility()));
+      const credential = this.addKind() === 'repo' ? this.addCredential() : '';
+      const dataset = await lastValueFrom(this.datasetApi.add(this.addKind(), url, this.addVisibility(), undefined, credential));
       if (dataset.state === 'no_access') {
         this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, dataset.state_message));
       } else {
