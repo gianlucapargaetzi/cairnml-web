@@ -11,8 +11,17 @@
 export interface FolderCandidate {
   id: string;
   name?: string;
-  parent?: string;
+  // the list may return the parent as its id, or, when the server expands a reference, as the parent task itself
+  parent?: string | {id: string};
 }
+
+const parentIdOf = (task: FolderCandidate): string | null => {
+  const parent = task.parent;
+  if (!parent) {
+    return null;
+  }
+  return typeof parent === 'string' ? parent : (parent.id ?? null);
+};
 
 export interface TaskFolder<T> {
   name: string;
@@ -27,13 +36,15 @@ export interface TaskFolders<T> {
 const folderNameOf = <T extends FolderCandidate>(task: T, byId: Map<string, T>): string | null => {
   const visited = new Set<string>();
   let current = task;
-  while (current.parent) {
-    const parent = byId.get(current.parent);
+  let parentId = parentIdOf(current);
+  while (parentId) {
+    const parent = byId.get(parentId);
     if (!parent || visited.has(current.id)) {
       return null;
     }
     visited.add(current.id);
     current = parent;
+    parentId = parentIdOf(current);
   }
   return current.name?.trim() || null;
 };
