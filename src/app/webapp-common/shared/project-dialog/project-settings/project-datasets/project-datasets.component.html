@@ -1,8 +1,7 @@
-@if (settingsStore.canManageMembers()) {
 <div class="datasets">
   <div class="datasets-header">
     <div class="section-title">Datasets</div>
-    @if (settingsStore.canManageMembers()) {
+    @if (settingsStore.canShareResources()) {
       <button mat-flat-button (click)="addDatasets()" [disabled]="busy()" data-id="addProjectDatasetButton">
         <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
         Add dataset
@@ -37,7 +36,7 @@
           <td>{{ row.level }}</td>
           <td>{{ row.owner }}</td>
           <td class="row-actions">
-            @if (row.removable && settingsStore.canManageMembers()) {
+            @if (row.removable && settingsStore.canShareResources()) {
               <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
                 (click)="removeRow(row)" data-id="removeProjectDatasetButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
@@ -57,4 +56,3 @@
     <button mat-flat-button (click)="save()" [disabled]="!dirty() || busy()" data-id="saveProjectDatasetsButton">Save</button>
   </div>
 </div>
-}

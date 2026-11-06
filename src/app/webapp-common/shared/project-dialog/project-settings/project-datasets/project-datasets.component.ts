@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Store} from '@ngrx/store';
@@ -48,7 +48,7 @@ interface DatasetRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButton, MatIcon, MatIconButton, TooltipDirective],
 })
-export class ProjectDatasetsComponent {
+export class ProjectDatasetsComponent implements OnInit {
   private datasetsApi = inject(DatasetAccessService);
   private shares = inject(ProjectShareService);
   private dialog = inject(MatDialog);
@@ -93,13 +93,8 @@ export class ProjectDatasetsComponent {
     return [...kept, ...added];
   });
 
-  constructor() {
-    // The rights come with the members of the project, which load after the section is created.
-    effect(() => {
-      if (this.settingsStore.canManageMembers()) {
-        untracked(() => this.load());
-      }
-    });
+  ngOnInit() {
+    this.load();
   }
 
   protected scopeLabel(scope: 'public' | 'project'): string {

@@ -15,6 +15,12 @@
   color: var(--color-on-surface);
 }
 
+.accesses-note {
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
+
 .accesses-error {
   color: var(--color-error);
   font-size: var(--font-size-sm);

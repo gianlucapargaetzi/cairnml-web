@@ -37,7 +37,7 @@
       <sm-project-datasets class="section" [projectId]="data.project.id"></sm-project-datasets>
     </mat-tab>
     <mat-tab label="Credentials">
-      <sm-project-accesses class="section" [projectId]="data.project.id"></sm-project-accesses>
+      <sm-project-accesses class="section" [projectId]="data.project.id" [project]="data.project"></sm-project-accesses>
     </mat-tab>
     @for (tab of extraTabs(); track tab) {
       <mat-tab [label]="tab.textLabel">
@@ -51,9 +51,11 @@
   @if (!isEditing()){
     <mat-dialog-actions>
     <button mat-stroked-button (click)="closeDialog()" data-id="Cancel">Cancel</button>
+    @if (!isSectionTab()) {
     <button mat-flat-button (click)="save()" [disabled]="general().readonly() || general().isInvalid() || (!scalars().hasChanges() && !general().hasChanges() && !extraDirty())" data-id="Save">
       Save
     </button>
+    }
   </mat-dialog-actions>
   }
 </sm-dialog-template>

@@ -1,6 +1,13 @@
-import {ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {addMessage} from '@common/core/actions/layout.actions';
+import {MESSAGES_SEVERITY} from '@common/constants';
+import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
+import {Project} from '~/business-logic/model/projects/project';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {HTTP} from '~/app.constants';
@@ -22,6 +29,13 @@ import {
 export const DATASET_CREDENTIAL_HINT =
   'Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.';
 
+// A credential as user_access.get_all lists it, with what the add list needs to choose it.
+interface CredentialListRow extends AddableCredential {
+  source: 'access' | 'git';
+  scope: 'user' | 'company';
+  owner: string;
+}
+
 // A row of the table: a credential already usable by the project, or one added here and not saved yet.
 interface CredentialRow {
   key: string;
@@ -42,16 +56,20 @@ interface CredentialRow {
   templateUrl: './project-accesses.component.html',
   styleUrls: ['./project-accesses.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButton, MatIcon, MatIconButton, TooltipDirective],
+  imports: [MatButton, MatIcon, MatIconButton, MatSlideToggleModule, TooltipDirective],
 })
-export class ProjectAccessesComponent {
+export class ProjectAccessesComponent implements OnInit {
   private api = inject(SmApiRequestsService);
   private dialog = inject(MatDialog);
+  private store = inject(Store);
   private shares = inject(ProjectShareService);
   protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
+  // the project record the settings dialog was opened with: it carries the agent token setting
+  project = input<Project>();
 
+  protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
   protected readonly usable = signal<ProjectUsableCredential[]>([]);
   // credentials picked in the add dialog, not saved yet
   protected readonly pendingAdd = signal<AddableCredential[]>([]);
@@ -61,6 +79,8 @@ export class ProjectAccessesComponent {
   protected readonly busy = signal(false);
   protected readonly dirty = computed(() => this.pendingAdd().length > 0 || this.pendingRemove().length > 0);
   protected readonly datasetHint = DATASET_CREDENTIAL_HINT;
+  // whether the agents of this project may be given personal tokens shared with it (on by default)
+  protected agentTokens = signal(true);
 
   protected readonly rows = computed<CredentialRow[]>(() => {
     const removed = new Set(this.pendingRemove());
@@ -90,13 +110,10 @@ export class ProjectAccessesComponent {
     return [...kept, ...added];
   });
 
-  constructor() {
-    // The rights come with the members of the project, which load after the section is created.
-    effect(() => {
-      if (this.settingsStore.canManageMembers()) {
-        untracked(() => this.load());
-      }
-    });
+  ngOnInit() {
+    // The record carries the setting; a project without the field allows personal tokens, as the server does.
+    this.agentTokens.set((this.project() as unknown as {agent_tokens_allowed?: boolean})?.agent_tokens_allowed !== false);
+    this.load();
   }
 
   protected scopeLabel(scope: 'public' | 'project'): string {
@@ -125,10 +142,12 @@ export class ProjectAccessesComponent {
   protected async addCredentials() {
     this.error.set(null);
     try {
-      const res = await lastValueFrom(this.api.post<{credentials: AddableCredential[]}>(
+      const res = await lastValueFrom(this.api.post<{credentials: CredentialListRow[]}>(
         `${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
       const current = new Set(this.rows().map(row => row.key));
-      const available = (res.credentials ?? []).filter(credential => !current.has(credential.id));
+      // Only the user's own credentials that are not a company Git credential: the caller must be able to share them.
+      const available = (res.credentials ?? []).filter(credential => credential.source === 'access'
+        && credential.scope === 'user' && credential.owner === this.currentUserId() && !current.has(credential.id));
       this.dialog.open<AddProjectCredentialsDialogComponent, AddProjectCredentialsDialogData, AddProjectCredentialsResult>(
         AddProjectCredentialsDialogComponent, {data: {credentials: available}, panelClass: 'dialog-sm'},
       ).afterClosed().subscribe(result => {
@@ -182,6 +201,22 @@ export class ProjectAccessesComponent {
       await this.load();
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');
+    } finally {
+      this.busy.set(false);
+    }
+  }
+
+  // Applies at once. Only the owner of the project may change it.
+  protected async setAgentTokens(allowed: boolean) {
+    this.busy.set(true);
+    try {
+      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.set_agent_tokens`,
+        {project: this.projectId(), allowed}, {}));
+      this.agentTokens.set(allowed);
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
+        allowed ? 'Personal tokens are allowed on this project\'s agents' : 'Personal tokens are blocked on this project\'s agents'));
+    } catch (error) {
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'The setting could not be saved.'));
     } finally {
       this.busy.set(false);
     }

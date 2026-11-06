@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   contentChildren,
   inject,
   input,
@@ -69,6 +70,10 @@ export class ProjectSettingsDialogComponent {
   saveExtra = output();
   cancelExtra = output();
   selectedTabIndex = signal(0);
+  // The Datasets and Credentials tabs save with their own Save button (the tab order is fixed: General, Scalar view
+  // defaults, Users, Queues, Datasets, Credentials), so the dialog footer does not offer a second one there.
+  private readonly sectionTabIndexes = [4, 5];
+  protected readonly isSectionTab = computed(() => this.sectionTabIndexes.includes(this.selectedTabIndex()));
 
   constructor() {
     this.settingsStore.setProject(this.data.project.id);

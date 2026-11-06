@@ -1,12 +1,26 @@
-@if (settingsStore.canManageMembers()) {
 <div class="accesses">
   <div class="accesses-header">
     <div class="section-title">Credentials</div>
+    @if (settingsStore.canShareResources()) {
     <button mat-flat-button (click)="addCredentials()" [disabled]="busy()" data-id="addProjectCredentialButton">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       Add credential
     </button>
+    }
   </div>
+
+  <p class="accesses-note">
+    Members of this project can use these accesses in its tasks, but cannot read their secrets. An access stops
+    working for the project when its owner leaves the project or is deactivated.
+  </p>
+
+  <mat-slide-toggle [checked]="agentTokens()" [disabled]="busy() || !settingsStore.isOwner()"
+                    (change)="setAgentTokens($event.checked)" data-id="agentTokensToggle">
+    Allow personal tokens on this project's agents
+  </mat-slide-toggle>
+  <p class="accesses-note">
+    A personal token reaches everything its owner can reach, not only one repository. GitHub Apps are not affected.
+  </p>
 
   @if (error()) {
     <div class="accesses-error" role="alert">{{ error() }}</div>
@@ -36,7 +50,7 @@
           <td>{{ row.level }}</td>
           <td>{{ row.owner }}</td>
           <td class="row-actions">
-            @if (row.removable) {
+            @if (row.removable && settingsStore.canShareResources()) {
               <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
                 (click)="removeRow(row)" data-id="removeProjectCredentialButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
@@ -59,4 +73,3 @@
     <button mat-flat-button (click)="save()" [disabled]="!dirty() || busy()" data-id="saveProjectCredentialsButton">Save</button>
   </div>
 </div>
-}
