@@ -30,6 +30,8 @@ export interface DatasetGroup {
   key: string;
   name: string;
   repo: string;
+  // the id of the server's dataset the runs used, when the runs recorded it (runs made before ids were recorded have none)
+  datasetId: string | null;
   // 'own' is a dataset of the user, read by commit; 'registry' is read by name from the dataset registry.
   kind: 'own' | 'registry';
   versions: DatasetVersion[];
@@ -118,13 +120,14 @@ export function groupDatasetRuns(tasks: RawDatasetTask[]): DatasetGroup[] {
       let commit: string;
       let storage: DatasetStorage | null = null;
       if (record.kind === 'local') {
-        key = `own|${record.repo}`;
-        group = {key, name: alias, repo: record.repo ?? '', kind: 'own'};
+        const datasetId = record.id || null;
+        key = datasetId ? `own|${datasetId}` : `own|${record.repo}`;
+        group = {key, name: alias, repo: record.repo ?? '', kind: 'own', datasetId};
         commit = record.commit ?? '';
         storage = record.storage === 'lfs' || record.storage === 's3' ? record.storage : null;
       } else if (record.kind === 'own' || record.kind === 'external') {
         key = `registry|${record.external_repo}|${record.name}`;
-        group = {key, name: record.name ?? alias, repo: record.external_repo ?? '', kind: 'registry'};
+        group = {key, name: record.name ?? alias, repo: record.external_repo ?? '', kind: 'registry', datasetId: null};
         commit = record.revision || record.repo_commit || '';
       } else {
         continue;
@@ -237,9 +240,11 @@ export function datasetListRows(sources: DatasetListSources): DatasetRow[] {
   const {groups, entries, registries, visible} = sources;
   const registryByKey = new Map(registries.map(registry => [repoKey(registry.repository), registry]));
   const registryOfName = new Map(entries.map(entry => [entry.name, repoKey(entry.registry ?? '')]));
-  const accessOf = (kind: AccessDataset['kind'], repo: string): AccessDataset | null =>
-    visible.find(dataset => dataset.kind === kind
-      && [dataset.ref, dataset.link].some(value => repoKey(value) === repoKey(repo))) ?? null;
+  // a dataset is matched by its id when the runs recorded one, and by its repository otherwise
+  const accessOf = (kind: AccessDataset['kind'], repo: string, datasetId: string | null = null): AccessDataset | null =>
+    visible.find(dataset => dataset.kind === kind && (datasetId
+      ? dataset.id === datasetId
+      : [dataset.ref, dataset.link].some(value => repoKey(value) === repoKey(repo)))) ?? null;
   const blank = (row: Partial<DatasetRow> & Pick<DatasetRow, 'id' | 'name' | 'kind'>): DatasetRow => ({
     repository: null, registryName: null, commit: null, versions: 0, runs: 0,
     parentId: null, registry: null, entries: 0, access: null, ...row,
@@ -260,7 +265,7 @@ export function datasetListRows(sources: DatasetListSources): DatasetRow[] {
       const row = blank({
         id: group.key, name: group.name, kind: 'own', repository: group.repo,
         commit: group.versions[0]?.commit ?? null, versions: group.versions.length, runs: group.runCount,
-        access: accessOf('repo', group.repo),
+        access: accessOf('repo', group.repo, group.datasetId),
       });
       // a repository that is also an entry of a registry is listed under that registry
       const entry = entries.find(e => e.source === 'repo' && repoKey(e.link) === repoKey(group.repo));
@@ -286,10 +291,11 @@ export function datasetListRows(sources: DatasetListSources): DatasetRow[] {
   // A repository dataset that no run uses yet is listed too, so one just added shows at once. A repository that is an
   // entry of a registry is listed under it, as above.
   const usedRepos = new Set(groups.filter(g => g.kind === 'own').map(g => repoKey(g.repo)));
+  const usedIds = new Set(groups.filter(g => g.kind === 'own' && g.datasetId).map(g => g.datasetId));
   const registryRepos = new Set(entries.filter(e => e.source === 'repo').map(e => repoKey(e.link)));
   for (const dataset of visible) {
     const key = repoKey(dataset.ref);
-    if (dataset.kind !== 'repo' || usedRepos.has(key) || registryRepos.has(key)) {
+    if (dataset.kind !== 'repo' || usedIds.has(dataset.id) || usedRepos.has(key) || registryRepos.has(key)) {
       continue;
     }
     topRows.push(blank({

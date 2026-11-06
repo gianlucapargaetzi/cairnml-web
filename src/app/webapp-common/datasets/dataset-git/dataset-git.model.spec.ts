@@ -31,7 +31,7 @@ function access(partial: Partial<AccessDataset>): AccessDataset {
 }
 
 function group(partial: Partial<DatasetGroup>): DatasetGroup {
-  return {key: 'k', name: 'n', repo: '', kind: 'registry', versions: [], runCount: 0, ...partial};
+  return {key: 'k', name: 'n', repo: '', kind: 'registry', versions: [], runCount: 0, datasetId: null, ...partial};
 }
 
 describe('datasetListRows', () => {
