@@ -59,6 +59,8 @@ export class ProjectDatasetsComponent implements OnInit {
 
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
   protected readonly usable = signal<ProjectUsableDataset[]>([]);
+  // from projects.usable: the server decides who may add and remove the shares of the project
+  protected readonly canManage = signal(false);
   // datasets picked in the add dialog, not saved yet
   protected readonly pendingAdd = signal<AccessDataset[]>([]);
   // share ids of usable datasets to remove on Save
@@ -78,7 +80,7 @@ export class ProjectDatasetsComponent implements OnInit {
         scope: dataset.scope,
         level: SHARE_LEVEL_LABELS[dataset.level] ?? dataset.level,
         inherited: dataset.inherited,
-        removable: dataset.removable && !!dataset.share_id,
+        removable: dataset.removable,
         usable: dataset,
       }));
     const added: DatasetRow[] = this.pendingAdd().map(dataset => ({
@@ -109,6 +111,7 @@ export class ProjectDatasetsComponent implements OnInit {
     this.error.set(null);
     try {
       const res = await lastValueFrom(this.shares.usable(this.projectId()));
+      this.canManage.set(res.can_manage);
       this.usable.set(res.datasets);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The datasets of the project could not be loaded.');
@@ -140,6 +143,9 @@ export class ProjectDatasetsComponent implements OnInit {
       return;
     }
     const shareId = row.usable.share_id;
+    if (!shareId) {
+      return;
+    }
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {

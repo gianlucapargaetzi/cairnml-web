@@ -37,6 +37,8 @@ export interface ProjectUsableCredential {
 }
 
 export interface ProjectUsable {
+  // true when the caller may add and remove the project's shares: its owner, its collaborators and company admins
+  can_manage: boolean;
   datasets: ProjectUsableDataset[];
   credentials: ProjectUsableCredential[];
 }
@@ -48,10 +50,10 @@ export interface ProjectUsable {
 export class ProjectShareService {
   private api = inject(SmApiRequestsService);
 
-  // The datasets and credentials the project can use. The server refuses callers who are neither owner nor collaborator.
+  // The datasets and credentials the project can use. Read for the members of the project and company admins.
   usable(project: string): Observable<ProjectUsable> {
     return this.api.post<ProjectUsable>(`${HTTP.API_BASE_URL}/projects.usable`, {project}, {})
-      .pipe(map(res => ({datasets: res?.datasets ?? [], credentials: res?.credentials ?? []})));
+      .pipe(map(res => ({can_manage: res?.can_manage === true, datasets: res?.datasets ?? [], credentials: res?.credentials ?? []})));
   }
 
   unshare(shareId: string): Observable<unknown> {

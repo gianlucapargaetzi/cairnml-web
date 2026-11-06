@@ -91,17 +91,6 @@ export const withProjectSettingsStore = signalStoreFeature(
       return store.companyUsers().filter(user => !memberIds.has(user.id));
     });
 
-    // The owner and the collaborators of the project only, not admins who are not members: they add and remove the
-    // datasets and credentials of the project.
-    const canShareResources = computed(() => {
-      const user = currentUser();
-      if (!user) {
-        return false;
-      }
-      return user.id === store.owner()
-        || store.members().some(member => member.user === user.id && member.role === ProjectMember.RoleEnum.Collaborator);
-    });
-
     // Only the owner changes the queue allocations of the project, even an admin
     const isOwner = computed(() => !!currentUser() && currentUser().id === store.owner());
 
@@ -109,7 +98,6 @@ export const withProjectSettingsStore = signalStoreFeature(
       isReadOnly: computed(() => store.readOnly()),
       isOwner,
       canManageMembers: canManage,
-      canShareResources,
       availableUsers,
       memberRows: rows,
     };

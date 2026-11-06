@@ -1,7 +1,7 @@
 <div class="accesses">
   <div class="accesses-header">
     <div class="section-title">Credentials</div>
-    @if (settingsStore.canShareResources()) {
+    @if (canManage()) {
     <button mat-flat-button (click)="addCredentials()" [disabled]="busy()" data-id="addProjectCredentialButton">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       Add credential
@@ -50,7 +50,7 @@
           <td>{{ row.level }}</td>
           <td>{{ row.owner }}</td>
           <td class="row-actions">
-            @if (row.removable && settingsStore.canShareResources()) {
+            @if (row.removable && canManage()) {
               <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
                 (click)="removeRow(row)" data-id="removeProjectCredentialButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
