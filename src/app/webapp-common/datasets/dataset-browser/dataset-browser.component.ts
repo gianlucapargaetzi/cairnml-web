@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
@@ -31,8 +32,10 @@ import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-re
 import {
   AccessDataset,
   DATASET_VISIBILITY_LABELS,
-  DatasetAccessService
+  DatasetAccessService,
+  StoredCredential,
 } from '../dataset-git/dataset-access.service';
+import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
 import {
   canRefreshRow,
   canRemoveRow,
@@ -108,6 +111,7 @@ export class DatasetBrowserComponent {
   private sanitizer = inject(DomSanitizer);
   private repoAccessApi = inject(RepoAccessService);
   private store = inject(Store);
+  private dialog = inject(MatDialog);
 
   // The number of datasets listed, so the page can decide whether to show its empty state.
   loaded = output<number>();
@@ -115,6 +119,12 @@ export class DatasetBrowserComponent {
   protected readonly isAdmin = toSignal(this.store.select(selectIsAdmin), {initialValue: false});
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
   protected readonly user = computed(() => ({id: this.currentUserId(), admin: this.isAdmin()}));
+
+  // the credentials the user may choose for a dataset, to name the one a dataset is read with
+  protected readonly storedCredentials = toSignal(
+    this.access.credentials().pipe(catchError(() => of([] as StoredCredential[]))),
+    {initialValue: [] as StoredCredential[]},
+  );
 
   protected readonly selectedId = signal<string | null>(null);
   // the registry rows whose datasets are hidden
@@ -329,6 +339,35 @@ export class DatasetBrowserComponent {
       },
       error: error => this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
         error?.meta?.result_msg ?? `${name} could not be removed.`)),
+    });
+  }
+
+  // the name of the credential a dataset is read with; the id when it is not in the list the user may choose from
+  protected credentialName(id: string | null): string {
+    if (!id) {
+      return 'None';
+    }
+    return this.storedCredentials().find(credential => credential.id === id)?.name ?? id;
+  }
+
+  // the owner of a dataset and the admins change its credential (the server checks the same)
+  protected canSetCredential(row: DatasetRow): boolean {
+    return !!row.access && (row.access.owner === this.currentUserId() || this.isAdmin());
+  }
+
+  protected setCredential(row: DatasetRow): void {
+    if (!row.access) {
+      return;
+    }
+    const name = row.access.name;
+    this.dialog.open<DatasetCredentialDialogComponent, {dataset: AccessDataset}, AccessDataset>(
+      DatasetCredentialDialogComponent, {data: {dataset: row.access}, panelClass: 'dialog-md'},
+    ).afterClosed().subscribe(dataset => {
+      if (!dataset) {
+        return;
+      }
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${name} is read with ${this.credentialName(dataset.credential)}`));
+      this.reloads.update(n => n + 1);
     });
   }
 

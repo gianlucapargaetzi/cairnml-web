@@ -42,6 +42,18 @@ export interface AccessDataset {
   last_checked: string | null;
 }
 
+// A credential the signed-in user may choose for a dataset: their own GitHub App or token, or the company's (see
+// user_access.get_all). Never a secret.
+export interface StoredCredential {
+  id: string;
+  name: string;
+  type: string;
+  scope: 'user' | 'company';
+  owner: string;
+  valid_for: string;
+  state: string;
+}
+
 // The datasets of the environment, and the changes a user may make to them (see apiserver bll/datasets).
 @Injectable({providedIn: 'root'})
 export class DatasetAccessService {
@@ -67,6 +79,18 @@ export class DatasetAccessService {
   allocate(id: string, project: string): Observable<AccessDataset> {
     return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.allocate`, {id, project}, {})
       .pipe(map(response => response.dataset));
+  }
+
+  // The credentials the signed-in user may choose for a dataset: their own, and the company's.
+  credentials(): Observable<StoredCredential[]> {
+    return this.api.post<{ credentials?: StoredCredential[] }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {})
+      .pipe(map(response => response?.credentials ?? []));
+  }
+
+  // Sets the credential a repository dataset is read with, by its repository address. Only the owner or an admin may.
+  setCredential(repository: string, credential: string): Observable<AccessDataset> {
+    return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.set_credential`,
+      {repository, credential}, {}).pipe(map(response => response.dataset));
   }
 
   remove(id: string): Observable<unknown> {

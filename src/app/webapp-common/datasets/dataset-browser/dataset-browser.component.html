@@ -85,6 +85,19 @@
                   <sm-repo-access-badge class="ms-2" [access]="repoAccess.value()"></sm-repo-access-badge>
                 </sm-labeled-row>
                 <sm-labeled-row label="Kind:">{{ details.kind === 'own' ? 'Your own dataset' : 'Registry' + (details.source ? ', source ' + details.source : '') }}</sm-labeled-row>
+                @let access = selectedRow()!.access;
+                @if (details.kind === 'own' && access) {
+                  <sm-labeled-row label="Credential:">
+                    <span class="ellipsis" data-id="datasetCredential">{{ credentialName(access.credential) }}</span>
+                    @if (access.state === 'no_access') {
+                      <span class="meta ms-2">{{ access.state_message }}</span>
+                    }
+                    @if (canSetCredential(selectedRow()!)) {
+                      <button mat-stroked-button type="button" class="ms-2" data-id="setCredentialButton"
+                        (click)="setCredential(selectedRow()!)">{{ access.credential ? 'Change credential' : 'Add credential' }}</button>
+                    }
+                  </sm-labeled-row>
+                }
                 <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>
                 <sm-labeled-row label="Samples:">{{ details.metadata?.samples ? (details.metadata!.samples! | number) : '–' }}</sm-labeled-row>
                 <sm-labeled-row label="Used by runs:">{{ selectedRow()!.runs }}</sm-labeled-row>
