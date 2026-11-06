@@ -406,7 +406,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
     this.dialog.open<CloneDialogComponent, CloneDialogData, CloneExperimentPayload>(CloneDialogComponent, {
       data: {
         type: 'Task',
-        defaultProject: this.isExample() ? '' : this.experiment()?.project?.id,
+        defaultProject: this.experiment()?.project?.id,
         defaultName: this.experiment().name,
         extraToggles: cloneExtraToggles()
       },
