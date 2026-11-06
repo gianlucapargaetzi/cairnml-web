@@ -178,7 +178,9 @@ export interface RegistryRecord {
 
 // A repository address compared the way GitHub compares it: case, a trailing slash and a .git suffix do not matter.
 export function repoKey(address: string): string {
-  return (address ?? '').trim().replace(/\/+$/, '').replace(/\.git$/, '').toLowerCase();
+  return (address ?? '').trim()
+    .replace(/^(https?:\/\/github\.com\/|git@github\.com:)/i, '')
+    .replace(/\/+$/, '').replace(/\.git$/, '').toLowerCase();
 }
 
 // The registry entries that no run has used yet. A dataset of ours is used when a run read its repository; a public
