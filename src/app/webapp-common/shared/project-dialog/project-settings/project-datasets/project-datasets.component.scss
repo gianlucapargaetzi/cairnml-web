@@ -36,9 +36,10 @@
   }
 
   td {
-    height: 40px;
-    padding: 0 var(--space-3);
+    padding: var(--space-2) var(--space-3);
     border-bottom: 1px solid var(--row-border-color);
+    overflow-wrap: anywhere;
+    vertical-align: middle;
   }
 
   .row-actions {
@@ -52,12 +53,14 @@
   }
 }
 
-.no-access {
-  color: var(--color-error);
-}
-
 .inherited {
   display: block;
   font-size: var(--font-size-sm);
   color: var(--color-on-surface-variant);
+}
+
+.datasets-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4);
 }

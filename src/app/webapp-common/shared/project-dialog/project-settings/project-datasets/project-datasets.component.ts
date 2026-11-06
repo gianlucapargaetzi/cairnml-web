@@ -1,39 +1,45 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
-import {MatDialog} from '@angular/material/dialog';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {Store} from '@ngrx/store';
+import {MatDialog} from '@angular/material/dialog';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
-import {
-  AccessDataset,
-  DATASET_VISIBILITY_LABELS,
-  DatasetAccessService,
-  DatasetVisibility
-} from '@common/datasets/dataset-git/dataset-access.service';
+import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
+import {AccessDataset, DatasetAccessService} from '@common/datasets/dataset-git/dataset-access.service';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {
   AddProjectDatasetsDialogComponent,
   AddProjectDatasetsDialogData,
   AddProjectDatasetsResult
 } from './add-project-datasets-dialog/add-project-datasets-dialog.component';
-import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
-import {AccessDatasetProjectShare} from '@common/datasets/dataset-git/dataset-access.service';
-import {ProjectShareService} from '../project-share.service';
+import {ProjectShareService, ProjectUsableDataset} from '../project-share.service';
 
 // An App-discovered repository that the server keeps no record of has an id of this form. It cannot be shared until
 // the server keeps it as a dataset, so it is not offered.
 const APP_ROW_PREFIX = 'app:';
 
+// A row of the table: a dataset already usable by the project, or one added here and not saved yet.
+interface DatasetRow {
+  key: string;
+  name: string;
+  owner: string;
+  scope: 'public' | 'project';
+  level: string;
+  inherited: boolean;
+  removable: boolean;
+  // set for a usable dataset: the share a removal takes
+  usable?: ProjectUsableDataset;
+}
 
 /**
- * The datasets shared with a project, with the level of each share. A member shares a dataset they can see. The owner
- * and collaborators of the project, the owner of a dataset and admins take a share back, through access.unshare; the
- * credential that reads the dataset is shared with the project at the same time.
+ * The datasets a project can use: the public ones and the ones shared with the project. The owner and collaborators of
+ * the project add a dataset, and remove a share they may remove; the changes are applied with Save. Members do not see
+ * the section.
  */
 @Component({
   selector: 'sm-project-datasets',
@@ -42,7 +48,7 @@ const APP_ROW_PREFIX = 'app:';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButton, MatIcon, MatIconButton, TooltipDirective],
 })
-export class ProjectDatasetsComponent implements OnInit {
+export class ProjectDatasetsComponent {
   private datasetsApi = inject(DatasetAccessService);
   private shares = inject(ProjectShareService);
   private dialog = inject(MatDialog);
@@ -52,89 +58,123 @@ export class ProjectDatasetsComponent implements OnInit {
   projectId = input.required<string>();
 
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
-  protected readonly visible = signal<AccessDataset[]>([]);
-  protected readonly datasets = computed(() => this.visible().filter(d => d.projects.includes(this.projectId())));
+  protected readonly usable = signal<ProjectUsableDataset[]>([]);
+  // datasets picked in the add dialog, not saved yet
+  protected readonly pendingAdd = signal<AccessDataset[]>([]);
+  // share ids of usable datasets to remove on Save
+  protected readonly pendingRemove = signal<string[]>([]);
   protected readonly error = signal<string>(null);
   protected readonly busy = signal(false);
+  protected readonly dirty = computed(() => this.pendingAdd().length > 0 || this.pendingRemove().length > 0);
 
-  ngOnInit() {
-    this.load();
+  protected readonly rows = computed<DatasetRow[]>(() => {
+    const removed = new Set(this.pendingRemove());
+    const kept: DatasetRow[] = this.usable()
+      .filter(dataset => !removed.has(dataset.share_id))
+      .map(dataset => ({
+        key: dataset.id,
+        name: dataset.name,
+        owner: this.ownerName(dataset.owner, dataset.owner_name),
+        scope: dataset.scope,
+        level: SHARE_LEVEL_LABELS[dataset.level] ?? dataset.level,
+        inherited: dataset.inherited,
+        removable: dataset.removable && !!dataset.share_id,
+        usable: dataset,
+      }));
+    const added: DatasetRow[] = this.pendingAdd().map(dataset => ({
+      key: dataset.id,
+      name: dataset.name,
+      owner: this.ownerName(dataset.owner, null),
+      scope: 'project',
+      level: SHARE_LEVEL_LABELS.read,
+      inherited: false,
+      removable: true,
+    }));
+    return [...kept, ...added];
+  });
+
+  constructor() {
+    // The rights come with the members of the project, which load after the section is created.
+    effect(() => {
+      if (this.settingsStore.canManageMembers()) {
+        untracked(() => this.load());
+      }
+    });
   }
 
-  protected visibilityLabel(visibility: DatasetVisibility): string {
-    return DATASET_VISIBILITY_LABELS[visibility] ?? visibility;
+  protected scopeLabel(scope: 'public' | 'project'): string {
+    return scope === 'public' ? 'Public' : 'Project';
   }
 
-  // The share of the dataset with this project: its level, its share id and whether a run made it.
-  protected shareOf(row: AccessDataset): AccessDatasetProjectShare | undefined {
-    return row.project_shares?.find(share => share.project === this.projectId());
-  }
-
-  protected levelLabel(share?: AccessDatasetProjectShare): string {
-    return share ? (SHARE_LEVEL_LABELS[share.level] ?? share.level) : '';
-  }
-
-  // The project's stewards (owner, collaborators, admins) and the owner of the dataset may take a share back.
-  protected canRevoke(row: AccessDataset): boolean {
-    return !!this.shareOf(row)
-      && (this.settingsStore.canManageMembers() || row.owner === this.currentUserId());
+  protected ownerName(id: string, name: string | null): string {
+    return name ?? this.settingsStore.companyUsers().find(user => user.id === id)?.name ?? id;
   }
 
   protected async load() {
+    this.error.set(null);
     try {
-      this.visible.set(await lastValueFrom(this.datasetsApi.visible()));
+      const res = await lastValueFrom(this.shares.usable(this.projectId()));
+      this.usable.set(res.datasets);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The datasets of the project could not be loaded.');
     }
   }
 
-  // The datasets the user can share: their own, and public or shared-with-projects ones they can see that are not here yet.
-  // Only rows with a record are offered (see APP_ROW_PREFIX).
+  // The datasets the user can add: their own, and public or shared-with-projects ones they can see that the project does
+  // not use yet. Only rows with a record are offered (see APP_ROW_PREFIX).
   protected async addDatasets() {
     this.error.set(null);
-    const shared = new Set(this.datasets().map(d => d.id));
-    const available = this.visible().filter(d => !d.id.startsWith(APP_ROW_PREFIX) && !shared.has(d.id)
+    const current = new Set(this.rows().map(row => row.key));
+    const visible = await lastValueFrom(this.datasetsApi.visible());
+    const available = visible.filter(d => !d.id.startsWith(APP_ROW_PREFIX) && !current.has(d.id)
       && (d.visibility !== 'user' || d.owner === this.currentUserId()));
     this.dialog.open<AddProjectDatasetsDialogComponent, AddProjectDatasetsDialogData, AddProjectDatasetsResult>(
       AddProjectDatasetsDialogComponent, {data: {datasets: available}, panelClass: 'dialog-sm'},
-    ).afterClosed().subscribe(async result => {
+    ).afterClosed().subscribe(result => {
       if (result?.ids?.length) {
-        await this.run(async () => {
-          for (const id of result.ids) {
-            await lastValueFrom(this.datasetsApi.allocate(id, this.projectId()));
-          }
-        });
+        const picked = available.filter(d => result.ids.includes(d.id));
+        this.pendingAdd.update(items => [...items, ...picked.filter(d => !items.some(item => item.id === d.id))]);
       }
     });
   }
 
-  protected removeDataset(row: AccessDataset) {
-    const share = this.shareOf(row);
-    if (!share) {
+  // A saved share is removed on Save after a confirmation; a dataset added here and not saved yet is only dropped.
+  protected removeRow(row: DatasetRow) {
+    if (!row.usable) {
+      this.pendingAdd.update(items => items.filter(item => item.id !== row.key));
       return;
     }
+    const shareId = row.usable.share_id;
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
         title: `Remove ${row.name}?`,
-        body: 'The project loses this dataset. Its agents can no longer read it. The dataset itself is not changed.',
+        body: 'The project loses this dataset when you save. Its agents can no longer read it. The dataset itself is not changed.',
         yes: 'Remove',
         no: 'Cancel',
         iconClass: 'al-ico-dialog-x',
         destructive: true,
       },
       panelClass: 'dialog-sm',
-    }).afterClosed().subscribe(async confirmed => {
+    }).afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        await this.run(() => lastValueFrom(this.shares.unshare(share.share_id)));
+        this.pendingRemove.update(ids => [...ids, shareId]);
       }
     });
   }
 
-  private async run(action: () => Promise<unknown>) {
+  protected async save() {
     this.busy.set(true);
+    this.error.set(null);
     try {
-      await action();
+      for (const dataset of this.pendingAdd()) {
+        await lastValueFrom(this.shares.allocateDataset(dataset.id, this.projectId()));
+      }
+      for (const shareId of this.pendingRemove()) {
+        await lastValueFrom(this.shares.unshare(shareId));
+      }
+      this.pendingAdd.set([]);
+      this.pendingRemove.set([]);
       await this.load();
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');

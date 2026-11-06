@@ -69,11 +69,6 @@ export class DatasetAccessService {
       .pipe(map(response => response.dataset));
   }
 
-  unallocate(id: string, project: string): Observable<AccessDataset> {
-    return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.unallocate`, {id, project}, {})
-      .pipe(map(response => response.dataset));
-  }
-
   remove(id: string): Observable<unknown> {
     return this.api.post(`${HTTP.API_BASE_URL}/datasets.delete`, {id}, {});
   }

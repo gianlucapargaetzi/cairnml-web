@@ -1,61 +1,62 @@
+@if (settingsStore.canManageMembers()) {
 <div class="accesses">
   <div class="accesses-header">
-    <h3 class="section-title">Shared accesses</h3>
+    <div class="section-title">Credentials</div>
+    <button mat-flat-button (click)="addCredentials()" [disabled]="busy()" data-id="addProjectCredentialButton">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Add credential
+    </button>
   </div>
-  <p class="accesses-note">
-    Members of this project can use these accesses in its tasks, but cannot read their secrets. An access stops
-    working for the project when its owner leaves the project or is deactivated.
-  </p>
-
-  <mat-slide-toggle [checked]="agentTokens()" [disabled]="busy() || !settingsStore.isOwner()"
-                    (change)="setAgentTokens($event.checked)" data-id="agentTokensToggle">
-    Allow personal tokens on this project's agents
-  </mat-slide-toggle>
-  <p class="accesses-note">
-    A personal token reaches everything its owner can reach, not only one repository. GitHub Apps are not affected.
-  </p>
 
   @if (error()) {
-    <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
+    <div class="accesses-error" role="alert">{{ error() }}</div>
   }
 
-  @if (grants().length) {
-    <sm-table data-id="projectAccessesTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
-      <ng-template let-col let-line="rowData" pTemplate="body">
-        <div>
-          @switch (col.id) {
-            @case ('label') {
-              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.label">{{ line.label }}</span>
+  <table class="accesses-table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Scope</th>
+        <th scope="col">Level</th>
+        <th scope="col">Owner</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.key) {
+        <tr>
+          <td class="name">
+            {{ row.name }}
+            <span class="reaches">{{ row.reaches }}</span>
+            @if (row.inherited) {
+              <span class="inherited" data-id="inheritedCredentialState">Added by dataset</span>
             }
-            @case ('reaches') {
-              <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.reaches">{{ line.reaches }}</span>
+          </td>
+          <td>{{ scopeLabel(row.scope) }}</td>
+          <td>{{ row.level }}</td>
+          <td>{{ row.owner }}</td>
+          <td class="row-actions">
+            @if (row.removable) {
+              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project"
+                (click)="removeRow(row)" data-id="removeProjectCredentialButton">
+                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+              </button>
+            } @else if (row.inherited) {
+              <mat-icon fontSet="al" fontIcon="al-ico-lock" class="read-only" [attr.aria-label]="datasetHint"
+                        [smTooltip]="datasetHint" data-id="datasetCredentialLock"></mat-icon>
             }
-            @case ('status') {
-              <span [class.inactive]="!line.inEffect">{{ line.status }}</span>
-            }
-            @case ('actions') {
-              @if (line.fromDataset) {
-                <mat-icon fontSet="al" fontIcon="al-ico-lock" class="read-only" [attr.aria-label]="datasetHint"
-                          [smTooltip]="datasetHint" data-id="datasetCredentialLock"></mat-icon>
-              } @else if (line.canRevoke) {
-                <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing ' + line.label"
-                        smTooltip="Stop sharing" (click)="stop(line.grant)" data-id="stopShareButton">
-                  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
-                </button>
-              }
-            }
-            @default {
-              <div class="ellipsis">{{ line[col.id] }}</div>
-            }
-          }
-        </div>
-      </ng-template>
-    </sm-table>
-    @if (rows().some(row => row.fromDataset)) {
-      <p class="accesses-note" data-id="datasetCredentialHint">{{ datasetHint }}</p>
-    }
-  } @else {
-    <sm-empty-state icon="al-ico-lock" title="No shared accesses"
-      description="No access is shared with this project yet. Members can share one of their accesses from their Access settings."></sm-empty-state>
-  }
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="5" class="empty">No credentials are available to this project.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="accesses-footer">
+    <button mat-flat-button (click)="save()" [disabled]="!dirty() || busy()" data-id="saveProjectCredentialsButton">Save</button>
+  </div>
 </div>
+}

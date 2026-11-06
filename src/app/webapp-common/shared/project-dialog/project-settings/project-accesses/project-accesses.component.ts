@@ -1,179 +1,189 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
-import {PrimeTemplate} from 'primeng/api';
-import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
-import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
-import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
-import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
-import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {MatDialog} from '@angular/material/dialog';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {Store} from '@ngrx/store';
-import {addMessage} from '@common/core/actions/layout.actions';
-import {MESSAGES_SEVERITY} from '@common/constants';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
-import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
 import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
-import {ProjectShareService} from '../project-share.service';
-
-export interface ProjectGrantView {
-  id: string;
-  kind: 'token' | 'app';
-  label: string;
-  host: string;
-  path: string;
-  app_id: string | null;
-  owner: string;
-  owner_name: string;
-  owner_active: boolean;
-  owner_is_member: boolean;
-  // the project's share of this access, from its share record
-  level: 'read' | 'read_write' | 'collaborator';
-  share_id: string;
-  // true when a run made the share (a dataset brought the credential in); such a row is read-only here
-  inherited: boolean;
-}
+import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
+import {ProjectShareService, ProjectUsableCredential} from '../project-share.service';
+import {
+  AddableCredential,
+  AddProjectCredentialsDialogComponent,
+  AddProjectCredentialsDialogData,
+  AddProjectCredentialsResult
+} from './add-project-credentials-dialog/add-project-credentials-dialog.component';
 
 // Shown on a credential that a dataset shared with the project brought in: it is read-only here.
 export const DATASET_CREDENTIAL_HINT =
   'Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.';
 
-// The accesses shared with this project. Members see who shared each one, its level and whether it is still in effect.
-// The owner and collaborators of the project, the owner of an access and admins can stop a share. The secret of an
-// access is never shown here.
+// A row of the table: a credential already usable by the project, or one added here and not saved yet.
+interface CredentialRow {
+  key: string;
+  name: string;
+  reaches: string;
+  scope: 'public' | 'project';
+  level: string;
+  owner: string;
+  inherited: boolean;
+  removable: boolean;
+  usable?: ProjectUsableCredential;
+}
+
+// The credentials a project can use. The owner and collaborators of the project add a credential and remove a share they
+// may remove; the changes are applied with Save. Members do not see the section. The secret of a credential is never shown.
 @Component({
   selector: 'sm-project-accesses',
   templateUrl: './project-accesses.component.html',
   styleUrls: ['./project-accesses.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatIcon,
-    MatIconButton,
-    MatSlideToggleModule,
-    TooltipDirective,
-    TableComponent,
-    PrimeTemplate,
-    EmptyStateComponent,
-    ShowTooltipIfEllipsisDirective,
-    InlineAlertComponent,
-  ],
+  imports: [MatButton, MatIcon, MatIconButton, TooltipDirective],
 })
-export class ProjectAccessesComponent implements OnInit {
+export class ProjectAccessesComponent {
   private api = inject(SmApiRequestsService);
   private dialog = inject(MatDialog);
-  private store = inject(Store);
   private shares = inject(ProjectShareService);
   protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
 
-  protected grants = signal<ProjectGrantView[]>([]);
-  protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
+  protected readonly usable = signal<ProjectUsableCredential[]>([]);
+  // credentials picked in the add dialog, not saved yet
+  protected readonly pendingAdd = signal<AddableCredential[]>([]);
+  // share ids of usable credentials to remove on Save
+  protected readonly pendingRemove = signal<string[]>([]);
+  protected readonly error = signal<string | null>(null);
+  protected readonly busy = signal(false);
+  protected readonly dirty = computed(() => this.pendingAdd().length > 0 || this.pendingRemove().length > 0);
   protected readonly datasetHint = DATASET_CREDENTIAL_HINT;
-  // whether the agents of this project may be given personal tokens shared with it (on by default)
-  protected agentTokens = signal(true);
 
-  protected readonly columns: ISmCol[] = [
-    {id: 'label', header: 'Name', sortable: false},
-    {id: 'reaches', header: 'Reaches', sortable: false},
-    {id: 'level', header: 'Level', sortable: false},
-    {id: 'owner', header: 'Shared by', sortable: false},
-    {id: 'status', header: 'Status', sortable: false},
-    {id: 'actions', header: '', sortable: false},
-  ];
-  protected readonly rows = computed(() => this.grants().map(grant => ({
-    id: grant.id,
-    label: grant.label,
-    reaches: this.reaches(grant),
-    level: SHARE_LEVEL_LABELS[grant.level] ?? grant.level,
-    owner: grant.owner_name,
-    status: this.inEffect(grant) ? 'In use' : 'Not in effect',
-    inEffect: this.inEffect(grant),
-    fromDataset: grant.inherited,
-    canRevoke: !grant.inherited && (this.settingsStore.canManageMembers() || grant.owner === this.currentUserId()),
-    grant,
-  })));
-  protected error = signal<string | null>(null);
-  protected busy = signal(false);
+  protected readonly rows = computed<CredentialRow[]>(() => {
+    const removed = new Set(this.pendingRemove());
+    const kept: CredentialRow[] = this.usable()
+      .filter(credential => !removed.has(credential.share_id))
+      .map(credential => ({
+        key: credential.id,
+        name: credential.name,
+        reaches: this.reaches(credential.host, credential.path),
+        scope: credential.scope,
+        level: SHARE_LEVEL_LABELS[credential.level] ?? credential.level,
+        owner: this.ownerName(credential.owner, credential.owner_name),
+        inherited: credential.inherited,
+        removable: credential.removable && !!credential.share_id,
+        usable: credential,
+      }));
+    const added: CredentialRow[] = this.pendingAdd().map(credential => ({
+      key: credential.id,
+      name: credential.name,
+      reaches: this.reaches(credential.host, credential.path),
+      scope: 'project',
+      level: SHARE_LEVEL_LABELS.read,
+      owner: this.ownerName(credential.owner, null),
+      inherited: false,
+      removable: true,
+    }));
+    return [...kept, ...added];
+  });
 
-  ngOnInit() {
-    this.load();
-  }
-
-  protected reaches(grant: ProjectGrantView) {
-    if (grant.kind === 'app') {
-      return `GitHub App ${grant.label}`;
-    }
-    return grant.path ? `${grant.host}/${grant.path}` : grant.host;
-  }
-
-  protected inEffect(grant: ProjectGrantView) {
-    return grant.owner_active && grant.owner_is_member;
-  }
-
-  // Applies at once. Only the owner of the project may change it; the warning is shown on the access, when it is shared.
-  protected async setAgentTokens(allowed: boolean) {
-    this.busy.set(true);
-    try {
-      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.set_agent_tokens`,
-        {project: this.projectId(), allowed}, {}));
-      this.agentTokens.set(allowed);
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
-        allowed ? 'Personal tokens are allowed on this project\'s agents' : 'Personal tokens are blocked on this project\'s agents'));
-    } catch (error) {
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'The setting could not be saved.'));
-    } finally {
-      this.busy.set(false);
-    }
-  }
-
-  protected stop(grant: ProjectGrantView) {
-    const data: ConfirmDialogConfig = {
-      title: `Stop sharing ${grant.label}?`,
-      body: `Agents of this project can no longer use ${grant.label} owned by ${grant.owner_name}.`,
-      yes: 'Stop sharing',
-      no: 'Cancel',
-      iconClass: 'al-ico-alert',
-      iconColor: 'var(--color-warning)',
-      destructive: true,
-    };
-    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
-      data,
-      panelClass: 'dialog-sm',
-    }).afterClosed().subscribe(async confirmed => {
-      if (!confirmed) {
-        return;
-      }
-      this.busy.set(true);
-      try {
-        await lastValueFrom(this.shares.unshare(grant.share_id));
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The access is no longer shared with this project'));
-        await this.load();
-      } catch (error) {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'The share could not be stopped.'));
-      } finally {
-        this.busy.set(false);
+  constructor() {
+    // The rights come with the members of the project, which load after the section is created.
+    effect(() => {
+      if (this.settingsStore.canManageMembers()) {
+        untracked(() => this.load());
       }
     });
   }
 
-  private async load() {
+  protected scopeLabel(scope: 'public' | 'project'): string {
+    return scope === 'public' ? 'Public' : 'Project';
+  }
+
+  protected reaches(host: string, path: string): string {
+    return path ? `${host}/${path}` : host;
+  }
+
+  protected ownerName(id: string | null, name: string | null): string {
+    return name ?? (id ? this.settingsStore.companyUsers().find(user => user.id === id)?.name ?? id : '');
+  }
+
+  protected async load() {
     this.error.set(null);
     try {
-      const res = await lastValueFrom(this.api.post<{grants: ProjectGrantView[]; agent_tokens_allowed: boolean}>(
-        `${HTTP.API_BASE_URL}/user_access.project_grants`, {project: this.projectId()}, {}));
-      this.grants.set(res.grants ?? []);
-      this.agentTokens.set(res.agent_tokens_allowed !== false);
+      const res = await lastValueFrom(this.shares.usable(this.projectId()));
+      this.usable.set(res.credentials);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The shared accesses could not be loaded.');
+      this.error.set(error?.meta?.result_msg ?? 'The credentials of the project could not be loaded.');
+    }
+  }
+
+  // The credentials the user may add: their own, and visible ones, that the project does not use yet.
+  protected async addCredentials() {
+    this.error.set(null);
+    try {
+      const res = await lastValueFrom(this.api.post<{credentials: AddableCredential[]}>(
+        `${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
+      const current = new Set(this.rows().map(row => row.key));
+      const available = (res.credentials ?? []).filter(credential => !current.has(credential.id));
+      this.dialog.open<AddProjectCredentialsDialogComponent, AddProjectCredentialsDialogData, AddProjectCredentialsResult>(
+        AddProjectCredentialsDialogComponent, {data: {credentials: available}, panelClass: 'dialog-sm'},
+      ).afterClosed().subscribe(result => {
+        if (result?.ids?.length) {
+          const picked = available.filter(credential => result.ids.includes(credential.id));
+          this.pendingAdd.update(items => [...items, ...picked.filter(c => !items.some(item => item.id === c.id))]);
+        }
+      });
+    } catch (error) {
+      this.error.set(error?.meta?.result_msg ?? 'The credentials could not be loaded.');
+    }
+  }
+
+  // A saved share is removed on Save after a confirmation; a credential added here and not saved yet is only dropped.
+  protected removeRow(row: CredentialRow) {
+    if (!row.usable) {
+      this.pendingAdd.update(items => items.filter(item => item.id !== row.key));
+      return;
+    }
+    const shareId = row.usable.share_id;
+    this.error.set(null);
+    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
+      data: {
+        title: `Remove ${row.name}?`,
+        body: `The project loses ${row.name} when you save. Agents of the project can no longer use it. The credential itself is not changed.`,
+        yes: 'Remove',
+        no: 'Cancel',
+        iconClass: 'al-ico-dialog-x',
+        destructive: true,
+      },
+      panelClass: 'dialog-sm',
+    }).afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.pendingRemove.update(ids => [...ids, shareId]);
+      }
+    });
+  }
+
+  protected async save() {
+    this.busy.set(true);
+    this.error.set(null);
+    try {
+      for (const credential of this.pendingAdd()) {
+        await lastValueFrom(this.shares.shareCredential(credential.id, this.projectId()));
+      }
+      for (const shareId of this.pendingRemove()) {
+        await lastValueFrom(this.shares.unshare(shareId));
+      }
+      this.pendingAdd.set([]);
+      this.pendingRemove.set([]);
+      await this.load();
+    } catch (error) {
+      this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');
+    } finally {
+      this.busy.set(false);
     }
   }
 }
