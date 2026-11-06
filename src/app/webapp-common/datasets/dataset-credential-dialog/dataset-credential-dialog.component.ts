@@ -5,12 +5,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom, Observable} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
-import {AccessDataset, DatasetAccessService, StoredCredential} from '../dataset-git/dataset-access.service';
+import {DatasetAccessService, StoredCredential} from '../dataset-git/dataset-access.service';
 
-export interface DatasetCredentialData {
-  dataset: AccessDataset;
+// What the dialog changes: the name shown, the credential now set, and how the choice is saved (a dataset or a repository).
+export interface CredentialChangeData {
+  name: string;
+  credential: string | null;
+  save: (credential: string) => Observable<unknown>;
 }
 
 // Chooses the credential a dataset is read with, from the credentials the user may use: their own, and the company's.
@@ -33,15 +36,15 @@ export interface DatasetCredentialData {
 export class DatasetCredentialDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
   private access = inject(DatasetAccessService);
-  private dialogRef = inject(MatDialogRef<DatasetCredentialDialogComponent, AccessDataset>);
-  protected data = inject<DatasetCredentialData>(MAT_DIALOG_DATA);
+  private dialogRef = inject(MatDialogRef<DatasetCredentialDialogComponent, unknown>);
+  protected data = inject<CredentialChangeData>(MAT_DIALOG_DATA);
 
   // null while the list is read
   protected readonly credentials = signal<StoredCredential[] | null>(null);
   protected readonly loadError = signal(false);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly form = this.fb.group({credential: [this.data.dataset.credential ?? '', Validators.required]});
+  protected readonly form = this.fb.group({credential: [this.data.credential ?? '', Validators.required]});
 
   ngOnInit() {
     this.access.credentials().subscribe({
@@ -60,9 +63,8 @@ export class DatasetCredentialDialogComponent implements OnInit {
     this.saving.set(true);
     this.error.set(null);
     try {
-      const repository = `https://github.com/${this.data.dataset.ref}`;
-      const dataset = await lastValueFrom(this.access.setCredential(repository, this.form.controls.credential.value ?? ''));
-      this.dialogRef.close(dataset);
+      const saved = await lastValueFrom(this.data.save(this.form.controls.credential.value ?? ''));
+      this.dialogRef.close(saved);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The credential could not be set.');
     } finally {

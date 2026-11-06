@@ -359,14 +359,21 @@ export class DatasetBrowserComponent {
     if (!row.access) {
       return;
     }
-    const name = row.access.name;
-    this.dialog.open<DatasetCredentialDialogComponent, {dataset: AccessDataset}, AccessDataset>(
-      DatasetCredentialDialogComponent, {data: {dataset: row.access}, panelClass: 'dialog-md'},
-    ).afterClosed().subscribe(dataset => {
-      if (!dataset) {
+    const dataset = row.access;
+    this.dialog.open<DatasetCredentialDialogComponent, unknown, AccessDataset>(
+      DatasetCredentialDialogComponent, {
+        data: {
+          name: dataset.name,
+          credential: dataset.credential,
+          save: credential => this.access.setCredential(`https://github.com/${dataset.ref}`, credential),
+        },
+        panelClass: 'dialog-md',
+      },
+    ).afterClosed().subscribe(saved => {
+      if (!saved) {
         return;
       }
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${name} is read with ${this.credentialName(dataset.credential)}`));
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${dataset.name} is read with ${this.credentialName(saved.credential)}`));
       this.reloads.update(n => n + 1);
     });
   }

@@ -54,6 +54,17 @@ export interface StoredCredential {
   state: string;
 }
 
+// A code repository a run uses (see apiserver bll/repositories): its owner (the run's user), the GitHub App attached to it
+// (an id, never a secret), and when a run last used it.
+export interface CodeRepository {
+  id: string;
+  ref: string;
+  owner: string;
+  credential: string | null;
+  created: string | null;
+  last_used: string | null;
+}
+
 // The datasets of the environment, and the changes a user may make to them (see apiserver bll/datasets).
 @Injectable({providedIn: 'root'})
 export class DatasetAccessService {
@@ -81,6 +92,18 @@ export class DatasetAccessService {
   allocate(id: string, project: string): Observable<AccessDataset> {
     return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.allocate`, {id, project}, {})
       .pipe(map(response => response.dataset));
+  }
+
+  // The code repositories runs use, the user's own (all of them for an admin).
+  repositories(): Observable<CodeRepository[]> {
+    return this.api.post<{ repositories?: CodeRepository[] }>(`${HTTP.API_BASE_URL}/repositories.get_all`, {}, {})
+      .pipe(map(response => response?.repositories ?? []));
+  }
+
+  // Attaches the GitHub App chosen to a repository, by its address. Only its owner or an admin may.
+  setRepositoryCredential(repository: string, credential: string): Observable<CodeRepository> {
+    return this.api.post<{ repository: CodeRepository }>(`${HTTP.API_BASE_URL}/repositories.set_credential`,
+      {repository, credential}, {}).pipe(map(response => response.repository));
   }
 
   // The credentials the signed-in user may choose for a dataset: their own, and the company's.

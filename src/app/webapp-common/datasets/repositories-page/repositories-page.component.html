@@ -1,0 +1,27 @@
+<sm-page-header title="Repositories">
+  <a actions mat-stroked-button routerLink="/datasets" data-id="backToDatasets">Datasets</a>
+</sm-page-header>
+@if (rows().length) {
+  <div class="repositories-body">
+    <sm-table [columns]="columns" [tableData]="rows()" [scrollable]="true">
+      <ng-template let-col let-line="rowData" pTemplate="body">
+        <div class="ellipsis">
+          @switch (col.id) {
+            @case ('actions') {
+              @if (canChange(line.repo)) {
+                <button mat-stroked-button type="button" data-id="changeRepositoryCredential"
+                  (click)="changeCredential(line.repo)">{{ line.repo.credential ? 'Change GitHub App' : 'Attach GitHub App' }}</button>
+              }
+            }
+            @default {
+              {{ line[col.id] }}
+            }
+          }
+        </div>
+      </ng-template>
+    </sm-table>
+  </div>
+} @else {
+  <sm-empty-state icon="al-ico-datasets" title="No repositories yet"
+    description="A repository is listed here once a run first uses it. Its owner attaches the GitHub App it is read with."></sm-empty-state>
+}

@@ -16,6 +16,20 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'repositories',
+    loadComponent: () => import('@common/datasets/repositories-page/repositories-page.component').then(c => c.RepositoriesPageComponent),
+    data: {search: false, staticBreadcrumb: [[{
+        name: 'Datasets',
+        type: CrumbTypeEnum.Feature
+      }, {
+        name: 'Repositories',
+        type: CrumbTypeEnum.Feature
+      }]]},
+    providers: [
+      ...commonProjectsProviders
+    ]
+  },
+  {
     path: 'simple/:projectId',
     data: {search: true},
     providers: [

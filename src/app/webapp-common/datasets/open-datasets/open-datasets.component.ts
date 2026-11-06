@@ -1,4 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {
@@ -31,6 +32,7 @@ import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/d
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
     PageHeaderComponent,
+    RouterLink,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,
     ButtonToggleComponent,
