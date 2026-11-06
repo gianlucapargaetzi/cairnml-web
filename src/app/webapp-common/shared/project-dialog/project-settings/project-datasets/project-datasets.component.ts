@@ -11,6 +11,7 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
 import {
   AccessDataset,
+  DATASET_VISIBILITY_LABELS,
   DatasetAccessService,
   DatasetVisibility
 } from '@common/datasets/dataset-git/dataset-access.service';
@@ -28,11 +29,6 @@ import {ProjectShareService} from '../project-share.service';
 // the server keeps it as a dataset, so it is not offered.
 const APP_ROW_PREFIX = 'app:';
 
-const VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
-  user: 'User only',
-  projects: 'Projects',
-  Public: 'Public',
-};
 
 /**
  * The datasets shared with a project, with the level of each share. A member shares a dataset they can see. The owner
@@ -66,7 +62,7 @@ export class ProjectDatasetsComponent implements OnInit {
   }
 
   protected visibilityLabel(visibility: DatasetVisibility): string {
-    return VISIBILITY_LABELS[visibility] ?? visibility;
+    return DATASET_VISIBILITY_LABELS[visibility] ?? visibility;
   }
 
   // The share of the dataset with this project: its level, its share id and whether a run made it.

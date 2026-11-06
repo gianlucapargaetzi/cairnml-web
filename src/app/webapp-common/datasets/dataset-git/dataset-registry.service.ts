@@ -5,6 +5,12 @@ import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.s
 import {HTTP} from '~/app.constants';
 import {RegistryEntry, RegistryRecord} from './dataset-git.model';
 
+export interface RegistryRefreshCounts {
+  added: number;
+  updated: number;
+  removed: number;
+}
+
 @Injectable({providedIn: 'root'})
 export class DatasetRegistryService {
   private api = inject(SmApiRequestsService);
@@ -19,6 +25,11 @@ export class DatasetRegistryService {
   registries(): Observable<RegistryRecord[]> {
     return this.api.post<{ registries?: RegistryRecord[] }>(`${HTTP.API_BASE_URL}/dataset_registry.get_registries`, {}, {})
       .pipe(map(response => response?.registries ?? []));
+  }
+
+  // Re-reads the registry from GitHub, by the id of its dataset. Resolves with the counts of the entries changed.
+  refresh(id: string): Observable<RegistryRefreshCounts> {
+    return this.api.post<RegistryRefreshCounts>(`${HTTP.API_BASE_URL}/dataset_registry.refresh`, {id}, {});
   }
 
   add(repository: string): Observable<unknown> {

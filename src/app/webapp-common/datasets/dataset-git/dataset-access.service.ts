@@ -7,6 +7,12 @@ import {HTTP} from '~/app.constants';
 // Who may see a dataset: the owner only ('user'), the projects it is shared with ('projects'), or every user ('Public').
 export type DatasetVisibility = 'user' | 'projects' | 'Public';
 
+export const DATASET_VISIBILITY_LABELS: Record<DatasetVisibility, string> = {
+  user: 'User only',
+  projects: 'Projects',
+  Public: 'Public',
+};
+
 // The share of a dataset with one project, from its share record: the level it gives, the id that access.unshare takes,
 // and whether a run made it (inherited) rather than a member.
 export interface AccessDatasetProjectShare {

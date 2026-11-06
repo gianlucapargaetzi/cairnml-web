@@ -16,6 +16,29 @@
   height: 70vh;
 }
 
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+
+  // an entry of a registry is indented under its registry row
+  &.child {
+    padding-left: var(--space-5);
+  }
+
+  .name {
+    min-width: 0;
+  }
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+}
+
 .info-panel {
   display: flex;
   flex-direction: column;

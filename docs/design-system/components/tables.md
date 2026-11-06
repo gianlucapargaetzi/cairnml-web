@@ -43,6 +43,15 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 - **Table card** (`sm-table-card`): the card template used by `sm-table` in its card view (`minimizedView`), not a separate table. It is one row of that table.
 - **Lists inside detail panels** (`sm-simple-table-2`, queue entries and worker queues): a short reorderable list with drag and drop. It uses the same row height, header colour and cell padding as `sm-table`.
 
+## Grouped rows (registry with its datasets)
+
+Used by the Datasets list (`dataset-browser`). A parent row groups child rows of the same kind: a registry is the parent, its datasets are the children. Rules:
+
+- The parent row shows the group's name, its owner and visibility, and the count of children in the Kind cell ("Registry, 3 datasets"). Its Modalities, Samples and Versions cells show "–".
+- The name cell of a parent has an icon button with `aria-expanded` and an `Expand`/`Collapse` label (`al-ico-caret-right` closed, `al-ico-arrow-down` open). Expanded by default. A click on the parent row toggles it; a click on a child selects it for the side panel.
+- Children are indented by `--space-5` inside the name cell and sorted by name. Rows without a parent stay flat.
+- Row actions on a parent or a dataset are icon buttons, shown at once (not on hover) so that keyboard users reach them: refresh (a spinner replaces the icon while it runs, success and failure are toasts) and remove (confirmed with `DatasetRemovalService`). Remove is shown to the owner and to admins only; refresh is hidden for a registry with no id.
+
 ## Do not
 
 - Do not use cards where records are compared on attributes.

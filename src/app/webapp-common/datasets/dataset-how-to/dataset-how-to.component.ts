@@ -6,7 +6,6 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatFormField, MatHint, MatInput, MatLabel} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {MatDialog} from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {toSignal} from '@angular/core/rxjs-interop';
@@ -17,8 +16,6 @@ import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
-import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
-import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
@@ -26,6 +23,7 @@ import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
 import {RegistryRecord} from '../dataset-git/dataset-git.model';
 import {DatasetAccessService, DatasetVisibility} from '../dataset-git/dataset-access.service';
+import {DatasetRemovalService} from '../dataset-git/dataset-removal.service';
 
 interface RegistryRow {
   id: string;
@@ -71,7 +69,7 @@ export class DatasetHowToComponent {
   private datasetApi = inject(DatasetAccessService);
   private usersApi = inject(ApiUsersService);
   private store = inject(Store);
-  private dialog = inject(MatDialog);
+  private removal = inject(DatasetRemovalService);
 
   protected readonly topTab = signal(0);
   protected readonly isAdmin = toSignal(this.store.select(selectIsAdmin), {initialValue: false});
@@ -162,21 +160,11 @@ export class DatasetHowToComponent {
   }
 
   protected removeRegistry(row: RegistryRow) {
-    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
-      data: {
-        title: `Remove ${row.repository}?`,
-        body: 'Its datasets stop being listed on the Datasets page. Runs that already used them keep their recorded commit.',
-        yes: 'Remove',
-        no: 'Cancel',
-        iconClass: 'al-ico-dialog-x',
-        destructive: true,
-      },
-      panelClass: 'dialog-sm',
-    }).afterClosed().subscribe(async confirmed => {
-      if (confirmed && row.dataId !== null) {
-        await this.run(() => lastValueFrom(this.datasetApi.remove(row.dataId)));
-      }
-    });
+    if (row.dataId === null) {
+      return;
+    }
+    const dataId = row.dataId;
+    this.run(() => lastValueFrom(this.removal.remove({id: dataId, name: row.repository, kind: 'registry'})));
   }
 
   private async run(action: () => Promise<unknown>) {
