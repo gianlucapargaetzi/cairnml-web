@@ -93,7 +93,11 @@
                 @for (m of entries(details.metadata?.modalities); track m[0]) {
                   <sm-labeled-row [label]="m[0] + ':'">{{ m[1] }}</sm-labeled-row>
                 } @empty {
-                  <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
+                  @if (details.kind === 'registry') {
+                    <p class="note">The registry has no modalities for this dataset yet. Refresh the registry to read them.</p>
+                  } @else {
+                    <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
+                  }
                 }
 
                 <sm-section-header label="Splits"></sm-section-header>
