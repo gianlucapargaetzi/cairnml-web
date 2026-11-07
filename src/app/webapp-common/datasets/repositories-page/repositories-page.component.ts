@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {rxResource, toSignal} from '@angular/core/rxjs-interop';
-import {MatButtonModule} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
@@ -9,20 +10,31 @@ import {catchError, map} from 'rxjs/operators';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
-import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
+import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {CodeRepository, DatasetAccessService, StoredCredential} from '../dataset-git/dataset-access.service';
 import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
 
-// The code repositories runs use, with the GitHub App each is read with. The owner (or an admin) changes the App.
+// The code repositories runs use, as the Datasets table lists datasets: a table of rows, each with its GitHub App and the
+// actions the user may take (the owner, or an admin, changes the App).
 @Component({
   selector: 'sm-repositories-page',
   templateUrl: './repositories-page.component.html',
+  styleUrls: ['./repositories-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TableComponent, PrimeTemplate, PageHeaderComponent, EmptyStateComponent, MatButtonModule],
+  imports: [
+    TableComponent,
+    PrimeTemplate,
+    EmptyStateComponent,
+    TooltipDirective,
+    ShowTooltipIfEllipsisDirective,
+    MatIcon,
+    MatIconButton,
+  ],
 })
 export class RepositoriesPageComponent {
   private access = inject(DatasetAccessService);

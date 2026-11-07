@@ -1,10 +1,3 @@
-<sm-page-header title="Datasets">
-  <a actions mat-stroked-button routerLink="/datasets/repositories" data-id="repositoriesLink">Repositories</a>
-  <button actions mat-flat-button (click)="createDataset()" data-id="New Dataset">
-    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-    New dataset
-  </button>
-</sm-page-header>
 <div class="sm-card-list-layout projects"
   [class.in-empty-state]="!gitDatasetCount() && !(((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching)">
   <sm-projects-header
@@ -23,6 +16,10 @@
             ]"
       (ngModelChange)="!(!!projectId && $event) && toggleNestedView($event)"
     ></sm-button-toggle>
+    <button mat-flat-button (click)="createDataset()" data-id="New Dataset">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      New dataset
+    </button>
   </sm-projects-header>
   @if (!projectId && gitDatasetCount()) {
     <sm-dataset-model-panel></sm-dataset-model-panel>

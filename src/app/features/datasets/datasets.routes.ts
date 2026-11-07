@@ -2,31 +2,33 @@ import {Routes} from '@angular/router';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
+import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
+
+const datasetsBreadcrumb = [[{
+  name: 'Datasets & Repositories',
+  type: CrumbTypeEnum.Feature
+}]];
 
 export const routes: Routes = [
   {
-    path     : '',
-    loadComponent: () => import('@common/datasets/open-datasets/open-datasets.component').then(c => c.OpenDatasetsComponent),
-    data: {search: true, staticBreadcrumb:[[{
-        name: 'Datasets',
-        type: CrumbTypeEnum.Feature
-      }]]},
-    providers: [
-      ...commonProjectsProviders
-    ]
-  },
-  {
-    path: 'repositories',
-    loadComponent: () => import('@common/datasets/repositories-page/repositories-page.component').then(c => c.RepositoriesPageComponent),
-    data: {search: false, staticBreadcrumb: [[{
-        name: 'Datasets',
-        type: CrumbTypeEnum.Feature
-      }, {
-        name: 'Repositories',
-        type: CrumbTypeEnum.Feature
-      }]]},
-    providers: [
-      ...commonProjectsProviders
+    path: '',
+    loadComponent: () => import('~/features/datasets/datasets-and-repositories.component').then(c => c.DatasetsAndRepositoriesComponent),
+    canDeactivate: [resetContextMenuGuard],
+    children: [
+      {path: '', redirectTo: 'datasets', pathMatch: 'full'},
+      {
+        path: 'datasets',
+        loadComponent: () => import('@common/datasets/open-datasets/open-datasets.component').then(c => c.OpenDatasetsComponent),
+        data: {search: true, staticBreadcrumb: datasetsBreadcrumb},
+        providers: [
+          ...commonProjectsProviders
+        ]
+      },
+      {
+        path: 'repositories',
+        loadComponent: () => import('@common/datasets/repositories-page/repositories-page.component').then(c => c.RepositoriesPageComponent),
+        data: {search: false, staticBreadcrumb: datasetsBreadcrumb},
+      },
     ]
   },
   {

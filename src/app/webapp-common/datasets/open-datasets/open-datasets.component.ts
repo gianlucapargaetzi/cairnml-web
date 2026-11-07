@@ -1,5 +1,4 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {PipelinesPageComponent} from '@common/pipelines/pipelines-page/pipelines-page.component';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {
@@ -23,7 +22,6 @@ import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
 import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
 import {DatasetBrowserComponent} from '@common/datasets/dataset-browser/dataset-browser.component';
-import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/dataset-empty-guide.component';
 
 @Component({
@@ -31,8 +29,6 @@ import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/d
   templateUrl: './open-datasets.component.html',
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
-    PageHeaderComponent,
-    RouterLink,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,
     ButtonToggleComponent,
