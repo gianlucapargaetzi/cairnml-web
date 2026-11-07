@@ -1,4 +1,12 @@
-import {Component, DestroyRef, inject} from '@angular/core';
+import {Component, DestroyRef, inject, signal} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {MatIcon} from '@angular/material/icon';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {DatasetAddDialogComponent} from '@common/datasets/dataset-add-dialog/dataset-add-dialog.component';
+import {RepositoryAddDialogComponent} from '@common/datasets/repository-add-dialog/repository-add-dialog.component';
+import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
+import {DatasetsPageRefreshService} from '@common/datasets/dataset-git/datasets-page-refresh.service';
 import {Store} from '@ngrx/store';
 import {selectRouterConfig} from '@common/core/reducers/router-reducer';
 import {DATASETS_ROUTES} from '~/features/datasets/datasets.consts';
@@ -15,12 +23,21 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   styleUrls: ['./datasets-and-repositories.component.scss'],
   imports: [
     RouterOutlet,
-    PageHeaderComponent
+    PageHeaderComponent,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    TooltipDirective,
   ]
 })
 export class DatasetsAndRepositoriesComponent {
   private store = inject(Store);
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
+  private refresh = inject(DatasetsPageRefreshService);
+
+  // the tab shown: its add button is the page's primary action
+  protected readonly activeTab = signal<string>('datasets');
 
   constructor() {
     this.store.select(selectRouterConfig)
@@ -32,11 +49,26 @@ export class DatasetsAndRepositoriesComponent {
         distinctUntilChanged(),
       )
       .subscribe((feature) => {
+        this.activeTab.set(feature);
         this.store.dispatch(headerActions.setTabs({contextMenu: DATASETS_ROUTES, active: feature}));
       });
 
     this.destroyRef.onDestroy(() => {
       this.store.dispatch(headerActions.reset());
     });
+  }
+
+  protected addDataset() {
+    this.dialog.open(DatasetAddDialogComponent, {panelClass: 'dialog-md'}).afterClosed()
+      .subscribe(added => added && this.refresh.bump());
+  }
+
+  protected addRepository() {
+    this.dialog.open(RepositoryAddDialogComponent, {panelClass: 'dialog-md'}).afterClosed()
+      .subscribe(added => added && this.refresh.bump());
+  }
+
+  protected openHelp() {
+    this.dialog.open(DatasetHowToComponent, {panelClass: 'dialog-xxl'});
   }
 }

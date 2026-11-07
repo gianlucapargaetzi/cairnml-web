@@ -17,6 +17,7 @@ import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {CodeRepository, DatasetAccessService, StoredCredential} from '../dataset-git/dataset-access.service';
+import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
 import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
 
 // The code repositories runs use, as the Datasets table lists datasets: a table of rows, each with its GitHub App and the
@@ -46,10 +47,11 @@ export class RepositoriesPageComponent {
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
 
   // bumped to read the repositories and the credentials again after a change
+  private readonly pageRefresh = inject(DatasetsPageRefreshService);
   private readonly reloads = signal(0);
 
   private readonly repositories = rxResource<CodeRepository[], number>({
-    params: () => this.reloads(),
+    params: () => this.reloads() + this.pageRefresh.version(),
     stream: () => this.access.repositories().pipe(catchError(() => of([] as CodeRepository[]))),
   });
 

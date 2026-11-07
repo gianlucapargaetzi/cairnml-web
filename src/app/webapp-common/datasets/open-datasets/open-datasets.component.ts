@@ -9,7 +9,6 @@ import {
 import {showExampleDatasets} from '../../projects/common-projects.actions';
 import {selectShowDatasetExamples} from '../../projects/common-projects.reducer';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
-import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
 import {withLatestFrom} from 'rxjs/operators';
 import {selectDefaultNestedModeForFeature} from '@common/core/reducers/projects.reducer';
 import {DotsLoadMoreComponent} from '@common/shared/ui-components/indicators/dots-load-more/dots-load-more.component';
@@ -18,9 +17,7 @@ import {ButtonToggleComponent} from '@common/shared/ui-components/inputs/button-
 import {ProjectsHeaderComponent} from '@common/projects/dumb/projects-header/projects-header.component';
 import {MatIconModule} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
-import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
 import {DatasetBrowserComponent} from '@common/datasets/dataset-browser/dataset-browser.component';
 import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/dataset-empty-guide.component';
 
@@ -35,9 +32,7 @@ import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/d
     ProjectsHeaderComponent,
     MatIconModule,
     FormsModule,
-    MatButton,
     PushPipe,
-    DatasetModelPanelComponent,
     DatasetBrowserComponent,
     DatasetEmptyGuideComponent
   ]
@@ -60,12 +55,6 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
 
   override noProjectsReRoute() {
     return this.router.navigate(['..', 'datasets'], {relativeTo: this.route});
-  }
-
-  createDataset() {
-    this.dialog.open(DatasetHowToComponent, {
-      panelClass: 'dialog-xxl'
-    });
   }
 
   public override createExamples() {

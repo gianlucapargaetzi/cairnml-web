@@ -1,16 +1,12 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {DatePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatFormField, MatHint, MatInput, MatLabel} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
-import {MatOption, MatSelect} from '@angular/material/select';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {lastValueFrom, of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {lastValueFrom} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {SectionHeaderComponent} from '@common/shared/components/section-header/section-header.component';
 import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor/code-editor.component';
@@ -18,12 +14,9 @@ import {TableComponent} from '@common/shared/ui-components/data/table/table.comp
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
-import {addMessage} from '@common/core/actions/layout.actions';
-import {MESSAGES_SEVERITY} from '@common/constants';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
 import {RegistryRecord} from '../dataset-git/dataset-git.model';
-import {DatasetAccessService, DatasetVisibility, StoredCredential} from '../dataset-git/dataset-access.service';
 import {DatasetRemovalService} from '../dataset-git/dataset-removal.service';
 
 interface RegistryRow {
@@ -45,18 +38,11 @@ interface RegistryRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe,
-    FormsModule,
     MatTab,
     MatTabGroup,
     MatButton,
     MatIconButton,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatHint,
     MatIcon,
-    MatSelect,
-    MatOption,
     DialogTemplateComponent,
     SectionHeaderComponent,
     CodeEditorComponent,
@@ -67,7 +53,6 @@ interface RegistryRow {
 })
 export class DatasetHowToComponent {
   private registryApi = inject(DatasetRegistryService);
-  private datasetApi = inject(DatasetAccessService);
   private usersApi = inject(ApiUsersService);
   private store = inject(Store);
   private removal = inject(DatasetRemovalService);
@@ -81,17 +66,6 @@ export class DatasetHowToComponent {
   protected readonly busy = signal(false);
   protected readonly error = signal<string>(null);
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
-  protected readonly addKind = signal<'repo' | 'registry'>('repo');
-  protected readonly addUrl = signal('');
-  protected readonly addVisibility = signal<DatasetVisibility>('user');
-  // the credential a repository is read with ('' for a public repository); the credentials the user may choose
-  protected readonly addCredential = signal('');
-  protected readonly credentials = signal<StoredCredential[]>([]);
-  protected readonly visibilityOptions: {value: DatasetVisibility; label: string}[] = [
-    {value: 'user', label: 'User only'},
-    {value: 'projects', label: 'Projects'},
-    {value: 'Public', label: 'Public'},
-  ];
 
   protected readonly registryColumns: ISmCol[] = [
     {id: 'url', header: 'Repository', sortable: false},
@@ -112,15 +86,6 @@ export class DatasetHowToComponent {
 
   constructor() {
     this.loadRegistries();
-    this.loadCredentials();
-  }
-
-  // The credentials the user may choose for a repository: their own, and the company's. Without them, the form still works
-  // (a public repository needs none).
-  private loadCredentials() {
-    this.datasetApi.credentials()
-      .pipe(catchError(() => of([] as StoredCredential[])))
-      .subscribe(list => this.credentials.set(list));
   }
 
   // One line of a code cell is about 21px high; the cell adds a little padding.
@@ -139,31 +104,6 @@ export class DatasetHowToComponent {
       this.error.set(error?.meta?.result_msg ?? 'The registries could not be loaded.');
     } finally {
       this.loading.set(false);
-    }
-  }
-
-  // Adds a repository or a registry as a dataset. A dataset with no access is still added: the banner says which one.
-  protected async addDataset() {
-    const url = this.addUrl().trim();
-    if (!url) {
-      return;
-    }
-    this.busy.set(true);
-    this.error.set(null);
-    try {
-      const credential = this.addKind() === 'repo' ? this.addCredential() : '';
-      const dataset = await lastValueFrom(this.datasetApi.add(this.addKind(), url, this.addVisibility(), undefined, credential));
-      if (dataset.state === 'no_access') {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, dataset.state_message));
-      } else {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Added ${dataset.name}`));
-      }
-      this.addUrl.set('');
-      await this.loadRegistries();
-    } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The dataset could not be added.');
-    } finally {
-      this.busy.set(false);
     }
   }
 
@@ -195,16 +135,18 @@ export class DatasetHowToComponent {
   }
 
   protected readonly dvcCode = `pip install "cairnml[dataset]"
-# the files go to DVC storage (the default, --storage s3)
-cairnml dataset create cars-data --from /path/to/measurements --storage s3
-cairnml dataset doctor
-cairnml dataset register`;
+# set the dataset up locally: a git repository, with data/ read by an adapter
+cairnml dataset init --path ./cars-data --adapter local
+# create the empty GitHub repository yourself, then connect it (the files go to DVC storage, the default)
+gh repo create cars-data --private
+cairnml credential list
+cairnml dataset remote add https://github.com/<you>/cars-data.git --credential <credential-id> --path ./cars-data
+cairnml dataset add --path ./cars-data
+cairnml dataset commit --path ./cars-data -m "Add dataset"
+cairnml dataset push --path ./cars-data`;
 
-  protected readonly lfsCode = `pip install "cairnml[dataset]"
-# needs git, the GitHub command line (gh, logged in) and the CairnML server
-cairnml dataset create cars-data --from /path/to/measurements --storage lfs
-cairnml dataset doctor
-cairnml dataset register`;
+  protected readonly lfsCode = `# the same steps, with the files kept in the GitHub LFS of the repository
+cairnml dataset remote add https://github.com/<you>/cars-data.git --lfs --credential <credential-id> --path ./cars-data`;
 
   protected readonly useLocalCode = `from cairnml import Task
 from cairnml.datasets import Dataset

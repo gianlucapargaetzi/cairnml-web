@@ -32,10 +32,9 @@
   sm-dashboard-experiments {
     display: block;
     padding-top: 24px;
-    // the page gutter, so the header buttons and the table do not touch the window edge on narrow widths
-    padding-left: var(--page-padding-x);
-    padding-right: var(--page-padding-x);
-    margin: 0 auto;
+    // full width of the page: the table is full-bleed (0px gutter), as the tables of Agents & Queues
+    width: 100%;
+    margin: 0;
     height: calc(100% - 620px);
   }
 

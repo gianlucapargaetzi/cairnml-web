@@ -37,6 +37,13 @@
   sm-empty-state {
     grid-column: 1 / -1;
   }
+
+  // the table of datasets is full-bleed (0px gutter), as the tables of the other list pages: it cancels the 24px padding
+  // of the card grid
+  sm-dataset-browser {
+    margin: 0 -24px;
+    width: auto;
+  }
 }
 
 // Phone width: the shared card grid uses a fixed 352px column, which does not fit beside the navigation rail and

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, output, signal, SecurityContext} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, output, signal, SecurityContext} from '@angular/core';
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {rxResource, toSignal} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -48,6 +48,7 @@ import {
   RegistryRecord,
   removableDatasetId,
 } from '../dataset-git/dataset-git.model';
+import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
 import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
 import {DatasetRemovalService} from '../dataset-git/dataset-removal.service';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
@@ -132,6 +133,7 @@ export class DatasetBrowserComponent {
   // the registry whose refresh is running
   protected readonly refreshingId = signal<string | null>(null);
   // bumped to read the registries and the visible datasets again after a refresh or a removal
+  private readonly pageRefresh = inject(DatasetsPageRefreshService);
   private readonly reloads = signal(0);
 
   // The list: the datasets used by runs, and the registry entries that no run uses yet.
@@ -150,7 +152,7 @@ export class DatasetBrowserComponent {
   );
 
   private readonly directory = rxResource<DirectorySnapshot, number>({
-    params: () => this.reloads(),
+    params: () => this.reloads() + this.pageRefresh.version(),
     stream: () => forkJoin({
       entries: this.registry.entries().pipe(catchError(() => of([] as RegistryEntry[]))),
       registries: this.registry.registries().pipe(catchError(() => of([] as RegistryRecord[]))),
@@ -175,6 +177,9 @@ export class DatasetBrowserComponent {
     const directory = this.directory.value() ?? EMPTY_DIRECTORY;
     return datasetListRows({groups: listed.groups, ...directory});
   });
+
+  // tells the page how many datasets are listed (it shows its empty state only when there are none)
+  private readonly announceCount = effect(() => this.loaded.emit(this.rows().length));
 
   // the rows the list shows: a registry's datasets are hidden while it is collapsed
   protected readonly visibleRows = computed(() => this.rows().filter(row =>

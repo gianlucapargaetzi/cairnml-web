@@ -1,0 +1,56 @@
+<sm-dialog-template header="Add dataset" iconClass="al-ico-datasets">
+  <p class="meta">
+    Add a dataset that already exists. Nothing is created or copied: it stays in its repository. A public repository needs
+    no credential. A private one is read with the credential you choose, one of your own or the company's. A registry adds
+    every dataset it lists.
+  </p>
+  <form [formGroup]="form" (ngSubmit)="add()" class="form" autocomplete="off">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Kind</mat-label>
+      <mat-select formControlName="kind" data-id="addDatasetKind">
+        <mat-option value="repo">Repository</mat-option>
+        <mat-option value="registry">Registry</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>GitHub address</mat-label>
+      <input matInput formControlName="url" placeholder="https://github.com/owner/name" data-id="addDatasetUrl">
+    </mat-form-field>
+    @if (form.controls.kind.value === 'repo') {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Credential</mat-label>
+        <mat-select formControlName="credential" data-id="addDatasetCredential">
+          <mat-option value="">No credential (public repository)</mat-option>
+          @for (credential of credentials(); track credential.id) {
+            <mat-option [value]="credential.id">
+              <span class="ellipsis">{{ credential.name }}</span>
+              <span class="option-meta">{{ credential.type }}, {{ credential.scope === 'company' ? 'company' : 'yours' }}</span>
+            </mat-option>
+          }
+        </mat-select>
+        <mat-hint>A private repository needs one</mat-hint>
+      </mat-form-field>
+    }
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Visibility</mat-label>
+      <mat-select formControlName="visibility" data-id="addDatasetVisibility">
+        @for (option of visibilityOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+      <mat-hint>Projects: shared from each project's settings</mat-hint>
+    </mat-form-field>
+    @if (error()) {
+      <div class="error" role="alert">{{ error() }}</div>
+    }
+    <div class="actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelButton">Cancel</button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid || saving()" data-id="AddDatasetButton">
+        @if (saving()) {
+          <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
+        }
+        Add dataset
+      </button>
+    </div>
+  </form>
+</sm-dialog-template>

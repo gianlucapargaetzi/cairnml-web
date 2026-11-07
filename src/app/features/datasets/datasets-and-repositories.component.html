@@ -1,4 +1,20 @@
-<sm-page-header title="Datasets &amp; Repositories"></sm-page-header>
+<sm-page-header title="Datasets &amp; Repositories">
+  @if (activeTab() === 'repositories') {
+    <button actions mat-flat-button (click)="addRepository()" data-id="addRepository">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Add repository
+    </button>
+  } @else {
+    <button actions mat-flat-button (click)="addDataset()" data-id="addDataset">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Add dataset
+    </button>
+  }
+  <button actions mat-icon-button type="button" aria-label="About datasets" smTooltip="About datasets"
+    (click)="openHelp()" data-id="datasetsHelp">
+    <mat-icon fontSet="al" fontIcon="al-ico-help-outlined"></mat-icon>
+  </button>
+</sm-page-header>
 <div class="content">
   <router-outlet class="outlet"></router-outlet>
 </div>

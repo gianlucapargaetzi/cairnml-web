@@ -100,6 +100,12 @@ export class DatasetAccessService {
       .pipe(map(response => response?.repositories ?? []));
   }
 
+  // Lists a repository before any run has used it, owned by the caller, with the GitHub App it is read with (none: public).
+  addRepository(repository: string, credential?: string): Observable<CodeRepository> {
+    return this.api.post<{ repository: CodeRepository }>(`${HTTP.API_BASE_URL}/repositories.add`,
+      {repository, credential: credential || undefined}, {}).pipe(map(response => response.repository));
+  }
+
   // Attaches the GitHub App chosen to a repository, by its address. Only its owner or an admin may.
   setRepositoryCredential(repository: string, credential: string): Observable<CodeRepository> {
     return this.api.post<{ repository: CodeRepository }>(`${HTTP.API_BASE_URL}/repositories.set_credential`,
