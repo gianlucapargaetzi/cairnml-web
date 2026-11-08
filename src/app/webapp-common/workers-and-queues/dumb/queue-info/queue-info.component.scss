@@ -28,9 +28,25 @@
     overflow: auto;
   }
 
+  // the owner is stacked: the label (12px, medium, secondary colour) above the value (14px, regular). The labeled row's own
+  // styles are more specific than these, so the properties that change the layout are !important.
   .queue-details {
     padding: 0 var(--space-4);
     flex-shrink: 0;
+
+    ::ng-deep .labeled-row {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      min-height: 0 !important;
+      padding: 8px 0 !important;
+    }
+
+    ::ng-deep .label-container {
+      width: auto !important;
+      flex: none !important;
+      padding-right: 0 !important;
+      margin-bottom: 2px;
+    }
   }
 
   .experiments-table .body {
