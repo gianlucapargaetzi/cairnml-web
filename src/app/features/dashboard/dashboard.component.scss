@@ -14,8 +14,7 @@
 
   .recent {
     height: 100%;
-    max-width: 2400px;
-    margin: 0 auto;
+    // no max-width and no centring: on a wide window the blocks stay at the 24px gutter and the table is full-bleed
   }
 
   .clear-search {
