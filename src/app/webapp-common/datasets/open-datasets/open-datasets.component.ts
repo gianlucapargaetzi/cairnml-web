@@ -39,6 +39,8 @@ import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/d
 })
 export class OpenDatasetsComponent extends PipelinesPageComponent implements OnInit {
   gitDatasetCount = signal(0);
+  /** The dataset list has loaded: before that the page shows neither its list nor its empty state. */
+  datasetsLoaded = signal(false);
 
   public override projectCardClicked(project: ProjectsGetAllResponseSingle) {
     this.router.navigate(['simple', project.id, 'tasks'], {relativeTo: this.projectId? this.route.parent.parent: this.route});

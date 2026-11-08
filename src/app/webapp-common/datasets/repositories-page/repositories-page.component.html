@@ -36,7 +36,7 @@
     </ng-template>
   </sm-table>
   </div>
-} @else {
+} @else if (!repositories.isLoading()) {
   <sm-empty-state icon="al-ico-datasets" title="No repositories yet"
     description="Add a repository with Add repository, or it is listed here once a run first uses it."></sm-empty-state>
 }

@@ -178,8 +178,16 @@ export class DatasetBrowserComponent {
     return datasetListRows({groups: listed.groups, ...directory});
   });
 
-  // tells the page how many datasets are listed (it shows its empty state only when there are none)
-  private readonly announceCount = effect(() => this.loaded.emit(this.rows().length));
+  // both the listing and the directory have loaded at least once (a reload after an add or a removal does not reset this)
+  private readonly ready = computed(() => this.listed() !== null && !this.directory.isLoading());
+
+  // tells the page how many datasets are listed, once they are known: the page shows its empty state only when there are
+  // none, never while they are still loading
+  private readonly announceCount = effect(() => {
+    if (this.ready()) {
+      this.loaded.emit(this.rows().length);
+    }
+  });
 
   // the rows the list shows: a registry's datasets are hidden while it is collapsed
   protected readonly visibleRows = computed(() => this.rows().filter(row =>

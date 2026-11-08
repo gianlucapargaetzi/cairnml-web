@@ -1,6 +1,10 @@
-<div class="sm-card-list-layout projects"
-  [class.in-empty-state]="!gitDatasetCount() && !(((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching)">
-@if (((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush))) || searching) {
+<!-- The list of projects arrives after a short delay: until then it is undefined, which is neither "has projects" (the toolbar
+     and the cards would flash) nor "has none" (the empty state would flash). -->
+@let projects = projectsList$ | ngrxPush;
+@let cardsVisible = (projects?.length > 0 && (!allExamples || (showExamples$ | ngrxPush))) || searching;
+@let emptyKnown = projects != null && !cardsVisible && (!!projectId || datasetsLoaded()) && !gitDatasetCount();
+<div class="sm-card-list-layout projects" [class.in-empty-state]="emptyKnown">
+@if (cardsVisible) {
   <sm-projects-header
     (orderByChanged)="orderByChanged($event)"
     [sortByField]="projectsOrderBy$ | ngrxPush"
@@ -20,10 +24,10 @@
   </sm-projects-header>
   }
   @if (!projectId) {
-    <sm-dataset-browser (loaded)="gitDatasetCount.set($event)"></sm-dataset-browser>
+    <sm-dataset-browser (loaded)="gitDatasetCount.set($event); datasetsLoaded.set(true)"></sm-dataset-browser>
   }
-  @if (((projectsList$ | ngrxPush)?.length !== 0 && (!allExamples || (showExamples$ | ngrxPush)))||  searching) {
-    @for (project of projectsList$ | ngrxPush; track project.id + $index) {
+  @if (cardsVisible) {
+    @for (project of projects; track project.id + $index) {
       <sm-open-dataset-card
         [hideMenu]="['All Tasks'].includes(project.name) || project['isRoot'] || isExample(project)"
         [hideProjectPathIcon]="!!projectId"
@@ -36,7 +40,7 @@
         (delete)="deleteProject(project)"
       ></sm-open-dataset-card>
     }
-  } @else if (!gitDatasetCount()) {
+  } @else if (emptyKnown) {
     <div class="empty-container">
       <sm-dataset-empty-guide></sm-dataset-empty-guide>
       @if (allExamples) {
@@ -45,7 +49,7 @@
     </div>
 }
 
-@if ((noMoreProjects$ | ngrxPush) === false && (projectsList$ | ngrxPush)?.length > 0) {
+@if ((noMoreProjects$ | ngrxPush) === false && projects?.length > 0) {
   <div class="load-more">
     <sm-dots-load-more
       [loading]="loading"

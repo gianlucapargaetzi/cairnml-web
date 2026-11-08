@@ -50,7 +50,7 @@ export class RepositoriesPageComponent {
   private readonly pageRefresh = inject(DatasetsPageRefreshService);
   private readonly reloads = signal(0);
 
-  private readonly repositories = rxResource<CodeRepository[], number>({
+  protected readonly repositories = rxResource<CodeRepository[], number>({
     params: () => this.reloads() + this.pageRefresh.version(),
     stream: () => this.access.repositories().pipe(catchError(() => of([] as CodeRepository[]))),
   });
