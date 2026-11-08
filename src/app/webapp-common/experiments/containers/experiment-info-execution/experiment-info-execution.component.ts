@@ -3,7 +3,13 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {IExecutionForm, sourceTypesEnum} from '~/features/experiments/shared/experiment-execution.model';
 import {selectRouterProjectId} from '@common/core/reducers/projects.reducer';
-import {selectIsExperimentEditable, selectShowExtraDataSpinner} from '~/features/experiments/reducers';
+import {
+  selectIsExperimentEditable,
+  selectSelectedExperiment,
+  selectShowExtraDataSpinner
+} from '~/features/experiments/reducers';
+import {selectExperimentHyperParamsInfoData} from '@common/experiments/reducers';
+import {TaskDatasetsComponent} from '@common/datasets/dataset-git/task-datasets.component';
 import * as commonInfoActions from '../../actions/common-experiments-info.actions';
 import {
   selectExperimentExecutionInfoData,
@@ -52,6 +58,7 @@ import {MatInput} from '@angular/material/input';
   templateUrl: './experiment-info-execution.component.html',
   styleUrls: ['./experiment-info-execution.component.scss'],
   imports: [
+    TaskDatasetsComponent,
     EditableSectionComponent,
     OverlayComponent,
     ScrollTextareaComponent,
@@ -97,6 +104,8 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
   public routerProjectId = this.store.selectSignal(selectRouterProjectId);
   public showExtraDataSpinner = this.store.selectSignal(selectShowExtraDataSpinner);
   public editable = this.store.selectSignal(selectIsExperimentEditable);
+  protected selectedExperiment = this.store.selectSignal(selectSelectedExperiment);
+  protected hyperparams = this.store.selectSignal(selectExperimentHyperParamsInfoData);
   public isInDev = this.store.selectSignal(selectIsSelectedExperimentInDev);
   public saving = this.store.selectSignal(selectIsExperimentSaving);
   public backdropActive = this.store.selectSignal(selectBackdropActive);

@@ -41,6 +41,7 @@
             [ngModel]="formData.source"
           ></sm-experiment-execution-source-code>
         </sm-editable-section>
+        <sm-task-datasets class="limit-width" [taskId]="selectedExperiment()?.id" [hyperparams]="hyperparams()"></sm-task-datasets>
       }
       @if (minimized || currentLink === 'uncommitted changes') {
         <sm-editable-section #diffSection

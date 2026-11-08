@@ -11,7 +11,7 @@
     @for (row of rows(); track row.binding ?? row.url) {
       <div class="repository" data-id="dispatchRepository">
         <div class="head">
-          <span class="ellipsis url">{{ row.url }}</span>
+          <span class="ellipsis url">{{ row.url }}@if (row.kinds?.includes('dataset') && !row.kinds?.includes('code')) { <span class="kind">dataset</span>}</span>
           @if (row.ask && row.can_assign) {
             <button mat-stroked-button type="button" data-id="assignCredentials" (click)="assign(row)">Assign credentials</button>
           }

@@ -19,6 +19,7 @@ export interface RepoAccess {
   ask: boolean;
   // requirement only: the tasks that use it, the credentials the caller may assign, and whether the host clones it anonymously
   tasks?: string[];
+  kinds?: ('code' | 'dataset')[];
   assignable?: {id: string; name: string; kind: 'app' | 'token'; company: boolean}[];
   anonymous?: boolean | null;
 }

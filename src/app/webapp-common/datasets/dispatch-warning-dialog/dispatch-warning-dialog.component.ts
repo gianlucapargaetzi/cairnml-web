@@ -8,7 +8,7 @@ import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dial
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
 import {DatasetAccessService} from '../dataset-git/dataset-access.service';
-import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
+import {assignCredentials} from '../dataset-credential-dialog/assign-credentials';
 
 export interface DispatchWarningData {
   rows: RepoAccess[];
@@ -55,19 +55,7 @@ export class DispatchWarningDialogComponent {
   }
 
   protected assign(row: RepoAccess): void {
-    this.dialog.open(DatasetCredentialDialogComponent, {
-      data: {
-        name: row.url,
-        credential: null,
-        noneNeededLabel: row.anonymous === false ? undefined : 'None needed (public)',
-        options: (row.assignable ?? []).map(option => ({
-          id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'token',
-          scope: option.company ? 'company' as const : 'user' as const,
-        })),
-        save: (credential: string, noneNeeded = false) => this.access.setBindingCredential(row.binding, credential, noneNeeded),
-      },
-      panelClass: 'dialog-md',
-    }).afterClosed().subscribe(saved => {
+    assignCredentials(this.dialog, this.access, row).subscribe(saved => {
       if (saved) {
         this.reload();
       }
