@@ -1,0 +1,38 @@
+<sm-dialog-template header="Credentials not assigned" iconClass="al-ico-alert">
+  <p class="meta">
+    @if (canRunAnyway()) {
+      No credential is assigned to {{ pending().length === 1 ? 'this repository' : 'these repositories' }} for the project.
+      Running anyway clones {{ pending().length === 1 ? 'it' : 'them' }} without one.
+    } @else {
+      A repository is private and no credential reaches it, so the job would fail. Assign credentials to run it.
+    }
+  </p>
+  <div class="repositories">
+    @for (row of rows(); track row.binding ?? row.url) {
+      <div class="repository" data-id="dispatchRepository">
+        <div class="head">
+          <span class="ellipsis url">{{ row.url }}</span>
+          @if (row.ask && row.can_assign) {
+            <button mat-stroked-button type="button" data-id="assignCredentials" (click)="assign(row)">Assign credentials</button>
+          }
+        </div>
+        @if (row.ask) {
+          <div class="meta">{{ explanation(row) }}@if (!row.can_assign) { Ask the owner of the project to assign one.}</div>
+        } @else {
+          <sm-repo-access-badge [access]="row"></sm-repo-access-badge>
+        }
+      </div>
+    }
+  </div>
+  @if (canRunAnyway() && hasPublic()) {
+    <mat-checkbox class="dont-ask" [(ngModel)]="dontAskAgain" data-id="dontAskAgain">
+      <span class="chkbx-label">Don't ask again: mark these as None needed</span>
+    </mat-checkbox>
+  }
+  <div class="actions">
+    <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelButton">Cancel</button>
+    @if (canRunAnyway()) {
+      <button mat-flat-button type="button" [disabled]="saving()" (click)="run()" data-id="RunAnywayButton">Run anyway</button>
+    }
+  </div>
+</sm-dialog-template>

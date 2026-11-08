@@ -11,7 +11,7 @@ import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR, ReactiveFormsModul
 import {IExecutionForm, sourceTypesEnum} from '~/features/experiments/shared/experiment-execution.model';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged, filter, map, startWith, switchMap} from 'rxjs/operators';
-import {of, pairwise} from 'rxjs';
+import {merge, of, pairwise, Subject} from 'rxjs';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
@@ -116,9 +116,11 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
   private onChange: (val: Partial<IExecutionForm['source']>) => void;
   private onTouched: () => void;
   private originalData: IExecutionForm['source'];
+  private readonly repositoryWritten = new Subject<string>();
 
   constructor() {
-    this.sourceCodeForm.controls.repository.valueChanges
+    // the form is filled without events (writeValue), so the repository of a task that is shown is fed here too
+    merge(this.sourceCodeForm.controls.repository.valueChanges, this.repositoryWritten)
       .pipe(
         takeUntilDestroyed(),
         debounceTime(400),
@@ -196,6 +198,7 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
     this.originalData = data;
     if (data) {
       this.sourceCodeForm.patchValue(data, {emitEvent: false});
+      this.repositoryWritten.next(data.repository);
       this.repoData.set(buildGitRepoUrl(data.repository, data.branch, data.scriptType === sourceTypesEnum.Tag ?
         data.tag :
         data.scriptType === sourceTypesEnum.VersionNum ?

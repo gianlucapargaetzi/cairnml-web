@@ -21,4 +21,9 @@
   &.refused {
     color: var(--color-failed);
   }
+
+  // read through the company's access without an assignment: the warning colour, with the icon and the words
+  &.warned {
+    color: var(--color-warning);
+  }
 }

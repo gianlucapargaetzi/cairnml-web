@@ -13,8 +13,19 @@ import {DatasetAccessService, StoredCredential} from '../dataset-git/dataset-acc
 export interface CredentialChangeData {
   name: string;
   credential: string | null;
-  save: (credential: string) => Observable<unknown>;
+  save: (credential: string, noneNeeded?: boolean) => Observable<unknown>;
+  // The credentials to choose from, when the caller knows them (a repository binding: the server lists what the user may
+  // assign). Without it the dialog reads the user's own and the company's.
+  options?: {id: string; name: string; type: string; scope: 'user' | 'company'}[];
+  // "None needed" is offered (the host clones the repository without a credential), and whether it is the current choice
+  noneNeededLabel?: string;
+  noneNeeded?: boolean;
+  // the current choice can be cleared back to "not assigned"
+  clearable?: boolean;
 }
+
+export const NONE_NEEDED = '__none_needed__';
+export const NOT_ASSIGNED = '__not_assigned__';
 
 // Chooses the credential a dataset is read with, from the credentials the user may use: their own, and the company's.
 // The server checks the choice again (the credential must read the repository), and says why when it refuses.
@@ -44,9 +55,19 @@ export class DatasetCredentialDialogComponent implements OnInit {
   protected readonly loadError = signal(false);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly form = this.fb.group({credential: [this.data.credential ?? '', Validators.required]});
+  protected readonly none = NONE_NEEDED;
+  protected readonly notAssigned = NOT_ASSIGNED;
+  protected readonly form = this.fb.group({
+    credential: [this.data.noneNeeded ? NONE_NEEDED : (this.data.credential ?? ''), Validators.required],
+  });
 
   ngOnInit() {
+    if (this.data.options) {
+      this.credentials.set(this.data.options.map(option => ({
+        id: option.id, name: option.name, type: option.type, scope: option.scope, owner: '', valid_for: '', state: '',
+      })));
+      return;
+    }
     this.access.credentials().subscribe({
       next: list => this.credentials.set(list),
       error: () => {
@@ -63,7 +84,9 @@ export class DatasetCredentialDialogComponent implements OnInit {
     this.saving.set(true);
     this.error.set(null);
     try {
-      const saved = await lastValueFrom(this.data.save(this.form.controls.credential.value ?? ''));
+      const choice = this.form.controls.credential.value ?? '';
+      const saved = await lastValueFrom(choice === NONE_NEEDED ? this.data.save('', true) :
+        choice === NOT_ASSIGNED ? this.data.save('', false) : this.data.save(choice));
       this.dialogRef.close(saved);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The credential could not be set.');

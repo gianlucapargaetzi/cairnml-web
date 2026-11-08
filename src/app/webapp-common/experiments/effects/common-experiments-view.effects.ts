@@ -5,6 +5,7 @@ import {concatLatestFrom} from '@ngrx/operators';
 import {Action, Store} from '@ngrx/store';
 import {cloneDeep, flatten, get, isEqual} from 'lodash-es';
 import {EMPTY, iif, interval, Observable, of} from 'rxjs';
+import {DispatchGuardService} from '@common/datasets/dispatch-warning-dialog/dispatch-guard.service';
 import {auditTime, catchError, debounce, debounceTime, expand, filter, map, mergeMap, reduce, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
@@ -86,6 +87,7 @@ export class CommonExperimentsViewEffects {
   private actions$ = inject(Actions);
   private store = inject(Store);
   private apiTasks = inject(ApiTasksService);
+  private dispatchGuard = inject(DispatchGuardService);
   private projectsApi = inject(ApiProjectsService);
   private eventsApi = inject(ApiEventsService);
   private router = inject(Router);
@@ -949,13 +951,14 @@ export class CommonExperimentsViewEffects {
     return this.actions$.pipe(
       ofType(exActions.createExperimentSuccess),
       filter(action => !!action.data.queue),
-      switchMap(action => this.apiTasks.tasksEnqueue({
+      // a repository with no credential assigned is asked about first; stopping there leaves the task created
+      switchMap(action => this.dispatchGuard.confirm([action.data.id]).pipe(switchMap(go => !go ? of({type: 'EMPTY'}) : this.apiTasks.tasksEnqueue({
         queue: action.data.queue.id,
         task: action.data.id,
         verify_watched_queue: true
       }).pipe(
         map(res => res.queue_watched === false ? menuActions.openEmptyQueueMessage({queue: action.data.queue, entityName: action.data.name}) : {type: 'EMPTY'})
-      )),
+      )))),
       catchError(error => [addMessage(MESSAGES_SEVERITY.ERROR, `Failed to enqueue tasks.\n${this.errService.getErrorMsg(error.error)}`)])
     );
   });
