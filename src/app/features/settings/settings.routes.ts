@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {settingsProviders} from '~/features/settings/settings.providers';
 import {adminGuard} from '@common/shared/guards/admin.guard';
 

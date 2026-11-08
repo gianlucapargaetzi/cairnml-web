@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
 import {projectDialogProviders} from '@common/shared/project-dialog/project-dialog.providers';
 

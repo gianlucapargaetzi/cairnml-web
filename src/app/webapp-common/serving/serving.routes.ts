@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {servingProviders} from './serving.providers';
 
 export const routes: Routes = [

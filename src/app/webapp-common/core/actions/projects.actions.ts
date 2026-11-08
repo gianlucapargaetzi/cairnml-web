@@ -14,7 +14,7 @@ import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {ScatterPlotPoint} from '@common/core/reducers/projects.reducer';
 import {User} from '~/business-logic/model/users/user';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
-import {IBreadcrumbsLink, IBreadcrumbsOptions} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {IBreadcrumbsLink, IBreadcrumbsOptions} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {ProjectsGetUserNamesRequest} from '~/business-logic/model/projects/projectsGetUserNamesRequest';
 

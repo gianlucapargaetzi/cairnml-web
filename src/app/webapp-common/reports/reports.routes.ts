@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {leavingBeforeSaveAlertGuard} from '@common/shared/guards/leaving-before-save-alert.guard';
 import {selectDirtyReport} from './reports.reducer';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';

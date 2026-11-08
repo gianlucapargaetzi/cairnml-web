@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
 
