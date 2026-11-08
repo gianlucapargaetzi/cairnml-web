@@ -18,34 +18,4 @@ sm-code-editor {
   margin-bottom: var(--space-4);
 }
 
-.error {
-  margin: var(--space-2) 0;
-  font-size: 12px;
-  color: var(--color-error);
-}
-
-.registries {
-  display: block;
-  width: 100%;
-  margin-bottom: var(--space-3);
-  overflow-x: auto;
-}
-
-.add-registry {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.registry-input {
-  flex: 1 1 280px;
-  min-width: 0;
-}
-
-.kind-input {
-  flex: 0 1 180px;
-}
-
 @include dialog-form.option-meta();

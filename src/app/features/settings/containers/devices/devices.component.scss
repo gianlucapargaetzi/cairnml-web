@@ -1,10 +1,17 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 // text blocks take the page header's 24px gutter; tables run edge to edge
 .devices {
   padding: 0;
+  // the table takes the rest of the page, to the footer: an empty table is a full-height area, not a short box
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .devices-description {
@@ -16,6 +23,23 @@
 }
 
 .devices-table {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep .table {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::ng-deep .p-datatable-table-container {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
   .name {
     display: inline-block;
     max-width: 280px;

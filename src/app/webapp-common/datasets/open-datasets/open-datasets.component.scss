@@ -10,13 +10,12 @@
     }
   }
 
-  // the empty state sits just below the model panel, centred across the page
+  // the empty state starts at the same y as the empty state of the Repositories tab (directly under the page header)
   .empty-container {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: var(--space-5);
     min-height: 0;
   }
 

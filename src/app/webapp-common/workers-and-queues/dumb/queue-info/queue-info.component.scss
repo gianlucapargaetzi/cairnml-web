@@ -5,9 +5,21 @@
   height: 100%;
   background-color: var(--row-default-color);
   ::ng-deep{
+    // the tabs fill the panel down to its bottom: the tables in them stretch with it
+    .mat-mdc-tab-group {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .mat-mdc-tab-body-wrapper {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .mat-mdc-tab-body {
+      height: 100%;
+    }
     .mat-mdc-tab-body-content{
       overflow: unset;
-      max-height: 348px;
+      height: 100%;
     }
   }
 

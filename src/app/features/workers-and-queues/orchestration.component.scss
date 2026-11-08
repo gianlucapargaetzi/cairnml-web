@@ -2,11 +2,13 @@
 @import "../../webapp-common/layout/layout";
 
 :host {
-  display: flex;
+  display: flex !important; // the page content takes the rest of the window: the child pages stretch to its bottom
   flex-direction: column;
   height: 100%;
 
   .content {
+    display: flex;
+    flex-direction: column;
     overflow: auto;
     flex: 1 1 auto;
     min-height: 0;

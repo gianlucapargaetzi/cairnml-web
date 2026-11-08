@@ -33,45 +33,6 @@
           added through a pull request to the registry.
         </p>
 
-        <sm-section-header label="Registries"></sm-section-header>
-        <p class="text">
-          The registries the server reads. Their entries are listed on the Datasets page. Any user may add one, and
-          its owner or an admin may remove it.
-        </p>
-
-        @if (error()) {
-          <p class="error" role="alert">{{ error() }}</p>
-        }
-
-        <sm-table
-          class="registries"
-          data-id="registriesTable"
-          [simple]="true"
-          [columns]="registryColumns"
-          [tableData]="registryRows()"
-        >
-          <ng-template let-col let-line="rowData" pTemplate="body">
-            <div>
-              @switch (col.id) {
-                @case ('actions') {
-                  @if (canRemove(line)) {
-                    <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + line.repository"
-                      smTooltip="Remove this registry" (click)="removeRegistry(line)" data-id="removeRegistryButton">
-                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
-                    </button>
-                  }
-                }
-                @case ('added') {
-                  <span>{{ line.added | date: 'mediumDate' }}</span>
-                }
-                @default {
-                  <div class="ellipsis">{{ line[col.id] }}</div>
-                }
-              }
-            </div>
-          </ng-template>
-        </sm-table>
-
         <sm-section-header label="Add an entry"></sm-section-header>
         <sm-code-editor [code]="registryCode" [readonly]="true" mode="sh" [showCopyButton]="true"
           [style.height.px]="height(registryCode)"></sm-code-editor>
