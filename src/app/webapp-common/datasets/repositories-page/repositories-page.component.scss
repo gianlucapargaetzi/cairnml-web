@@ -14,8 +14,8 @@
   gap: var(--space-2);
 }
 
-.bindings td {
-  padding: 0 !important;
+tr.bindings > td {
+  padding: 0;
 }
 
 // one project's access to the repository, under the repository's row

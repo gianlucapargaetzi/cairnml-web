@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Action, Store} from '@ngrx/store';
@@ -81,9 +81,10 @@ export class CommonExperimentsMenuEffects {
               private apiTasks: ApiTasksService,
               private pipelineApi: ApiPipelinesService,
               private router: Router,
-              private dialog: MatDialog,
-              private dispatchGuard: DispatchGuardService
+              private dialog: MatDialog
   ) {}
+
+  private dispatchGuard = inject(DispatchGuardService);
 
   activeLoader = createEffect(() => this.actions$.pipe(
     ofType(
