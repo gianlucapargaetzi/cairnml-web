@@ -32,7 +32,7 @@ Angular 21 (standalone components, signals, new control flow `@if`/`@for`), NgRx
 
 | Component | Purpose | Today |
 |---|---|---|
-| `sm-page-header` | Title, back, status, description, actions slot, 56px | two competing classes (`.page-header` 64px, `.sm-entity-page-header` 56px) and per-page headers |
+| `sm-page-header` | Hands the title, back, status (tags), description and actions of a page to the one application header (64px); draws nothing itself. `sm-panel-header` is the in-place variant for panels | one header for the application; the old per-page header rows are gone |
 | `sm-empty-state` | Icon, title, sentence, action | SCSS mixins copied per component |
 | `sm-form-section` | Section title, description, fields column, 720px max width | ad hoc per form |
 | `ConfirmDialog` `destructive` flag | Destructive styling | exact-label-match hack (`['DELETE','DEACTIVATE']`) |

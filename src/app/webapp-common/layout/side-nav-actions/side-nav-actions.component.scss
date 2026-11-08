@@ -1,0 +1,63 @@
+// The three actions at the bottom of the side navigation: search, help, user menu (lowest). Same size and hover as the
+// navigation items above them.
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4px;
+  padding: 8px 0 12px;
+}
+
+.nav-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 36px;
+  border-radius: 6px;
+  color: var(--color-primary);
+
+  &:hover,
+  &.menu-opened {
+    background-color: var(--color-surface-container-highest);
+  }
+}
+
+.menu-trigger {
+  position: relative;
+  cursor: pointer;
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+  }
+
+  .user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-surface-container-high);
+    color: var(--color-on-surface);
+    border-radius: 50%;
+
+    .al-icon {
+      margin-top: -2px;
+    }
+  }
+}
+
+.user-notification {
+  position: absolute;
+  left: 4px;
+  bottom: 2px;
+  width: 10px;
+  height: 10px;
+  border: solid 2px var(--color-outline);
+  border-radius: 50%;
+  background-color: var(--color-neon-surface);
+}

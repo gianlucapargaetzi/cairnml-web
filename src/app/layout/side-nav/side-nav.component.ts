@@ -11,6 +11,8 @@ import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/ma
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {NgOptimizedImage} from '@angular/common';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+import {SideNavActionsComponent} from '@common/layout/side-nav-actions/side-nav-actions.component';
+import {selectIsSharedAndNotOwner} from '~/features/experiments/reducers';
 
 @Component({
   selector: 'sm-side-nav',
@@ -27,7 +29,8 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
     TooltipDirective,
     NgOptimizedImage,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    SideNavActionsComponent
   ]
 })
 export class SideNavComponent {
@@ -39,6 +42,7 @@ export class SideNavComponent {
   protected environment = this.configService.configuration;
   protected defaultNestedModeForFeature = this.store.selectSignal(selectDefaultNestedModeForFeature);
   protected currentUser = this.store.selectSignal(selectCurrentUser);
+  protected isSharedAndNotOwner = this.store.selectSignal(selectIsSharedAndNotOwner);
   protected darkTheme = this.store.selectSignal(selectDarkTheme);
 
   private resize = toSignal(fromEvent(window, 'resize'));

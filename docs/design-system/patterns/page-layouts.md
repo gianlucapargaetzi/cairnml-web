@@ -14,8 +14,8 @@ Choose the template, then follow the matching pattern page. Shell and spacing: [
 ## Common skeleton
 
 ```text
-sm-page-header   56px   title · status · actions
-tabs (optional)  48px   mat-tab-nav-bar
+application header 64px  title block · tabs (centred) · symbol-only actions   (outside the page)
+tabs (optional)  48px   mat-tab-nav-bar, in-page
 toolbar (list)   48px   search · filters · view options · counts
 content          fills  scrolls inside; 24px side padding
 ```

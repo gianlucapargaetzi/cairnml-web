@@ -1,11 +1,11 @@
 <sm-page-header title="Datasets &amp; Repositories">
   @if (activeTab() === 'repositories') {
-    <button actions mat-flat-button (click)="addRepository()" data-id="addRepository">
+    <button actions mat-flat-button class="header-action" data-tip="Add repository" aria-label="Add repository" (click)="addRepository()" data-id="addRepository">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       Add repository
     </button>
   } @else {
-    <button actions mat-flat-button (click)="addDataset()" data-id="addDataset">
+    <button actions mat-flat-button class="header-action" data-tip="Add dataset" aria-label="Add dataset" (click)="addDataset()" data-id="addDataset">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       Add dataset
     </button>

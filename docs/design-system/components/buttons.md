@@ -18,7 +18,8 @@ Implementation: Angular Material buttons, customised in `styles/customizations/b
 ## Rules
 
 1. **One primary action per view.** A page header, a dialog and a form footer each have at most one filled button.
-2. **Order.** Reading order left to right: tertiary, secondary, primary. In dialogs: Cancel (secondary), then the action (primary/destructive), centered (existing). In a page header the actions are right aligned with the primary rightmost.
+2. **Order.** Reading order left to right: tertiary, secondary, primary. In dialogs: Cancel (secondary), then the action (primary/destructive), centered (existing). In the header the actions are right aligned with the primary rightmost.
+2a. **Buttons in the header are symbol-only** (`class="header-action"`, `data-tip` and `aria-label` with the same text, sentence-case verb + thing, e.g. "Add dataset"). The primary action is a filled round button with its symbol (`al-ico-add` for create or add); a secondary one is round and outlined. The label shows as a tooltip on hover and focus. Text buttons stay in dialogs, forms, toolbars and empty states. See [layout 3.2](../03-layout-system.md).
 3. **Destructive actions never look like primary actions.** Use the destructive variant and a confirmation (see [dialogs](dialogs.md)). Destructive style is set with a flag, not by guessing the label: `ConfirmDialogConfig.destructive` applies `delete-button`. Custom dialogs set the class directly.
 4. **Labels:** sentence case verb or verb + object ("Create task", "Delete", "Save changes"). No all-caps typing, no leading/trailing spaces (currently `' SAVE '`, `'DELETE'`, `'CANCEL'`). Cancel label is always "Cancel" (not "Keep", "Stay", "Back" unless the dialog is about leaving/discarding, where the safe choice is named).
 5. **Icons in buttons:** leading icon 16px (existing), optional, only when it adds recognition. Icon-only buttons are 36px (default) with a 20px icon, `sm` 24/16, `xs` 16/14 (use `xs` only in dense table rows).
@@ -31,10 +32,15 @@ Implementation: Angular Material buttons, customised in `styles/customizations/b
 ## Examples
 
 ```html
-<!-- page header actions -->
-<button mat-stroked-button type="button" (click)="reset()" [disabled]="form.pristine">Reset changes</button>
-<button mat-flat-button type="submit" [disabled]="form.invalid || form.pristine || saving()">
+<!-- header actions: symbol-only, the label is the tooltip -->
+<button actions mat-stroked-button class="header-action" data-tip="Reset changes" aria-label="Reset changes"
+        type="button" (click)="reset()" [disabled]="form.pristine">
+  <mat-icon fontSet="al" fontIcon="al-ico-undo"></mat-icon>Reset changes
+</button>
+<button actions mat-flat-button class="header-action" data-tip="Save" aria-label="Save"
+        type="submit" [disabled]="form.invalid || form.pristine || saving()">
   @if (saving()) { <mat-progress-spinner mode="indeterminate" diameter="20" strokeWidth="2"/> }
+  @else { <mat-icon fontSet="al" fontIcon="al-ico-success"></mat-icon> }
   Save
 </button>
 

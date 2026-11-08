@@ -49,7 +49,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {
   PipelineControllerStepComponent
 } from '@common/pipelines-controller/pipeline-controller-step/pipeline-controller-step.component';
-import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {PanelHeaderComponent} from '@common/shared/ui-components/layout/panel-header/panel-header.component';
 
 export interface PipelineItem extends DagModelItem {
   name: string;
@@ -83,7 +83,7 @@ export enum StatusOption {
   providers: [DagManagerUnsortedService],
   host: {'(document:keydown)': 'onKeyDown($event)'},
   imports: [
-    PageHeaderComponent,
+    PanelHeaderComponent,
     PushPipe,
     OpenDatasetVersionPreviewComponent,
     ExperimentOutputLogComponent,

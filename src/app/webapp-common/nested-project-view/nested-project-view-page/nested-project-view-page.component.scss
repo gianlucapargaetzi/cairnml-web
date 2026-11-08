@@ -31,7 +31,7 @@
     height: variables.$nav-bar-height;
     grid-column: 1 / -1;
     position: sticky;
-    top: 56px; // below the sticky page header (sm-page-header)
+    top: 0; // the page header is the header of the application, outside this scroll container
     z-index: 10;
     background-color: var(--color-surface);
     margin-bottom: -12px;

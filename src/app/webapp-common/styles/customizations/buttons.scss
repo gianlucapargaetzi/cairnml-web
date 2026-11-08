@@ -200,3 +200,49 @@
     @include mat.button-color($theme, $color-variant: error);
   }
 }
+
+// Buttons of a page in the header: symbol only, the label shows as a tooltip on hover and focus (data-tip, with the same text as
+// aria-label). The primary action stays the filled button, as a round one; a secondary one is round and outlined.
+.header-action {
+  position: relative;
+
+  &.mat-mdc-button-base {
+    --mdc-filled-button-container-height: 40px;
+    --mdc-outlined-button-container-height: 40px;
+    --mdc-text-button-container-height: 40px;
+    width: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mdc-button__label {
+    display: none;
+  }
+
+  .mat-icon,
+  mat-icon {
+    margin: 0 !important;
+  }
+
+  &[data-tip]:hover::after,
+  &[data-tip]:focus-visible::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 1000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: var(--color-inverse-surface);
+    color: var(--color-inverse-on-surface);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+}

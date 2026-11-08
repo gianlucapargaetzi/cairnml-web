@@ -1,184 +1,116 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal, Type} from '@angular/core';
-import {ChangesService} from '@common/shared/services/changes.service';
-import {Store} from '@ngrx/store';
-import {selectActiveWorkspace, selectCurrentUser, selectIsAdmin} from '../../core/reducers/users-reducer';
-import {logout} from '../../core/actions/users.actions';
-import {setAutoRefresh} from '../../core/actions/layout.actions';
-import {MatDialog} from '@angular/material/dialog';
-import {ConfigurationService} from '../../shared/services/configuration.service';
-import {
-  GetCurrentUserResponseUserObjectCompany
-} from '~/business-logic/model/users/getCurrentUserResponseUserObjectCompany';
-import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
-import {selectRouterUrl} from '../../core/reducers/router-reducer';
-import {TipsService} from '../../shared/services/tips.service';
-import {WelcomeMessageComponent} from '../welcome-message/welcome-message.component';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, input, signal} from '@angular/core';
+import {NgOptimizedImage, NgTemplateOutlet} from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
-import {LoginService} from '~/shared/services/login.service';
-import {selectUserSettingsNotificationPath} from '~/core/reducers/view.reducer';
-import {selectInvitesPending} from '~/core/reducers/users.reducer';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {selectDarkTheme, selectForcedTheme, selectHeaderMenu} from '@common/core/reducers/view.reducer';
-import {AppearanceComponent} from '../appearance/appearance.component';
-import {BreadcrumbsComponent} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {Store} from '@ngrx/store';
+import {filter} from 'rxjs/operators';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {selectDarkTheme, selectHeaderMenu, selectHeaderMenuIndex, selectBreadcrumbs} from '@common/core/reducers/view.reducer';
+import {selectRouterConfig, selectRouterUrl} from '@common/core/reducers/router-reducer';
+import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
+import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
+import {selectArchive} from '@common/layout/layout.selectors';
+import {setAutoRefresh} from '@common/core/actions/layout.actions';
+import {ConfigurationService} from '@common/shared/services/configuration.service';
 import {RefreshButtonComponent} from '@common/shared/components/refresh-button/refresh-button.component';
-import {HeaderUserMenuActionsComponent} from '~/layout/header/header-user-menu-actions/header-user-menu-actions.component';
 import {ShowOnlyUserWorkComponent} from '@common/shared/components/show-only-user-work/show-only-user-work.component';
 import {HeaderNavbarTabsComponent} from '@common/layout/header-navbar-tabs/header-navbar-tabs.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {NgOptimizedImage} from '@angular/common';
-import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
-import {MatIconButton} from '@angular/material/button';
-import {TaskTrailComponent} from '../task-trail/task-trail.component';
+import {PageHeaderService} from '@common/shared/ui-components/layout/page-header/page-header.service';
+import {PageHeaderTitleService} from '@common/shared/ui-components/layout/page-header/page-header-title.service';
+import {ExperimentNameService} from '../breadcrumbs/experiment-name.service';
+import {deriveHeaderTitles} from './header-titles';
 
+/**
+ * The one header of the application: the title block on the left (line 1: what we look at, line 2: where it is), the tabs of
+ * the page exactly in the middle, and the buttons of the page on the right. Search, help and the user menu are in the
+ * side navigation. A page adds its own content with `sm-page-header` (see there); the title block works without it.
+ */
 @Component({
   selector: 'sm-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '(document:keydown)': 'globalSearchTrigger($event)'
-  },
   imports: [
-    BreadcrumbsComponent,
-    TaskTrailComponent,
+    NgTemplateOutlet,
+    NgOptimizedImage,
+    RouterLink,
     RefreshButtonComponent,
-    HeaderUserMenuActionsComponent,
     ShowOnlyUserWorkComponent,
     HeaderNavbarTabsComponent,
-    MatIconModule,
-    MatMenu,
-    RouterLink,
-    MatMenuItem,
-    MatMenuTrigger,
-    NgOptimizedImage,
-    TooltipDirective,
-    MatIconButton
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   private store = inject(Store);
-  private dialog = inject(MatDialog);
-  public tipsService = inject(TipsService);
-  public changesService = inject(ChangesService);
-  private loginService = inject(LoginService);
   private router = inject(Router);
   private activeRoute = inject(ActivatedRoute);
   private configService = inject(ConfigurationService);
-  private searchComponentPromise: Promise<Type<unknown>>;
+  private experimentNameService = inject(ExperimentNameService);
+  private pageTitle = inject(PageHeaderTitleService).title;
 
   isShareMode = input<boolean>();
   isLogin = input<boolean>();
-  hideMenus = input<boolean>();
 
   protected environment = this.configService.configuration;
-  protected url = this.store.selectSignal(selectRouterUrl);
-  protected user = this.store.selectSignal(selectCurrentUser);
-  protected isAdmin = this.store.selectSignal(selectIsAdmin);
-  protected userNotificationPath = this.store.selectSignal(selectUserSettingsNotificationPath);
-  protected invitesPending = this.store.selectSignal(selectInvitesPending);
   protected darkTheme = this.store.selectSignal(selectDarkTheme);
-  protected forcedTheme = this.store.selectSignal(selectForcedTheme);
+  protected content = inject(PageHeaderService).content;
   protected userFocus = signal<boolean>(false);
   protected hideSideNav = signal<boolean>(false);
   protected showAutoRefresh = signal<boolean>(false);
-  protected searchActive = signal(false);
-  public activeWorkspace = toSignal<GetCurrentUserResponseUserObjectCompany>(this.store.select(selectActiveWorkspace)
-    .pipe(
-      filter(workspace => !!workspace),
-      distinctUntilChanged()
-    )
-  );
 
-  protected contextNavbar = this.store.selectSignal(selectHeaderMenu);
-    contextNavbarLength = computed(() => {
-    return this.contextNavbar()?.length;
+  private url = this.store.selectSignal(selectRouterUrl);
+  private routeConfig = this.store.selectSignal(selectRouterConfig);
+  private menu = this.store.selectSignal(selectHeaderMenu);
+  private menuIndex = this.store.selectSignal(selectHeaderMenuIndex);
+  private breadcrumbLinks = this.store.selectSignal(selectBreadcrumbs);
+  private selectedProject = this.store.selectSignal(selectSelectedProject);
+  private workspace = this.store.selectSignal(selectActiveWorkspace);
+  private archive = this.store.selectSignal<boolean>(selectArchive);
+  /** Names of the tasks looked up for the title, by id. */
+  private experimentNames = signal<Record<string, string>>({});
+
+  /** The browsed archive is shown next to the title, but not on the pages that have no archive. */
+  protected showArchive = computed(() => this.archive() && !['overview', 'workloads', 'settings'].includes(this.routeConfig()?.at(-1)));
+  protected hasTabs = computed(() => this.menu()?.length > 0);
+
+  protected titles = computed(() => {
+    const tab = this.menu()?.[this.menuIndex()];
+    const project = this.selectedProject();
+    return deriveHeaderTitles({
+      url: this.url(),
+      pageTitle: this.pageTitle(),
+      crumbs: (this.breadcrumbLinks() ?? []).flat().filter(crumb => crumb?.name && !crumb.hidden).map(crumb => crumb.name),
+      projectName: project?.name ?? null,
+      experimentName: id => this.experimentNames()[id] ?? id,
+      tab: tab ? (tab.label ?? tab.header) : null,
+      workspace: this.workspace()?.name ?? null,
+    });
   });
-
-  // Ctrl + K -> Global Search Dialog
-  globalSearchTrigger(e: KeyboardEvent): void {
-    const isModifierPressed = e.metaKey || e.ctrlKey;
-    const isKPressed = e.key.toLowerCase() === 'k';
-    if (isModifierPressed && isKPressed && this.dialog.openDialogs.length === 0) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.body.querySelectorAll('.cdk-overlay-backdrop').forEach((c: HTMLDivElement) => c.click());
-      document.body.querySelectorAll('.cdk-overlay-container').forEach((c: HTMLDivElement) => c.click());
-      this.openGlobalSearch();
-    }
-  }
-
-  openGlobalSearchIfNeeded() {
-    if (this.dialog.openDialogs.length === 0 && (this.activeRoute.snapshot.queryParams.gq || this.activeRoute.snapshot.queryParams.tab)) {
-      this.openGlobalSearch();
-    }
-    this.getRouteData();
-  }
 
   constructor() {
     this.getRouteData();
     this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        debounceTime(100),
-        takeUntilDestroyed(),
-      )
-      .subscribe(() => {
-        this.openGlobalSearchIfNeeded();
-      });
+      .pipe(filter(event => event instanceof NavigationEnd), takeUntilDestroyed())
+      .subscribe(() => this.getRouteData());
+
+    // the name of the task is not in the url
+    effect(() => {
+      const [, , section, child] = (this.url() ?? '').split(/[?#]/)[0].split('/').filter(Boolean);
+      if (section === 'tasks' && child && child !== 'compare' && !this.experimentNames()[child]) {
+        this.experimentNameService.nameOf(child).then(name => this.experimentNames.update(names => ({...names, [child]: name})));
+      }
+    });
   }
 
-  ngOnInit(): void {
-    this.openGlobalSearchIfNeeded();
-  }
-
-  getRouteData() {
+  private getRouteData() {
     this.userFocus.set(!!this.activeRoute?.firstChild?.snapshot.data?.userFocus);
     this.hideSideNav.set(this.activeRoute?.firstChild?.snapshot.data.hideSideNav);
-    let active = false;
     let last = this.activeRoute;
     while (last.firstChild) {
-      if (last.snapshot.data.search !== undefined) {
-        active = last.snapshot.data.search;
-      }
       last = last.firstChild;
     }
     this.showAutoRefresh.set(last.snapshot.data.showAutoRefresh);
-    this.searchActive.set(active || last.snapshot.data.search);
-  }
-
-  logout() {
-    this.loginService.clearLoginCache();
-    this.store.dispatch(logout({}));
-  }
-
-  openWelcome(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(WelcomeMessageComponent, {data: {step: 2}, panelClass: 'dialog-md'});
-  }
-
-  openAppearance(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(AppearanceComponent);
   }
 
   toggleAutoRefresh(autoRefresh: boolean) {
     this.store.dispatch(setAutoRefresh({autoRefresh}));
-  }
-
-  openGlobalSearch() {
-    if (!this.searchComponentPromise) {
-      this.searchComponentPromise = import(
-        '@common/dashboard-search/global-search-dialog/global-search-dialog.component'
-        ).then(({GlobalSearchDialogComponent}) => GlobalSearchDialogComponent);
-    }
-
-    this.searchComponentPromise.then(component => {
-      this.dialog.open(component, {
-        panelClass: 'dialog-xl',
-        enterAnimationDuration: 0
-      });
-    });
   }
 }

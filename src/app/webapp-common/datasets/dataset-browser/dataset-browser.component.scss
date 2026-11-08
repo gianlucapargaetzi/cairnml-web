@@ -14,7 +14,7 @@
 
 .browser-body {
   width: 100%;
-  height: calc(100vh - 120px); // the rest of the window below the top bar (64px) and the page header (56px)
+  height: calc(100vh - var(--header-height)); // the rest of the window below the header
 }
 
 @include table-rows.table-rows();
