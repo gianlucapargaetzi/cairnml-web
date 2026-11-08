@@ -1,17 +1,11 @@
-// Sticky top rows of the scroll container: page header (56px), then the toolbar.
-sm-page-header.projects-page-header {
+// The toolbar is the sticky top row of the scroll container; the page header is the header of the application.
+sm-projects-header {
+  display: block;
+  height: 56px;
   position: sticky;
   top: 0;
   z-index: 10;
-}
-
-sm-projects-header {
-  display: block;
-  height: 48px;
-  position: sticky;
-  top: 56px;
-  z-index: 10;
   padding: 0 24px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   background-color: var(--color-surface);
 }

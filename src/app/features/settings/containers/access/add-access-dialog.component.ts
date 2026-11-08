@@ -45,7 +45,7 @@ export class AddAccessDialogComponent {
   protected keyFileName = signal<string | null>(null);
 
   protected readonly form = this.fb.group({
-    kind: ['token', Validators.required],
+    kind: ['app', Validators.required],
     scope: ['user', Validators.required],
     label: ['', [Validators.required, Validators.maxLength(80)]],
     host: ['github.com', Validators.required],

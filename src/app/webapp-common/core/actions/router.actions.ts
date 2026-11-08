@@ -3,7 +3,7 @@ import {createAction, createActionGroup, emptyProps, props} from '@ngrx/store';
 import {Params} from '@angular/router';
 import {FilterMetadata} from 'primeng/api';
 import {SortMeta} from 'primeng/api';
-import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {HeaderNavbarTabConfig} from '@common/layout/header-navbar-tabs/header-navbar-tabs-config.types';
 
 export const BREADCRUMBS_PREFIX = 'BREADCRUMBS_';

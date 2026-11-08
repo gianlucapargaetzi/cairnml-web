@@ -5,8 +5,8 @@ Used for one task, model, pipeline run, dataset version, endpoint.
 ## Structure
 
 ```text
-Breadcrumbs (in the application header): Workspace › Project › Task
-Page header (56px)
+Application header (64px): line 1 task name (16px/500), line 2 Projects / Project / Task list     [tabs, centred]     [symbol-only actions]
+Panel header (sm-panel-header, in place)
   [←?]  Task name (16px/500, inline-editable)  [Status]          [Secondary…]  [Primary]  [⋮ menu]
   metadata line (12px, secondary): id (copy) · created by · created 5 d ago · last update 2 min ago · queue
 Tabs (route based): General · Execution · Artifacts · Hyper-parameters · Scalars · Plots · Debug samples · Console

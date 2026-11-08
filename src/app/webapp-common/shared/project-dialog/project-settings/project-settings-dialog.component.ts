@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   contentChildren,
   inject,
   input,
@@ -22,6 +23,7 @@ import {ProjectScalarDefaultsComponent} from './project-scalar-defaults/project-
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {ProjectGeneralSettingsComponent} from './project-general-settings/project-general-settings.component';
 import {ProjectQueuesComponent} from './project-queues/project-queues.component';
+import {ProjectDatasetsComponent} from './project-datasets/project-datasets.component';
 import {ProjectAccessesComponent} from './project-accesses/project-accesses.component';
 
 export interface ProjectSettingsDialogConfig {
@@ -49,6 +51,7 @@ export interface ProjectSettingsDialogConfig {
     ProjectScalarDefaultsComponent,
     ProjectMembersComponent,
     ProjectQueuesComponent,
+    ProjectDatasetsComponent,
     ProjectAccessesComponent
   ]
 })
@@ -67,6 +70,10 @@ export class ProjectSettingsDialogComponent {
   saveExtra = output();
   cancelExtra = output();
   selectedTabIndex = signal(0);
+  // The Datasets and Credentials tabs save with their own Save button (the tab order is fixed: General, Scalar view
+  // defaults, Users, Queues, Datasets, Credentials), so the dialog footer does not offer a second one there.
+  private readonly sectionTabIndexes = [4, 5];
+  protected readonly isSectionTab = computed(() => this.sectionTabIndexes.includes(this.selectedTabIndex()));
 
   constructor() {
     this.settingsStore.setProject(this.data.project.id);

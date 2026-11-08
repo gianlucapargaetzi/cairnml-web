@@ -6,47 +6,61 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 
 ```text
 +------+----------------------------------------------------------------+
-| Side | Header (64px): breadcrumbs + task trail | context tabs | actions |
+| Side | Header (64px): title block | tabs (centred) | page buttons     |
 | nav  +----------------------------------------------------------------+
 | 64px | Page content (router outlet), height = 100% - 64px             |
 |      |                                                                |
+| search                                                                |
+| help |                                                                |
+| user |                                                                |
 +------+----------------------------------------------------------------+
 ```
 
 - **Side navigation** (64px, always collapsed): logo, then icon links in this order: Agents & Queues, Datasets, Projects (dashboard), Pipelines. Model Endpoints is not in the navigation until CairnML documents how to create endpoints (decision for issue #13); the `/endpoints/active` page stays reachable by URL. Tooltips carry the names. Active item is highlighted by `routerLinkActive` / `.active`. Do not add a second navigation column. New top-level areas are added here only after a product decision; keep ≤ 7 items.
 - **Brand mark**: the CairnML symbol (the stone stack, without the wordmark) is the only logo in the UI. It is `src/assets/cairnml-symbol.svg` for light backgrounds and `src/assets/cairnml-symbol-white.svg` for dark ones. The branding settings (`branding.logo`, `branding.logoSmall` in `src/environments/base.ts`) name the `-white` file; the light theme drops the suffix, as the templates already do. The side navigation shows it at 64 × 64 px, the header at 54 × 42 px (height 42 px, the wordmark is not shown). Do not recolour or redraw it, and do not add the wordmark next to it.
-- **Header** (64px, grid `minmax(150px,1fr) auto minmax(150px,1fr)`, padding `0 24px`): left breadcrumbs (and task trail), centre context tabs (`sm-header-navbar-tabs`), right global actions (search [Ctrl+K], auto-refresh, help menu, avatar menu with Settings, Appearance, Logout). The header is the only place for global actions.
+- **Search, help and user menu** are at the bottom of the side navigation, stacked in this order, the user menu lowest (`sm-side-nav-actions`): Search all [Ctrl+K], Help (documentation, Python package setup, tips), Account (Settings, Appearance, Logout). They open their menus upwards. They are global and do not belong in the header.
+- **Header** (64px, the height of the logo tile; the one and only header of the application, `webapp-common/layout/header`): a grid `minmax(0,1fr) auto minmax(0,1fr)` with padding `0 24px`. The two outer columns are always equal, so the **tabs are centred on the window** whatever the title or the buttons need.
+  - **Title block** (left, two lines): line 1 is **what we are looking at**, 16px / 500: the project, task, model or report name, or the name of the page (Projects, Pipelines, Devices). Line 2 is **where it is**, 12px, secondary colour, from the root: `Projects / ui-audit / Task list`, `Settings`, `Agents`. Ancestors on line 2 are links. Derived by `header-titles.ts` from the route, the breadcrumbs and the active tab; a page can add its own title with `sm-page-header`.
+  - **Tabs** (middle): `sm-header-navbar-tabs`, only when the page has tabs.
+  - **Page buttons** (right): the `[actions]` of the page, preceded by auto-refresh and the My work / Team's work switch when the route asks for them. Buttons are symbol-only (3.2).
+- **Brand mark in the header** exists only in a shared view without side navigation.
 - **Main area**: the routed page fills the height below the header. The page itself scrolls internally (body is `overflow: hidden`), so **each page owns its scroll container**.
-- **Breadcrumbs** show location, not history: Workspace → Project → entity.
+- **The trail on line 2** shows location, not history: Section → Project → page or tab.
 - **Update banner** (`sm-update-notifier`, 30px) pushes the app down when active.
 
 **Rules**
 
-1. Pages never render their own top bar for global actions; put page actions in the page header (3.2).
+1. Pages never render their own top bar. Page buttons go in `sm-page-header` `[actions]` (3.2); search, help and the user menu are in the side navigation.
 2. Do not hide the side nav or header on working pages (login/share views are the only exceptions, existing `isLogin`, `isShareMode`).
 3. Do not nest scroll containers more than two deep (page body, one inner panel such as a table or log).
 
-## 3.2 Page structure (Target)
+## 3.2 Page structure (Standard)
 
-Use the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`). Inputs: `title` (rendered as the page's `h1`), `description` (optional). Content projection: `[back]` (back button, before the title), `[status]` (status badge, after the title), `[actions]` (buttons, secondary first, at most one primary). Migrated: dashboard, projects list, storage credentials, settings configuration ("User preferences"), settings devices, tasks list ("Tasks"; "Pipeline runs" for the pipeline tasks view), models list, model endpoints, reports list and report detail, datasets (list and nested view), pipelines (nested view), agents and queues. The title is rendered once: the top bar breadcrumb drops its last crumb when it repeats the header title, and the breadcrumb area is hidden when no crumb is left. Primary actions (New run, New report, New dataset) go in `[actions]`; toolbars keep search, filters and view toggles below the header.
+There is **one header** for the whole application (3.1). A page does not draw a header row; it hands content to the application header with the shared component `sm-page-header` (`webapp-common/shared/ui-components/layout/page-header`), which renders nothing in the page itself. Inputs: `title` (the name of the page; the header uses it for line 1 on list and settings pages), `description` (optional). Content projection: `[back]` (back button, before the title), `[title-edit]` (an inline-editable name, inside the title), `[status]` (status badge or the tag list, directly after the title), `[actions]` (the buttons of the page).
 
-Not yet migrated: the task and model detail headers (inside the split-panel info views, with inline rename and minimize/maximize) and the pipeline run detail header (the run info panel). These keep their panel headers until the panel controls are redesigned. The structure:
+A page without `sm-page-header` still has a header: the title block works from the route.
+
+**Buttons in the header are symbol-only.** One class does it: `class="header-action"` with `data-tip="Add dataset"` and `aria-label="Add dataset"` (same text) on a `mat-flat-button` (primary, a filled round "+" or another symbol), `mat-stroked-button` (secondary, round, outlined) or `mat-icon-button`. The label is the tooltip on hover and focus. Rules: at most one primary action; the symbol is the one of the action (`al-ico-add` for create/add, `al-ico-publish`, `al-ico-undo`, `al-ico-success` for save); the label is a verb plus the thing in sentence case (`New task`, `Add credential`). Do not put a text label in the header. Buttons inside the content (empty states, toolbars) keep their text.
+
+**Tags** of the page (a report, for example) go in the `[status]` slot, so they follow the title; they are not buttons.
+
+Panels inside a page (the detail of a task or a model, a pipeline run) keep their own header with `sm-panel-header` (`webapp-common/shared/ui-components/layout/panel-header`); it is drawn in place and has the same slots.
 
 ```text
-Page
-├── Page header (height 56px, padding 0 24px, bottom 1px divider)
-│   ├── [back button]  Title (16px / 500)   [status badge]
-│   ├── description (optional, 12px, secondary) — below the title row, only when the purpose is not obvious
-│   └── actions (right): secondary buttons, then ONE primary button
-├── Tabs (optional): mat-tab-nav-bar, directly under the header
-├── Toolbar (optional): search, filters, view options; padding 12px 24px
-├── Content: scrolls; padding 24px
+Application header (64px, 3.1)
+├── Title block: name (16px / 500), below it where it is (12px)
+├── Tabs, centred
+└── Page buttons: symbol-only, the primary one filled and round
+
+Page (scroll container(s); height = 100% - 64px)
+├── Toolbar (optional, 56px / 48px): search, filters, view options; sticky at the top of the scroll container
+├── Content: padding 24px
 │   ├── Section (title 14px/500, gap 16px to its content)
 │   └── Section (32px between sections)
 └── Footer actions (forms only, see configuration-pages)
 ```
 
-Header height 56px. The 64px `.page-header` class is **retired** (removed): it duplicated the 64px application header directly above it. The projects list header was 80px and is now 56px, with its toolbar (48px) below. The `.sm-entity-page-header` toolbar class is removed; toolbars use their own 48px rows.
+Sticky rows inside a page stick at `top: 0` of their scroll container: the header is outside it. Fixed heights count from the window minus 64px (`--header-height`), not minus 120px.
 
 ## 3.3 Page templates
 

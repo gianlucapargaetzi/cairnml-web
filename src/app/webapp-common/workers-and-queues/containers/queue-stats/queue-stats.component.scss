@@ -34,7 +34,9 @@
         display: flex;
         align-items: center;
         margin-right: 16px;
-        font-size: 15px;
+        // card title of the design system: 14px, weight 500
+        font-size: 14px;
+        font-weight: 500;
         white-space: nowrap;
         overflow: hidden;
         color: var(--color-on-secondary-container);

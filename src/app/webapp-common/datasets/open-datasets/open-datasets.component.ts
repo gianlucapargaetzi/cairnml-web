@@ -9,7 +9,6 @@ import {
 import {showExampleDatasets} from '../../projects/common-projects.actions';
 import {selectShowDatasetExamples} from '../../projects/common-projects.reducer';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
-import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
 import {withLatestFrom} from 'rxjs/operators';
 import {selectDefaultNestedModeForFeature} from '@common/core/reducers/projects.reducer';
 import {DotsLoadMoreComponent} from '@common/shared/ui-components/indicators/dots-load-more/dots-load-more.component';
@@ -18,11 +17,8 @@ import {ButtonToggleComponent} from '@common/shared/ui-components/inputs/button-
 import {ProjectsHeaderComponent} from '@common/projects/dumb/projects-header/projects-header.component';
 import {MatIconModule} from '@angular/material/icon';
 import {FormsModule} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
 import {PushPipe} from '@ngrx/component';
-import {DatasetModelPanelComponent} from '@common/datasets/dataset-model-panel/dataset-model-panel.component';
 import {DatasetBrowserComponent} from '@common/datasets/dataset-browser/dataset-browser.component';
-import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/dataset-empty-guide.component';
 
 @Component({
@@ -30,22 +26,21 @@ import {DatasetEmptyGuideComponent} from '@common/datasets/dataset-empty-guide/d
   templateUrl: './open-datasets.component.html',
   styleUrls: ['./open-datasets.component.scss'],
   imports: [
-    PageHeaderComponent,
     DotsLoadMoreComponent,
     OpenDatasetCardComponent,
     ButtonToggleComponent,
     ProjectsHeaderComponent,
     MatIconModule,
     FormsModule,
-    MatButton,
     PushPipe,
-    DatasetModelPanelComponent,
     DatasetBrowserComponent,
     DatasetEmptyGuideComponent
   ]
 })
 export class OpenDatasetsComponent extends PipelinesPageComponent implements OnInit {
   gitDatasetCount = signal(0);
+  /** The dataset list has loaded: before that the page shows neither its list nor its empty state. */
+  datasetsLoaded = signal(false);
 
   public override projectCardClicked(project: ProjectsGetAllResponseSingle) {
     this.router.navigate(['simple', project.id, 'tasks'], {relativeTo: this.projectId? this.route.parent.parent: this.route});
@@ -62,12 +57,6 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
 
   override noProjectsReRoute() {
     return this.router.navigate(['..', 'datasets'], {relativeTo: this.route});
-  }
-
-  createDataset() {
-    this.dialog.open(DatasetHowToComponent, {
-      panelClass: 'dialog-xxl'
-    });
   }
 
   public override createExamples() {
@@ -95,7 +84,8 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            name: 'Datasets',
+            // the page header already says 'Datasets & Repositories': a crumb with the same text is not shown twice
+            name: this.projectId ? 'Datasets' : 'Datasets & Repositories',
             url: defaultNestedModeForFeature['datasets'] ? 'datasets/simple/*/projects' : 'datasets'
           },
           projectsOptions: {

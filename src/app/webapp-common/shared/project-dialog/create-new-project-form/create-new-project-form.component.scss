@@ -3,6 +3,7 @@
     padding: 32px 12px 0;
     display: flex;
     justify-content: center;
+    gap: 16px; // Cancel, then the action
   }
   mat-form-field {
     width: 100%;

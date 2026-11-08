@@ -33,7 +33,7 @@ import {PushPipe} from '@ngrx/component';
 import {MatIconModule} from '@angular/material/icon';
 import {ModelMenuExtendedComponent} from '~/features/models/containers/model-menu-extended/model-menu-extended.component';
 import { getCompanyTags } from '@common/core/actions/projects.actions';
-import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
+import {PanelHeaderComponent} from '@common/shared/ui-components/layout/panel-header/panel-header.component';
 
 @Component({
   selector: 'sm-model-info-header',
@@ -41,7 +41,7 @@ import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-head
   styleUrls: ['./model-info-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    PageHeaderComponent,
+    PanelHeaderComponent,
     TagsMenuComponent,
     ModelMenuExtendedComponent,
     TagListComponent,

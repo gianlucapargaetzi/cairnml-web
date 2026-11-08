@@ -2,7 +2,7 @@
 @if (getTableModeFromURL() !== 'compare') {
   <sm-page-header title="Pipeline runs">
     <div actions class="d-flex">
-      <ng-container *ngTemplateOutlet="addButton; context: {smallScreen: false}"></ng-container>
+      <ng-container *ngTemplateOutlet="addButton; context: {smallScreen: false, inHeader: true}"></ng-container>
     </div>
   </sm-page-header>
 }
@@ -37,11 +37,14 @@
   (compareViewChanged)="compareViewChanged($event)"
 >
 </sm-experiment-header>
-<ng-template #addButton let-isSmallScreen="smallScreen">
-  <span class="d-flex  sp-me-3">
+<ng-template #addButton let-isSmallScreen="smallScreen" let-inHeader="inHeader">
+  <span class="d-flex" [class.sp-me-3]="!inHeader" [class.gap-3]="inHeader">
     <button
       mat-flat-button
       class="new-run tertiary-button"
+      [class.header-action]="inHeader"
+      [attr.data-tip]="inHeader ? 'New run' : null"
+      [attr.aria-label]="inHeader ? 'New run' : null"
       [disabled]="inArchivedMode() || exampleProject()"
       (click)="newRun()"
       >
@@ -51,6 +54,8 @@
     <button aria-label="New run"
       mat-flat-button
       class="new-run tertiary-button arrow icon-only"
+      [class.header-action]="inHeader"
+      [attr.data-tip]="inHeader ? 'Run in a new pipeline' : null"
       [disabled]="inArchivedMode() || exampleProject()"
       [matMenuTriggerFor]="addMenu"
       #addMenuTrigger="matMenuTrigger"

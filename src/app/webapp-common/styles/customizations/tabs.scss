@@ -12,6 +12,8 @@
     inactive-focus-label-text-color: var(--color-primary),
     inactive-hover-label-text-color: var(--color-primary),
     inactive-label-text-color: var(--color-on-surface-variant),
+    // the body size of the design system (14px); Material's default is 12.25px, which is not on the type scale
+    label-text-size: 14px,
   ));
 }
 

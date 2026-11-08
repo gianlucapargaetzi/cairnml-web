@@ -17,7 +17,7 @@
   (moveToArchive)="moveToArchive($event)"
 >
   <sm-page-header page-header title="Reports">
-    <button actions mat-flat-button data-id="createNewReport"
+    <button actions mat-flat-button class="header-action" data-tip="New report" aria-label="New report" data-id="createNewReport"
             [disabled]="archive$ | ngrxPush"
             (click)="openCreateReportDialog(projectId)">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>

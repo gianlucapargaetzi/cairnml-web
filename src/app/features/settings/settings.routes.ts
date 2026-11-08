@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {settingsProviders} from '~/features/settings/settings.providers';
 import {adminGuard} from '@common/shared/guards/admin.guard';
 
@@ -23,28 +23,19 @@ export const routes: Routes = [
       {path: 'profile',
         loadComponent: () => import('./containers/admin/profile-name/profile-name.component').then(m => m.ProfileNameComponent),
         data: {
-        staticBreadcrumb:[[settingsBreadcrumb, {
-            name: 'Profile',
-            type: CrumbTypeEnum.SubFeature
-          }]]},
+        staticBreadcrumb: [[settingsBreadcrumb]]},
       },
       {
         path: 'webapp-configuration',
         loadComponent: () => import('~/features/settings/containers/webapp-configuration/webapp-configuration.component').then(m => m.WebappConfigurationComponent),
-        data: {workspaceNeutral: true, staticBreadcrumb:[[settingsBreadcrumb, {
-            name: 'Configuration',
-            type: CrumbTypeEnum.SubFeature
-          }]]},
+        data: {workspaceNeutral: true, staticBreadcrumb: [[settingsBreadcrumb]]},
       },
       {
         path: 'devices',
         loadComponent: () => import('~/features/settings/containers/devices/devices.component').then(m => m.DevicesComponent),
         data: {
           workspaceNeutral: true,
-          staticBreadcrumb: [[settingsBreadcrumb, {
-            name: 'Devices',
-            type: CrumbTypeEnum.SubFeature
-          }]]
+          staticBreadcrumb: [[settingsBreadcrumb]]
         }
       },
       {
@@ -52,10 +43,7 @@ export const routes: Routes = [
         loadComponent: () => import('~/features/settings/containers/access/access.component').then(m => m.AccessComponent),
         data: {
           workspaceNeutral: true,
-          staticBreadcrumb: [[settingsBreadcrumb, {
-            name: 'Access',
-            type: CrumbTypeEnum.SubFeature
-          }]]
+          staticBreadcrumb: [[settingsBreadcrumb]]
         }
       },
       {
@@ -65,10 +53,7 @@ export const routes: Routes = [
         data: {
           workspaceNeutral: true,
           route: '/settings/storage-credentials',
-          staticBreadcrumb: [[settingsBreadcrumb, {
-            name: 'Storage Cleanup',
-            type: CrumbTypeEnum.SubFeature
-          }]]
+          staticBreadcrumb: [[settingsBreadcrumb]]
         }
       }
     ]

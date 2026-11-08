@@ -1,11 +1,32 @@
 <sm-page-header [title]="report()?.name ?? ''">
+  <!-- one root element per block: only then does the block project into its slot -->
   @if ((editMode$ | ngrxPush) !== true) {
-    <div actions class="actions">
+    <div status class="tags">
       <sm-tag-list
         [tags]="report()?.tags"
         (add)="openTagMenu($event, tagsMenuTrigger, tagsMenu)"
         (remove)="removeTag($event)"
       ></sm-tag-list>
+      <span
+        #tagsMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="tagsMenu.matMenu()"
+        (menuClosed)="tagsMenu.clear()"
+        class="trigger"
+        [style.left.px]="menuPosition.x"
+        [style.top.px]="menuPosition.y"
+      ></span>
+      <sm-tags-menu
+        #tagsMenu
+        [tags]="report()?.tags"
+        [projectTags]="reportTags$ | ngrxPush"
+        [companyTags]="null"
+        [filterByProject]="true"
+        (tagSelected)="addTag($event)"
+      ></sm-tags-menu>
+    </div>
+  }
+  @if ((editMode$ | ngrxPush) !== true) {
+    <div actions class="actions">
       <div class="g-btns">
         <button aria-label="Copy report markdown" mat-icon-button smTooltip="Copy report markdown to clipboard" data-id="copyReportMarkdownButton" (click)="copyMarkdown()">
           <mat-icon fontSet="al" fontIcon="al-ico-copy-to-clipboard"></mat-icon>
@@ -30,7 +51,7 @@
           </button>
         }
         @if (draft()) {
-          <button mat-flat-button
+          <button mat-flat-button class="header-action" data-tip="Publish" aria-label="Publish"
             data-id="publishReportButton"
             [disabled]="!this.report()?.report?.trim()"
             [smTooltip]="!this.report()?.report?.trim() ? 'Can\'t publish an empty report' : ''"
@@ -41,22 +62,6 @@
           </button>
           }
         </div>
-        <span
-          #tagsMenuTrigger="matMenuTrigger"
-          [matMenuTriggerFor]="tagsMenu.matMenu()"
-          (menuClosed)="tagsMenu.clear()"
-          class="trigger"
-          [style.left.px]="menuPosition.x"
-          [style.top.px]="menuPosition.y"
-        ></span>
-        <sm-tags-menu
-          #tagsMenu
-          [tags]="report()?.tags"
-          [projectTags]="reportTags$ | ngrxPush"
-          [companyTags]="null"
-          [filterByProject]="true"
-          (tagSelected)="addTag($event)"
-        ></sm-tags-menu>
       </div>
     }
 </sm-page-header>

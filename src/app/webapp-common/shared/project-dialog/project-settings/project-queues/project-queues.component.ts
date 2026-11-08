@@ -14,9 +14,18 @@ import {
   AddProjectQueuesDialogData,
   AddProjectQueuesResult
 } from './add-project-queues-dialog/add-project-queues-dialog.component';
+import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
+import {ProjectShareService} from '../project-share.service';
+
+// A queue of the project with the level of its share (read, read_write or collaborator) from the share record.
+interface ProjectQueueRow extends ProjectsQueueSummary {
+  level?: 'read' | 'read_write' | 'collaborator';
+  share_id?: string;
+}
 
 /**
- * The queues allocated to a project. Only the owner allocates and removes them; members see the list.
+ * The queues allocated to a project. Only the owner allocates them. The owner, collaborators and admins revoke a queue
+ * share through access.unshare, using the share id of the row; members see the list.
  */
 @Component({
   selector: 'sm-project-queues',
@@ -27,12 +36,13 @@ import {
 })
 export class ProjectQueuesComponent implements OnInit {
   private projectsApi = inject(ApiProjectsService);
+  private shares = inject(ProjectShareService);
   private dialog = inject(MatDialog);
   protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
 
-  protected queues = signal<ProjectsQueueSummary[]>([]);
+  protected queues = signal<ProjectQueueRow[]>([]);
   protected error = signal<string>(null);
   protected busy = signal(false);
 
@@ -43,10 +53,19 @@ export class ProjectQueuesComponent implements OnInit {
   protected async load() {
     try {
       const res = await lastValueFrom(this.projectsApi.projectsGetQueues({project: this.projectId()}));
-      this.queues.set(res.queues ?? []);
+      this.queues.set((res.queues ?? []) as ProjectQueueRow[]);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The queues of the project could not be loaded.');
     }
+  }
+
+  protected levelLabel(queue: ProjectQueueRow): string {
+    return queue.level ? (SHARE_LEVEL_LABELS[queue.level] ?? queue.level) : '';
+  }
+
+  // The project's stewards (owner, collaborators, admins) may revoke a queue share; the row must carry its share id.
+  protected canRevoke(queue: ProjectQueueRow): boolean {
+    return !!queue.share_id && this.settingsStore.canManageMembers();
   }
 
   protected async addQueues() {
@@ -64,12 +83,15 @@ export class ProjectQueuesComponent implements OnInit {
     });
   }
 
-  protected removeQueue(row: ProjectsQueueSummary) {
+  protected removeQueue(row: ProjectQueueRow) {
+    if (!row.share_id) {
+      return;
+    }
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
         title: `Remove ${row.name}?`,
-        body: 'The project loses this queue. Jobs of the project can no longer run on it, unless another queue is allocated.',
+        body: 'The project loses this queue. Agents of the project can no longer run on it, unless another queue is allocated.',
         yes: 'Remove',
         no: 'Cancel',
         iconClass: 'al-ico-dialog-x',
@@ -78,7 +100,7 @@ export class ProjectQueuesComponent implements OnInit {
       panelClass: 'dialog-sm',
     }).afterClosed().subscribe(async confirmed => {
       if (confirmed) {
-        await this.run(() => lastValueFrom(this.projectsApi.projectsRemoveQueue({project: this.projectId(), queue: row.id})));
+        await this.run(() => lastValueFrom(this.shares.unshare(row.share_id)));
       }
     });
   }

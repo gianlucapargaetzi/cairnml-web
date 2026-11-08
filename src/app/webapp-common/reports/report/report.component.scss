@@ -1,21 +1,7 @@
 
 :host {
   display: grid !important;
-  grid-template-rows: 56px calc(100% - 56px);
-
-  .actions {
-    display: flex;
-    align-items: center;
-    .g-btns {
-      display: inherit;
-      margin-left: 12px;
-      gap: 12px;
-    }
-
-    sm-tag-list {
-      max-width: 400px;
-    }
-  }
+  grid-template-rows: minmax(0, 1fr); // the report fills the page: its header is the header of the application
 
   .trigger {
     position: absolute;
@@ -163,4 +149,27 @@
 
 @media print {
 
+}
+
+// The buttons of the report sit in the header of the application, so these styles do not depend on the host of this page.
+.actions {
+  display: flex;
+  align-items: center;
+
+  .g-btns {
+    display: inherit;
+    margin-left: 12px;
+    gap: 12px;
+  }
+}
+
+// the tags of the report follow the title in the header
+.tags {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+
+  sm-tag-list {
+    max-width: 400px;
+  }
 }

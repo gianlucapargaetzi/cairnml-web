@@ -17,6 +17,7 @@ import {
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {OutputDestPattern} from '@common/shared/project-dialog/project-dialog.component';
 import {MatButton} from '@angular/material/button';
+import {MatDialogClose} from '@angular/material/dialog';
 import {MatError} from '@angular/material/form-field';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 
@@ -40,6 +41,7 @@ export interface NewProjectResults {
     PaginatedEntitySelectorComponent,
     ReactiveFormsModule,
     MatButton,
+    MatDialogClose,
     MatError
   ]
 })

@@ -22,7 +22,8 @@ export class GithubAppStatusService {
 
   announce(): void {
     this.status().subscribe(status => {
-      if (!status || status.state === 'unknown') {
+      // No GitHub App on the server is not an error: the server works without one, and public datasets still load.
+      if (!status || status.state === 'unknown' || status.state === 'not_configured') {
         return;
       }
       const severity = status.state === 'ok' ? MESSAGES_SEVERITY.SUCCESS : MESSAGES_SEVERITY.ERROR;

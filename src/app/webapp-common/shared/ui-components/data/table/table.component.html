@@ -3,6 +3,7 @@
     class="table"
     [class.has-header]="!noHeader()" dataKey="id"
     [class.card-view]="minimizedView()"
+    [class.no-rows]="!currRowsNumber()"
     [style.--table-row-height]="rowHeight() + 'px'"
     [style.--card-height]="(cardsCollapsed() ? 48 : cardHeight()) + 'px'"
     [filterDelay]="0"
@@ -37,7 +38,7 @@
     (onColResize)="colResize($event)">
     <ng-template #emptymessage>
       <tr class="no-data-row" [style.height.px]="rowHeight()" [style.line-height.px]="30">
-        <div [class.simple]="simple()" class="no-data-wrapper" [style.top.px]="this.scrollable && noDataTop">
+        <div [class.simple]="simple()" class="no-data-wrapper" [style.top.px]="emptyIcon() ? 32 : this.scrollable && noDataTop">
           @if (errorMessage()) {
             <div class="table-error" role="alert" data-id="tableError">
               <span>{{ errorMessage() }}</span>
@@ -46,7 +47,13 @@
           } @else if (tableSate().loading()) {
             <mat-progress-spinner aria-label="Loading" class="table-loading" mode="indeterminate" [diameter]="24" [strokeWidth]="2" data-id="tableLoading"></mat-progress-spinner>
           } @else if (!noDataTemplate()) {
-            <span class="no-data">{{ emptyMessage() }}</span>
+            <span class="no-data">
+              @if (emptyIcon()) {
+                <sm-empty-state [icon]="emptyIcon()" [title]="emptyMessage()" [description]="emptyDescription()"></sm-empty-state>
+              } @else {
+                {{ emptyMessage() }}
+              }
+            </span>
           }
         </div>
         @if (!tableSate().loading() && noDataTemplate()) {

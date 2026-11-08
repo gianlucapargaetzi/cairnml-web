@@ -5,7 +5,7 @@ import {Project} from '~/business-logic/model/projects/project';
 import {User} from '~/business-logic/model/users/user';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
-import {IBreadcrumbsLink, IBreadcrumbsOptions} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {IBreadcrumbsLink, IBreadcrumbsOptions} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {uniqBy} from 'lodash-es';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {isReadOnly} from '@common/shared/utils/is-read-only';

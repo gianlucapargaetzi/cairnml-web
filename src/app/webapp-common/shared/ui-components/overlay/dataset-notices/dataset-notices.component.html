@@ -1,0 +1,13 @@
+@if (notices().length) {
+  <div class="dataset-notices" data-id="datasetNotices">
+    @for (notice of notices(); track notice.id) {
+      <sm-inline-alert severity="info" data-id="datasetNotice">
+        Dataset {{ notice.dataset }} was published to project {{ notice.project }} by your task.
+        <button action mat-icon-button aria-label="Dismiss notice" [disabled]="dismissing() === notice.id"
+          (click)="dismiss(notice)" data-id="dismissDatasetNotice">
+          <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+        </button>
+      </sm-inline-alert>
+    }
+  </div>
+}

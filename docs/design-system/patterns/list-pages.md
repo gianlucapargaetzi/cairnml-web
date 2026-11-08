@@ -5,9 +5,8 @@ Used for tasks, models, datasets, pipelines, queues, agents, endpoints.
 ## Structure
 
 ```text
-Page header (56px)
-  Title (16px/500) + count badge                      [Secondary action]  [Primary: Create …]
-  Description (optional, 12px)
+Application header (64px; outside the page, see layout 3.1)
+  Title block: name (16px/500) over where it is (12px)   [tabs, centred]   [⊕ symbol-only primary, tooltip "Create …"]  [secondary symbols]
 Toolbar (48px, padding 0 24px, gap 8px)
   [Search 280px]  [Filter ▾] [Filter ▾]  [chips of active filters]   ····  [Columns ▾] [Refresh]
 Bulk bar (replaces toolbar content while rows are selected): "3 selected"  [Archive] [Delete]  [Clear selection]

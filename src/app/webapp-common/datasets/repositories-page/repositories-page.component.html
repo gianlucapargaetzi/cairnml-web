@@ -1,0 +1,42 @@
+@if (rows().length) {
+  <div class="table-body">
+  <sm-table
+    class="align-self-stretch"
+    selectionMode="single"
+    [columns]="columns"
+    [tableData]="rows()"
+    [scrollable]="true"
+    [resizableColumns]="true"
+  >
+    <ng-template let-col let-line="rowData" pTemplate="body">
+      <div>
+        @switch (col.id) {
+          @case ('ref') {
+            <div class="name-cell">
+              <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.ref">{{ line.ref }}</span>
+            </div>
+          }
+          @case ('actions') {
+            <div class="row-actions">
+              @if (canChange(line.repo)) {
+                <button mat-icon-button type="button" data-id="changeRepositoryApp"
+                  [attr.aria-label]="'Change the GitHub App of ' + line.ref"
+                  [smTooltip]="line.repo.credential ? 'Change the GitHub App' : 'Attach a GitHub App'"
+                  (click)="changeCredential(line.repo); $event.stopPropagation()">
+                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                </button>
+              }
+            </div>
+          }
+          @default {
+            <div class="ellipsis">{{ line[col.id] }}</div>
+          }
+        }
+      </div>
+    </ng-template>
+  </sm-table>
+  </div>
+} @else if (!repositories.isLoading()) {
+  <sm-empty-state icon="al-ico-datasets" title="No repositories yet"
+    description="Add a repository with Add repository, or it is listed here once a run first uses it."></sm-empty-state>
+}

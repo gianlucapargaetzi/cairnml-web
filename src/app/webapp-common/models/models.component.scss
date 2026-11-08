@@ -3,7 +3,7 @@
 :host {
   .models-body {
     width: 100%;
-    height: calc(100% - #{layout.$project-header-height} - 48px);
+    height: calc(100% - 48px); // the 48px toolbar; the page header is the header of the application
     transition: height 0.3s;
   }
 

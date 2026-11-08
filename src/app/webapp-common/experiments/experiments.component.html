@@ -2,7 +2,7 @@
 @if (getTableModeFromURL() !== 'compare') {
   <sm-page-header title="Tasks">
     <div actions class="d-flex">
-      <ng-container *ngTemplateOutlet="addButton; context: {smallScreen: false}"></ng-container>
+      <ng-container *ngTemplateOutlet="addButton; context: {smallScreen: false, inHeader: true}"></ng-container>
     </div>
   </sm-page-header>
 }
@@ -37,11 +37,14 @@
   (toggleShowCompareSettings)="showCompareSettingsChanged()"
   (compareViewChanged)="compareViewChanged($event)"
 ></sm-experiment-header>
-<ng-template #addButton let-isSmallScreen="smallScreen">
+<ng-template #addButton let-isSmallScreen="smallScreen" let-inHeader="inHeader">
   @if (selectedProjectId !== '*') {
     <button
       mat-flat-button
-      class="sp-me-3"
+      [class.sp-me-3]="!inHeader"
+      [class.header-action]="inHeader"
+      [attr.data-tip]="inHeader ? 'New task' : null"
+      [attr.aria-label]="inHeader ? 'New task' : null"
       [disabled]="inArchivedMode() || exampleProject()"
       [class.icon-only]="isSmallScreen"
       data-id="New Experiment"

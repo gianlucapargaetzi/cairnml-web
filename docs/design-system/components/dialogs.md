@@ -67,3 +67,7 @@ Code shown to the user is a read-only `sm-code-editor` with the copy button (`[s
 
 A markdown text that the app shows (a dataset description, DATASET.md) is rendered read-only with the page's own type and colours, never inside a white preview box: text colour `--color-on-surface`, headings at the section scale (16px and 14px, weight 500), inline code and links from the tokens. Fenced code blocks inside it are rendered as the code cells above, so the same command looks the same wherever it appears. The HTML is sanitized before it is shown.
 
+
+## Pick one stored item (set a dataset's credential)
+
+The credential dialog (`webapp-common/datasets/dataset-credential-dialog`) picks one of the user's stored items: a `dialog-md` with `sm-dialog-template`, one `mat-select` (outlined, with a `mat-hint`), an inline error line, and Cancel (secondary) with the primary action after it, centred. It is the reference for a small "choose one and save" dialog. Its form styles (`.meta`, `.form`, `.error`, `.actions`) and the option detail line (`.option-meta`) are shared in `styles/mixins/dialog-form.scss`, used by the share dialog, the credential dialog and the Add dataset form. Include the mixin; do not copy its classes.

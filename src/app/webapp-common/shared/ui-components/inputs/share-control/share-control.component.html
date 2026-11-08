@@ -1,0 +1,78 @@
+@if (!hidden()) {
+  <div class="share-control" data-id="shareControl">
+    <h3 class="section-title">Sharing</h3>
+    <p class="share-note">
+      Choose who can use this. Projects share it with their members; Public lets every company user read it. Stop a share
+      at any time.
+    </p>
+
+    @if (error()) {
+      <sm-inline-alert severity="error">{{ error() }}</sm-inline-alert>
+    }
+
+    <mat-radio-group aria-label="Who can use it" class="scope-group" [value]="scope()" (change)="setScope($event)" data-id="shareScopeGroup">
+      @for (choice of scopeChoices; track choice) {
+        <mat-radio-button [value]="choice" [disabled]="busy()" [attr.data-id]="'shareScope-' + choice">{{ scopeLabels[choice] }}</mat-radio-button>
+      }
+    </mat-radio-group>
+
+    @if (scope() === 'projects') {
+      <mat-radio-group aria-label="Level" class="level-group" [value]="level()" (change)="setLevel($event)" data-id="shareLevelGroup">
+        @for (option of levels(); track option) {
+          <mat-radio-button [value]="option" [disabled]="busy()">{{ levelLabels[option] }}</mat-radio-button>
+        }
+      </mat-radio-group>
+
+      @if (availableProjects().length) {
+        <div class="project-list">
+          @for (project of availableProjects(); track project.id) {
+            <mat-checkbox [checked]="selectedProjects().includes(project.id)" [disabled]="busy()"
+                          (change)="toggleProject(project.id, $event.checked)" [attr.data-id]="'shareProject-' + project.id">
+              {{ project.name }}
+            </mat-checkbox>
+          }
+        </div>
+      } @else {
+        <p class="share-note">Every project you belong to already has it, or you belong to none.</p>
+      }
+    } @else if (scope() === 'public') {
+      <p class="share-note">Every company user can read it. Public sharing is read only.</p>
+    } @else {
+      <p class="share-note">Only you and company admins can use it. Stop the shares below to keep it that way.</p>
+    }
+
+    @if (scope() !== 'only_me') {
+      <div class="actions">
+        <button mat-flat-button type="button" [disabled]="!canShare()" (click)="share()" data-id="shareButton">Share</button>
+      </div>
+    }
+
+    @if (loading()) {
+      <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
+    } @else if (rows().length) {
+      <sm-table data-id="shareTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
+        <ng-template let-col let-line="rowData" pTemplate="body">
+          <div>
+            @switch (col.id) {
+              @case ('with') {
+                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.with">{{ line.with }}</span>
+              }
+              @case ('actions') {
+                <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing with ' + line.with"
+                        smTooltip="Stop sharing" (click)="stop(line)" data-id="stopShareButton">
+                  <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                </button>
+              }
+              @default {
+                <div class="ellipsis">{{ line[col.id] }}</div>
+              }
+            }
+          </div>
+        </ng-template>
+      </sm-table>
+    } @else if (!loading()) {
+      <sm-empty-state icon="al-ico-lock" title="Only you can use it"
+        description="Nothing is shared yet."></sm-empty-state>
+    }
+  </div>
+}

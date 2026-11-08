@@ -10,13 +10,12 @@
     }
   }
 
-  // the empty state sits just below the model panel, centred across the page
+  // the empty state starts at the same y as the empty state of the Repositories tab (directly under the page header)
   .empty-container {
     grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: var(--space-5);
     min-height: 0;
   }
 
@@ -25,17 +24,27 @@
   overflow-y: scroll;
   overflow-x: hidden;
 
+  // the toolbar row of every list page: 56px, directly under the page header (56px), content at the 24px gutter
   sm-projects-header {
-    height: variables.$nav-bar-height;
+    display: block;
+    height: 56px;
     grid-column: 1 / -1;
     position: sticky;
-    top: 56px; // below the sticky page header (sm-page-header)
+    top: 0; // the page header is outside this scroll container
     z-index: 10;
     background-color: var(--color-surface);
-    margin-bottom: -12px;
+    margin: 0 -24px;
+    padding: 0 24px;
   }
   sm-empty-state {
     grid-column: 1 / -1;
+  }
+
+  // the table of datasets is full-bleed (0px gutter), as the tables of the other list pages: it cancels the 24px padding
+  // of the card grid
+  sm-dataset-browser {
+    margin: 0 -24px;
+    width: auto;
   }
 }
 

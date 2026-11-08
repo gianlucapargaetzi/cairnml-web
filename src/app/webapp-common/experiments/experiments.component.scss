@@ -6,9 +6,9 @@
     height: calc(100% - #{layout.$project-header-height});
     transition: height 0.3s;
 
-    // With the shared page header (56px) above the 48px toolbar.
+    // The page header is the header of the application, so only the 48px toolbar is above the body.
     &.with-page-header {
-      height: calc(100% - #{layout.$project-header-height} - 48px);
+      height: calc(100% - 48px);
     }
   }
 

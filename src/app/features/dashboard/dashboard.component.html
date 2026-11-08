@@ -4,7 +4,6 @@
     <sm-dashboard-projects (width)="width.set($event)"></sm-dashboard-projects>
     <sm-dashboard-reports></sm-dashboard-reports>
     <sm-dashboard-experiments
-      [style.width]="width() && width() > 900 ? width() + 'px' : '100%'"
       [recentTasks]="recentTasks()"
     >
       <div header-buttons>

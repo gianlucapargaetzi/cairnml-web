@@ -5,6 +5,12 @@ import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.s
 import {HTTP} from '~/app.constants';
 import {RegistryEntry, RegistryRecord} from './dataset-git.model';
 
+export interface RegistryRefreshCounts {
+  added: number;
+  updated: number;
+  removed: number;
+}
+
 @Injectable({providedIn: 'root'})
 export class DatasetRegistryService {
   private api = inject(SmApiRequestsService);
@@ -15,17 +21,18 @@ export class DatasetRegistryService {
       .pipe(map(response => response?.datasets ?? []));
   }
 
-  // The registries the server reads, for everyone. Only an admin can add or remove one.
+  // The registries the server reads, for everyone. A registry is removed as its dataset (DatasetAccessService.remove).
   registries(): Observable<RegistryRecord[]> {
     return this.api.post<{ registries?: RegistryRecord[] }>(`${HTTP.API_BASE_URL}/dataset_registry.get_registries`, {}, {})
       .pipe(map(response => response?.registries ?? []));
   }
 
-  add(repository: string): Observable<unknown> {
-    return this.api.post(`${HTTP.API_BASE_URL}/dataset_registry.add`, {repository}, {});
+  // Re-reads the registry from GitHub, by the id of its dataset. Resolves with the counts of the entries changed.
+  refresh(id: string): Observable<RegistryRefreshCounts> {
+    return this.api.post<RegistryRefreshCounts>(`${HTTP.API_BASE_URL}/dataset_registry.refresh`, {id}, {});
   }
 
-  remove(repository: string): Observable<unknown> {
-    return this.api.post(`${HTTP.API_BASE_URL}/dataset_registry.remove`, {repository}, {});
+  add(repository: string): Observable<unknown> {
+    return this.api.post(`${HTTP.API_BASE_URL}/dataset_registry.add`, {repository}, {});
   }
 }

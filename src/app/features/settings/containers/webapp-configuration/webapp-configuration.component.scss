@@ -7,7 +7,7 @@
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     box-sizing: border-box;
-    height: calc(100% - 56px);
+    height: 100%;
     padding: 24px 0 0 24px;
   }
 }

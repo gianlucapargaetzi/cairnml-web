@@ -5,8 +5,8 @@ Each example uses functionality that exists in the app (names from routes and co
 ## Example A: Standard list page: Tasks in a project
 
 ```text
-┌ App header (64): Workspace › Project ›                                   [⌕] [↻] [?] (avatar) ┐
-├ Page header (56)  Tasks  [128]                              [Compare]  [Archive]  ┤
+┌ Header (64): Project name over "Projects / Task list"      [tabs, centred]      [↻] [⊕] ┐
+│ (search, help and account are at the bottom of the side navigation)                  │
 │ Toolbar (48)  [⌕ Search tasks…   ]  [Status ▾] [Tags ▾] [User ▾]   ·····  [Columns ▾] │
 ├──────────────────────────────────────────────────────────────────────────────────────┤
 │ ☐  Name              Status        Updated       Type      Queue     ⋮                  │ header 40
@@ -24,8 +24,8 @@ Error:    "Could not load tasks. Check your connection." [Retry]
 ## Example B: Detail page: Task
 
 ```text
-Breadcrumbs: Workspace › Project › train-v3
-┌ Page header (56)  train-v3 ✎   ● Running · 12 min         [Clone]  [Abort]  [⋮] ┐
+Header (64): line 1 train-v3, line 2 Projects / Project / Task list
+┌ Panel header (56)  train-v3 ✎   ● Running · 12 min         [Clone]  [Abort]  [⋮] ┐
 │ id 4f2a… ⧉ · created by anna · 3 h ago · queue default · agent gpu-01             │
 ├ Tabs:  General · Execution · Artifacts · Hyper-parameters · Scalars · Plots · Debug samples · Console ┤
 │ Content (24 padding)                                                                │
@@ -38,7 +38,7 @@ Breadcrumbs: Workspace › Project › train-v3
 ## Example C: Configuration form: Storage credentials
 
 ```text
-┌ Page header (56)  [←]  Google storage credentials              [Reset changes]  [Save] ┐
+┌ Header (64)  [←]  Google storage credentials / Settings       [↶ Reset changes]  [✓ Save] ┐
 │ Content (max 720, left)                                                               │
 │   Credentials                          14/500                                          │
 │   Service account JSON used to delete artifacts…   12 secondary                        │

@@ -1,16 +1,12 @@
 <sm-dialog-template header="Add credential" iconClass="al-ico-lock">
   <p class="intro">
-    @if (isApp) {
-      The App's private key (a .pem file) is checked with GitHub and stored encrypted. It is never shown again.
-    } @else {
-      The token is stored encrypted and is never shown again. Use a read-only token where you can.
-    }
+    The App's private key (a .pem file) is checked with GitHub and stored encrypted. It is never shown again. GitHub is
+    reached through a GitHub App only: install the App on each private repository it should read.
   </p>
   <form [formGroup]="form" (ngSubmit)="save()" class="form" autocomplete="off">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Type</mat-label>
       <mat-select formControlName="kind" data-id="credentialKind">
-        <mat-option value="token">Token</mat-option>
         <mat-option value="app">GitHub App</mat-option>
       </mat-select>
     </mat-form-field>
@@ -85,7 +81,7 @@
         @if (saving()) {
           <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
         }
-        Save
+        Add credential
       </button>
     </div>
   </form>

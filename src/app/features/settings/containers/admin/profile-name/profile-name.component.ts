@@ -1,3 +1,4 @@
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {selectCurrentUser} from '@common/core/reducers/users-reducer';
@@ -15,6 +16,7 @@ import {setAllProjectUsers} from '@common/core/actions/projects.actions';
   styleUrls: ['./profile-name.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    PageHeaderComponent,
     InlineEditComponent,
     IdBadgeComponent
   ]

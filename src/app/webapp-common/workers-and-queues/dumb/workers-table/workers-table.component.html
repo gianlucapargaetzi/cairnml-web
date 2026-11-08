@@ -1,5 +1,8 @@
 <div #tableContainer class="worker-container">
   <sm-table #table
+    emptyIcon="al-ico-queues"
+    emptyMessage="No agents yet"
+    emptyDescription="An agent appears here once it serves a queue."
     [tableData]="workers()"
     [selection]="selectedWorker()"
     [reorderableColumns]="false"

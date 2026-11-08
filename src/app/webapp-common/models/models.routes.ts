@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {leavingBeforeSaveAlertGuard} from '../shared/guards/leaving-before-save-alert.guard';
-import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {selectIsModelInEditMode, selectLastVisitedModelsTab} from '@common/models/reducers';
 import {lastVisitedSettingTabGuard} from '@common/shared/guards/last-visted-set-tab.guard';
 import {setLastModelsTab} from '@common/models/actions/models-info.actions';

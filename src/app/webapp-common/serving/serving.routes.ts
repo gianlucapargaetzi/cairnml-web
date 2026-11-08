@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {servingProviders} from './serving.providers';
 
 export const routes: Routes = [
@@ -13,6 +13,7 @@ export const routes: Routes = [
     },
     providers: [servingProviders],
     children: [
+      {path: '', redirectTo: 'active', pathMatch: 'full'},
       {
         path: 'active',
         loadComponent: () => import('@common/serving/serving.component').then(c => c.ServingComponent),

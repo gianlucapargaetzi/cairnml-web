@@ -1,0 +1,16 @@
+<sm-dialog-template iconClass="al-ico-add" header="Add datasets">
+  <div class="content">
+    <mat-form-field floatLabel="always">
+      <mat-label>Datasets</mat-label>
+      <mat-select multiple [value]="ids()" (selectionChange)="ids.set($event.value)" data-id="projectDatasets">
+        @for (dataset of data.datasets; track dataset.id) {
+          <mat-option [value]="dataset.id">{{ dataset.name }}{{ dataset.visibility === 'Public' ? ' (public)' : '' }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="cancel()" data-id="cancelAddProjectDatasets">Cancel</button>
+    <button mat-flat-button [disabled]="!ids().length" (click)="apply()" data-id="confirmAddProjectDatasets">Add dataset</button>
+  </mat-dialog-actions>
+</sm-dialog-template>

@@ -5,7 +5,7 @@ import {selectBreadcrumbOptions, selectProjectAncestors} from '@common/core/redu
 import {debounceTime, distinctUntilChanged, filter, startWith} from 'rxjs/operators';
 import {setBreadcrumbs, setWorkspaceNeutral} from '@common/core/actions/router.actions';
 import {isExample} from '@common/shared/utils/shared-utils';
-import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum, IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {setBreadcrumbsOptions} from '@common/core/actions/projects.actions';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';

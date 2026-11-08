@@ -5,7 +5,7 @@ Used for settings, credentials and create/edit forms rendered as pages. Referenc
 ## Structure
 
 ```text
-Page header (56px)   [← back]  Title                      [Reset changes]  [Save]
+Application header (64px)   [← back]  Title / Settings > Page      [↶ Reset changes]  [✓ Save]   (symbol-only; the labels are tooltips)
 Content (padding 24px, max-width 720px, left aligned)
   Section title (14px/500)
   Description (12px, secondary, ≤ 2 lines)

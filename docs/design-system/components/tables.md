@@ -43,6 +43,15 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 - **Table card** (`sm-table-card`): the card template used by `sm-table` in its card view (`minimizedView`), not a separate table. It is one row of that table.
 - **Lists inside detail panels** (`sm-simple-table-2`, queue entries and worker queues): a short reorderable list with drag and drop. It uses the same row height, header colour and cell padding as `sm-table`.
 
+## Grouped rows (registry with its datasets)
+
+Used by the Datasets list (`dataset-browser`). A parent row groups child rows of the same kind: a registry is the parent, its datasets are the children. Rules:
+
+- The parent row shows the group's name, its owner and visibility, and the count of children in the Kind cell ("Registry, 3 datasets"). Its Modalities, Samples and Versions cells show "–".
+- The name cell of a parent has an icon button with `aria-expanded` and an `Expand`/`Collapse` label (`al-ico-caret-right` closed, `al-ico-arrow-down` open). Expanded by default. A click on the parent row toggles it; a click on a child selects it for the side panel.
+- Children are indented by `--space-5` inside the name cell and sorted by name. Rows without a parent stay flat.
+- Row actions on a parent or a dataset are icon buttons, shown at once (not on hover) so that keyboard users reach them: refresh (a spinner replaces the icon while it runs, success and failure are toasts) and remove (confirmed with `DatasetRemovalService`). Remove is shown to the owner and to admins only; refresh is hidden for a registry with no id.
+
 ## Do not
 
 - Do not use cards where records are compared on attributes.
@@ -52,3 +61,14 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 ## Task name cell (`sm-task-name`)
 
 Used by the experiments table and the dashboard's recent tasks table. A task in a table is shown as `name: id`: the name, a colon, then the task's id (the hash) in monospace. The name shrinks with an ellipsis when the cell is narrow, and the id stays visible. The full text is in a tooltip. Development tasks show the name in italics. Inputs: `name`, `taskId`, `italic`.
+
+## Project settings sections (queues, datasets, credentials)
+
+The project settings sections (`shared/project-dialog/project-settings/`) list what a project uses. Queues list the queues allocated to the project, with a **Level** column. The Datasets and Credentials sections list every dataset or credential the project can use (`projects.usable`): the public ones (**Scope** "Public", never removable here) and the ones shared with the project (**Scope** "Project", removable). Columns are Name, Scope, Level and Owner; a credential shows its host and path under its name. Level labels come from `SHARE_LEVEL_LABELS`.
+
+- The header has the section title on the left and a pill "Add dataset" / "Add credential" button (`mat-flat-button` with the plus icon) on the right. Only the owner and collaborators of the project see the section; members do not see it.
+- Adding opens a `dialog-sm` picker of the datasets or credentials the user may use and the project does not have yet. Choosing one stages it in the table.
+- A remove icon is shown only on a row whose `removable` flag is true. Removing asks for confirmation (`dialog-sm`, destructive) and stages the removal.
+- Staged changes are applied with the section's **Save** button, bottom-right, disabled until a change is staged. Save allocates datasets (`datasets.allocate`), shares credentials (`access.share`, level read) and removes shares (`access.unshare` with the row's `share_id`).
+- A dataset that a run made (inherited) shows "Inherited from an agent run" under its name. A credential that a dataset brought in is not removable and shows a lock icon with the hint "Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.".
+- Queues revoke through `access.unshare` with the share's id: the owner, collaborators and admins see the action on a row with a share id. Adding queues stays owner-only.

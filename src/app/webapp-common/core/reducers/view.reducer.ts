@@ -2,7 +2,7 @@ import {ActionCreator, createSelector, on, ReducerTypes} from '@ngrx/store';
 import * as layoutActions from '../actions/layout.actions';
 import {apiRequest} from '@common/core/actions/http.actions';
 import {Ace} from 'ace-builds';
-import {IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {IBreadcrumbsLink} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {
   headerActions,
   setBreadcrumbs,

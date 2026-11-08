@@ -12,7 +12,7 @@
   (projectSettingsClicked)="openProjectSettings($event)"
 >
   <sm-page-header class="projects-page-header" title="Projects">
-    <button actions mat-flat-button data-id="New Project" (click)="openProjectDialog('create')">
+    <button actions mat-flat-button class="header-action" data-tip="New project" aria-label="New project" data-id="New Project" (click)="openProjectDialog('create')">
       <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
       New project
     </button>

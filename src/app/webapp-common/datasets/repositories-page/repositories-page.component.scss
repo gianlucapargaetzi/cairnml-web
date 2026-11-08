@@ -1,0 +1,9 @@
+@use '../../styles/mixins/table-rows' as table-rows;
+
+:host {
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@include table-rows.table-rows();

@@ -298,7 +298,9 @@
       <span>No matching results. <button type="button" class="link" (click)="clearTableFiltersAndSearch.emit(tableFilters())" data-id="clearFiltersButton">Clear filters</button></span>
     </div>
   } @else if (experimentsUpdated) {
-    <div class="no-output" [class.centered]="minimizedView" [style.top.px]="noDataTop"><span>No data to show</span></div>
+    <div class="no-output" [class.centered]="minimizedView" [style.top.px]="noDataTop"><span>
+      <sm-empty-state icon="al-ico-experiment-view" title="No tasks yet" description="Run a task with the SDK, or press New task."></sm-empty-state>
+    </span></div>
   }
 </ng-template>
 </div>

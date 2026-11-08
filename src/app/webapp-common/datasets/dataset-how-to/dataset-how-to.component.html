@@ -1,4 +1,4 @@
-<sm-dialog-template iconClass="al-ico-datasets" header="New dataset">
+<sm-dialog-template iconClass="al-ico-datasets" header="About datasets">
   <mat-tab-group [(selectedIndex)]="topTab" animationDuration="0ms" class="top-tabs">
     <mat-tab label="Local / custom dataset">
       <div class="tab-body">
@@ -9,7 +9,7 @@
         </p>
 
         <sm-section-header label="DVC"></sm-section-header>
-        <p class="text">The files go to DVC storage. This is the default.</p>
+        <p class="text">The files go to DVC storage. This is the default. Without a credential the dataset is public.</p>
         <sm-code-editor [code]="dvcCode" [readonly]="true" mode="sh" [showCopyButton]="true"
           [style.height.px]="height(dvcCode)"></sm-code-editor>
 
@@ -32,62 +32,6 @@
           address of each file, a checksum, and an adapter that reads the files into the CairnML format. Entries are
           added through a pull request to the registry.
         </p>
-
-        <sm-section-header label="Registries"></sm-section-header>
-        <p class="text">
-          The registries the server reads. Their entries are listed on the Datasets page.
-          @if (!isAdmin()) {
-            Only an admin adds or removes a registry.
-          }
-        </p>
-
-        @if (error()) {
-          <p class="error" role="alert">{{ error() }}</p>
-        }
-
-        <sm-table
-          class="registries"
-          data-id="registriesTable"
-          [simple]="true"
-          [columns]="registryColumns"
-          [tableData]="registryRows()"
-        >
-          <ng-template let-col let-line="rowData" pTemplate="body">
-            <div>
-              @switch (col.id) {
-                @case ('actions') {
-                  @if (isAdmin()) {
-                    <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Remove ' + line.repository"
-                      smTooltip="Remove this registry" (click)="removeRegistry(line)" data-id="removeRegistryButton">
-                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
-                    </button>
-                  }
-                }
-                @case ('added') {
-                  <span>{{ line.added | date: 'mediumDate' }}</span>
-                }
-                @default {
-                  <div class="ellipsis">{{ line[col.id] }}</div>
-                }
-              }
-            </div>
-          </ng-template>
-        </sm-table>
-
-        @if (isAdmin()) {
-          <div class="add-registry">
-            <mat-form-field appearance="outline" class="registry-input">
-              <mat-label>Registry</mat-label>
-              <input matInput [ngModel]="newRepository()" (ngModelChange)="newRepository.set($event)"
-                placeholder="https://github.com/owner/name.git or git@github.com:owner/name.git" data-id="newRegistryInput"
-                (keydown.enter)="addRegistry()">
-            </mat-form-field>
-            <button mat-flat-button [disabled]="busy() || !newRepository().trim()" (click)="addRegistry()" data-id="addRegistryButton">
-              <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-              Add registry
-            </button>
-          </div>
-        }
 
         <sm-section-header label="Add an entry"></sm-section-header>
         <sm-code-editor [code]="registryCode" [readonly]="true" mode="sh" [showCopyButton]="true"

@@ -9,13 +9,46 @@
         [tableData]="tableData()"
         [scrollable]="true"
         [resizableColumns]="true"
-        (rowClicked)="select($event.data.id)"
+        (rowClicked)="rowClicked($event.data.id)"
       >
         <ng-template let-col let-line="rowData" pTemplate="body">
           <div>
             @switch (col.id) {
               @case ('name') {
-                <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
+                <div class="name-cell" [class.child]="line.level === 1">
+                  @if (line.isParent) {
+                    <button mat-icon-button type="button" class="toggle" data-id="registryToggle"
+                      [attr.aria-expanded]="line.expanded"
+                      [attr.aria-label]="(line.expanded ? 'Collapse ' : 'Expand ') + line.name"
+                      (click)="toggle(line.id); $event.stopPropagation()">
+                      <mat-icon fontSet="al" [fontIcon]="line.expanded ? 'al-ico-arrow-down' : 'al-ico-caret-right'"></mat-icon>
+                    </button>
+                  }
+                  <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
+                </div>
+              }
+              @case ('actions') {
+                <div class="row-actions">
+                  @if (line.canRefresh) {
+                    <button mat-icon-button type="button" data-id="refreshRegistryButton"
+                      [disabled]="refreshingId() !== null"
+                      [attr.aria-label]="'Refresh ' + line.name" smTooltip="Refresh this registry from its repository"
+                      (click)="refresh(line.row, $event)">
+                      @if (refreshingId() === line.id) {
+                        <mat-spinner [diameter]="24" [strokeWidth]="2" aria-label="Refreshing"></mat-spinner>
+                      } @else {
+                        <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                      }
+                    </button>
+                  }
+                  @if (line.canRemove) {
+                    <button mat-icon-button type="button" data-id="removeDatasetButton"
+                      [attr.aria-label]="'Remove ' + line.name" smTooltip="Remove from the Datasets page"
+                      (click)="removeRow(line.row, $event)">
+                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                    </button>
+                  }
+                </div>
               }
               @default {
                 <div class="ellipsis">{{ line[col.id] }}</div>
@@ -52,6 +85,19 @@
                   <sm-repo-access-badge class="ms-2" [access]="repoAccess.value()"></sm-repo-access-badge>
                 </sm-labeled-row>
                 <sm-labeled-row label="Kind:">{{ details.kind === 'own' ? 'Your own dataset' : 'Registry' + (details.source ? ', source ' + details.source : '') }}</sm-labeled-row>
+                @let access = selectedRow()!.access;
+                @if (details.kind === 'own' && access) {
+                  <sm-labeled-row label="Credential:">
+                    <span class="ellipsis" data-id="datasetCredential">{{ credentialName(access.credential) }}</span>
+                    @if (access.state === 'no_access') {
+                      <span class="meta ms-2">{{ access.state_message }}</span>
+                    }
+                    @if (canSetCredential(selectedRow()!)) {
+                      <button mat-stroked-button type="button" class="ms-2" data-id="setCredentialButton"
+                        (click)="setCredential(selectedRow()!)">{{ access.credential ? 'Change credential' : 'Add credential' }}</button>
+                    }
+                  </sm-labeled-row>
+                }
                 <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>
                 <sm-labeled-row label="Samples:">{{ details.metadata?.samples ? (details.metadata!.samples! | number) : '–' }}</sm-labeled-row>
                 <sm-labeled-row label="Used by runs:">{{ selectedRow()!.runs }}</sm-labeled-row>
@@ -60,7 +106,11 @@
                 @for (m of entries(details.metadata?.modalities); track m[0]) {
                   <sm-labeled-row [label]="m[0] + ':'">{{ m[1] }}</sm-labeled-row>
                 } @empty {
-                  <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
+                  @if (details.kind === 'registry') {
+                    <p class="note">The registry has no modalities for this dataset yet. Refresh the registry to read them.</p>
+                  } @else {
+                    <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
+                  }
                 }
 
                 <sm-section-header label="Splits"></sm-section-header>

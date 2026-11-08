@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.component';
+import {CrumbTypeEnum} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
 import {workersAndQueuesProviders} from '@common/workers-and-queues/workers-and-queues.providers';
 import {queueCreateDialogProviders} from '@common/shared/queue-create-dialog/queue-create-dialog.providers';
