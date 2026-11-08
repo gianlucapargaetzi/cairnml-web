@@ -2,7 +2,7 @@
      and the cards would flash) nor "has none" (the empty state would flash). -->
 @let projects = projectsList$ | ngrxPush;
 @let cardsVisible = (projects?.length > 0 && (!allExamples || (showExamples$ | ngrxPush))) || searching;
-@let emptyKnown = projects != null && !cardsVisible && (!!projectId || datasetsLoaded()) && !gitDatasetCount();
+@let emptyKnown = !!projects && !cardsVisible && (!!projectId || datasetsLoaded()) && !gitDatasetCount();
 <div class="sm-card-list-layout projects" [class.in-empty-state]="emptyKnown">
 @if (cardsVisible) {
   <sm-projects-header
