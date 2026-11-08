@@ -8,7 +8,7 @@
   .sm-card-list-layout{
     &.in-empty-state{
       height: 100%;
-      grid-template-rows: 64px 1fr;
+      grid-template-rows: 56px 1fr;
     }
   }
 
@@ -16,14 +16,23 @@
     grid-column: 1 / -1;
   }
 
-  sm-projects-header {
-    height: variables.$nav-bar-height;
-    grid-column: 1 / -1;
+  // sticky rows of the scroll container, as on the Projects page: the page header (56px), then the toolbar (56px)
+  sm-page-header.pipelines-page-header {
     position: sticky;
     top: 0;
+    z-index: 11;
+  }
+
+  sm-projects-header {
+    display: block;
+    height: 56px;
+    grid-column: 1 / -1;
+    position: sticky;
+    top: 56px;
     z-index: 10;
     background-color: var(--color-surface);
-    margin-bottom: -12px;
+    margin: 0 -24px 0; // the toolbar spans the page; its content keeps the 24px gutter through its own padding
+    padding: 0 24px;
   }
 
 }

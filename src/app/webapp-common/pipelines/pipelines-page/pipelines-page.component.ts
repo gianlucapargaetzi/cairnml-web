@@ -44,6 +44,7 @@ import {DotsLoadMoreComponent} from '@common/shared/ui-components/indicators/dot
 import {PushPipe} from '@ngrx/component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
+import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -51,6 +52,7 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './pipelines-page.component.html',
   styleUrls: ['./pipelines-page.component.scss'],
   imports: [
+    PageHeaderComponent,
     ProjectsHeaderComponent,
     ButtonToggleComponent,
     PipelineCardComponent,

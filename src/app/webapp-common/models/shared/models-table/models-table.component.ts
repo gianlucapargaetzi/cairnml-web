@@ -1,3 +1,4 @@
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -70,6 +71,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrls: ['./models-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    EmptyStateComponent,
     MatIconModule,
     TableFilterSortComponent,
     TableCardFilterComponent,

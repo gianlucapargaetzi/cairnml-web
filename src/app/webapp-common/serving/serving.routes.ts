@@ -13,6 +13,7 @@ export const routes: Routes = [
     },
     providers: [servingProviders],
     children: [
+      {path: '', redirectTo: 'active', pathMatch: 'full'},
       {
         path: 'active',
         loadComponent: () => import('@common/serving/serving.component').then(c => c.ServingComponent),

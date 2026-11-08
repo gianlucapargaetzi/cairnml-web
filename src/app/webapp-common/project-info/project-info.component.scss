@@ -17,8 +17,7 @@
     max-height: 340px;
     min-height: 48px;
     width: 100%;
-    max-width: 960px;
-    margin: 0 auto 16px;
+    margin: 0 0 24px;
     overflow: hidden;
     border-radius: var(--mat-expansion-container-shape);
 
@@ -47,8 +46,7 @@
     gap: 8px 16px;
     align-items: center;
     width: 100%;
-    max-width: 960px;
-    margin: 0 auto 16px;
+    margin: 0 0 24px;
     padding: 16px;
     border: 1px solid var(--color-surface-container-high);
     border-radius: var(--radius-md);
@@ -79,12 +77,7 @@
     flex: 1;
     width: 100%;
     min-height: 300px;
-    max-width: 960px;
-    margin: 0 auto;
-
-    &.editor {
-      max-width: 1856px;
-    }
+    margin: 0;
   }
 }
 

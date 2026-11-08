@@ -4,12 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {catchError} from 'rxjs/operators';
 import {BaseLoginService} from '@common/shared/services/login.service';
+import {Store} from '@ngrx/store';
+import {addMessage} from '@common/core/actions/layout.actions';
+import {MESSAGES_SEVERITY} from '@common/constants';
 
 @Injectable()
 export class WebappInterceptor implements HttpInterceptor {
   // The login service needs the HTTP client, which runs this interceptor: it is taken when it is needed, not before.
   private injector = inject(Injector);
   private signingIn = false;
+  private lastServerErrorAt = 0;
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
@@ -33,6 +37,13 @@ export class WebappInterceptor implements HttpInterceptor {
         this.signingIn = true;
         this.injector.get(BaseLoginService).logout();
       }
+    }
+    // A server error is never silent: pages that load a list without their own error message would show nothing at all.
+    // One message for a burst of failing requests.
+    if (err.status >= 500 && Date.now() - this.lastServerErrorAt > 5000) {
+      this.lastServerErrorAt = Date.now();
+      this.injector.get(Store).dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
+        err.error?.meta?.result_msg || 'The server could not complete the request. Try again in a moment.'));
     }
     return throwError(() => err);
   }

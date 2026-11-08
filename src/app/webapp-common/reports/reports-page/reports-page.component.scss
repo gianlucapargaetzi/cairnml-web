@@ -1,9 +1,18 @@
-sm-reports-header {
-  height: 64px;
-  grid-column: 1 / -1;
+// sticky rows of the scroll container, as on the Projects page: the page header (56px), then the toolbar (56px)
+sm-page-header {
   position: sticky;
   top: 0;
+  z-index: 11;
+}
+
+sm-reports-header {
+  display: block;
+  height: 56px;
+  grid-column: 1 / -1;
+  position: sticky;
+  top: 56px;
   z-index: 10;
   background-color: var(--color-surface);
-  margin-bottom: -12px;
+  margin: 0 -24px;
+  padding: 0 24px;
 }

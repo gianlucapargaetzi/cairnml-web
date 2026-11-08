@@ -1,3 +1,4 @@
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -61,6 +62,7 @@ export interface TableContextMenuSelectEventExt extends Omit<TableContextMenuSel
     styleUrls: ['./table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    EmptyStateComponent,
     TableModule,
     ResizableColumnDirective,
     MenuComponent,
@@ -147,6 +149,9 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
   filters = input<Record<string, FilterMetadata>>();
   noDataTemplate = input<TemplateRef<null>>();
   emptyMessage = input('No data to show');
+  // with an icon the empty table shows the shared empty state (icon, title = emptyMessage, description)
+  emptyIcon = input<string>();
+  emptyDescription = input<string>();
   errorMessage = input<string>();
   checkedItems = input([]);
   virtualScroll = input<boolean>();

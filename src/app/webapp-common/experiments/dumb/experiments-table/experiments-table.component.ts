@@ -1,3 +1,4 @@
+import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -90,6 +91,7 @@ import {MatIconModule} from '@angular/material/icon';
     useValue: {showDelay: 500, position: 'above'} as MatTooltipDefaultOptions,
   }],
   imports: [
+    EmptyStateComponent,
     TaskNameComponent,
     MatIconModule,
     TooltipDirective,

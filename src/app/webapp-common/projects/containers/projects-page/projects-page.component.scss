@@ -7,11 +7,11 @@ sm-page-header.projects-page-header {
 
 sm-projects-header {
   display: block;
-  height: 48px;
+  height: 56px;
   position: sticky;
   top: 56px;
   z-index: 10;
   padding: 0 24px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   background-color: var(--color-surface);
 }

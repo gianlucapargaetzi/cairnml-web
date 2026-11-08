@@ -6,9 +6,9 @@
 </sm-page-header>
 <div class="access">
   <p class="access-description">
-    Credentials let CairnML read repositories that are not public: a token, or a GitHub App installed on the repositories
-    it may read. Each one shows its owner, what it is valid for, and whether it works. Secrets are written once, encrypted
-    on the server, and never shown again. An owner changes their own credentials; an admin changes the company's.
+    Credentials let CairnML read repositories that are not public. Each one is a GitHub App, installed on the repositories
+    it may read. Each row shows its owner, what it is valid for, and whether it works. The private key is written once,
+    encrypted on the server, and never shown again. An owner changes their own credentials; an admin changes the company's.
   </p>
 
   @if (error()) {
@@ -19,7 +19,7 @@
     <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
   } @else if (!credentials().length) {
     <sm-empty-state icon="al-ico-lock" title="No credentials yet"
-      description="Add a token, or a GitHub App, to read private repositories."></sm-empty-state>
+      description="Add a GitHub App to read private repositories."></sm-empty-state>
   } @else {
     <sm-table class="access-table" data-id="credentialsTable" [columns]="columns" [tableData]="rows()"
       selectionMode="single" [scrollable]="true">
