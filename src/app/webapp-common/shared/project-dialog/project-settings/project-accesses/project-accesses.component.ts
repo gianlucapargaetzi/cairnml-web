@@ -3,11 +3,7 @@ import {lastValueFrom} from 'rxjs';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {addMessage} from '@common/core/actions/layout.actions';
-import {MESSAGES_SEVERITY} from '@common/constants';
 import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
-import {Project} from '~/business-logic/model/projects/project';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {HTTP} from '~/app.constants';
@@ -56,7 +52,7 @@ interface CredentialRow {
   templateUrl: './project-accesses.component.html',
   styleUrls: ['./project-accesses.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButton, MatIcon, MatIconButton, MatSlideToggleModule, TooltipDirective],
+  imports: [MatButton, MatIcon, MatIconButton, TooltipDirective],
 })
 export class ProjectAccessesComponent implements OnInit {
   private api = inject(SmApiRequestsService);
@@ -66,8 +62,6 @@ export class ProjectAccessesComponent implements OnInit {
   protected settingsStore = inject(ProjectSettingsStore);
 
   projectId = input.required<string>();
-  // the project record the settings dialog was opened with: it carries the agent token setting
-  project = input<Project>();
 
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
   protected readonly usable = signal<ProjectUsableCredential[]>([]);
@@ -81,8 +75,6 @@ export class ProjectAccessesComponent implements OnInit {
   protected readonly busy = signal(false);
   protected readonly dirty = computed(() => this.pendingAdd().length > 0 || this.pendingRemove().length > 0);
   protected readonly datasetHint = DATASET_CREDENTIAL_HINT;
-  // whether the agents of this project may be given personal tokens shared with it (on by default)
-  protected agentTokens = signal(true);
 
   protected readonly rows = computed<CredentialRow[]>(() => {
     const removed = new Set(this.pendingRemove());
@@ -113,8 +105,6 @@ export class ProjectAccessesComponent implements OnInit {
   });
 
   ngOnInit() {
-    // The record carries the setting; a project without the field allows personal tokens, as the server does.
-    this.agentTokens.set((this.project() as unknown as {agent_tokens_allowed?: boolean})?.agent_tokens_allowed !== false);
     this.load();
   }
 
@@ -207,22 +197,6 @@ export class ProjectAccessesComponent implements OnInit {
       await this.load();
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');
-    } finally {
-      this.busy.set(false);
-    }
-  }
-
-  // Applies at once. Only the owner of the project may change it.
-  protected async setAgentTokens(allowed: boolean) {
-    this.busy.set(true);
-    try {
-      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.set_agent_tokens`,
-        {project: this.projectId(), allowed}, {}));
-      this.agentTokens.set(allowed);
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
-        allowed ? 'Personal tokens are allowed on this project\'s agents' : 'Personal tokens are blocked on this project\'s agents'));
-    } catch (error) {
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? 'The setting could not be saved.'));
     } finally {
       this.busy.set(false);
     }

@@ -15,7 +15,7 @@ export function assignCredentials(dialog: MatDialog, access: DatasetAccessServic
       credential: null,
       noneNeededLabel: row.anonymous === false ? undefined : 'None needed (public)',
       options: (row.assignable ?? []).map(option => ({
-        id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'token',
+        id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'Git credential',
         scope: option.company ? 'company' as const : 'user' as const,
       })),
       save: (credential: string, noneNeeded = false) => access.setBindingCredential(row.binding, credential, noneNeeded),

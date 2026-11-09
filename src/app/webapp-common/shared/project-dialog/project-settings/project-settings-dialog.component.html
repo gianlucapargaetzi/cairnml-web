@@ -37,7 +37,7 @@
       <sm-project-datasets class="section" [projectId]="data.project.id"></sm-project-datasets>
     </mat-tab>
     <mat-tab label="Credentials">
-      <sm-project-accesses class="section" [projectId]="data.project.id" [project]="data.project"></sm-project-accesses>
+      <sm-project-accesses class="section" [projectId]="data.project.id"></sm-project-accesses>
     </mat-tab>
     @for (tab of extraTabs(); track tab) {
       <mat-tab [label]="tab.textLabel">

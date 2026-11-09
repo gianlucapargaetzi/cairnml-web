@@ -103,7 +103,7 @@ export class RepositoriesPageComponent {
           (repo.host === 'github.com' ? 'None needed (public on GitHub)' : `None needed (public on ${repo.host})`),
         clearable: !!binding.credential || binding.none_needed,
         options: binding.assignable.map(option => ({
-          id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'token',
+          id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'Git credential',
           scope: option.company ? 'company' as const : 'user' as const,
         })),
         save: (credential: string, noneNeeded = false) => this.access.setBindingCredential(binding.id, credential, noneNeeded),

@@ -2,7 +2,6 @@ import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {of} from 'rxjs';
-import {RouterLink} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
@@ -23,7 +22,7 @@ import {datasetsOfHyperparams, RawDatasetTask} from './dataset-git.model';
   styleUrls: ['./task-datasets.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    EntityChipComponent,RouterLink, SectionHeaderComponent, RepoAccessBadgeComponent, TooltipDirective, MatIcon, MatIconButton],
+    EntityChipComponent, SectionHeaderComponent, RepoAccessBadgeComponent, TooltipDirective, MatIcon, MatIconButton],
 })
 export class TaskDatasetsComponent {
   private repoAccess = inject(RepoAccessService);

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatError, MatFormFieldModule} from '@angular/material/form-field';
@@ -15,8 +15,7 @@ export interface AddCredentialData {
   isAdmin: boolean;
 }
 
-// Adds one credential: a token or a GitHub App, for the user or, for an admin, for the whole company. A company token
-// is a Git credential for a host, as the company credentials are stored. The secret is sent once and never shown again.
+// Adds one GitHub App, for the user or, for an admin, for the whole company. The key is sent once and never shown again.
 @Component({
   selector: 'sm-add-access-dialog',
   templateUrl: './add-access-dialog.component.html',
@@ -45,47 +44,12 @@ export class AddAccessDialogComponent {
   protected keyFileName = signal<string | null>(null);
 
   protected readonly form = this.fb.group({
-    kind: ['app', Validators.required],
     scope: ['user', Validators.required],
     label: ['', [Validators.required, Validators.maxLength(80)]],
-    host: ['github.com', Validators.required],
-    path: [''],
-    username: [''],
-    token: [''],
-    app_id: [''],
+    app_id: ['', [Validators.required, Validators.pattern(/^\d{1,12}$/)]],
     api_url: [''],
-    key: [''],
+    key: ['', Validators.required],
   });
-
-  constructor() {
-    this.applyRules();
-    this.form.valueChanges.subscribe(() => this.applyRules());
-  }
-
-  protected get isApp() {
-    return this.form.controls.kind.value === 'app';
-  }
-
-  protected get companyScope() {
-    return this.form.controls.scope.value === 'company';
-  }
-
-  // Which fields are needed depends on the kind and the scope
-  private applyRules() {
-    const need = (name: string, validators: ValidatorFn[]) => {
-      const control = this.form.get(name);
-      control?.setValidators(validators);
-      control?.updateValueAndValidity({emitEvent: false});
-    };
-    const app = this.isApp;
-    const company = this.companyScope;
-    need('label', [Validators.required, Validators.maxLength(80)]);
-    need('host', app ? [] : [Validators.required]);
-    need('username', !app && company ? [Validators.required] : []);
-    need('token', !app ? [Validators.required] : []);
-    need('app_id', app ? [Validators.required, Validators.pattern(/^\d{1,12}$/)] : []);
-    need('key', app ? [Validators.required] : []);
-  }
 
   // The key file is read in the browser and sent with the request; the text is not shown.
   protected async keyFileChosen(event: Event) {
@@ -105,19 +69,9 @@ export class AddAccessDialogComponent {
     this.error.set(null);
     const value = this.form.getRawValue();
     try {
-      if (value.kind === 'app') {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_app`, {
+      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_app`, {
           label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: value.scope,
         }, {}));
-      } else if (value.scope === 'company') {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/git_credentials.set`, {
-          host: value.host, path: value.path, username: value.username, secret: value.token,
-        }, {}));
-      } else {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_token`, {
-          label: value.label, host: value.host, path: value.path, token: value.token,
-        }, {}));
-      }
       this.dialogRef.close(true);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The credential could not be saved.');

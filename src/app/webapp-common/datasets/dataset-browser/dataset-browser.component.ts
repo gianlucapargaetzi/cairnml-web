@@ -4,7 +4,6 @@ import {ChangeDetectionStrategy, Component, computed, effect, inject, output, si
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {rxResource, toSignal} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
-import {RouterLink} from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
@@ -98,7 +97,6 @@ interface GraphNode {
     ShowTooltipIfEllipsisDirective,
     DatePipe,
     DecimalPipe,
-    RouterLink,
     CopyClipboardComponent,
     RepoAccessBadgeComponent,
     MatIconButton,

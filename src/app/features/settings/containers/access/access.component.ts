@@ -25,7 +25,7 @@ import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {AddAccessDialogComponent} from './add-access-dialog.component';
 import {ShareAccessDialogComponent, ShareableProject} from './share-access-dialog.component';
 
-// One credential, as the server lists it: a personal token or GitHub App, the company's GitHub App, or a company Git
+// One credential, as the server lists it: a GitHub App (a user's or the company's), or a company Git
 // credential for another host. "git" rows are the company's Git credentials; the others are accesses.
 export interface CredentialView {
   id: string;
