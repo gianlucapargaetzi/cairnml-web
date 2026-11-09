@@ -30,7 +30,7 @@ Pages built "from the code" came out inconsistent every time. The code does not 
 4. **Open every dialog your change touches or adds from its real button**, screenshot it, and check it against the dialog anatomy.
 5. **Open the sibling pages and put the screenshots next to yours.** If yours differs from them in position or spacing, you are wrong, not them (unless the siblings break the anatomy, in which case fix the anatomy table in the same change).
 6. **Evidence:** for each fix save `evidence/<finding>/before.png`, `after.png`, `side-by-side.png` with the measured numbers in the caption, and show the side-by-side to the user. A fix without an *after* image is not reported as fixed.
-7. Light **and** dark. Narrow (1024x768) **and the user's real screen, 3440x1440** (`scripts/wide.js`): a `max-width` plus `margin: 0 auto` is invisible at 1600px and leaves a full-bleed table inset on the wide screen. Tables are x 64..window edge at every width; nothing is centred by a max-width.
+7. Run `scripts/fit-check.js` on every page you touch and its siblings (1000, 3440 and 10000px wide: no gap, nothing centred), and `scripts/tabs-check.js` when a page has tabs. Light **and** dark. Narrow (1024x768) **and the user's real screen, 3440x1440** (`scripts/wide.js`): a `max-width` plus `margin: 0 auto` is invisible at 1600px and leaves a full-bleed table inset on the wide screen. Tables are x 64..window edge at every width; nothing is centred by a max-width.
 
 If Playwright or the stack is not available, say so and report the work as **unverified**. Never claim it is consistent.
 
