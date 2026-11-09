@@ -5,9 +5,10 @@
 }
 
 .settings-page {
+  // a form column for readability, at the page gutter like every other page: never centred, so the left edge does not
+  // move with the window width
   max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: 24px 24px 48px;
 }
 
 .settings-section {
