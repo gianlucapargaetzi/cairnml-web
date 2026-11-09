@@ -10,7 +10,7 @@ import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confi
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
 import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-control/share-control.component';
-import {AccessDataset, DatasetAccessService} from '@common/datasets/dataset-git/dataset-access.service';
+import {DatasetAccessService} from '@common/datasets/dataset-git/dataset-access.service';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {
   AddProjectDatasetsDialogComponent,
@@ -61,39 +61,19 @@ export class ProjectDatasetsComponent implements OnInit {
   protected readonly usable = signal<ProjectUsableDataset[]>([]);
   // from projects.usable: the server decides who may add and remove the shares of the project
   protected readonly canManage = signal(false);
-  // datasets picked in the add dialog, not saved yet
-  protected readonly pendingAdd = signal<AccessDataset[]>([]);
-  // share ids of usable datasets to remove on Save
-  protected readonly pendingRemove = signal<string[]>([]);
   protected readonly error = signal<string>(null);
   protected readonly busy = signal(false);
-  protected readonly dirty = computed(() => this.pendingAdd().length > 0 || this.pendingRemove().length > 0);
 
-  protected readonly rows = computed<DatasetRow[]>(() => {
-    const removed = new Set(this.pendingRemove());
-    const kept: DatasetRow[] = this.usable()
-      .filter(dataset => !removed.has(dataset.share_id))
-      .map(dataset => ({
-        key: dataset.id,
-        name: dataset.name,
-        owner: this.ownerName(dataset.owner, dataset.owner_name),
-        scope: dataset.scope,
-        level: SHARE_LEVEL_LABELS[dataset.level] ?? dataset.level,
-        inherited: dataset.inherited,
-        removable: dataset.removable,
-        usable: dataset,
-      }));
-    const added: DatasetRow[] = this.pendingAdd().map(dataset => ({
-      key: dataset.id,
-      name: dataset.name,
-      owner: this.ownerName(dataset.owner, null),
-      scope: 'project',
-      level: SHARE_LEVEL_LABELS.read,
-      inherited: false,
-      removable: true,
-    }));
-    return [...kept, ...added];
-  });
+  protected readonly rows = computed<DatasetRow[]>(() => this.usable().map(dataset => ({
+    key: dataset.id,
+    name: dataset.name,
+    owner: this.ownerName(dataset.owner, dataset.owner_name),
+    scope: dataset.scope,
+    level: SHARE_LEVEL_LABELS[dataset.level] ?? dataset.level,
+    inherited: dataset.inherited,
+    removable: dataset.removable,
+    usable: dataset,
+  })));
 
   ngOnInit() {
     this.load();
@@ -128,20 +108,19 @@ export class ProjectDatasetsComponent implements OnInit {
       && (d.visibility !== 'user' || d.owner === this.currentUserId()));
     this.dialog.open<AddProjectDatasetsDialogComponent, AddProjectDatasetsDialogData, AddProjectDatasetsResult>(
       AddProjectDatasetsDialogComponent, {data: {datasets: available}, panelClass: 'dialog-sm'},
-    ).afterClosed().subscribe(result => {
+    ).afterClosed().subscribe(async result => {
       if (result?.ids?.length) {
-        const picked = available.filter(d => result.ids.includes(d.id));
-        this.pendingAdd.update(items => [...items, ...picked.filter(d => !items.some(item => item.id === d.id))]);
+        await this.run(async () => {
+          for (const id of result.ids) {
+            await lastValueFrom(this.shares.allocateDataset(id, this.projectId()));
+          }
+        });
       }
     });
   }
 
-  // A saved share is removed on Save after a confirmation; a dataset added here and not saved yet is only dropped.
+  // A share is removed after a confirmation.
   protected removeRow(row: DatasetRow) {
-    if (!row.usable) {
-      this.pendingAdd.update(items => items.filter(item => item.id !== row.key));
-      return;
-    }
     const shareId = row.usable.share_id;
     if (!shareId) {
       return;
@@ -150,32 +129,26 @@ export class ProjectDatasetsComponent implements OnInit {
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {
         title: `Remove ${row.name}?`,
-        body: 'The project loses this dataset when you save. Its agents can no longer read it. The dataset itself is not changed.',
+        body: 'The project loses this dataset. Its agents can no longer read it. The dataset itself is not changed.',
         yes: 'Remove',
         no: 'Cancel',
         iconClass: 'al-ico-dialog-x',
         destructive: true,
       },
       panelClass: 'dialog-sm',
-    }).afterClosed().subscribe(confirmed => {
+    }).afterClosed().subscribe(async confirmed => {
       if (confirmed) {
-        this.pendingRemove.update(ids => [...ids, shareId]);
+        await this.run(() => lastValueFrom(this.shares.unshare(shareId)));
       }
     });
   }
 
-  protected async save() {
+  // Applies a change at once and reloads: there is no Save step.
+  private async run(action: () => Promise<unknown>) {
     this.busy.set(true);
     this.error.set(null);
     try {
-      for (const dataset of this.pendingAdd()) {
-        await lastValueFrom(this.shares.allocateDataset(dataset.id, this.projectId()));
-      }
-      for (const shareId of this.pendingRemove()) {
-        await lastValueFrom(this.shares.unshare(shareId));
-      }
-      this.pendingAdd.set([]);
-      this.pendingRemove.set([]);
+      await action();
       await this.load();
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? error?.message ?? 'The change could not be saved.');

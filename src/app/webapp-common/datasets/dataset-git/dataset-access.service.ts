@@ -126,9 +126,9 @@ export class DatasetAccessService {
       .pipe(map(response => response.dataset));
   }
 
-  // The code repositories runs use, the user's own (all of them for an admin).
-  repositories(): Observable<CodeRepository[]> {
-    return this.api.post<{ repositories?: CodeRepository[] }>(`${HTTP.API_BASE_URL}/repositories.get_all`, {}, {})
+  // The code repositories runs use, the user's own (all of them for an admin); with a project, only that project's.
+  repositories(project?: string): Observable<CodeRepository[]> {
+    return this.api.post<{ repositories?: CodeRepository[] }>(`${HTTP.API_BASE_URL}/repositories.get_all`, {project: project || undefined}, {})
       .pipe(map(response => response?.repositories ?? []));
   }
 

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatDialogClose, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -39,13 +39,15 @@ export class RepositoryAddDialogComponent implements OnInit {
   private projectsApi = inject(ApiProjectsService);
   private store = inject(Store);
   private dialogRef = inject(MatDialogRef<RepositoryAddDialogComponent, boolean>);
+  // set when the dialog is opened from one project's settings: the repository is added to that project
+  protected readonly fixedProject = inject<{project?: string} | null>(MAT_DIALOG_DATA, {optional: true})?.project ?? null;
 
   protected readonly projects = signal<{id: string; name: string}[]>([]);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly form = this.fb.group({
     url: ['', Validators.required],
-    project: [''],
+    project: [this.fixedProject ?? ''],
   });
 
   ngOnInit() {

@@ -19,7 +19,8 @@ import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {CodeRepository, DatasetAccessService, RepositoryBinding} from '../dataset-git/dataset-access.service';
 import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
-import {DatasetCredentialDialogComponent, NONE_NEEDED} from '../dataset-credential-dialog/dataset-credential-dialog.component';
+import {NONE_NEEDED} from '../dataset-credential-dialog/dataset-credential-dialog.component';
+import {assignBindingCredential, bindingAccess} from '../dataset-credential-dialog/assign-credentials';
 
 // The code repositories runs use, as the Datasets table lists datasets: one row per repository, which opens into the
 // projects that use it. Each project (a binding) shows how it reads the repository and, to the one who may, lets them
@@ -86,30 +87,11 @@ export class RepositoriesPageComponent {
   }
 
   protected access$(repo: CodeRepository, binding: RepositoryBinding): RepoAccess {
-    return {
-      repository: repo.url, url: repo.url, binding: binding.id, project: binding.project, state: binding.state,
-      via: binding.credential ? (binding.assignable.find(option => option.id === binding.credential)?.name ?? 'the assigned credential') : '',
-      message: binding.message, can_assign: binding.can_assign, ask: false,
-    };
+    return bindingAccess(repo, binding);
   }
 
   protected changeCredential(repo: CodeRepository, binding: RepositoryBinding): void {
-    this.dialog.open(DatasetCredentialDialogComponent, {
-      data: {
-        name: `${repo.host}/${repo.path}`,
-        credential: binding.credential,
-        noneNeeded: binding.none_needed,
-        noneNeededLabel: repo.anonymous === false ? undefined :
-          (repo.host === 'github.com' ? 'None needed (public on GitHub)' : `None needed (public on ${repo.host})`),
-        clearable: !!binding.credential || binding.none_needed,
-        options: binding.assignable.map(option => ({
-          id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'Git credential',
-          scope: option.company ? 'company' as const : 'user' as const,
-        })),
-        save: (credential: string, noneNeeded = false) => this.access.setBindingCredential(binding.id, credential, noneNeeded),
-      },
-      panelClass: 'dialog-md',
-    }).afterClosed().subscribe(saved => {
+    assignBindingCredential(this.dialog, this.access, repo, binding).subscribe(saved => {
       if (!saved) {
         return;
       }
