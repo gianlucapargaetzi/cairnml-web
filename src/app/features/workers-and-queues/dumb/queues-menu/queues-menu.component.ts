@@ -24,7 +24,6 @@ export class QueuesMenuComponent extends BaseContextMenuComponent {
   selectedQueue = input<Queue>();
   menuPosition = input<{ x: number; y: number }>();
   deleteQueue = output<Queue>();
-  renameQueue = output<Queue>();
   clearQueue = output<Queue>();
   protected readonly icons = ICONS;
   // Owner and admins only: the menu is not opened for other users (see QueuesTableComponent)

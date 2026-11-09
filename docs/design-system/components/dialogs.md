@@ -7,7 +7,7 @@ Implementation: Material dialog wrapped by `sm-dialog-template` (header, optiona
 | Use a dialog | Use a page |
 |---|---|
 | Confirm an action | More than ~5 fields or sections |
-| Enter 1-5 fields (rename, create queue, add tag) | Content the user may want to link to or come back to |
+| Enter 1-5 fields (rename, create report, add tag) | Content the user may want to link to or come back to |
 | Pick from a short list | Anything with its own tabs or scrolling data |
 | Show a single result (share link, credentials once) | Multi-step flows longer than 3 steps |
 

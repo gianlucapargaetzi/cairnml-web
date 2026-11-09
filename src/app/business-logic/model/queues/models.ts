@@ -9,8 +9,6 @@ export * from '././queuesAddTaskRequest';
 export * from '././queuesAddTaskResponse';
 export * from '././queuesClearQueueRequest';
 export * from '././queuesClearQueueResponse';
-export * from '././queuesCreateRequest';
-export * from '././queuesCreateResponse';
 export * from '././queuesDeleteMetadataRequest';
 export * from '././queuesDeleteMetadataResponse';
 export * from '././queuesDeleteRequest';

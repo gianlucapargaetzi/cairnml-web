@@ -8,13 +8,12 @@ import {
   selectQueuesError,
   selectSelectedQueue, selectSortedQueues
 } from '../../reducers/index.reducer';
-import {filter, map, take} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {QueueCreateDialogComponent} from '@common/shared/queue-create-dialog/queue-create-dialog.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {interval} from 'rxjs';
 import {selectSearchQuery} from '@common/common-search/common-search.reducer';
@@ -26,7 +25,6 @@ import {QueueStatsComponent} from '@common/workers-and-queues/containers/queue-s
 import {CommonSearchComponent} from '@common/common-search/containers/common-search/common-search.component';
 import {MatIconModule} from '@angular/material/icon';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
-import {MatButton} from '@angular/material/button';
 import {QueuesTableComponent} from '@common/workers-and-queues/dumb/queues-table/queues-table.component';
 import {PushPipe} from '@ngrx/component';
 import {QueueInfoComponent} from '@common/workers-and-queues/dumb/queue-info/queue-info.component';
@@ -47,7 +45,6 @@ const REFRESH_INTERVAL = 30000;
     SplitAreaComponent,
     SplitAreaComponent,
     SplitComponent,
-    MatButton,
     QueuesTableComponent,
     PushPipe,
     QueueInfoComponent
@@ -146,15 +143,6 @@ export class QueuesComponent {
   }
 
 
-  renameQueue(queue: Queue) {
-    this.dialog.open<QueueCreateDialogComponent, Queue, boolean>(QueueCreateDialogComponent, {data: queue, panelClass: 'dialog-sm'}).afterClosed()
-      .pipe(
-        filter(q => !!q),
-        take(1)
-      )
-      .subscribe(() => this.store.dispatch(queueActions.getQueues({})));
-  }
-
   moveExperimentToBottomOfQueue(task: Task) {
     this.store.dispatch(queueActions.moveExperimentToBottomOfQueue({task: task.id}));
   }
@@ -173,20 +161,6 @@ export class QueuesComponent {
 
   moveExperimentInQueue({task, current, previous}) {
     this.store.dispatch(queueActions.moveExperimentInQueue({queueId: this.queueId(), task, current, previous}));
-  }
-
-  // Every company user can create a queue and becomes its owner
-  addQueue() {
-    this.dialog.open<QueueCreateDialogComponent, unknown, boolean>(QueueCreateDialogComponent, {
-        panelClass: 'dialog-md'
-      }).afterClosed()
-      .pipe(
-        filter(queue => !!queue),
-        take(1)
-      )
-      .subscribe(() => {
-        this.store.dispatch(queueActions.getQueues({}));
-      });
   }
 
   private compareCols = ['id', 'name', 'display_name'];

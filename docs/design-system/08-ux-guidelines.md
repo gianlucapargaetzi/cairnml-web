@@ -22,7 +22,7 @@ Use one word per concept in labels, titles, tooltips, messages and documentation
 | Make a task not shown by default | **Archive** | Hide | |
 | Stop a running task | **Abort** | Kill, Cancel (Cancel is for dialogs) | Task status "Aborted"/"Stopped" must match the action |
 
-Capitalization: sentence case ("Create queue"); proper product names as is (CairnML).
+Capitalization: sentence case ("Create report"); proper product names as is (CairnML).
 
 ## 8.3 Information density
 

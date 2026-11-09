@@ -4,7 +4,7 @@ Measured from 45 dialogs opened by `scripts/crawl.js ... dialogs` (1600x900).
 
 | Class | Width | Use |
 |---|---|---|
-| `dialog-sm` | 430 | one choice: add queue, add dataset to a project, add credential, add user |
+| `dialog-sm` | 430 | one choice: add a queue to a project, add dataset to a project, add credential, add user |
 | `dialog-md` | 640 | one small form: new project, new report, add dataset, add repository, resource help |
 | `dialog-lg` | 768 | multi-section form or wizard: project settings, new task |
 | `dialog-xl` | 1024 | search |
