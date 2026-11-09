@@ -11,6 +11,7 @@ export interface RepoAccess {
   url: string;
   binding: string | null;
   project: string | null;
+  project_name?: string | null;
   state: 'assigned' | 'none_needed' | 'anonymous' | 'company' | 'unknown' | 'unreachable';
   // the name of the assigned credential; empty otherwise
   via: string;

@@ -16,6 +16,9 @@
             <button mat-stroked-button type="button" data-id="assignCredentials" (click)="assign(row)">Assign credentials</button>
           }
         </div>
+        @if (row.project) {
+          <sm-entity-chip [label]="row.project_name ?? row.project" [link]="['/projects', row.project, 'overview']"></sm-entity-chip>
+        }
         @if (row.ask) {
           <div class="meta">{{ explanation(row) }}@if (!row.can_assign) { Ask the owner of the project to assign one.}</div>
         } @else {

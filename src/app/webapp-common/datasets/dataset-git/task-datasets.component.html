@@ -5,10 +5,9 @@
       @for (version of group.versions; track version.commit) {
         <div class="dataset-row">
           <div class="dataset-line">
-            <a class="dataset-link" data-id="taskDatasetLink"
-              [routerLink]="['/datasets']" [queryParams]="{dataset: group.key}">
-              {{ group.name }} at {{ version.commit || 'unknown version' }}
-            </a>
+            <sm-entity-chip class="dataset-link" data-id="taskDatasetLink" [label]="group.name" icon="al-ico-datasets"
+              [link]="['/datasets']" [queryParams]="{dataset: group.name}"></sm-entity-chip>
+            <span class="commit">at {{ version.commit || 'unknown version' }}</span>
             @if (accessOf(group.repo); as access) {
               <sm-repo-access-badge class="access" [access]="access"></sm-repo-access-badge>
               @if (access.can_assign) {

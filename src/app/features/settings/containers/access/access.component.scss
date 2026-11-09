@@ -27,7 +27,7 @@
   color: var(--color-failed);
 }
 
-.al-icon {
+.status-icon {
   font-size: 14px;
   width: 14px;
   height: 14px;
@@ -40,12 +40,16 @@
   color: var(--color-on-surface-variant);
 }
 
-.share-chip {
-  display: inline-flex;
+// the share and action buttons sit on one centred line, whatever the row holds
+.cell-shared,
+.cell-actions {
+  display: flex;
   align-items: center;
-  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.share-chip {
   margin-right: var(--space-2);
-  font-size: var(--font-size-sm);
 }
 
 .ellipsis {

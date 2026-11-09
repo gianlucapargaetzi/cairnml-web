@@ -17,6 +17,20 @@ One component for every task/model/pipeline/endpoint status. Layout: 14px icon +
 
 Tags classify; they are not statuses. Chip height 18px (`--sys-tag-height`), radius `--radius-lg`, 12px/500, background = tag color at 10% (`$chip-bg-opacity`), text = tag color or `--color-on-surface`. User tags can be colored (`tag-color-menu`); system tags (e.g. archived) use the neutral container tone. Maximum 3 visible tags in a row, then "+N" with a tooltip.
 
+## References to things in the app (`sm-entity-chip`)
+
+Whenever a table, list or dialog *refers to* something that lives inside CairnML (a project, a dataset, a queue, a credential, a task), it is shown as an entity chip, never as plain text or a bare blue link. The chip is for a reference, not for the thing's own row: the Name column of a list of datasets, queues or credentials is plain text, because that is where the thing resides; the "Shared with" column of a credential, the projects of a repository or the tasks that ran a dataset hold references, so they get chips. A chip is a 24px tag-like pill: a 16px icon in `--color-primary`, the name in the surrounding text size, `--color-primary-container` background and a 1px border mixed from it, radius 4px. With `link` it opens what it names (hover: primary border and name); with `removable` it carries a small remove button inside (used for "Stop sharing"). Long names truncate with a tooltip.
+
+| Names a | Icon | Link |
+|---|---|---|
+| Project | `al-ico-projects` (the default) | `['/projects', id, 'overview']` |
+| Dataset | `al-ico-datasets` | `['/datasets']` with `queryParams {dataset: name}` (the dataset browser opens it) |
+| Queue | `al-ico-queues` | `['/workers-and-queues', 'queues']` with `queryParams {id}` |
+| Credential | `al-ico-lock` | `['/settings', 'access']` |
+| Task | `al-ico-experiment-view` | `['/projects', projectId, 'tasks', taskId]` |
+
+Rules: one chip per thing, several in a row with 8px between them; a table cell that can hold many shows the first plus a grey "+N" with a tooltip. Do not use a chip for people (owners, members: there is no page to open), for external things such as a GitHub repository (they keep their own display), or for a status (use the status component). A chip inherits the font size of its place: do not set a smaller one. The component sets its own icon size with a selector that beats the global `mat-icon` rule, so do not size the icon from outside.
+
 ## Counters (`circle-counter`, `number-counter`)
 
 Only for counts attached to a tab or a nav item. 11-12px, `--color-primary-container` background, pill radius.

@@ -1,3 +1,5 @@
+import {injectQueryParams} from 'ngxtension/inject-query-params';
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, effect, inject, output, signal, SecurityContext} from '@angular/core';
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {rxResource, toSignal} from '@angular/core/rxjs-interop';
@@ -82,6 +84,7 @@ interface GraphNode {
   styleUrls: ['./dataset-browser.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    EntityChipComponent,
     MatTabsModule,
     MatIcon,
     SplitComponent,
@@ -128,6 +131,15 @@ export class DatasetBrowserComponent {
   );
 
   protected readonly selectedId = signal<string | null>(null);
+  // a link from elsewhere (a task, a project's settings) names the dataset to open, by its row id, its name or its repository
+  private readonly requestedDataset = injectQueryParams('dataset');
+  private readonly selectRequested = effect(() => {
+    const wanted = this.requestedDataset();
+    const row = wanted ? this.datasetRows().find(r => r.id === wanted || r.name === wanted || r.repository === wanted) : null;
+    if (row) {
+      this.selectedId.set(row.id);
+    }
+  });
   // the registry rows whose datasets are hidden
   protected readonly collapsed = signal<ReadonlySet<string>>(new Set());
   // the registry whose refresh is running

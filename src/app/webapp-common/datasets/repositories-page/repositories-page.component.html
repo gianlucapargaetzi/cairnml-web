@@ -25,6 +25,19 @@
               <div class="ellipsis">{{ line.access }}</div>
             }
           }
+          @case ('projects') {
+            @let first = line.repo.bindings[0];
+            @if (first?.project) {
+              <div class="projects-cell">
+                <sm-entity-chip [label]="first.project_name ?? first.project" [link]="['/projects', first.project, 'overview']"></sm-entity-chip>
+                @if (line.repo.bindings.length > 1) {
+                  <span class="more" smTooltip="{{ line.repo.bindings.length }} projects use this repository">+{{ line.repo.bindings.length - 1 }}</span>
+                }
+              </div>
+            } @else {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
+          }
           @default {
             <div class="ellipsis">{{ line[col.id] }}</div>
           }
@@ -36,8 +49,12 @@
         <td [attr.colspan]="columns.length">
           @for (binding of line.repo.bindings; track binding.id) {
             <div class="binding" data-id="repositoryBinding">
-              <span class="ellipsis project" smShowTooltipIfEllipsis
-                [smTooltip]="binding.project_name ?? 'No project'">{{ binding.project_name ?? 'No project' }}</span>
+              @if (binding.project) {
+                <sm-entity-chip class="project" [label]="binding.project_name ?? binding.project"
+                  [link]="['/projects', binding.project, 'overview']"></sm-entity-chip>
+              } @else {
+                <span class="ellipsis project">No project</span>
+              }
               <span class="ellipsis owner">Owner {{ binding.owner_name }}</span>
               <sm-repo-access-badge class="access" [access]="access$(line.repo, binding)"></sm-repo-access-badge>
               @if (binding.can_assign) {

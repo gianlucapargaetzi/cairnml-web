@@ -1,3 +1,4 @@
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
@@ -25,7 +26,8 @@ export interface DispatchWarningData {
   templateUrl: './dispatch-warning-dialog.component.html',
   styleUrls: ['./dispatch-warning-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatButtonModule, MatCheckboxModule, DialogTemplateComponent, MatDialogClose, RepoAccessBadgeComponent],
+  imports: [
+    EntityChipComponent,FormsModule, MatButtonModule, MatCheckboxModule, DialogTemplateComponent, MatDialogClose, RepoAccessBadgeComponent],
 })
 export class DispatchWarningDialogComponent {
   private dialog = inject(MatDialog);

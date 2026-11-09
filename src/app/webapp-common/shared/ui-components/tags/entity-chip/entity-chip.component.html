@@ -1,0 +1,19 @@
+<span class="chip" [class.linked]="!!link()" data-id="entityChip">
+  @if (link(); as target) {
+    <a class="body" [routerLink]="target" [queryParams]="queryParams()" [smTooltip]="label()" smShowTooltipIfEllipsis>
+      <mat-icon fontSet="al" [fontIcon]="icon()"></mat-icon>
+      <span class="name">{{ label() }}</span>
+    </a>
+  } @else {
+    <span class="body" [smTooltip]="label()" smShowTooltipIfEllipsis>
+      <mat-icon fontSet="al" [fontIcon]="icon()"></mat-icon>
+      <span class="name">{{ label() }}</span>
+    </span>
+  }
+  @if (removable()) {
+    <button type="button" class="remove" [attr.aria-label]="removeLabel()" [smTooltip]="removeLabel()"
+            (click)="remove.emit(); $event.stopPropagation()" data-id="entityChipRemove">
+      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+    </button>
+  }
+</span>

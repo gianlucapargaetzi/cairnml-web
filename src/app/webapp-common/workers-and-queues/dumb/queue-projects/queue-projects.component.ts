@@ -1,10 +1,8 @@
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, effect, inject, input, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {lastValueFrom} from 'rxjs';
 import {ApiQueuesService} from '~/business-logic/api-services/queues.service';
 import {QueuesGetProjectsResponseProjects} from '~/business-logic/model/queues/queuesGetProjectsResponseProjects';
-import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
-import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 /** The root projects a queue is allocated to, as far as the user can see them. */
@@ -13,7 +11,8 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
   templateUrl: './queue-projects.component.html',
   styleUrls: ['./queue-projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ShowTooltipIfEllipsisDirective, TooltipDirective, MatProgressSpinner]
+  imports: [
+    EntityChipComponent, MatProgressSpinner]
 })
 export class QueueProjectsComponent {
   private queuesApi = inject(ApiQueuesService);

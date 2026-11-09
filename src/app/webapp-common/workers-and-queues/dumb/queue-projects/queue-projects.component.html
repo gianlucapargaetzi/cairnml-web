@@ -8,7 +8,7 @@
   <ul class="projects-list">
     @for (project of projects(); track project.id) {
       <li>
-        <a class="link ellipsis" [routerLink]="['/projects', project.id]" [smTooltip]="project.name" smShowTooltipIfEllipsis>{{ project.name }}</a>
+        <sm-entity-chip [label]="project.name" [link]="['/projects', project.id, 'overview']"></sm-entity-chip>
       </li>
     }
   </ul>

@@ -55,7 +55,8 @@
           <div>
             @switch (col.id) {
               @case ('with') {
-                <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.with">{{ line.with }}</span>
+                <sm-entity-chip [label]="line.with" [icon]="line.share.project ? 'al-ico-projects' : 'al-ico-users'"
+                                [link]="line.share.project ? ['/projects', line.share.project, 'overview'] : null"></sm-entity-chip>
               }
               @case ('actions') {
                 <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Stop sharing with ' + line.with"

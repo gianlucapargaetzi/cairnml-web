@@ -1,3 +1,4 @@
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
@@ -63,6 +64,7 @@ export interface CredentialView {
     PrimeTemplate,
     EmptyStateComponent,
     InlineAlertComponent,
+    EntityChipComponent,
   ],
 })
 export class AccessComponent implements OnInit {

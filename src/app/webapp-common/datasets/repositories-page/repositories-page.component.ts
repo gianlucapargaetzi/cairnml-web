@@ -1,3 +1,4 @@
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {MatIcon} from '@angular/material/icon';
@@ -37,6 +38,7 @@ import {DatasetCredentialDialogComponent, NONE_NEEDED} from '../dataset-credenti
     RepoAccessBadgeComponent,
     MatIcon,
     MatIconButton,
+    EntityChipComponent,
   ],
 })
 export class RepositoriesPageComponent {
