@@ -195,9 +195,9 @@
                     <ul class="runs">
                       @for (run of version.runs; track run.taskId) {
                         <li>
-                          <a class="run-link" [routerLink]="['/projects', run.projectId, 'tasks', run.taskId]" data-id="datasetRunLink">{{ run.taskName }}</a>
+                          <sm-entity-chip class="run-link" [label]="run.taskName" icon="al-ico-experiment-view" [link]="['/projects', run.projectId, 'tasks', run.taskId]" data-id="datasetRunLink"></sm-entity-chip>
                           @if (run.projectName) {
-                            <span class="meta">{{ run.projectName }}</span>
+                            <sm-entity-chip [label]="run.projectName" [link]="['/projects', run.projectId, 'overview']"></sm-entity-chip>
                           }
                           <span class="meta" data-id="datasetRunStatus">{{ run.status }}</span>
                         </li>

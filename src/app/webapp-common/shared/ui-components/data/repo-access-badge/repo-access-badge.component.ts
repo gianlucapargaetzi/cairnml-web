@@ -3,8 +3,9 @@ import {RepoAccess} from '@common/shared/services/repo-access.service';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatIconModule} from '@angular/material/icon';
 
-// How a repository is reached: "Publicly accessible", "Accessible via GitHub App X", "Accessible via token for host",
-// or "Access refused" (with the reason in the tooltip).
+// How a project reads a repository: the credential assigned to it, "None needed", the default (no credential is assigned:
+// the host allows a read without one, or the company's access reads it, which is marked with a warning), or "Access
+// refused" (with the reason in the tooltip).
 @Component({
   selector: 'sm-repo-access-badge',
   templateUrl: './repo-access-badge.component.html',
@@ -21,20 +22,26 @@ export class RepoAccessBadgeComponent {
       return '';
     }
     switch (access.state) {
-      case 'public': return 'Publicly accessible';
-      case 'app': return `Accessible via GitHub App ${access.via}`;
-      case 'token': return `Accessible via token (${access.via})`;
-      default: return 'Access refused';
+      case 'assigned': return `Read with ${access.via}`;
+      case 'none_needed': return 'None needed';
+      case 'company': return 'Auto-Authenticated via Company Github App';
+      case 'unreachable': return 'Access refused';
+      default: return 'No credential assigned';
     }
   });
 
-  protected readonly refused = computed(() => this.access()?.state === 'refused');
+  protected readonly refused = computed(() => this.access()?.state === 'unreachable');
+  // the company's access reads it without anyone having chosen it: assigning a credential is recommended
+  protected readonly warned = computed(() => this.access()?.state === 'company');
 
   // icon and label together: the colour is never the only signal
   protected readonly icon = computed(() => {
     switch (this.access()?.state) {
-      case 'public': return 'al-ico-lock-open';
-      case 'refused': return 'al-ico-alert';
+      case 'none_needed':
+      case 'anonymous':
+      case 'unknown': return 'al-ico-lock-open';
+      case 'company': return 'al-ico-alert';
+      case 'unreachable': return 'al-ico-alert';
       default: return 'al-ico-lock';
     }
   });

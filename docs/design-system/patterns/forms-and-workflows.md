@@ -2,14 +2,14 @@
 
 ## Create flow
 
-1. Entry point: primary button in the list page header ("Create queue").
-2. ≤ 5 fields: `dialog-md` with title "Create queue", fields, `Cancel` + `Create`. Validation inline; `Create` disabled until valid.
+1. Entry point: primary button in the list page header ("Create report").
+2. ≤ 5 fields: `dialog-md` with title "Create report", fields, `Cancel` + `Create`. Validation inline; `Create` disabled until valid.
 3. > 5 fields or follow-up work: a configuration page, then navigate to the created entity.
-4. Success: close dialog, navigate to the entity (or highlight the new row), toast only if the user stays on the list ("Queue 'gpu' created").
+4. Success: close dialog, navigate to the entity (or highlight the new row), toast only if the user stays on the list ("Report 'weekly' created").
 
 ## Fields the user may not set
 
-A field that only some users may set (for example the public flag of a queue, set by its owner and admins) is left out of the form for the others. It is not shown disabled. When the form is saved without it, the stored value is kept.
+A field that only some users may set (for example the public flag of a queue, set by its owner and admins; a queue itself is never created in the web app: it is made when an agent is enrolled) is left out of the form for the others. It is not shown disabled. When the form is saved without it, the stored value is kept.
 
 ## Edit flow
 

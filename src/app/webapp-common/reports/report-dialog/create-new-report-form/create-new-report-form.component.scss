@@ -1,7 +1,8 @@
+@use "mixins/dialog-form" as dialog-form;
+
+@include dialog-form.dialog-form();
+
 :host {
-  .create-report-button {
-    padding: 32px 12px 0;
-  }
   mat-form-field {
     width: 100%;
 

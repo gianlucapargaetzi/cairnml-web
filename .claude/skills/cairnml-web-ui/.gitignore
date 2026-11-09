@@ -1,0 +1,5 @@
+node_modules
+scripts/state.json
+scripts/*-ids.json
+scripts/seed-ids.json
+scripts/*.png

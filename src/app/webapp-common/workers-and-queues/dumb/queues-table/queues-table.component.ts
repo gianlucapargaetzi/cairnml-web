@@ -122,14 +122,12 @@ export class QueuesTableComponent extends BaseTableView {
   queueSelected = output<string>();
   retry = output();
   deleteQueue = output<Queue>();
-  renameQueue = output<Queue>();
   clearQueue = output<Queue>();
   sortedChanged = output<{
         isShift: boolean;
         colId: ISmCol['id'];
     }>();
   copySuccess = output<string>();
-  createQueue = output();
   clearSearch = output();
   // true while the search box narrows the list, so the empty message can offer to clear the search instead of creating
   searching = input(false);

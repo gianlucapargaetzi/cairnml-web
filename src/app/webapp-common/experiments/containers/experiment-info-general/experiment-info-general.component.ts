@@ -9,10 +9,8 @@ import {experimentDetailsUpdated} from '../../actions/common-experiments-info.ac
 import {isReadOnly} from '@common/shared/utils/is-read-only';
 import {
   selectEditingDescription,
-  selectExperimentHyperParamsInfoData,
   selectSelectedExperimentFromRouter
 } from '@common/experiments/reducers';
-import {TaskDatasetsComponent} from '@common/datasets/dataset-git/task-datasets.component';
 import {
   ExperimentDetailsComponent
 } from '@common/experiments/dumb/experiment-details/experiment-details.component';
@@ -24,8 +22,7 @@ import {RefreshService} from '@common/core/services/refresh.service';
   styleUrls: ['./experiment-info-general.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ExperimentDetailsComponent,
-    TaskDatasetsComponent
+    ExperimentDetailsComponent
   ]
 })
 export class ExperimentInfoGeneralComponent {
@@ -36,7 +33,6 @@ export class ExperimentInfoGeneralComponent {
   protected experimentInfoData = this.store.selectSignal(selectExperimentInfoData);
   protected editable           = this.store.selectSignal(selectIsExperimentEditable);
   protected selectedExperiment = this.store.selectSignal(selectSelectedExperiment);
-  protected hyperparams        = this.store.selectSignal(selectExperimentHyperParamsInfoData);
   protected selectedExperimentId = this.store.selectSignal(selectSelectedExperimentFromRouter);
   protected isExample = computed(() => isReadOnly(this.selectedExperiment()));
   private editDesc = this.store.selectSignal(selectEditingDescription);

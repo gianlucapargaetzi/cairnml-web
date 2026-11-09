@@ -14,6 +14,21 @@
     ));
     --mat-list-active-indicator-shape: none;
 
+    // A busy button: the 20px spinner stands in the left padding of the button, before the label. The button keeps its
+    // width and its 36px height, so the buttons next to it do not move. Without this the spinner (a block element) sits
+    // above the label and the button looks broken.
+    // (the label is not the positioning parent then, the button is)
+    &:has(> .mdc-button__label > mat-progress-spinner) .mdc-button__label {
+      position: static;
+    }
+
+    &:has(> .mdc-button__label > mat-progress-spinner) mat-progress-spinner {
+      position: absolute;
+      left: var(--space-1);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
     &.active {
       .mat-mdc-button-persistent-ripple::before {
         opacity: 0.2;

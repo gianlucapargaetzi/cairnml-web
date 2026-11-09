@@ -1,4 +1,4 @@
-<form [formGroup]="reportForm" (submit)="reportForm.valid && send()" class="d-flex gap-3 flex-column">
+<form [formGroup]="reportForm" (submit)="reportForm.valid && send()" class="form">
   <mat-form-field appearance="outline" class="mat-light">
     <mat-label>Report name</mat-label>
     @if (reportForm.controls.name.touched && reportForm.controls.name.errors; as errors) {
@@ -53,7 +53,7 @@
       matInput
     ></textarea>
   </mat-form-field>
-  <mat-dialog-actions>
+  <div class="actions">
     <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelCreateReport">Cancel</button>
     <button mat-flat-button
             data-id="Create Report"
@@ -61,5 +61,5 @@
             [disabled]="reportForm.invalid"
             (click)="send()">Create report
     </button>
-  </mat-dialog-actions>
+  </div>
 </form>

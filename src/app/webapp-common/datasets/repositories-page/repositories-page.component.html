@@ -7,26 +7,36 @@
     [tableData]="rows()"
     [scrollable]="true"
     [resizableColumns]="true"
+    [expandableRows]="true"
   >
-    <ng-template let-col let-line="rowData" pTemplate="body">
+    <ng-template let-col let-line="rowData" let-expanded="expanded" pTemplate="body">
       <div>
         @switch (col.id) {
-          @case ('ref') {
+          @case ('name') {
             <div class="name-cell">
-              <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.ref">{{ line.ref }}</span>
+              <mat-icon fontSet="al" [fontIcon]="expanded ? 'al-ico-arrow-down' : 'al-ico-caret-right'" class="al-icon sm-md expander"></mat-icon>
+              <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
             </div>
           }
-          @case ('actions') {
-            <div class="row-actions">
-              @if (canChange(line.repo)) {
-                <button mat-icon-button type="button" data-id="changeRepositoryApp"
-                  [attr.aria-label]="'Change the GitHub App of ' + line.ref"
-                  [smTooltip]="line.repo.credential ? 'Change the GitHub App' : 'Attach a GitHub App'"
-                  (click)="changeCredential(line.repo); $event.stopPropagation()">
-                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
-                </button>
-              }
-            </div>
+          @case ('access') {
+            @if (line.repo.bindings.length === 1) {
+              <sm-repo-access-badge [access]="access$(line.repo, line.repo.bindings[0])"></sm-repo-access-badge>
+            } @else {
+              <div class="ellipsis">{{ line.access }}</div>
+            }
+          }
+          @case ('projects') {
+            @let first = line.repo.bindings[0];
+            @if (first?.project) {
+              <div class="projects-cell">
+                <sm-entity-chip [label]="first.project_name ?? first.project" [link]="['/projects', first.project, 'overview']"></sm-entity-chip>
+                @if (line.repo.bindings.length > 1) {
+                  <span class="more" smTooltip="{{ line.repo.bindings.length }} projects use this repository">+{{ line.repo.bindings.length - 1 }}</span>
+                }
+              </div>
+            } @else {
+              <div class="ellipsis">{{ line[col.id] }}</div>
+            }
           }
           @default {
             <div class="ellipsis">{{ line[col.id] }}</div>
@@ -34,9 +44,35 @@
         }
       </div>
     </ng-template>
+    <ng-template pTemplate="rowexpansion" let-line>
+      <tr class="bindings">
+        <td [attr.colspan]="columns.length">
+          @for (binding of line.repo.bindings; track binding.id) {
+            <div class="binding" data-id="repositoryBinding">
+              @if (binding.project) {
+                <sm-entity-chip class="project" [label]="binding.project_name ?? binding.project"
+                  [link]="['/projects', binding.project, 'overview']"></sm-entity-chip>
+              } @else {
+                <span class="ellipsis project">No project</span>
+              }
+              <span class="ellipsis owner">Owner {{ binding.owner_name }}</span>
+              <sm-repo-access-badge class="access" [access]="access$(line.repo, binding)"></sm-repo-access-badge>
+              @if (binding.can_assign) {
+                <button mat-icon-button type="button" data-id="changeRepositoryApp"
+                  [attr.aria-label]="'Assign a credential to ' + line.name + ' in ' + (binding.project_name ?? 'no project')"
+                  smTooltip="Assign credentials"
+                  (click)="changeCredential(line.repo, binding); $event.stopPropagation()">
+                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                </button>
+              }
+            </div>
+          }
+        </td>
+      </tr>
+    </ng-template>
   </sm-table>
   </div>
 } @else if (!repositories.isLoading()) {
   <sm-empty-state icon="al-ico-datasets" title="No repositories yet"
-    description="Add a repository with Add repository, or it is listed here once a run first uses it."></sm-empty-state>
+    description="A repository is listed here once a run in one of your projects first uses it."></sm-empty-state>
 }

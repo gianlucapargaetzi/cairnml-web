@@ -54,15 +54,47 @@ export interface StoredCredential {
   state: string;
 }
 
-// A code repository a run uses (see apiserver bll/repositories): its owner (the run's user), the GitHub App attached to it
-// (an id, never a secret), and when a run last used it.
-export interface CodeRepository {
+// How a binding reads its repository (apiserver bll/repositories.resolve): with the credential assigned to it, with "None
+// needed", without a credential because the host allows it (anonymous), through the company's access (company, with a
+// warning: assigning a credential is recommended), or not at all (unreachable). unknown: the host could not be asked.
+export type BindingState = 'assigned' | 'none_needed' | 'anonymous' | 'company' | 'unknown' | 'unreachable';
+
+export interface AssignableCredential {
   id: string;
-  ref: string;
+  name: string;
+  kind: 'app' | 'token';
+  company: boolean;
+}
+
+// How one root project reads a repository: owned by the project's owner, found by the first user of it there.
+export interface RepositoryBinding {
+  id: string;
+  project: string | null;
+  project_name: string | null;
   owner: string;
+  owner_name: string;
+  discovered_by: string;
+  discovered_by_name: string;
   credential: string | null;
+  none_needed: boolean;
+  state: BindingState;
+  message: string;
+  can_assign: boolean;
+  assignable: AssignableCredential[];
   created: string | null;
   last_used: string | null;
+}
+
+// A code repository runs use (apiserver bll/repositories): one per repository whatever the spelling of its address, with
+// a binding per project that uses it. anonymous: whether the host clones it without a credential (null: not known).
+export interface CodeRepository {
+  id: string;
+  key: string;
+  host: string;
+  path: string;
+  url: string;
+  anonymous: boolean | null;
+  bindings: RepositoryBinding[];
 }
 
 // The datasets of the environment, and the changes a user may make to them (see apiserver bll/datasets).
@@ -94,22 +126,23 @@ export class DatasetAccessService {
       .pipe(map(response => response.dataset));
   }
 
-  // The code repositories runs use, the user's own (all of them for an admin).
-  repositories(): Observable<CodeRepository[]> {
-    return this.api.post<{ repositories?: CodeRepository[] }>(`${HTTP.API_BASE_URL}/repositories.get_all`, {}, {})
+  // The code repositories runs use, the user's own (all of them for an admin); with a project, only that project's.
+  repositories(project?: string): Observable<CodeRepository[]> {
+    return this.api.post<{ repositories?: CodeRepository[] }>(`${HTTP.API_BASE_URL}/repositories.get_all`, {project: project || undefined}, {})
       .pipe(map(response => response?.repositories ?? []));
   }
 
-  // Lists a repository before any run has used it, owned by the caller, with the GitHub App it is read with (none: public).
-  addRepository(repository: string, credential?: string): Observable<CodeRepository> {
-    return this.api.post<{ repository: CodeRepository }>(`${HTTP.API_BASE_URL}/repositories.add`,
-      {repository, credential: credential || undefined}, {}).pipe(map(response => response.repository));
+  // Lists a repository before any run has used it, for a project (the user's own scope without one).
+  addRepository(repository: string, project?: string): Observable<string> {
+    return this.api.post<{ binding: string }>(`${HTTP.API_BASE_URL}/repositories.add`,
+      {repository, project: project || undefined}, {}).pipe(map(response => response.binding));
   }
 
-  // Attaches the GitHub App chosen to a repository, by its address. Only its owner or an admin may.
-  setRepositoryCredential(repository: string, credential: string): Observable<CodeRepository> {
-    return this.api.post<{ repository: CodeRepository }>(`${HTTP.API_BASE_URL}/repositories.set_credential`,
-      {repository, credential}, {}).pipe(map(response => response.repository));
+  // Assigns a credential to a binding, "None needed", or (neither) clears the assignment.
+  setBindingCredential(binding: string, credential: string | null, noneNeeded = false): Observable<string> {
+    return this.api.post<{ binding: string }>(`${HTTP.API_BASE_URL}/repositories.set_credential`,
+      {binding, credential: credential || undefined, none_needed: noneNeeded || undefined}, {})
+      .pipe(map(response => response.binding));
   }
 
   // The credentials the signed-in user may choose for a dataset: their own, and the company's.

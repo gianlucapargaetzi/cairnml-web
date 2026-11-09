@@ -4,10 +4,10 @@
 
 ```html
 <header class="page-header" role="banner"> <!-- becomes <sm-page-header> -->
-  <h1>Queues</h1>
+  <h1>Reports</h1>
   <div class="actions">
     <button mat-stroked-button type="button" (click)="refresh()">Refresh</button>
-    <button mat-flat-button type="button" (click)="create()">Create queue</button>
+    <button mat-flat-button type="button" (click)="create()">Create report</button>
   </div>
 </header>
 ```

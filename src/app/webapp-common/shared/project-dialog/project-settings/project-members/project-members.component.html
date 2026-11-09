@@ -42,7 +42,7 @@
           <td>{{ row.added ? (row.added | date: 'mediumDate') : '' }}</td>
           <td class="row-actions">
             @if (!row.isOwner && settingsStore.canManageMembers()) {
-              <button mat-icon-button [disabled]="memberBusy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove" (click)="removeMember(row)" data-id="removeMemberButton">
+              <button mat-icon-button [disabled]="memberBusy()" [attr.aria-label]="'Remove ' + row.name" smTooltip="Remove from this project" (click)="removeMember(row)" data-id="removeMemberButton">
                 <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
               </button>
             }

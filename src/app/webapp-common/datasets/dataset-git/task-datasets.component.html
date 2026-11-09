@@ -1,13 +1,24 @@
 @if (groups().length) {
   <div class="task-datasets" data-id="taskDatasets">
-    <sm-section-header label="Datasets used"></sm-section-header>
+    <sm-section-header label="Datasets"></sm-section-header>
     @for (group of groups(); track group.key) {
       @for (version of group.versions; track version.commit) {
         <div class="dataset-row">
-          <a class="dataset-link" data-id="taskDatasetLink"
-            [routerLink]="['/datasets']" [queryParams]="{dataset: group.key}">
-            {{ group.name }} at {{ version.commit || 'unknown version' }}
-          </a>
+          <div class="dataset-line">
+            <sm-entity-chip class="dataset-link" data-id="taskDatasetLink" [label]="group.name" icon="al-ico-datasets"
+              [link]="['/datasets']" [queryParams]="{dataset: group.name}"></sm-entity-chip>
+            <span class="commit">at {{ version.commit || 'unknown version' }}</span>
+            @if (accessOf(group.repo); as access) {
+              <sm-repo-access-badge class="access" [access]="access"></sm-repo-access-badge>
+              @if (access.can_assign) {
+                <button mat-icon-button type="button" data-id="assignDatasetCredentials"
+                  [attr.aria-label]="'Assign a credential to ' + group.name" smTooltip="Assign credentials"
+                  (click)="assign(access)">
+                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                </button>
+              }
+            }
+          </div>
           <span class="meta">{{ group.kind === 'own' ? group.repo : 'registry ' + group.repo }}</span>
         </div>
       }

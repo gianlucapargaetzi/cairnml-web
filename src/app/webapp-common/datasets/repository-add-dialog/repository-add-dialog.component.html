@@ -1,26 +1,29 @@
 <sm-dialog-template header="Add repository" iconClass="al-ico-datasets">
   <p class="meta">
-    List a code repository before any run uses it. A public repository needs no GitHub App. A private one is read with
-    the GitHub App you choose, one of your own or the company's.
+    @if (fixedProject) {
+      List a code repository for this project before any run uses it. Its owner then assigns the credential it is read
+      with; jobs of the project use it as soon as it is listed.
+    } @else {
+      List a code repository before any run uses it. Choose the project that will use it; its owner, or you as the first
+      user there, then assigns the credential it is read with from the Repositories tab.
+    }
   </p>
   <form [formGroup]="form" (ngSubmit)="add()" class="form" autocomplete="off">
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>GitHub address</mat-label>
+      <mat-label>Repository address</mat-label>
       <input matInput formControlName="url" placeholder="https://github.com/owner/name" data-id="addRepositoryUrl">
     </mat-form-field>
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>GitHub App</mat-label>
-      <mat-select formControlName="credential" data-id="addRepositoryCredential">
-        <mat-option value="">No GitHub App (public repository)</mat-option>
-        @for (credential of credentials(); track credential.id) {
-          <mat-option [value]="credential.id">
-            <span class="ellipsis">{{ credential.name }}</span>
-            <span class="option-meta">{{ credential.type }}, {{ credential.scope === 'company' ? 'company' : 'yours' }}</span>
-          </mat-option>
-        }
-      </mat-select>
-      <mat-hint>A private repository needs one</mat-hint>
-    </mat-form-field>
+    @if (!fixedProject) {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Project</mat-label>
+        <mat-select formControlName="project" data-id="addRepositoryProject">
+          <mat-option value="">No project (only yours)</mat-option>
+          @for (project of projects(); track project.id) {
+            <mat-option [value]="project.id"><span class="ellipsis">{{ project.name }}</span></mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
     @if (error()) {
       <div class="error" role="alert">{{ error() }}</div>
     }

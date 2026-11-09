@@ -1,3 +1,4 @@
+import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatButton, MatIconButton} from '@angular/material/button';
@@ -16,7 +17,6 @@ import {TableComponent} from '@common/shared/ui-components/data/table/table.comp
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
 import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
-import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
@@ -85,6 +85,7 @@ interface ShareRow {
   styleUrls: ['./share-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    EntityChipComponent,
     MatButton,
     MatIconButton,
     MatCheckbox,
@@ -96,7 +97,6 @@ interface ShareRow {
     TableComponent,
     EmptyStateComponent,
     InlineAlertComponent,
-    ShowTooltipIfEllipsisDirective,
     TooltipDirective,
   ],
 })

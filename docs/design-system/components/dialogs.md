@@ -7,7 +7,7 @@ Implementation: Material dialog wrapped by `sm-dialog-template` (header, optiona
 | Use a dialog | Use a page |
 |---|---|
 | Confirm an action | More than ~5 fields or sections |
-| Enter 1-5 fields (rename, create queue, add tag) | Content the user may want to link to or come back to |
+| Enter 1-5 fields (rename, create report, add tag) | Content the user may want to link to or come back to |
 | Pick from a short list | Anything with its own tabs or scrolling data |
 | Show a single result (share link, credentials once) | Multi-step flows longer than 3 steps |
 
@@ -44,6 +44,25 @@ Content (scrolls if needed)
 - Esc and the X close the dialog (= cancel). Backdrop click closes only dialogs without input; dialogs with input or destructive decisions set `disableClose`.
 - Initial focus: first field; for confirmations focus the **safe** action (Cancel) for destructive ones.
 - The X button in `sm-dialog-template` has `tabindex="-1"` (not reachable with Tab): **target** remove it; Esc remains.
+
+## Dialog body rhythm and form dialogs (add, share, assign)
+
+Every dialog with a form has the same body, top to bottom, built by the shared stylesheet mixin `styles/mixins/dialog-form.scss` (`@include dialog-form.dialog-form();` in the dialog's own stylesheet; never write `.form`, `.actions`, `.meta` or `.error` again, and never use `mat-dialog-actions` or an ad hoc `.content` wrapper):
+
+| From | To | Space |
+|---|---|---|
+| Title block (icon, title) | note or first block | set by `sm-dialog-template`; do not add margins |
+| Note (`.meta`) or alert (`sm-inline-alert`) | the next block (form) | 16px (`--space-4`) |
+| Field | next field | 8px (`--space-2`), plus the field's own hint line |
+| Last field, hint or error line | action row | 24px (`--space-5`) margin, plus the form column's 8px gap: **32px** measured from the bottom of the last field |
+| Action row | dialog bottom edge | set by `sm-dialog-template`; do not add margins |
+
+Rules:
+- Every field is `mat-form-field appearance="outline"` and **spans the full form column**, left edge to right edge. A picker (a `mat-select` of datasets, queues, credentials, users) is as wide as a text field; a select that stops short of the right edge is a defect. The mixin sets `mat-form-field { width: 100% }`.
+- Structure: optional note or alert, then `<div class="form">` (or `<form class="form">`) holding the fields and then `<div class="actions">` with Cancel (`mat-stroked-button`) first and the action (`mat-flat-button`) second. The action row is inside the form column so the 24px above it is measured from the last field.
+- An alert never touches the field under it (the Share access dialog had its warning directly on top of the Project label).
+- Dialogs of the same kind have the same panel class: picker dialogs (one select) are `dialog-sm` or `dialog-md` consistently with their siblings.
+- Measured by `scripts/add-dialogs.js`: field width equals the column width, the gap from the last field to the action row is the same in every dialog, and the note-to-form gap is the same in every dialog.
 
 ## Confirmation dialogs
 

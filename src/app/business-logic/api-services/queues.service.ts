@@ -33,8 +33,6 @@ import { QueuesAddTaskRequest } from '../model/queues/queuesAddTaskRequest';
 import { QueuesAddTaskResponse } from '../model/queues/queuesAddTaskResponse';
 import { QueuesClearQueueRequest } from '../model/queues/queuesClearQueueRequest';
 import { QueuesClearQueueResponse } from '../model/queues/queuesClearQueueResponse';
-import { QueuesCreateRequest } from '../model/queues/queuesCreateRequest';
-import { QueuesCreateResponse } from '../model/queues/queuesCreateResponse';
 import { QueuesDeleteMetadataRequest } from '../model/queues/queuesDeleteMetadataRequest';
 import { QueuesDeleteMetadataResponse } from '../model/queues/queuesDeleteMetadataResponse';
 import { QueuesDeleteRequest } from '../model/queues/queuesDeleteRequest';
@@ -144,28 +142,7 @@ export class ApiQueuesService {
         );
     }
 
-    /**
-     * Create a new queue
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesCreate(request: QueuesCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesCreateResponse>(`${this.basePath}/queues.create`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Deletes a queue. If the queue is not empty and force is not set to true, queue   will not be deleted.
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesDelete(request: QueuesDeleteRequest, options?: ApiOptions): Observable<any> {
+        public queuesDelete(request: QueuesDeleteRequest, options?: ApiOptions): Observable<any> {
         return this.apiRequest.post<QueuesDeleteResponse>(`${this.basePath}/queues.delete`,
             request,
             {

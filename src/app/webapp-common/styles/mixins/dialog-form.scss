@@ -1,15 +1,31 @@
 // The form of a small dialog that picks one thing and saves it: the muted note, the form column, the error line and the
 // centred actions, with Cancel first and the action after it (as the other dialogs).
+//
+// The vertical rhythm of every dialog body, top to bottom: note or alert, then 16px (--space-4); the fields, 8px apart
+// (--space-2; each field carries its own hint line); then 24px (--space-5) to the action row. A block above the form
+// (note, alert) never touches the form below it.
 @mixin dialog-form() {
-  .meta {
+  .meta,
+  .intro {
+    margin: 0 0 var(--space-4);
     color: var(--color-on-surface-variant);
     font-size: var(--font-size-md);
+  }
+
+  sm-inline-alert {
+    display: block;
+    margin-bottom: var(--space-4);
   }
 
   .form {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+
+    // every field spans the form column, from the left edge to the right edge
+    mat-form-field {
+      width: 100%;
+    }
   }
 
   .error {
@@ -21,7 +37,8 @@
     display: flex;
     justify-content: center;
     gap: var(--space-2);
-    margin-top: var(--space-4);
+    // the room between the last field and the buttons
+    margin-top: var(--space-5);
   }
 }
 

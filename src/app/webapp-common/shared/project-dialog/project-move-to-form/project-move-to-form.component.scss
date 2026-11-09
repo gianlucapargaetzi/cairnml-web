@@ -1,3 +1,7 @@
+@use "mixins/dialog-form" as dialog-form;
+
+@include dialog-form.dialog-form();
+
 :host {
   .creat-new-suffix {
     display: inline-block;
@@ -6,28 +10,6 @@
     transform: translateY(-4px);
   }
 
-  .buttons {
-    margin-top: 48px;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    left: 50%;
-    position: relative;
-    transform: translateX(-50%);
-
-    button {
-      width: 130px;
-    }
-
-    .yes-button {
-      margin-left: 16px;
-    }
-  }
-
-  .create-project-button {
-    padding-top: 32px;
-  }
 
   .dynamic-subtitle {
     display: grid;

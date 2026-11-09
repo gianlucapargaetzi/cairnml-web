@@ -9,7 +9,7 @@ import {
   PaginatedEntitySelectorComponent
 } from '@common/shared/components/paginated-entity-selector/paginated-entity-selector.component';
 import {StringIncludedInArrayPipe} from '@common/shared/pipes/string-included-in-array.pipe';
-import {MatDialogActions, MatDialogClose} from '@angular/material/dialog';
+import {MatDialogClose} from '@angular/material/dialog';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
@@ -30,7 +30,6 @@ export interface NewReportData {
         MatFormField,
         PaginatedEntitySelectorComponent,
         StringIncludedInArrayPipe,
-        MatDialogActions,
         MatDialogClose,
         MatLabel,
         MatError,

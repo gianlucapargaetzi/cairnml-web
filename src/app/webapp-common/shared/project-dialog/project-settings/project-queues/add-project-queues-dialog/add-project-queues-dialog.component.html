@@ -1,6 +1,6 @@
 <sm-dialog-template iconClass="al-ico-add" header="Add queue">
-  <div class="content">
-    <mat-form-field floatLabel="always">
+  <div class="form">
+    <mat-form-field appearance="outline">
       <mat-label>Queues</mat-label>
       <mat-select multiple [value]="queues()" (selectionChange)="queues.set($event.value)" data-id="projectQueues">
         @for (queue of data.queues; track queue.id) {
@@ -8,9 +8,9 @@
         }
       </mat-select>
     </mat-form-field>
+    <div class="actions">
+      <button mat-stroked-button type="button" (click)="cancel()" data-id="cancelAddProjectQueues">Cancel</button>
+      <button mat-flat-button type="button" [disabled]="!queues().length" (click)="apply()" data-id="confirmAddProjectQueues">Add queue</button>
+    </div>
   </div>
-  <mat-dialog-actions>
-    <button mat-stroked-button (click)="cancel()" data-id="cancelAddProjectQueues">Cancel</button>
-    <button mat-flat-button [disabled]="!queues().length" (click)="apply()" data-id="confirmAddProjectQueues">Add queue</button>
-  </mat-dialog-actions>
 </sm-dialog-template>

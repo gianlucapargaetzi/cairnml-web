@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Action, Store} from '@ngrx/store';
@@ -22,6 +22,7 @@ import {selectSelectedExperiment} from '~/features/experiments/reducers';
 import * as infoActions from '../actions/common-experiments-info.actions';
 import {autoRefreshExperimentInfo, experimentDetailsUpdated} from '../actions/common-experiments-info.actions';
 import {emptyAction} from '~/app.constants';
+import {DispatchGuardService} from '@common/datasets/dispatch-warning-dialog/dispatch-guard.service';
 import * as viewActions from '../actions/common-experiments-view.actions';
 import {IExperimentInfo, ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
 import {TasksGetAllExResponse} from '~/business-logic/model/tasks/tasksGetAllExResponse';
@@ -83,6 +84,8 @@ export class CommonExperimentsMenuEffects {
               private dialog: MatDialog
   ) {}
 
+  private dispatchGuard = inject(DispatchGuardService);
+
   activeLoader = createEffect(() => this.actions$.pipe(
     ofType(
       menuActions.restoreSelectedExperiments,
@@ -101,7 +104,8 @@ export class CommonExperimentsMenuEffects {
     concatLatestFrom(() => this.store.select(selectSelectedExperiment)),
     switchMap(([action, selectedEntity]) => {
         const ids = action.selectedEntities.map(exp => exp.id);
-        return this.apiTasks.tasksEnqueueMany({
+        // a repository with no credential assigned is asked about first; stopping there dispatches nothing
+        return this.dispatchGuard.confirm(ids).pipe(switchMap(go => !go ? of(emptyAction()) : this.apiTasks.tasksEnqueueMany({
 
           ids,
           queue: action.queue.id, ...((!action.queue.id) && {queue_name: action.queue.name}),
@@ -115,7 +119,7 @@ export class CommonExperimentsMenuEffects {
               ...(res.queue_watched === false ? [menuActions.openEmptyQueueMessage({queue: action.queue})] : [])
             ]),
             catchError(error => this.updateExperimentFailed(action.type, error))
-          );
+          )));
       }
     )
   ));

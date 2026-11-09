@@ -1,0 +1,50 @@
+@use "mixins/dialog-form" as dialog-form;
+
+@include dialog-form.dialog-form();
+
+.repositories {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.repository {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .head button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .url {
+    min-width: 0;
+    flex: 1 1 auto;
+    font-weight: 500;
+    color: var(--color-on-surface);
+  }
+}
+
+.dont-ask {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.kind {
+  margin-left: var(--space-2);
+  font-weight: 400;
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
