@@ -184,5 +184,6 @@ The case you type is the case that shows. Buttons, tabs, titles and labels are s
 - Used different icons or tooltip wording for the same row action on different pages (trash vs ×, "Remove" vs "Remove from this project"). Check the table of icons in `components/tables.md`.
 - Wrote own `.form`/`.actions` rules and `mat-dialog-actions` in add dialogs, so selects stopped short of the right edge and the buttons sat at different distances from the fields in each dialog. Use the shared mixin and measure with `scripts/add-dialogs.js`.
 - Put an alert directly above a form field with no space (Share access). A block above a form is followed by 16px.
+- Put a spinner inside a button without checking the button while it is busy: the spinner stacked above the label and the button looked broken. Check every busy state with the request delayed (Playwright `page.route` with a delay) and measure the button: same width and 36px height as idle.
 - Took `--space-6` for 24px: it is 32px.
 - Made a detail title 20px when the existing detail title (experiment info header) is 15px. Copy the twin's number, do not pick one.
