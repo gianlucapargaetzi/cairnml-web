@@ -21,13 +21,44 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 | Cell padding | `0 12px` (`$table-cell-padding` and the `sm-table` cells; the old `0 0.75rem` was 10.5px at rem=14px). The devices table uses the same values |
 | Alignment | Text left, numbers right (tabular figures), status/icons left; header aligns with its column |
 | Selection | Leading checkbox column; select-all in the header; selected row fill `--color-primary` with `--color-on-secondary` text (existing). Selection shows a bulk-action bar in the toolbar |
-| Row actions | One overflow icon button (`mat-menu`) at the row end. Frequent actions may show as icon buttons on hover **and on keyboard focus** (existing code reveals them only on `tr:hover`, making them unreachable by keyboard: **target** `tr:hover, tr:focus-within`) |
+| Row actions | Icon buttons in the last column, see [Row actions](#row-actions). Many actions that do not fit: one overflow icon button (`mat-menu`) at the row end. Frequent actions may show as icon buttons on hover **and on keyboard focus** (existing code reveals them only on `tr:hover`, making them unreachable by keyboard: **target** `tr:hover, tr:focus-within`) |
 | Sorting | Click header; arrow icon shows direction; default sort is stated by the page (usually last update, descending) |
 | Filtering | Toolbar above the table: search field first, then filter controls, then view options. Active filters are visible as chips with a clear control |
 | Pagination | Virtual scrolling / load more. There is no page-number pagination in the app; keep it so. Show total count in the toolbar ("128 tasks") |
 | Overflow | Table scrolls inside its container; name column sticky; truncate cells with `.ellipsis` and a tooltip with the full value |
 | Column resize | Allowed (existing); persist per table |
 | Status column | `sm-status-icon-label` |
+
+## Row actions
+
+Measured on the Access page, Repositories, the project settings tables and the Datasets list (Chromium, 1600x900). Every table that acts on its rows follows this.
+
+| Rule | Value |
+|---|---|
+| Control | `mat-icon-button`, 36x36, with a 20px `mat-icon fontSet="al"` inside. The icon centre equals the button centre (0px offset on both axes). No extra size classes on the icon |
+| Place | The last column, header cell empty, buttons right-aligned. The last button's right edge mirrors the table's left cell padding: 24px gutter in full-width `sm-table`s (measured gap 27 to 28), 12px in the compact tables of the project settings (measured 12) |
+| Height | Vertically centred in the row (measured offset 0 to 0.5px) |
+| Visibility | Shown at once, not on hover, so keyboard users reach them. Disabled (not hidden) while a request for the row runs; hidden only when the user has no right to the action |
+| Order | Specific actions first, the destructive one last: share, check, delete (Access); reassign, revoke (Devices); refresh, remove (Datasets) |
+| Name | `smTooltip` is a verb phrase ("Check now", "Remove from this project"); `[attr.aria-label]` is the verb plus the row it acts on ("Remove ui-audit app one"); `data-id` names the action |
+| Danger | Delete, revoke and remove ask for confirmation (`sm-confirm-dialog`, `destructive: true`), except a row in a list that is staged until its Save button |
+| Add | Never per row. The add action is the filled button of the table's section or page header (`al-ico-add`, see [buttons](buttons.md) rule 2a) |
+| Reference vs action | A name that points to another resource is a pill ([badges](badges.md#references-to-things-in-the-app-sm-entity-chip)), not a button. The pill's own "×" is the only action allowed inside it |
+
+Icons, by what the action does. Use the same icon for the same meaning everywhere:
+
+| Meaning | Icon | Example |
+|---|---|---|
+| Delete or revoke something for good | `al-ico-trash` | Delete credential, Revoke device |
+| Take something out of a place; the thing itself stays | `al-ico-dialog-x` | Remove from this project or queue, Stop sharing, Remove member |
+| Share with a project | `al-ico-shared-item` | Share credential |
+| Re-check, reload | `al-ico-refresh` | Check now, Refresh registry (a spinner replaces it while it runs) |
+| Assign credentials | `al-ico-lock` | Repositories, task Datasets |
+| Hand over | `al-ico-move-to` | Reassign device |
+| Edit | `al-ico-edit` | Edit value |
+| Download | `al-ico-download` | Download file |
+
+Pitfalls found while building this: a component stylesheet that sizes `.al-icon` also hits the `mat-icon` inside every icon button of that component (the Access page's refresh and delete icons sat 2.7px low until the rule was scoped to the status icon); a flex wrapper with `align-items: center` is needed in a cell that holds a pill and a button, or the two sit at different heights.
 
 ## States
 
