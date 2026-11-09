@@ -23,12 +23,16 @@ Off-scale values found in the code (**to migrate**): 6px (209 uses), 14px (115),
 
 ### Which spacing where
 
+The same relationship has the same space everywhere. Look the relationship up in this table instead of choosing a number by eye; when a relationship is not listed, add a row here in the same change. Check dialogs with `scripts/add-dialogs.js` and pages with `scripts/fit-check.js` (see the cairnml-web-ui skill).
+
 | Situation | Token |
 |---|---|
 | Padding inside a button | height 36 px (Material); horizontal 16px (default), 8px (`sm`), 4px (`xs`) |
 | Icon next to its label | `--space-2` (8px); in dense rows `--space-1` |
 | Buttons side by side | `--space-2` |
-| Form field to form field | `--space-4` |
+| Form field to form field | `--space-2` (8px). An outline `mat-form-field` already reserves its own hint line (about 22px) under the input, so the visible gap is about 30px; never add `--space-4` between fields |
+| Note or alert above a form, in a dialog, to the next block | `--space-4` (16px). A block never touches the block under it |
+| Last field of a dialog to its action row | `--space-5` (24px) margin plus the form's 8px gap: 32px from the field's box, the same in every dialog |
 | Label to its control | Material form field handles it; do not add margins |
 | Form section to form section | `--space-6` |
 | Table cell horizontal padding | `--space-3` |

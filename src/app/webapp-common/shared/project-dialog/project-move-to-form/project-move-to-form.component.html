@@ -10,7 +10,7 @@
       <span class="p-holder">Project…</span>
     } </div>
 </div>
-<form #moveToForm="ngForm" (submit)="send()">
+<form #moveToForm="ngForm" (submit)="send()" class="form">
   <sm-paginated-entity-selector
     #projectInput="ngModel"
     name="projectName"
@@ -49,12 +49,12 @@
       </div>
     }
   </sm-paginated-entity-selector>
-</form>
-<div class="sp-mt-5 d-flex justify-content-center gap-3">
-  <button mat-stroked-button (click)="closeDialog()" data-id="CancelButton">Cancel</button>
-  <button mat-flat-button
+  <div class="actions">
+  <button mat-stroked-button type="button" (click)="closeDialog()" data-id="CancelButton">Cancel</button>
+  <button mat-flat-button type="button"
           [disabled]="projectName === project?.parent || moveToForm.invalid"
           (click)="send()"
           cdkFocusInitial data-id="MoveButton"
   >Move</button>
-</div>
+  </div>
+</form>

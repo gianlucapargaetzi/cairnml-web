@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
@@ -22,7 +22,7 @@ export interface AddProjectMemberResult {
   templateUrl: './add-project-member-dialog.component.html',
   styleUrls: ['./add-project-member-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DialogTemplateComponent, MatDialogActions, MatFormField, MatLabel, MatOption, MatSelect, MatButton]
+  imports: [DialogTemplateComponent, MatFormField, MatLabel, MatOption, MatSelect, MatButton]
 })
 export class AddProjectMemberDialogComponent {
   protected readonly data = inject<AddProjectMemberDialogConfig>(MAT_DIALOG_DATA);

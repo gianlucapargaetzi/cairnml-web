@@ -1,4 +1,4 @@
-<form [formGroup]="projectForm" class="d-flex gap-3 flex-column">
+<form [formGroup]="projectForm" class="form">
   <mat-form-field appearance="outline">
     <mat-label>Project name</mat-label>
     <input
@@ -74,7 +74,7 @@
     }
   </mat-form-field>
 
-  <div class="w-100 create-project-button">
+  <div class="actions">
     <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelCreateProject">Cancel</button>
     <button mat-flat-button data-id="Create Project" [disabled]="projectForm.controls.default_output_destination.invalid || projectForm.invalid" (click)="send()">Create project
     </button>

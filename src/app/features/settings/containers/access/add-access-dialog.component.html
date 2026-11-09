@@ -36,7 +36,7 @@
       <span class="key-label">Private key (.pem)</span>
       <div class="key-row">
         <button mat-stroked-button type="button" (click)="keyInput.click()" data-id="accessKeyFile">Choose key file</button>
-        <span class="meta">{{ keyFileName() ?? 'No file chosen' }}</span>
+        <span class="key-file-name">{{ keyFileName() ?? 'No file chosen' }}</span>
       </div>
       <input #keyInput hidden type="file" accept=".pem,text/plain" (change)="keyFileChosen($event)"/>
     </div>

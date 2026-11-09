@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
@@ -20,7 +20,7 @@ export interface AddProjectDatasetsResult {
   templateUrl: './add-project-datasets-dialog.component.html',
   styleUrls: ['./add-project-datasets-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DialogTemplateComponent, MatDialogActions, MatButton, MatFormField, MatLabel, MatSelect, MatOption],
+  imports: [DialogTemplateComponent, MatButton, MatFormField, MatLabel, MatSelect, MatOption],
 })
 export class AddProjectDatasetsDialogComponent {
   protected data = inject<AddProjectDatasetsDialogData>(MAT_DIALOG_DATA);

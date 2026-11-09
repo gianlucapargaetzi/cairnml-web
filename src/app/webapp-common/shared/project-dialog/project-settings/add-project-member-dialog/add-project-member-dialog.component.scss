@@ -1,10 +1,7 @@
+@use "mixins/dialog-form" as dialog-form;
+
 :host {
   display: block;
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 16px;
-  }
 }
+
+@include dialog-form.dialog-form();
