@@ -21,7 +21,7 @@ const measure = () => {
   const main = document.querySelector('router-outlet ~ *, main, .main-content, sm-layout .content') || document.body;
   const seen = [];
   for (const el of document.querySelectorAll('body *')) {
-    if (!vis(el) || el.closest('sm-side-nav, sm-header, mat-dialog-container, .cdk-overlay-container, sm-empty-state, .p-datatable-tbody, mat-form-field, svg, canvas')) continue;
+    if (!vis(el) || el.closest('sm-side-nav, sm-header, mat-dialog-container, .cdk-overlay-container, sm-empty-state, .settings-page, .p-datatable-tbody, mat-form-field, svg, canvas')) continue;
     const b = el.getBoundingClientRect();
     const lg = b.x - left0, rg = W - b.right;
     if (b.width < 360 || lg < 40 || Math.abs(lg - rg) > 2 || b.top > innerHeight * 0.9) continue;

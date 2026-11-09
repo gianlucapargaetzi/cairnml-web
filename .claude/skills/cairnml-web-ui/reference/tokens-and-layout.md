@@ -67,6 +67,8 @@ Component state classes on a badge are `state-ok` (running), `state-warn` (warni
 
 The spacing utilities come from Bootstrap's utility API (`styles/minimal-bootstrap.scss`) with this app's scale: `1` = 4px, `2` = 8px, `3` = 16px, `4` = 24px, `5` = 48px. The templates already use them heavily: `d-flex` (180 times), `align-items-center`, `w-100`, `h-100`, `ms-2`, `me-2`, `ms-3`, `gap-3`, `justify-content-between`, `flex-column`, `mt-2`, `mx-auto`, `overflow-hidden`. For small margins, gaps and flex alignment **use these classes in the template instead of writing CSS**.
 
+In stylesheets use the CSS tokens, which are a different scale from the utility classes: `--space-1` 4px, `--space-2` 8px, `--space-3` 12px, `--space-4` 16px, **`--space-5` 24px**, **`--space-6` 32px**, `--space-7` 48px, `--space-8` 64px (`customizations/tokens.scss`). The page gutter is `--space-5`; `--space-6` is **not** 24px. Where each step is used is in `docs/design-system/02-design-tokens.md` ("Which spacing where"); dialogs have their own table in `reference/dialog-anatomy.md`. Look the relationship up; never choose a number by eye.
+
 The rhythm in the stylesheets (these are conventions, not variables):
 
 | Where | Value |

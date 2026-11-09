@@ -89,7 +89,9 @@ These are the rules that most often get broken. If you are about to break one, s
 9. **Terminology.** A *task* is a procedure, an *experiment* is one run of it, a *job* is a scheduled experiment. The API enum value `task` is not display text: use `entityDisplayName()` from `~/shared/constants/non-common-consts` for anything a person reads.
 10. **A reference is a pill, a row's own name is not.** When a table, list or dialog *refers to* something inside CairnML (a project, dataset, queue, credential, task) use `sm-entity-chip` (`components/badges.md`): linked, with the icon of its kind. A list of the things themselves (the Name column of the datasets, queues or credentials list) stays plain text. People and external things (GitHub repositories) get no pill.
 11. **Row actions follow one anatomy** (`components/tables.md`, "Row actions"): 36px icon buttons with a centred 20px icon in the last column, shown at once, specific actions first and the destructive one last, the same icon for the same meaning everywhere (trash = delete, × = take out of a place, share, refresh, lock = assign credentials), `smTooltip` as a verb phrase and `[attr.aria-label]` naming the row. Never size an icon in a component stylesheet with a rule that also matches the `mat-icon` inside a button. Measure them with `scripts/row-actions.js`.
-12. **Both themes, always.** If it only looks right in one, it is wrong.
+12. **The same relationship has the same space everywhere.** Spacing is looked up, never chosen by eye: `docs/design-system/02-design-tokens.md` ("Which spacing where") and `reference/dialog-anatomy.md` (dialog rhythm). Form field to field 8px, note or alert to the next block 16px, last field to the action row 32px (measured from the field's box), page gutter 24px. Tokens are `--space-1..8` = 4, 8, 12, 16, **24**, **32**, 48, 64 (`--space-5` is 24 and `--space-6` is 32: do not use `--space-6` for 24). When a relationship is not in the table, add it there in the same change. Fields span their column; nothing stops short of the right edge.
+13. **Project settings sections apply at once** (no Save button); a list's add dialog is a form dialog (rule 12 and `reference/dialog-anatomy.md`).
+14. **Both themes, always.** If it only looks right in one, it is wrong.
 
 ## When the content does not fit
 
@@ -160,6 +162,7 @@ The case you type is the case that shows. Buttons, tabs, titles and labels are s
 - [ ] Empty, loading, error, many, long-name states are handled and I looked at them, including a chart or panel with no data.
 - [ ] I ran the overflow check from `reference/verify.md` in the open-detail state, at the narrow width, and it reports no wide elements.
 - [ ] I looked at light **and** dark at a wide and a narrow width. No horizontal page scroll, no overlap.
+- [ ] Every dialog I touched or added has the shared dialog rhythm (`scripts/add-dialogs.js` numbers equal to its siblings), full-width fields, and no Save button where the change applies at once.
 - [ ] References to projects, datasets, queues, credentials and tasks are pills; row actions match the anatomy in `components/tables.md` (measured with `scripts/row-actions.js`).
 - [ ] Button, tab and heading casing matches the neighbours; no repeated page title; terminology is task / experiment / job.
 - [ ] `pnpm run build` passes.
@@ -179,4 +182,7 @@ The case you type is the case that shows. Buttons, tabs, titles and labels are s
 - Styled `.al-icon` in a component stylesheet; it also hit the icons inside the page's icon buttons and left them 2.7px low. Scope such rules to the one element.
 - Put pills on a row's own name (project settings lists) instead of only where something is referenced.
 - Used different icons or tooltip wording for the same row action on different pages (trash vs ×, "Remove" vs "Remove from this project"). Check the table of icons in `components/tables.md`.
+- Wrote own `.form`/`.actions` rules and `mat-dialog-actions` in add dialogs, so selects stopped short of the right edge and the buttons sat at different distances from the fields in each dialog. Use the shared mixin and measure with `scripts/add-dialogs.js`.
+- Put an alert directly above a form field with no space (Share access). A block above a form is followed by 16px.
+- Took `--space-6` for 24px: it is 32px.
 - Made a detail title 20px when the existing detail title (experiment info header) is 15px. Copy the twin's number, do not pick one.
