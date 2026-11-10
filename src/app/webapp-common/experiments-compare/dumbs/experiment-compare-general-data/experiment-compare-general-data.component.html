@@ -12,6 +12,7 @@
 <sm-tag-list [tags]="tags"></sm-tag-list>
 <div class="general-info" data-id="generalInfo">
     <sm-status-icon-label [status]="experiment.status"></sm-status-icon-label>
+    <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment.status"></sm-task-progress>
   @if (experiment.last_iteration !== undefined) {
     <span class="dot"></span>
     <span class="flex-shrink-0">{{experiment.last_iteration | number | NA}} iterations</span>

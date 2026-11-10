@@ -220,6 +220,10 @@
     }
 
     &.selected {
+      // the progress bar of a running task in a selected (blue) row has to be light
+      --progress-fill: var(--color-primary-container);
+      --progress-percent: var(--color-primary-container);
+      --progress-track: color-mix(in srgb, var(--color-primary-container) 30%, transparent);
       background-color: var(--row-selected-color);
       color: var(--row-selected-text-color);
 

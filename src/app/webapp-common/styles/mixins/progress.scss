@@ -1,0 +1,65 @@
+// The look of a running task's progress, shared by everything that draws it (`sm-task-progress`, the status strip of
+// the task panel). Include `fill` for the bar itself and `idle` for a bar of a run that has nothing to count right
+// now. Use the mixins at the top level of a component stylesheet: they define the keyframes they need.
+//
+// - fill: the bar is striped and the stripes move, so that it reads as "still running".
+// - idle: a segment slides along the track (a run that is loading data, saving, or in a loop that is not the one that
+//   counts as the progress of the run).
+// The stripes are slight: `--progress-stripe-strength` (default 12%) is how much lighter they are than the fill.
+// Colours: `--progress-fill` (default `--color-running`) and the track set by the component. Reduced motion: the stripes
+// stand still and the idle segment slows down.
+
+@mixin keyframes {
+  @keyframes progress-stripes {
+    to {
+      background-position: var(--progress-stripe, 12px) 0;
+    }
+  }
+
+  @keyframes progress-idle-slide {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(250%);
+    }
+  }
+}
+
+@mixin fill($stripe: 12px) {
+  --progress-stripe: #{$stripe};
+  background-color: var(--progress-fill, var(--color-running));
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-surface-container-lowest) var(--progress-stripe-strength, 12%), transparent) 25%,
+    transparent 25% 50%,
+    color-mix(in srgb, var(--color-surface-container-lowest) var(--progress-stripe-strength, 12%), transparent) 50% 75%,
+    transparent 75%
+  );
+  background-size: var(--progress-stripe) var(--progress-stripe);
+  animation: progress-stripes 0.7s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@mixin idle {
+  // the element must be positioned (relative or absolute): the segment is placed inside it. The mixin does not set
+  // `position` itself, so that it can never move an element that is positioned already
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    border-radius: inherit;
+    background: var(--progress-fill, var(--color-running));
+    animation: progress-idle-slide 1.2s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation-duration: 3s;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import {
   output,
   viewChild
 } from '@angular/core';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs/operators';
@@ -40,6 +41,7 @@ const AGENT_STATUS_LABELS = {active: 'Online', stopped: 'Offline'};
   styleUrls: ['./workers-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TaskProgressComponent,
     TableComponent,
     PrimeTemplate,
     DurationFormaterPipe,

@@ -80,7 +80,7 @@ export class CommonDashboardEffects {
         order_by: ['-last_update'],
         status: ['published', 'closed', 'failed', 'stopped', 'in_progress', 'completed'],
         type: [excludedKey, 'annotation_manual', excludedKey, 'annotation', excludedKey, 'dataset_import'],
-        only_fields: ['type', 'status', 'created', 'name', 'display_name', 'id', 'last_update', 'started', 'project.name'],
+        only_fields: ['type', 'status', 'created', 'name', 'display_name', 'id', 'last_update', 'started', 'project.name', 'runtime.progress', 'runtime.progress_label'],
         system_tags: ['-archived', '-pipeline'],
         user: showOnlyUserWork ? [user.id] : null,
         ...(hideExamples && {allow_public: false}),

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {IRecentTask} from '../../common-dashboard.reducer';
 import {RECENT_EXPERIMENTS_TABLE_COLS, RECENT_TASKS_TABLE_COL_FIELDS} from '../../common-dashboard.const';
 import {TIME_FORMAT_STRING} from '@common/constants';
@@ -17,6 +18,7 @@ import {DatePipe} from '@angular/common';
   styleUrls: ['./recent-experiment-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TaskProgressComponent,
     TaskNameComponent,
     TableComponent,
     ShowTooltipIfEllipsisDirective,

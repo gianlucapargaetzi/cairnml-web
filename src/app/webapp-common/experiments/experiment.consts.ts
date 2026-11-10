@@ -76,7 +76,7 @@ export const INITIAL_EXPERIMENT_TABLE_COLS: ISmCol[] = [
     headerType: ColHeaderTypeEnum.sortFilter,
     filterable: true,
     header: 'Status',
-    style: {width: '130px', minWidth: '130px'},
+    style: {width: '210px', minWidth: '210px'},
     showInCardFilters: true
   },
   {

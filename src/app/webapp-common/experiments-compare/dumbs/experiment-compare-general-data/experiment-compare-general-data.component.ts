@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {IExperimentDetail} from '~/features/experiments-compare/experiments-compare-models';
 import {TIME_FORMAT_STRING} from '@common/constants';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -18,6 +19,7 @@ import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-la
     styleUrls: ['./experiment-compare-general-data.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
+        TaskProgressComponent,
         TooltipDirective,
         RouterLink,
         IdBadgeComponent,

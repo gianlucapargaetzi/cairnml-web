@@ -42,7 +42,7 @@ It does not describe a redesign. It names what the app already does best, picks 
 | [08-ux-guidelines.md](08-ux-guidelines.md) | Loading, empty, error, success, destructive, long-running states; terminology; density |
 | [09-accessibility.md](09-accessibility.md) | WCAG 2.2 AA requirements and the known blockers |
 | [10-frontend-implementation.md](10-frontend-implementation.md) | Where code goes, shared components, enforcement, review checklist |
-| components/ | [buttons](components/buttons.md), [forms](components/forms.md), [tables](components/tables.md), [cards](components/cards.md), [dialogs](components/dialogs.md), [navigation](components/navigation.md), [feedback](components/feedback.md), [badges](components/badges.md), [icons](components/icons.md) |
+| components/ | [buttons](components/buttons.md), [forms](components/forms.md), [tables](components/tables.md), [cards](components/cards.md), [dialogs](components/dialogs.md), [navigation](components/navigation.md), [feedback](components/feedback.md), [badges](components/badges.md), [progress](components/progress.md), [icons](components/icons.md) |
 | patterns/ | [page-layouts](patterns/page-layouts.md), [list-pages](patterns/list-pages.md), [detail-pages](patterns/detail-pages.md), [configuration-pages](patterns/configuration-pages.md), [forms-and-workflows](patterns/forms-and-workflows.md) |
 | examples/ | [reference-page-structures](examples/reference-page-structures.md), [component-usage-examples](examples/component-usage-examples.md), [anti-patterns](examples/anti-patterns.md) |
 

@@ -225,7 +225,9 @@
               "src/app/webapp-common/shared/ui-components/panel/result-line/result-line.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/tags/user-tag/mini-tag/mini-tag.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/tags/user-tag/mini-tags-list/mini-tags-list.component.spec.ts",
-              "src/app/webapp-common/tasks/task-folders.utils.spec.ts"
+              "src/app/webapp-common/tasks/task-folders.utils.spec.ts",
+              "src/app/webapp-common/shared/ui-components/data/task-progress/task-progress.component.spec.ts",
+              "src/app/webapp-common/shared/ui-components/data/task-progress/task-progress.service.spec.ts"
             ],
             "styles": [
               "src/app/webapp-common/styles/style.scss"

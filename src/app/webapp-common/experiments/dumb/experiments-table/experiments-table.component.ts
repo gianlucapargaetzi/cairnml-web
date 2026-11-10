@@ -19,6 +19,7 @@ import {FilterMetadata, PrimeTemplate} from 'primeng/api';
 import {ITableExperiment} from '../../shared/common-experiment-model.model';
 import {EXPERIMENTS_TABLE_COL_FIELDS} from '~/features/experiments/shared/experiments.const';
 import {BaseTableView} from '@common/shared/ui-components/data/table/base-table-view';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {getSystemTags, isDevelopment} from '~/features/experiments/shared/experiments.utils';
 import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {User} from '~/business-logic/model/users/user';
@@ -93,6 +94,7 @@ import {MatIconModule} from '@angular/material/icon';
   }],
   imports: [
     EmptyStateComponent,
+    TaskProgressComponent,
     TaskNameComponent,
     MatIconModule,
     TooltipDirective,

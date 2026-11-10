@@ -87,6 +87,8 @@ import { TasksMakePrivateResponse } from '../model/tasks/tasksMakePrivateRespons
 import { TasksMakePublicRequest } from '../model/tasks/tasksMakePublicRequest';
 import { TasksMakePublicResponse } from '../model/tasks/tasksMakePublicResponse';
 import { TasksMoveRequest } from '../model/tasks/tasksMoveRequest';
+import { TasksGetProgressRequest } from '../model/tasks/tasksGetProgressRequest';
+import { TasksGetProgressResponse } from '../model/tasks/tasksGetProgressResponse';
 import { TasksPingRequest } from '../model/tasks/tasksPingRequest';
 import { TasksPublishManyRequest } from '../model/tasks/tasksPublishManyRequest';
 import { TasksPublishManyResponse } from '../model/tasks/tasksPublishManyResponse';
@@ -1651,6 +1653,21 @@ export class ApiTasksService {
                 observe: observe,
                 reportProgress: reportProgress
             }
+        );
+    }
+
+    /**
+     * Live progress of running tasks. Tasks that are not reporting are left out.
+     * @param request request body
+     */
+    public tasksGetProgress(request: TasksGetProgressRequest): Observable<TasksGetProgressResponse> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling tasksGetProgress.');
+        }
+        const headers = this.defaultHeaders.set('Accept', 'application/json');
+        return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/tasks.get_progress`,
+            request,
+            {withCredentials: this.configuration.withCredentials, headers}
         );
     }
 
