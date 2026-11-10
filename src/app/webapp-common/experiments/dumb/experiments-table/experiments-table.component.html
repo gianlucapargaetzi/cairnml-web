@@ -260,7 +260,7 @@
           [showLabel]="!cardsCollapsed()"
         ></sm-status-icon-label>
         @if (!cardsCollapsed()) {
-          <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment?.status"
+          <sm-task-progress mode="circle" [taskId]="experiment.id" [status]="experiment?.status"
                             [runtime]="experiment?.runtime"></sm-task-progress>
         }
         <mat-checkbox #cb

@@ -45,7 +45,8 @@
 }
 
 @mixin idle {
-  position: relative;
+  // the element must be positioned (relative or absolute): the segment is placed inside it. The mixin does not set
+  // `position` itself, so that it can never move an element that is positioned already
   overflow: hidden;
 
   &::before {

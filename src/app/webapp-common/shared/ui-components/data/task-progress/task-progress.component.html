@@ -11,6 +11,15 @@
         <span class="percent">{{ percent() }}%</span>
       }
     }
+    @case ('circle') {
+      <span class="ring" role="progressbar" [attr.aria-label]="idle() ? 'Working' : 'Progress'"
+            [attr.aria-valuenow]="percent()" aria-valuemin="0" aria-valuemax="100">
+        <mat-progress-spinner [mode]="idle() ? 'indeterminate' : 'determinate'" [value]="percent() ?? 0" [diameter]="20" [strokeWidth]="3"></mat-progress-spinner>
+      </span>
+      @if (percent() !== null) {
+        <span class="percent">{{ percent() }}%</span>
+      }
+    }
     @case ('full') {
       @for (row of rows(); track $index) {
         <div class="level" [class.inner]="!row.main" data-id="progressBar">

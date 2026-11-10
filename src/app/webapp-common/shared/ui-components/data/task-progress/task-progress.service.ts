@@ -75,7 +75,7 @@ export class TaskProgressService {
   }
 
   /** Just the percentage, for places that only need a number (the ring of a status label) */
-  percent(taskId: string, runtime?: {progress?: string | number} | null): number | null {
+  percent(taskId: string, runtime?: {progress?: string | number; progress_label?: string} | null): number | null {
     const live = this.live()[taskId];
     if (live) {
       return live.percent;

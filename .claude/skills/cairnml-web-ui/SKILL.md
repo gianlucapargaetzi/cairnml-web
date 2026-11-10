@@ -113,7 +113,7 @@ The app's strength is combining precise tables with visual summaries. Use this v
 | Counts by state for one entity (total / running / completed) | Circle counters inside a folder card | `sm-project-card` or `sm-card` with `sm-circle-counter` |
 | Many comparable records, many attributes | A table with sort, filter, column picker and an optional detail split | `sm-table`; `sm-experiments-table` as the model |
 | A state | Status label with icon, or a badge | `sm-status-icon-label`, `sm-circle-status`, `.badge` with `state-*` |
-| How far a running task is | A small striped bar with the percentage next to the status; in the detail panel a thin bar per level with its text centred in front of it | `sm-task-progress` (`mini` / `full`), the status strip of the task panel |
+| How far a running task is | A small striped bar with the percentage next to the status (a ring in the narrow card list); in the detail panel a thin striped bar per level with its text centred in front of it | `sm-task-progress` (`mini` / `full`), the status strip of the task panel |
 | Usage against a limit | Usage bar, with a high/full threshold colour | `mat-progress-bar.usage-bar`, or the two-layer `.bar` (used over promised) |
 | A discrete set of resources (GPUs, slots) | A row of blocks, filled when taken | the `.gpu` block pattern on the Workers page |
 | A value over time | Line chart panel with a range selector | `sm-line-chart` (chart.js); experiment results use `sm-single-graph` (plotly) |
@@ -149,7 +149,7 @@ The case you type is the case that shows. Buttons, tabs, titles and labels are s
 
 - **Empty:** the shared look: muted icon, a title in sentence case ("No pipelines to show"), one line saying what to do, optionally a primary button or a getting-started code block. Use the `empty-state` / `empty-card-mixin` from `mixins/empty.scss`, or a `.card.empty` inside a dashboard-type page. Never a blank area.
 - **Loading:** store-driven requests use the global spinner (`activateLoader` / `deactivateLoader`). A component that loads by itself uses a small inline `mat-spinner`. Never block the whole page.
-- **Running but nothing to count** (a run that reports no progress, or is outside the loop that counts): the idle animation, a segment sliding along the bar (`progress.idle`), never a bar frozen at 0% or at the last value.
+- **Running but nothing to count** (a run that reports no progress, or is outside the loop that counts): the idle animation, a segment sliding along the bar (`progress.idle`) or the spinning ring, never a bar frozen at 0% or at the last value.
 - **Error:** an inline short message in the failed colour, or the error dialog. Never `alert()`.
 - **Lost / disabled / draining entities:** dim them (opacity) and say why with a badge; do not remove them.
 - **Many items and long names:** truncate with `ellipsis` plus a tooltip; never let text push a container wider.
@@ -177,7 +177,8 @@ The case you type is the case that shows. Buttons, tabs, titles and labels are s
 - Typed a button label in capitals ("SHOW JOBS") among the sentence-case buttons of the app.
 - Assumed the page would look right in dark mode without opening it.
 - Drew the progress of a running task as a line along the bottom edge of every table row, plus a ring. It looked wrong. In a list, progress is the small bar next to the status (as on the dashboard), nothing else.
-- Made the detail view's progress bars 24px tall with moving stripes and the text drawn on the bar. It looked bad. Stripes belong only on the small bar of a list (faint, `--progress-stripe-strength`); the detail panel has thin solid bars with their text centred in front of them.
+- Made the detail view's progress bars 24px tall with the text drawn on them. It looked bad: keep them thin (6px / 3px) and put the text on a frosted label in front. They are slightly striped (faint, moving).
+- Used the small progress bar in the card list, which is narrow and clipped it. Narrow places use the ring (`sm-task-progress` `circle`). Also: a shared mixin must not set `position`; the idle mixin once did and moved the absolutely positioned strip bar down by its own height.
 - Trusted screenshots taken while the API was restarting: the pages looked broken only because the data was missing. Check the data first.
 - Trusted `CLAUDE.md` (repo root) for colours (`$blue-*`) when the code uses `var(--color-*)`.
 - Built a page as `display: grid` without `grid-template-columns: minmax(0, 1fr)`. A chart and a table made the column wider than its pane and pushed the close button off-screen. Only the overflow check in `reference/verify.md` caught it.

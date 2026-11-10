@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, effect, inject, input} from '@angular/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {TaskProgress, TaskProgressService} from './task-progress.service';
 
 interface ProgressRow {
@@ -11,8 +12,9 @@ interface ProgressRow {
 }
 
 /**
- * How far a running task is. One component for every place that shows a running task, in two forms:
+ * How far a running task is. One component for every place that shows a running task, in three forms:
  * - `mini`: a small bar with the percentage, for status cells;
+ * - `circle`: a small ring with the percentage, for the card list, which is narrow (it shows when a task is open next to it);
  * - `full`: the outermost bar and a bar for each bar inside it, each with its label, counts and percentage centred on it.
  * A running task that has nothing to count right now (it reports nothing, or no bar that counts is running) shows the idle
  * animation instead of a bar. Nothing is shown for a task that is not running.
@@ -22,6 +24,7 @@ interface ProgressRow {
   templateUrl: './task-progress.component.html',
   styleUrls: ['./task-progress.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatProgressSpinnerModule],
   host: {'[class]': 'mode()', '[class.visible]': 'running()'}
 })
 export class TaskProgressComponent {
@@ -31,7 +34,7 @@ export class TaskProgressComponent {
   status = input<string>();
   /** the stored progress (`runtime`) of the task: what is shown until the live value arrives */
   runtime = input<{progress?: string | number; progress_label?: string} | null>();
-  mode = input<'mini' | 'full'>('mini');
+  mode = input<'mini' | 'circle' | 'full'>('mini');
 
   protected running = computed(() => this.status() === 'in_progress');
   protected progress = computed<TaskProgress | null>(() => this.running() ? this.service.of(this.taskId(), this.runtime())() : null);
