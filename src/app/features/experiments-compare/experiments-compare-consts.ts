@@ -5,6 +5,7 @@ export const getCompareDetailsOnlyFields = param => COMPARE_DETAILS_ONLY_FIELDS_
 export const COMPARE_PARAMS_ONLY_FIELDS = [
   'id',
   'name',
+  'display_name',
   'type',
   'status',
   'last_update',

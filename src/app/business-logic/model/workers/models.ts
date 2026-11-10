@@ -3,6 +3,7 @@ export * from '././aggregationStats';
 export * from '././aggregationType';
 export * from '././currentTaskEntry';
 export * from '././idNameEntry';
+export * from '././nextTaskEntry';
 export * from '././machineStats';
 export * from '././metricStats';
 export * from '././metricsCategory';

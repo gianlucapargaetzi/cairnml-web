@@ -93,7 +93,7 @@
           </div>
         }
         @case (QUEUES_TABLE_COL_FIELDS.TASK) {
-          <span class="ellipsis"  [smTooltip]="queue?.entries[0]?.task?.name" smShowTooltipIfEllipsis>{{queue?.entries[0]?.task?.name}}</span>
+          <span class="ellipsis"  [smTooltip]="queue?.entries[0]?.task?.display_name || queue?.entries[0]?.task?.name" smShowTooltipIfEllipsis>{{queue?.entries[0]?.task?.display_name || queue?.entries[0]?.task?.name}}</span>
           @if (!queue?.entries[0]?.task?.name) {
             <span>&mdash;</span>
           }

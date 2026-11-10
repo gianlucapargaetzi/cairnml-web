@@ -11,6 +11,9 @@
            type="text"
            (keydown.enter)="!nameControl.invalid && closeDialog(true)"
            required>
+    @if (hint) {
+      <mat-hint>{{hint}}</mat-hint>
+    }
     @if (nameControl.errors?.required) {
       <mat-error>Please provide a {{fieldName}}</mat-error>
     } @else if (nameControl.errors?.minlength  ===  -1) {

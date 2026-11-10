@@ -78,7 +78,7 @@ export class QueuesEffect {
       switchMap((action) => iif(() => !!action.id,
         this.queuesApi.queuesGetAllEx({
           id: [action.id],
-          only_fields: ['*', 'entries.task.name']
+          only_fields: ['*', 'entries.task.name', 'entries.task.display_name']
         }).pipe(
           mergeMap(res => [
             queueActions.fetchQueueSuccess({queue: calculateQueuesCaption(res.queues)[0] ?? null}),

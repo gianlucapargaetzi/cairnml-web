@@ -1,4 +1,5 @@
 import {inject, Injectable} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
@@ -74,7 +75,7 @@ export class ExperimentsCompareChartsEffects {
         }),
         this.tasksApi.tasksGetAllEx({
           id: action.ids,
-          only_fields: ['name', 'tags', 'project', 'system_tags', 'last_update', 'created']
+          only_fields: ['name', 'display_name', 'tags', 'project', 'system_tags', 'last_update', 'created']
         })).pipe(
         map(res => {
           const data = Object.values(res)[0] as {
@@ -87,7 +88,7 @@ export class ExperimentsCompareChartsEffects {
             created?: string
           }[];
           const ordered = action.ids.map(id => data.find(exp => exp.id === id)).filter(exp => exp)
-            .map(exp => ({...exp, systemTags: exp.system_tags}));
+            .map(exp => ({...exp, name: experimentLabel(exp), systemTags: exp.system_tags}));
           return setGlobalLegendData({data: ordered});
         })
       )

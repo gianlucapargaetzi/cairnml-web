@@ -322,15 +322,22 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   }
 
   public renamePopup() {
-    const selectedExperiments = this.experiment() ?? this.selectedExperiments()[0];
+    // The task name is what the experiment runs: it is not the title shown on screen (that is the display name).
+    const experiment = this.experiment() ?? this.selectedExperiments()[0];
 
     this.dialog.open<RenameDialogComponent>(RenameDialogComponent, {
-      data:{name: this.experiment().name, iconClass: 'al-ico-edit' },
-    }).afterClosed().subscribe((name) => {
-      if (name) {
-        this.store.dispatch(experimentDetailsUpdated({id: selectedExperiments.id, changes: name}));
+      data: {
+        name: experiment.name,
+        header: 'Rename task',
+        fieldName: 'task name',
+        iconClass: 'al-ico-edit',
+        hint: 'This experiment then belongs to the task with the new name. To change only how it is shown, edit its title.'
+      },
+    }).afterClosed().subscribe((result) => {
+      if (result?.name) {
+        this.store.dispatch(experimentDetailsUpdated({id: experiment.id, changes: {name: result.name.trim()}}));
       }
-    })
+    });
   }
 
   public publishPopup() {

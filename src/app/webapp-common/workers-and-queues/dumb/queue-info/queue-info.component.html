@@ -30,9 +30,9 @@
               <span></span>
             }
             <div>{{i + 1}}</div>
-            <a class="ellipsis" [smTooltip]="row?.task?.name" smShowTooltipIfEllipsis [matTooltipShowDelay]="500"
+            <a class="ellipsis" [smTooltip]="(row?.task?.display_name || row?.task?.name)" smShowTooltipIfEllipsis [matTooltipShowDelay]="500"
                [routerLink]="['/projects', ((row?.task?.project?.id) ? row?.task?.project?.id : '*'), 'tasks', row?.task?.id]"
-            >{{row?.task?.name}}</a>
+            >{{(row?.task?.display_name || row?.task?.name)}}</a>
             @if (canManage()) {
               <button aria-label="Queue actions" class="menu" mat-icon-button (click)="openContextMenu($event, row?.task)">
                 <mat-icon fontSet="al" fontIcon="al-ico-dots-v-menu"></mat-icon>
@@ -59,11 +59,11 @@
             <a class="link ellipsis" [smTooltip]="row?.name" smShowTooltipIfEllipsis [matTooltipShowDelay]="500" [routerLink]="['../workers']" [queryParams]="{id: row.name}">{{row?.name}}</a>
             <div class="ellipsis" [smTooltip]="row.ip" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{row.ip}}</div>
             <a class="link ellipsis"
-               [smTooltip]="row?.task?.name" smShowTooltipIfEllipsis
+               [smTooltip]="(row?.task?.display_name || row?.task?.name)" smShowTooltipIfEllipsis
                [matTooltipShowDelay]="500"
                [class.cursor-default]="!row?.task?.id"
                [routerLink]="row?.task?.id ? ['/projects', row?.task?.project?.id ?? '*', 'tasks', row?.task?.id] : null"
-            >{{row?.task?.name}}</a>
+            >{{(row?.task?.display_name || row?.task?.name)}}</a>
           </div>
         </ng-template>
       </sm-simple-table-2>

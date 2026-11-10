@@ -31,6 +31,10 @@ export interface Task {
      */
     name?: string;
     /**
+     * Label of this experiment. Shown instead of the task name when present
+     */
+    display_name?: string;
+    /**
      * Associated user id
      */
     user?: string;

@@ -74,6 +74,7 @@ export type ExperimentTableColFieldsEnum =
   | 'id'
   | 'project.name'
   | 'name'
+  | 'task_name'
   | 'type'
   | 'status'
   | 'created'
@@ -91,6 +92,7 @@ export interface ITableExperiment {
   id: Task['id'];
   type?: Task['type'];
   name?: Task['name'];
+  display_name?: Task['display_name'];
   created?: Task['created'];
   completed?: Task['completed'];
   status?: Task['status'];

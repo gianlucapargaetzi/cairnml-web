@@ -674,7 +674,7 @@ export class CommonExperimentsViewEffects {
         isPipeline,
         isDataset
       });
-      query.only_fields = [EXPERIMENTS_TABLE_COL_FIELDS.NAME, EXPERIMENTS_TABLE_COL_FIELDS.PARENT,
+      query.only_fields = [EXPERIMENTS_TABLE_COL_FIELDS.NAME, 'display_name', EXPERIMENTS_TABLE_COL_FIELDS.PARENT,
         EXPERIMENTS_TABLE_COL_FIELDS.STATUS, EXPERIMENTS_TABLE_COL_FIELDS.TYPE, 'company.id', 'system_tags'];
       return this.apiTasks.tasksGetAllEx(query).pipe(
         expand((res: TasksGetAllExResponse) => res.tasks.length === pageSize ? this.apiTasks.tasksGetAllEx({
@@ -1053,6 +1053,12 @@ export const getGetAllQuery = ({
       getter = Array.isArray(col?.getter) ? col.getter[0] : col?.getter;
     }
     return getter ? {...field, field: getter} : field;
+  }).flatMap(field => {
+    if (field.field === EXPERIMENTS_TABLE_COL_FIELDS.TASK_NAME) {
+      return [{...field, field: 'name'}];
+    }
+    // the Title column shows the label, or the task name when there is none: sort by the label, then by the name
+    return field.field === EXPERIMENTS_TABLE_COL_FIELDS.NAME ? [{...field, field: 'display_name'}, field] : [field];
   });
 
   const colsFilters = flatten(tableCols.filter(col => col.id !== 'selected' && !col.hidden).map(col => col.getter || col.id));

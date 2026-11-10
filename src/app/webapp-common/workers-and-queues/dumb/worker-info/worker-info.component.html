@@ -22,10 +22,10 @@
         <sm-vertical-labeled-row label="Agent version">{{selectedWorker()?.agent_version || '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Run mode">{{selectedWorker()?.run_mode || '—'}}</sm-vertical-labeled-row>
         <sm-vertical-labeled-row label="Owner" [tooltip]="selectedWorker()?.user?.name">{{selectedWorker()?.user?.name ?? '—'}}</sm-vertical-labeled-row>
-        <sm-vertical-labeled-row label="Current Task" [tooltip]="selectedWorker()?.task?.name">
+        <sm-vertical-labeled-row label="Current Task" [tooltip]="selectedWorker()?.task?.display_name ? selectedWorker().task.display_name + ' (task: ' + selectedWorker().task.name + ')' : selectedWorker()?.task?.name">
           @if (selectedWorker()?.task?.name ) {
             <a [routerLink]="['/projects', $any(selectedWorker()?.task)?.project?.id ?? '*', 'tasks', selectedWorker()?.task?.id]"
-               target="_blank">{{selectedWorker()?.task?.name}}</a>
+               target="_blank">{{selectedWorker()?.task?.display_name || selectedWorker()?.task?.name}}</a>
           } @else {
             —
           }
@@ -63,7 +63,7 @@
               </div>
 
               <!--NEXT EXPERIMENT-->
-              <div class="ellipsis" [smTooltip]="row?.next_task?.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{row?.next_task?.name}}</div>
+              <div class="ellipsis" [smTooltip]="row?.next_task?.display_name || row?.next_task?.name" [matTooltipShowDelay]="500" smShowTooltipIfEllipsis>{{row?.next_task?.display_name || row?.next_task?.name}}</div>
 
               <!--IN QUEUE-->
               <div>{{row?.num_tasks}}</div>

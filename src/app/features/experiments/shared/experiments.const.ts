@@ -20,6 +20,7 @@ export const EXPERIMENTS_TABLE_COL_FIELDS = {
   ID            : 'id' as ExperimentTableColFieldsEnum,
   TYPE          : 'type' as ExperimentTableColFieldsEnum,
   NAME          : 'name' as ExperimentTableColFieldsEnum,
+  TASK_NAME     : 'task_name' as ExperimentTableColFieldsEnum,
   TAGS          : 'tags' as ExperimentTableColFieldsEnum,
   USER          : 'users' as ExperimentTableColFieldsEnum,
   STARTED       : 'started' as ExperimentTableColFieldsEnum,

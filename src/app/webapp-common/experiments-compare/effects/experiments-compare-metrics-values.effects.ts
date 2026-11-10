@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as metricsValuesActions from '../actions/experiments-compare-metrics-values.actions';
 import {activeLoader, deactivateLoader, setServerError} from '@common/core/actions/layout.actions';
@@ -46,7 +47,7 @@ export class ExperimentsCompareMetricsValuesEffects {
       : this.tasksApiService.tasksGetAllEx({
         id: action.taskIds,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        only_fields: ['last_metrics', 'name', 'status', 'completed', 'last_update', 'last_iteration', 'project.name', 'tags']
-      });
+        only_fields: ['last_metrics', 'name', 'display_name', 'status', 'completed', 'last_update', 'last_iteration', 'project.name', 'tags']
+      }).pipe(map(res => ({...res, tasks: res.tasks?.map(task => ({...task, name: experimentLabel(task)}))})));
   }
 }

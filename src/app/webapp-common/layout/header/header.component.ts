@@ -7,6 +7,8 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {selectDarkTheme, selectHeaderMenu, selectHeaderMenuIndex, selectBreadcrumbs} from '@common/core/reducers/view.reducer';
 import {selectRouterConfig, selectRouterUrl} from '@common/core/reducers/router-reducer';
 import {selectSelectedProject} from '@common/core/reducers/projects.reducer';
+import {selectExperimentInfoData} from '~/features/experiments/reducers';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {selectArchive} from '@common/layout/layout.selectors';
 import {setAutoRefresh} from '@common/core/actions/layout.actions';
@@ -57,6 +59,7 @@ export class HeaderComponent {
   protected showAutoRefresh = signal<boolean>(false);
 
   private url = this.store.selectSignal(selectRouterUrl);
+  private openExperiment = this.store.selectSignal(selectExperimentInfoData);
   private routeConfig = this.store.selectSignal(selectRouterConfig);
   private menu = this.store.selectSignal(selectHeaderMenu);
   private menuIndex = this.store.selectSignal(selectHeaderMenuIndex);
@@ -90,6 +93,14 @@ export class HeaderComponent {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd), takeUntilDestroyed())
       .subscribe(() => this.getRouteData());
+
+    // the title is edited on the page: show the edited one
+    effect(() => {
+      const info = this.openExperiment();
+      if (info?.id) {
+        this.experimentNames.update(names => ({...names, [info.id]: experimentLabel(info) || names[info.id]}));
+      }
+    });
 
     // the name of the task is not in the url
     effect(() => {

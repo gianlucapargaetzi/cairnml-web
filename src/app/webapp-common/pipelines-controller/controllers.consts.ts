@@ -128,6 +128,7 @@ export const INITIAL_CONTROLLER_TABLE_COLS: ISmCol[] = [
 export const PIPELINE_INFO_ONLY_FIELDS = [
   'id',
   'name',
+  'display_name',
   'user.name',
   'company',
   'type',

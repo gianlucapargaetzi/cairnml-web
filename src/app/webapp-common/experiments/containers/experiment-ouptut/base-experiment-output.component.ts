@@ -174,12 +174,14 @@ export abstract class BaseExperimentOutputComponent implements OnInit, OnDestroy
     this.store.dispatch(toggleMetricValuesView());
   }
 
-  updateExperimentName(name) {
-    if (name.trim().length > 2) {
-      this.store.dispatch(experimentDetailsUpdated({id: this.selectedExperiment().id, changes: {name}}));
-    } else {
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'Name must be more than three letters long'));
+  // The title edits the label of this experiment. The task name is its identity and is changed with "Rename task".
+  updateExperimentName(displayName: string) {
+    const label = (displayName ?? '').trim();
+    if (label.length > 200) {
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, 'The title can have at most 200 characters'));
+      return;
     }
+    this.store.dispatch(experimentDetailsUpdated({id: this.selectedExperiment().id, changes: {display_name: label}}));
   }
 
   maximize() {

@@ -20,6 +20,7 @@ import {ITableExperiment} from '../../shared/common-experiment-model.model';
 import {EXPERIMENTS_TABLE_COL_FIELDS} from '~/features/experiments/shared/experiments.const';
 import {BaseTableView} from '@common/shared/ui-components/data/table/base-table-view';
 import {getSystemTags, isDevelopment} from '~/features/experiments/shared/experiments.utils';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {User} from '~/business-logic/model/users/user';
 import {sortByArr} from '@common/shared/pipes/show-selected-first.pipe';
 import {NoUnderscorePipe} from '@common/shared/pipes/no-underscore.pipe';
@@ -193,6 +194,7 @@ export class ExperimentsTableComponent extends BaseTableView {
   protected readonly entityDisplayName = entityDisplayName;
   protected readonly timeFormatString = TIME_FORMAT_STRING;
   protected isDevelopment = isDevelopment;
+  protected experimentLabel = experimentLabel;
   protected readonly colHeaderTypeEnum = ColHeaderTypeEnum;
   protected hasActiveFilters = computed(() =>
     Object.keys(this.tableFilters() ?? {}).length > 0 || (this.searchQuery() && this.searchQuery().trim().length > 0)

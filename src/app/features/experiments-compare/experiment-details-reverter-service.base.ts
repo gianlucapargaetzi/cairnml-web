@@ -1,4 +1,5 @@
 import {ISelectedExperiment} from '../experiments/shared/experiment-info.model';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {ConfigurationItem} from '../../business-logic/model/tasks/configurationItem';
 import {ITask} from '../../business-logic/model/al-task';
 
@@ -16,7 +17,7 @@ export abstract class ExperimentDetailsReverterServiceBase {
       const exp = experiments.find(ex => ex.id === id);
       return {
         id: exp.id,
-        name: exp.name,
+        name: experimentLabel(exp),
         status: exp.status,
         last_iteration: exp.last_iteration,
         last_update: exp.last_update,
