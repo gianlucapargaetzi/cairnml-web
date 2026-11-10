@@ -42,10 +42,19 @@ export const INITIAL_EXPERIMENT_TABLE_COLS: ISmCol[] = [
   },
   {
     id: EXPERIMENTS_TABLE_COL_FIELDS.NAME,
+    getter: ['name', 'display_name'],
     headerType: ColHeaderTypeEnum.sortFilter,
     sortable: true,
-    header: 'Name',
+    header: 'Title',
     style: {width: '400px'},
+  },
+  {
+    id: EXPERIMENTS_TABLE_COL_FIELDS.TASK_NAME,
+    getter: 'name',
+    headerType: ColHeaderTypeEnum.sortFilter,
+    sortable: true,
+    header: 'Task name',
+    style: {width: '250px'},
   },
   {
     id: EXPERIMENTS_TABLE_COL_FIELDS.TAGS,
@@ -160,6 +169,7 @@ export const INITIAL_EXPERIMENT_TABLE_COLS: ISmCol[] = [
 export const EXPERIMENT_INFO_ONLY_FIELDS_BASE = [
   'id',
   'name',
+  'display_name',
   'user.name',
   'company',
   'type',
@@ -199,7 +209,7 @@ export const EXPERIMENT_INFO_ONLY_FIELDS_BASE = [
 ];
 
 export const MINIMUM_ONLY_FIELDS = [
-  'name', 'status', 'system_tags', 'project.name', 'company', 'last_change', 'last_update', 'started', 'last_iteration', 'tags',
+  'name', 'display_name', 'status', 'system_tags', 'project.name', 'company', 'last_change', 'last_update', 'started', 'last_iteration', 'tags',
   'user.name', 'runtime.progress'
 ];
 

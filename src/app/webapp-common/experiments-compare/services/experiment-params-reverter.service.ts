@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {ITask} from '../../../business-logic/model/al-task';
 
 
@@ -16,7 +17,7 @@ export class ExperimentParamsReverterService {
       const exp = experiments.find(ex => ex.id === id);
       return {
         id: exp.id,
-        name: exp.name,
+        name: experimentLabel(exp),
         status: exp.status,
         last_iteration: exp.last_iteration,
         last_update: exp.last_update,

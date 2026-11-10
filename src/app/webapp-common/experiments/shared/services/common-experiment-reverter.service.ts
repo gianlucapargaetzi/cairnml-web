@@ -36,6 +36,7 @@ export class CommonExperimentReverterService implements OnDestroy {
     return {
       id: experiment.id,
       name: experiment.name,
+      display_name: experiment.display_name,
       comment: experiment.comment,
       readonly: isExample(experiment) || isSharedAndNotOwner(experiment, this.activeWorkSpace),
       execution: this.revertExecution(experiment),

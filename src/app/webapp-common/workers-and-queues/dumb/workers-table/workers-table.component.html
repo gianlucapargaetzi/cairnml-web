@@ -26,6 +26,12 @@
             {{worker.name}}
           </span>
         }
+        @case (WORKERS_TABLE_COL_FIELDS.TASK) {
+          <span class="ellipsis" [smTooltip]="worker?.task?.display_name ? worker.task.display_name + ' (task: ' + worker.task.name + ')' : worker?.task?.name" smShowTooltipIfEllipsis>{{worker?.task?.display_name || worker?.task?.name}}</span>
+          @if (!worker?.task?.name) {
+            <span>&mdash;</span>
+          }
+        }
         @case (WORKERS_TABLE_COL_FIELDS.STATUS) {
           <sm-status-icon-label [status]="worker.online ? 'active' : 'stopped'" [externalStatusLabels]="AGENT_STATUS_LABELS"></sm-status-icon-label>
         }

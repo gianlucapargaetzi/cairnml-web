@@ -22,6 +22,10 @@ export interface CurrentTaskEntry {
      */
     name?: string;
     /**
+     * Label of the experiment (its display name), if it has one
+     */
+    display_name?: string;
+    /**
      * Task running time
      */
     running_time?: number;

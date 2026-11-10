@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef} from '@angular/material/dialog';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatError, MatFormField, MatHint, MatLabel} from '@angular/material/form-field';
 import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
@@ -16,6 +16,7 @@ export interface RenameDialogConfig {
   pattern: string;
   patternError: string;
   fieldName?: string;
+  hint?: string;
 }
 
 @Component({
@@ -29,6 +30,7 @@ export interface RenameDialogConfig {
     ReactiveFormsModule,
     MatFormField,
     MatError,
+    MatHint,
     MatLabel,
     MatButton,
     MatInput,
@@ -44,6 +46,7 @@ export class RenameDialogComponent {
   protected iconClass: string = this.data.iconClass;
   protected header: string = this.data.header ?? 'Rename';
   protected fieldName: string = this.data.fieldName ?? 'name';
+  protected hint: string = this.data.hint;
 
   protected nameControl = new FormControl(this.data.name, [
     Validators.required,

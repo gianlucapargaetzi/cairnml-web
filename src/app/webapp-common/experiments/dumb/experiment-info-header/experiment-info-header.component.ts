@@ -1,4 +1,5 @@
 import {Component, viewChild, input, output, computed, inject } from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {getSystemTags, isDevelopment} from '~/features/experiments/shared/experiments.utils';
 import {Store} from '@ngrx/store';
 import {selectCompanyTags, selectTagsFilterByProject} from '@common/core/reducers/projects.reducer';
@@ -99,6 +100,8 @@ export class ExperimentInfoHeaderComponent {
   tagMenuTrigger = viewChild<MatMenuTrigger>('tagsMenuTrigger');
   tagMenu = viewChild(TagsMenuComponent);
 
+  protected label = computed(() => experimentLabel(this.infoData() ?? this.experiment()));
+  protected taskName = computed(() => this.infoData()?.name || this.experiment()?.name);
   protected isDev = computed(() => isDevelopment(this.experiment()));
   protected systemTags = computed(() => getSystemTags(this.experiment()));
   protected isPipeline = computed(() => !!this.experiment()?.system_tags?.includes(ExperimentTagsEnum.Pipeline));

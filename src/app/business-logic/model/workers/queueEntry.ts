@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { IdNameEntry } from '././idNameEntry';
+import { NextTaskEntry } from '././nextTaskEntry';
 
 
 export interface QueueEntry {
@@ -22,7 +22,7 @@ export interface QueueEntry {
      * Name
      */
     name?: string;
-    next_task?: IdNameEntry;
+    next_task?: NextTaskEntry;
     /**
      * Number of task entries in the queue
      */

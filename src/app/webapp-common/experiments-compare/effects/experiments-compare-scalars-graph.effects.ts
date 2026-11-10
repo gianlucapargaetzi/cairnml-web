@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {activeLoader, deactivateLoader, setServerError} from '../../core/actions/layout.actions';
@@ -34,11 +35,11 @@ export class ExperimentsCompareScalarsGraphEffects {
     mergeMap(([action, /*metric*/]) => this.tasksApiService.tasksGetAllEx({
         id: action.experimentsIds,
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        only_fields: ['last_metrics', 'name', 'last_iteration', 'hyperparams'],
+        only_fields: ['last_metrics', 'name', 'display_name', 'last_iteration', 'hyperparams'],
         // ...(action.scatter && metric && {[`last_metrics.${metric.path}.value`]: [Number.MIN_VALUE, null]})
       })
         .pipe(
-          // map(res => res.tasks)),
+          map(res => ({...res, tasks: res.tasks?.map(task => ({...task, name: experimentLabel(task)}))})),
           mergeMap(res => {
             const metricsList = this.getMetricOptions(res.tasks);
             const metricVariantsResults = this.getMetricResults(res.tasks);

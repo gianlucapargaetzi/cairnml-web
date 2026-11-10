@@ -43,6 +43,7 @@ export const MAX_ROWS_FOR_SMART_COMPARE_ARRAYS = 20000;
 export const COMPARE_DETAILS_ONLY_FIELDS_BASE = [
   'id',
   'name',
+  'display_name',
   'type',
   'status',
   'last_update',

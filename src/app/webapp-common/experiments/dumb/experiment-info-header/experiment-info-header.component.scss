@@ -53,6 +53,18 @@
     }
   }
 
+  .task-name-ref {
+    flex-shrink: 0;
+    max-width: 40%;
+    margin-inline-start: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-on-surface-variant);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .experiment-type {
     white-space: nowrap;
     font-size: 15px;

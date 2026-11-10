@@ -62,7 +62,7 @@
     </button>
     <button mat-menu-item (click)="renameTask(selectedTask)">
       <mat-icon fontSet="al" [fontIcon]="icons.EDIT"></mat-icon>
-      <span>Rename</span>
+      <span>{{ entityType === entityTypeEnum.model ? 'Rename' : 'Edit title' }}</span>
     </button>
     @if ((globalLegendData$ | ngrxPush)?.length > 1) {
       <button mat-menu-item (click)="toggleArchive(selectedTask)">

@@ -229,7 +229,10 @@ export class ExperimentsCompareComponent implements OnInit, OnDestroy {
       data:{
         name: exp.name,
         iconClass: this.entityType === this.entityTypeEnum.model ? 'al-ico-model' : 'al-ico-training',
-        header: `Rename ${entityDisplayName(this.entityType).toLowerCase()}`,
+        // a task keeps its task name: only the title shown here is edited
+        header: this.entityType === this.entityTypeEnum.model ? `Rename ${entityDisplayName(this.entityType).toLowerCase()}` : 'Edit title',
+        fieldName: this.entityType === this.entityTypeEnum.model ? 'name' : 'title',
+        minLength: this.entityType === this.entityTypeEnum.model ? 3 : 1,
       },
     }).afterClosed().subscribe(result => {
       if ((result as any)?.name) {
@@ -238,7 +241,7 @@ export class ExperimentsCompareComponent implements OnInit, OnDestroy {
           if(this.entityType === this.entityTypeEnum.model) {
             this.store.dispatch(updateModelDetails({id: exp.id, changes: {name: newName}}));
           } else {
-            this.store.dispatch(experimentDetailsUpdated({id: exp.id, changes: {name: newName}}));
+            this.store.dispatch(experimentDetailsUpdated({id: exp.id, changes: {display_name: newName}}));
           }
         }
       }

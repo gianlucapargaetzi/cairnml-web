@@ -7,17 +7,20 @@
     }
     <sm-inline-edit
       class="edit-name"
-      [minLength]="2"
-      [required]="true"
-      [originalText]="infoData()?.name || experiment()?.name"
+      [minLength]="0"
+      [required]="false"
+      [originalText]="label()"
       [editable]="editable()"
       (textChanged)="onNameChanged($event)"
       (inlineActiveStateChanged)="editExperimentName($event)"
       >
       <div class="experiment-name">
-        <span [smTooltip]="experiment()?.name" smShowTooltipIfEllipsis>{{experiment()?.name}}</span>
+        <span [smTooltip]="label()" smShowTooltipIfEllipsis>{{label()}}</span>
       </div>
     </sm-inline-edit>
+    @if (taskName()) {
+      <span class="task-name-ref" smTooltip="Task name: what this experiment runs. Change it with Rename task in the menu" data-id="taskNameRef">Task: {{taskName()}}</span>
+    }
   </div>
   <div actions class="d-flex align-items-center gap-3">
     @if ((!minimized()) && shared()) {

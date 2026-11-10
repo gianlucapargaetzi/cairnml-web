@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
@@ -56,15 +57,15 @@ export class RecentExperimentsComponent {
     return this.tasksApi.tasksGetAllEx({
       project: [projectId],
       order_by: ['-created'],
-      only_fields: ['name', 'status', 'created'],
+      only_fields: ['name', 'display_name', 'status', 'created'],
       system_tags: ['-pipeline', '-dataset'],
       page: 0,
       page_size: LIMIT
     }).pipe(
       map(response => ({
         state: 'ready',
-        experiments: ((response?.tasks ?? []) as {id: string; name: string; status: string; created: string}[])
-          .map(task => ({id: task.id, name: task.name, status: task.status, created: task.created}))
+        experiments: ((response?.tasks ?? []) as {id: string; name: string; display_name?: string; status: string; created: string}[])
+          .map(task => ({id: task.id, name: experimentLabel(task), status: task.status, created: task.created}))
       }) as RecentState)
     );
   }

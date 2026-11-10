@@ -3,7 +3,7 @@ import {DATASETS_STATUS_LABEL, EXPERIMENTS_STATUS_LABELS} from '~/features/exper
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
 export {INITIAL_EXPERIMENT_TABLE_COLS} from '../../webapp-common/experiments/experiment.consts';
 
-export const GET_ALL_QUERY_ANY_FIELDS = ['id', 'name', 'comment', 'system_tags', 'models.output.model', 'models.input.model'];
+export const GET_ALL_QUERY_ANY_FIELDS = ['id', 'name', 'display_name', 'comment', 'system_tags', 'models.output.model', 'models.input.model'];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getExperimentInfoOnlyFields = (hasDataFeature: boolean) => EXPERIMENT_INFO_ONLY_FIELDS_BASE;

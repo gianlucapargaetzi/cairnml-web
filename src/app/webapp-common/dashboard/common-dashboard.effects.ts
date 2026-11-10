@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
@@ -79,14 +80,14 @@ export class CommonDashboardEffects {
         order_by: ['-last_update'],
         status: ['published', 'closed', 'failed', 'stopped', 'in_progress', 'completed'],
         type: [excludedKey, 'annotation_manual', excludedKey, 'annotation', excludedKey, 'dataset_import'],
-        only_fields: ['type', 'status', 'created', 'name', 'id', 'last_update', 'started', 'project.name'],
+        only_fields: ['type', 'status', 'created', 'name', 'display_name', 'id', 'last_update', 'started', 'project.name'],
         system_tags: ['-archived', '-pipeline'],
         user: showOnlyUserWork ? [user.id] : null,
         ...(hideExamples && {allow_public: false}),
         include_hidden_projects: showHidden,
       })
         .pipe(
-          mergeMap(({tasks: experiments}) => [setRecentExperiments({experiments}), deactivateLoader(action.type)]),
+          mergeMap(({tasks}) => [setRecentExperiments({experiments: tasks.map(task => ({...task, name: experimentLabel(task)}))}), deactivateLoader(action.type)]),
           catchError(err => [requestFailed(err), deactivateLoader(action.type)])
         )
     )

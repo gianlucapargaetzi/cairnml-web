@@ -22,6 +22,10 @@ export interface TasksUpdateRequest {
      */
     name?: string;
     /**
+     * Label of this experiment. Shown instead of the task name when present
+     */
+    display_name?: string;
+    /**
      * User-defined tags list
      */
     tags?: Array<string>;
