@@ -27,7 +27,12 @@
           </span>
         }
         @case (WORKERS_TABLE_COL_FIELDS.TASK) {
-          <span class="ellipsis" [smTooltip]="worker?.task?.display_name ? worker.task.display_name + ' (task: ' + worker.task.name + ')' : worker?.task?.name" smShowTooltipIfEllipsis>{{worker?.task?.display_name || worker?.task?.name}}</span>
+          <div class="d-flex align-items-center gap-3">
+            <span class="ellipsis" [smTooltip]="worker?.task?.display_name ? worker.task.display_name + ' (task: ' + worker.task.name + ')' : worker?.task?.name" smShowTooltipIfEllipsis>{{worker?.task?.display_name || worker?.task?.name}}</span>
+            @if (worker?.task?.id) {
+              <sm-task-progress mode="mini" [taskId]="worker.task.id" status="in_progress"></sm-task-progress>
+            }
+          </div>
           @if (!worker?.task?.name) {
             <span>&mdash;</span>
           }

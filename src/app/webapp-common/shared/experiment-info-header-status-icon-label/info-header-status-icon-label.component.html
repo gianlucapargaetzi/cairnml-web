@@ -1,4 +1,13 @@
-<div class="status-line" [style.--status-color]="'var(--color-' + status() + ')'">
+<div class="status-line" [class.running]="running()" [style.--status-color]="'var(--color-' + status() + ')'">
+  @if (running()) {
+    <!-- the line is the progress bar of the run: filled up to it, or the idle animation while nothing counts -->
+    <div class="progress-bar" [class.idle]="percent() === null" role="progressbar" [attr.aria-label]="percent() === null ? 'Working' : 'Progress'"
+         [attr.aria-valuenow]="percent()" aria-valuemin="0" aria-valuemax="100">
+      @if (percent() !== null) {
+        <div class="progress-fill" [style.width.%]="percent()"></div>
+      }
+    </div>
+  }
   <span class="notch d-flex align-items-center">
     @if (showLabel()) {
       <span class="label">

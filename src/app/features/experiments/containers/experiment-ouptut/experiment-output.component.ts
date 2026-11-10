@@ -3,6 +3,7 @@ import {BaseExperimentOutputComponent} from '@common/experiments/containers/expe
 import {OverlayComponent} from '@common/shared/ui-components/overlay/overlay/overlay.component';
 import {GraphSettingsBarComponent} from '@common/shared/experiment-graphs/graph-settings-bar/graph-settings-bar.component';
 import {ExperimentInfoNavbarComponent} from '~/features/experiments/containers/experiment-info-navbar/experiment-info-navbar.component';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {InfoHeaderStatusIconLabelComponent} from '@common/shared/experiment-info-header-status-icon-label/info-header-status-icon-label.component';
 import {ExperimentInfoHeaderComponent} from '@common/experiments/dumb/experiment-info-header/experiment-info-header.component';
 import {RefreshButtonComponent} from '@common/shared/components/refresh-button/refresh-button.component';
@@ -18,6 +19,7 @@ import {MatIconButton} from '@angular/material/button';
   templateUrl: './experiment-output.component.html',
   styleUrls: ['../../../../webapp-common/experiments/containers/experiment-ouptut/base-experiment-output.component.scss'],
   imports: [
+    TaskProgressComponent,
     OverlayComponent,
     GraphSettingsBarComponent,
     ExperimentInfoNavbarComponent,

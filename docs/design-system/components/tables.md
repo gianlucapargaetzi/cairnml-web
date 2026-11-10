@@ -27,7 +27,7 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 | Pagination | Virtual scrolling / load more. There is no page-number pagination in the app; keep it so. Show total count in the toolbar ("128 tasks") |
 | Overflow | Table scrolls inside its container; name column sticky; truncate cells with `.ellipsis` and a tooltip with the full value |
 | Column resize | Allowed (existing); persist per table |
-| Status column | `sm-status-icon-label` |
+| Status column | `sm-status-icon-label`; a running task that reports progress also gets the small [progress bar](progress.md) next to it |
 
 ## Row actions
 

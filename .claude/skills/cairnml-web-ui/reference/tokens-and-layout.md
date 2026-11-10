@@ -145,6 +145,7 @@ A box around a table (`border` + `border-radius`) uses `overflow-x: auto`, never
 ## 6. Shared styles to reuse (extract new ones, do not copy)
 
 - `styles/mixins/panels.scss` → `@include panels.dashboard-panels();` gives `.card`, `.card-title`, `.section-title`, `.num`, `.sub`, `.badge` (`.caps`, `.state-*`), `.usage-bar`, `.bar`.
+- `styles/mixins/progress.scss` → `progress.keyframes` (once, at the top level of the stylesheet), `progress.fill($stripe)` for a striped bar that moves ("still running"), `progress.idle` for the sliding segment of a run that has nothing to count. Colours `--progress-fill`, `--progress-stripe-strength`.
 - `styles/mixins/empty.scss` → `empty-card-mixin()` for the centred empty state; `table-empty-message()` for "No data to show" inside tables.
 - `styles/mixins/common.scss` → `recent-title()` (the small heading with a "View all").
 - `styles/layout.scss` → `.sm-card-list-layout` (grid of 352px cards, 24px gap, `repeat(auto-fit, 352px)`, centred), `.sm-card-list-header` (toolbar above it), `.page-header`, `.sm-entity-page-header`, `.flex-middle`, `.d-flex-center`.

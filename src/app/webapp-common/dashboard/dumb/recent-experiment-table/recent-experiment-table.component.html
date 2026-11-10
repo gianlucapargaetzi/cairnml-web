@@ -36,7 +36,10 @@
         {{experiment.user?.name}}
       }
       @case (RECENT_TASKS_TABLE_COL_FIELDS.STATUS) {
-        <sm-status-icon-label [status]="experiment?.status"></sm-status-icon-label>
+        <div class="d-flex align-items-center gap-3">
+          <sm-status-icon-label [status]="experiment?.status"></sm-status-icon-label>
+          <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment?.status" [runtime]="experiment?.runtime"></sm-task-progress>
+        </div>
       }
       @default {
         {{experiment[col.id]}}

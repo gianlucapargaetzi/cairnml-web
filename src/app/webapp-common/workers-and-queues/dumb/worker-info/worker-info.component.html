@@ -26,6 +26,7 @@
           @if (selectedWorker()?.task?.name ) {
             <a [routerLink]="['/projects', $any(selectedWorker()?.task)?.project?.id ?? '*', 'tasks', selectedWorker()?.task?.id]"
                target="_blank">{{selectedWorker()?.task?.display_name || selectedWorker()?.task?.name}}</a>
+            <sm-task-progress mode="full" [taskId]="selectedWorker().task.id" status="in_progress"></sm-task-progress>
           } @else {
             —
           }

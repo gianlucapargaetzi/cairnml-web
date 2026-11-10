@@ -87,6 +87,8 @@ import { TasksMakePrivateResponse } from '../model/tasks/tasksMakePrivateRespons
 import { TasksMakePublicRequest } from '../model/tasks/tasksMakePublicRequest';
 import { TasksMakePublicResponse } from '../model/tasks/tasksMakePublicResponse';
 import { TasksMoveRequest } from '../model/tasks/tasksMoveRequest';
+import { TasksGetProgressRequest } from '../model/tasks/tasksGetProgressRequest';
+import { TasksGetProgressResponse } from '../model/tasks/tasksGetProgressResponse';
 import { TasksPingRequest } from '../model/tasks/tasksPingRequest';
 import { TasksPublishManyRequest } from '../model/tasks/tasksPublishManyRequest';
 import { TasksPublishManyResponse } from '../model/tasks/tasksPublishManyResponse';
@@ -1644,6 +1646,51 @@ export class ApiTasksService {
         }
 
 	return this.apiRequest.post<object>(`${this.basePath}/tasks.move`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     * Live progress of running tasks. Tasks that are not reporting are left out.
+     * @param request request body
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public tasksGetProgress(request: TasksGetProgressRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<TasksGetProgressResponse> {
+        if (request === null || request === undefined) {
+            throw new Error('Required parameter request was null or undefined when calling tasksGetProgress.');
+        }
+
+        let headers = this.defaultHeaders;
+        if (options && options.async_enable) {
+            headers = headers.set(this.configuration.asyncHeader, '1');
+        }
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+	return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/tasks.get_progress`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

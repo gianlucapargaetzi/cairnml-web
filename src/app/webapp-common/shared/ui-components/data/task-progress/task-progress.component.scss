@@ -1,0 +1,116 @@
+@use "mixins/progress";
+
+@include progress.keyframes;
+
+:host {
+  display: none;
+  --progress-track: var(--color-running-container);
+}
+
+:host(.visible) {
+  display: block;
+}
+
+.track {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--progress-track);
+
+  &.idle {
+    @include progress.idle;
+  }
+}
+
+.fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--progress-fill, var(--color-running));
+  // the value arrives every two seconds: slide to it, so that the bar moves continuously
+  transition: width 2s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}
+
+// ---- mini: a small striped bar and the percentage next to a status
+:host(.mini.visible) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .track {
+    flex: 0 0 64px;
+    height: 6px;
+  }
+
+  .fill {
+    @include progress.fill(8px);
+  }
+
+  .percent {
+    font-size: var(--font-size-sm);
+    color: var(--progress-percent, var(--color-on-surface-variant));
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ---- full: for every level a thin bar with its text centred in front of it
+:host(.full.visible) {
+  padding: 0 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .level {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+  }
+
+  // the bar keeps its thin height and runs behind the text, along the middle of the row
+  .track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+  }
+
+  .text {
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // a frosted label: the bar shows through, slightly blurred, so that the text stands out
+    background: color-mix(in srgb, var(--color-surface-container-lowest) 65%, transparent);
+    backdrop-filter: blur(3px);
+  }
+
+  // a level inside the first one is smaller
+  .level.inner {
+    height: 16px;
+
+    .text {
+      font-weight: 400;
+      color: var(--color-on-surface-variant);
+    }
+
+    .track {
+      height: 3px;
+    }
+  }
+}

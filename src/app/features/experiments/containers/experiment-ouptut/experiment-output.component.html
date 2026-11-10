@@ -1,6 +1,8 @@
 <sm-overlay [backdropActive]="backdropActive$ | ngrxPush"></sm-overlay>
 <sm-info-header-status-icon-label
   [status]=" (selectedExperiment())?.status || selectedExperiment()?.status"
+  [taskId]="selectedExperiment()?.id"
+  [runtime]="selectedExperiment()?.runtime"
 ></sm-info-header-status-icon-label>
 <div class="experiment-output-container light-theme" [class.minimized]="minimized">
   <sm-experiment-info-header
@@ -16,6 +18,10 @@
     (maximizedClicked)="maximize()"
     (getCompanyTags)="getCompanyTags()"
   ></sm-experiment-info-header>
+  @if (selectedExperiment()?.id) {
+    <sm-task-progress mode="full" [taskId]="selectedExperiment().id" [status]="selectedExperiment()?.status"
+                      [runtime]="selectedExperiment()?.runtime"></sm-task-progress>
+  }
   <sm-experiment-info-navbar [minimized]="minimized" [splitSize]="selectSplitSize$ | ngrxPush">
     @if ((routerConfig.includes('scalars') && minimized) || !minimized) {
       <div class="scalar-buttons" leftButtons></div>

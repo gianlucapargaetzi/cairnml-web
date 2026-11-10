@@ -11,6 +11,7 @@
           <li>
             <a class="experiment-name" [routerLink]="['/projects', projectId(), 'tasks', experiment.id]">{{ experiment.name }}</a>
             <sm-status-icon-label [status]="experiment.status"></sm-status-icon-label>
+            <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment.status" [runtime]="experiment.runtime"></sm-task-progress>
             <span class="experiment-time">{{ experiment.created | timeAgo }}</span>
           </li>
         }

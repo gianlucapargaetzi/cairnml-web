@@ -174,11 +174,13 @@
           </mat-checkbox>
         }
         @case (experimentsTableColFields.STATUS) {
-          <sm-status-icon-label
-            [enableSpinner]="true"
-            [status]="experiment?.status | replaceViaMapPipe:convertStatusMap()"
-            [progress]="experiment?.runtime?.progress"
-          ></sm-status-icon-label>
+          <div class="d-flex align-items-center gap-3">
+            <sm-status-icon-label
+              [status]="experiment?.status | replaceViaMapPipe:convertStatusMap()"
+            ></sm-status-icon-label>
+            <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment?.status"
+                              [runtime]="experiment?.runtime"></sm-task-progress>
+          </div>
         }
         @case (experimentsTableColFields.PARENT) {
           @if (experiment?.parent?.id) {
@@ -254,11 +256,13 @@
           </div>
         }
         <sm-status-icon-label
-          [enableSpinner]="true"
           [status]="experiment?.status | replaceViaMapPipe:convertStatusMap()"
-          [progress]="experiment?.runtime?.progress"
           [showLabel]="!cardsCollapsed()"
         ></sm-status-icon-label>
+        @if (!cardsCollapsed()) {
+          <sm-task-progress mode="mini" [taskId]="experiment.id" [status]="experiment?.status"
+                            [runtime]="experiment?.runtime"></sm-task-progress>
+        }
         <mat-checkbox #cb
                       smClickStopPropagation
                       [checked]="checkedExperiments() | isRowSelected:experiment"

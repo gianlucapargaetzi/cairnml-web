@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import {TaskProgressComponent} from '@common/shared/ui-components/data/task-progress/task-progress.component';
 import {WorkerExt} from '@common/workers-and-queues/actions/workers.actions';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {
@@ -23,6 +24,7 @@ import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-la
   styleUrls: ['./worker-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TaskProgressComponent,
     TooltipDirective,
     VerticalLabeledRowComponent,
     ShowTooltipIfEllipsisDirective,

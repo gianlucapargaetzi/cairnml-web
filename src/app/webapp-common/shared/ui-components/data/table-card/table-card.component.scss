@@ -29,6 +29,13 @@
     "data data";
   }
 
+  // the selected card is blue: its progress bar has to be light
+  &.selected {
+    --progress-fill: var(--color-primary-container);
+    --progress-percent: var(--color-primary-container);
+    --progress-track: color-mix(in srgb, var(--color-primary-container) 30%, transparent);
+  }
+
   &.checked.selected {
     --mat-checkbox-unselected-icon-color: var(--color-on-surface);
 
