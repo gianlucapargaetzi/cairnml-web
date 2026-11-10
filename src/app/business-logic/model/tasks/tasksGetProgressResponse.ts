@@ -26,12 +26,12 @@ export interface TasksProgress {
     /**
      * The outermost bar first, then the bars inside it
      */
-    bars?: Array<TasksProgressBar>;
+    bars?: TasksProgressBar[];
 }
 
 export interface TasksGetProgressResponse {
     /**
      * Progress by task ID
      */
-    progress?: { [key: string]: TasksProgress };
+    progress?: Record<string, TasksProgress>;
 }

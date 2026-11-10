@@ -16,5 +16,5 @@ export interface TasksGetProgressRequest {
     /**
      * Task IDs
      */
-    tasks: Array<string>;
+    tasks: string[];
 }

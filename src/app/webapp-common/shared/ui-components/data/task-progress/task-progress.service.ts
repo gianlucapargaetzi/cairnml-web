@@ -66,7 +66,8 @@ export class TaskProgressService {
       } else {
         this.watched.delete(taskId);
         this.live.update(values => {
-          const {[taskId]: _, ...rest} = values;
+          const rest = {...values};
+          delete rest[taskId];
           return rest;
         });
       }

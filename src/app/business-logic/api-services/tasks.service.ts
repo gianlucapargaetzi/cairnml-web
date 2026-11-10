@@ -1657,47 +1657,17 @@ export class ApiTasksService {
     }
 
     /**
-     *
      * Live progress of running tasks. Tasks that are not reporting are left out.
      * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetProgress(request: TasksGetProgressRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<TasksGetProgressResponse> {
+    public tasksGetProgress(request: TasksGetProgressRequest): Observable<TasksGetProgressResponse> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetProgress.');
         }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/tasks.get_progress`,
+        const headers = this.defaultHeaders.set('Accept', 'application/json');
+        return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/tasks.get_progress`,
             request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+            {withCredentials: this.configuration.withCredentials, headers}
         );
     }
 
