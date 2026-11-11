@@ -63,7 +63,7 @@
       @switch (col.id) {
         @case (QUEUES_TABLE_COL_FIELDS.NAME) {
           <div class="d-flex align-items-center first id-cell">
-            <div class="queue-name" [smTooltip]="queue?.caption" smShowTooltipIfEllipsis>{{queue?.caption}}</div>
+            <div class="queue-name" [smTooltip]="queue?.display_name && queue.display_name !== queue.caption ? queue.caption + ' (' + queue.display_name + ')' : queue?.caption" smShowTooltipIfEllipsis>{{queue?.caption}}</div>
             <div class="copy-btn">
               <sm-menu iconClass="al-ico-copy-to-clipboard" [class.selected]="queue.id === selectedQueue()?.[0]?.id" buttonClass="sm">
                 <button

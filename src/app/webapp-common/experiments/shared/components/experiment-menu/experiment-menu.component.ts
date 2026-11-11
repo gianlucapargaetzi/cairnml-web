@@ -236,7 +236,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
               template: this.dequeueTemplate(),
               templateContext: {
                 $implicit: selectedExperiments,
-                ...(queue && {queueName: queue.display_name || queue.name})
+                ...(queue && {queueName: queue.name})
               },
               yes: 'Dequeue task',
               no: 'Cancel',

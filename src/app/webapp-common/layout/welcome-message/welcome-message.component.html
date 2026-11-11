@@ -54,7 +54,7 @@
   <div class="steps-content">
     @if (queue) {
       <div class="text">
-        {{entityName}} have been enqueued on the <b>{{queue?.display_name || queue?.name}}</b> queue, which is currently not serviced by any agent. They will remain in the 'pending' state until a CairnML agent services this queue.
+        {{entityName}} have been enqueued on the <b>{{queue?.name}}</b> queue, which is currently not serviced by any agent. They will remain in the 'pending' state until a CairnML agent services this queue.
       </div>
     }
     @if (!currentLink || currentLink === links[0]) {
