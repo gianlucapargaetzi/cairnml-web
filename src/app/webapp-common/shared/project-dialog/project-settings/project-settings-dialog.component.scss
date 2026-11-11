@@ -11,6 +11,12 @@
     display: block;
   }
 
+  // Section tabs (Users, Queues, Datasets, Repositories, Credentials): one gap below the tab bar
+  .section {
+    display: block;
+    padding-top: var(--space-4);
+  }
+
   .data-project {
     margin-top: 12px;
     display: block;

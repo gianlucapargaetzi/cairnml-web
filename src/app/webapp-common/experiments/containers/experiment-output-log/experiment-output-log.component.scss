@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100%;
 
   .header {
@@ -10,11 +11,10 @@
     gap: 24px;
   }
 
+  // the log takes the height the header leaves, not a guess of it
   sm-experiment-log-info {
-    height: calc(100% - 60px);
-    &.no-header {
-      height: calc(100%);
-    }
+    flex: 1 1 0;
+    min-height: 0;
   }
 
   .no-output {

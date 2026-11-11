@@ -1,14 +1,22 @@
-@use "../../../layout/layout";
-
-$output-tabs-height: 64px;
 :host {
   --mat-sidenav-container-width: 361px;
   display: block;
   height: 100%;
   background-color: var(--color-surface-container-lowest);
 
+  // A column: the header, the progress strip (only while a run is active), the tabs and then the body, which takes
+  // the height that is left. A fixed subtraction for the body left out the progress strip and pushed the body, and
+  // the Jump to end button of the console, below the window while a run was active.
   .experiment-output-container {
+    display: flex;
+    flex-direction: column;
     height: calc(100% - 32px);
+
+    sm-experiment-info-header,
+    sm-task-progress,
+    sm-experiment-info-navbar {
+      flex: none;
+    }
 
     &.minimized {
       height: calc(100% - 38px);
@@ -71,10 +79,7 @@ $output-tabs-height: 64px;
 
   .output-body {
     position: relative;
-    height: calc(100% - #{$output-tabs-height + layout.$experiment-info-header-height + 10px});
-
-    &.minimized {
-      height: calc(100% - #{layout.$experiment-info-header-height + layout.$experiment-info-tabs-height + 3px});
-    }
+    flex: 1 1 0;
+    min-height: 0;
   }
 }
