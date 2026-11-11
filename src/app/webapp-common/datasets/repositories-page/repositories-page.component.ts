@@ -3,11 +3,14 @@ import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@ang
 import {rxResource} from '@angular/core/rxjs-interop';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatDialog} from '@angular/material/dialog';
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {EmptyStateComponent} from '@common/shared/ui-components/feedback/empty-state/empty-state.component';
@@ -39,6 +42,7 @@ import {assignBindingCredential, bindingAccess} from '../dataset-credential-dial
     RepoAccessBadgeComponent,
     MatIcon,
     MatIconButton,
+    MatProgressSpinner,
     EntityChipComponent,
   ],
 })
@@ -97,6 +101,61 @@ export class RepositoriesPageComponent {
       }
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${repo.host}/${repo.path} is read with its new credential`));
       this.reloads.update(n => n + 1);
+    });
+  }
+
+  // the binding a request is running for: its Check now shows a spinner and the other actions wait
+  protected readonly busy = signal<string | null>(null);
+
+  protected check(repo: CodeRepository, binding: RepositoryBinding): void {
+    const name = `${repo.host}/${repo.path}`;
+    this.busy.set(binding.id);
+    this.access.checkRepository(binding.id).subscribe({
+      next: checked => {
+        this.busy.set(null);
+        const readable = ['assigned', 'none_needed', 'anonymous', 'company'].includes(checked.state);
+        this.store.dispatch(addMessage(readable ? MESSAGES_SEVERITY.SUCCESS : MESSAGES_SEVERITY.WARN,
+          `Checked ${name}: ${checked.message || 'it can be read'}`));
+        this.reloads.update(n => n + 1);
+      },
+      error: error => {
+        this.busy.set(null);
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? `${name} could not be checked.`));
+      },
+    });
+  }
+
+  protected confirmDelete(repo: CodeRepository, binding: RepositoryBinding): void {
+    const name = `${repo.host}/${repo.path}`;
+    const project = binding.project_name ?? 'no project';
+    const data: ConfirmDialogConfig = {
+      title: `Delete ${name} from ${project}?`,
+      body: 'The repository stops being listed for this project and its credential assignment is forgotten. The code stays where it is, and a run that uses the repository again lists it again.',
+      yes: 'Delete',
+      no: 'Cancel',
+      iconClass: 'al-ico-alert',
+      iconColor: 'var(--color-warning)',
+      destructive: true,
+    };
+    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
+      data,
+      panelClass: 'dialog-sm',
+    }).afterClosed().subscribe(confirmed => {
+      if (!confirmed) {
+        return;
+      }
+      this.busy.set(binding.id);
+      this.access.deleteRepository(binding.id).subscribe({
+        next: () => {
+          this.busy.set(null);
+          this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Deleted ${name} from ${project}`));
+          this.reloads.update(n => n + 1);
+        },
+        error: error => {
+          this.busy.set(null);
+          this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? `${name} could not be deleted.`));
+        },
+      });
     });
   }
 

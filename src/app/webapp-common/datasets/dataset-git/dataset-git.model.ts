@@ -332,6 +332,11 @@ export function canRemoveRow(row: DatasetRow, user: SignedInUser): boolean {
   return user.admin || (!!row.access.owner && row.access.owner === user.id);
 }
 
+// A repository dataset that has a record, which anyone who sees it may look at again (datasets.check).
+export function canCheckRow(row: DatasetRow): boolean {
+  return row.kind === 'own' && !!row.access?.id && row.access.kind === 'repo';
+}
+
 // Shown on a registry that has an id. When the owner is not known, the server decides (it refuses a non-owner).
 export function canRefreshRow(row: DatasetRow, user: SignedInUser): boolean {
   if (row.kind !== 'registry-group' || !row.registry?.id) {

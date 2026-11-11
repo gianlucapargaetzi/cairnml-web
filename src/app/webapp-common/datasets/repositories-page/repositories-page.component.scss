@@ -21,7 +21,7 @@ tr.bindings > td {
 // one project's access to the repository, under the repository's row
 .binding {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 3fr) 40px;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 3fr) auto;
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-2) var(--space-5) var(--space-2) var(--space-7);

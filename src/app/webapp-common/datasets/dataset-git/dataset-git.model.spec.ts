@@ -1,5 +1,6 @@
 import {AccessDataset} from './dataset-access.service';
 import {
+  canCheckRow,
   canRefreshRow,
   canRemoveRow,
   datasetListRows,
@@ -196,5 +197,26 @@ describe('canRefreshRow', () => {
   it('never offers refresh on a repository dataset', () => {
     const repo: DatasetRow = {...registryRow('alice'), kind: 'own'};
     expect(canRefreshRow(repo, alice)).toBeFalse();
+  });
+});
+
+describe('canCheckRow', () => {
+  function row(kind: DatasetRow['kind'], accessRow: AccessDataset | null): DatasetRow {
+    return {
+      id: 'own|cars', name: 'cars', kind, repository: 'https://github.com/acme/cars', registryName: null,
+      commit: null, versions: 1, runs: 1, parentId: null, registry: null, entries: 0, access: accessRow,
+    };
+  }
+
+  it('shows Check now for a repository dataset that has a record', () => {
+    expect(canCheckRow(row('own', access({id: 'repo-ds', kind: 'repo', owner: 'alice'})))).toBeTrue();
+  });
+
+  it('hides it for a dataset with no record (listed from a run or from the company App only)', () => {
+    expect(canCheckRow(row('own', null))).toBeFalse();
+  });
+
+  it('hides it for a registry, which has its own refresh', () => {
+    expect(canCheckRow(row('registry-group', access({id: 'reg', kind: 'registry', owner: 'alice'})))).toBeFalse();
   });
 });

@@ -57,14 +57,36 @@
               }
               <span class="ellipsis owner">Owner {{ binding.owner_name }}</span>
               <sm-repo-access-badge class="access" [access]="access$(line.repo, binding)"></sm-repo-access-badge>
-              @if (binding.can_assign) {
-                <button mat-icon-button type="button" data-id="changeRepositoryApp"
-                  [attr.aria-label]="'Assign a credential to ' + line.name + ' in ' + (binding.project_name ?? 'no project')"
-                  smTooltip="Assign credentials"
-                  (click)="changeCredential(line.repo, binding); $event.stopPropagation()">
-                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+              <div class="row-actions">
+                @if (binding.can_assign) {
+                  <button mat-icon-button type="button" data-id="changeRepositoryApp"
+                    [attr.aria-label]="'Assign a credential to ' + line.name + ' in ' + (binding.project_name ?? 'no project')"
+                    smTooltip="Assign credentials"
+                    (click)="changeCredential(line.repo, binding); $event.stopPropagation()">
+                    <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                  </button>
+                }
+                <button mat-icon-button type="button" data-id="checkRepositoryButton"
+                  [disabled]="busy() !== null"
+                  [attr.aria-label]="'Check ' + line.name + ' in ' + (binding.project_name ?? 'no project')"
+                  smTooltip="Check now"
+                  (click)="check(line.repo, binding); $event.stopPropagation()">
+                  @if (busy() === binding.id) {
+                    <mat-spinner [diameter]="24" [strokeWidth]="2" aria-label="Checking"></mat-spinner>
+                  } @else {
+                    <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                  }
                 </button>
-              }
+                @if (binding.can_delete) {
+                  <button mat-icon-button type="button" data-id="deleteRepositoryButton"
+                    [disabled]="busy() !== null"
+                    [attr.aria-label]="'Delete ' + line.name + ' from ' + (binding.project_name ?? 'no project')"
+                    smTooltip="Delete from this project"
+                    (click)="confirmDelete(line.repo, binding); $event.stopPropagation()">
+                    <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                  </button>
+                }
+              </div>
             </div>
           }
         </td>

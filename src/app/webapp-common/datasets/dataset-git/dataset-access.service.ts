@@ -80,6 +80,8 @@ export interface RepositoryBinding {
   state: BindingState;
   message: string;
   can_assign: boolean;
+  // the project's owner and admins may take the repository out of the project's list
+  can_delete: boolean;
   assignable: AssignableCredential[];
   created: string | null;
   last_used: string | null;
@@ -143,6 +145,24 @@ export class DatasetAccessService {
     return this.api.post<{ binding: string }>(`${HTTP.API_BASE_URL}/repositories.set_credential`,
       {binding, credential: credential || undefined, none_needed: noneNeeded || undefined}, {})
       .pipe(map(response => response.binding));
+  }
+
+  // Looks at a binding again: the host's answer on anonymous reads is renewed and an assigned credential is tried. Returns the
+  // binding as the list shows it, with what was found.
+  checkRepository(binding: string): Observable<RepositoryBinding> {
+    return this.api.post<{ binding: RepositoryBinding }>(`${HTTP.API_BASE_URL}/repositories.check`, {binding}, {})
+      .pipe(map(response => response.binding));
+  }
+
+  // Takes a repository out of a project's list (its binding). A run that uses it again lists it again.
+  deleteRepository(binding: string): Observable<unknown> {
+    return this.api.post(`${HTTP.API_BASE_URL}/repositories.delete`, {binding}, {});
+  }
+
+  // Looks at a repository dataset again: can its repository be read with its credential. Returns the dataset with its new state.
+  checkDataset(id: string): Observable<AccessDataset> {
+    return this.api.post<{ dataset: AccessDataset }>(`${HTTP.API_BASE_URL}/datasets.check`, {id}, {})
+      .pipe(map(response => response.dataset));
   }
 
   // The credentials the signed-in user may choose for a dataset: their own, and the company's.

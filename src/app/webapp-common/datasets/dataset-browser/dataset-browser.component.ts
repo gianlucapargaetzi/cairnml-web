@@ -38,6 +38,7 @@ import {
 } from '../dataset-git/dataset-access.service';
 import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
 import {
+  canCheckRow,
   canRefreshRow,
   canRemoveRow,
   datasetListRows,
@@ -142,6 +143,8 @@ export class DatasetBrowserComponent {
   protected readonly collapsed = signal<ReadonlySet<string>>(new Set());
   // the registry whose refresh is running
   protected readonly refreshingId = signal<string | null>(null);
+  // the dataset a Check now is running for
+  protected readonly checkingId = signal<string | null>(null);
   // bumped to read the registries and the visible datasets again after a refresh or a removal
   private readonly pageRefresh = inject(DatasetsPageRefreshService);
   private readonly reloads = signal(0);
@@ -284,6 +287,7 @@ export class DatasetBrowserComponent {
         modalities: isParent ? '–' : modalities.length ? modalities.join(', ') : '–',
         samples: isParent ? '–' : samples === null ? '–' : samples.toLocaleString('en-US'),
         versions: isParent ? '–' : row.versions,
+        canCheck: canCheckRow(row),
         canRefresh: canRefreshRow(row, this.user()),
         canRemove: canRemoveRow(row, this.user()),
       };
@@ -337,6 +341,29 @@ export class DatasetBrowserComponent {
         this.refreshingId.set(null);
         this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
           error?.meta?.result_msg ?? `The registry ${row.name} could not be refreshed.`));
+      },
+    });
+  }
+
+  protected checkRow(row: DatasetRow, event: Event): void {
+    event.stopPropagation();
+    const id = row.access?.id;
+    if (!id || this.checkingId()) {
+      return;
+    }
+    const name = row.repository ?? row.name;
+    this.checkingId.set(row.id);
+    this.access.checkDataset(id).subscribe({
+      next: checked => {
+        this.checkingId.set(null);
+        const ok = checked.state === 'ok';
+        this.store.dispatch(addMessage(ok ? MESSAGES_SEVERITY.SUCCESS : MESSAGES_SEVERITY.WARN,
+          ok ? `Checked ${name}: it can be read` : `Checked ${name}: ${checked.state_message || 'no access'}`));
+        this.reloads.update(n => n + 1);
+      },
+      error: error => {
+        this.checkingId.set(null);
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? `${name} could not be checked.`));
       },
     });
   }

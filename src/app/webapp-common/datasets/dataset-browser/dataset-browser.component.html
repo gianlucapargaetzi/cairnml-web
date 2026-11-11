@@ -29,6 +29,18 @@
               }
               @case ('actions') {
                 <div class="row-actions">
+                  @if (line.canCheck) {
+                    <button mat-icon-button type="button" data-id="checkDatasetButton"
+                      [disabled]="checkingId() !== null"
+                      [attr.aria-label]="'Check ' + line.name" smTooltip="Check now"
+                      (click)="checkRow(line.row, $event)">
+                      @if (checkingId() === line.id) {
+                        <mat-spinner [diameter]="24" [strokeWidth]="2" aria-label="Checking"></mat-spinner>
+                      } @else {
+                        <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                      }
+                    </button>
+                  }
                   @if (line.canRefresh) {
                     <button mat-icon-button type="button" data-id="refreshRegistryButton"
                       [disabled]="refreshingId() !== null"
