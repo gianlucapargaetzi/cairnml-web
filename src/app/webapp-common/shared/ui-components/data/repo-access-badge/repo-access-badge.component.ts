@@ -22,7 +22,7 @@ export class RepoAccessBadgeComponent {
       return '';
     }
     switch (access.state) {
-      case 'assigned': return `Read with ${access.via}`;
+      case 'assigned': return access.via ? `Read with ${access.via}` : 'Read with a credential';
       case 'none_needed': return 'None needed';
       case 'company': return 'Auto-Authenticated via Company Github App';
       case 'unreachable': return 'Access refused';

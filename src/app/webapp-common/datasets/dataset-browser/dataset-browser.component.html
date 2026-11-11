@@ -205,6 +205,40 @@
               </div>
             </mat-tab>
 
+            <mat-tab label="Runs">
+              <div class="tab-content" data-id="repositoryRuns">
+                @let runs = selectedRuns.value();
+                @if (runs?.length) {
+                  <sm-table class="runs-table" [columns]="runColumns" [tableData]="runs!" [scrollable]="false" [resizableColumns]="false">
+                    <ng-template let-col let-run="rowData" pTemplate="body">
+                      <div>
+                        @switch (col.id) {
+                          @case ('name') {
+                            <a class="ellipsis run-link" smShowTooltipIfEllipsis [smTooltip]="run.name"
+                              [routerLink]="['/projects', run.project, 'tasks', run.id]">{{ run.name }}</a>
+                          }
+                          @case ('status') {
+                            <sm-status-icon-label [status]="run.status"></sm-status-icon-label>
+                          }
+                          @case ('as') {
+                            <div class="ellipsis">{{ roleLabels[run.as] }}</div>
+                          }
+                          @case ('created') {
+                            <div class="ellipsis">{{ run.created | timeAgo }}</div>
+                          }
+                          @default {
+                            <div class="ellipsis" [smTooltip]="run.project_name">{{ run[col.id] }}</div>
+                          }
+                        }
+                      </div>
+                    </ng-template>
+                  </sm-table>
+                } @else {
+                  <p class="note">{{ selectedRuns.isLoading() ? 'Loading the runs...' : 'No run of a project you see used this repository yet.' }}</p>
+                }
+              </div>
+            </mat-tab>
+
             <mat-tab label="Git graph">
               <div class="tab-content">
                 @if (!details) {

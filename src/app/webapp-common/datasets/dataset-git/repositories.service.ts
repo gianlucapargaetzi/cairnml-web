@@ -75,6 +75,19 @@ export interface Repo {
   entries?: RepoEntry[];
 }
 
+// A run that used a repository, as the Runs tab lists it.
+export interface RepoRun {
+  id: string;
+  name: string;
+  status: string;
+  project: string;
+  project_name: string;
+  user: string;
+  user_name: string;
+  created: string | null;
+  as: RepoRole;
+}
+
 // A credential the signed-in user may use (user_access.get_all). Never a secret.
 export interface StoredCredential {
   id: string;
@@ -136,6 +149,11 @@ export class RepositoriesService {
   // Looks at a repository again: the host's answer is renewed and the user's own assignment is tried.
   check(id: string): Observable<Repo> {
     return this.post<{ repository: Repo }>('check', {id}).pipe(map(r => r.repository));
+  }
+
+  // The runs that used a repository, newest first, in the projects the user sees.
+  runs(id: string): Observable<RepoRun[]> {
+    return this.post<{ runs?: RepoRun[] }>('get_runs', {id}).pipe(map(r => r?.runs ?? []));
   }
 
   // Reads a registry again. Returns the counts added, updated and removed.

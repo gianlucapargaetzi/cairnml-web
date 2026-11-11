@@ -4,7 +4,10 @@ import {ChangeDetectionStrategy, Component, computed, effect, inject, output, si
 import {DatePipe, DecimalPipe} from '@angular/common';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
+import {RouterLink} from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
+import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
+import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
@@ -32,7 +35,7 @@ import {RepoAccess} from '@common/shared/services/repo-access.service';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {assignRepoCredential} from '../dataset-credential-dialog/assign-credentials';
 import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
-import {REPO_ROLE_LABELS, Repo, RepoAssignment, RepoEntry, RepositoriesService} from '../dataset-git/repositories.service';
+import {REPO_ROLE_LABELS, Repo, RepoAssignment, RepoEntry, RepoRun, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
 
 // One line of the list: a repository, or, under a registry, one of the datasets it lists.
@@ -80,6 +83,9 @@ interface GraphNode {
     MatButton,
     MatIconButton,
     MatProgressSpinner,
+    RouterLink,
+    StatusIconLabelComponent,
+    TimeAgoPipe,
   ],
 })
 export class DatasetBrowserComponent {
@@ -151,6 +157,20 @@ export class DatasetBrowserComponent {
     },
   });
 
+  protected readonly runColumns: ISmCol[] = [
+    {id: 'name', header: 'Name', sortable: false},
+    {id: 'status', header: 'Status', sortable: false},
+    {id: 'as', header: 'Used as', sortable: false},
+    {id: 'user_name', header: 'User', sortable: false},
+    {id: 'created', header: 'Created', sortable: false},
+  ];
+
+  // The runs that used the selected repository (a registry's entries are read through the registry's runs).
+  protected readonly selectedRuns = rxResource<RepoRun[], string | null>({
+    params: () => this.selectedRow()?.repo.id ?? null,
+    stream: ({params}) => params ? this.repositories.runs(params).pipe(catchError(() => of([] as RepoRun[]))) : of([] as RepoRun[]),
+  });
+
   protected readonly columns: ISmCol[] = [
     {id: 'name', header: 'Name', sortable: false},
     {id: 'type', header: 'Type', sortable: false},
@@ -180,7 +200,8 @@ export class DatasetBrowserComponent {
 
   protected accessOf(repo: Repo): RepoAccess {
     return {
-      repository: repo.url, url: repo.url, id: repo.id, project: null, state: repo.access.state, via: '',
+      repository: repo.url, url: repo.url, id: repo.id, project: null, state: repo.access.state,
+      via: repo.assignments.find(a => a.mine)?.credential_name ?? '',
       message: repo.access.message, warning: repo.access.warning, can_assign: repo.can_assign, ask: false,
     };
   }
