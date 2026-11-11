@@ -39,7 +39,7 @@ Measured on the Access page, Repositories, the project settings tables and the D
 | Place | The last column, header cell empty, buttons right-aligned. The last button's right edge mirrors the table's left cell padding: 24px gutter in full-width `sm-table`s (measured gap 27 to 28), 12px in the compact tables of the project settings (measured 12) |
 | Height | Vertically centred in the row (measured offset 0 to 0.5px) |
 | Visibility | Shown at once, not on hover, so keyboard users reach them. Disabled (not hidden) while a request for the row runs; hidden only when the user has no right to the action |
-| Order | Specific actions first, the destructive one last: share, check, delete (Access); reassign, revoke (Devices); refresh, remove (Datasets) |
+| Order | Specific actions first, the destructive one last: share, check, delete (Access); reassign, revoke (Devices); check now, remove (Datasets); assign credentials, check now, delete (the projects of a repository) |
 | Name | `smTooltip` is a verb phrase ("Check now", "Remove from this project"); `[attr.aria-label]` is the verb plus the row it acts on ("Remove ui-audit app one"); `data-id` names the action |
 | Danger | Delete, revoke and remove ask for confirmation (`sm-confirm-dialog`, `destructive: true`), except a row in a list that is staged until its Save button |
 | Add | Never per row. The add action is the filled button of the table's section or page header (`al-ico-add`, see [buttons](buttons.md) rule 2a) |
@@ -81,7 +81,8 @@ Used by the Datasets list (`dataset-browser`). A parent row groups child rows of
 - The parent row shows the group's name, its owner and visibility, and the count of children in the Kind cell ("Registry, 3 datasets"). Its Modalities, Samples and Versions cells show "–".
 - The name cell of a parent has an icon button with `aria-expanded` and an `Expand`/`Collapse` label (`al-ico-caret-right` closed, `al-ico-arrow-down` open). Expanded by default. A click on the parent row toggles it; a click on a child selects it for the side panel.
 - Children are indented by `--space-5` inside the name cell and sorted by name. Rows without a parent stay flat.
-- Row actions on a parent or a dataset are icon buttons, shown at once (not on hover) so that keyboard users reach them: refresh (a spinner replaces the icon while it runs, success and failure are toasts) and remove (confirmed with `DatasetRemovalService`). Remove is shown to the owner and to admins only; refresh is hidden for a registry with no id.
+- Row actions on a parent or a dataset are icon buttons, shown at once (not on hover) so that keyboard users reach them: refresh (a spinner replaces the icon while it runs, success and failure are toasts) and remove (confirmed with `DatasetRemovalService`). Remove is shown to the owner and to admins only; refresh is hidden for a registry with no id. A repository dataset has **Check now** (`datasets.check`: can its repository be read with its credential) in the same place; the credential itself is assigned in the side panel, because three buttons do not fit the table at 1600px.
+- The projects under a code repository (Repositories page) have three: **Assign credentials** (lock), **Check now** (refresh, `repositories.check`) and **Delete** (trash, `repositories.delete`, confirmed; shown to the project's owner and admins, `can_delete`). Delete takes the repository out of that project's list only: a run that uses it again lists it again.
 
 ## Do not
 

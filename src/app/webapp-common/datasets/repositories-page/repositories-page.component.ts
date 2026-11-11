@@ -129,8 +129,8 @@ export class RepositoriesPageComponent {
     const name = `${repo.host}/${repo.path}`;
     const project = binding.project_name ?? 'no project';
     const data: ConfirmDialogConfig = {
-      title: `Delete ${name} from ${project}?`,
-      body: 'The repository stops being listed for this project and its credential assignment is forgotten. The code stays where it is, and a run that uses the repository again lists it again.',
+      title: 'Delete repository?',
+      body: `${name} stops being listed for ${project} and its credential assignment is forgotten. The code stays where it is, and a run that uses the repository again lists it again.`,
       yes: 'Delete',
       no: 'Cancel',
       iconClass: 'al-ico-alert',
