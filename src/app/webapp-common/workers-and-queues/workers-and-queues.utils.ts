@@ -35,5 +35,7 @@ export const transformAndSortWorkers = (sortFields, workers: WorkerExt[]): Worke
   };
 }));
 
+// The caption is the real name of the queue: the one an agent is started with and a run is queued to
+// (an agent's queue is its machine name plus a short suffix). The display name is in the tooltip of the name.
 export const calculateQueuesCaption = (queues: BLQ[]) =>
-  queues.map(queue => ({...queue, caption: queue.display_name || queue.name} as Queue));
+  queues.map(queue => ({...queue, caption: queue.name} as Queue));
