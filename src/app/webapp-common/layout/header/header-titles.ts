@@ -38,7 +38,7 @@ const SECTIONS: Record<string, string> = {
   projects: 'Projects',
   reports: 'Projects',
   pipelines: 'Pipelines',
-  datasets: 'Datasets & Repositories',
+  datasets: 'Repositories & Datasets',
   'workers-and-queues': 'Agents & Queues',
   endpoints: 'Endpoints',
   settings: 'Settings',
