@@ -23,9 +23,7 @@ import {ProjectScalarDefaultsComponent} from './project-scalar-defaults/project-
 import {ProjectMembersComponent} from './project-members/project-members.component';
 import {ProjectGeneralSettingsComponent} from './project-general-settings/project-general-settings.component';
 import {ProjectQueuesComponent} from './project-queues/project-queues.component';
-import {ProjectDatasetsComponent} from './project-datasets/project-datasets.component';
 import {ProjectRepositoriesComponent} from './project-repositories/project-repositories.component';
-import {ProjectAccessesComponent} from './project-accesses/project-accesses.component';
 
 export interface ProjectSettingsDialogConfig {
   project: Project;
@@ -52,9 +50,7 @@ export interface ProjectSettingsDialogConfig {
     ProjectScalarDefaultsComponent,
     ProjectMembersComponent,
     ProjectQueuesComponent,
-    ProjectDatasetsComponent,
     ProjectRepositoriesComponent,
-    ProjectAccessesComponent
   ]
 })
 export class ProjectSettingsDialogComponent {

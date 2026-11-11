@@ -27,37 +27,42 @@
                   <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
                 </div>
               }
+              @case ('access') {
+                @if (line.access) {
+                  <sm-repo-access-badge [access]="line.access"></sm-repo-access-badge>
+                }
+              }
+              @case ('projects') {
+                <div class="projects-cell">
+                  @for (project of line.projects.slice(0, 1); track project.project) {
+                    <sm-entity-chip [label]="project.project_name ?? project.project" [link]="['/projects', project.project, 'overview']"></sm-entity-chip>
+                  }
+                  @if (line.projects.length > 1) {
+                    <span class="more" smTooltip="{{ line.projects.length }} projects list this repository">+{{ line.projects.length - 1 }}</span>
+                  }
+                </div>
+              }
               @case ('actions') {
                 <div class="row-actions">
                   @if (line.canCheck) {
-                    <button mat-icon-button type="button" data-id="checkDatasetButton"
-                      [disabled]="checkingId() !== null"
-                      [attr.aria-label]="'Check ' + line.name" smTooltip="Check now"
-                      (click)="checkRow(line.row, $event)">
-                      @if (checkingId() === line.id) {
+                    <button mat-icon-button type="button" data-id="checkRepositoryButton"
+                      [disabled]="busyId() !== null"
+                      [attr.aria-label]="(line.isRegistry ? 'Refresh ' : 'Check ') + line.name"
+                      [smTooltip]="line.isRegistry ? 'Read this registry again' : 'Check now'"
+                      (click)="check(line.row.repo, $event)">
+                      @if (busyId() === line.id) {
                         <mat-spinner [diameter]="24" [strokeWidth]="2" aria-label="Checking"></mat-spinner>
                       } @else {
                         <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
                       }
                     </button>
                   }
-                  @if (line.canRefresh) {
-                    <button mat-icon-button type="button" data-id="refreshRegistryButton"
-                      [disabled]="refreshingId() !== null"
-                      [attr.aria-label]="'Refresh ' + line.name" smTooltip="Refresh this registry from its repository"
-                      (click)="refresh(line.row, $event)">
-                      @if (refreshingId() === line.id) {
-                        <mat-spinner [diameter]="24" [strokeWidth]="2" aria-label="Refreshing"></mat-spinner>
-                      } @else {
-                        <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
-                      }
-                    </button>
-                  }
-                  @if (line.canRemove) {
-                    <button mat-icon-button type="button" data-id="removeDatasetButton"
-                      [attr.aria-label]="'Remove ' + line.name" smTooltip="Remove from the Datasets page"
-                      (click)="removeRow(line.row, $event)">
-                      <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
+                  @if (line.canDelete) {
+                    <button mat-icon-button type="button" data-id="deleteRepositoryButton"
+                      [disabled]="busyId() !== null"
+                      [attr.aria-label]="'Delete ' + line.name" smTooltip="Delete"
+                      (click)="delete(line.row.repo, $event)">
+                      <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                     </button>
                   }
                 </div>
@@ -73,85 +78,129 @@
 
     <as-split-area [size]="42" [minSize]="25" class="d-flex flex-column">
       @let details = selectedDetails.value();
-      @if (selectedRow()) {
+      @if (selectedRow(); as selected) {
+        @let repo = selected.repo;
         <div class="info-panel">
           <div class="info-header">
-            <h2 class="info-title">{{ details?.name ?? selectedRow()!.name }}</h2>
-            <span class="info-repo">{{ details?.link }}</span>
+            <h2 class="info-title">{{ selected.entry ? selected.entry.name : repo.name }}</h2>
+            <span class="info-repo">{{ repo.url }}</span>
           </div>
           <mat-tab-group animationDuration="0ms">
             <mat-tab label="General">
               <div class="tab-content">
-                @if (!details) {
-                  <p class="note">{{ selectedDetails.isLoading() ? 'Loading the details of the dataset...' : 'The details of this dataset could not be read.' }}</p>
-                } @else {
-                <sm-section-header label="Dataset"></sm-section-header>
-                <sm-labeled-row label="Repository:">
-                  @if (details.kind === 'own' && repoLink(details).targetUrl) {
-                    <a [href]="repoLink(details).targetUrl" target="_blank" class="d-inline-flex repo-link">
-                      <mat-icon class="repo-icon" [class]="'i-' + repoLink(details).type"></mat-icon>{{ details.link }}
-                    </a>
-                  } @else {
-                    <a [href]="details.link" target="_blank" class="repo-link">{{ details.link }}</a>
+                <sm-section-header label="Repository"></sm-section-header>
+                <sm-labeled-row label="Address:"><a [href]="repo.url" target="_blank" class="repo-link">{{ repo.url }}</a></sm-labeled-row>
+                <sm-labeled-row label="Type:">{{ repo.roles.map(role => roleLabels[role]).join(', ') }}</sm-labeled-row>
+                <sm-labeled-row label="Owner:">
+                  {{ repo.shared ? 'Company' : repo.owner_name }}
+                  @if (repo.shared) {
+                    <span class="meta ms-2" data-id="sharedBadge">Shared: visible to every user</span>
                   }
-                  <sm-repo-access-badge class="ms-2" [access]="repoAccess.value()"></sm-repo-access-badge>
                 </sm-labeled-row>
-                <sm-labeled-row label="Kind:">{{ details.kind === 'own' ? 'Your own dataset' : 'Registry' + (details.source ? ', source ' + details.source : '') }}</sm-labeled-row>
-                @let access = selectedRow()!.access;
-                @if (details.kind === 'own' && access) {
-                  <sm-labeled-row label="Credential:">
-                    <span class="ellipsis" data-id="datasetCredential">{{ credentialName(access.credential) }}</span>
-                    @if (access.state === 'no_access') {
-                      <span class="meta ms-2">{{ access.state_message }}</span>
-                    }
-                    @if (canSetCredential(selectedRow()!)) {
-                      <button mat-stroked-button type="button" class="ms-2" data-id="setCredentialButton"
-                        (click)="setCredential(selectedRow()!)">{{ access.credential ? 'Change credential' : 'Add credential' }}</button>
-                    }
+                <sm-labeled-row label="Access:">
+                  <sm-repo-access-badge [access]="accessOf(repo)"></sm-repo-access-badge>
+                  @if (repo.state === 'no_access') {
+                    <span class="meta ms-2">{{ repo.state_message }}</span>
+                  }
+                </sm-labeled-row>
+                @if (repo.can_share) {
+                  <sm-labeled-row label="Sharing:">
+                    <button mat-stroked-button type="button" data-id="shareRepositoryButton" (click)="share(repo, !repo.shared)">
+                      {{ repo.shared ? 'Make non-shared' : 'Make shared' }}
+                    </button>
                   </sm-labeled-row>
                 }
-                <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>
-                <sm-labeled-row label="Samples:">{{ details.metadata?.samples ? (details.metadata!.samples! | number) : '–' }}</sm-labeled-row>
-                <sm-labeled-row label="Used by runs:">{{ selectedRow()!.runs }}</sm-labeled-row>
 
-                <sm-section-header label="Modalities"></sm-section-header>
-                @for (m of entries(details.metadata?.modalities); track m[0]) {
-                  <sm-labeled-row [label]="m[0] + ':'">{{ m[1] }}</sm-labeled-row>
+                <sm-section-header label="Credentials"></sm-section-header>
+                @for (assignment of repo.assignments; track assignment.id) {
+                  <sm-labeled-row [label]="assignment.mine ? 'You:' : assignment.user_name + ':'">
+                    <div class="assignment" data-id="repositoryAssignment">
+                      <span class="ellipsis" [smTooltip]="assignment.credential_name">{{ assignment.credential_name || 'None needed' }}</span>
+                      @if (assignment.company) {
+                        <span class="meta">company</span>
+                      }
+                      @if (assignment.used_in.length) {
+                        <span class="meta" data-id="usedIn">used in {{ usedIn(repo, assignment) }}</span>
+                      }
+                      @if (assignment.can_edit) {
+                        <span class="row-actions">
+                          <button mat-icon-button type="button" data-id="reassignCredentialButton" smTooltip="Reassign"
+                            [attr.aria-label]="'Reassign your credential for ' + repo.name" (click)="assign(repo)">
+                            <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                          </button>
+                          <button mat-icon-button type="button" data-id="checkCredentialButton" smTooltip="Check now"
+                            [disabled]="busyId() !== null" [attr.aria-label]="'Check ' + repo.name" (click)="check(repo)">
+                            <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                          </button>
+                          <button mat-icon-button type="button" data-id="deleteCredentialButton" smTooltip="Delete"
+                            [attr.aria-label]="'Delete your credential for ' + repo.name" (click)="unassign(repo)">
+                            <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                          </button>
+                        </span>
+                      }
+                    </div>
+                  </sm-labeled-row>
                 } @empty {
-                  @if (details.kind === 'registry') {
-                    <p class="note">The registry has no modalities for this dataset yet. Refresh the registry to read them.</p>
+                  <p class="note">No credential is assigned.</p>
+                }
+                @if (!mine(repo) && repo.can_assign) {
+                  <button mat-stroked-button type="button" class="mt-2" data-id="assignCredentialButton" (click)="assign(repo)">
+                    Assign credentials
+                  </button>
+                }
+
+                <sm-section-header label="Projects"></sm-section-header>
+                @for (project of repo.projects; track project.project) {
+                  <div class="project-line">
+                    <sm-entity-chip [label]="project.project_name ?? project.project" [link]="['/projects', project.project, 'overview']"
+                      [removable]="project.member" removeLabel="Take out of the project" (remove)="unlinkProject(repo, project.project)"></sm-entity-chip>
+                    @if (project.inherited) {
+                      <span class="meta">listed by a run</span>
+                    }
+                  </div>
+                } @empty {
+                  <p class="note">It is not listed in a project.</p>
+                }
+
+                @if (selected.entry || repo.roles.includes('dataset')) {
+                  <sm-section-header label="Dataset"></sm-section-header>
+                  @if (!details) {
+                    <p class="note">{{ selectedDetails.isLoading() ? 'Loading the details of the dataset...' : 'The details of this dataset could not be read.' }}</p>
                   } @else {
-                    <p class="note">No manifest.json in this dataset yet. Run cairnml dataset check and push to write it.</p>
-                  }
-                }
-
-                <sm-section-header label="Splits"></sm-section-header>
-                @for (s of entries(details.metadata?.splits); track s[0]) {
-                  <sm-labeled-row [label]="s[0] + ':'">{{ s[1] | number }}</sm-labeled-row>
-                } @empty {
-                  <p class="note">No split sizes.</p>
-                }
-
-                <sm-section-header label="Labels"></sm-section-header>
-                @for (l of entries(details.metadata?.labels); track l[0]) {
-                  <sm-labeled-row [label]="l[0] + ':'">{{ l[1] }}</sm-labeled-row>
-                } @empty {
-                  <p class="note">No labels.</p>
-                }
-
-                <sm-section-header label="Description"></sm-section-header>
-                @if (details.description) {
-                  @for (block of descriptionBlocks(details); track $index) {
-                    @if (block.code !== undefined) {
-                      <sm-code-editor [code]="block.code" [readonly]="true" [mode]="block.mode" [showCopyButton]="true"
-                        [style.height.px]="codeHeight(block.code)"></sm-code-editor>
+                    <sm-labeled-row label="Revision:"><span class="mono">{{ shortSha(details.revision) }}</span></sm-labeled-row>
+                    <sm-labeled-row label="Samples:">{{ details.metadata?.samples ? (details.metadata!.samples! | number) : '–' }}</sm-labeled-row>
+                    <sm-section-header label="Modalities"></sm-section-header>
+                    @for (m of entries(details.metadata?.modalities); track m[0]) {
+                      <sm-labeled-row [label]="m[0] + ':'">{{ m[1] }}</sm-labeled-row>
+                    } @empty {
+                      <p class="note">No modalities known yet.</p>
+                    }
+                    <sm-section-header label="Splits"></sm-section-header>
+                    @for (s of entries(details.metadata?.splits); track s[0]) {
+                      <sm-labeled-row [label]="s[0] + ':'">{{ s[1] | number }}</sm-labeled-row>
+                    } @empty {
+                      <p class="note">No split sizes.</p>
+                    }
+                    <sm-section-header label="Labels"></sm-section-header>
+                    @for (l of entries(details.metadata?.labels); track l[0]) {
+                      <sm-labeled-row [label]="l[0] + ':'">{{ l[1] }}</sm-labeled-row>
+                    } @empty {
+                      <p class="note">No labels.</p>
+                    }
+                    <sm-section-header label="Description"></sm-section-header>
+                    @if (details.description) {
+                      @for (block of descriptionBlocks(details); track $index) {
+                        @if (block.code !== undefined) {
+                          <sm-code-editor [code]="block.code" [readonly]="true" [mode]="block.mode" [showCopyButton]="true"
+                            [style.height.px]="codeHeight(block.code)"></sm-code-editor>
+                        } @else {
+                          <div class="readme" [innerHTML]="block.html"></div>
+                        }
+                      }
                     } @else {
-                      <div class="readme" [innerHTML]="block.html"></div>
+                      <p class="note">{{ details.kind === 'own' ? 'No DATASET.md in this repository.' : 'The registry entry has no description.' }}</p>
                     }
                   }
-                } @else {
-                  <p class="note">{{ details.kind === 'own' ? 'No DATASET.md in this repository.' : 'The registry entry has no description.' }}</p>
-                }
                 }
               </div>
             </mat-tab>
@@ -182,49 +231,8 @@
                 }
               </div>
             </mat-tab>
-
-            <mat-tab label="Runs">
-              <div class="tab-content" data-id="datasetRuns">
-                @let group = selectedGroup();
-                @if (group && group.versions.length) {
-                  @for (version of group.versions; track version.commit) {
-                    <sm-section-header [label]="'Version ' + (version.commit || 'unknown')"></sm-section-header>
-                    <div class="version-meta">
-                      @if (group.kind === 'own') {
-                        <span class="meta">{{ storageLabel(version.storage) }}</span>
-                      }
-                      @if (version.contentHash) {
-                        <span class="meta">content {{ version.contentHash }}</span>
-                      }
-                    </div>
-                    @if (group.kind === 'own' && version.fetchCommands) {
-                      <div class="fetch-head">
-                        <span class="meta">Fetch this version</span>
-                        <sm-copy-clipboard [clipboardText]="version.fetchCommands.join('\n')" label="Copy" tooltipText="Copy the fetch commands"></sm-copy-clipboard>
-                      </div>
-                      <pre class="commands" data-id="fetchCommands">{{ version.fetchCommands.join('\n') }}</pre>
-                    }
-                    <ul class="runs">
-                      @for (run of version.runs; track run.taskId) {
-                        <li>
-                          <sm-entity-chip class="run-link" [label]="run.taskName" icon="al-ico-experiment-view" [link]="['/projects', run.projectId, 'tasks', run.taskId]" data-id="datasetRunLink"></sm-entity-chip>
-                          @if (run.projectName) {
-                            <sm-entity-chip [label]="run.projectName" [link]="['/projects', run.projectId, 'overview']"></sm-entity-chip>
-                          }
-                          <span class="meta" data-id="datasetRunStatus">{{ run.status }}</span>
-                        </li>
-                      }
-                    </ul>
-                  }
-                } @else {
-                  <p class="note">No run has used this dataset yet.</p>
-                }
-              </div>
-            </mat-tab>
           </mat-tab-group>
         </div>
-      } @else {
-        <p class="note panel-empty">Select a dataset to see its details.</p>
       }
     </as-split-area>
   </as-split>

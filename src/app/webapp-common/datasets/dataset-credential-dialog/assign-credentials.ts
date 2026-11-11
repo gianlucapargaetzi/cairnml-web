@@ -2,53 +2,43 @@ import {MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {RepoAccess} from '@common/shared/services/repo-access.service';
-import {CodeRepository, DatasetAccessService, RepositoryBinding} from '../dataset-git/dataset-access.service';
+import {Repo, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetCredentialDialogComponent} from './dataset-credential-dialog.component';
 
-// Opens the assignment of a repository's credential for the project of a repo-access row (a code repository or a dataset):
-// the credentials the server lists for the user, and "None needed" when the host clones it without one. Emits true when
-// something was saved.
-export function assignCredentials(dialog: MatDialog, access: DatasetAccessService, row: RepoAccess): Observable<boolean> {
+// Opens the assignment of the signed-in user's own credential for a repository: the credentials the server lists for them (their
+// own, and the company's; the company's only for a shared repository), and "None needed" when the host clones it without one.
+// Emits true when something was saved.
+export function assignCredentials(dialog: MatDialog, repositories: RepositoriesService, row: RepoAccess): Observable<boolean> {
   return dialog.open(DatasetCredentialDialogComponent, {
     data: {
       name: row.url,
       credential: null,
-      noneNeededLabel: row.anonymous === false ? undefined : 'None needed (public)',
+      noneNeededLabel: 'None needed (public)',
       options: (row.assignable ?? []).map(option => ({
         id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'Git credential',
         scope: option.company ? 'company' as const : 'user' as const,
       })),
-      save: (credential: string, noneNeeded = false) => access.setBindingCredential(row.binding, credential, noneNeeded),
+      save: (credential: string, noneNeeded = false) => repositories.assign(row.id, credential, noneNeeded),
     },
     panelClass: 'dialog-md',
   }).afterClosed().pipe(map(saved => !!saved));
 }
 
-// How a project reads a code repository, as the badge shows it.
-export function bindingAccess(repo: CodeRepository, binding: RepositoryBinding): RepoAccess {
-  return {
-    repository: repo.url, url: repo.url, binding: binding.id, project: binding.project, state: binding.state,
-    via: binding.credential ? (binding.assignable.find(option => option.id === binding.credential)?.name ?? 'the assigned credential') : '',
-    message: binding.message, can_assign: binding.can_assign, ask: false,
-  };
-}
-
-// Opens the assignment of the credential a project reads a code repository with. Emits true when something was saved.
-export function assignBindingCredential(dialog: MatDialog, access: DatasetAccessService, repo: CodeRepository,
-                                        binding: RepositoryBinding): Observable<boolean> {
+// The same for a repository of the list, with the user's current assignment shown and clearable.
+export function assignRepoCredential(dialog: MatDialog, repositories: RepositoriesService, repo: Repo): Observable<boolean> {
+  const mine = repo.assignments.find(assignment => assignment.mine);
   return dialog.open(DatasetCredentialDialogComponent, {
     data: {
       name: `${repo.host}/${repo.path}`,
-      credential: binding.credential,
-      noneNeeded: binding.none_needed,
-      noneNeededLabel: repo.anonymous === false ? undefined :
-        (repo.host === 'github.com' ? 'None needed (public on GitHub)' : `None needed (public on ${repo.host})`),
-      clearable: !!binding.credential || binding.none_needed,
-      options: binding.assignable.map(option => ({
+      credential: mine?.credential ?? null,
+      noneNeeded: mine?.none_needed ?? false,
+      noneNeededLabel: repo.anonymous === false ? undefined : 'None needed (public)',
+      clearable: !!mine,
+      options: repo.credentials.map(option => ({
         id: option.id, name: option.name, type: option.kind === 'app' ? 'GitHub App' : 'Git credential',
         scope: option.company ? 'company' as const : 'user' as const,
       })),
-      save: (credential: string, noneNeeded = false) => access.setBindingCredential(binding.id, credential, noneNeeded),
+      save: (credential: string, noneNeeded = false) => repositories.assign(repo.id, credential, noneNeeded),
     },
     panelClass: 'dialog-md',
   }).afterClosed().pipe(map(saved => !!saved));

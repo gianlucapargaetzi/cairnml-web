@@ -3,7 +3,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
-import {DatasetAddDialogComponent} from '@common/datasets/dataset-add-dialog/dataset-add-dialog.component';
 import {RepositoryAddDialogComponent} from '@common/datasets/repository-add-dialog/repository-add-dialog.component';
 import {DatasetHowToComponent} from '@common/datasets/dataset-how-to/dataset-how-to.component';
 import {DatasetsPageRefreshService} from '@common/datasets/dataset-git/datasets-page-refresh.service';
@@ -16,7 +15,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {RouterOutlet} from '@angular/router';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
 
-// The Datasets & Repositories page: its two tabs are the header strip, and each tab is a child route with its own table.
+// The Repositories & Datasets page: one list of code repositories, datasets and registries.
 @Component({
   selector: 'sm-datasets-and-repositories',
   templateUrl: './datasets-and-repositories.component.html',
@@ -58,12 +57,7 @@ export class DatasetsAndRepositoriesComponent {
     });
   }
 
-  protected addDataset() {
-    this.dialog.open(DatasetAddDialogComponent, {panelClass: 'dialog-md'}).afterClosed()
-      .subscribe(added => added && this.refresh.bump());
-  }
-
-  protected addRepository() {
+  protected add() {
     this.dialog.open(RepositoryAddDialogComponent, {panelClass: 'dialog-md'}).afterClosed()
       .subscribe(added => added && this.refresh.bump());
   }

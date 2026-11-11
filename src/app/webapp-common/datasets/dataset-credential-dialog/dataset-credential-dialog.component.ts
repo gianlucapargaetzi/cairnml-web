@@ -7,7 +7,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {lastValueFrom, Observable} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
-import {DatasetAccessService, StoredCredential} from '../dataset-git/dataset-access.service';
+import {RepositoriesService, StoredCredential} from '../dataset-git/repositories.service';
 
 // What the dialog changes: the name shown, the credential now set, and how the choice is saved (a dataset or a repository).
 export interface CredentialChangeData {
@@ -46,7 +46,7 @@ export const NOT_ASSIGNED = '__not_assigned__';
 })
 export class DatasetCredentialDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private access = inject(DatasetAccessService);
+  private access = inject(RepositoriesService);
   private dialogRef = inject(MatDialogRef<DatasetCredentialDialogComponent, unknown>);
   protected data = inject<CredentialChangeData>(MAT_DIALOG_DATA);
 

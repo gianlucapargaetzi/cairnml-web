@@ -1,14 +1,17 @@
-<sm-dialog-template header="Add repository" iconClass="al-ico-datasets">
+<sm-dialog-template header="Add repository or dataset" iconClass="al-ico-datasets">
   <p class="meta">
-    @if (fixedProject) {
-      List a code repository for this project before any run uses it. Its owner then assigns the credential it is read
-      with; jobs of the project use it as soon as it is listed.
-    } @else {
-      List a code repository before any run uses it. Choose the project that will use it; its owner, or you as the first
-      user there, then assigns the credential it is read with from the Repositories tab.
-    }
+    List a code repository, a dataset or a registry of datasets before any run uses it. You can assign your own credential now or
+    later, and list it in a project.
   </p>
   <form [formGroup]="form" (ngSubmit)="add()" class="form" autocomplete="off">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="role" data-id="addRepositoryType">
+        <mat-option value="dataset">Dataset</mat-option>
+        <mat-option value="registry">Registry of datasets</mat-option>
+        <mat-option value="code">Code repository</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Repository address</mat-label>
       <input matInput formControlName="url" placeholder="https://github.com/owner/name" data-id="addRepositoryUrl">
@@ -24,6 +27,22 @@
         </mat-select>
       </mat-form-field>
     }
+    @if (credentials().length) {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Credential (optional)</mat-label>
+        <mat-select formControlName="credential" data-id="addRepositoryCredential">
+          <mat-option value="">None: the host clones it without one</mat-option>
+          @for (credential of credentials(); track credential.id) {
+            <mat-option [value]="credential.id"><span class="ellipsis">{{ credential.name }}</span></mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+    @if (isAdmin()) {
+      <mat-checkbox formControlName="shared" data-id="addRepositoryShared">
+        Shared: owned by the admin, visible to every user, read with a company credential
+      </mat-checkbox>
+    }
     @if (error()) {
       <div class="error" role="alert">{{ error() }}</div>
     }
@@ -33,7 +52,7 @@
         @if (saving()) {
           <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
         }
-        Add repository
+        Add
       </button>
     </div>
   </form>

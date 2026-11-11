@@ -8,7 +8,7 @@ import {lastValueFrom} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
-import {DatasetAccessService} from '../dataset-git/dataset-access.service';
+import {RepositoriesService} from '../dataset-git/repositories.service';
 import {assignCredentials} from '../dataset-credential-dialog/assign-credentials';
 
 export interface DispatchWarningData {
@@ -32,7 +32,7 @@ export interface DispatchWarningData {
 export class DispatchWarningDialogComponent {
   private dialog = inject(MatDialog);
   private repoAccess = inject(RepoAccessService);
-  private access = inject(DatasetAccessService);
+  private access = inject(RepositoriesService);
   private dialogRef = inject(MatDialogRef<DispatchWarningDialogComponent, boolean>);
   private data = inject<DispatchWarningData>(MAT_DIALOG_DATA);
 
@@ -79,7 +79,7 @@ export class DispatchWarningDialogComponent {
       this.saving.set(true);
       try {
         for (const row of this.pending().filter(item => item.state === 'anonymous' && item.can_assign)) {
-          await lastValueFrom(this.access.setBindingCredential(row.binding, null, true));
+          await lastValueFrom(this.access.assign(row.id, null, true));
         }
       } catch {
         // the dispatch goes on: the assignment is a convenience

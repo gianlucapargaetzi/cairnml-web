@@ -8,7 +8,7 @@
     }
   </p>
   <div class="repositories">
-    @for (row of rows(); track row.binding ?? row.url) {
+    @for (row of rows(); track row.id ?? row.url) {
       <div class="repository" data-id="dispatchRepository">
         <div class="head">
           <span class="ellipsis url">{{ row.url }}@if (row.kinds?.includes('dataset') && !row.kinds?.includes('code')) { <span class="kind">dataset</span>}</span>

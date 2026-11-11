@@ -1,4 +1,3 @@
-import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
@@ -23,7 +22,6 @@ import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confi
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {AddAccessDialogComponent} from './add-access-dialog.component';
-import {ShareAccessDialogComponent, ShareableProject} from './share-access-dialog.component';
 
 // One credential, as the server lists it: a GitHub App (a user's or the company's), or a company Git
 // credential for another host. "git" rows are the company's Git credentials; the others are accesses.
@@ -38,7 +36,6 @@ export interface CredentialView {
   state: 'ok' | 'refused' | 'unreachable' | 'unverified' | 'unchecked';
   message: string;
   last_checked: string | null;
-  granted_projects: string[];
   can_edit: boolean;
   app_id: string | null;
   host?: string;
@@ -64,7 +61,6 @@ export interface CredentialView {
     PrimeTemplate,
     EmptyStateComponent,
     InlineAlertComponent,
-    EntityChipComponent,
   ],
 })
 export class AccessComponent implements OnInit {
@@ -73,7 +69,6 @@ export class AccessComponent implements OnInit {
   private store = inject(Store);
 
   protected credentials = signal<CredentialView[]>([]);
-  protected projects = signal<ShareableProject[]>([]);
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected busy = signal<string | null>(null);
@@ -86,7 +81,6 @@ export class AccessComponent implements OnInit {
     {id: 'owner', header: 'Owner', sortable: false},
     {id: 'valid_for', header: 'Valid for', sortable: false},
     {id: 'status', header: 'Status', sortable: false},
-    {id: 'shared', header: 'Shared with', sortable: false},
     {id: 'actions', header: '', sortable: false},
   ];
 
@@ -98,7 +92,6 @@ export class AccessComponent implements OnInit {
     valid_for: credential.valid_for,
     status: this.stateLabel(credential.state),
     state: credential.state,
-    shared: credential.granted_projects.map(id => this.projectName(id)).join(', '),
     credential,
   })));
 
@@ -106,9 +99,6 @@ export class AccessComponent implements OnInit {
     this.load();
   }
 
-  protected projectName(id: string) {
-    return this.projects().find(project => project.id === id)?.name ?? id;
-  }
 
   protected stateLabel(state: CredentialView['state']) {
     switch (state) {
@@ -124,9 +114,6 @@ export class AccessComponent implements OnInit {
     return state === 'refused' || state === 'unreachable';
   }
 
-  protected canShare(credential: CredentialView) {
-    return credential.source === 'access' && credential.scope === 'user' && credential.can_edit;
-  }
 
   protected add() {
     this.dialog.open<AddAccessDialogComponent, {isAdmin: boolean}, boolean>(AddAccessDialogComponent, {
@@ -140,23 +127,7 @@ export class AccessComponent implements OnInit {
     });
   }
 
-  protected share(credential: CredentialView) {
-    const available = this.projects().filter(project => !credential.granted_projects.includes(project.id));
-    this.dialog.open<ShareAccessDialogComponent, unknown, boolean>(ShareAccessDialogComponent, {
-      data: {id: credential.id, label: credential.name, projects: available},
-      panelClass: 'dialog-md',
-    }).afterClosed().subscribe(shared => {
-      if (shared) {
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The access is shared with the project'));
-        this.load();
-      }
-    });
-  }
 
-  protected async unshare(credential: CredentialView, projectId: string) {
-    await this.run(credential.id, 'user_access.revoke', {id: credential.id, project: projectId},
-      'Sharing stopped', 'Sharing could not be stopped.');
-  }
 
   protected async check(credential: CredentialView) {
     await this.run(credential.id, 'user_access.check', {id: credential.id}, 'The credential was checked',
@@ -208,10 +179,9 @@ export class AccessComponent implements OnInit {
     this.error.set(null);
     try {
       const res = await lastValueFrom(this.apiRequest.post<{
-        credentials: CredentialView[]; projects: ShareableProject[];
+        credentials: CredentialView[];
       }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
       this.credentials.set(res.credentials ?? []);
-      this.projects.set(res.projects ?? []);
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The credentials could not be loaded.');
     } finally {

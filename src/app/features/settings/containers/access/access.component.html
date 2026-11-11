@@ -41,19 +41,6 @@
             @case ('name') {
               <span class="ellipsis" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
             }
-            @case ('shared') {
-              @for (projectId of line.credential.granted_projects; track projectId) {
-                <sm-entity-chip class="share-chip" [label]="projectName(projectId)" [link]="['/projects', projectId, 'overview']"
-                                [removable]="line.credential.can_edit" removeLabel="Stop sharing"
-                                (remove)="unshare(line.credential, projectId)"></sm-entity-chip>
-              }
-              @if (canShare(line.credential)) {
-                <button mat-icon-button type="button" aria-label="Share credential" smTooltip="Share with a project"
-                        [disabled]="busy() === line.id" (click)="share(line.credential)" data-id="shareAccessButton">
-                  <mat-icon fontSet="al" fontIcon="al-ico-shared-item"></mat-icon>
-                </button>
-              }
-            }
             @case ('actions') {
               @if (line.credential.source === 'access' && line.credential.can_edit) {
                 <button mat-icon-button aria-label="Check credential" smTooltip="Check now"

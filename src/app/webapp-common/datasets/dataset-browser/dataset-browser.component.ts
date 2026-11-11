@@ -2,21 +2,19 @@ import {injectQueryParams} from 'ngxtension/inject-query-params';
 import {EntityChipComponent} from '@common/shared/ui-components/tags/entity-chip/entity-chip.component';
 import {ChangeDetectionStrategy, Component, computed, effect, inject, output, signal, SecurityContext} from '@angular/core';
 import {DatePipe, DecimalPipe} from '@angular/common';
-import {rxResource, toSignal} from '@angular/core/rxjs-interop';
+import {rxResource} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {PrimeTemplate} from 'primeng/api';
-import {forkJoin, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 import {marked} from 'marked';
-import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
-import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
 import {SectionHeaderComponent} from '@common/shared/components/section-header/section-header.component';
@@ -24,49 +22,26 @@ import {LabeledRowComponent} from '@common/shared/ui-components/data/labeled-row
 import {CodeEditorComponent} from '@common/shared/ui-components/data/code-editor/code-editor.component';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
+import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
-import {CopyClipboardComponent} from '@common/shared/ui-components/indicators/copy-clipboard/copy-clipboard.component';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
-import {selectCurrentUserId, selectIsAdmin} from '@common/core/reducers/users-reducer';
-import {
-  AccessDataset,
-  DATASET_VISIBILITY_LABELS,
-  DatasetAccessService,
-  StoredCredential,
-} from '../dataset-git/dataset-access.service';
-import {DatasetCredentialDialogComponent} from '../dataset-credential-dialog/dataset-credential-dialog.component';
-import {
-  canCheckRow,
-  canRefreshRow,
-  canRemoveRow,
-  datasetListRows,
-  DatasetGroup,
-  DatasetRow,
-  groupDatasetRuns,
-  RawDatasetTask,
-  RegistryEntry,
-  RegistryRecord,
-  removableDatasetId,
-} from '../dataset-git/dataset-git.model';
-import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
-import {DatasetRegistryService} from '../dataset-git/dataset-registry.service';
-import {DatasetRemovalService} from '../dataset-git/dataset-removal.service';
-import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
+import {RepoAccess} from '@common/shared/services/repo-access.service';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
+import {assignRepoCredential} from '../dataset-credential-dialog/assign-credentials';
+import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
+import {REPO_ROLE_LABELS, Repo, RepoAssignment, RepoEntry, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
 
-const TASK_LIMIT = 500;
-
-// What the list is read from: the registries and their entries, and the datasets the user may see.
-interface DirectorySnapshot {
-  entries: RegistryEntry[];
-  registries: RegistryRecord[];
-  visible: AccessDataset[];
+// One line of the list: a repository, or, under a registry, one of the datasets it lists.
+interface Row {
+  id: string;
+  repo: Repo;
+  entry: RepoEntry | null;
+  parentId: string | null;
 }
-
-const EMPTY_DIRECTORY: DirectorySnapshot = {entries: [], registries: [], visible: []};
 
 interface GraphNode {
   sha: string;
@@ -78,6 +53,9 @@ interface GraphNode {
   color: string;
 }
 
+// Repositories and datasets: code repositories, datasets and registries of datasets in one list. A registry opens into the datasets
+// it lists. The side panel says how the signed-in user reads the repository and lists every credential assigned to it: the
+// user's own can be changed, the others' are read-only.
 @Component({
   selector: 'sm-dataset-browser',
   templateUrl: './dataset-browser.component.html',
@@ -98,213 +76,125 @@ interface GraphNode {
     ShowTooltipIfEllipsisDirective,
     DatePipe,
     DecimalPipe,
-    CopyClipboardComponent,
     RepoAccessBadgeComponent,
+    MatButton,
     MatIconButton,
     MatProgressSpinner,
   ],
 })
 export class DatasetBrowserComponent {
-  private tasksApi = inject(ApiTasksService);
-  private registry = inject(DatasetRegistryService);
-  private access = inject(DatasetAccessService);
-  private removal = inject(DatasetRemovalService);
-  private usersApi = inject(ApiUsersService);
+  private repositories = inject(RepositoriesService);
   private detailsApi = inject(DatasetDetailsService);
   private sanitizer = inject(DomSanitizer);
-  private repoAccessApi = inject(RepoAccessService);
   private store = inject(Store);
   private dialog = inject(MatDialog);
+  private pageRefresh = inject(DatasetsPageRefreshService);
 
-  // The number of datasets listed, so the page can decide whether to show its empty state.
+  // The number of repositories listed, so the page can decide whether to show its empty state.
   loaded = output<number>();
 
-  protected readonly isAdmin = toSignal(this.store.select(selectIsAdmin), {initialValue: false});
-  protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
-  protected readonly user = computed(() => ({id: this.currentUserId(), admin: this.isAdmin()}));
-
-  // the credentials the user may choose for a dataset, to name the one a dataset is read with
-  protected readonly storedCredentials = toSignal(
-    this.access.credentials().pipe(catchError(() => of([] as StoredCredential[]))),
-    {initialValue: [] as StoredCredential[]},
-  );
-
+  protected readonly roleLabels = REPO_ROLE_LABELS;
   protected readonly selectedId = signal<string | null>(null);
-  // a link from elsewhere (a task, a project's settings) names the dataset to open, by its row id, its name or its repository
-  private readonly requestedDataset = injectQueryParams('dataset');
+  // a link from elsewhere (a task, a project's settings) names the repository to open, by its id, its name or its address
+  private readonly requested = injectQueryParams('dataset');
   private readonly selectRequested = effect(() => {
-    const wanted = this.requestedDataset();
-    const row = wanted ? this.datasetRows().find(r => r.id === wanted || r.name === wanted || r.repository === wanted) : null;
-    if (row) {
-      this.selectedId.set(row.id);
+    const wanted = this.requested();
+    const repo = wanted ? this.repos().find(r => r.id === wanted || r.name === wanted || r.reference === wanted || r.url === wanted) : null;
+    if (repo) {
+      this.selectedId.set(repo.id);
     }
   });
-  // the registry rows whose datasets are hidden
+  // the registries whose datasets are hidden
   protected readonly collapsed = signal<ReadonlySet<string>>(new Set());
-  // the registry whose refresh is running
-  protected readonly refreshingId = signal<string | null>(null);
-  // the dataset a Check now is running for
-  protected readonly checkingId = signal<string | null>(null);
-  // bumped to read the registries and the visible datasets again after a refresh or a removal
-  private readonly pageRefresh = inject(DatasetsPageRefreshService);
+  // the repository a request runs for: its check or refresh shows a spinner and the other actions wait
+  protected readonly busyId = signal<string | null>(null);
+  // bumped to read the list again after a change
   private readonly reloads = signal(0);
 
-  // The list: the datasets used by runs, and the registry entries that no run uses yet.
-  private readonly listed = toSignal(
-    this.tasksApi.tasksGetAllEx({
-      only_fields: ['id', 'name', 'status', 'project.name', 'hyperparams', 'last_update'],
-      page_size: TASK_LIMIT,
-      order_by: ['-last_update'],
-    }).pipe(
-      map(response => (response?.tasks ?? []) as RawDatasetTask[]),
-      catchError(() => of([] as RawDatasetTask[])),
-    ).pipe(
-      map(tasks => ({groups: groupDatasetRuns(tasks), tasks})),
-    ),
-    {initialValue: null as {groups: DatasetGroup[]; tasks: RawDatasetTask[]} | null},
-  );
-
-  private readonly directory = rxResource<DirectorySnapshot, number>({
+  private readonly list = rxResource<Repo[], number>({
     params: () => this.reloads() + this.pageRefresh.version(),
-    stream: () => forkJoin({
-      entries: this.registry.entries().pipe(catchError(() => of([] as RegistryEntry[]))),
-      registries: this.registry.registries().pipe(catchError(() => of([] as RegistryRecord[]))),
-      visible: this.access.visible().pipe(catchError(() => of([] as AccessDataset[]))),
-    }),
+    stream: () => this.repositories.list().pipe(catchError(() => of([] as Repo[]))),
   });
+  protected readonly repos = computed(() => this.list.value() ?? []);
 
-  // the names of the users, for the owner of a dataset
-  private readonly userNames = toSignal(
-    this.usersApi.usersGetAllEx({only_fields: ['id', 'name']}).pipe(
-      map(response => new Map((response.users ?? []).map(user => [user.id, user.name] as [string, string]))),
-      catchError(() => of(new Map<string, string>())),
-    ),
-    {initialValue: new Map<string, string>()},
-  );
-
-  protected readonly rows = computed<DatasetRow[]>(() => {
-    const listed = this.listed();
-    if (!listed) {
-      return [];
-    }
-    const directory = this.directory.value() ?? EMPTY_DIRECTORY;
-    return datasetListRows({groups: listed.groups, ...directory});
-  });
-
-  // both the listing and the directory have loaded at least once (a reload after an add or a removal does not reset this)
-  private readonly ready = computed(() => this.listed() !== null && !this.directory.isLoading());
-
-  // tells the page how many datasets are listed, once they are known: the page shows its empty state only when there are
-  // none, never while they are still loading
   private readonly announceCount = effect(() => {
-    if (this.ready()) {
-      this.loaded.emit(this.rows().length);
+    if (!this.list.isLoading()) {
+      this.loaded.emit(this.repos().length);
     }
   });
 
-  // the rows the list shows: a registry's datasets are hidden while it is collapsed
-  protected readonly visibleRows = computed(() => this.rows().filter(row =>
-    row.parentId === null || !this.collapsed().has(row.parentId)));
-
-  // the rows that the side panel can show (a registry row has no details of its own)
-  private readonly datasetRows = computed(() => this.rows().filter(row => row.kind !== 'registry-group'));
+  protected readonly rows = computed<Row[]>(() => this.repos().flatMap(repo => [
+    {id: repo.id, repo, entry: null, parentId: null} as Row,
+    ...(repo.roles.includes('registry') && !this.collapsed().has(repo.id)
+      ? (repo.entries ?? []).map(entry => ({id: entry.id, repo, entry, parentId: repo.id} as Row))
+      : []),
+  ]));
 
   protected readonly selectedRow = computed(() => {
-    const id = this.selectedId() ?? this.datasetRows()[0]?.id ?? null;
-    return this.datasetRows().find(row => row.id === id) ?? null;
+    const id = this.selectedId() ?? this.repos()[0]?.id ?? null;
+    return this.rows().find(row => row.id === id) ?? this.repos().map(repo => ({id: repo.id, repo, entry: null, parentId: null} as Row))
+      .find(row => row.id === id) ?? null;
   });
 
-  // The runs of the selected dataset, by version. A registry entry that no run has used has no group.
-  protected readonly selectedGroup = computed<DatasetGroup | null>(() => {
-    const key = this.selectedRow()?.id;
-    return this.listed()?.groups.find(group => group.key === key) ?? null;
-  });
-
-  private requestOf(row: DatasetRow): DatasetDetailsRequest {
-    return row.kind === 'own'
-      ? {repository: row.repository ?? undefined, commit: row.commit ?? undefined}
-      : {registry_name: row.registryName ?? undefined};
+  private requestOf(row: Row): DatasetDetailsRequest | null {
+    if (row.entry) {
+      return {entry: row.entry.id};
+    }
+    return row.repo.roles.includes('dataset') ? {repository: row.repo.id} : null;
   }
 
-  // The details of every listed dataset, for the modalities and sample count in the list.
-  private readonly rowDetails = rxResource<Map<string, DatasetDetails>, DatasetRow[]>({
-    params: () => this.datasetRows(),
+  protected readonly selectedDetails = rxResource<DatasetDetails | null, Row | null>({
+    params: () => this.selectedRow(),
     stream: ({params}) => {
-      if (!params.length) {
-        return of(new Map<string, DatasetDetails>());
-      }
-      return forkJoin(params.map(row => this.detailsApi.details(this.requestOf(row)).pipe(
-        map(details => [row.id, details] as [string, DatasetDetails]),
-        catchError(() => of(null)),
-      ))).pipe(map(pairs => new Map(pairs.filter((pair): pair is [string, DatasetDetails] => pair !== null))));
+      const request = params ? this.requestOf(params) : null;
+      return request ? this.detailsApi.details(request).pipe(catchError(() => of(null))) : of(null);
     },
   });
 
-  // how the selected dataset's repository is reached (only for datasets of our own, which have a repository)
-  protected readonly repoAccess = rxResource<RepoAccess | null, string | null>({
-    params: () => this.selectedRow()?.kind === 'own' ? this.selectedRow()!.repository : null,
-    stream: ({params}) => params
-      ? this.repoAccessApi.resolve([params]).pipe(map(results => results[0] ?? null))
-      : of(null),
-  });
-
-  protected readonly selectedDetails = rxResource<DatasetDetails | null, DatasetRow | null>({
-    params: () => this.selectedRow(),
-    stream: ({params}) => params
-      ? this.detailsApi.details(this.requestOf(params)).pipe(catchError(() => of(null)))
-      : of(null),
-  });
-
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Dataset', sortable: true},
-    {id: 'kind', header: 'Kind', sortable: true},
+    {id: 'name', header: 'Name', sortable: false},
+    {id: 'type', header: 'Type', sortable: false},
     {id: 'owner', header: 'Owner', sortable: false},
-    {id: 'visibility', header: 'Visibility', sortable: false},
-    {id: 'modalities', header: 'Modalities', sortable: false},
-    {id: 'samples', header: 'Samples', sortable: true},
-    {id: 'versions', header: 'Versions', sortable: true},
+    {id: 'access', header: 'Access', sortable: false},
+    {id: 'projects', header: 'Projects', sortable: false},
+    {id: 'last_used', header: 'Last used', sortable: false},
     {id: 'actions', header: '', sortable: false},
   ];
 
-  protected readonly tableData = computed(() => {
-    const details = this.rowDetails.value() ?? new Map<string, DatasetDetails>();
-    return this.visibleRows().map(row => {
-      const info = details.get(row.id);
-      const modalities = Object.values(info?.metadata?.modalities ?? {});
-      const samples = info?.metadata?.samples ?? null;
-      const isParent = row.kind === 'registry-group';
-      const owner = row.access?.owner ?? null;
-      return {
-        id: row.id,
-        row,
-        name: row.name,
-        level: row.parentId ? 1 : 0,
-        isParent,
-        expanded: isParent && !this.collapsed().has(row.id),
-        kind: row.kind === 'own' ? 'Your own' : isParent ? `Registry, ${row.entries} datasets` : 'Registry',
-        owner: owner ? (this.userNames().get(owner) ?? owner) : '–',
-        visibility: row.access ? DATASET_VISIBILITY_LABELS[row.access.visibility] ?? row.access.visibility : '–',
-        modalities: isParent ? '–' : modalities.length ? modalities.join(', ') : '–',
-        samples: isParent ? '–' : samples === null ? '–' : samples.toLocaleString('en-US'),
-        versions: isParent ? '–' : row.versions,
-        canCheck: canCheckRow(row),
-        canRefresh: canRefreshRow(row, this.user()),
-        canRemove: canRemoveRow(row, this.user()),
-      };
-    });
-  });
+  protected readonly tableData = computed(() => this.rows().map(row => ({
+    id: row.id,
+    row,
+    name: row.entry ? row.entry.name : row.repo.name,
+    level: row.parentId ? 1 : 0,
+    isParent: !row.entry && row.repo.roles.includes('registry'),
+    expanded: !row.entry && row.repo.roles.includes('registry') && !this.collapsed().has(row.repo.id),
+    type: row.entry ? 'Registry dataset' : row.repo.roles.map(role => this.roleLabels[role]).join(', '),
+    owner: row.entry ? '' : (row.repo.shared ? 'Shared' : row.repo.owner_name),
+    access: row.entry ? null : this.accessOf(row.repo),
+    projects: row.entry ? [] : row.repo.projects,
+    last_used: row.entry || !row.repo.last_used ? '–' : new Date(row.repo.last_used).toLocaleDateString(),
+    canCheck: !row.entry,
+    isRegistry: !row.entry && row.repo.roles.includes('registry'),
+    canDelete: !row.entry && row.repo.can_delete,
+  })));
 
-  // A click on a registry opens or closes it; a click on a dataset selects it for the side panel.
+  protected accessOf(repo: Repo): RepoAccess {
+    return {
+      repository: repo.url, url: repo.url, id: repo.id, project: null, state: repo.access.state, via: '',
+      message: repo.access.message, warning: repo.access.warning, can_assign: repo.can_assign, ask: false,
+    };
+  }
+
+  // A click on a registry opens or closes it; any click selects the line for the side panel.
   protected rowClicked(id: string): void {
     const row = this.rows().find(r => r.id === id);
     if (!row) {
       return;
     }
-    if (row.kind === 'registry-group') {
+    if (!row.entry && row.repo.roles.includes('registry')) {
       this.toggle(id);
-    } else {
-      this.select(id);
     }
+    this.selectedId.set(id);
   }
 
   protected toggle(id: string): void {
@@ -319,113 +209,132 @@ export class DatasetBrowserComponent {
     });
   }
 
-  protected select(id: string): void {
-    this.selectedId.set(id);
+  private reload(): void {
+    this.reloads.update(n => n + 1);
   }
 
-  protected refresh(row: DatasetRow, event: Event): void {
-    event.stopPropagation();
-    const registryId = row.registry?.id;
-    if (!registryId || this.refreshingId()) {
-      return;
-    }
-    this.refreshingId.set(row.id);
-    this.registry.refresh(registryId).subscribe({
-      next: counts => {
-        this.refreshingId.set(null);
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
-          `Refreshed ${row.name}: ${counts?.added ?? 0} added, ${counts?.updated ?? 0} updated, ${counts?.removed ?? 0} removed`));
-        this.reloads.update(n => n + 1);
-      },
-      error: error => {
-        this.refreshingId.set(null);
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
-          error?.meta?.result_msg ?? `The registry ${row.name} could not be refreshed.`));
-      },
-    });
+  private fail(error: {meta?: {result_msg?: string}}, fallback: string): void {
+    this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? fallback));
   }
 
-  protected checkRow(row: DatasetRow, event: Event): void {
-    event.stopPropagation();
-    const id = row.access?.id;
-    if (!id || this.checkingId()) {
+  // Looks at the repository again (a registry is read again); the answer is a message.
+  protected check(repo: Repo, event?: Event): void {
+    event?.stopPropagation();
+    if (this.busyId()) {
       return;
     }
-    const name = row.repository ?? row.name;
-    this.checkingId.set(row.id);
-    this.access.checkDataset(id).subscribe({
+    this.busyId.set(repo.id);
+    const name = `${repo.host}/${repo.path}`;
+    if (repo.roles.includes('registry')) {
+      this.repositories.refresh(repo.id).subscribe({
+        next: ({counts}) => {
+          this.busyId.set(null);
+          this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS,
+            `Refreshed ${name}: ${counts.added} added, ${counts.updated} updated, ${counts.removed} removed`));
+          this.reload();
+        },
+        error: error => {
+          this.busyId.set(null);
+          this.fail(error, `${name} could not be refreshed.`);
+        },
+      });
+      return;
+    }
+    this.repositories.check(repo.id).subscribe({
       next: checked => {
-        this.checkingId.set(null);
+        this.busyId.set(null);
         const ok = checked.state === 'ok';
         this.store.dispatch(addMessage(ok ? MESSAGES_SEVERITY.SUCCESS : MESSAGES_SEVERITY.WARN,
-          ok ? `Checked ${name}: it can be read` : `Checked ${name}: ${checked.state_message || 'no access'}`));
-        this.reloads.update(n => n + 1);
+          ok ? `Checked ${name}: ${checked.access.message || 'it can be read'}` : `Checked ${name}: ${checked.state_message || 'no access'}`));
+        this.reload();
       },
       error: error => {
-        this.checkingId.set(null);
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? `${name} could not be checked.`));
+        this.busyId.set(null);
+        this.fail(error, `${name} could not be checked.`);
       },
     });
   }
 
-  protected removeRow(row: DatasetRow, event: Event): void {
-    event.stopPropagation();
-    const id = removableDatasetId(row);
-    if (!id) {
-      return;
-    }
-    const isRegistry = row.kind === 'registry-group';
-    const name = row.repository ?? row.name;
-    this.removal.remove({id, name, kind: isRegistry ? 'registry' : 'repo'}).subscribe({
-      next: removed => {
-        if (!removed) {
-          return;
-        }
-        if (this.selectedId() === row.id) {
-          this.selectedId.set(null);
-        }
-        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Removed ${name}`));
-        this.reloads.update(n => n + 1);
-      },
-      error: error => this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
-        error?.meta?.result_msg ?? `${name} could not be removed.`)),
-    });
+  private confirm(title: string, body: string, yes: string, destructive: boolean) {
+    const data: ConfirmDialogConfig = {
+      title, body, yes, no: 'Cancel', iconClass: 'al-ico-alert', iconColor: 'var(--color-warning)', destructive,
+    };
+    return this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
+      data, panelClass: 'dialog-sm',
+    }).afterClosed();
   }
 
-  // the name of the credential a dataset is read with; the id when it is not in the list the user may choose from
-  protected credentialName(id: string | null): string {
-    if (!id) {
-      return 'None';
-    }
-    return this.storedCredentials().find(credential => credential.id === id)?.name ?? id;
-  }
-
-  // the owner of a dataset and the admins change its credential (the server checks the same)
-  protected canSetCredential(row: DatasetRow): boolean {
-    return !!row.access && (row.access.owner === this.currentUserId() || this.isAdmin());
-  }
-
-  protected setCredential(row: DatasetRow): void {
-    if (!row.access) {
-      return;
-    }
-    const dataset = row.access;
-    this.dialog.open<DatasetCredentialDialogComponent, unknown, AccessDataset>(
-      DatasetCredentialDialogComponent, {
-        data: {
-          name: dataset.name,
-          credential: dataset.credential,
-          save: credential => this.access.setCredential(`https://github.com/${dataset.ref}`, credential),
-        },
-        panelClass: 'dialog-md',
-      },
-    ).afterClosed().subscribe(saved => {
-      if (!saved) {
+  protected delete(repo: Repo, event?: Event): void {
+    event?.stopPropagation();
+    this.confirm('Delete repository?',
+      `${repo.host}/${repo.path} stops being listed, with its credential assignments and its projects. The code stays where it is, ` +
+      'and a run that uses the repository again lists it again.', 'Delete', true).subscribe(confirmed => {
+      if (!confirmed) {
         return;
       }
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${dataset.name} is read with ${this.credentialName(saved.credential)}`));
-      this.reloads.update(n => n + 1);
+      this.repositories.delete(repo.id).subscribe({
+        next: () => {
+          if (this.selectedId() === repo.id) {
+            this.selectedId.set(null);
+          }
+          this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Deleted ${repo.host}/${repo.path}`));
+          this.reload();
+        },
+        error: error => this.fail(error, `${repo.host}/${repo.path} could not be deleted.`),
+      });
     });
+  }
+
+  protected share(repo: Repo, shared: boolean): void {
+    this.confirm(shared ? 'Make it shared?' : 'Make it non-shared?',
+      shared
+        ? 'It becomes owned by the admin and is visible to every user. Your own credential assignment is dropped; you can assign a ' +
+        'company credential afterwards.'
+        : 'It is no longer visible to everyone: only its owner and the projects it is listed in see it.',
+      shared ? 'Make shared' : 'Make non-shared', false).subscribe(confirmed => {
+      if (!confirmed) {
+        return;
+      }
+      this.repositories.setShared(repo.id, shared).subscribe({
+        next: () => {
+          this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, shared ? `${repo.name} is shared` : `${repo.name} is non-shared`));
+          this.reload();
+        },
+        error: error => this.fail(error, 'The sharing could not be changed.'),
+      });
+    });
+  }
+
+  // Assigns the signed-in user's own credential, or changes it.
+  protected assign(repo: Repo): void {
+    assignRepoCredential(this.dialog, this.repositories, repo).subscribe(saved => {
+      if (saved) {
+        this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${repo.host}/${repo.path} is read with your new credential`));
+        this.reload();
+      }
+    });
+  }
+
+  protected unassign(repo: Repo): void {
+    this.confirm('Delete your credential?', `You stop reading ${repo.host}/${repo.path} with it. Other users' credentials stay.`,
+      'Delete', true).subscribe(confirmed => {
+      if (confirmed) {
+        this.repositories.unassign(repo.id).subscribe({next: () => this.reload(), error: error => this.fail(error, 'It could not be deleted.')});
+      }
+    });
+  }
+
+  protected unlinkProject(repo: Repo, project: string): void {
+    this.repositories.unlink(repo.id, project).subscribe({next: () => this.reload(), error: error => this.fail(error, 'It could not be taken out.')});
+  }
+
+  protected mine(repo: Repo): RepoAssignment | undefined {
+    return repo.assignments.find(assignment => assignment.mine);
+  }
+
+  protected usedIn(repo: Repo, assignment: RepoAssignment): string {
+    const names = new Map(repo.projects.map(p => [p.project, p.project_name ?? p.project]));
+    return assignment.used_in.map(use => (names.get(use.project) ?? use.project) + (use.as === 'fallback' ? ' (fallback)' : '')).join(', ');
   }
 
   protected repoLink(details: DatasetDetails) {

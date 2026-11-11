@@ -5,7 +5,7 @@ import {commonProjectsProviders} from '@common/projects/common-projects.provider
 import {resetContextMenuGuard} from '@common/shared/guards/resetContextMenuGuard.guard';
 
 const datasetsBreadcrumb = [[{
-  name: 'Datasets & Repositories',
+  name: 'Repositories & Datasets',
   type: CrumbTypeEnum.Feature
 }]];
 
@@ -23,11 +23,6 @@ export const routes: Routes = [
         providers: [
           ...commonProjectsProviders
         ]
-      },
-      {
-        path: 'repositories',
-        loadComponent: () => import('@common/datasets/repositories-page/repositories-page.component').then(c => c.RepositoriesPageComponent),
-        data: {search: false, staticBreadcrumb: datasetsBreadcrumb},
       },
     ]
   },

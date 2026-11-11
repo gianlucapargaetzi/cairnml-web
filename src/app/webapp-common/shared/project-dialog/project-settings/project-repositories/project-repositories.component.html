@@ -4,7 +4,7 @@
     @if (settingsStore.isOwner()) {
       <button mat-flat-button (click)="addRepository()" [disabled]="busy()" data-id="addProjectRepositoryButton">
         <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-        Add repository
+        Add
       </button>
     }
   </div>
@@ -17,29 +17,31 @@
     <thead>
       <tr>
         <th scope="col">Repository</th>
+        <th scope="col">Type</th>
         <th scope="col">Access</th>
         <th scope="col">Owner</th>
         <th scope="col"><span class="visually-hidden">Actions</span></th>
       </tr>
     </thead>
     <tbody>
-      @for (row of rows(); track row.key) {
+      @for (row of rows(); track row.repo.id) {
         <tr>
           <td>{{ row.name }}</td>
+          <td>{{ row.type }}</td>
           <td><sm-repo-access-badge [access]="row.access"></sm-repo-access-badge></td>
           <td>{{ row.owner }}</td>
           <td class="row-actions">
-            @if (row.binding.can_assign) {
-              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Assign a credential to ' + row.name"
-                smTooltip="Assign credentials" (click)="assign(row)" data-id="assignProjectRepositoryButton">
-                <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+            @if (settingsStore.isOwner()) {
+              <button mat-icon-button [disabled]="busy()" [attr.aria-label]="'Take ' + row.name + ' out of the project'"
+                smTooltip="Take out of this project" (click)="remove(row)" data-id="removeProjectRepositoryButton">
+                <mat-icon fontSet="al" fontIcon="al-ico-dialog-x"></mat-icon>
               </button>
             }
           </td>
         </tr>
       } @empty {
         <tr>
-          <td colspan="4" class="empty">No repository is listed for this project. A repository appears here when a run uses it, or when you add it.</td>
+          <td colspan="5" class="empty">No repository is listed for this project. A repository appears here when a run uses it, or when you add it.</td>
         </tr>
       }
     </tbody>
