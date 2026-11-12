@@ -11,6 +11,7 @@ import {RepositoryAddDialogComponent} from '@common/datasets/repository-add-dial
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 interface RepositoryRow {
   repo: Repo;
@@ -62,7 +63,7 @@ export class ProjectRepositoriesComponent implements OnInit {
         },
       })));
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The repositories of the project could not be loaded.');
+      this.error.set(serverMessage(error) ?? 'The repositories of the project could not be loaded.');
     }
   }
 
@@ -92,7 +93,7 @@ export class ProjectRepositoriesComponent implements OnInit {
           await lastValueFrom(this.repositories.unlink(row.repo.id, this.projectId()));
           await this.load();
         } catch (error) {
-          this.error.set(error?.meta?.result_msg ?? `${row.name} could not be taken out.`);
+          this.error.set(serverMessage(error) ?? `${row.name} could not be taken out.`);
         } finally {
           this.busy.set(false);
         }

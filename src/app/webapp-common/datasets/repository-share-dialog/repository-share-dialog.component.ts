@@ -13,6 +13,7 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {Repo, RepoCredentialChoice, RepositoriesService} from '../dataset-git/repositories.service';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 interface CheckState {
   state: 'idle' | 'checking' | 'ok' | 'refused';
@@ -50,7 +51,7 @@ export class RepositoryShareDialogComponent {
     const noneNeeded = value === 'none';
     this.repositories.checkSharing(this.repo.id, noneNeeded ? undefined : value, noneNeeded).subscribe({
       next: answer => id === this.checkId && this.check.set({state: answer.ok ? 'ok' : 'refused', message: answer.message}),
-      error: error => id === this.checkId && this.check.set({state: 'refused', message: error?.meta?.result_msg ?? 'The access could not be checked.'}),
+      error: error => id === this.checkId && this.check.set({state: 'refused', message: serverMessage(error) ?? 'The access could not be checked.'}),
     });
   }
 
@@ -76,7 +77,7 @@ export class RepositoryShareDialogComponent {
           this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `${this.repo.name} is shared`));
           this.dialogRef.close(true);
         } catch (error) {
-          this.error.set(error?.meta?.result_msg ?? 'The repository could not be shared.');
+          this.error.set(serverMessage(error) ?? 'The repository could not be shared.');
         } finally {
           this.saving.set(false);
         }

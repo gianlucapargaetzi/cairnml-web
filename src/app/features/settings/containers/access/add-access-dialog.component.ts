@@ -10,6 +10,7 @@ import {lastValueFrom} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 export interface AddCredentialData {
   isAdmin: boolean;
@@ -74,7 +75,7 @@ export class AddAccessDialogComponent {
         }, {}));
       this.dialogRef.close(true);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The credential could not be saved.');
+      this.error.set(serverMessage(error) ?? 'The credential could not be saved.');
     } finally {
       this.saving.set(false);
     }

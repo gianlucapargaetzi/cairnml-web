@@ -17,6 +17,7 @@ import {ApiProjectsService} from '~/business-logic/api-services/projects.service
 import {RepoRole, RepositoriesService, StoredCredential} from '../dataset-git/repositories.service';
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 // Lists a code repository, a dataset or a registry before any run uses it. The caller's entry is non-shared; the admin may make it
 // shared. The caller's own credential can be assigned now.
@@ -79,7 +80,7 @@ export class RepositoryAddDialogComponent implements OnInit {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, `Added ${url.trim()}`));
       this.dialogRef.close(true);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The repository could not be added.');
+      this.error.set(serverMessage(error) ?? 'The repository could not be added.');
     } finally {
       this.saving.set(false);
     }

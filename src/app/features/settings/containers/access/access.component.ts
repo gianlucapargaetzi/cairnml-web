@@ -22,6 +22,7 @@ import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confi
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {AddAccessDialogComponent} from './add-access-dialog.component';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 // One credential, as the server lists it: a GitHub App (a user's or the company's), or a company Git
 // credential for another host. "git" rows are the company's Git credentials; the others are accesses.
@@ -168,7 +169,7 @@ export class AccessComponent implements OnInit {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, success));
       await this.load();
     } catch (error) {
-      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, `${failure} ${error?.meta?.result_msg ?? ''}`.trim()));
+      this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, `${failure} ${serverMessage(error) ?? ''}`.trim()));
     } finally {
       this.busy.set(null);
     }
@@ -183,7 +184,7 @@ export class AccessComponent implements OnInit {
       }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
       this.credentials.set(res.credentials ?? []);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The credentials could not be loaded.');
+      this.error.set(serverMessage(error) ?? 'The credentials could not be loaded.');
     } finally {
       this.loading.set(false);
     }

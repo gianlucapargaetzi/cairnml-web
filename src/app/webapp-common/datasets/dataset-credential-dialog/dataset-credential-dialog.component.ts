@@ -8,6 +8,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {lastValueFrom, Observable} from 'rxjs';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {RepositoriesService, StoredCredential} from '../dataset-git/repositories.service';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 // What the dialog changes: the name shown, the credential now set, and how the choice is saved (a dataset or a repository).
 export interface CredentialChangeData {
@@ -89,7 +90,7 @@ export class DatasetCredentialDialogComponent implements OnInit {
         choice === NOT_ASSIGNED ? this.data.save('', false) : this.data.save(choice));
       this.dialogRef.close(saved);
     } catch (error) {
-      this.error.set(error?.meta?.result_msg ?? 'The credential could not be set.');
+      this.error.set(serverMessage(error) ?? 'The credential could not be set.');
     } finally {
       this.saving.set(false);
     }

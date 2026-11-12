@@ -39,6 +39,7 @@ import {assignRepoCredential} from '../dataset-credential-dialog/assign-credenti
 import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
 import {REPO_ROLE_LABELS, Repo, RepoEntry, RepoRun, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
+import {serverMessage} from '@common/shared/utils/server-message';
 
 // One line of the list: a repository, or, under a registry, one of the datasets it lists.
 interface Row {
@@ -275,7 +276,7 @@ export class DatasetBrowserComponent {
   }
 
   private fail(error: {meta?: {result_msg?: string}}, fallback: string): void {
-    this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, error?.meta?.result_msg ?? fallback));
+    this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR, serverMessage(error) ?? fallback));
   }
 
   // Looks at the repository again (a registry is read again); the answer is a message.
