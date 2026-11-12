@@ -30,7 +30,7 @@ Pages built "from the code" came out inconsistent every time. The code does not 
 4. **Open every dialog your change touches or adds from its real button**, screenshot it, and check it against the dialog anatomy.
 5. **Open the sibling pages and put the screenshots next to yours.** If yours differs from them in position or spacing, you are wrong, not them (unless the siblings break the anatomy, in which case fix the anatomy table in the same change).
 6. **Evidence:** for each fix save `evidence/<finding>/before.png`, `after.png`, `side-by-side.png` with the measured numbers in the caption, and show the side-by-side to the user. A fix without an *after* image is not reported as fixed.
-7. Run `scripts/fit-check.js` on every page you touch and its siblings (1000, 3440 and 10000px wide: no gap, nothing centred), and `scripts/tabs-check.js` when a page has tabs. Light **and** dark. Narrow (1024x768) **and the user's real screen, 3440x1440** (`scripts/wide.js`): a `max-width` plus `margin: 0 auto` is invisible at 1600px and leaves a full-bleed table inset on the wide screen. Tables are x 64..window edge at every width; nothing is centred by a max-width.
+7. Run `scripts/fit-check.js` on every page you touch and its siblings (1000, 3440 and 10000px wide: no gap; only the reduced-width pages are centred, at `--page-width-reduced`), and `scripts/tabs-check.js` when a page has tabs. Light **and** dark. Narrow (1024x768) **and the user's real screen, 3440x1440** (`scripts/wide.js`): a `max-width` plus `margin: 0 auto` is invisible at 1600px and leaves a full-bleed table inset on the wide screen. Tables are x 64..window edge at every width; nothing is centred by a max-width.
 
 If Playwright or the stack is not available, say so and report the work as **unverified**. Never claim it is consistent.
 
@@ -95,6 +95,7 @@ These are the rules that most often get broken. If you are about to break one, s
 12c. **A decision that changes who sees something is choose, verify, confirm** (`components/dialogs.md`, "Confirm, then be sure"): the button is disabled until the check passes, then an "Are you sure?" names what changes and who can undo it.
 12. **The same relationship has the same space everywhere.** Spacing is looked up, never chosen by eye: `docs/design-system/02-design-tokens.md` ("Which spacing where") and `reference/dialog-anatomy.md` (dialog rhythm). Form field to field 8px, note or alert to the next block 16px, last field to the action row 32px (measured from the field's box), page gutter 24px. Tokens are `--space-1..8` = 4, 8, 12, 16, **24**, **32**, 48, 64 (`--space-5` is 24 and `--space-6` is 32: do not use `--space-6` for 24). When a relationship is not in the table, add it there in the same change. Fields span their column; nothing stops short of the right edge.
 13. **Project settings sections apply at once** (no Save button); a list's add dialog is a form dialog (rule 12 and `reference/dialog-anatomy.md`).
+13a. **Page width follows the content** (`03-layout-system.md`, 3.4): a data-table page is full width; a card-heavy or non-data page uses `reduced-page()` (`--page-width-reduced`, centred). No `max-width` typed in a page stylesheet.
 14. **Both themes, always.** If it only looks right in one, it is wrong.
 
 ## When the content does not fit

@@ -1,14 +1,16 @@
+@use '../../styles/mixins/page-width';
+
 sm-empty-state {
   grid-column: 1 / -1;
 }
 
 .header {
+  @include page-width.reduced-page();
   display: flex;
   height: 48px;
   justify-content: end;
   align-items: center;
   gap: 12px;
-  padding: 0 24px;
   overflow: hidden;
 
   .time-selector {
@@ -21,11 +23,12 @@ sm-empty-state {
 }
 
 .graphs {
+  @include page-width.reduced-page();
   display: flex;
   flex-direction: column;
   height: calc(100% - 48px);
   gap: 24px;
-  padding: 0 24px 24px;
+  padding-bottom: var(--space-5);
   overflow: auto;
 }
 

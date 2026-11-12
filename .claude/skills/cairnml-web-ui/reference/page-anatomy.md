@@ -44,8 +44,8 @@ Header → blocks at 24px gutter (Recent projects, Recent reports) → **Recent 
 ### E. Master/detail (Tasks, Models, Datasets table + detail)
 Header → toolbar → `as-split`: list left, detail right, 1px divider. The list table is at 0px gutter at the left edge. The detail panel has its own header (`sm-panel-header`) with name, id, actions.
 
-### G. Project settings (form page)
-A form, not a table: one column of at most 720px, **centred in the window at every width** (`margin: 0 auto`, 16px side padding). This is the one layout that is centred on purpose; every table and card grid is full-bleed or at the 24px gutter. `fit-check.js` does not flag `.settings-page`.
+### G. Reduced-width pages (project settings, overview, workloads)
+Card-heavy and non-data pages are **centred at `--page-width-reduced`** (1080px) at every width, with the `reduced-page()` mixin from `styles/mixins/page-width.scss` (one constant, never a number per page). Project settings keeps its 24px top and 16px side padding as `--space-5` / `--space-4`. Pages whose main content is a data table stay full width (type A, E). `fit-check.js` does not flag `.settings-page`, `.info-content` and the workloads `.header` / `.graphs`; it flags any other centred block.
 
 ### F. Settings pages
 The header shows the page name over `Settings`. The settings navigation column starts under the header; the content column starts at x 353. Every settings page has its title in the header. The table of Devices fills the area down to the footer.

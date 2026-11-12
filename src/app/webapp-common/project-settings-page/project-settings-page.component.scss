@@ -1,3 +1,5 @@
+@use '../styles/mixins/page-width';
+
 :host {
   display: block;
   height: 100%;
@@ -5,10 +7,8 @@
 }
 
 .settings-page {
-  // a form column, centred in the window at every width (the one page layout that is centred on purpose)
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
+  @include page-width.reduced-page();
+  padding-block: var(--space-5) var(--space-7);
 }
 
 .settings-section {

@@ -1,0 +1,10 @@
+// A card-heavy or non-data page: its visible content is --page-width-reduced wide and centred in the window, with the
+// page gutter on both sides (so in a narrower window the content keeps the gutter). A page whose main content is a data
+// table does not use this: it is full width.
+@mixin reduced-page() {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--page-width-reduced) + 2 * var(--page-padding-x));
+  margin-inline: auto;
+  padding-inline: var(--page-padding-x);
+}
