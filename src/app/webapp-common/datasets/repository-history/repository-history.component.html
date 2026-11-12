@@ -1,0 +1,43 @@
+@if (history.isLoading()) {
+  <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3"></mat-spinner></div>
+} @else if (!history.value()) {
+  <p class="note" data-id="repositoryHistoryError">The history of this repository could not be read.</p>
+} @else {
+  @let h = history.value()!;
+  <ol class="history" data-id="repositoryHistory" aria-label="Commits that tasks ran on">
+    @for (node of h.nodes; track $index) {
+      @if (node.type === 'gap') {
+        <li class="row gap" data-id="repositoryHistoryGap" [smTooltip]="gapTip(node.count!)" tabindex="0"
+            [attr.aria-label]="gapTip(node.count!)">
+          <span class="rail"></span>
+          <span class="dots">…</span>
+        </li>
+      } @else {
+        <li class="row commit" data-id="repositoryHistoryCommit" [smTooltip]="commitTip(node)" customClass="break-line" tabindex="0">
+          <span class="rail"><span class="dot" [class.has-runs]="node.runs.length" [class.dirty]="dirtyCount(node)"></span></span>
+          <span class="message ellipsis">{{ node.message }}</span>
+          <span class="sha">{{ node.sha.slice(0, 7) }}</span>
+          <span class="meta">{{ node.date | date: 'mediumDate' }}</span>
+          <span class="tags">
+            @if (node.newest) { <span class="tag">newest</span> }
+            @if (node.first) { <span class="tag">first</span> }
+            @if (node.runs.length) {
+              <span class="tag runs" data-id="repositoryHistoryRuns">{{ node.runs.length }} {{ node.runs.length === 1 ? 'task' : 'tasks' }}</span>
+            }
+            @if (dirtyCount(node)) {
+              <span class="tag dirty" data-id="repositoryHistoryDirty">
+                <mat-icon fontSet="al" fontIcon="al-ico-alert" class="al-icon sm"></mat-icon>{{ dirtyCount(node) }} uncommitted
+              </span>
+            }
+          </span>
+        </li>
+      }
+    }
+  </ol>
+  @if (h.limited) {
+    <p class="note" data-id="repositoryHistoryLimited">Showing the latest part of the history ({{ h.total_commits }} commits in total).</p>
+  }
+  @if (h.outside_runs) {
+    <p class="note" data-id="repositoryHistoryOutside">{{ h.outside_runs }} {{ h.outside_runs === 1 ? 'task' : 'tasks' }} ran on commits that are not shown.</p>
+  }
+}

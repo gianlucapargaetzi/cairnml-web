@@ -85,6 +85,45 @@ export interface Repo {
 }
 
 // A run that used a repository, as the Runs tab lists it.
+/** One task on a commit of the condensed history. */
+export interface RepoHistoryRun {
+  id: string;
+  name: string;
+  status: string;
+  project: string;
+  created?: string | null;
+  /** The task ran with changes that were not committed. */
+  dirty?: boolean;
+}
+
+/** A node of the condensed history: a commit with its tasks, or the commits hidden between two shown ones. */
+export interface RepoHistoryCommit {
+  type: 'commit';
+  sha: string;
+  message: string;
+  author: string;
+  date: string;
+  newest: boolean;
+  first: boolean;
+  runs: RepoHistoryRun[];
+}
+
+export interface RepoHistoryGap {
+  type: 'gap';
+  count: number;
+}
+
+export type RepoHistoryNode = RepoHistoryCommit | RepoHistoryGap;
+
+export interface RepoHistory {
+  nodes: RepoHistoryNode[];
+  total_commits: number;
+  /** Tasks that ran on commits that are not part of the nodes. */
+  outside_runs: number;
+  /** Only the latest part of the history is shown. */
+  limited: boolean;
+}
+
 export interface RepoRun {
   id: string;
   name: string;
@@ -168,6 +207,11 @@ export class RepositoriesService {
   // Looks at a repository again: the host's answer is renewed and the user's own assignment is tried.
   check(id: string): Observable<Repo> {
     return this.post<{ repository: Repo }>('check', {id}).pipe(map(r => r.repository));
+  }
+
+  // The condensed history of a repository: the commits tasks ran on, with gaps between them.
+  history(id: string): Observable<RepoHistory> {
+    return this.post<RepoHistory>('get_history', {id});
   }
 
   // The runs that used a repository, newest first, in the projects the user sees.

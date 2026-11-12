@@ -1,0 +1,133 @@
+:host {
+  display: block;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-5) 0;
+}
+
+.note {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-md);
+  margin: var(--space-3) 0 0;
+}
+
+.history {
+  --rail-width: var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--rail-width) minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  column-gap: var(--space-3);
+  min-height: var(--control-height);
+  font-size: var(--font-size-md);
+  outline-offset: calc(-1 * var(--space-1));
+}
+
+.rail {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // the line that connects a row to the rows around it
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    border-inline-start: 2px solid var(--color-outline-variant);
+  }
+}
+
+.row:first-child .rail::before {
+  inset-block-start: 50%;
+}
+
+.row:last-child .rail::before {
+  inset-block-end: 50%;
+}
+
+.gap {
+  color: var(--color-on-surface-variant);
+
+  .rail::before {
+    border-inline-start-style: dashed;
+  }
+
+  .dots {
+    grid-column: 2 / -1;
+    letter-spacing: var(--space-1);
+  }
+}
+
+.dot {
+  position: relative;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: 50%;
+  background: var(--color-outline);
+  border: 2px solid var(--color-surface-container-lowest);
+
+  &.has-runs {
+    background: var(--color-primary);
+  }
+
+  &.dirty {
+    background: var(--color-warning);
+  }
+}
+
+.commit:hover,
+.commit:focus-visible {
+  background: var(--color-surface-container-low);
+}
+
+.message {
+  min-width: 0;
+}
+
+.sha {
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+}
+
+.tags {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-body);
+
+  &.runs {
+    background: var(--color-primary-container);
+    color: var(--color-on-surface);
+  }
+
+  &.dirty {
+    color: var(--color-warning);
+  }
+}

@@ -29,7 +29,6 @@ import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indic
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
-import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {RepoAccess} from '@common/shared/services/repo-access.service';
@@ -37,6 +36,7 @@ import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-a
 import {RepositoryShareDialogComponent} from '../repository-share-dialog/repository-share-dialog.component';
 import {assignRepoCredential} from '../dataset-credential-dialog/assign-credentials';
 import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
+import {RepositoryHistoryComponent} from '../repository-history/repository-history.component';
 import {REPO_ROLE_LABELS, Repo, RepoEntry, RepoRun, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
 import {serverMessage} from '@common/shared/utils/server-message';
@@ -49,16 +49,6 @@ interface Row {
   parentId: string | null;
 }
 
-interface GraphNode {
-  sha: string;
-  message: string;
-  author: string;
-  date: string;
-  x: number;
-  y: number;
-  color: string;
-}
-
 // Repositories and datasets: code repositories, datasets and registries of datasets in one list. A registry opens into the datasets
 // it lists. The side panel says how the signed-in user reads the repository and lists every credential assigned to it: the
 // user's own can be changed, the others' are read-only.
@@ -68,6 +58,7 @@ interface GraphNode {
   styleUrls: ['./dataset-browser.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RepositoryHistoryComponent,
     EntityChipComponent,
     MatTabsModule,
     MatIcon,
@@ -444,50 +435,4 @@ export class DatasetBrowserComponent {
     return code.split('\n').length * 21 + 20;
   }
 
-  // The commit graph: one lane per branch line. The first parent continues the lane of its child; other parents open a new lane.
-  protected graph(details: DatasetDetails) {
-    const rowHeight = 36;
-    const laneWidth = 24;
-    const left = 16;
-    const top = 24;
-    const palette = presetColors;
-    const active: string[] = [];
-    const laneColor: string[] = [];
-    let branches = 0;
-    const place = new Map<string, {x: number; y: number; color: string}>();
-    details.commits.forEach((commit, row) => {
-      let lane = active.indexOf(commit.sha);
-      if (lane < 0) {
-        lane = active.indexOf('');
-        if (lane < 0) { lane = active.length; active.push(''); }
-        laneColor[lane] = palette[branches++ % palette.length];
-      }
-      active[lane] = '';
-      place.set(commit.sha, {x: left + lane * laneWidth, y: top + row * rowHeight, color: laneColor[lane]});
-      commit.parents.forEach((parent, k) => {
-        if (active.includes(parent)) { return; }
-        let slot = k === 0 ? lane : active.indexOf('');
-        if (slot < 0) { slot = active.length; active.push(''); }
-        if (k > 0 && !laneColor[slot]) { laneColor[slot] = palette[branches++ % palette.length]; }
-        active[slot] = parent;
-      });
-    });
-    const edges = details.commits.flatMap(commit => commit.parents
-      .filter(parent => place.has(parent))
-      .map(parent => ({from: place.get(commit.sha)!, to: place.get(parent)!})));
-    const lanes = Math.max(1, ...Array.from(place.values(), v => (v.x - left) / laneWidth + 1));
-    const nodes: GraphNode[] = details.commits.map(commit => ({...commit, ...place.get(commit.sha)!}));
-    return {
-      nodes,
-      edges,
-      graphWidth: left * 2 + lanes * laneWidth,
-      height: top * 2 + details.commits.length * rowHeight,
-    };
-  }
-
-  // A cubic curve from a commit down to one of its parents.
-  protected curve(e: {from: {x: number; y: number}; to: {x: number; y: number}}): string {
-    const mid = (e.from.y + e.to.y) / 2;
-    return `M${e.from.x} ${e.from.y} C${e.from.x} ${mid} ${e.to.x} ${mid} ${e.to.x} ${e.to.y}`;
-  }
 }

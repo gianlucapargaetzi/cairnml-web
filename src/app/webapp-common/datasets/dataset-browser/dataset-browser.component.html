@@ -279,27 +279,13 @@
 
             <mat-tab label="Git graph">
               <div class="tab-content">
-                @if (!details) {
-                  <p class="note">The history of the dataset could not be read.</p>
-                } @else if (details.kind === 'own') {
-                  <sm-section-header label="History of the dataset repository"></sm-section-header>
-                  @let g = graph(details);
-                  <div class="graph-scroll">
-                    <svg class="graph" role="img" [attr.width]="g.graphWidth + 500" [attr.height]="g.height"
-                      [attr.aria-label]="'Commit graph with ' + g.nodes.length + ' commits'">
-                      @for (e of g.edges; track $index) {
-                        <path [attr.d]="curve(e)" fill="none" [attr.stroke]="e.from.color" stroke-width="2"/>
-                      }
-                      @for (n of g.nodes; track n.sha) {
-                        <circle [attr.cx]="n.x" [attr.cy]="n.y" r="6" [attr.fill]="n.color" stroke="var(--color-surface-container-lowest)" stroke-width="2"/>
-                        <text class="message" [attr.x]="g.graphWidth" [attr.y]="n.y + 4">{{ n.message }}</text>
-                        <text class="sha" [attr.x]="g.graphWidth + 260" [attr.y]="n.y + 4">{{ n.sha.slice(0, 7) }}</text>
-                        <text class="meta" [attr.x]="g.graphWidth + 340" [attr.y]="n.y + 4">{{ n.author }} · {{ n.date | date: 'mediumDate' }}</text>
-                      }
-                    </svg>
-                  </div>
-                } @else {
+                @if (selected.entry || repo.roles.includes('registry')) {
                   <p class="note">Registry datasets are read from their publisher, so their history is not in your repository.</p>
+                } @else if (repo.state !== 'ok') {
+                  <p class="note">The history can be read once the repository is readable.</p>
+                } @else {
+                  <sm-section-header label="Commits that tasks ran on"></sm-section-header>
+                  <sm-repository-history [repositoryId]="repo.id"></sm-repository-history>
                 }
               </div>
             </mat-tab>
