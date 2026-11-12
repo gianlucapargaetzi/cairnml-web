@@ -35,7 +35,8 @@ Measured on the Access page, Repositories, the project settings tables and the D
 
 | Rule | Value |
 |---|---|
-| Control | `mat-icon-button`, 36x36, with a 20px `mat-icon fontSet="al"` inside. The icon centre equals the button centre (0px offset on both axes). No extra size classes on the icon |
+| Control | `mat-icon-button`, with a 20px `mat-icon fontSet="al"` inside. The icon centre equals the button centre (0px offset on both axes). No extra size classes on the icon. Size: 36x36 for a single action; **28x28 with no gap between buttons when a row has two or more** (the `table-rows` mixin does this for `.row-actions`), so the icons sit 8px apart instead of 20px |
+| Always visible | The actions are never cut off, wrapped or hidden behind overflow: the actions column has a fixed width that fits all its buttons (`width` and `minWidth` the same, `flex: none`). When the total column width exceeds the panel, the **other columns shrink** (down to their `minWidth`, text with ellipsis) and the actions stay whole |
 | Place | The last column, header cell empty, buttons right-aligned. The last button's right edge mirrors the table's left cell padding: 24px gutter in full-width `sm-table`s (measured gap 27 to 28), 12px in the compact tables of the project settings (measured 12) |
 | Height | Vertically centred in the row (measured offset 0 to 0.5px) |
 | Visibility | Shown at once, not on hover, so keyboard users reach them. Disabled (not hidden) while a request for the row runs; hidden only when the user has no right to the action |

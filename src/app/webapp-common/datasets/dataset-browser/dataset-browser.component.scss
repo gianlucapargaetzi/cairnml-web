@@ -261,3 +261,12 @@ sm-code-editor {
 .delete-wrap {
   display: inline-flex;
 }
+
+// A cell may be narrower than its content: the text is cut with an ellipsis, so when the columns together are wider than
+// the panel the columns give way and the row actions stay whole.
+.cell {
+  width: 0;
+  min-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

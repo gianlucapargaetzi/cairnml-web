@@ -8,11 +8,11 @@
         [columns]="columns"
         [tableData]="tableData()"
         [scrollable]="true"
-        [resizableColumns]="true"
+        [resizableColumns]="false"
         (rowClicked)="rowClicked($event.data.id)"
       >
         <ng-template let-col let-line="rowData" pTemplate="body">
-          <div>
+          <div class="cell">
             @switch (col.id) {
               @case ('name') {
                 <div class="name-cell" [class.child]="line.level === 1">
@@ -135,7 +135,7 @@
                   <sm-table class="credentials-table" [columns]="credentialColumns" [tableData]="credentialRows(repo)" [scrollable]="false"
                     [resizableColumns]="false" data-id="repositoryAssignments">
                     <ng-template let-col let-line="rowData" pTemplate="body">
-                      <div>
+                      <div class="cell">
                         @switch (col.id) {
                           @case ('credential') {
                             <div class="ellipsis" data-id="repositoryAssignment" smShowTooltipIfEllipsis [smTooltip]="line.credential">
@@ -249,7 +249,7 @@
                 @if (runs?.length) {
                   <sm-table class="runs-table" [columns]="runColumns" [tableData]="runs!" [scrollable]="false" [resizableColumns]="false">
                     <ng-template let-col let-run="rowData" pTemplate="body">
-                      <div>
+                      <div class="cell">
                         @switch (col.id) {
                           @case ('name') {
                             <a class="ellipsis run-link" smShowTooltipIfEllipsis [smTooltip]="run.name"
