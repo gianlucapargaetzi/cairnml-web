@@ -99,7 +99,7 @@
 
 <mat-form-field appearance="outline" class="w-100">
   <mat-label>Chart</mat-label>
-  <mat-select [value]="spec().chart" (selectionChange)="set({chart: $event.value})" data-id="plotChart">
+  <mat-select [value]="spec().chart" (selectionChange)="set({chart: $event.value})" data-id="plotChartType">
     @for (chart of charts(); track chart.value) {
       <mat-option [value]="chart.value">{{ chart.label }}</mat-option>
     }

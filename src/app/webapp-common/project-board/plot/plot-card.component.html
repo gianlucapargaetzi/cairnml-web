@@ -20,7 +20,7 @@
                      [colorScheme]="colors"></sm-line-chart>
     }
     @case ('donut') {
-      <sm-donut class="chart" data-id="plotChart" [data]="slices(loaded.model.slices)" [showPicker]="false"></sm-donut>
+      <sm-donut class="chart" data-id="plotChart" [data]="slices(loaded.model.slices)" [colors]="colors" [showPicker]="false"></sm-donut>
     }
     @case ('scatter') {
       <sm-scatter-plot class="chart" data-id="plotChart" [data]="scatter(loaded.model)" [xAxisLabel]="loaded.model.xLabel"
