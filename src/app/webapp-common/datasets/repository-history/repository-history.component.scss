@@ -23,8 +23,10 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto;
+  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto auto auto;
   column-gap: var(--space-3);
+  // the rail starts a little in from the edge, so the ring around a dot is not cut off
+  padding-inline-start: var(--space-2);
 }
 
 .row {
@@ -32,9 +34,9 @@
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
   align-items: center;
-  padding-block: var(--space-1);
-  min-height: calc(var(--control-height) + var(--space-3));
-  font-size: var(--font-size-md);
+  padding-block: var(--space-2);
+  min-height: calc(var(--control-height) + var(--space-4));
+  font-size: var(--font-size-sm);
   outline-offset: calc(-1 * var(--space-1));
 }
 
@@ -120,19 +122,27 @@
 
 .sha {
   font-family: var(--font-family-monospace);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-on-surface-variant);
 }
 
 .meta {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-on-surface-variant);
 }
 
-.tags {
+// the symbols at the end of a row: one column each, left aligned, so the same symbol is at the same place in every row
+.symbol {
   display: inline-flex;
   align-items: center;
+  justify-self: start;
   gap: var(--space-1);
+  min-width: 0;
+}
+
+// the clear gap between the description and the symbols: from the widest symbol column's start
+.first-symbol {
+  margin-inline-start: var(--space-4);
 }
 
 .tag {

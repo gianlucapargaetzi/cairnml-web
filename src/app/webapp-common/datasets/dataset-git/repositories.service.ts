@@ -103,6 +103,8 @@ export interface RepoHistoryLanes {
   lanes_after: boolean[];
   merge_from: number[];
   parent_lanes: number[];
+  /** Lines that move to a lane further left in this row, as [from, to]. */
+  shifts: [number, number][];
 }
 
 /** A node of the condensed history: a commit with its tasks, or the commits hidden between two shown ones. */

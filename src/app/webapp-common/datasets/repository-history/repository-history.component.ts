@@ -71,6 +71,9 @@ export class RepositoryHistoryComponent {
         lines.push({x1: x(lane), y1: 0, x2: x(lane), y2: 100, color: this.laneColor(lane)});
       }
     }
+    for (const [from, to] of node.shifts ?? []) {
+      lines.push({x1: x(from), y1: 0, x2: x(to), y2: 100, color: this.laneColor(from)});
+    }
     for (const parent of node.parent_lanes) {
       lines.push({x1: x(node.lane), y1: 50, x2: x(parent), y2: 100, color: this.laneColor(parent)});
     }
