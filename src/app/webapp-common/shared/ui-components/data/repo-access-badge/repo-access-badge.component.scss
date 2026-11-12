@@ -17,6 +17,11 @@
     height: 14px;
   }
 
+  // readable: the completed colour, with the open lock or the people icon
+  &.ok {
+    color: var(--color-success);
+  }
+
   // a refused repository is the status colour; the icon and the words say it too
   &.refused {
     color: var(--color-failed);

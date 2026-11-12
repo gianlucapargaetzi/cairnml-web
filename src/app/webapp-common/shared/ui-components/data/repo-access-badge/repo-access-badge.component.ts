@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class RepoAccessBadgeComponent {
   access = input<RepoAccess | null>(null);
+  // only the icon (the words stay as its tooltip and its accessible name): for a table cell
+  iconOnly = input(false);
 
   protected readonly label = computed(() => {
     const access = this.access();
@@ -31,6 +33,8 @@ export class RepoAccessBadgeComponent {
   });
 
   protected readonly refused = computed(() => this.access()?.state === 'unreachable');
+  // readable, and nothing to look at: the green open lock, or the green people for a public repository
+  protected readonly ok = computed(() => ['assigned', 'none_needed', 'anonymous'].includes(this.access()?.state ?? ''));
   // the company's access reads it without anyone having chosen it: assigning a credential is recommended
   protected readonly warned = computed(() => this.access()?.state === 'company');
 
@@ -38,10 +42,10 @@ export class RepoAccessBadgeComponent {
   protected readonly icon = computed(() => {
     switch (this.access()?.state) {
       case 'none_needed':
-      case 'anonymous':
+      case 'anonymous': return 'al-ico-users';
+      case 'assigned':
       case 'unknown': return 'al-ico-lock-open';
       case 'company': return 'al-ico-alert';
-      case 'unreachable': return 'al-ico-alert';
       default: return 'al-ico-lock';
     }
   });

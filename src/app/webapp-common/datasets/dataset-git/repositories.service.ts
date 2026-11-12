@@ -25,8 +25,12 @@ export interface RepoAssignment {
   credential_name: string;
   company: boolean;
   none_needed: boolean;
+  // what is known of the row: ok (a credential is assigned), public (read without one), none (nothing is assigned)
+  state: 'ok' | 'public' | 'none';
   can_edit: boolean;
-  used_in: { project: string; as: 'owner' | 'fallback' }[];
+  // the projects this row reads for; member: the user may take the repository out of that project
+  used_in: { project: string; project_name: string | null; as: 'owner' | 'fallback'; member: boolean; inherited: boolean }[];
+  last_used: string | null;
 }
 
 export interface RepoEntry {
@@ -58,6 +62,8 @@ export interface Repo {
   owner_name: string;
   // owned by the admin and visible to every user; otherwise owned by a user and passed on through projects
   shared: boolean;
+  // for the signed-in user: shared (the company's), own (listed by them) or inherited (came with a project)
+  relation: 'shared' | 'own' | 'inherited';
   state: 'ok' | 'no_access';
   state_message: string;
   anonymous: boolean | null;
@@ -123,9 +129,19 @@ export class RepositoriesService {
     return this.post('delete', {id});
   }
 
-  // Makes a repository shared (its owner or the admin; ownership moves to the admin) or non-shared (the admin).
-  setShared(id: string, shared: boolean): Observable<Repo> {
-    return this.post<{ repository: Repo }>('set_shared', {id, shared}).pipe(map(r => r.repository));
+  // Makes a repository shared (its owner or the admin; ownership moves to the admin) or non-shared (the admin). To share, the
+  // company credential that reads it, or "None needed" for a public repository, is required; the server verifies it first.
+  setShared(id: string, shared: boolean, credential?: string, noneNeeded = false): Observable<Repo> {
+    return this.post<{ repository: Repo }>('set_shared', {
+      id, shared, credential: credential || undefined, none_needed: noneNeeded || undefined,
+    }).pipe(map(r => r.repository));
+  }
+
+  // Whether the company credential (or "None needed") reads the repository, so that it may be shared.
+  checkSharing(id: string, credential?: string, noneNeeded = false): Observable<{ ok: boolean; message: string }> {
+    return this.post<{ ok: boolean; message: string }>('check_sharing', {
+      id, credential: credential || undefined, none_needed: noneNeeded || undefined,
+    });
   }
 
   link(id: string, project: string): Observable<Repo> {

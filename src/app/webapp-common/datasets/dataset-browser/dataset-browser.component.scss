@@ -220,3 +220,27 @@ sm-code-editor {
   color: var(--color-primary);
   text-decoration: none;
 }
+
+.credentials-table {
+  display: block;
+  width: 100%;
+}
+
+// the access of a row: the open lock or the people (green), the closed lock (red); the tooltip says it in words
+.state {
+  display: inline-flex;
+
+  &.ok {
+    color: var(--color-success);
+  }
+
+  &.refused {
+    color: var(--color-failed);
+  }
+
+  .al-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}

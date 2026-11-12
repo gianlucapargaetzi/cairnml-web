@@ -6,6 +6,7 @@ import {rxResource} from '@angular/core/rxjs-interop';
 import {DomSanitizer} from '@angular/platform-browser';
 import {RouterLink} from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {MatIcon} from '@angular/material/icon';
@@ -33,9 +34,10 @@ import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {RepoAccess} from '@common/shared/services/repo-access.service';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
+import {RepositoryShareDialogComponent} from '../repository-share-dialog/repository-share-dialog.component';
 import {assignRepoCredential} from '../dataset-credential-dialog/assign-credentials';
 import {DatasetsPageRefreshService} from '../dataset-git/datasets-page-refresh.service';
-import {REPO_ROLE_LABELS, Repo, RepoAssignment, RepoEntry, RepoRun, RepositoriesService} from '../dataset-git/repositories.service';
+import {REPO_ROLE_LABELS, Repo, RepoEntry, RepoRun, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetails, DatasetDetailsRequest, DatasetDetailsService} from './dataset-details.service';
 
 // One line of the list: a repository, or, under a registry, one of the datasets it lists.
@@ -83,6 +85,9 @@ interface GraphNode {
     MatButton,
     MatIconButton,
     MatProgressSpinner,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
     RouterLink,
     StatusIconLabelComponent,
     TimeAgoPipe,
@@ -172,27 +177,56 @@ export class DatasetBrowserComponent {
   });
 
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Name', sortable: false},
-    {id: 'type', header: 'Type', sortable: false},
+    {id: 'name', header: 'Name', sortable: false, style: {minWidth: '90px'}},
+    {id: 'short_id', header: 'ID', sortable: false, style: {width: '88px'}},
+    {id: 'type', header: 'Type', sortable: false, style: {width: '88px'}},
+    {id: 'added_by', header: 'Added by', sortable: false, style: {width: '84px'}},
+    {id: 'source', header: 'Source', sortable: false, style: {width: '84px'}},
+    {id: 'access', header: 'Access', sortable: false, style: {width: '52px'}},
+    {id: 'last_used', header: 'Last used', sortable: false, style: {width: '88px'}},
+    {id: 'actions', header: '', sortable: false, style: {width: '112px'}},
+  ];
+
+  protected readonly sourceLabels = {shared: 'Shared', own: 'Own', inherited: 'Inherited'};
+
+  // The credentials of the selected repository: one row for each user who reads it, with the projects it reads for.
+  protected readonly credentialColumns: ISmCol[] = [
+    {id: 'credential', header: 'App', sortable: false},
     {id: 'owner', header: 'Owner', sortable: false},
-    {id: 'access', header: 'Access', sortable: false},
-    {id: 'projects', header: 'Projects', sortable: false},
+    {id: 'state', header: 'Access', sortable: false},
+    {id: 'projects', header: 'Project', sortable: false},
     {id: 'last_used', header: 'Last used', sortable: false},
     {id: 'actions', header: '', sortable: false},
   ];
+
+  protected credentialRows(repo: Repo) {
+    return repo.assignments.map(assignment => ({
+      id: assignment.id || `owner-${assignment.user}`,
+      assignment,
+      credential: assignment.credential_name || '–',
+      owner: assignment.mine ? `${assignment.user_name} (you)` : assignment.user_name,
+      last_used: assignment.last_used ? new Date(assignment.last_used).toLocaleDateString(undefined, {dateStyle: 'short'}) : '–',
+    }));
+  }
+
+  protected readonly stateLabels = {ok: 'A credential is assigned', public: 'Read without a credential', none: 'No credential is assigned'};
 
   protected readonly tableData = computed(() => this.rows().map(row => ({
     id: row.id,
     row,
     name: row.entry ? row.entry.name : row.repo.name,
+    full_id: row.entry ? row.entry.id : row.repo.id,
+    short_id: (row.entry ? row.entry.id : row.repo.id).slice(0, 8),
+    canShare: !row.entry && row.repo.can_share && !row.repo.shared,
+    canUnshare: !row.entry && row.repo.can_share && row.repo.shared,
     level: row.parentId ? 1 : 0,
     isParent: !row.entry && row.repo.roles.includes('registry'),
     expanded: !row.entry && row.repo.roles.includes('registry') && !this.collapsed().has(row.repo.id),
     type: row.entry ? 'Registry dataset' : row.repo.roles.map(role => this.roleLabels[role]).join(', '),
-    owner: row.entry ? '' : (row.repo.shared ? 'Shared' : row.repo.owner_name),
+    added_by: row.entry ? '' : (row.repo.shared ? 'Company' : row.repo.owner_name),
+    source: row.entry ? '' : this.sourceLabels[row.repo.relation],
     access: row.entry ? null : this.accessOf(row.repo),
-    projects: row.entry ? [] : row.repo.projects,
-    last_used: row.entry || !row.repo.last_used ? '–' : new Date(row.repo.last_used).toLocaleDateString(),
+    last_used: row.entry || !row.repo.last_used ? '–' : new Date(row.repo.last_used).toLocaleDateString(undefined, {dateStyle: 'short'}),
     canCheck: !row.entry,
     isRegistry: !row.entry && row.repo.roles.includes('registry'),
     canDelete: !row.entry && row.repo.can_delete,
@@ -306,7 +340,19 @@ export class DatasetBrowserComponent {
     });
   }
 
+  // Making a repository shared: the company credential is chosen and checked in a dialog, then confirmed once more there.
+  protected openShareDialog(repo: Repo, event?: Event): void {
+    event?.stopPropagation();
+    this.dialog.open<RepositoryShareDialogComponent, {repo: Repo}, boolean>(RepositoryShareDialogComponent, {
+      data: {repo}, panelClass: 'dialog-sm',
+    }).afterClosed().subscribe(done => done && this.reload());
+  }
+
   protected share(repo: Repo, shared: boolean): void {
+    if (shared) {
+      this.openShareDialog(repo);
+      return;
+    }
     this.confirm(shared ? 'Make it shared?' : 'Make it non-shared?',
       shared
         ? 'It becomes owned by the admin and is visible to every user. Your own credential assignment is dropped; you can assign a ' +
@@ -349,13 +395,8 @@ export class DatasetBrowserComponent {
     this.repositories.unlink(repo.id, project).subscribe({next: () => this.reload(), error: error => this.fail(error, 'It could not be taken out.')});
   }
 
-  protected mine(repo: Repo): RepoAssignment | undefined {
-    return repo.assignments.find(assignment => assignment.mine);
-  }
-
-  protected usedIn(repo: Repo, assignment: RepoAssignment): string {
-    const names = new Map(repo.projects.map(p => [p.project, p.project_name ?? p.project]));
-    return assignment.used_in.map(use => (names.get(use.project) ?? use.project) + (use.as === 'fallback' ? ' (fallback)' : '')).join(', ');
+  protected canEditAny(repo: Repo): boolean {
+    return repo.assignments.some(assignment => assignment.can_edit);
   }
 
   protected repoLink(details: DatasetDetails) {

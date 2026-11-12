@@ -1,7 +1,7 @@
 @if (rows().length) {
 <div class="browser-body">
   <as-split [gutterSize]="1" direction="horizontal">
-    <as-split-area [size]="58" [minSize]="30">
+    <as-split-area [size]="53" [minSize]="30">
       <sm-table
         class="align-self-stretch"
         selectionMode="single"
@@ -27,20 +27,13 @@
                   <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
                 </div>
               }
+              @case ('short_id') {
+                <span class="mono ellipsis" [smTooltip]="line.full_id" data-id="repositoryId">{{ line.short_id }}</span>
+              }
               @case ('access') {
                 @if (line.access) {
-                  <sm-repo-access-badge [access]="line.access"></sm-repo-access-badge>
+                  <sm-repo-access-badge [access]="line.access" [iconOnly]="true"></sm-repo-access-badge>
                 }
-              }
-              @case ('projects') {
-                <div class="projects-cell">
-                  @for (project of line.projects.slice(0, 1); track project.project) {
-                    <sm-entity-chip [label]="project.project_name ?? project.project" [link]="['/projects', project.project, 'overview']"></sm-entity-chip>
-                  }
-                  @if (line.projects.length > 1) {
-                    <span class="more" smTooltip="{{ line.projects.length }} projects list this repository">+{{ line.projects.length - 1 }}</span>
-                  }
-                </div>
               }
               @case ('actions') {
                 <div class="row-actions">
@@ -56,6 +49,25 @@
                         <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
                       }
                     </button>
+                  }
+                  @if (line.canShare || line.canUnshare) {
+                    <button mat-icon-button type="button" data-id="repositoryMenuButton" [matMenuTriggerFor]="rowMenu"
+                      [attr.aria-label]="'More actions for ' + line.name" smTooltip="More" (click)="$event.stopPropagation()">
+                      <mat-icon fontSet="al" fontIcon="al-ico-dots-v-menu"></mat-icon>
+                    </button>
+                    <mat-menu #rowMenu="matMenu" class="light-theme">
+                      @if (line.canShare) {
+                        <button mat-menu-item type="button" data-id="makeSharedMenuItem" (click)="openShareDialog(line.row.repo, $event)">
+                          <mat-icon fontSet="al" fontIcon="al-ico-shared-item"></mat-icon>
+                          Make shared
+                        </button>
+                      } @else {
+                        <button mat-menu-item type="button" data-id="makeNonSharedMenuItem" (click)="share(line.row.repo, false)">
+                          <mat-icon fontSet="al" fontIcon="al-ico-shared-item"></mat-icon>
+                          Make non-shared
+                        </button>
+                      }
+                    </mat-menu>
                   }
                   @if (line.canDelete) {
                     <button mat-icon-button type="button" data-id="deleteRepositoryButton"
@@ -76,7 +88,7 @@
       </sm-table>
     </as-split-area>
 
-    <as-split-area [size]="42" [minSize]="25" class="d-flex flex-column">
+    <as-split-area [size]="47" [minSize]="30" class="d-flex flex-column">
       @let details = selectedDetails.value();
       @if (selectedRow(); as selected) {
         @let repo = selected.repo;
@@ -91,7 +103,7 @@
                 <sm-section-header label="Repository"></sm-section-header>
                 <sm-labeled-row label="Address:"><a [href]="repo.url" target="_blank" class="repo-link">{{ repo.url }}</a></sm-labeled-row>
                 <sm-labeled-row label="Type:">{{ repo.roles.map(role => roleLabels[role]).join(', ') }}</sm-labeled-row>
-                <sm-labeled-row label="Owner:">
+                <sm-labeled-row label="Added by:">
                   {{ repo.shared ? 'Company' : repo.owner_name }}
                   @if (repo.shared) {
                     <span class="meta ms-2" data-id="sharedBadge">Shared: visible to every user</span>
@@ -112,54 +124,73 @@
                 }
 
                 <sm-section-header label="Credentials"></sm-section-header>
-                @for (assignment of repo.assignments; track assignment.id) {
-                  <sm-labeled-row [label]="assignment.mine ? 'You:' : assignment.user_name + ':'">
-                    <div class="assignment" data-id="repositoryAssignment">
-                      <span class="ellipsis" [smTooltip]="assignment.credential_name">{{ assignment.credential_name || 'None needed' }}</span>
-                      @if (assignment.company) {
-                        <span class="meta">company</span>
-                      }
-                      @if (assignment.used_in.length) {
-                        <span class="meta" data-id="usedIn">used in {{ usedIn(repo, assignment) }}</span>
-                      }
-                      @if (assignment.can_edit) {
-                        <span class="row-actions">
-                          <button mat-icon-button type="button" data-id="reassignCredentialButton" smTooltip="Reassign"
-                            [attr.aria-label]="'Reassign your credential for ' + repo.name" (click)="assign(repo)">
-                            <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
-                          </button>
-                          <button mat-icon-button type="button" data-id="checkCredentialButton" smTooltip="Check now"
-                            [disabled]="busyId() !== null" [attr.aria-label]="'Check ' + repo.name" (click)="check(repo)">
-                            <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
-                          </button>
-                          <button mat-icon-button type="button" data-id="deleteCredentialButton" smTooltip="Delete"
-                            [attr.aria-label]="'Delete your credential for ' + repo.name" (click)="unassign(repo)">
-                            <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
-                          </button>
-                        </span>
-                      }
-                    </div>
-                  </sm-labeled-row>
-                } @empty {
-                  <p class="note">No credential is assigned.</p>
+                @if (repo.assignments.length) {
+                  <sm-table class="credentials-table" [columns]="credentialColumns" [tableData]="credentialRows(repo)" [scrollable]="false"
+                    [resizableColumns]="false" data-id="repositoryAssignments">
+                    <ng-template let-col let-line="rowData" pTemplate="body">
+                      <div>
+                        @switch (col.id) {
+                          @case ('credential') {
+                            <div class="ellipsis" data-id="repositoryAssignment" smShowTooltipIfEllipsis [smTooltip]="line.credential">
+                              {{ line.credential }}
+                              @if (line.assignment.company) {
+                                <span class="meta">company</span>
+                              }
+                            </div>
+                          }
+                          @case ('state') {
+                            <span class="state" [class.ok]="line.assignment.state !== 'none'" [class.refused]="line.assignment.state === 'none'"
+                              [smTooltip]="stateLabels[line.assignment.state]" [attr.aria-label]="stateLabels[line.assignment.state]" data-id="assignmentState">
+                              <mat-icon fontSet="al" class="al-icon"
+                                [fontIcon]="line.assignment.state === 'public' ? 'al-ico-users' : line.assignment.state === 'ok' ? 'al-ico-lock-open' : 'al-ico-lock'"></mat-icon>
+                            </span>
+                          }
+                          @case ('projects') {
+                            <div class="projects-cell">
+                              @for (use of line.assignment.used_in; track use.project) {
+                                <sm-entity-chip [label]="(use.project_name ?? use.project) + (use.as === 'fallback' ? ' (fallback)' : '')"
+                                  [link]="['/projects', use.project, 'overview']" [removable]="use.member"
+                                  removeLabel="Take out of the project" (remove)="unlinkProject(repo, use.project)"></sm-entity-chip>
+                              } @empty {
+                                <span class="meta">–</span>
+                              }
+                            </div>
+                          }
+                          @case ('actions') {
+                            @if (line.assignment.can_edit) {
+                              <div class="row-actions">
+                                <button mat-icon-button type="button" data-id="reassignCredentialButton"
+                                  [smTooltip]="line.assignment.id ? 'Reassign' : 'Assign credentials'"
+                                  [attr.aria-label]="'Assign your credential for ' + repo.name" (click)="assign(repo)">
+                                  <mat-icon fontSet="al" fontIcon="al-ico-lock"></mat-icon>
+                                </button>
+                                @if (line.assignment.id) {
+                                  <button mat-icon-button type="button" data-id="checkCredentialButton" smTooltip="Check now"
+                                    [disabled]="busyId() !== null" [attr.aria-label]="'Check ' + repo.name" (click)="check(repo)">
+                                    <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
+                                  </button>
+                                  <button mat-icon-button type="button" data-id="deleteCredentialButton" smTooltip="Delete"
+                                    [attr.aria-label]="'Delete your credential for ' + repo.name" (click)="unassign(repo)">
+                                    <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                                  </button>
+                                }
+                              </div>
+                            }
+                          }
+                          @default {
+                            <div class="ellipsis">{{ line[col.id] }}</div>
+                          }
+                        }
+                      </div>
+                    </ng-template>
+                  </sm-table>
+                } @else {
+                  <p class="note">No credential is assigned and no project lists this repository.</p>
                 }
-                @if (!mine(repo) && repo.can_assign) {
+                @if (!canEditAny(repo) && repo.can_assign) {
                   <button mat-stroked-button type="button" class="mt-2" data-id="assignCredentialButton" (click)="assign(repo)">
                     Assign credentials
                   </button>
-                }
-
-                <sm-section-header label="Projects"></sm-section-header>
-                @for (project of repo.projects; track project.project) {
-                  <div class="project-line">
-                    <sm-entity-chip [label]="project.project_name ?? project.project" [link]="['/projects', project.project, 'overview']"
-                      [removable]="project.member" removeLabel="Take out of the project" (remove)="unlinkProject(repo, project.project)"></sm-entity-chip>
-                    @if (project.inherited) {
-                      <span class="meta">listed by a run</span>
-                    }
-                  </div>
-                } @empty {
-                  <p class="note">It is not listed in a project.</p>
                 }
 
                 @if (selected.entry || repo.roles.includes('dataset')) {
