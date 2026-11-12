@@ -180,6 +180,7 @@ sm-code-editor {
 
 .projects-cell {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
@@ -243,4 +244,20 @@ sm-code-editor {
     width: 16px;
     height: 16px;
   }
+}
+
+.visibility {
+  display: inline-flex;
+  color: var(--color-on-surface-variant);
+
+  .al-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// a disabled button shows no tooltip of its own: the wrapper carries the reason
+.delete-wrap {
+  display: inline-flex;
 }

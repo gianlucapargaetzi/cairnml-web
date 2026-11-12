@@ -25,8 +25,9 @@ export interface RepoAssignment {
   credential_name: string;
   company: boolean;
   none_needed: boolean;
-  // what is known of the row: ok (a credential is assigned), public (read without one), none (nothing is assigned)
-  state: 'ok' | 'public' | 'none';
+  // whether the row's way of reading works: the open lock, or the closed one. A row without a credential reads without one
+  // (a public repository: the open lock); one the host refuses is the closed lock
+  readable: boolean;
   can_edit: boolean;
   // the projects this row reads for; member: the user may take the repository out of that project
   used_in: { project: string; project_name: string | null; as: 'owner' | 'fallback'; member: boolean; inherited: boolean }[];
@@ -72,8 +73,10 @@ export interface Repo {
   last_checked: string | null;
   projects: { project: string; project_name: string | null; share_id: string; inherited: boolean; member: boolean }[];
   assignments: RepoAssignment[];
-  access: { state: ReadState; message: string; warning: boolean };
+  access: { state: ReadState; message: string; warning: boolean; readable: boolean | null };
   can_delete: boolean;
+  // why it cannot be deleted (a project depends on it, or it is shared); null when it can be
+  delete_blocked: string | null;
   can_share: boolean;
   can_assign: boolean;
   // what the user may assign: their own credentials and the company's (the company's only, for a shared repository)

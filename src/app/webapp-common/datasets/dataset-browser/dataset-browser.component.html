@@ -27,6 +27,13 @@
                   <span class="ellipsis name" smShowTooltipIfEllipsis [smTooltip]="line.name">{{ line.name }}</span>
                 </div>
               }
+              @case ('visibility') {
+                @if (line.visibility) {
+                  <span class="visibility" [smTooltip]="line.visibilityLabel" [attr.aria-label]="line.visibilityLabel" data-id="repositoryVisibility">
+                    <mat-icon fontSet="al" class="al-icon" [fontIcon]="line.visibility === 'shared' ? 'al-ico-users' : 'al-ico-account'"></mat-icon>
+                  </span>
+                }
+              }
               @case ('short_id') {
                 <span class="mono ellipsis" [smTooltip]="line.full_id" data-id="repositoryId">{{ line.short_id }}</span>
               }
@@ -69,13 +76,13 @@
                       }
                     </mat-menu>
                   }
-                  @if (line.canDelete) {
-                    <button mat-icon-button type="button" data-id="deleteRepositoryButton"
-                      [disabled]="busyId() !== null"
-                      [attr.aria-label]="'Delete ' + line.name" smTooltip="Delete"
-                      (click)="delete(line.row.repo, $event)">
-                      <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
-                    </button>
+                  @if (!line.isEntry) {
+                    <span class="delete-wrap" [smTooltip]="line.canDelete ? 'Delete' : line.deleteBlocked">
+                      <button mat-icon-button type="button" data-id="deleteRepositoryButton" [disabled]="!line.canDelete || busyId() !== null"
+                        [attr.aria-label]="'Delete ' + line.name" [attr.title]="null" (click)="delete(line.row.repo, $event)">
+                        <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+                      </button>
+                    </span>
                   }
                 </div>
               }
@@ -139,10 +146,10 @@
                             </div>
                           }
                           @case ('state') {
-                            <span class="state" [class.ok]="line.assignment.state !== 'none'" [class.refused]="line.assignment.state === 'none'"
-                              [smTooltip]="stateLabels[line.assignment.state]" [attr.aria-label]="stateLabels[line.assignment.state]" data-id="assignmentState">
-                              <mat-icon fontSet="al" class="al-icon"
-                                [fontIcon]="line.assignment.state === 'public' ? 'al-ico-users' : line.assignment.state === 'ok' ? 'al-ico-lock-open' : 'al-ico-lock'"></mat-icon>
+                            <span class="state" [class.ok]="line.assignment.readable" [class.refused]="!line.assignment.readable"
+                              [smTooltip]="line.assignment.readable ? 'Readable' : 'Not readable: no credential reaches it'"
+                              [attr.aria-label]="line.assignment.readable ? 'Readable' : 'Not readable'" data-id="assignmentState">
+                              <mat-icon fontSet="al" class="al-icon" [fontIcon]="line.assignment.readable ? 'al-ico-lock-open' : 'al-ico-lock'"></mat-icon>
                             </span>
                           }
                           @case ('projects') {

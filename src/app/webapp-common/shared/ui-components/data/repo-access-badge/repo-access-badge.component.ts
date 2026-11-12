@@ -33,7 +33,7 @@ export class RepoAccessBadgeComponent {
   });
 
   protected readonly refused = computed(() => this.access()?.state === 'unreachable');
-  // readable, and nothing to look at: the green open lock, or the green people for a public repository
+  // readable: the green open lock (public repositories too); not readable: the red closed lock
   protected readonly ok = computed(() => ['assigned', 'none_needed', 'anonymous'].includes(this.access()?.state ?? ''));
   // the company's access reads it without anyone having chosen it: assigning a credential is recommended
   protected readonly warned = computed(() => this.access()?.state === 'company');
@@ -42,7 +42,7 @@ export class RepoAccessBadgeComponent {
   protected readonly icon = computed(() => {
     switch (this.access()?.state) {
       case 'none_needed':
-      case 'anonymous': return 'al-ico-users';
+      case 'anonymous':
       case 'assigned':
       case 'unknown': return 'al-ico-lock-open';
       case 'company': return 'al-ico-alert';

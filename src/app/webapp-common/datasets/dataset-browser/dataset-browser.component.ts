@@ -177,26 +177,30 @@ export class DatasetBrowserComponent {
   });
 
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Name', sortable: false, style: {minWidth: '90px'}},
-    {id: 'short_id', header: 'ID', sortable: false, style: {width: '88px'}},
+    {id: 'name', header: 'Name', sortable: false, style: {minWidth: '80px'}},
+    {id: 'short_id', header: 'ID', sortable: false, style: {width: '96px'}},
     {id: 'type', header: 'Type', sortable: false, style: {width: '88px'}},
     {id: 'added_by', header: 'Added by', sortable: false, style: {width: '84px'}},
-    {id: 'source', header: 'Source', sortable: false, style: {width: '84px'}},
-    {id: 'access', header: 'Access', sortable: false, style: {width: '52px'}},
-    {id: 'last_used', header: 'Last used', sortable: false, style: {width: '88px'}},
+    {id: 'visibility', header: 'Visibility', sortable: false, style: {width: '62px'}},
+    {id: 'access', header: 'Access', sortable: false, style: {width: '50px'}},
+    {id: 'last_used', header: 'Last used', sortable: false, style: {width: '84px'}},
     {id: 'actions', header: '', sortable: false, style: {width: '112px'}},
   ];
 
-  protected readonly sourceLabels = {shared: 'Shared', own: 'Own', inherited: 'Inherited'};
+  protected readonly visibilityLabels = {
+    shared: 'Shared: visible to every user',
+    own: 'Not shared: yours, passed on only through the projects it is used in',
+    inherited: 'Not shared: it came with a project you are in',
+  };
 
   // The credentials of the selected repository: one row for each user who reads it, with the projects it reads for.
   protected readonly credentialColumns: ISmCol[] = [
-    {id: 'credential', header: 'App', sortable: false},
-    {id: 'owner', header: 'Owner', sortable: false},
-    {id: 'state', header: 'Access', sortable: false},
+    {id: 'credential', header: 'App', sortable: false, style: {width: '110px'}},
+    {id: 'owner', header: 'Owner', sortable: false, style: {width: '130px'}},
+    {id: 'state', header: 'Access', sortable: false, style: {width: '60px'}},
     {id: 'projects', header: 'Project', sortable: false},
-    {id: 'last_used', header: 'Last used', sortable: false},
-    {id: 'actions', header: '', sortable: false},
+    {id: 'last_used', header: 'Last used', sortable: false, style: {width: '84px'}},
+    {id: 'actions', header: '', sortable: false, style: {width: '112px'}},
   ];
 
   protected credentialRows(repo: Repo) {
@@ -209,7 +213,6 @@ export class DatasetBrowserComponent {
     }));
   }
 
-  protected readonly stateLabels = {ok: 'A credential is assigned', public: 'Read without a credential', none: 'No credential is assigned'};
 
   protected readonly tableData = computed(() => this.rows().map(row => ({
     id: row.id,
@@ -224,12 +227,15 @@ export class DatasetBrowserComponent {
     expanded: !row.entry && row.repo.roles.includes('registry') && !this.collapsed().has(row.repo.id),
     type: row.entry ? 'Registry dataset' : row.repo.roles.map(role => this.roleLabels[role]).join(', '),
     added_by: row.entry ? '' : (row.repo.shared ? 'Company' : row.repo.owner_name),
-    source: row.entry ? '' : this.sourceLabels[row.repo.relation],
+    visibility: row.entry ? null : row.repo.relation,
+    visibilityLabel: row.entry ? '' : this.visibilityLabels[row.repo.relation],
     access: row.entry ? null : this.accessOf(row.repo),
     last_used: row.entry || !row.repo.last_used ? '–' : new Date(row.repo.last_used).toLocaleDateString(undefined, {dateStyle: 'short'}),
     canCheck: !row.entry,
     isRegistry: !row.entry && row.repo.roles.includes('registry'),
+    isEntry: !!row.entry,
     canDelete: !row.entry && row.repo.can_delete,
+    deleteBlocked: row.entry ? '' : (row.repo.delete_blocked ?? ''),
   })));
 
   protected accessOf(repo: Repo): RepoAccess {
@@ -322,8 +328,8 @@ export class DatasetBrowserComponent {
   protected delete(repo: Repo, event?: Event): void {
     event?.stopPropagation();
     this.confirm('Delete repository?',
-      `${repo.host}/${repo.path} stops being listed, with its credential assignments and its projects. The code stays where it is, ` +
-      'and a run that uses the repository again lists it again.', 'Delete', true).subscribe(confirmed => {
+      `${repo.host}/${repo.path} is removed for you, with your credential assignment. Other users who still use it keep it. ` +
+      'Nothing changes in the repository itself.', 'Delete', true).subscribe(confirmed => {
       if (!confirmed) {
         return;
       }
