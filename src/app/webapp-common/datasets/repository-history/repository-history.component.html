@@ -1,0 +1,63 @@
+@if (history.isLoading()) {
+  <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3"></mat-spinner></div>
+} @else if (!history.value()) {
+  <p class="note" data-id="repositoryHistoryError">The history of this repository could not be read.</p>
+} @else {
+  @let h = history.value()!;
+  <ol class="history" data-id="repositoryHistory" aria-label="Commits that tasks ran on" [style.--lane-count]="h.lane_count">
+    <svg class="lines" aria-hidden="true" preserveAspectRatio="none"
+         [attr.viewBox]="'0 0 ' + h.lane_count * laneUnit + ' ' + h.nodes.length">
+      @for (line of paths(h.nodes); track $index) {
+        <path [attr.d]="line.d" [attr.stroke]="line.color" [class.dashed]="line.dashed"/>
+      }
+    </svg>
+    @for (node of h.nodes; track $index) {
+      @if (node.type === 'gap') {
+        <li class="row gap" data-id="repositoryHistoryGap" [smTooltip]="gapTip(node.count!)" tabindex="0"
+            [attr.aria-label]="gapTip(node.count!)">
+          <span class="rail">
+          </span>
+          <span class="dots">…</span>
+        </li>
+      } @else {
+        <li class="row commit" data-id="repositoryHistoryCommit" [smTooltip]="commitTip(node)" customClass="break-line" tabindex="0">
+          <span class="rail">
+            <span class="dot" [class.has-runs]="node.runs.length" [class.dirty]="dirtyCount(node)"
+                  [style.--lane]="node.lane" [style.--lane-color]="laneColor(node.lane)"></span>
+          </span>
+          <span class="stamp">
+            <span class="sha">{{ node.sha.slice(0, 7) }}</span>
+            <span class="meta">{{ node.date | date: 'mediumDate' }}</span>
+          </span>
+          <span class="message">
+            @for (name of node.branches; track name) {
+              <span class="tag branch" data-id="repositoryHistoryBranch">{{ name }}</span>
+            }
+            <span class="ellipsis">{{ node.message }}</span>
+          </span>
+          <span class="symbols">
+            @if (node.newest) { <span class="tag">newest</span> }
+            @if (node.first) { <span class="tag">first</span> }
+            @if (dirtyCount(node)) {
+              <span class="tag dirty" data-id="repositoryHistoryDirty" [smTooltip]="dirtyCount(node) + (dirtyCount(node) === 1 ? ' task ran' : ' tasks ran') + ' with uncommitted changes'"
+                    [attr.aria-label]="dirtyCount(node) + ' tasks with uncommitted changes'">
+                <mat-icon fontSet="al" fontIcon="al-ico-alert" class="al-icon sm"></mat-icon>{{ dirtyCount(node) }}
+              </span>
+            }
+            @if (node.runs.length) {
+              <span class="tag runs" data-id="repositoryHistoryRuns" [smTooltip]="node.runs.length + (node.runs.length === 1 ? ' task ran' : ' tasks ran') + ' on this commit'"
+                    [attr.aria-label]="node.runs.length + ' tasks on this commit'">{{ node.runs.length }}</span>
+            }
+          </span>
+        </li>
+      }
+    }
+  </ol>
+  <p class="note" data-id="repositoryHistoryOnly">Branches and commits without tasks are not shown.</p>
+  @if (h.limited) {
+    <p class="note" data-id="repositoryHistoryLimited">Showing the latest part of the history ({{ h.total_commits }} commits in total).</p>
+  }
+  @if (h.outside_runs) {
+    <p class="note" data-id="repositoryHistoryOutside">{{ h.outside_runs }} {{ h.outside_runs === 1 ? 'task' : 'tasks' }} ran on commits that are not shown.</p>
+  }
+}

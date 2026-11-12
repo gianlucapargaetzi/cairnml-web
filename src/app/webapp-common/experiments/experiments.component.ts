@@ -122,7 +122,8 @@ import {
 } from '@common/experiments/containers/create-experiment-dialog/create-experiment-dialog.component';
 import {RetryFooterItem} from '@common/shared/entity-page/footer-items/retry-footer-item';
 import {computedPrevious} from 'ngxtension/computed-previous';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {groupTrials} from './group-trials';
 import {setExperiment} from '@common/experiments/actions/common-experiments-info.actions';
 import {selectMetricsLoading, selectSelectedExperiment} from '~/features/experiments/reducers';
 import {ProjectsGetUserNamesRequest} from '~/business-logic/model/projects/projectsGetUserNamesRequest';
@@ -223,6 +224,24 @@ export class ExperimentsComponent extends BaseEntityPageComponent implements OnD
       // lil hack for hiding archived task after they have been archived from task info or footer...
       map(([experiments, ]) => filterArchivedExperiments(experiments, this.inArchivedMode()))
     );
+
+  /** The searches whose trials are hidden (a search is expanded until it is collapsed here). */
+  private readonly collapsedSearches = signal<ReadonlySet<string>>(new Set());
+  /** The loaded tasks with the trials of a hyperparameter search under their search. */
+  protected groupedExperiments$ = combineLatest([this.experiments$, toObservable(this.collapsedSearches)])
+    .pipe(map(([experiments, collapsed]) => groupTrials(experiments, collapsed)));
+
+  protected toggleSearch(id: string) {
+    this.collapsedSearches.update(set => {
+      const next = new Set(set);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
 
   protected filteredTableCols$ = this.store.select(selectFilteredTableCols);
 

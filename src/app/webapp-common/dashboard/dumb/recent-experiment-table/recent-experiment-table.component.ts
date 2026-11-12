@@ -11,6 +11,9 @@ import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/
 import {TaskNameComponent} from '@common/shared/ui-components/data/task-name/task-name.component';
 import {PrimeTemplate} from 'primeng/api';
 import {DatePipe} from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
+import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
 
 @Component({
   selector: 'sm-recent-tasks-table',
@@ -29,7 +32,9 @@ import {DatePipe} from '@angular/common';
     TooltipDirective,
     PrimeTemplate,
     DatePipe,
-    DatePipe
+    MatIconModule,
+    MatIconButton,
+    ClickStopPropagationDirective
   ]
 })
 export class RecentExperimentTableComponent {
@@ -38,6 +43,8 @@ export class RecentExperimentTableComponent {
 
   tasks = input<IRecentTask[]>([]);
   taskSelected = output<IRecentTask>();
+  /** The toggle of a search with its trials was clicked: the id of the search. */
+  groupToggled = output<string>();
   protected readonly TIME_FORMAT_STRING = TIME_FORMAT_STRING;
   protected cols = RECENT_EXPERIMENTS_TABLE_COLS;
 }

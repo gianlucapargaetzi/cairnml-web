@@ -1,0 +1,179 @@
+:host {
+  display: block;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-5) 0;
+}
+
+.note {
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-md);
+  margin: var(--space-3) 0 0;
+}
+
+// One grid for the whole list, so a column is as wide as its widest cell in any row: the commit id and date, and the tags at
+// the end. The message gets the rest, so it always ends before the widest tags begin, with the same gap in every row.
+.history {
+  --lane-width: var(--space-4);
+  --rail-width: calc(var(--lane-count, 1) * var(--lane-width));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  position: relative;
+  --row-height: calc(var(--control-height) + var(--space-4));
+  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
+  // the rail starts a little in from the edge, so the ring around a dot is not cut off
+  padding-inline-start: var(--space-2);
+}
+
+.row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  box-sizing: border-box;
+  height: var(--row-height);
+  font-size: var(--font-size-sm);
+  outline-offset: calc(-1 * var(--space-1));
+}
+
+.rail {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+}
+
+// the lines of all lanes: one drawing behind the whole list, a unit a row, so a line is never cut at a row
+.lines {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--space-2);
+  width: var(--rail-width);
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  pointer-events: none;
+
+  path {
+    stroke-width: 2;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+
+    // the commits a dashed line hides, or the history below the list
+    &.dashed {
+      stroke-dasharray: 4 4;
+    }
+  }
+}
+
+.gap {
+  color: var(--color-on-surface-variant);
+
+  .dots {
+    grid-column: 2 / -1;
+    letter-spacing: var(--space-1);
+  }
+}
+
+.dot {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: calc((var(--lane) + 0.5) * var(--lane-width));
+  width: var(--space-3);
+  height: var(--space-3);
+  translate: -50% -50%;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--lane-color);
+  background: var(--color-surface-container-lowest);
+
+  &.has-runs {
+    background: var(--lane-color);
+  }
+
+  &.dirty {
+    outline: 2px solid var(--color-warning);
+    outline-offset: 1px;
+  }
+}
+
+.commit:hover,
+.commit:focus-visible {
+  background: var(--color-surface-container-low);
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+
+  .ellipsis {
+    min-width: 0;
+  }
+}
+
+.stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: var(--line-height-tight);
+}
+
+.sha {
+  font-family: var(--font-family-monospace);
+  font-size: var(--font-size-xs);
+  color: var(--color-on-surface-variant);
+}
+
+.meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-on-surface-variant);
+}
+
+// The symbols at the end of a row are one group: only the ones a commit has, side by side with the same gap between them
+// (newest or first, uncommitted, number of tasks). The column is as wide as the widest group, so every description ends before
+// it with the same clear gap, and every group starts at the same place.
+.symbols {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: var(--space-1);
+  margin-inline-start: var(--space-4);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-body);
+
+  &.runs {
+    background: var(--color-primary-container);
+    color: var(--color-on-surface);
+  }
+
+  &.dirty {
+    color: var(--color-warning);
+  }
+
+  &.branch {
+    flex: none;
+    max-width: calc(var(--space-7) * 3);
+    background: var(--color-secondary-container);
+    color: var(--color-on-surface);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

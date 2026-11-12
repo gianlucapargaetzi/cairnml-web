@@ -75,8 +75,8 @@ Sticky rows inside a page stick at `top: 0` of their scroll container: the heade
 
 ## 3.4 Content width and alignment
 
-- **Tables, cards grids and detail panels:** fluid, full width of the content area. Do not cap table width.
-- **Forms and text pages (settings, descriptions, markdown):** max width **720px**, left aligned at the page padding (not centred), so labels line up with page titles. Existing forms vary (dialogs 430-768px); in-page forms follow dialog-lg width.
+- **Two kinds of page.** A page whose main content is a **data table** (lists, master/detail, tables with a detail panel) is full width: fluid, the whole content area, no cap. A **card-heavy or non-data page** (project settings, project overview, workloads, description and markdown pages) uses the **reduced width**: `--page-width-reduced` (1080px, `styles/customizations/tokens.scss`), **centred** in the window at every width, with the `reduced-page()` mixin (`styles/mixins/page-width.scss`). Never type the width in a page stylesheet.
+- **Forms inside a reduced page** fill the page's column; in dialogs, dialog widths apply (430-768px).
 - **Card grid:** `repeat(auto-fit, 352px)` with 24px gap (existing `sm-card-list-layout`); centred.
 - Horizontal page padding is always `--space-5` (24px). Never add a second horizontal padding inside the content area; sections align on the same left edge.
 - Minimum usable width of the content area: 960px − 64px side nav = 896px.

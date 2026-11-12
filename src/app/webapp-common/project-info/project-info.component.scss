@@ -1,14 +1,16 @@
 @use "../layout/layout";
+@use "../styles/mixins/page-width";
 
 :host{
   overflow: auto;
-  padding: 24px 24px 0 24px;
+  padding: var(--space-5) 0 0;
 }
 .header-container {
   height: layout.$project-header-height;
 }
 
 .info-content {
+  @include page-width.reduced-page();
   min-height: 500px;
   display: flex;
   flex-direction: column;

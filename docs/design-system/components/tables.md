@@ -29,6 +29,12 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 | Column resize | Allowed (existing); persist per table |
 | Status column | `sm-status-icon-label`; a running task that reports progress also gets the small [progress bar](progress.md) next to it |
 
+## Grouped rows (a parent with children)
+
+A row that owns other rows is a **group**: a registry with its datasets (Repositories & Datasets) and a hyperparameter search with its trials (Task list, and the recent list of the Tasks page). The parent row has a 36px icon-button toggle before its name (`al-ico-caret-right` closed, `al-ico-arrow-down` open, `aria-expanded`, `smClickStopPropagation`, tooltip "Show / Hide the N trials of this search"). Groups are expanded by default. Children follow their parent, indented one step (`--space-5`) in the name cell: use the `group-name-cell()` mixin (`styles/mixins/table-rows.scss`) for the `.name-cell` and its `.child` modifier. A child row is an ordinary row: selection, click and actions work as for any other.
+
+Only what is loaded is grouped (`experiments/group-trials.ts`): a child whose parent is not in the loaded rows stays a row of its own, so no row is ever hidden because its parent is on a page that is not loaded yet.
+
 ## Column widths (fit columns)
 
 A table with a fixed set of columns sets `[fitColumns]="true"` on `sm-table` (and `[resizableColumns]="false"`; users do not resize it). The widths are then measured, never typed (`fit-columns.ts`):

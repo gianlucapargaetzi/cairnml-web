@@ -127,28 +127,6 @@ sm-code-editor {
   margin-bottom: var(--space-3);
 }
 
-.graph-scroll {
-  overflow-x: auto;
-  padding: var(--space-2) 0;
-}
-
-.graph text {
-  font-family: var(--font-family-base);
-  font-size: 14px;
-  fill: var(--color-on-surface);
-}
-
-.graph text.meta {
-  font-size: 12px;
-  fill: var(--color-on-surface-variant);
-}
-
-.graph text.sha {
-  font-family: var(--font-family-monospace);
-  font-size: 12px;
-  fill: var(--color-on-surface-variant);
-}
-
 .readme {
   color: var(--color-on-surface);
   font-size: 14px;

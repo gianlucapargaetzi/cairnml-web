@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, effect, inject, resource, untracked} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, resource, signal, untracked} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {DatePipe} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
@@ -13,6 +13,7 @@ import {DashboardExperimentsComponent} from '@common/dashboard/containers/dashbo
 import {ProjectCardComponent} from '@common/shared/ui-components/panel/project-card/project-card.component';
 import {Project} from '~/business-logic/model/projects/project';
 import {groupTaskFolders, TaskFolder} from '@common/tasks/task-folders.utils';
+import {groupTrials} from '@common/experiments/group-trials';
 import {HeaderMenuService} from '~/shared/services/header-menu.service';
 import {FolderExperiment, TaskFoldersApiService} from './task-folders-api.service';
 import {UNASSIGNED_FOLDER, UNASSIGNED_LABEL} from './task-folders.consts';
@@ -66,13 +67,28 @@ export class TaskFoldersComponent {
     return cards;
   });
 
-  /** The project's most recent experiments, in the shape the shared recent table shows. */
+  /** The searches whose trials are hidden in the recent list (a search is expanded until it is collapsed here). */
+  private readonly collapsedSearches = signal<ReadonlySet<string>>(new Set());
+
+  protected toggleSearch(id: string) {
+    this.collapsedSearches.update(set => {
+      const next = new Set(set);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  /** The project's most recent experiments, in the shape the shared recent table shows, trials under their search. */
   protected readonly recent = computed<IRecentTask[]>(() => {
     const projectId = this.projectId();
     const newest = [...(this.experiments.value() ?? [])]
       .sort((a, b) => (b.last_update ?? '').localeCompare(a.last_update ?? ''))
       .slice(0, RECENT_LIMIT);
-    return newest.map(experiment => ({
+    return groupTrials(newest, this.collapsedSearches()).map(experiment => ({
       ...experiment,
       project: {id: projectId, name: experiment.project?.name},
     }) as unknown as IRecentTask);

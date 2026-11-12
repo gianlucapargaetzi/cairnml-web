@@ -30,6 +30,9 @@
   --header-height: 64px;
   --sidenav-width: 64px;
   --page-padding-x: var(--space-5);
+  // card-heavy and non-data pages (project settings, overview, workloads) use this content width, centred. Pages whose
+  // main content is a data table stay full width.
+  --page-width-reduced: 1080px;
 
   // type
   --font-size-xs: 11px;
