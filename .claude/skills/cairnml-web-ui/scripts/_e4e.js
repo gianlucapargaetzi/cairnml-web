@@ -1,0 +1,20 @@
+const {open} = require('./_chk');
+(async () => {
+  const {b, p} = await open('testuser01');
+  const clone = (await p.api('tasks.get_all_ex', {only_fields: ['id', 'project', 'status'], order_by: ['-created']})).data.data.tasks[0]; const pid = clone.project.id || clone.project;
+  await p.go(`projects/${pid}/tasks/${clone.id}/execution`, 3500);
+  const icon = p.locator('sm-experiment-info-header, [class*=experiment-header], body').first();
+  const box = await p.locator('[class*="al-ico-bars-menu"], mat-icon[fonticon="al-ico-bars-menu"]').first().boundingBox().catch(() => null);
+  if (box) await p.mouse.click(box.x + box.width / 2, box.y + box.height / 2); else await p.mouse.click(1484, 201);
+  await p.waitForTimeout(800); await p.locator('[role=menuitem]', {hasText: 'Enqueue'}).first().click(); await p.waitForTimeout(1200);
+  const q = p.locator('mat-dialog-container input').first(); await q.click(); await q.fill('parg-nb'); await p.waitForTimeout(800); await p.locator('mat-option', {hasText: 'parg-nb-f4cad6'}).first().click();
+  await p.locator('mat-dialog-container').getByRole('button', {name: /enqueue/i}).last().click(); await p.waitForTimeout(2500); await p.shot('e4-step5-warning');
+  console.log('WARNING:', (await p.locator('mat-dialog-container').innerText()).replace(/\n+/g, ' | ').slice(0, 300), '| clone status', (await p.api('tasks.get_by_id', {task: clone.id})).data.data.task.status);
+  await p.getByRole('button', {name: 'Assign credentials'}).click(); await p.waitForTimeout(1200);
+  await p.locator('mat-dialog-container mat-select').first().click(); await p.getByRole('option', {name: /my github app/}).click();
+  await p.locator('mat-dialog-container').getByRole('button', {name: /set credential/i}).click(); await p.waitForTimeout(3500);
+  await p.shot('e4-step5-after-assign');
+  console.log('AFTER ASSIGN dialogs:', await p.locator('mat-dialog-container').count(), 'status', (await p.api('tasks.get_by_id', {task: clone.id})).data.data.task.status, JSON.stringify((await p.api('repositories.get_all')).data.data.repositories.filter(r=>r.name==='cairnml-private-demo').map(r=>r.access.state)));
+  require('fs').writeFileSync('/tmp/claude-1000/clone2.txt', clone.id);
+  await b.close();
+})();

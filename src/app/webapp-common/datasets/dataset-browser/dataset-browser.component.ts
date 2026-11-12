@@ -165,10 +165,10 @@ export class DatasetBrowserComponent {
 
   protected readonly runColumns: ISmCol[] = [
     {id: 'name', header: 'Name', sortable: false},
-    {id: 'status', header: 'Status', sortable: false},
-    {id: 'as', header: 'Used as', sortable: false},
-    {id: 'user_name', header: 'User', sortable: false},
-    {id: 'created', header: 'Created', sortable: false},
+    {id: 'status', header: 'Status', sortable: false, style: {width: '110px'}},
+    {id: 'as', header: 'Used as', sortable: false, style: {width: '84px'}},
+    {id: 'user_name', header: 'User', sortable: false, style: {width: '90px'}},
+    {id: 'created', header: 'Created', sortable: false, style: {width: '110px'}},
   ];
 
   // The runs that used the selected repository (a registry's entries are read through the registry's runs).
