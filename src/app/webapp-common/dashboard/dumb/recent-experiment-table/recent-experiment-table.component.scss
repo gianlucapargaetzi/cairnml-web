@@ -1,3 +1,7 @@
+@use '../../../styles/mixins/table-rows' as table-rows;
+
+@include table-rows.group-name-cell();
+
 .experiment-name {
   font-weight: 500;
   text-overflow: ellipsis;

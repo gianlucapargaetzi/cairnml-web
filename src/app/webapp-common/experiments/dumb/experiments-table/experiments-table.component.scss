@@ -1,4 +1,7 @@
 @use "mixins/empty" as empty;
+@use "mixins/table-rows" as table-rows;
+
+@include table-rows.group-name-cell();
 
 :host {
 

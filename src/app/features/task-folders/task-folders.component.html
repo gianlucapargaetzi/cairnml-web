@@ -27,7 +27,7 @@
       @if (experimentCount() === 0) {
         <p class="empty">No tasks yet. Run a script that calls Task.init, or start a task from a task's page.</p>
       } @else {
-        <sm-dashboard-experiments title="Recent tasks" [recentTasks]="recent()"></sm-dashboard-experiments>
+        <sm-dashboard-experiments title="Recent tasks" [recentTasks]="recent()" (groupToggled)="toggleSearch($event)"></sm-dashboard-experiments>
       }
     </div>
   }

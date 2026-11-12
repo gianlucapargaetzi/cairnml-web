@@ -1,3 +1,22 @@
+// The name cell of a row that can be a group (a registry with its datasets, a search with its trials): an optional toggle
+// before the name, and a child row indented by one step.
+@mixin group-name-cell() {
+  .name-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+
+    &.child {
+      padding-inline-start: var(--space-5);
+    }
+
+    .name {
+      min-width: 0;
+    }
+  }
+}
+
 // The Datasets and Repositories tables: the body of the table down to the bottom of the window, the name cell with its
 // ellipsis, and the row's actions at the end.
 @mixin table-rows() {
@@ -6,16 +25,7 @@
     height: calc(100vh - var(--header-height)); // the rest of the window below the header
   }
 
-  .name-cell {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    min-width: 0;
-
-    .name {
-      min-width: 0;
-    }
-  }
+  @include group-name-cell();
 
   .row-actions {
     display: flex;

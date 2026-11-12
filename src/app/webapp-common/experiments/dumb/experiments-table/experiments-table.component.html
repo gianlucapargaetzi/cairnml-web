@@ -116,7 +116,17 @@
           <sm-experiment-type-icon-label class="w-100" [type]="experiment?.type"></sm-experiment-type-icon-label>
         }
         @case (experimentsTableColFields.NAME) {
-          <div class="d-flex align-items-center ellipsis">
+          <div class="name-cell ellipsis" [class.child]="experiment.groupLevel === 1">
+            @if (experiment.groupChildren) {
+              <button mat-icon-button type="button" class="toggle" data-id="searchToggle"
+                [attr.aria-expanded]="experiment.groupExpanded"
+                [attr.aria-label]="(experiment.groupExpanded ? 'Collapse ' : 'Expand ') + experimentLabel(experiment)"
+                [smTooltip]="(experiment.groupExpanded ? 'Hide' : 'Show') + ' the ' + experiment.groupChildren + ' trials of this search'"
+                smClickStopPropagation
+                (click)="groupToggled.emit(experiment.id)">
+                <mat-icon fontSet="al" [fontIcon]="experiment.groupExpanded ? 'al-ico-arrow-down' : 'al-ico-caret-right'"></mat-icon>
+              </button>
+            }
             <sm-task-name
               [name]="experimentLabel(experiment)"
               [taskId]="experiment.id"

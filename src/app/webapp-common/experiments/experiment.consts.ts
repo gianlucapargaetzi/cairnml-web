@@ -210,7 +210,7 @@ export const EXPERIMENT_INFO_ONLY_FIELDS_BASE = [
 
 export const MINIMUM_ONLY_FIELDS = [
   'name', 'display_name', 'status', 'system_tags', 'project.name', 'company', 'last_change', 'last_update', 'started', 'last_iteration', 'tags',
-  'user.name', 'runtime.progress'
+  'user.name', 'runtime.progress', 'parent', 'type'
 ];
 
 export const ARTIFACTS_ONLY_FIELDS = [

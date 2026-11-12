@@ -74,6 +74,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {
   HyperParamMetricColumnComponent
 } from '@common/experiments/shared/components/hyper-param-metric-column/hyper-param-metric-column.component';
+import {MatIconButton} from '@angular/material/button';
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
 import {ReactiveFormsModule} from '@angular/forms';
 import {IsRowSelectedPipe} from '@common/shared/ui-components/data/table/is-rwo-selected.pipe';
@@ -97,6 +98,7 @@ import {MatIconModule} from '@angular/material/icon';
     TaskProgressComponent,
     TaskNameComponent,
     MatIconModule,
+    MatIconButton,
     TooltipDirective,
     NgTemplateOutlet,
     TableCardComponent,
@@ -170,6 +172,8 @@ export class ExperimentsTableComponent extends BaseTableView {
   }>();
   experimentsSelectionChanged = output<ITableExperiment[]>();
   loadMoreExperiments = output();
+  /** The toggle of a search with its trials was clicked: the id of the search. */
+  groupToggled = output<string>();
   sortedChanged = output<{
     isShift: boolean;
     colId: ISmCol['id'];
