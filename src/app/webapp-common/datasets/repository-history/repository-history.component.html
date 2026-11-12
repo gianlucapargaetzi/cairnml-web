@@ -35,19 +35,15 @@
             }
             <span class="ellipsis">{{ node.message }}</span>
           </span>
-          <span class="symbol first-symbol">
+          <span class="symbols">
             @if (node.newest) { <span class="tag">newest</span> }
             @if (node.first) { <span class="tag">first</span> }
-          </span>
-          <span class="symbol">
             @if (dirtyCount(node)) {
               <span class="tag dirty" data-id="repositoryHistoryDirty" [smTooltip]="dirtyCount(node) + (dirtyCount(node) === 1 ? ' task ran' : ' tasks ran') + ' with uncommitted changes'"
                     [attr.aria-label]="dirtyCount(node) + ' tasks with uncommitted changes'">
                 <mat-icon fontSet="al" fontIcon="al-ico-alert" class="al-icon sm"></mat-icon>{{ dirtyCount(node) }}
               </span>
             }
-          </span>
-          <span class="symbol">
             @if (node.runs.length) {
               <span class="tag runs" data-id="repositoryHistoryRuns" [smTooltip]="node.runs.length + (node.runs.length === 1 ? ' task ran' : ' tasks ran') + ' on this commit'"
                     [attr.aria-label]="node.runs.length + ' tasks on this commit'">{{ node.runs.length }}</span>

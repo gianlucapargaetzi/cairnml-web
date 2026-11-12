@@ -25,7 +25,7 @@
   display: grid;
   position: relative;
   --row-height: calc(var(--control-height) + var(--space-4));
-  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto auto auto;
+  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto;
   column-gap: var(--space-3);
   // the rail starts a little in from the edge, so the ring around a dot is not cut off
   padding-inline-start: var(--space-2);
@@ -136,17 +136,14 @@
   color: var(--color-on-surface-variant);
 }
 
-// the symbols at the end of a row: one column each, left aligned, so the same symbol is at the same place in every row
-.symbol {
+// The symbols at the end of a row are one group: only the ones a commit has, side by side with the same gap between them
+// (newest or first, uncommitted, number of tasks). The column is as wide as the widest group, so every description ends before
+// it with the same clear gap, and every group starts at the same place.
+.symbols {
   display: inline-flex;
   align-items: center;
   justify-self: start;
   gap: var(--space-1);
-  min-width: 0;
-}
-
-// the clear gap between the description and the symbols: from the widest symbol column's start
-.first-symbol {
   margin-inline-start: var(--space-4);
 }
 
