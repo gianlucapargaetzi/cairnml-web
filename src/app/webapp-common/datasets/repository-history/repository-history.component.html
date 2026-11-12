@@ -4,23 +4,41 @@
   <p class="note" data-id="repositoryHistoryError">The history of this repository could not be read.</p>
 } @else {
   @let h = history.value()!;
-  <ol class="history" data-id="repositoryHistory" aria-label="Commits that tasks ran on">
+  <ol class="history" data-id="repositoryHistory" aria-label="Commits that tasks ran on" [style.--lane-count]="h.lane_count">
     @for (node of h.nodes; track $index) {
       @if (node.type === 'gap') {
         <li class="row gap" data-id="repositoryHistoryGap" [smTooltip]="gapTip(node.count!)" tabindex="0"
             [attr.aria-label]="gapTip(node.count!)">
-          <span class="stamp"></span>
-          <span class="rail"></span>
+          <span class="rail">
+            <svg class="lines" aria-hidden="true" preserveAspectRatio="none" [attr.viewBox]="'0 0 ' + h.lane_count * laneUnit + ' 100'">
+              @for (line of segments(node, h.lane_count); track $index) {
+                <line [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" [attr.stroke]="line.color"/>
+              }
+            </svg>
+          </span>
           <span class="dots">…</span>
         </li>
       } @else {
         <li class="row commit" data-id="repositoryHistoryCommit" [smTooltip]="commitTip(node)" customClass="break-line" tabindex="0">
+          <span class="rail">
+            <svg class="lines" aria-hidden="true" preserveAspectRatio="none" [attr.viewBox]="'0 0 ' + h.lane_count * laneUnit + ' 100'">
+              @for (line of segments(node, h.lane_count); track $index) {
+                <line [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" [attr.stroke]="line.color"/>
+              }
+            </svg>
+            <span class="dot" [class.has-runs]="node.runs.length" [class.dirty]="dirtyCount(node)"
+                  [style.--lane]="node.lane" [style.--lane-color]="laneColor(node.lane)"></span>
+          </span>
           <span class="stamp">
             <span class="sha">{{ node.sha.slice(0, 7) }}</span>
             <span class="meta">{{ node.date | date: 'mediumDate' }}</span>
           </span>
-          <span class="rail"><span class="dot" [class.has-runs]="node.runs.length" [class.dirty]="dirtyCount(node)"></span></span>
-          <span class="message ellipsis">{{ node.message }}</span>
+          <span class="message">
+            @for (name of node.branches; track name) {
+              <span class="tag branch" data-id="repositoryHistoryBranch">{{ name }}</span>
+            }
+            <span class="ellipsis">{{ node.message }}</span>
+          </span>
           <span class="tags">
             @if (node.newest) { <span class="tag">newest</span> }
             @if (node.first) { <span class="tag">first</span> }
@@ -39,6 +57,7 @@
       }
     }
   </ol>
+  <p class="note" data-id="repositoryHistoryOnly">Branches and commits without tasks are not shown.</p>
   @if (h.limited) {
     <p class="note" data-id="repositoryHistoryLimited">Showing the latest part of the history ({{ h.total_commits }} commits in total).</p>
   }

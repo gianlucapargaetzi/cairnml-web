@@ -96,8 +96,17 @@ export interface RepoHistoryRun {
   dirty?: boolean;
 }
 
+/** What draws the rail of one row: its lane, the lanes open above and below it, the lanes that end in it, the lanes of its parents. */
+export interface RepoHistoryLanes {
+  lane: number;
+  lanes_before: boolean[];
+  lanes_after: boolean[];
+  merge_from: number[];
+  parent_lanes: number[];
+}
+
 /** A node of the condensed history: a commit with its tasks, or the commits hidden between two shown ones. */
-export interface RepoHistoryCommit {
+export interface RepoHistoryCommit extends RepoHistoryLanes {
   type: 'commit';
   sha: string;
   message: string;
@@ -105,10 +114,12 @@ export interface RepoHistoryCommit {
   date: string;
   newest: boolean;
   first: boolean;
+  /** The branches that end in this commit. */
+  branches: string[];
   runs: RepoHistoryRun[];
 }
 
-export interface RepoHistoryGap {
+export interface RepoHistoryGap extends RepoHistoryLanes {
   type: 'gap';
   count: number;
 }
@@ -117,6 +128,8 @@ export type RepoHistoryNode = RepoHistoryCommit | RepoHistoryGap;
 
 export interface RepoHistory {
   nodes: RepoHistoryNode[];
+  /** How many lanes the rail has: the default branch and the branches with tasks. */
+  lane_count: number;
   total_commits: number;
   /** Tasks that ran on commits that are not part of the nodes. */
   outside_runs: number;

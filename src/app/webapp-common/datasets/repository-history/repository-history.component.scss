@@ -14,21 +14,26 @@
   margin: var(--space-3) 0 0;
 }
 
+// One grid for the whole list, so a column is as wide as its widest cell in any row: the commit id and date, and the tags at
+// the end. The message gets the rest, so it always ends before the widest tags begin, with the same gap in every row.
 .history {
-  --rail-width: var(--space-5);
-  // the commit id and its date, left of the rail: wide enough for a short sha in the monospace face
-  --stamp-width: calc(var(--space-7) + var(--space-6));
+  --lane-width: var(--space-4);
+  --rail-width: calc(var(--lane-count, 1) * var(--lane-width));
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto;
+  column-gap: var(--space-3);
 }
 
 .row {
   display: grid;
-  grid-template-columns: var(--stamp-width) var(--rail-width) minmax(0, 1fr) auto;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
   align-items: center;
-  column-gap: var(--space-3);
-  min-height: calc(var(--control-height) + var(--space-2));
+  padding-block: var(--space-1);
+  min-height: calc(var(--control-height) + var(--space-3));
   font-size: var(--font-size-md);
   outline-offset: calc(-1 * var(--space-1));
 }
@@ -36,54 +41,57 @@
 .rail {
   position: relative;
   align-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-width: 0;
+}
 
-  // the line that connects a row to the rows around it
-  &::before {
-    content: '';
-    position: absolute;
-    inset-block: 0;
-    border-inline-start: 2px solid var(--color-outline-variant);
+// the lines of the lanes, drawn by the template; the strokes are not scaled with the row
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+
+  line {
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
   }
-}
-
-.row:first-child .rail::before {
-  inset-block-start: 50%;
-}
-
-.row:last-child .rail::before {
-  inset-block-end: 50%;
 }
 
 .gap {
   color: var(--color-on-surface-variant);
 
-  .rail::before {
-    border-inline-start-style: dashed;
+  // the lane that runs through a gap is dashed: the commits it hides are not drawn
+  .lines line {
+    stroke-dasharray: 4 4;
   }
 
   .dots {
-    grid-column: 3 / -1;
+    grid-column: 2 / -1;
     letter-spacing: var(--space-1);
   }
 }
 
 .dot {
-  position: relative;
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: calc((var(--lane) + 0.5) * var(--lane-width));
   width: var(--space-3);
   height: var(--space-3);
+  translate: -50% -50%;
+  box-sizing: border-box;
   border-radius: 50%;
-  background: var(--color-outline);
-  border: 2px solid var(--color-surface-container-lowest);
+  border: 2px solid var(--lane-color);
+  background: var(--color-surface-container-lowest);
 
   &.has-runs {
-    background: var(--color-primary);
+    background: var(--lane-color);
   }
 
   &.dirty {
-    background: var(--color-warning);
+    outline: 2px solid var(--color-warning);
+    outline-offset: 1px;
   }
 }
 
@@ -93,13 +101,20 @@
 }
 
 .message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   min-width: 0;
+
+  .ellipsis {
+    min-width: 0;
+  }
 }
 
 .stamp {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   line-height: var(--line-height-tight);
 }
 
@@ -138,5 +153,15 @@
 
   &.dirty {
     color: var(--color-warning);
+  }
+
+  &.branch {
+    flex: none;
+    max-width: calc(var(--space-7) * 3);
+    background: var(--color-secondary-container);
+    color: var(--color-on-surface);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

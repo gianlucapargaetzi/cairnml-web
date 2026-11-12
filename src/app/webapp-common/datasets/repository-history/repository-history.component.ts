@@ -5,7 +5,8 @@ import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {catchError, of} from 'rxjs';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
-import {RepoHistory, RepoHistoryCommit, RepositoriesService} from '../dataset-git/repositories.service';
+import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
+import {RepoHistory, RepoHistoryCommit, RepoHistoryLanes, RepositoriesService} from '../dataset-git/repositories.service';
 
 /** How many tasks the hover text of a commit lists. */
 const TIP_RUNS = 8;
@@ -48,6 +49,33 @@ export class RepositoryHistoryComponent {
   };
 
   protected readonly gapTip = (count: number): string => `${count} ${count === 1 ? 'commit' : 'commits'} in between`;
+
+  /** The width of one lane of the rail, in the units of the rail's drawing; the real width is a spacing token. */
+  protected readonly laneUnit = 16;
+
+  protected readonly laneColor = (lane: number): string => presetColors[lane % presetColors.length];
+
+  /** The lines of the rail in one row, in a drawing 100 units high: the lanes that pass through, the lanes that end in the row's
+   *  commit, and the lines to its parents. */
+  protected readonly segments = (node: RepoHistoryLanes, lanes: number) => {
+    const x = (lane: number) => lane * this.laneUnit + this.laneUnit / 2;
+    const lines: {x1: number; y1: number; x2: number; y2: number; color: string}[] = [];
+    for (let lane = 0; lane < lanes; lane++) {
+      if (lane === node.lane) {
+        if (node.lanes_before[lane]) {
+          lines.push({x1: x(lane), y1: 0, x2: x(lane), y2: 50, color: this.laneColor(lane)});
+        }
+      } else if (node.merge_from.includes(lane)) {
+        lines.push({x1: x(lane), y1: 0, x2: x(node.lane), y2: 50, color: this.laneColor(lane)});
+      } else if (node.lanes_before[lane] && node.lanes_after[lane]) {
+        lines.push({x1: x(lane), y1: 0, x2: x(lane), y2: 100, color: this.laneColor(lane)});
+      }
+    }
+    for (const parent of node.parent_lanes) {
+      lines.push({x1: x(node.lane), y1: 50, x2: x(parent), y2: 100, color: this.laneColor(parent)});
+    }
+    return lines;
+  };
 
   protected readonly hasCommits = computed(() => (this.history.value()?.nodes ?? []).length > 0);
 }
