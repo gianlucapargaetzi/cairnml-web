@@ -3,17 +3,20 @@
   height: 100%;
 }
 
+// Every card has the same corner radius, whatever its type or size: the card clips what is inside it, so the panels of the old
+// overview, which bring their own radii, end in the same corners as the cards that get the board's surface.
 .card {
   position: relative;
   height: 100%;
   min-width: 0;
   box-sizing: border-box;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 
   &.surface {
     padding: var(--space-4);
     background-color: var(--color-surface-container-low);
     border: 1px solid var(--color-outline-variant);
-    border-radius: var(--radius-lg);
     overflow: auto;
   }
 
