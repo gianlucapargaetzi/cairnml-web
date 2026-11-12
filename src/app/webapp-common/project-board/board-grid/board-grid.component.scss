@@ -1,0 +1,41 @@
+// The grid library's own rules (its stylesheet is part of the global styles) come first; these only bring its parts to the app's tokens.
+// No view encapsulation: the library creates elements (handles, the placeholder) that Angular does not know.
+.sm-board-grid {
+  // where a card will land while it is dragged
+  .grid-stack-placeholder > .placeholder-content {
+    background-color: var(--color-primary-container);
+    border-radius: var(--radius-md);
+    opacity: 0.5;
+  }
+
+  // The resize handle at the bottom right corner of a card, only in edit mode. The library draws it with a black icon: here it is a
+  // corner of two lines in the app's colour, so it follows the theme.
+  .grid-stack-item > .ui-resizable-se {
+    background-image: none;
+    transform: none;
+    cursor: se-resize;
+    width: var(--space-5);
+    height: var(--space-5);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline-end: var(--space-2);
+      inset-block-end: var(--space-2);
+      width: var(--space-2);
+      height: var(--space-2);
+      border-inline-end: 2px solid var(--color-on-surface-variant);
+      border-block-end: 2px solid var(--color-on-surface-variant);
+    }
+  }
+
+  // a card is not a scroll area of its own: its content decides
+  .grid-stack-item > .grid-stack-item-content {
+    overflow: hidden;
+  }
+
+  &.editing .grid-stack-item {
+    outline: 1px dashed var(--color-outline-variant);
+    outline-offset: calc(-1 * var(--space-1));
+  }
+}

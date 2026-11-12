@@ -149,6 +149,9 @@ importers:
       filesize:
         specifier: ^11.0.19
         version: 11.0.19
+      gridstack:
+        specifier: ^14.1.0
+        version: 14.1.0
       has-ansi:
         specifier: ^6.0.2
         version: 6.0.2
@@ -2686,6 +2689,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  gridstack@14.1.0:
+    resolution: {integrity: sha512-nF6asbGVnIJH7N9pa+DCaSBGAoEvTNS7jYHUJfcNN+5bTD3a4pLEKvGia7W/6NbjiJWms9e3Zih1YuU4coT3QA==}
 
   hammerjs@2.0.8:
     resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==}
@@ -6427,6 +6433,8 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
+
+  gridstack@14.1.0: {}
 
   hammerjs@2.0.8: {}
 

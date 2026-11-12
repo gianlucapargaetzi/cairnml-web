@@ -46,6 +46,7 @@
             "styles": [
               "src/app/webapp-common/assets/fonts/heebo.css",
               "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css",
+              "node_modules/gridstack/dist/gridstack.min.css",
               {
                 "bundleName": "global-styles",
                 "inject": true,
