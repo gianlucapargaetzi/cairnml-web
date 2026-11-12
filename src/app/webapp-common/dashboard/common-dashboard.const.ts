@@ -20,7 +20,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id            : RECENT_TASKS_TABLE_COL_FIELDS.ID,
     headerType    : ColHeaderTypeEnum.title,
     header        : 'Task ID',
-    style         : {width: '140px'},
+    collapseOrder : 4,
     disableDrag   : true,
     disablePointerEvents: true
   },
@@ -28,6 +28,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id            : RECENT_TASKS_TABLE_COL_FIELDS.TYPE,
     headerType    : ColHeaderTypeEnum.title,
     header        : 'Type',
+    collapseOrder : 3,
     bodyStyleClass: 'type-col',
     disableDrag   : true,
     disablePointerEvents: true
@@ -36,6 +37,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id         : RECENT_TASKS_TABLE_COL_FIELDS.NAME,
     headerType : ColHeaderTypeEnum.title,
     header     : 'Title',
+    collapseOrder : 9,
     disableDrag: true,
     disablePointerEvents: true
 
@@ -44,6 +46,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id         : RECENT_TASKS_TABLE_COL_FIELDS.PROJECT,
     headerType : ColHeaderTypeEnum.title,
     header     : 'Project',
+    collapseOrder : 5,
     disableDrag: true,
     disablePointerEvents: true
 
@@ -52,6 +55,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id         : RECENT_TASKS_TABLE_COL_FIELDS.STARTED,
     headerType : ColHeaderTypeEnum.title,
     header     : 'Started',
+    collapseOrder : 1,
     disableDrag: true,
     disablePointerEvents: true
 
@@ -60,6 +64,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id         : RECENT_TASKS_TABLE_COL_FIELDS.LAST_UPDATE,
     headerType : ColHeaderTypeEnum.title,
     header     : 'Updated',
+    collapseOrder : 2,
     disableDrag: true,
     disablePointerEvents: true
 
@@ -68,6 +73,7 @@ export const RECENT_EXPERIMENTS_TABLE_COLS: ISmCol[] = [
     id            : RECENT_TASKS_TABLE_COL_FIELDS.STATUS,
     headerType    : ColHeaderTypeEnum.title,
     header        : 'Status',
+    collapseOrder : 7,
     bodyStyleClass: 'status-col',
     disableDrag   : true,
     disablePointerEvents: true

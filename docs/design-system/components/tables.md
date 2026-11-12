@@ -29,17 +29,51 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 | Column resize | Allowed (existing); persist per table |
 | Status column | `sm-status-icon-label`; a running task that reports progress also gets the small [progress bar](progress.md) next to it |
 
+## Column widths (fit columns)
+
+A table with a fixed set of columns sets `[fitColumns]="true"` on `sm-table` (and `[resizableColumns]="false"`; users do not resize it). The widths are then measured, never typed (`fit-columns.ts`):
+
+| Situation | Rule |
+|---|---|
+| Natural width | Every column is as wide as its widest content (header included) plus the cell padding |
+| Panel wider than the sum | The free pixels are shared in proportion to the natural widths: a column that holds 20% of the content gets 20% of the free space |
+| Panel narrower | The columns collapse (text cut with an ellipsis) in the order of `collapseOrder` on `ISmCol`: all columns of order 1 first, then 2, and so on. Columns of one order collapse together, in proportion to what they can give |
+| Floor | A column never collapses below its header (label, sort and filter icons, padding). The label is always readable |
+| Fixed | `fixedWidth: true` (row actions, checkbox): the column keeps the width of its content and is never collapsed. When even the headers do not fit, the table scrolls sideways and the fixed column stays at the right edge (sticky), so the actions are always completely visible |
+| Never type widths | No `style: {width}` on a column of a fitting table. Give a `collapseOrder` instead; omitted = 5 |
+
+Collapse orders (1 collapses first, 9 last). The name column is always last; the least useful or most reproducible column goes first.
+
+| Table | Order (first to last), `actions` fixed |
+|---|---|
+| Repositories & Datasets list | ID (1), Last used (2), Added by (3), Type (4), Visibility (5), Access (6), Name (9) |
+| Credentials of a repository | Last used (1), Owner (2), Project (3), App (4), Access (6) |
+| Runs of a repository | Created (1), User (2), Used as (3), Status (4), Name (9) |
+| Settings → Access | Valid for (1), Owner (2), Type (3), Status (6), Name (9) |
+| Settings → Devices | Created (1), Owner (2), Kind (3), Last used (4), Status (6), Name (9) |
+| Share control | Level (5), Shared with (9) |
+| Agents (workers) | Version and mode (1), Iteration (2), Task running time (3), Last seen (4), Status (6), Currently running task (8), Agent (9) |
+| Queues | Last updated (1), Next task (3), In queue (4), Agents (5), Queue (9) |
+| Dashboard recent tasks | Started (1), Updated (2), Type (3), Task ID (4), Project (5), Status (7), Title (9) |
+| Serving instances | CPU count (1), GPU count (2), Uptime (3), Requests per minute (4), Requests (5), Latency (6), Instance ID (9) |
+| Model metadata, Execution parameters | Type (1), Value (8), Key / Name (9); an editable table, so not yet fitted: its cells are inputs |
+| Experiments, Models, Serving endpoints, Dataset versions | Not fitted: the user chooses the columns and resizes them, and the width is saved. When one of them is moved to fit columns, use: status and name last; created, updated, user and tags first |
+| Project settings tables (members, repositories, queues), Queue users | Plain tables of two to four columns in a narrow panel: name last, role / level next to last; actions fixed |
+
+Check a fitting table at 3440, 1920, 1600, 1280 and 1024px wide: no cut header, actions inside the panel (`scripts/fit-check.js`, `scripts/row-actions.js`).
+
 ## Row actions
 
 Measured on the Access page, Repositories, the project settings tables and the Datasets list (Chromium, 1600x900). Every table that acts on its rows follows this.
 
 | Rule | Value |
 |---|---|
-| Control | `mat-icon-button`, 36x36, with a 20px `mat-icon fontSet="al"` inside. The icon centre equals the button centre (0px offset on both axes). No extra size classes on the icon |
+| Control | `mat-icon-button`, with a 20px `mat-icon fontSet="al"` inside. The icon centre equals the button centre (0px offset on both axes). No extra size classes on the icon. Size: 36x36 for a single action; **28x28 with no gap between buttons when a row has two or more** (the `table-rows` mixin does this for `.row-actions`), so the icons sit 8px apart instead of 20px |
+| Always visible | The actions are never cut off, wrapped or hidden behind overflow: the actions column has a fixed width that fits all its buttons (`width` and `minWidth` the same, `flex: none`). When the total column width exceeds the panel, the **other columns shrink** (down to their `minWidth`, text with ellipsis) and the actions stay whole |
 | Place | The last column, header cell empty, buttons right-aligned. The last button's right edge mirrors the table's left cell padding: 24px gutter in full-width `sm-table`s (measured gap 27 to 28), 12px in the compact tables of the project settings (measured 12) |
 | Height | Vertically centred in the row (measured offset 0 to 0.5px) |
 | Visibility | Shown at once, not on hover, so keyboard users reach them. Disabled (not hidden) while a request for the row runs; hidden only when the user has no right to the action |
-| Order | Specific actions first, the destructive one last: share, check, delete (Access); reassign, revoke (Devices); refresh, remove (Datasets) |
+| Order | Specific actions first, the destructive one last: share, check, delete (Access); reassign, revoke (Devices); check now, more (share), delete (Repositories & Datasets); assign credentials, check now, delete (the credentials of a repository) |
 | Name | `smTooltip` is a verb phrase ("Check now", "Remove from this project"); `[attr.aria-label]` is the verb plus the row it acts on ("Remove ui-audit app one"); `data-id` names the action |
 | Danger | Delete, revoke and remove ask for confirmation (`sm-confirm-dialog`, `destructive: true`), except a row in a list that is staged until its Save button |
 | Add | Never per row. The add action is the filled button of the table's section or page header (`al-ico-add`, see [buttons](buttons.md) rule 2a) |
@@ -81,7 +115,8 @@ Used by the Datasets list (`dataset-browser`). A parent row groups child rows of
 - The parent row shows the group's name, its owner and visibility, and the count of children in the Kind cell ("Registry, 3 datasets"). Its Modalities, Samples and Versions cells show "–".
 - The name cell of a parent has an icon button with `aria-expanded` and an `Expand`/`Collapse` label (`al-ico-caret-right` closed, `al-ico-arrow-down` open). Expanded by default. A click on the parent row toggles it; a click on a child selects it for the side panel.
 - Children are indented by `--space-5` inside the name cell and sorted by name. Rows without a parent stay flat.
-- Row actions on a parent or a dataset are icon buttons, shown at once (not on hover) so that keyboard users reach them: refresh (a spinner replaces the icon while it runs, success and failure are toasts) and remove (confirmed with `DatasetRemovalService`). Remove is shown to the owner and to admins only; refresh is hidden for a registry with no id.
+- Row actions of the Repositories & Datasets list are icon buttons, shown at once: **Check now** (refresh; a spinner replaces the icon while it runs; for a registry it reads the registry again), a three-dot **More** menu (`al-ico-dots-v-menu`, `mat-menu`) holding "Make shared" (opens the share dialog, see `dialogs.md`) or, for the admin, "Make non-shared", and **Delete** (trash, last). Delete is never hidden: when the record cannot be deleted (a project lists it, or it is shared and the user is not the admin) the button is **disabled** and its reason is the tooltip, carried by a wrapper element (a disabled button shows no tooltip of its own). Delete removes the record for the user only; it is refused while a project depends on it.
+- The credentials of a record (side panel, `sm-table` with `[scrollable]="false"`): **Assign credentials / Reassign** (lock), **Check now** (refresh) and **Delete** (trash, removes the user's own assignment, confirmed) on the user's own row only; other users' rows are read-only. The empty row has only the lock. Column order: App, Owner, Access (open green lock, closed red lock), Project (entity chips), Last used, actions.
 
 ## Do not
 
@@ -101,5 +136,5 @@ The project settings sections (`shared/project-dialog/project-settings/`) list w
 - Adding opens a `dialog-sm` picker of the datasets or credentials the user may use and the project does not have yet. Confirming the dialog applies the change at once (`datasets.allocate`; `access.share` with level read); there is no Save step in any project settings section.
 - A remove icon is shown only on a row whose `removable` flag is true. Removing asks for confirmation (`dialog-sm`, destructive) and then applies at once (`access.unshare` with the row's `share_id`).
 - A dataset that a run made (inherited) shows "Inherited from an agent run" under its name. A credential that a dataset brought in is not removable and shows a lock icon with the hint "Added by dataset. Only manual credentials, e.g. for code repositories, can be changed in project settings.".
-- Repositories (`sm-project-repositories`) list the code repositories of the project: its runs named them, or its owner listed them. Columns are Repository, Access (the access badge: how the project's jobs read it) and Owner; the lock icon button assigns the credential (owner and admins). The header's **Add repository** button (owner) opens the repository dialog with the project fixed. A listed repository is usable by the project's jobs at once, whoever of the project's members queued them. Data: `repositories.get_all` with the project, `repositories.add`, `repositories.set_credential`.
+- Repositories (`sm-project-repositories`) list the repositories the project lists: its runs named them, or its owner listed them. Columns are Repository, Type, Access (the access badge) and Added by; the × takes the repository out of the project. The header's **Add** button opens the repository dialog with the project fixed. A listed repository is usable by the project's jobs at once, read with the project owner's credential. Data: `repositories.get_all` with the project, `repositories.add`, `repositories.unlink`.
 - Queues revoke through `access.unshare` with the share's id: the owner, collaborators and admins see the action on a row with a share id. Adding queues stays owner-only.

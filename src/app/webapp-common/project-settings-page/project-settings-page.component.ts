@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, inject, untracked, viewChild} from '@angular/core';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
@@ -7,9 +7,7 @@ import {MatButton} from '@angular/material/button';
 import {ProjectScalarDefaultsComponent} from '@common/shared/project-dialog/project-settings/project-scalar-defaults/project-scalar-defaults.component';
 import {ProjectMembersComponent} from '@common/shared/project-dialog/project-settings/project-members/project-members.component';
 import {ProjectQueuesComponent} from '@common/shared/project-dialog/project-settings/project-queues/project-queues.component';
-import {ProjectDatasetsComponent} from '@common/shared/project-dialog/project-settings/project-datasets/project-datasets.component';
 import {ProjectRepositoriesComponent} from '@common/shared/project-dialog/project-settings/project-repositories/project-repositories.component';
-import {ProjectAccessesComponent} from '@common/shared/project-dialog/project-settings/project-accesses/project-accesses.component';
 import {ProjectOverviewSettingsComponent} from '@common/shared/project-dialog/project-settings/project-overview-settings/project-overview-settings.component';
 import {ProjectNotificationsComponent} from '@common/shared/project-dialog/project-settings/project-notifications/project-notifications.component';
 import {ProjectGeneralSettingsComponent} from '@common/shared/project-dialog/project-settings/project-general-settings/project-general-settings.component';
@@ -33,9 +31,7 @@ import {setSelectedProjectId} from '@common/core/actions/projects.actions';
     ProjectScalarDefaultsComponent,
     ProjectMembersComponent,
     ProjectQueuesComponent,
-    ProjectDatasetsComponent,
     ProjectRepositoriesComponent,
-    ProjectAccessesComponent,
     ProjectOverviewSettingsComponent,
     ProjectNotificationsComponent
   ]

@@ -69,13 +69,13 @@ export class DevicesComponent implements OnInit {
   protected loading = signal(true);
   protected error = signal<string | null>(null);
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Name', style: {minWidth: '200px'}},
-    {id: 'kind', header: 'Kind', style: {width: '120px'}},
-    {id: 'owner', header: 'Owner', style: {width: '180px'}},
-    {id: 'created', header: 'Created', style: {width: '140px'}},
-    {id: 'last_used', header: 'Last used', style: {width: '140px'}},
-    {id: 'status', header: 'Status', style: {width: '120px'}},
-    {id: 'actions', header: '', style: {width: '104px'}},
+    {id: 'name', header: 'Name', collapseOrder: 9},
+    {id: 'kind', header: 'Kind', collapseOrder: 3},
+    {id: 'owner', header: 'Owner', collapseOrder: 2},
+    {id: 'created', header: 'Created', collapseOrder: 1},
+    {id: 'last_used', header: 'Last used', collapseOrder: 4},
+    {id: 'status', header: 'Status', collapseOrder: 6},
+    {id: 'actions', header: '', fixedWidth: true},
   ];
 
   ngOnInit() {

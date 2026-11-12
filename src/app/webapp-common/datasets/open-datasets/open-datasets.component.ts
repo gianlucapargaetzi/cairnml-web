@@ -84,8 +84,8 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
         breadcrumbOptions: {
           showProjects: !!selectedProject,
           featureBreadcrumb: {
-            // the page header already says 'Datasets & Repositories': a crumb with the same text is not shown twice
-            name: this.projectId ? 'Datasets' : 'Datasets & Repositories',
+            // the page header already says 'Repositories & Datasets': a crumb with the same text is not shown twice
+            name: this.projectId ? 'Datasets' : 'Repositories & Datasets',
             url: defaultNestedModeForFeature['datasets'] ? 'datasets/simple/*/projects' : 'datasets'
           },
           projectsOptions: {

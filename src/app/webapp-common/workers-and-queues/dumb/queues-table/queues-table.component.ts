@@ -69,36 +69,36 @@ export class QueuesTableComponent extends BaseTableView {
         id: QUEUES_TABLE_COL_FIELDS.NAME,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Queue',
+        collapseOrder: 9,
         // columns size to their content; a minimum keeps a label readable, and the table scrolls only below the sum of minimums
-        style:  {minWidth: this.selectedQueue() ? '200px' : '260px'},
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.WORKERS,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Agents',
-        style: {minWidth: '90px'},
+        collapseOrder: 5,
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.TASK,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Next task',
-        style: {minWidth: this.selectedQueue() ? '200px' : '220px'},
+        collapseOrder: 3,
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.LAST_UPDATED,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'Last updated',
-        style: {minWidth: '150px'},
+        collapseOrder: 1,
         sortable: true,
       },
       {
         id: QUEUES_TABLE_COL_FIELDS.IN_QUEUE,
         headerType: ColHeaderTypeEnum.sortFilter,
         header: 'In queue',
-        style: {minWidth: '120px'},
+        collapseOrder: 4,
         sortable: true,
       }
     ]

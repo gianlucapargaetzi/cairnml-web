@@ -53,3 +53,6 @@ Thumbs.db
 !.claude/skills/
 CLAUDE.md
 .superpowers/
+
+# Playwright login session of the UI skill (holds tokens)
+.claude/skills/cairnml-web-ui/state.json

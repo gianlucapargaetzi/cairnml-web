@@ -1,16 +1,9 @@
-<sm-page-header title="Datasets &amp; Repositories">
-  @if (activeTab() === 'repositories') {
-    <button actions mat-flat-button class="header-action" data-tip="Add repository" aria-label="Add repository" (click)="addRepository()" data-id="addRepository">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-      Add repository
-    </button>
-  } @else {
-    <button actions mat-flat-button class="header-action" data-tip="Add dataset" aria-label="Add dataset" (click)="addDataset()" data-id="addDataset">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
-      Add dataset
-    </button>
-  }
-  <button actions mat-icon-button type="button" aria-label="About datasets" smTooltip="About datasets"
+<sm-page-header title="Repositories &amp; Datasets">
+  <button actions mat-flat-button class="header-action" data-tip="Add" aria-label="Add repository or dataset" (click)="add()" data-id="addRepository">
+    <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+    Add
+  </button>
+  <button actions mat-icon-button type="button" aria-label="About repositories and datasets" smTooltip="About repositories and datasets"
     (click)="openHelp()" data-id="datasetsHelp">
     <mat-icon fontSet="al" fontIcon="al-ico-help-outlined"></mat-icon>
   </button>

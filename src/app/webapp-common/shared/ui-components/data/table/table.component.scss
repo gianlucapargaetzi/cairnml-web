@@ -423,3 +423,45 @@ tr.no-data-row {
   }
 }
 
+
+// fitColumns: every column has the width of its content, the free space is shared in proportion and, when the panel is
+// too narrow, the columns collapse (ellipsis) in the order of their collapseOrder (fit-columns.ts). The widths are set
+// on the cells; the table is as wide as their sum, so a table that cannot collapse any further scrolls sideways.
+.fit-columns {
+  ::ng-deep .p-datatable-table {
+    table-layout: fixed;
+    width: var(--fit-total, 100%);
+  }
+
+  ::ng-deep .p-datatable-table th,
+  ::ng-deep .p-datatable-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // a fixed column (the row actions) stays at the right edge when the table scrolls sideways: always completely visible
+  ::ng-deep .p-datatable-table .fit-sticky {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background-color: inherit;
+  }
+
+  // measuring: no widths at all, so the browser shows the natural width of every cell
+  &.measuring {
+    ::ng-deep .p-datatable-table {
+      table-layout: auto !important;
+      width: max-content !important;
+    }
+
+    ::ng-deep .p-datatable-table th,
+    ::ng-deep .p-datatable-table td {
+      width: auto !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
+  }
+}

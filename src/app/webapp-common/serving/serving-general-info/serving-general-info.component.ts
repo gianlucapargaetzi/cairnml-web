@@ -66,39 +66,44 @@ export class ServingGeneralInfoComponent {
     {
       id: 'id',
       header: 'Instance ID',
+      collapseOrder: 9,
       key: '',
       bodyStyleClass: ''
     },
     {
       id: 'uptime_sec',
       header: 'Uptime',
+      collapseOrder: 3,
       key: '',
-      style: {maxWidth: '360px'}
     },
     {
       id: 'requests',
       header: '# Requests',
+      collapseOrder: 5,
       key: ''
     }, {
       id: 'requests_min',
       header: 'REQUESTS/MIN',
+      collapseOrder: 4,
       key: ''
     },
     {
       id: 'cpu_count',
       header: 'CPU count',
+      collapseOrder: 1,
       key: ''
     },
     {
       id: 'gpu_count',
       header: 'GPU count',
+      collapseOrder: 2,
       key: ''
     },
     {
       id: 'latency_ms',
       header: 'Latency',
+      collapseOrder: 6,
       key: '',
-      style: {maxWidth: '80px'}
     }
   ];
   public table: TableComponent<{ id: string }>;

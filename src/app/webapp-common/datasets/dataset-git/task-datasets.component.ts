@@ -10,7 +10,7 @@ import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-a
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
 import {assignCredentials} from '../dataset-credential-dialog/assign-credentials';
-import {DatasetAccessService} from './dataset-access.service';
+import {RepositoriesService} from './repositories.service';
 import {datasetsOfHyperparams, RawDatasetTask} from './dataset-git.model';
 
 // The datasets a task used, from the Datasets parameters it recorded, under the source code on the Execution tab. Each one
@@ -26,7 +26,7 @@ import {datasetsOfHyperparams, RawDatasetTask} from './dataset-git.model';
 })
 export class TaskDatasetsComponent {
   private repoAccess = inject(RepoAccessService);
-  private access = inject(DatasetAccessService);
+  private access = inject(RepositoriesService);
   private dialog = inject(MatDialog);
 
   hyperparams = input<RawDatasetTask['hyperparams']>();

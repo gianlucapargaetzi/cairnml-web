@@ -5,7 +5,7 @@
     its next request is refused. Admins see the devices of all users.
   </p>
 
-  <sm-table
+  <sm-table [fitColumns]="true"
     class="devices-table"
     [tableData]="loading() ? null : devices()"
     [columns]="columns"

@@ -90,3 +90,7 @@ A markdown text that the app shows (a dataset description, DATASET.md) is render
 ## Pick one stored item (set a dataset's credential)
 
 The credential dialog (`webapp-common/datasets/dataset-credential-dialog`) picks one of the user's stored items: a `dialog-md` with `sm-dialog-template`, one `mat-select` (outlined, with a `mat-hint`), an inline error line, and Cancel (secondary) with the primary action after it, centred. It is the reference for a small "choose one and save" dialog. Its form styles (`.meta`, `.form`, `.error`, `.actions`) and the option detail line (`.option-meta`) are shared in `styles/mixins/dialog-form.scss`, used by the share dialog, the credential dialog and the Add dataset form. Include the mixin; do not copy its classes.
+
+## Confirm, then be sure (the share dialog)
+
+An action that changes who may see something follows three steps in one dialog (`sm-repository-share-dialog`): the user **chooses** what the action depends on (the company credential that reads the repository), the dialog **verifies** it at once (spinner, then an open green lock and "Access confirmed", or a closed red lock and the reason), and the action button stays disabled until the check passes. Pressing it opens an "Are you sure?" `ConfirmDialogComponent` (a message box, allowed inside a dialog) that says exactly what changes and who can undo it; only its confirmation calls the server. The server verifies again, so the dialog is a courtesy, not the control.

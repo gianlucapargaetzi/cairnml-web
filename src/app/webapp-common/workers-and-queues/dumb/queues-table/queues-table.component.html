@@ -18,7 +18,7 @@
     (menuOpened)="menuOpen.set(true)"
     (menuClosed)="menuOpen.set(false)"
   ></sm-queues-menu>
-  <sm-table
+  <sm-table [fitColumns]="true"
     [class.table-hidden]="showEmptyState()"
     [tableData]="queues()"
     [columns]="cols()"

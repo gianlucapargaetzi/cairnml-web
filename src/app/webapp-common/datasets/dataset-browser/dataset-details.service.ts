@@ -18,7 +18,7 @@ export interface DatasetMetadata {
   samples: number | null;
 }
 
-// What datasets.get_details returns: see apiserver/bll/dataset_details.py.
+// What repositories.get_details returns: see apiserver/bll/repository_details.py.
 export interface DatasetDetails {
   kind: 'own' | 'registry';
   name: string;
@@ -33,8 +33,9 @@ export interface DatasetDetails {
 }
 
 export interface DatasetDetailsRequest {
+  // a repository by id, address or reference, or one of a registry's datasets by its entry id
   repository?: string;
-  registry_name?: string;
+  entry?: string;
   commit?: string;
 }
 
@@ -44,6 +45,6 @@ export class DatasetDetailsService {
 
   // The details of one dataset: its metadata, its DATASET.md and its commit history, read through the GitHub App.
   details(request: DatasetDetailsRequest): Observable<DatasetDetails> {
-    return this.api.post<DatasetDetails>(`${HTTP.API_BASE_URL}/datasets.get_details`, request, {});
+    return this.api.post<DatasetDetails>(`${HTTP.API_BASE_URL}/repositories.get_details`, request, {});
   }
 }

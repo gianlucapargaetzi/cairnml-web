@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class RepoAccessBadgeComponent {
   access = input<RepoAccess | null>(null);
+  // only the icon (the words stay as its tooltip and its accessible name): for a table cell
+  iconOnly = input(false);
 
   protected readonly label = computed(() => {
     const access = this.access();
@@ -22,7 +24,7 @@ export class RepoAccessBadgeComponent {
       return '';
     }
     switch (access.state) {
-      case 'assigned': return `Read with ${access.via}`;
+      case 'assigned': return access.via ? `Read with ${access.via}` : 'Read with a credential';
       case 'none_needed': return 'None needed';
       case 'company': return 'Auto-Authenticated via Company Github App';
       case 'unreachable': return 'Access refused';
@@ -31,6 +33,8 @@ export class RepoAccessBadgeComponent {
   });
 
   protected readonly refused = computed(() => this.access()?.state === 'unreachable');
+  // readable: the green open lock (public repositories too); not readable: the red closed lock
+  protected readonly ok = computed(() => ['assigned', 'none_needed', 'anonymous'].includes(this.access()?.state ?? ''));
   // the company's access reads it without anyone having chosen it: assigning a credential is recommended
   protected readonly warned = computed(() => this.access()?.state === 'company');
 
@@ -39,9 +43,9 @@ export class RepoAccessBadgeComponent {
     switch (this.access()?.state) {
       case 'none_needed':
       case 'anonymous':
+      case 'assigned':
       case 'unknown': return 'al-ico-lock-open';
       case 'company': return 'al-ico-alert';
-      case 'unreachable': return 'al-ico-alert';
       default: return 'al-ico-lock';
     }
   });

@@ -29,3 +29,7 @@ One icon set: the custom **`al` icon font** (`webapp-common/assets/fonts/trains.
 4. Color: icons inherit `currentColor`; default `--color-primary` for actionable icons in toolbars (existing `--mat-icon-button-icon-color: primary`), `--color-on-surface-variant` for informational ones; semantic colors only for status.
 5. Decorative icons beside text have `aria-hidden="true"` (Material does this for `mat-icon` by default).
 6. Alignment: vertically centred with the text's x-height; 8px gap to the label (4px in dense chips).
+
+## Access and visibility icons (repositories)
+
+`al-ico-lock-open` in `--color-success` = readable; `al-ico-lock` in `--color-failed` = not readable; `al-ico-alert` in `--color-warning` = read through the company's access, a fallback. `al-ico-users` = shared with every user, `al-ico-account` = not shared (one person). `al-ico-dots-v-menu` = the row's More menu. A lock is never used for "has a credential" and a people icon is never used for "public": the lock says readability, the people say visibility.

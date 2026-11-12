@@ -1,0 +1,54 @@
+<sm-dialog-template header="Make it shared" iconClass="al-ico-shared-item">
+  <p class="meta">
+    A shared repository is owned by the admin, visible to every user and read with a company credential. Your own credential
+    assignment is dropped. Choose the company credential that reads <strong>{{ repo.host }}/{{ repo.path }}</strong>: it is checked
+    before you can share.
+  </p>
+  <div class="form">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Company credential</mat-label>
+      <mat-select [value]="choice()" (selectionChange)="choose($event.value)" data-id="shareCredential">
+        @for (credential of companyCredentials; track credential.id) {
+          <mat-option [value]="credential.id"><span class="ellipsis">{{ credential.name }}</span></mat-option>
+        }
+        @if (repo.anonymous) {
+          <mat-option value="none">None needed: public, the host clones it without one</mat-option>
+        }
+      </mat-select>
+      @if (!companyCredentials.length && !repo.anonymous) {
+        <mat-hint>There is no company credential. The admin adds one under Settings → Access.</mat-hint>
+      }
+    </mat-form-field>
+    <div class="check" role="status" data-id="shareCheck">
+      @switch (check().state) {
+        @case ('checking') {
+          <mat-progress-spinner mode="indeterminate" [diameter]="18" [strokeWidth]="2"></mat-progress-spinner>
+          <span>Checking the access...</span>
+        }
+        @case ('ok') {
+          <mat-icon fontSet="al" fontIcon="al-ico-lock-open" class="al-icon ok"></mat-icon>
+          <span class="ok">Access confirmed: the credential reads this repository.</span>
+        }
+        @case ('refused') {
+          <mat-icon fontSet="al" fontIcon="al-ico-lock" class="al-icon refused"></mat-icon>
+          <span class="refused">{{ check().message }}</span>
+        }
+        @default {
+          <span class="meta">Choose a credential to check the access.</span>
+        }
+      }
+    </div>
+    @if (error()) {
+      <div class="error" role="alert">{{ error() }}</div>
+    }
+    <div class="actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="false" data-id="CancelButton">Cancel</button>
+      <button mat-flat-button type="button" [disabled]="check().state !== 'ok' || saving()" (click)="share()" data-id="ShareRepositoryButton">
+        @if (saving()) {
+          <mat-progress-spinner mode="indeterminate" [diameter]="20" [strokeWidth]="2"></mat-progress-spinner>
+        }
+        Make shared
+      </button>
+    </div>
+  </div>
+</sm-dialog-template>
