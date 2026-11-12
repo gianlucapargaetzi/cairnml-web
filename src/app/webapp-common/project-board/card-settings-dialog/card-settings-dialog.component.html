@@ -1,0 +1,11 @@
+<sm-dialog-template [header]="'Settings: ' + def.label" [iconClass]="def.icon">
+  <form class="form" (submit)="$event.preventDefault(); apply()" autocomplete="off">
+    @if (component.value(); as settings) {
+      <ng-container *ngComponentOutlet="settings; inputs: inputs"></ng-container>
+    }
+    <div class="actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="undefined" data-id="CancelButton">Cancel</button>
+      <button mat-flat-button type="submit" data-id="ApplyCardSettingsButton">Apply</button>
+    </div>
+  </form>
+</sm-dialog-template>

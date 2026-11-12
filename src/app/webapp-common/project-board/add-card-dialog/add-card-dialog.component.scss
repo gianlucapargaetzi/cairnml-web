@@ -1,0 +1,25 @@
+@use "mixins/dialog-form" as dialog-form;
+
+@include dialog-form.dialog-form();
+@include dialog-form.option-meta();
+
+.types {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.type-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.type-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.type-name {
+  font-size: var(--font-size-md);
+}

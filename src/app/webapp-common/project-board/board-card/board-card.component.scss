@@ -1,0 +1,57 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.card {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  &.surface {
+    padding: var(--space-4);
+    background-color: var(--color-surface-container-low);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-lg);
+    overflow: auto;
+  }
+
+  // a divider is a title and a line through the rest of its width
+  &.divider {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.divider-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: var(--space-3);
+  min-width: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-on-surface);
+
+  &::after {
+    content: '';
+    flex: 1;
+    border-block-start: 1px solid var(--color-outline-variant);
+  }
+}
+
+// The controls of edit mode, in the top right corner of the card.
+.controls {
+  position: absolute;
+  inset-block-start: var(--space-1);
+  inset-inline-end: var(--space-1);
+  z-index: 2;
+  display: flex;
+  background-color: var(--color-surface-container-high);
+  border-radius: var(--radius-full);
+}
+
+.board-card-drag {
+  cursor: grab;
+}

@@ -1,3 +1,7 @@
+sm-board-grid {
+  display: block;
+}
+
 // The grid library's own rules (its stylesheet is part of the global styles) come first; these only bring its parts to the app's tokens.
 // No view encapsulation: the library creates elements (handles, the placeholder) that Angular does not know.
 .sm-board-grid {

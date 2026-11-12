@@ -7,13 +7,13 @@ describe('defaultBoard', () => {
     const board = defaultBoard();
     expect(board.version).toBe(0);
     expect(board.cards.map(card => [card.id, card.type, card.x, card.y, card.w, card.h])).toEqual([
-      ['project-state', 'project-state', 0, 0, 3, 12],
-      ['contributions', 'contributions', 3, 0, 3, 12],
-      ['metric-snapshot', 'metric-snapshot', 0, 12, 6, 12],
-      ['recent-tasks', 'recent-tasks', 0, 24, 6, 16],
-      ['description', 'description', 0, 40, 6, 16],
+      ['project-state', 'project-state', 0, 0, 3, 16],
+      ['contributions', 'contributions', 3, 0, 3, 16],
+      ['metric-snapshot', 'metric-snapshot', 0, 16, 6, 12],
+      ['recent-tasks', 'recent-tasks', 0, 28, 6, 16],
+      ['description', 'description', 0, 44, 6, 16],
     ]);
-    expect(board.cards[1].settings).toEqual({periodDays: 365, topContributors: 5});
+    expect(board.cards[1].settings).toEqual({topContributors: 5});
   });
 
   it('fits the grid, has no overlapping cards and is valid as it is', () => {

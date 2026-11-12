@@ -1,60 +1,39 @@
-<div class="info-content" [class.h-100]="descriptionEditor()?.editMode">
-  @if (noPanelsShown()) {
-    <div class="no-panels-hint" role="status" data-id="noOverviewPanels">
-      <span>All overview panels are hidden, so this page is empty.</span>
-      @if (projectId()) {
-        <a [routerLink]="['/projects', projectId(), 'settings']">Show panels in project settings</a>
-      }
-    </div>
-  }
-  @for (panel of visiblePanels(); track panel.id) {
-    @switch (panel.id) {
-      @case ('project-state') {
-        <sm-project-state [project]="project()"></sm-project-state>
-      }
-      @case ('recent-experiments') {
-        <sm-recent-experiments [projectId]="projectId()"></sm-recent-experiments>
-      }
-      @case ('metric-snapshot') {
-        <div class="metric-panel" [class.open]="panelOpen()">
-          <mat-expansion-panel (opened)="setMetricsPanel(true)" (closed)="setMetricsPanel(false)" [expanded]="panelOpen()">
-            <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
-              <mat-panel-title>
-                Metric Snapshot
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <ng-template matExpansionPanelContent>
-              <sm-project-stats [project]="project()"></sm-project-stats>
-            </ng-template>
-          </mat-expansion-panel>
-        </div>
-      }
-      @case ('contribution') {
-        <sm-project-contribution
-          [projectId]="projectId()"
-          [topContributors]="contributionOptions().topContributors"
-        ></sm-project-contribution>
-      }
-      @case ('description') {
-        <sm-markdown-editor
-          #descriptionEditor
-          [class.editor]="descriptionEditor.editMode"
-          [data]="info()"
-          [readOnly]="example()"
-          [blockUserScripts]="blockUserScripts()"
-          (saveInfo)="saveInfo($event)"
-          >
-          @if (!example()) {
-            <div no-data class="flex-middle overview-placeholder">
-              <mat-icon fontSet="al" fontIcon="al-ico-no-data-markdown" class="al-icon xxl"></mat-icon>
-              <div class="no-data-title">There’s nothing here yet…</div>
-              <button mat-flat-button (click)="descriptionEditor.editClicked()">
-                <span>Add project overview</span>
-              </button>
-            </div>
-          }
-        </sm-markdown-editor>
-      }
+<div class="info-content">
+  @if (!ready()) {
+    <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading the board"></mat-spinner></div>
+  } @else {
+    @let board = state();
+    @if (canEdit()) {
+      <div class="board-toolbar">
+        @if (board.saving()) {
+          <span class="meta" data-id="boardSaving">Saving…</span>
+        }
+        <button mat-icon-button type="button" data-id="boardEditToggle" [class.active]="board.editing()"
+                [attr.aria-pressed]="board.editing()" [attr.aria-label]="board.editing() ? 'Done editing the board' : 'Edit the board'"
+                [smTooltip]="board.editing() ? 'Done' : 'Edit the board'" (click)="toggleEditing()">
+          <mat-icon fontSet="al" [fontIcon]="board.editing() ? 'al-ico-success' : 'al-ico-edit'"></mat-icon>
+        </button>
+      </div>
+    }
+    @if (board.conflict()) {
+      <sm-inline-alert severity="warning" data-id="boardConflict">
+        The board was changed by someone else. Your latest changes were not saved.
+        <button action mat-button type="button" data-id="boardReload" (click)="board.reload()">Reload the board</button>
+      </sm-inline-alert>
+    } @else if (board.error()) {
+      <sm-inline-alert severity="error" data-id="boardError">{{ board.error() }}</sm-inline-alert>
+    }
+    <sm-board-grid [cards]="board.board().cards" [editable]="board.editing()" (cardsChange)="board.updateCards($event)">
+      <ng-template #card let-card>
+        <sm-board-card [card]="card" [projectId]="projectId()!" [editing]="board.editing()" (edit)="editCard(card)"
+                       (remove)="board.removeCard(card.id)"></sm-board-card>
+      </ng-template>
+    </sm-board-grid>
+    @if (board.editing()) {
+      <button type="button" class="board-add-card" data-id="boardAddCard" (click)="addCard()">
+        <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+        Add card
+      </button>
     }
   }
 </div>

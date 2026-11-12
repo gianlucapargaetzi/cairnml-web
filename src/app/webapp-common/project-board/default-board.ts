@@ -8,11 +8,11 @@ export function defaultBoard(): Board {
   return {
     version: 0,
     cards: [
-      {id: 'project-state', type: 'project-state', x: 0, y: 0, w: 3, h: 12, settings: {}},
-      {id: 'contributions', type: 'contributions', x: 3, y: 0, w: 3, h: 12, settings: {periodDays: 365, topContributors: 5}},
-      {id: 'metric-snapshot', type: 'metric-snapshot', x: 0, y: 12, w: 6, h: 12, settings: {}},
-      {id: 'recent-tasks', type: 'recent-tasks', x: 0, y: 24, w: 6, h: 16, settings: {}},
-      {id: 'description', type: 'description', x: 0, y: 40, w: 6, h: 16, settings: {}},
+      {id: 'project-state', type: 'project-state', x: 0, y: 0, w: 3, h: 16, settings: {}},
+      {id: 'contributions', type: 'contributions', x: 3, y: 0, w: 3, h: 16, settings: {topContributors: 5}},
+      {id: 'metric-snapshot', type: 'metric-snapshot', x: 0, y: 16, w: 6, h: 12, settings: {}},
+      {id: 'recent-tasks', type: 'recent-tasks', x: 0, y: 28, w: 6, h: 16, settings: {}},
+      {id: 'description', type: 'description', x: 0, y: 44, w: 6, h: 16, settings: {}},
     ],
   };
 }

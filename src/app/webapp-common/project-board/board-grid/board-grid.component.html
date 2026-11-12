@@ -1,4 +1,4 @@
-<div #grid class="grid-stack sm-board-grid" [class.editing]="editable()" data-id="boardGrid" (keydown)="onKeydown($event)">
+<div #grid class="grid-stack sm-board-grid" [class.editing]="editable()" data-id="boardGrid">
   @for (card of cards(); track card.id) {
     <div class="grid-stack-item" [attr.gs-id]="card.id" [attr.gs-x]="card.x" [attr.gs-y]="card.y" [attr.gs-w]="card.w" [attr.gs-h]="card.h"
          [attr.data-card-type]="card.type">

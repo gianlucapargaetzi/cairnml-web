@@ -1,5 +1,5 @@
 import {
-  afterNextRender, afterRenderEffect, ChangeDetectionStrategy, Component, contentChild, DestroyRef, ElementRef, inject, input, output,
+  afterNextRender, afterRenderEffect, ChangeDetectionStrategy, Component, contentChild, DestroyRef, ElementRef, HostListener, inject, input, output,
   TemplateRef, viewChild, ViewEncapsulation
 } from '@angular/core';
 import {NgTemplateOutlet} from '@angular/common';
@@ -55,10 +55,11 @@ export class BoardGridComponent {
     const gap = parseFloat(getComputedStyle(element).getPropertyValue('--space-4')) || 16;
     this.grid = GridStack.init({
       column: GRID_COLUMNS,
-      columnOpts: {breakpoints: [{w: SINGLE_COLUMN_BELOW_PX, c: 1}]},
+      // below the tablet floor the board is one column; columnMax keeps the full grid at 6 (the library default is 12)
+      columnOpts: {columnMax: GRID_COLUMNS, breakpoints: [{w: SINGLE_COLUMN_BELOW_PX, c: 1}], breakpointForWindow: true},
       cellHeight: this.rowHeight(element.getBoundingClientRect().width, GRID_COLUMNS),
       margin: gap,
-      float: false,
+      mode: 'top',
       animate: false,
       handle: '.board-card-drag',
       resizable: {handles: 'se'},
@@ -138,6 +139,7 @@ export class BoardGridComponent {
   }
 
   /** Arrow keys on the drag handle of a card move it a tile, shift and an arrow resize it a tile. */
+  @HostListener('keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
     const handle = (event.target as HTMLElement | null)?.closest<HTMLElement>('[data-board-handle]');
     if (!handle || !this.grid || !this.editable() || this.grid.getColumn() === 1) {

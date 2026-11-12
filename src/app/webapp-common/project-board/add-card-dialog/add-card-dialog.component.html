@@ -1,0 +1,21 @@
+<sm-dialog-template header="Add card" iconClass="al-ico-add">
+  <form class="form" (submit)="$event.preventDefault(); add()" autocomplete="off">
+    <mat-radio-group class="types" aria-label="Type of the card" [value]="selected()" (change)="selected.set($event.value)">
+      @for (item of types; track item.type) {
+        <mat-radio-button class="type" [value]="item.type" [attr.data-id]="'addCardType-' + item.type">
+          <span class="type-line">
+            <mat-icon fontSet="al" [fontIcon]="item.def.icon" class="al-icon"></mat-icon>
+            <span class="type-text">
+              <span class="type-name">{{ item.def.label }}</span>
+              <span class="meta">{{ item.def.description }}</span>
+            </span>
+          </span>
+        </mat-radio-button>
+      }
+    </mat-radio-group>
+    <div class="actions">
+      <button mat-stroked-button type="button" [mat-dialog-close]="undefined" data-id="CancelButton">Cancel</button>
+      <button mat-flat-button type="submit" [disabled]="!selected()" data-id="AddCardButton">Add</button>
+    </div>
+  </form>
+</sm-dialog-template>

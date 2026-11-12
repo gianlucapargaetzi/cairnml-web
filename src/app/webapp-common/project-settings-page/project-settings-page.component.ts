@@ -8,7 +8,6 @@ import {ProjectScalarDefaultsComponent} from '@common/shared/project-dialog/proj
 import {ProjectMembersComponent} from '@common/shared/project-dialog/project-settings/project-members/project-members.component';
 import {ProjectQueuesComponent} from '@common/shared/project-dialog/project-settings/project-queues/project-queues.component';
 import {ProjectRepositoriesComponent} from '@common/shared/project-dialog/project-settings/project-repositories/project-repositories.component';
-import {ProjectOverviewSettingsComponent} from '@common/shared/project-dialog/project-settings/project-overview-settings/project-overview-settings.component';
 import {ProjectNotificationsComponent} from '@common/shared/project-dialog/project-settings/project-notifications/project-notifications.component';
 import {ProjectGeneralSettingsComponent} from '@common/shared/project-dialog/project-settings/project-general-settings/project-general-settings.component';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
@@ -32,7 +31,6 @@ import {setSelectedProjectId} from '@common/core/actions/projects.actions';
     ProjectMembersComponent,
     ProjectQueuesComponent,
     ProjectRepositoriesComponent,
-    ProjectOverviewSettingsComponent,
     ProjectNotificationsComponent
   ]
 })
