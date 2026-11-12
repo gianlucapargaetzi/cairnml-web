@@ -96,15 +96,10 @@ export interface RepoHistoryRun {
   dirty?: boolean;
 }
 
-/** What draws the rail of one row: its lane, the lanes open above and below it, the lanes that end in it, the lanes of its parents. */
+/** What draws the rail: a row's lane (0 is the default branch) and the rows of its parents (-1: the line leaves the window). */
 export interface RepoHistoryLanes {
   lane: number;
-  lanes_before: boolean[];
-  lanes_after: boolean[];
-  merge_from: number[];
-  parent_lanes: number[];
-  /** Lines that move to a lane further left in this row, as [from, to]. */
-  shifts: [number, number][];
+  parent_rows: number[];
 }
 
 /** A node of the condensed history: a commit with its tasks, or the commits hidden between two shown ones. */

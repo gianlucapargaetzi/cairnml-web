@@ -23,6 +23,8 @@
   margin: 0;
   padding: 0;
   display: grid;
+  position: relative;
+  --row-height: calc(var(--control-height) + var(--space-4));
   grid-template-columns: var(--rail-width) auto minmax(0, 1fr) auto auto auto;
   column-gap: var(--space-3);
   // the rail starts a little in from the edge, so the ring around a dot is not cut off
@@ -34,8 +36,8 @@
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
   align-items: center;
-  padding-block: var(--space-2);
-  min-height: calc(var(--control-height) + var(--space-4));
+  box-sizing: border-box;
+  height: var(--row-height);
   font-size: var(--font-size-sm);
   outline-offset: calc(-1 * var(--space-1));
 }
@@ -46,28 +48,31 @@
   min-width: 0;
 }
 
-// the lines of the lanes, drawn by the template; the strokes are not scaled with the row
+// the lines of all lanes: one drawing behind the whole list, a unit a row, so a line is never cut at a row
 .lines {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  inset-block: 0;
+  inset-inline-start: var(--space-2);
+  width: var(--rail-width);
   height: 100%;
   overflow: visible;
   fill: none;
+  pointer-events: none;
 
-  line {
+  path {
     stroke-width: 2;
+    stroke-linecap: round;
     vector-effect: non-scaling-stroke;
+
+    // the commits a dashed line hides, or the history below the list
+    &.dashed {
+      stroke-dasharray: 4 4;
+    }
   }
 }
 
 .gap {
   color: var(--color-on-surface-variant);
-
-  // the lane that runs through a gap is dashed: the commits it hides are not drawn
-  .lines line {
-    stroke-dasharray: 4 4;
-  }
 
   .dots {
     grid-column: 2 / -1;

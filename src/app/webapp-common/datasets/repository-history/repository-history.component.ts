@@ -6,7 +6,7 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {catchError, of} from 'rxjs';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
-import {RepoHistory, RepoHistoryCommit, RepoHistoryLanes, RepositoriesService} from '../dataset-git/repositories.service';
+import {RepoHistory, RepoHistoryCommit, RepoHistoryNode, RepositoriesService} from '../dataset-git/repositories.service';
 
 /** How many tasks the hover text of a commit lists. */
 const TIP_RUNS = 8;
@@ -55,28 +55,40 @@ export class RepositoryHistoryComponent {
 
   protected readonly laneColor = (lane: number): string => presetColors[lane % presetColors.length];
 
-  /** The lines of the rail in one row, in a drawing 100 units high: the lanes that pass through, the lanes that end in the row's
-   *  commit, and the lines to its parents. */
-  protected readonly segments = (node: RepoHistoryLanes, lanes: number) => {
-    const x = (lane: number) => lane * this.laneUnit + this.laneUnit / 2;
-    const lines: {x1: number; y1: number; x2: number; y2: number; color: string}[] = [];
-    for (let lane = 0; lane < lanes; lane++) {
-      if (lane === node.lane) {
-        if (node.lanes_before[lane]) {
-          lines.push({x1: x(lane), y1: 0, x2: x(lane), y2: 50, color: this.laneColor(lane)});
+  /**
+   * The lines of the rail, one curve from every commit to each of its parents, in one drawing that is as high as the list (one
+   * unit a row). A line leaves its commit on that commit's own lane and changes lane in one smooth curve right next to the commit
+   * on the lower lane (the left one): below the branch's commit when the parent is to the right, above the parent when the child is.
+   * A line that leaves the window runs off the bottom.
+   */
+  protected readonly paths = (nodes: RepoHistoryNode[]) => {
+    const unit = this.laneUnit;
+    const x = (lane: number) => lane * unit + unit / 2;
+    const lines: {d: string; color: string; dashed: boolean}[] = [];
+    nodes.forEach((node, row) => {
+      const y1 = row + 0.5;
+      node.parent_rows.forEach(parentRow => {
+        if (parentRow < 0) {
+          lines.push({d: `M ${x(node.lane)} ${y1} V ${nodes.length}`, color: this.laneColor(node.lane), dashed: true});
+          return;
         }
-      } else if (node.merge_from.includes(lane)) {
-        lines.push({x1: x(lane), y1: 0, x2: x(node.lane), y2: 50, color: this.laneColor(lane)});
-      } else if (node.lanes_before[lane] && node.lanes_after[lane]) {
-        lines.push({x1: x(lane), y1: 0, x2: x(lane), y2: 100, color: this.laneColor(lane)});
-      }
-    }
-    for (const [from, to] of node.shifts ?? []) {
-      lines.push({x1: x(from), y1: 0, x2: x(to), y2: 100, color: this.laneColor(from)});
-    }
-    for (const parent of node.parent_lanes) {
-      lines.push({x1: x(node.lane), y1: 50, x2: x(parent), y2: 100, color: this.laneColor(parent)});
-    }
+        const parent = nodes[parentRow];
+        const y2 = parentRow + 0.5;
+        const x1 = x(node.lane);
+        const x2 = x(parent.lane);
+        const span = Math.min(1, y2 - y1);
+        const half = span / 2;
+        let d: string;
+        if (node.lane === parent.lane) {
+          d = `M ${x1} ${y1} V ${y2}`;
+        } else if (parent.lane > node.lane) {
+          d = `M ${x1} ${y1} C ${x1} ${y1 + half} ${x2} ${y1 + half} ${x2} ${y1 + span} V ${y2}`;
+        } else {
+          d = `M ${x1} ${y1} V ${y2 - span} C ${x1} ${y2 - half} ${x2} ${y2 - half} ${x2} ${y2}`;
+        }
+        lines.push({d, color: this.laneColor(Math.max(node.lane, parent.lane)), dashed: node.type === 'gap' || parent.type === 'gap'});
+      });
+    });
     return lines;
   };
 
