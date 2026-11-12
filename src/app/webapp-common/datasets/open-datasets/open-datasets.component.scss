@@ -8,6 +8,12 @@
     &.in-empty-state {
       height: 100%;
     }
+
+    // The repositories and datasets browser fills the window below the header. With no project cards below it the page has
+    // nothing to scroll to, so the layout's bottom padding must not add a page scroll on top of the browser.
+    &:not(:has(sm-open-dataset-card)):has(sm-dataset-browser) {
+      padding-bottom: 0;
+    }
   }
 
   // the empty state starts at the same y as the empty state of the Repositories tab (directly under the page header)
