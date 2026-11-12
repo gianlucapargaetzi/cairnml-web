@@ -8,11 +8,11 @@
         [columns]="columns"
         [tableData]="tableData()"
         [scrollable]="true"
-        [resizableColumns]="false"
+        [resizableColumns]="false" [fitColumns]="true"
         (rowClicked)="rowClicked($event.data.id)"
       >
         <ng-template let-col let-line="rowData" pTemplate="body">
-          <div class="cell">
+          <div>
             @switch (col.id) {
               @case ('name') {
                 <div class="name-cell" [class.child]="line.level === 1">
@@ -133,9 +133,9 @@
                 <sm-section-header label="Credentials"></sm-section-header>
                 @if (repo.assignments.length) {
                   <sm-table class="credentials-table" [columns]="credentialColumns" [tableData]="credentialRows(repo)" [scrollable]="false"
-                    [resizableColumns]="false" data-id="repositoryAssignments">
+                    [resizableColumns]="false" [fitColumns]="true" data-id="repositoryAssignments">
                     <ng-template let-col let-line="rowData" pTemplate="body">
-                      <div class="cell">
+                      <div>
                         @switch (col.id) {
                           @case ('credential') {
                             <div class="ellipsis" data-id="repositoryAssignment" smShowTooltipIfEllipsis [smTooltip]="line.credential">
@@ -247,9 +247,9 @@
               <div class="tab-content" data-id="repositoryRuns">
                 @let runs = selectedRuns.value();
                 @if (runs?.length) {
-                  <sm-table class="runs-table" [columns]="runColumns" [tableData]="runs!" [scrollable]="false" [resizableColumns]="false">
+                  <sm-table class="runs-table" [columns]="runColumns" [tableData]="runs!" [scrollable]="false" [resizableColumns]="false" [fitColumns]="true">
                     <ng-template let-col let-run="rowData" pTemplate="body">
-                      <div class="cell">
+                      <div>
                         @switch (col.id) {
                           @case ('name') {
                             <a class="ellipsis run-link" smShowTooltipIfEllipsis [smTooltip]="run.name"

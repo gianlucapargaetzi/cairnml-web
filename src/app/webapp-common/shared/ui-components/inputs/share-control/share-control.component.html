@@ -50,7 +50,7 @@
     @if (loading()) {
       <mat-progress-spinner mode="indeterminate" [diameter]="24" [strokeWidth]="2"></mat-progress-spinner>
     } @else if (rows().length) {
-      <sm-table data-id="shareTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
+      <sm-table [fitColumns]="true" data-id="shareTable" [columns]="columns" [tableData]="rows()" selectionMode="single" [scrollable]="true">
         <ng-template let-col let-line="rowData" pTemplate="body">
           <div>
             @switch (col.id) {

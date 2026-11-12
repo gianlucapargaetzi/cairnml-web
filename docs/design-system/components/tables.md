@@ -29,6 +29,39 @@ Implementation today: `sm-table` (`ui-components/data/table`) with row colors fr
 | Column resize | Allowed (existing); persist per table |
 | Status column | `sm-status-icon-label`; a running task that reports progress also gets the small [progress bar](progress.md) next to it |
 
+## Column widths (fit columns)
+
+A table with a fixed set of columns sets `[fitColumns]="true"` on `sm-table` (and `[resizableColumns]="false"`; users do not resize it). The widths are then measured, never typed (`fit-columns.ts`):
+
+| Situation | Rule |
+|---|---|
+| Natural width | Every column is as wide as its widest content (header included) plus the cell padding |
+| Panel wider than the sum | The free pixels are shared in proportion to the natural widths: a column that holds 20% of the content gets 20% of the free space |
+| Panel narrower | The columns collapse (text cut with an ellipsis) in the order of `collapseOrder` on `ISmCol`: all columns of order 1 first, then 2, and so on. Columns of one order collapse together, in proportion to what they can give |
+| Floor | A column never collapses below its header (label, sort and filter icons, padding). The label is always readable |
+| Fixed | `fixedWidth: true` (row actions, checkbox): the column keeps the width of its content and is never collapsed. When even the headers do not fit, the table scrolls sideways and the fixed column stays at the right edge (sticky), so the actions are always completely visible |
+| Never type widths | No `style: {width}` on a column of a fitting table. Give a `collapseOrder` instead; omitted = 5 |
+
+Collapse orders (1 collapses first, 9 last). The name column is always last; the least useful or most reproducible column goes first.
+
+| Table | Order (first to last), `actions` fixed |
+|---|---|
+| Repositories & Datasets list | ID (1), Last used (2), Added by (3), Type (4), Visibility (5), Access (6), Name (9) |
+| Credentials of a repository | Last used (1), Owner (2), Project (3), App (4), Access (6) |
+| Runs of a repository | Created (1), User (2), Used as (3), Status (4), Name (9) |
+| Settings → Access | Valid for (1), Owner (2), Type (3), Status (6), Name (9) |
+| Settings → Devices | Created (1), Owner (2), Kind (3), Last used (4), Status (6), Name (9) |
+| Share control | Level (5), Shared with (9) |
+| Agents (workers) | Version and mode (1), Iteration (2), Task running time (3), Last seen (4), Status (6), Currently running task (8), Agent (9) |
+| Queues | Last updated (1), Next task (3), In queue (4), Agents (5), Queue (9) |
+| Dashboard recent tasks | Started (1), Updated (2), Type (3), Task ID (4), Project (5), Status (7), Title (9) |
+| Serving instances | CPU count (1), GPU count (2), Uptime (3), Requests per minute (4), Requests (5), Latency (6), Instance ID (9) |
+| Model metadata, Execution parameters | Type (1), Value (8), Key / Name (9); an editable table, so not yet fitted: its cells are inputs |
+| Experiments, Models, Serving endpoints, Dataset versions | Not fitted: the user chooses the columns and resizes them, and the width is saved. When one of them is moved to fit columns, use: status and name last; created, updated, user and tags first |
+| Project settings tables (members, repositories, queues), Queue users | Plain tables of two to four columns in a narrow panel: name last, role / level next to last; actions fixed |
+
+Check a fitting table at 3440, 1920, 1600, 1280 and 1024px wide: no cut header, actions inside the panel (`scripts/fit-check.js`, `scripts/row-actions.js`).
+
 ## Row actions
 
 Measured on the Access page, Repositories, the project settings tables and the Datasets list (Chromium, 1600x900). Every table that acts on its rows follows this.

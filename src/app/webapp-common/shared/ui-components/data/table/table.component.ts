@@ -35,6 +35,7 @@ import {
 import {debounce, filter, map, take, throttleTime} from 'rxjs/operators';
 import {custumFilterFunc, custumSortSingle} from './overrideFilterFunc';
 import {ColHeaderTypeEnum, ISmCol, TableSortOrderEnum} from './table.consts';
+import {DEFAULT_COLLAPSE_ORDER, FitColumn, fitColumnWidths, sumWidths} from './fit-columns';
 import {Store} from '@ngrx/store';
 import {selectScaleFactor} from '@common/core/reducers/view.reducer';
 import {sortCol} from '@common/shared/utils/sortCol';
@@ -125,6 +126,12 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
   columns = input<ISmCol[]>();
   reorderableColumns = input(false);
   resizableColumns = input(false);
+  /** Column widths that fit the content, share the free space and collapse by `collapseOrder` (see fit-columns.ts). */
+  fitColumns = input(false);
+  /** While true the columns have no width, so the browser shows the natural width of the content (measuring). */
+  protected measuring = signal(false);
+  protected fitWidths = signal<Record<string, number>>(null);
+  protected fitTotal = computed(() => this.fitWidths() ? sumWidths(this.fitWidths()) : null);
   scrollable = input(false);
   sortOrder = input<TableSortOrderEnum>();
   sortFields = input<SortMeta[]>();
@@ -220,6 +227,15 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
       this.calcResize();
     });
 
+    // fit the columns when the data, the columns or the width of the panel change
+    effect(() => {
+      this.tableData();
+      this.visibleColumns();
+      this.fitColumns();
+      this.table();
+      window.setTimeout(() => this.fit());
+    });
+
     effect(() => {
       if (!this.minimizedView() && this.table()) {
         this.table().filters = this.filters();
@@ -259,7 +275,10 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
         takeUntilDestroyed(),
         debounce(([delay]) => interval(typeof delay === 'number' ? delay : 0))
       )
-      .subscribe(() => this.calcResize());
+      .subscribe(() => {
+        this.calcResize();
+        this.fit();
+      });
   }
 
   gotTable = () => {
@@ -279,6 +298,91 @@ export class TableComponent<D extends { id: string }> implements AfterContentIni
 
   resize(delay: number = null) {
     this.resize$.next(delay);
+  }
+
+  /** Measure the natural width of every column and the width of its header, then fit them to the panel. */
+  protected fit() {
+    if (!this.fitColumns() || this.minimizedView() || !this.table()) {
+      return;
+    }
+    const host: HTMLElement = this.table().el.nativeElement;
+    const container: HTMLElement = this.table().wrapperViewChild?.nativeElement;
+    const cols = this.visibleColumns();
+    if (!container || cols.length === 0 || !container.clientWidth) {
+      return;
+    }
+    this.measuring.set(true);
+    this.cdr.detectChanges();
+    const natural = cols.map(() => 0);
+    const floor = cols.map(() => 0);
+    host.querySelectorAll('tr').forEach(row => {
+      const isHeader = row.classList.contains('header');
+      Array.from(row.children).forEach((cell: HTMLElement, index) => {
+        if (index >= cols.length || !['TH', 'TD'].includes(cell.tagName)) {
+          return;
+        }
+        const width = Math.ceil(cell.getBoundingClientRect().width / (this.scaleFactor ? this.scaleFactor / 100 : 1));
+        natural[index] = Math.max(natural[index], width);
+        if (isHeader) {
+          // the header's own content (label, sort and filter icons) and the padding of its cell: the extent of its text and
+          // icons, not the width of the column
+          const style = getComputedStyle(cell);
+          const padding = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0);
+          floor[index] = Math.max(floor[index], Math.min(width, Math.ceil(this.contentWidth(cell) + padding)));
+        }
+      });
+    });
+    const input: FitColumn[] = cols.map((col, index) => ({
+      id: col.id,
+      natural: natural[index],
+      floor: floor[index],
+      order: col.collapseOrder ?? DEFAULT_COLLAPSE_ORDER,
+      fixed: col.fixedWidth || col.headerType === ColHeaderTypeEnum.checkBox
+    }));
+    this.fitWidths.set(fitColumnWidths(input, container.clientWidth));
+    this.measuring.set(false);
+    this.cdr.detectChanges();
+  }
+
+  /** The width of what a cell shows: the extent of its text and its leaf elements (icons), not of its blocks. */
+  private contentWidth(cell: HTMLElement): number {
+    let left = Infinity;
+    let right = -Infinity;
+    const extend = (rect: DOMRect) => {
+      if (rect.width > 0) {
+        left = Math.min(left, rect.left);
+        right = Math.max(right, rect.right);
+      }
+    };
+    const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent?.trim()) {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          extend(range.getBoundingClientRect());
+        }
+      } else if ((node as HTMLElement).childElementCount === 0 && !(node as HTMLElement).textContent?.trim()
+        && getComputedStyle(node as HTMLElement).position !== 'absolute') { // not the column resizer at the cell's edge
+        extend((node as HTMLElement).getBoundingClientRect());
+      }
+    }
+    return right > left ? (right - left) / (this.scaleFactor ? this.scaleFactor / 100 : 1) : 0;
+  }
+
+  protected widthOf(col: ISmCol) {
+    const fitted = this.fitColumns() && !this.minimizedView() ? this.fitWidths()?.[col.id] : null;
+    return fitted != null ? `${fitted}px` : col.style?.width;
+  }
+
+  protected minWidthOf(col: ISmCol) {
+    const fitted = this.fitColumns() && !this.minimizedView() ? this.fitWidths()?.[col.id] : null;
+    return fitted != null ? `${fitted}px` : col.style?.minWidth;
+  }
+
+  protected maxWidthOf(col: ISmCol) {
+    const fitted = this.fitColumns() && !this.minimizedView() ? this.fitWidths()?.[col.id] : null;
+    return fitted != null ? `${fitted}px` : (col.style?.maxWidth ?? (!this.resizableColumns() && this.columnResizeMode() === 'fit' && col.style?.width));
   }
 
   private calcResize() {

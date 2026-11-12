@@ -164,11 +164,11 @@ export class DatasetBrowserComponent {
   });
 
   protected readonly runColumns: ISmCol[] = [
-    {id: 'name', header: 'Name', sortable: false},
-    {id: 'status', header: 'Status', sortable: false, style: {minWidth: '44px', width: '110px'}},
-    {id: 'as', header: 'Used as', sortable: false, style: {minWidth: '44px', width: '84px'}},
-    {id: 'user_name', header: 'User', sortable: false, style: {minWidth: '44px', width: '90px'}},
-    {id: 'created', header: 'Created', sortable: false, style: {minWidth: '44px', width: '110px'}},
+    {id: 'name', header: 'Name', sortable: false, collapseOrder: 9},
+    {id: 'status', header: 'Status', sortable: false, collapseOrder: 4},
+    {id: 'as', header: 'Used as', sortable: false, collapseOrder: 3},
+    {id: 'user_name', header: 'User', sortable: false, collapseOrder: 2},
+    {id: 'created', header: 'Created', sortable: false, collapseOrder: 1},
   ];
 
   // The runs that used the selected repository (a registry's entries are read through the registry's runs).
@@ -178,14 +178,14 @@ export class DatasetBrowserComponent {
   });
 
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Name', sortable: false, style: {minWidth: '80px'}},
-    {id: 'short_id', header: 'ID', sortable: false, style: {minWidth: '44px', width: '96px'}},
-    {id: 'type', header: 'Type', sortable: false, style: {minWidth: '44px', width: '88px'}},
-    {id: 'added_by', header: 'Added by', sortable: false, style: {minWidth: '44px', width: '84px'}},
-    {id: 'visibility', header: 'Visibility', sortable: false, style: {minWidth: '44px', width: '62px'}},
-    {id: 'access', header: 'Access', sortable: false, style: {minWidth: '44px', width: '50px'}},
-    {id: 'last_used', header: 'Last used', sortable: false, style: {minWidth: '44px', width: '84px'}},
-    {id: 'actions', header: '', sortable: false, style: {width: '104px', minWidth: '104px'}},
+    {id: 'name', header: 'Name', sortable: false, collapseOrder: 9},
+    {id: 'short_id', header: 'ID', sortable: false, collapseOrder: 1},
+    {id: 'type', header: 'Type', sortable: false, collapseOrder: 4},
+    {id: 'added_by', header: 'Added by', sortable: false, collapseOrder: 3},
+    {id: 'visibility', header: 'Visibility', sortable: false, collapseOrder: 5},
+    {id: 'access', header: 'Access', sortable: false, collapseOrder: 6},
+    {id: 'last_used', header: 'Last used', sortable: false, collapseOrder: 2},
+    {id: 'actions', header: '', sortable: false, fixedWidth: true},
   ];
 
   protected readonly visibilityLabels = {
@@ -196,12 +196,12 @@ export class DatasetBrowserComponent {
 
   // The credentials of the selected repository: one row for each user who reads it, with the projects it reads for.
   protected readonly credentialColumns: ISmCol[] = [
-    {id: 'credential', header: 'App', sortable: false, style: {minWidth: '44px', width: '110px'}},
-    {id: 'owner', header: 'Owner', sortable: false, style: {minWidth: '44px', width: '130px'}},
-    {id: 'state', header: 'Access', sortable: false, style: {minWidth: '44px', width: '60px'}},
-    {id: 'projects', header: 'Project', sortable: false, style: {minWidth: '80px'}},
-    {id: 'last_used', header: 'Last used', sortable: false, style: {minWidth: '44px', width: '84px'}},
-    {id: 'actions', header: '', sortable: false, style: {width: '104px', minWidth: '104px'}},
+    {id: 'credential', header: 'App', sortable: false, collapseOrder: 4},
+    {id: 'owner', header: 'Owner', sortable: false, collapseOrder: 2},
+    {id: 'state', header: 'Access', sortable: false, collapseOrder: 6},
+    {id: 'projects', header: 'Project', sortable: false, collapseOrder: 3},
+    {id: 'last_used', header: 'Last used', sortable: false, collapseOrder: 1},
+    {id: 'actions', header: '', sortable: false, fixedWidth: true},
   ];
 
   protected credentialRows(repo: Repo) {

@@ -147,9 +147,9 @@ export class ShareControlComponent implements OnInit {
   });
 
   protected readonly columns: ISmCol[] = [
-    {id: 'with', header: 'Shared with', sortable: false},
-    {id: 'level', header: 'Level', sortable: false},
-    {id: 'actions', header: '', sortable: false},
+    {id: 'with', header: 'Shared with', sortable: false, collapseOrder: 9},
+    {id: 'level', header: 'Level', sortable: false, collapseOrder: 5},
+    {id: 'actions', header: '', sortable: false, fixedWidth: true},
   ];
 
   protected readonly rows = computed<ShareRow[]>(() => this.shares().map(share => ({

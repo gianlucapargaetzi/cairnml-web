@@ -77,12 +77,12 @@ export class AccessComponent implements OnInit {
   protected isAdmin = this.store.selectSignal(selectIsAdmin);
 
   protected readonly columns: ISmCol[] = [
-    {id: 'name', header: 'Name', sortable: false},
-    {id: 'type', header: 'Type', sortable: false},
-    {id: 'owner', header: 'Owner', sortable: false},
-    {id: 'valid_for', header: 'Valid for', sortable: false},
-    {id: 'status', header: 'Status', sortable: false},
-    {id: 'actions', header: '', sortable: false},
+    {id: 'name', collapseOrder: 9, header: 'Name', sortable: false},
+    {id: 'type', collapseOrder: 3, header: 'Type', sortable: false},
+    {id: 'owner', collapseOrder: 2, header: 'Owner', sortable: false},
+    {id: 'valid_for', collapseOrder: 1, header: 'Valid for', sortable: false},
+    {id: 'status', collapseOrder: 6, header: 'Status', sortable: false},
+    {id: 'actions', header: '', sortable: false, fixedWidth: true},
   ];
 
   protected readonly rows = computed(() => this.credentials().map(credential => ({

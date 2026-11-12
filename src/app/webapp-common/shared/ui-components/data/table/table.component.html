@@ -4,6 +4,9 @@
     [class.has-header]="!noHeader()" dataKey="id"
     [class.card-view]="minimizedView()"
     [class.no-rows]="!currRowsNumber()"
+    [class.fit-columns]="fitColumns()"
+    [class.measuring]="measuring()"
+    [style.--fit-total]="fitTotal() ? fitTotal() + 'px' : null"
     [style.--table-row-height]="rowHeight() + 'px'"
     [style.--card-height]="(cardsCollapsed() ? 48 : cardHeight()) + 'px'"
     [filterDelay]="0"
@@ -72,14 +75,15 @@
             @for (col of visibleColumns(); track col.id) {
               <th [attr.data-col-id]="col.id"
                   [class.disable-drag]="!reorderableColumns() || col?.disableDrag"
+                  [class.fit-sticky]="fitColumns() && col.fixedWidth"
                   [class.resize-disabled]="!resizableColumns()"
                   [class.resize-enabled]="resizableColumns()"
                   [class.selected-col-header]="col?.disablePointerEvents"
                   [pReorderableColumnDisabled]="!reorderableColumns() || col?.disableDrag"
                   [pResizableColumnDisabled]="col?.disableDrag"
-                  [style.max-width]="col.style?.maxWidth ?? (!resizableColumns() && columnResizeMode() === 'fit' && col.style?.width)"
-                  [style.min-width]="col.style?.minWidth"
-                  [style.width]="col.style?.width"
+                  [style.max-width]="maxWidthOf(col)"
+                  [style.min-width]="minWidthOf(col)"
+                  [style.width]="widthOf(col)"
                   [class.p-datatable-frozen-column]="col?.frozen"
                   [class.p-datatable-frozen-column-left]="col?.frozen && col?.alignFrozen !== 'right'"
                   [class.p-datatable-frozen-column-right]="col?.frozen && col?.alignFrozen === 'right'"
@@ -159,14 +163,15 @@
           @for (col of columns; track col.id) {
             <td
               [class.ui-resizable-column]="resizableColumns()"
+              [class.fit-sticky]="fitColumns() && col.fixedWidth"
               [class.cursor-default]="selectionMode()===null"
               [class.simple]="simple()"
               [class.p-datatable-frozen-column]="col?.frozen"
               [class.p-datatable-frozen-column-left]="col?.frozen && col?.alignFrozen !== 'right'"
               [class.p-datatable-frozen-column-right]="col?.frozen && col?.alignFrozen === 'right'"
-              [style.min-width]="col.style?.minWidth"
-              [style.max-width]="col.style?.maxWidth ?? (!resizableColumns() && columnResizeMode() === 'fit' && col.style?.width)"
-              [style.width]="col.style?.width">
+              [style.min-width]="minWidthOf(col)"
+              [style.max-width]="maxWidthOf(col)"
+              [style.width]="widthOf(col)">
               @if (bodyTemplate) {
                 <ng-container
                   *ngTemplateOutlet="bodyTemplate; context: {$implicit: col, rowData: rowData, rowIndex: index, expanded}"></ng-container>

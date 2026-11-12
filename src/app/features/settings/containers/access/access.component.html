@@ -21,7 +21,7 @@
     <sm-empty-state icon="al-ico-lock" title="No credentials yet"
       description="Add a GitHub App to read private repositories."></sm-empty-state>
   } @else {
-    <sm-table class="access-table" data-id="credentialsTable" [columns]="columns" [tableData]="rows()"
+    <sm-table [fitColumns]="true" class="access-table" data-id="credentialsTable" [columns]="columns" [tableData]="rows()"
       selectionMode="single" [scrollable]="true">
       <ng-template let-col let-line="rowData" pTemplate="body">
         <div [class]="'cell-' + col.id">

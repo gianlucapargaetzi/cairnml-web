@@ -38,6 +38,8 @@ export interface ISmCol {
   filterable?: boolean; // determine if the column shell be filterable
   filterMatchMode?: FilterMatchModeEnum; // the filter method.
   style?: { width?: string; minWidth?: string; maxWidth?: string }; // the column style.
+  collapseOrder?: number; // with fitColumns: 1 collapses first when the table is too narrow, larger numbers later (default 5)
+  fixedWidth?: boolean; // with fitColumns: the column keeps the width of its content (row actions, checkbox)
   headerStyleClass?: string; // the header css class name.
   bodyTemplateRef?: string; // redundant.
   bodyStyleClass?: string;
