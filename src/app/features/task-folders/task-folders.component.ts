@@ -73,7 +73,11 @@ export class TaskFoldersComponent {
   protected toggleSearch(id: string) {
     this.collapsedSearches.update(set => {
       const next = new Set(set);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   }
