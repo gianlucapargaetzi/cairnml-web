@@ -1,0 +1,24 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Runs</mat-label>
+  <mat-select [value]="current().task ?? ''" (selectionChange)="set({task: $event.value || null})" data-id="progressTask">
+    <mat-option value="">All runs of the project</mat-option>
+    @for (name of tasks.value() ?? []; track name) {
+      <mat-option [value]="name">Runs of the task {{ name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Metric</mat-label>
+  <mat-select [value]="metricKey()" (selectionChange)="chooseMetric($event.value)" data-id="progressMetric">
+    @for (item of metrics.value() ?? []; track key(item)) {
+      <mat-option [value]="key(item)">{{ item.metric }} / {{ item.variant }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Better is</mat-label>
+  <mat-select [value]="current().goal" (selectionChange)="set({goal: $event.value})" data-id="progressGoal">
+    <mat-option value="min">A lower value</mat-option>
+    <mat-option value="max">A higher value</mat-option>
+  </mat-select>
+</mat-form-field>

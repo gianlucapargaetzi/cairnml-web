@@ -42,7 +42,9 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   },
   'progress': {
     label: 'Progress', icon: 'al-ico-training', description: 'The best value so far, the failure rate and the runs since the last improvement',
-    defaultSize: {w: 2, h: 8}, defaultSettings: none,
+    defaultSize: {w: 2, h: 8}, defaultSettings: () => ({task: null, metric: null, goal: 'min'}),
+    body: () => import('./progress/progress-card.component').then(m => m.ProgressCardComponent),
+    settings: () => import('./progress/progress-settings.component').then(m => m.ProgressSettingsComponent),
   },
   'project-state': {
     label: 'Project state', icon: 'al-ico-experiment-view', description: 'How many tasks, pipelines and models, by state',
@@ -85,6 +87,7 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   'divider': {
     label: 'Divider', icon: 'al-ico-line-expand', description: 'A titled line that separates parts of the board',
     defaultSize: {w: 6, h: 1}, defaultSettings: () => ({title: ''}),
+    settings: () => import('./cards/divider-settings.component').then(m => m.DividerSettingsComponent),
   },
 };
 

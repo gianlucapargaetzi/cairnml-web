@@ -1,0 +1,23 @@
+@if (result.isLoading()) {
+  <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
+} @else if (result.error()) {
+  <p class="note" data-id="progressError">The runs could not be read.</p>
+} @else if (!options().metric) {
+  <p class="note" data-id="progressChoose">Choose the metric to follow in the settings of this card.</p>
+} @else if (result.value(); as shown) {
+  @if (shown.progress.best === null) {
+    <p class="note" data-id="progressEmpty">No run reported {{ options().metric!.metric }} / {{ options().metric!.variant }}.</p>
+  } @else {
+    <div class="label">Best {{ options().metric!.metric }} / {{ options().metric!.variant }}</div>
+    <div class="big" data-id="progressBest">{{ shown.progress.best | number: '1.0-4' }}</div>
+    <div class="line" data-id="progressRuns">
+      {{ shown.progress.runs }} {{ shown.progress.runs === 1 ? 'run' : 'runs' }}, {{ percent(shown.progress.failureRate) }} failed
+    </div>
+    <div class="line" [class.stale]="shown.progress.runsSinceImprovement > 0" data-id="progressSince">
+      {{ shown.progress.runsSinceImprovement }} {{ shown.progress.runsSinceImprovement === 1 ? 'run' : 'runs' }} since the last improvement
+    </div>
+    @if (shown.capped) {
+      <div class="note" data-id="progressCapped">The latest runs only.</div>
+    }
+  }
+}
