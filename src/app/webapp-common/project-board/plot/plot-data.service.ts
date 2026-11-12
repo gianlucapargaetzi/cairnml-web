@@ -1,16 +1,11 @@
 import {inject, Injectable} from '@angular/core';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable, of, switchMap} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {buildPlotModel, PlotCurve, PlotModel} from './plot-model';
 import {PlotSpec} from './plot-spec';
 import {PlotTask, taskQuery, taskToPlotRun} from './plot-data';
-import {MAX_RUNS, PlotRun} from './plot-transforms';
-
-export interface PlotCurve {
-  id: string;
-  name: string;
-  points: {x: number; y: number}[];
-}
+import {curveRunIds, MAX_RUNS, numericValue, PlotRun} from './plot-transforms';
 
 /** Where the plot cards get their data: the runs of the project, the curves of some runs, and the metrics and parameters to choose from. */
 @Injectable({providedIn: 'root'})
@@ -30,6 +25,15 @@ export class PlotDataService {
       }));
   }
 
+  /** A plot ready to draw: the runs it is about, and for a curve view the curves of the runs it needs. `capped`: more runs exist than were read. */
+  load(projectId: string, spec: PlotSpec): Observable<{model: PlotModel; capped: boolean}> {
+    return this.runs(projectId, spec).pipe(switchMap(({runs, capped}) => {
+      const ids = spec.source.kind === 'scalar' ? curveRunIds(spec.view, runs, spec.goal) : [];
+      const curves$ = spec.source.kind === 'scalar' ? this.curves(ids, spec.source.metric, spec.source.variant) : of([]);
+      return curves$.pipe(map(curves => ({model: buildPlotModel(spec, runs, curves), capped})));
+    }));
+  }
+
   /** The curves of a scalar for some runs, from the first reported iteration to the last. */
   curves(taskIds: string[], metric: string, variant: string): Observable<PlotCurve[]> {
     if (!taskIds.length) {
@@ -43,6 +47,25 @@ export class PlotDataService {
           id, name: series.name ?? id, points: (series.x ?? []).map((x, i) => ({x, y: (series.y ?? [])[i]})),
         }));
       }));
+  }
+
+  /** The numeric parameters of the newest runs of a project, to choose from (`section` and `name`), without the dataset records. */
+  parameters(projectId: string): Observable<{section: string; name: string}[]> {
+    return this.post<{tasks?: PlotTask[]}>('tasks.get_all_ex', {
+      project: [projectId], only_fields: ['hyperparams'], order_by: ['-created'], page: 0, page_size: 100, system_tags: ['-archived'],
+    }).pipe(map(response => {
+      const found = new Map<string, {section: string; name: string}>();
+      for (const task of response?.tasks ?? []) {
+        for (const [section, entries] of Object.entries(task.hyperparams ?? {})) {
+          for (const [name, entry] of Object.entries(entries)) {
+            if (section !== 'Datasets' && numericValue(entry.value) !== null) {
+              found.set(`${section}/${name}`, {section, name});
+            }
+          }
+        }
+      }
+      return [...found.values()].sort((a, b) => `${a.section}/${a.name}`.localeCompare(`${b.section}/${b.name}`));
+    }));
   }
 
   /** The metric and variant names the runs of a project reported. */

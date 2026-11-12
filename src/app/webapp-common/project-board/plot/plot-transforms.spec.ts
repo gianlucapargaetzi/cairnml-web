@@ -1,5 +1,5 @@
 import {allowedCharts, allowedViews, DEFAULT_PLOT, normalizePlotSettings, PlotSpec} from './plot-spec';
-import {bestRun, distribution, evolution, lastRun, numericValue, PlotRun, runsPerDay, statusCounts, versusParameter} from './plot-transforms';
+import {bestRun, curveRunIds, distribution, evolution, lastRun, numericValue, OVERLAY_MAX, PlotRun, runsPerDay, statusCounts, versusParameter} from './plot-transforms';
 
 const run = (id: string, value: number | null, over: Partial<PlotRun> = {}): PlotRun =>
   ({id, name: 'run', status: 'completed', created: `2026-11-0${id}T10:00:00+00:00`, value, params: {}, ...over});
@@ -119,5 +119,27 @@ describe('plot settings', () => {
 
   it('replaces a view the source does not have', () => {
     expect(normalizePlotSettings({source: {kind: 'fact', fact: 'status'}, view: 'overlay', chart: 'line'}).view).toBe('distribution');
+  });
+});
+
+describe('curveRunIds', () => {
+  const runs = [run('1', 5), run('2', 2), run('3', null), run('4', 7)];
+
+  it('is the best run, the last run or the newest runs with a value, by the view', () => {
+    expect(curveRunIds('best-run-curve', runs, 'min')).toEqual(['2']);
+    expect(curveRunIds('last-run-curve', runs, 'min')).toEqual(['4']);
+    expect(curveRunIds('overlay', runs, 'min')).toEqual(['1', '2', '4']);
+  });
+
+  it('draws at most the newest runs in the overlay', () => {
+    const many = Array.from({length: OVERLAY_MAX + 5}, (_, i) => run(String(i + 1), 1, {created: `2026-11-${String(i + 1).padStart(2, '0')}T00:00:00+00:00`}));
+    const ids = curveRunIds('overlay', many, 'min');
+    expect(ids.length).toBe(OVERLAY_MAX);
+    expect(ids[ids.length - 1]).toBe(String(OVERLAY_MAX + 5));
+  });
+
+  it('is nothing for a view that draws no curve, and for no runs', () => {
+    expect(curveRunIds('evolution', runs, 'min')).toEqual([]);
+    expect(curveRunIds('best-run-curve', [], 'min')).toEqual([]);
   });
 });

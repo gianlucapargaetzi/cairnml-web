@@ -1,5 +1,6 @@
 import {Type, WritableSignal} from '@angular/core';
 import {BoardCardType} from './board.model';
+import {DEFAULT_PLOT} from './plot/plot-spec';
 
 /**
  * What every card body gets: the project and the settings of its card. A body component declares both as inputs
@@ -38,7 +39,9 @@ const none = () => ({});
 export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   'plot': {
     label: 'Plot', icon: 'al-ico-scatter-view', description: 'A metric, a parameter or a fact about the runs, as a chart',
-    defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    defaultSize: {w: 3, h: 12}, defaultSettings: () => ({...DEFAULT_PLOT}) as unknown as Record<string, unknown>,
+    body: () => import('./plot/plot-card.component').then(m => m.PlotCardComponent),
+    settings: () => import('./plot/plot-settings.component').then(m => m.PlotSettingsComponent),
   },
   'progress': {
     label: 'Progress', icon: 'al-ico-training', description: 'The best value so far, the failure rate and the runs since the last improvement',

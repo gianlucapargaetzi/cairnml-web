@@ -108,3 +108,16 @@ export function statusCounts(runs: PlotRun[]): {label: string; count: number}[] 
   }
   return [...counts].map(([label, count]) => ({label, count}));
 }
+
+/** How many runs the overlay view draws: the newest ones that have a value. */
+export const OVERLAY_MAX = 10;
+
+/** The runs whose curves a curve view needs: the best run, the last run, or the newest runs for the overlay. Other views need none. */
+export function curveRunIds(view: string, runs: PlotRun[], goal: 'min' | 'max'): string[] {
+  switch (view) {
+    case 'best-run-curve': return [bestRun(runs, goal)?.id].filter((id): id is string => !!id);
+    case 'last-run-curve': return [lastRun(runs)?.id].filter((id): id is string => !!id);
+    case 'overlay': return oldestFirst(withValue(runs)).slice(-OVERLAY_MAX).map(run => run.id);
+    default: return [];
+  }
+}

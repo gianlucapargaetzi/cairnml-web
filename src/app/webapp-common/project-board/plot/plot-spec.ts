@@ -53,14 +53,14 @@ export function allowedViews(source: PlotSource): PlotView[] {
   return [...PLOT_VIEWS];
 }
 
-/** The charts that suit what is shown: a donut is a share of a whole (the statuses), a scatter is a value against a parameter. */
+/** The charts that suit what is shown: a donut is a share of a whole (the statuses, and only those), a scatter is a value against a parameter. */
 export function allowedCharts(spec: Pick<PlotSpec, 'source' | 'view'>): PlotChart[] {
   switch (spec.view) {
     case 'evolution': return ['line', 'area', 'bar', 'number'];
     case 'best-run-curve':
     case 'last-run-curve':
     case 'overlay': return ['line', 'area'];
-    case 'distribution': return spec.source.kind === 'fact' && spec.source.fact === 'status' ? ['donut', 'bar'] : ['bar'];
+    case 'distribution': return spec.source.kind === 'fact' && spec.source.fact === 'status' ? ['donut'] : ['bar'];
     case 'vs-parameter': return ['scatter'];
   }
 }
