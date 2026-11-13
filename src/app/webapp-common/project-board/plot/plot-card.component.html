@@ -1,4 +1,4 @@
-<div class="title" data-id="plotTitle">{{ title() }}</div>
+<sm-board-card-heading [title]="title()" [scope]="scope()" data-id="plotTitle"></sm-board-card-heading>
 @if (plot.isLoading()) {
   <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
 } @else if (plot.error()) {

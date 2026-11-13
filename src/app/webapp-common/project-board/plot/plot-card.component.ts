@@ -9,7 +9,8 @@ import {ScatterPlotSeries} from '@common/core/reducers/projects.reducer';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {PlotDataService} from './plot-data.service';
 import {PlotModel, plotTitle} from './plot-model';
-import {normalizePlotSettings} from './plot-spec';
+import {normalizePlotSettings, runsScope} from './plot-spec';
+import {CardHeadingComponent} from '../shared/card-heading.component';
 
 type Series = Extract<PlotModel, {kind: 'series'}>;
 type Scatter = Extract<PlotModel, {kind: 'scatter'}>;
@@ -20,7 +21,7 @@ type Scatter = Extract<PlotModel, {kind: 'scatter'}>;
   templateUrl: './plot-card.component.html',
   styleUrls: ['./plot-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DecimalPipe, MatProgressSpinner, LineChartComponent, DonutComponent, ScatterPlotComponent],
+  imports: [CardHeadingComponent, DecimalPipe, MatProgressSpinner, LineChartComponent, DonutComponent, ScatterPlotComponent],
 })
 export class PlotCardComponent {
   private readonly data = inject(PlotDataService);
@@ -29,6 +30,7 @@ export class PlotCardComponent {
 
   protected readonly spec = computed(() => normalizePlotSettings(this.settings()));
   protected readonly title = computed(() => plotTitle(this.spec()));
+  protected readonly scope = computed(() => runsScope(this.spec().runs));
   protected readonly colors = presetColors;
   /** Axis labels with three significant digits: a loss of 0.53 is not shown as 1. */
   protected readonly tick = (value: number) => String(Number(value.toPrecision(3)));

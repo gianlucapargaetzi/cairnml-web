@@ -1,3 +1,4 @@
+<sm-board-card-heading title="Repositories and datasets" scope="Linked to this project, with the runs of this project that used each" data-id="repositoriesTitle"></sm-board-card-heading>
 @if (rows.isLoading()) {
   <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
 } @else if (rows.error()) {
@@ -5,13 +6,17 @@
 } @else if (!(rows.value() ?? []).length) {
   <p class="note center" data-id="repositoriesEmpty">No repository or dataset is linked to this project. Link one in the project settings.</p>
 } @else {
-  <ul class="rows">
-    @for (row of rows.value(); track row.id) {
-      <li data-id="repositoryRow">
-        <sm-repo-access-badge [access]="row.access" [iconOnly]="true"></sm-repo-access-badge>
-        <span class="name">{{ row.name }}</span>
-        <span class="note">{{ row.roles }} · {{ row.runs }} {{ row.runs === 1 ? 'run' : 'runs' }}</span>
-      </li>
-    }
-  </ul>
+  <sm-table class="table" data-id="repositoriesTable" [fitColumns]="true" [tableData]="rows.value()" [columns]="cols" [rowHeight]="40"
+            [selectionMode]="null">
+    <ng-template let-col let-row="rowData" pTemplate="body">
+      @switch (col.id) {
+        @case ('name') {
+          <span class="name" data-id="repositoryRow" smShowTooltipIfEllipsis [smTooltip]="row.name + ' (' + row.roles + ')'">{{ row.name }}</span>
+        }
+        @default {
+          {{ row[col.id] }}
+        }
+      }
+    </ng-template>
+  </sm-table>
 }

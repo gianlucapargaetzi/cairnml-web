@@ -1,21 +1,22 @@
+<sm-board-card-heading [title]="title()" [scope]="scope()" data-id="progressTitle"></sm-board-card-heading>
 @if (result.isLoading()) {
   <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
 } @else if (result.error()) {
-  <p class="note" data-id="progressError">The runs could not be read.</p>
+  <p class="note center" data-id="progressError">The runs could not be read.</p>
 } @else if (!options().metric) {
-  <p class="note" data-id="progressChoose">Choose the metric to follow in the settings of this card.</p>
+  <p class="note center" data-id="progressChoose">Choose the metric to follow in the settings of this card.</p>
 } @else if (result.value(); as shown) {
   @if (shown.progress.best === null) {
-    <p class="note" data-id="progressEmpty">No run reported {{ options().metric!.metric }} / {{ options().metric!.variant }}.</p>
+    <p class="note center" data-id="progressEmpty">No run reported {{ options().metric!.metric }} / {{ options().metric!.variant }}.</p>
   } @else {
-    <div class="label">Best {{ options().metric!.metric }} / {{ options().metric!.variant }}</div>
-    <div class="big" data-id="progressBest">{{ shown.progress.best | number: '1.0-4' }}</div>
-    <div class="line" data-id="progressRuns">
-      {{ shown.progress.runs }} {{ shown.progress.runs === 1 ? 'run' : 'runs' }}, {{ percent(shown.progress.failureRate) }} failed
-    </div>
-    <div class="line" [class.stale]="shown.progress.runsSinceImprovement > 0" data-id="progressSince">
-      {{ shown.progress.runsSinceImprovement }} {{ shown.progress.runsSinceImprovement === 1 ? 'run' : 'runs' }} since the last improvement
-    </div>
+    <sm-board-tiles>
+      <sm-board-tile [value]="(shown.progress.best | number: '1.0-4')!" [label]="(options().goal === 'min' ? 'Lowest' : 'Highest') + ' value'" data-id="progressBest"></sm-board-tile>
+      <sm-board-tile [value]="shown.progress.runs" [label]="shown.progress.runs === 1 ? 'Run' : 'Runs'" data-id="progressRuns"></sm-board-tile>
+      <sm-board-tile [value]="percent(shown.progress.failureRate)" label="Failed" data-id="progressFailed"></sm-board-tile>
+      <sm-board-tile [value]="shown.progress.runsSinceImprovement" [class.warning]="shown.progress.runsSinceImprovement > 0"
+                     [label]="shown.progress.runsSinceImprovement === 1 ? 'Run since the last improvement' : 'Runs since the last improvement'"
+                     data-id="progressSince"></sm-board-tile>
+    </sm-board-tiles>
     @if (shown.capped) {
       <div class="note" data-id="progressCapped">The latest runs only.</div>
     }

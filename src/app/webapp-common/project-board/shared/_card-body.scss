@@ -1,0 +1,28 @@
+// What every new board card body has in common: it fills its card as a column, and its loading, empty and error states sit in the
+// middle of the card, in the muted note style.
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  min-height: 0;
+}
+
+.center {
+  display: flex;
+  margin: auto;
+  text-align: center;
+}
+
+.note {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: var(--font-size-sm);
+}
+
+.chart {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}

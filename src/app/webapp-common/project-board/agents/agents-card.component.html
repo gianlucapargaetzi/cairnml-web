@@ -1,3 +1,4 @@
+<sm-board-card-heading title="Agents and queues" scope="The queues allocated to this project" data-id="agentsTitle"></sm-board-card-heading>
 @if (view.isLoading()) {
   <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
 } @else if (view.error()) {
@@ -6,7 +7,7 @@
   @if (!shown.queues.length) {
     <p class="note center" data-id="agentsNoQueue">No queue is allocated to this project. Allocate one in the project settings, under Queues.</p>
   } @else {
-    <div class="title" data-id="agentsSummary">
+    <div class="summary" data-id="agentsSummary">
       {{ shown.agents.length }} {{ shown.agents.length === 1 ? 'agent' : 'agents' }}, {{ shown.idle }} idle · {{ shown.waiting }} waiting
     </div>
     @if (!shown.agents.length) {

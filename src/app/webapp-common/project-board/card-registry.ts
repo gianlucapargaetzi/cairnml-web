@@ -22,8 +22,10 @@ export interface CardTypeDef {
   icon: string;
   /** One line for the add-card dialog. */
   description: string;
-  /** Size of a new card: columns and rows (a tile is `SUB_ROWS` rows). */
+  /** Size of a new card: columns and rows (a tile is `SUB_ROWS` rows). With `fit`, the rows are only where it starts. */
   defaultSize: {w: number; h: number};
+  /** A new card grows to the next whole tile that shows all its content (a card with a chart keeps its default size). */
+  fit?: boolean;
   defaultSettings: () => Record<string, unknown>;
   /** The panels of the old overview bring their own surface; every other card gets the board's card surface. */
   bare?: boolean;
@@ -45,13 +47,13 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   },
   'progress': {
     label: 'Progress', icon: 'al-ico-training', description: 'The best value so far, the failure rate and the runs since the last improvement',
-    defaultSize: {w: 2, h: 8}, defaultSettings: () => ({task: null, metric: null, goal: 'min'}),
+    defaultSize: {w: 2, h: 4}, fit: true, defaultSettings: () => ({task: null, metric: null, goal: 'min'}),
     body: () => import('./progress/progress-card.component').then(m => m.ProgressCardComponent),
     settings: () => import('./progress/progress-settings.component').then(m => m.ProgressSettingsComponent),
   },
   'project-state': {
     label: 'Project state', icon: 'al-ico-experiment-view', description: 'How many tasks, pipelines and models, by state',
-    defaultSize: {w: 3, h: 16}, defaultSettings: none, bare: true,
+    defaultSize: {w: 3, h: 4}, fit: true, defaultSettings: none, bare: true,
     body: () => import('./cards/project-state-card.component').then(m => m.ProjectStateCardComponent),
   },
   'recent-tasks': {
@@ -66,13 +68,13 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   },
   'contributions': {
     label: 'Contributions', icon: 'al-ico-users', description: 'Who ran how many tasks, day by day',
-    defaultSize: {w: 3, h: 16}, defaultSettings: () => ({topContributors: 5}), bare: true,
+    defaultSize: {w: 3, h: 4}, fit: true, defaultSettings: () => ({topContributors: 5}), bare: true,
     body: () => import('./cards/contributions-card.component').then(m => m.ContributionsCardComponent),
     settings: () => import('./cards/contribution-settings.component').then(m => m.ContributionSettingsComponent),
   },
   'description': {
     label: 'Project overview', icon: 'al-ico-description', description: 'The project description (markdown)',
-    defaultSize: {w: 6, h: 16}, defaultSettings: none, bare: true,
+    defaultSize: {w: 6, h: 4}, fit: true, defaultSettings: none, bare: true,
     body: () => import('./cards/description-card.component').then(m => m.DescriptionCardComponent),
   },
   'dataset-content': {
@@ -83,12 +85,12 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   },
   'agents': {
     label: 'Agents', icon: 'al-ico-queues', description: 'The agents of the project and what they are doing',
-    defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    defaultSize: {w: 3, h: 4}, fit: true, defaultSettings: none,
     body: () => import('./agents/agents-card.component').then(m => m.AgentsCardComponent),
   },
   'repositories': {
     label: 'Repositories and datasets', icon: 'al-ico-project-path', description: 'The repositories and datasets the project uses',
-    defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    defaultSize: {w: 3, h: 4}, fit: true, defaultSettings: none,
     body: () => import('./repositories/repositories-card.component').then(m => m.RepositoriesCardComponent),
   },
   'divider': {

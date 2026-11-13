@@ -8,13 +8,12 @@ const repo = (id: string, name: string, roles: string[], credential = ''): Repo 
 } as unknown as Repo);
 
 describe('repositoryRows', () => {
-  it('sorts by name, labels the roles, counts only this project\'s runs and names the credential in use', () => {
+  it('sorts by name, labels the roles, counts only this project\'s runs', () => {
     const runs: Record<string, RepoRun[]> = {b: [{project: 'p'}, {project: 'p'}, {project: 'other'}] as RepoRun[]};
     const rows = repositoryRows([repo('b', 'beta', ['code', 'dataset'], 'my token'), repo('a', 'alpha', ['dataset'])], runs, 'p');
     expect(rows.map(row => row.name)).toEqual(['alpha', 'beta']);
     expect(rows[1].roles).toBe('Code, Dataset');
     expect(rows[1].runs).toBe(2);
-    expect(rows[1].access.via).toBe('my token');
     expect(rows[0].runs).toBe(0);
   });
 });
