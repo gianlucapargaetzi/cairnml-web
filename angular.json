@@ -46,6 +46,7 @@
             "styles": [
               "src/app/webapp-common/assets/fonts/heebo.css",
               "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css",
+              "node_modules/gridstack/dist/gridstack.min.css",
               {
                 "bundleName": "global-styles",
                 "inject": true,
@@ -175,6 +176,7 @@
             ],
             "tsConfig": "./tsconfig.spec.json",
             "include": [
+              "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/features/dashboard/dashboard.component.spec.ts",
               "src/app/features/experiments/shared/services/clone-naming.service.spec.ts",
               "src/app/features/settings/containers/admin/usage-stats/usage-stats.component.spec.ts",

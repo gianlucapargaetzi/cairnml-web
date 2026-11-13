@@ -93,7 +93,10 @@ export class LineChartComponent {
     },
   },
   ];
-  public lineChartType: ChartType = 'line';
+  /** `bars` draws every series as bars; `xAxis` `linear` is for a series whose x is a number (an iteration) and not a time. */
+  bars = input(false);
+  xAxis = input<'time' | 'linear'>('time');
+  protected chartType = computed<ChartType>(() => this.bars() ? 'bar' : 'line');
   colorScheme = input(['#a4a1fb', '#ff8a15']);
   yTickFormatter = input<(value: number) => string>(val =>
     filesize(val, fileSizeConfigCount)
@@ -143,7 +146,7 @@ export class LineChartComponent {
         },
         scales: {
           x: {
-            type: 'time',
+            type: this.xAxis(),
             ticks: {
               display: this.showTicks(),
               autoSkip: true,
@@ -151,7 +154,7 @@ export class LineChartComponent {
               maxRotation: 0,
               ...(this.darkTheme() && {color: themeColor('--color-on-surface-variant')}),
             },
-            time: {
+            ...(this.xAxis() === 'time' && {time: {
               tooltipFormat: this.minUnit() === 'day' ? 'P' : 'P pp',
               minUnit: this.minUnit(),
               displayFormats: {
@@ -161,7 +164,7 @@ export class LineChartComponent {
                 minute: 'p',
                 second: 'pp',
               },
-            },
+            }}),
             grid: {
               display: this.showGrid(),
               ...(this.darkTheme() && {color: themeColor('--color-outline-variant')}),

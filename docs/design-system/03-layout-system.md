@@ -72,6 +72,7 @@ Sticky rows inside a page stick at `top: 0` of their scroll container: the heade
 | Configuration page | Settings, credentials, create/edit forms | [patterns/configuration-pages.md](patterns/configuration-pages.md) | header, form sections, sticky action footer |
 | Monitoring page | Agents & queues, endpoints | list page plus summary strip and chart panels | |
 | Dashboard | Landing: recent projects/tasks | card overview | |
+| Board | The project overview: cards on a 6-column square-tile grid, edited by the owner | [components/board.md](components/board.md) | page pen, grid of cards, "Add card" in edit mode |
 
 ## 3.4 Content width and alignment
 

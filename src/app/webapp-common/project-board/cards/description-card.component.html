@@ -1,0 +1,17 @@
+<sm-markdown-editor
+  #descriptionEditor
+  [data]="info()"
+  [readOnly]="example()"
+  [blockUserScripts]="blockUserScripts()"
+  (saveInfo)="save($event)"
+>
+  @if (!example()) {
+    <div no-data class="placeholder" data-id="overviewPlaceholder">
+      <mat-icon fontSet="al" fontIcon="al-ico-no-data-markdown" class="al-icon xxl"></mat-icon>
+      <div class="title">There’s nothing here yet…</div>
+      <button mat-flat-button type="button" (click)="editor()?.editClicked()">
+        <span>Add project overview</span>
+      </button>
+    </div>
+  }
+</sm-markdown-editor>

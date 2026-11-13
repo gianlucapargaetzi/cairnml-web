@@ -1,0 +1,25 @@
+<div class="card" [class.surface]="!def().bare && !isDivider()" [class.divider]="isDivider()" [attr.data-card]="card().id">
+  @if (isDivider()) {
+    <div class="divider-title" data-id="boardDivider">{{ title() }}</div>
+  } @else {
+    @if (body.value(); as component) {
+      <ng-container *ngComponentOutlet="component; inputs: bodyInputs()"></ng-container>
+    }
+  }
+  @if (editing()) {
+    <div class="controls" data-id="boardCardControls">
+      <button mat-icon-button type="button" class="board-card-drag" data-board-handle data-id="boardCardMove"
+              [attr.aria-label]="'Move ' + title() + ': arrow keys move it, shift and arrow keys resize it'" smTooltip="Move or resize">
+        <mat-icon fontSet="al" fontIcon="al-ico-drag"></mat-icon>
+      </button>
+      @if (hasSettings()) {
+        <button mat-icon-button type="button" data-id="boardCardEdit" [attr.aria-label]="'Settings of ' + title()" smTooltip="Settings" (click)="edit.emit()">
+          <mat-icon fontSet="al" fontIcon="al-ico-edit"></mat-icon>
+        </button>
+      }
+      <button mat-icon-button type="button" data-id="boardCardRemove" [attr.aria-label]="'Remove ' + title()" smTooltip="Remove" (click)="remove.emit()">
+        <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
+      </button>
+    </div>
+  }
+</div>

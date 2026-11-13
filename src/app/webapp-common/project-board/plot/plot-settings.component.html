@@ -1,0 +1,107 @@
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Data</mat-label>
+  <mat-select [value]="sourceKey()" (selectionChange)="chooseSource($event.value)" data-id="plotSource">
+    <mat-optgroup label="Scalars of the runs">
+      @for (item of metrics.value() ?? []; track metricKey(item)) {
+        <mat-option [value]="metricKey(item)">{{ item.metric }} / {{ item.variant }}</mat-option>
+      }
+    </mat-optgroup>
+    <mat-optgroup label="Parameters">
+      @for (item of parameters.value() ?? []; track metadataKey(item)) {
+        <mat-option [value]="metadataKey(item)">{{ item.section }}/{{ item.name }}</mat-option>
+      }
+    </mat-optgroup>
+    <mat-optgroup label="Facts about the runs">
+      @for (fact of facts; track fact.value) {
+        <mat-option [value]="'fact' + '\u0000' + fact.value">{{ fact.label }}</mat-option>
+      }
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Runs</mat-label>
+  <mat-select [value]="scopeKey()" (selectionChange)="chooseScope($event.value)" data-id="plotRuns">
+    <mat-option value="project">All runs of the project</mat-option>
+    <mat-optgroup label="The runs of one task">
+      @for (name of taskNames(); track name) {
+        <mat-option [value]="'task' + '\u0000' + name">{{ name }}</mat-option>
+      }
+    </mat-optgroup>
+    <mat-option value="set">Runs I choose</mat-option>
+  </mat-select>
+</mat-form-field>
+
+@if (spec().runs.scope === 'set') {
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Choose runs</mat-label>
+    <mat-select multiple [value]="selectedRuns()" (selectionChange)="set({runs: {scope: 'set', ids: $event.value}})" data-id="plotRunSet">
+      @for (run of recentRuns(); track run.id) {
+        <mat-option [value]="run.id">{{ run.name }} · {{ run.id.slice(0, 8) }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+}
+
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>What to show</mat-label>
+  <mat-select [value]="spec().view" (selectionChange)="set({view: $event.value})" data-id="plotView">
+    @for (view of views(); track view.value) {
+      <mat-option [value]="view.value">{{ view.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+@if (showsRunValue()) {
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Value of a run</mat-label>
+    <mat-select [value]="spec().runValue" (selectionChange)="set({runValue: $event.value})" data-id="plotRunValue">
+      <mat-option value="last">Its last value</mat-option>
+      <mat-option value="min">Its lowest value</mat-option>
+      <mat-option value="max">Its highest value</mat-option>
+    </mat-select>
+  </mat-form-field>
+}
+
+@if (showsStatistic()) {
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Over the runs, show</mat-label>
+    <mat-select [value]="spec().statistic" (selectionChange)="set({statistic: $event.value})" data-id="plotStatistic">
+      <mat-option value="last">The value of each run</mat-option>
+      <mat-option value="min">The lowest value so far</mat-option>
+      <mat-option value="max">The highest value so far</mat-option>
+      <mat-option value="avg">The average so far</mat-option>
+      <mat-option value="best-so-far">The best so far</mat-option>
+    </mat-select>
+  </mat-form-field>
+}
+
+@if (showsGoal()) {
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Better is</mat-label>
+    <mat-select [value]="spec().goal" (selectionChange)="set({goal: $event.value})" data-id="plotGoal">
+      <mat-option value="min">A lower value</mat-option>
+      <mat-option value="max">A higher value</mat-option>
+    </mat-select>
+  </mat-form-field>
+}
+
+@if (spec().view === 'vs-parameter') {
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Parameter</mat-label>
+    <mat-select [value]="parameterKey()" (selectionChange)="chooseParameter($event.value)" data-id="plotParameter">
+      @for (item of parameters.value() ?? []; track parameterOptionKey(item)) {
+        <mat-option [value]="parameterOptionKey(item)">{{ item.section }}/{{ item.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+}
+
+<mat-form-field appearance="outline" class="w-100">
+  <mat-label>Chart</mat-label>
+  <mat-select [value]="spec().chart" (selectionChange)="set({chart: $event.value})" data-id="plotChartType">
+    @for (chart of charts(); track chart.value) {
+      <mat-option [value]="chart.value">{{ chart.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

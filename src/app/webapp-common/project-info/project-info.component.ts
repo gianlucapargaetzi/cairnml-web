@@ -1,130 +1,130 @@
-import {MatIconModule} from '@angular/material/icon';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed, effect, signal, inject, untracked, viewChild
+  ChangeDetectionStrategy, Component, computed, effect, inject, resource, untracked
 } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {combineLatest} from 'rxjs';
-import {debounceTime, filter, take} from 'rxjs/operators';
-import 'ngx-markdown-editor';
-import {
-  selectBlockUserScript,
-  selectIsDeepMode,
-  selectSelectedMetricVariantForCurrProject,
-  selectSelectedProject
-} from '../core/reducers/projects.reducer';
-import {setBreadcrumbsOptions, updateProject} from '../core/actions/projects.actions';
-import {isExample} from '../shared/utils/shared-utils';
-import {HeaderMenuService} from '~/shared/services/header-menu.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {combineLatest, firstValueFrom} from 'rxjs';
+import {debounceTime, filter, map, take} from 'rxjs/operators';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {selectThemeMode} from '@common/core/reducers/view.reducer';
 import {injectQueryParams} from 'ngxtension/inject-query-params';
-import {MarkdownEditorComponent} from '@common/shared/components/markdown-editor/markdown-editor.component';
-import {MatExpansionPanel, MatExpansionPanelContent, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
+import {selectIsDeepMode, selectSelectedMetricVariantForCurrProject, selectSelectedProject} from '../core/reducers/projects.reducer';
+import {setBreadcrumbsOptions} from '../core/actions/projects.actions';
+import {HeaderMenuService} from '~/shared/services/header-menu.service';
+import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {MatButton} from '@angular/material/button';
-import {ProjectStatsComponent} from '@common/project-info/conteiners/project-stats/project-stats.component';
-import {ProjectContributionComponent} from '@common/project-info/contribution/project-contribution.component';
-import {OverviewSettingsService} from '@common/project-info/overview-settings.service';
-import {ProjectStateComponent} from '@common/project-info/project-state/project-state.component';
-import {RecentExperimentsComponent} from '@common/project-info/recent-experiments/recent-experiments.component';
-import {RouterLink} from '@angular/router';
+import {BoardGridComponent} from '@common/project-board/board-grid/board-grid.component';
+import {BoardCardComponent} from '@common/project-board/board-card/board-card.component';
+import {AddCardDialogComponent} from '@common/project-board/add-card-dialog/add-card-dialog.component';
+import {CardSettingsDialogComponent} from '@common/project-board/card-settings-dialog/card-settings-dialog.component';
+import {BoardService} from '@common/project-board/board.service';
+import {BoardState} from '@common/project-board/board-state';
+import {BoardCard, BoardCardType} from '@common/project-board/board.model';
+import {defaultBoard} from '@common/project-board/default-board';
+import {nextFreePosition} from '@common/project-board/board-layout';
+import {CARD_TYPES} from '@common/project-board/card-registry';
 
-
+/**
+ * The overview of a project: its board of cards. Everyone who can read the project sees the same board; the project's owner (and a
+ * company admin) can arrange it. A project that never saved a board shows the default board, which is the content of the old
+ * overview as cards.
+ */
 @Component({
   selector: 'sm-project-info',
   templateUrl: './project-info.component.html',
   styleUrls: ['./project-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatIconModule,
-    MarkdownEditorComponent,
-    MatExpansionPanelTitle,
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelContent,
-    MatButton,
-    ProjectStatsComponent,
-    ProjectContributionComponent,
-    ProjectStateComponent,
-    RecentExperimentsComponent,
-    RouterLink
-  ]
+    MatIconButton, MatButton, MatIcon, MatProgressSpinner, TooltipDirective, InlineAlertComponent, BoardGridComponent, BoardCardComponent,
+  ],
 })
 export class ProjectInfoComponent {
-  private store = inject(Store);
-  private contextMenuService = inject(HeaderMenuService);
-  private archive = injectQueryParams('archive');
-  private overviewSettings = inject(OverviewSettingsService);
+  private readonly store = inject(Store);
+  private readonly dialog = inject(MatDialog);
+  private readonly boards = inject(BoardService);
+  private readonly headerMenu = inject(HeaderMenuService);
+  private readonly archive = injectQueryParams('archive');
 
-  protected blockUserScripts = this.store.selectSignal(selectBlockUserScript);
-  public panelOpen = signal(false);
-  protected project = this.store.selectSignal(selectSelectedProject);
-  protected example = computed(() => isExample(this.project()));
-  protected projectId = computed(() => this.project()?.id);
-  protected info = computed(() => this.project()?.description);
-  protected loading = computed(() => !this.project());
-  // The layout of this user for this project: the default page until the user changes it in the project settings.
-  protected overview = computed(() => this.overviewSettings.settings(this.projectId() ?? ''));
-  protected visiblePanels = computed(() => this.overview().panels.filter(panel => panel.shown));
-  protected noPanelsShown = computed(() => this.visiblePanels().length === 0);
-  protected contributionOptions = computed(() => this.overview().contribution);
-  protected descriptionEditor = viewChild<MarkdownEditorComponent>('descriptionEditor');
-  public theme = this.store.selectSignal(selectThemeMode);
+  protected readonly project = this.store.selectSignal(selectSelectedProject);
+  protected readonly projectId = computed(() => this.project()?.id);
+
+  /** What the board is doing, one per project. */
+  protected readonly state = computed(() => {
+    const id = this.projectId() ?? '';
+    return new BoardState({
+      save: board => this.boards.set(id, board),
+      load: () => this.boards.get(id).pipe(map(loaded => loaded.board)),
+      fallback: defaultBoard,
+    });
+  });
+
+  private readonly saved = resource({
+    params: () => this.projectId(),
+    loader: ({params}) => firstValueFrom(this.boards.get(params)),
+  });
+  protected readonly ready = computed(() => this.saved.status() === 'resolved' || this.saved.status() === 'error');
+  /** Only the owner of the project arranges the board; the server says who that is (a company admin passes the same check). */
+  protected readonly canEdit = computed(() => this.saved.status() === 'resolved' && !!this.saved.value()?.canEdit);
 
   constructor() {
     effect(() => {
-      if (this.theme()) {
-        Array.from(window.frames).forEach(frame => frame.postMessage('themeChanged', '*'));
+      if (this.ready()) {
+        const board = this.saved.status() === 'resolved' ? this.saved.value()?.board ?? null : null;
+        untracked(() => this.state().load(board, defaultBoard()));
       }
     });
-
     effect(() => {
       if (this.projectId()) {
-        untracked(() => this.contextMenuService.setupProjectHeaderTabs('overview', this.projectId(), this.archive() === 'true'));
+        untracked(() => this.headerMenu.setupProjectHeaderTabs('overview', this.projectId()!, this.archive() === 'true'));
       }
     });
     this.setupBreadcrumbsOptions();
+    this.store.select(selectSelectedMetricVariantForCurrProject).pipe(filter(data => !!data), take(1)).subscribe();
+  }
 
-    this.store.select(selectSelectedMetricVariantForCurrProject)
-      .pipe(
-        filter(data => !!data),
-        take(1)
-      )
-      .subscribe(() => {
-        this.setMetricsPanel(true);
+  protected toggleEditing(): void {
+    this.state().setEditing(!this.state().editing());
+  }
+
+  protected addCard(): void {
+    this.dialog.open<AddCardDialogComponent, void, BoardCardType | undefined>(AddCardDialogComponent, {panelClass: 'dialog-md'})
+      .afterClosed().subscribe(type => {
+        if (!type) {
+          return;
+        }
+        const def = CARD_TYPES[type];
+        const state = this.state();
+        const card: BoardCard = {
+          id: `${type}-${crypto.randomUUID().slice(0, 8)}`, type, ...nextFreePosition(state.board().cards),
+          w: def.defaultSize.w, h: def.defaultSize.h, settings: def.defaultSettings(),
+        };
+        state.addCard(card);
       });
   }
 
-  setMetricsPanel(open: boolean) {
-    this.panelOpen.set(open);
+  protected editCard(card: BoardCard): void {
+    this.dialog.open<CardSettingsDialogComponent, {card: BoardCard; projectId: string}, Record<string, unknown> | undefined>(
+      CardSettingsDialogComponent, {panelClass: 'dialog-md', data: {card, projectId: this.projectId()!}})
+      .afterClosed().subscribe(settings => {
+        if (settings) {
+          const state = this.state();
+          state.updateCards(state.board().cards.map(candidate => candidate.id === card.id ? {...candidate, settings} : candidate));
+        }
+      });
   }
 
-  saveInfo(info: string) {
-    this.store.dispatch(updateProject({id: this.projectId(), changes: {description: info}}));
-  }
-
-  setupBreadcrumbsOptions() {
-    combineLatest([
-      this.store.select(selectSelectedProject),
-      this.store.select(selectIsDeepMode)
-    ])
-      .pipe(
-        takeUntilDestroyed(),
-        debounceTime(0))
+  private setupBreadcrumbsOptions(): void {
+    combineLatest([this.store.select(selectSelectedProject), this.store.select(selectIsDeepMode)])
+      .pipe(takeUntilDestroyed(), debounceTime(0))
       .subscribe(([selectedProject, isDeep]) => this.store.dispatch(
         setBreadcrumbsOptions({
           breadcrumbOptions: {
             showProjects: !!selectedProject,
-            featureBreadcrumb: {
-              name: 'Projects',
-              url: 'projects'
-            },
-            ...(isDeep && selectedProject?.id !== '*' && {
-              subFeatureBreadcrumb: {
-                name: 'All Tasks'
-              }
-            }),
+            featureBreadcrumb: {name: 'Projects', url: 'projects'},
+            ...(isDeep && selectedProject?.id !== '*' && {subFeatureBreadcrumb: {name: 'All Tasks'}}),
             projectsOptions: {
               basePath: 'projects',
               filterBaseNameWith: null,
@@ -133,11 +133,11 @@ export class ProjectInfoComponent {
               ...(selectedProject && {
                 selectedProjectBreadcrumb: {
                   name: selectedProject?.id === '*' ? 'All Tasks' : selectedProject?.basename,
-                  url: `projects/${selectedProject?.id}/projects`
-                }
-              })
-            }
-          }
+                  url: `projects/${selectedProject?.id}/projects`,
+                },
+              }),
+            },
+          },
         })
       ));
   }

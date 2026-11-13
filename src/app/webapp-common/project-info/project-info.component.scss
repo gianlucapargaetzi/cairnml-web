@@ -1,85 +1,64 @@
 @use "../layout/layout";
 @use "../styles/mixins/page-width";
 
-:host{
+:host {
+  display: block;
   overflow: auto;
-  padding: var(--space-5) 0 0;
-}
-.header-container {
-  height: layout.$project-header-height;
+  padding: var(--space-5) 0;
 }
 
 .info-content {
   @include page-width.reduced-page();
   min-height: 500px;
+}
+
+.loading {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-6) 0;
+}
 
-  .metric-panel {
-    max-height: 340px;
-    min-height: 48px;
-    width: 100%;
-    margin: 0 0 24px;
-    overflow: hidden;
-    border-radius: var(--mat-expansion-container-shape);
+.board-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  min-height: var(--control-height);
 
-    &.open {
-      min-height: 340px;
-    }
-
-    mat-expansion-panel {
-      height: 100%;
-      background-color: var(--color-surface-container-low);
-
-      .mat-expansion-panel-header-title {
-        font-size: 16px;
-      }
-    }
-
-    sm-project-stats {
-      min-height: 300px;
-      height: 300px;
-    }
-  }
-
-  .no-panels-hint {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    align-items: center;
-    width: 100%;
-    margin: 0 0 24px;
-    padding: 16px;
-    border: 1px solid var(--color-surface-container-high);
-    border-radius: var(--radius-md);
-    background-color: var(--color-surface-container-low);
-    font-size: 14px;
+  .meta {
     color: var(--color-on-surface-variant);
+    font-size: var(--font-size-sm);
   }
 
-  .overview-placeholder {
-    min-height: 320px;
-    flex: 1;
-    color: var(--color-empty-state);
-
-    .no-data-title {
-      margin: 24px 0;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .no-data-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  sm-markdown-editor {
-    flex: 1;
-    width: 100%;
-    min-height: 300px;
-    margin: 0;
+  .active {
+    color: var(--color-primary);
   }
 }
 
+sm-inline-alert {
+  display: block;
+  margin-block-end: var(--space-4);
+}
+
+// the empty place at the bottom of the board in edit mode: a click adds a card
+.board-add-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: calc(var(--control-height) * 2);
+  margin-block-start: var(--space-4);
+  border: 1px dashed var(--color-outline);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-surface-container-low);
+  }
+}

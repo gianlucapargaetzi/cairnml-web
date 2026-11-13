@@ -1,0 +1,33 @@
+<div class="title" data-id="plotTitle">{{ title() }}</div>
+@if (plot.isLoading()) {
+  <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
+} @else if (plot.error()) {
+  <p class="note center" data-id="plotError">The runs could not be read.</p>
+} @else if (plot.value(); as loaded) {
+  @switch (loaded.model.kind) {
+    @case ('empty') {
+      <p class="note center" data-id="plotEmpty">No runs match these settings.</p>
+    }
+    @case ('number') {
+      <div class="number" data-id="plotNumber">
+        <div class="big">{{ loaded.model.value | number: '1.0-4' }}</div>
+        <div class="note">{{ loaded.model.label }}</div>
+      </div>
+    }
+    @case ('series') {
+      <sm-line-chart class="chart" data-id="plotChart" [data]="topics(loaded.model)" [bars]="loaded.model.bars" [xAxis]="loaded.model.xAxis"
+                     [yLabel]="loaded.model.yLabel" [minUnit]="'day'" [precision]="3" [yTickFormatter]="tick" [hideLegend]="loaded.model.series.length < 2"
+                     [colorScheme]="colors"></sm-line-chart>
+    }
+    @case ('donut') {
+      <sm-donut class="chart" data-id="plotChart" [data]="slices(loaded.model.slices)" [colors]="colors" [showPicker]="false"></sm-donut>
+    }
+    @case ('scatter') {
+      <sm-scatter-plot class="chart" data-id="plotChart" [data]="scatter(loaded.model)" [xAxisLabel]="loaded.model.xLabel"
+                       [yAxisLabel]="loaded.model.yLabel" xAxisType="linear"></sm-scatter-plot>
+    }
+  }
+  @if (loaded.capped) {
+    <div class="note" data-id="plotCapped">The latest 500 runs only.</div>
+  }
+}

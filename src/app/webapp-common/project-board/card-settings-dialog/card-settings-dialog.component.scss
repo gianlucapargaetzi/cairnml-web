@@ -1,0 +1,3 @@
+@use "mixins/dialog-form" as dialog-form;
+
+@include dialog-form.dialog-form();
