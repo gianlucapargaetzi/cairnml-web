@@ -35,6 +35,8 @@ Combinations that already exist: the Workers page is **A + B + D** (tiles, a gri
 
 **Twins:** `features/workers-and-queues/dashboard/resources-dashboard.component.{ts,html,scss}` (the model); `features/dashboard/dashboard.component.html` with `webapp-common/dashboard/containers/*` (projects row + recent experiments); `features/task-folders/task-folders.component.*` (project dashboard); `webapp-common/project-workloads/workloads-page/*` (charts page with a period selector, donut and graphs).
 **Live:** `/workers-and-queues/dashboard`, `/dashboard`, `/projects/<id>/folders`, `/projects/<id>/workloads`.
+
+**The project overview is a board**, not a hand-built dashboard: a new card for it is a card type (`webapp-common/project-board/card-registry.ts`), built to `docs/design-system/components/board.md`. Check it with `scripts/board-check.js`, `plot-check.js` and `ds-check.js`.
 **Styles to include:** `mixins/panels.scss`.
 **Pair:** tiles (the number) + chart (the trend) + table (the exact rows).
 
