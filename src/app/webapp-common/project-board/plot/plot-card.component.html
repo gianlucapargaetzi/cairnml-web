@@ -16,7 +16,7 @@
     }
     @case ('series') {
       <sm-line-chart class="chart" data-id="plotChart" [data]="topics(loaded.model)" [bars]="loaded.model.bars" [xAxis]="loaded.model.xAxis"
-                     [yLabel]="loaded.model.yLabel" [minUnit]="'day'" [precision]="2" [hideLegend]="loaded.model.series.length < 2"
+                     [yLabel]="loaded.model.yLabel" [minUnit]="'day'" [precision]="3" [yTickFormatter]="tick" [hideLegend]="loaded.model.series.length < 2"
                      [colorScheme]="colors"></sm-line-chart>
     }
     @case ('donut') {

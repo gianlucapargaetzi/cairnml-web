@@ -30,6 +30,8 @@ export class PlotCardComponent {
   protected readonly spec = computed(() => normalizePlotSettings(this.settings()));
   protected readonly title = computed(() => plotTitle(this.spec()));
   protected readonly colors = presetColors;
+  /** Axis labels with three significant digits: a loss of 0.53 is not shown as 1. */
+  protected readonly tick = (value: number) => String(Number(value.toPrecision(3)));
 
   protected readonly plot = rxResource({
     params: () => ({projectId: this.projectId(), spec: this.spec()}),
