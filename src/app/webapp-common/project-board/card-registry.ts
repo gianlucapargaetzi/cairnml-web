@@ -73,7 +73,7 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
     settings: () => import('./cards/contribution-settings.component').then(m => m.ContributionSettingsComponent),
   },
   'description': {
-    label: 'Project overview', icon: 'al-ico-description', description: 'The project description (markdown)',
+    label: 'Project description', icon: 'al-ico-description', description: 'The project description (markdown)',
     defaultSize: {w: 6, h: 4}, fit: true, defaultSettings: none, bare: true,
     body: () => import('./cards/description-card.component').then(m => m.DescriptionCardComponent),
   },

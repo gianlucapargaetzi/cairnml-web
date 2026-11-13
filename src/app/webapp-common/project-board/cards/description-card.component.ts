@@ -9,7 +9,7 @@ import {selectThemeMode} from '@common/core/reducers/view.reducer';
 import {isExample} from '@common/shared/utils/shared-utils';
 import {MarkdownEditorComponent} from '@common/shared/components/markdown-editor/markdown-editor.component';
 
-/** The old overview's "Project overview" panel as a card: the project description, written in markdown. */
+/** The old overview's project description panel as a card: the project description, written in markdown. */
 @Component({
   selector: 'sm-description-card',
   templateUrl: './description-card.component.html',
