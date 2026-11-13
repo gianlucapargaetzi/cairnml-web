@@ -46,10 +46,16 @@ describe('BoardCardComponent', () => {
   });
 
   it('says so when its type has no body in this version', async () => {
-    const root = await create(card({type: 'plot', h: 12, w: 3, settings: {}}), false);
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(root.querySelector('[data-id=boardCardUnavailable]')).not.toBeNull();
+    const original = CARD_TYPES['plot'].body;
+    try {
+      CARD_TYPES['plot'].body = undefined;
+      const root = await create(card({type: 'plot', h: 12, w: 3, settings: {}}), false);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(root.querySelector('[data-id=boardCardUnavailable]')).not.toBeNull();
+    } finally {
+      CARD_TYPES['plot'].body = original;
+    }
   });
 
   it('emits remove from the trash and edit from the pen', async () => {

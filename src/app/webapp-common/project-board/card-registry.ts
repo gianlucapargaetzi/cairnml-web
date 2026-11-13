@@ -77,15 +77,19 @@ export const CARD_TYPES: Record<BoardCardType, CardTypeDef> = {
   },
   'dataset-content': {
     label: 'Dataset content', icon: 'al-ico-datasets', description: 'How the number of samples of a dataset changed from version to version',
-    defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    defaultSize: {w: 3, h: 12}, defaultSettings: () => ({dataset: null}),
+    body: () => import('./dataset-content/dataset-content-card.component').then(m => m.DatasetContentCardComponent),
+    settings: () => import('./dataset-content/dataset-content-settings.component').then(m => m.DatasetContentSettingsComponent),
   },
   'agents': {
     label: 'Agents', icon: 'al-ico-queues', description: 'The agents of the project and what they are doing',
     defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    body: () => import('./agents/agents-card.component').then(m => m.AgentsCardComponent),
   },
   'repositories': {
     label: 'Repositories and datasets', icon: 'al-ico-project-path', description: 'The repositories and datasets the project uses',
     defaultSize: {w: 3, h: 12}, defaultSettings: none,
+    body: () => import('./repositories/repositories-card.component').then(m => m.RepositoriesCardComponent),
   },
   'divider': {
     label: 'Divider', icon: 'al-ico-line-expand', description: 'A titled line that separates parts of the board',

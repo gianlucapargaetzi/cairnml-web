@@ -1,0 +1,26 @@
+@if (view.isLoading()) {
+  <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
+} @else if (view.error()) {
+  <p class="note center" data-id="agentsError">The agents could not be read.</p>
+} @else if (view.value(); as shown) {
+  @if (!shown.queues.length) {
+    <p class="note center" data-id="agentsNoQueue">No queue is allocated to this project. Allocate one in the project settings, under Queues.</p>
+  } @else {
+    <div class="title" data-id="agentsSummary">
+      {{ shown.agents.length }} {{ shown.agents.length === 1 ? 'agent' : 'agents' }}, {{ shown.idle }} idle · {{ shown.waiting }} waiting
+    </div>
+    @if (!shown.agents.length) {
+      <p class="note" data-id="agentsNone">No agent listens on the queues of this project.</p>
+    }
+    <ul class="rows">
+      @for (agent of shown.agents; track agent.name) {
+        <li data-id="agentRow">
+          <span class="dot" [class.busy]="agent.busy" aria-hidden="true"></span>
+          <span class="name">{{ agent.name }}</span>
+          <span class="note">{{ agent.busy ? 'running ' + agent.task : 'idle' }}</span>
+        </li>
+      }
+    </ul>
+    <div class="note">Queues: @for (queue of shown.queues; track queue.id; let last = $last) {{{ queue.name }} ({{ queue.waiting }}){{ last ? '' : ', ' }}}</div>
+  }
+}

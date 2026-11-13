@@ -134,6 +134,15 @@ export interface RepoHistory {
   limited: boolean;
 }
 
+/** One version of a dataset: its samples and splits at a commit that matters. `samples` is null when the commit has no readable manifest. */
+export interface DatasetVersion {
+  commit: string;
+  date: string;
+  message: string;
+  samples: number | null;
+  splits: Record<string, number>;
+}
+
 export interface RepoRun {
   id: string;
   name: string;
@@ -227,6 +236,11 @@ export class RepositoriesService {
   // The runs that used a repository, newest first, in the projects the user sees.
   runs(id: string): Observable<RepoRun[]> {
     return this.post<{ runs?: RepoRun[] }>('get_runs', {id}).pipe(map(r => r?.runs ?? []));
+  }
+
+  // How the content of a dataset changed: its samples and splits at the commits that matter, oldest first.
+  datasetVersions(id: string): Observable<DatasetVersion[]> {
+    return this.post<{ versions?: DatasetVersion[] }>('get_dataset_versions', {id}).pipe(map(r => r?.versions ?? []));
   }
 
   // Reads a registry again. Returns the counts added, updated and removed.

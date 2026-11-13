@@ -1,0 +1,17 @@
+@if (rows.isLoading()) {
+  <div class="center"><mat-spinner [diameter]="24" [strokeWidth]="3" aria-label="Loading"></mat-spinner></div>
+} @else if (rows.error()) {
+  <p class="note center" data-id="repositoriesError">The repositories could not be read.</p>
+} @else if (!(rows.value() ?? []).length) {
+  <p class="note center" data-id="repositoriesEmpty">No repository or dataset is linked to this project. Link one in the project settings.</p>
+} @else {
+  <ul class="rows">
+    @for (row of rows.value(); track row.id) {
+      <li data-id="repositoryRow">
+        <sm-repo-access-badge [access]="row.access" [iconOnly]="true"></sm-repo-access-badge>
+        <span class="name">{{ row.name }}</span>
+        <span class="note">{{ row.roles }} · {{ row.runs }} {{ row.runs === 1 ? 'run' : 'runs' }}</span>
+      </li>
+    }
+  </ul>
+}
