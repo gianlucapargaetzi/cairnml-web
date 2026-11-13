@@ -1,10 +1,12 @@
-<div class="card" [class.surface]="!def().bare && !isDivider()" [class.divider]="isDivider()" [attr.data-card]="card().id">
+<div class="card" [class.fitting]="autoFit()" [class.surface]="!def().bare && !isDivider()" [class.divider]="isDivider()" [attr.data-card]="card().id">
   @if (isDivider()) {
     <div class="divider-title" data-id="boardDivider">{{ title() }}</div>
   } @else {
-    @if (body.value(); as component) {
-      <ng-container *ngComponentOutlet="component; inputs: bodyInputs()"></ng-container>
-    }
+    <div class="body">
+      @if (body.value(); as component) {
+        <ng-container *ngComponentOutlet="component; inputs: bodyInputs()"></ng-container>
+      }
+    </div>
   }
   @if (editing()) {
     <div class="controls" data-id="boardCardControls">

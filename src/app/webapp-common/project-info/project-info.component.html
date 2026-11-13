@@ -26,7 +26,7 @@
     <sm-board-grid [cards]="board.board().cards" [editable]="board.editing()" (cardsChange)="board.updateCards($event)">
       <ng-template #card let-card>
         <sm-board-card [card]="card" [projectId]="projectId()!" [editing]="board.editing()" (edit)="editCard(card)"
-                       (remove)="board.removeCard(card.id)"></sm-board-card>
+                       (remove)="board.removeCard(card.id)" [autoFit]="fitting().has(card.id)" (fit)="fitCard(card, $event)"></sm-board-card>
       </ng-template>
     </sm-board-grid>
     @if (board.editing()) {

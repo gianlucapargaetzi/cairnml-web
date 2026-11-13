@@ -25,7 +25,7 @@ const pick = async (p, id, text) => { await p.click(`[data-id=${id}]`); await p.
   await p.shot('plot-settings');
   const views = await p.evaluate(() => 0); void views;
   await p.click('[data-id=ApplyCardSettingsButton]'); await p.waitForTimeout(2500);
-  check(await card.locator('[data-id=plotTitle]').innerText().then(t => /loss \/ train/.test(t)), 'the plot is the one that was set up', await card.locator('[data-id=plotTitle]').innerText());
+  check(await card.locator('[data-id=cardTitle]').innerText().then(t => /loss \/ train/.test(t)), 'the plot is the one that was set up', await card.locator('[data-id=cardTitle]').innerText());
   check(await card.locator('canvas').count() > 0, 'a chart is drawn');
   await p.shot('plot-evolution');
   // every view of a scalar

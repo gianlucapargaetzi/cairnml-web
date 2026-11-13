@@ -115,3 +115,12 @@ export function normalizePlotSettings(raw: unknown): PlotSpec {
     ...(text(parameter?.section) && text(parameter?.name) ? {parameter: {section: parameter.section as string, name: parameter.name as string}} : {}),
   };
 }
+
+/** Which runs a plot is about, in a sentence: all runs, the runs of one task, or a hand-picked set. */
+export function runsScope(runs: PlotRuns): string {
+  switch (runs.scope) {
+    case 'task': return `The runs of the task ${runs.task}`;
+    case 'set': return `${runs.ids.length} chosen ${runs.ids.length === 1 ? 'run' : 'runs'}`;
+    default: return 'All runs of the project';
+  }
+}

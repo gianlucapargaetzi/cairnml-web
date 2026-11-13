@@ -50,9 +50,18 @@ export class BoardGridComponent {
     });
   }
 
+  private gap = 0;
+
+  /** How many rows (a whole number of tiles) a card needs to show content that is `px` high: the next bigger tile. */
+  rowsFor(px: number): number {
+    const row = this.gridElement().nativeElement.getBoundingClientRect().width / (this.grid?.getColumn() === 1 ? 2 : GRID_COLUMNS) / SUB_ROWS;
+    return Math.max(SUB_ROWS, Math.ceil((px + 2 * this.gap) / row / SUB_ROWS) * SUB_ROWS);
+  }
+
   private create(): void {
     const element = this.gridElement().nativeElement;
     const gap = parseFloat(getComputedStyle(element).getPropertyValue('--space-4')) || 16;
+    this.gap = gap;
     this.grid = GridStack.init({
       column: GRID_COLUMNS,
       // below the tablet floor the board is one column; columnMax keeps the full grid at 6 (the library default is 12)

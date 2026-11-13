@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, computed, effect, inject, resource, untracked
+  ChangeDetectionStrategy, Component, computed, effect, inject, resource, signal, untracked, viewChild
 } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
@@ -32,6 +32,9 @@ import {CARD_TYPES} from '@common/project-board/card-registry';
  * company admin) can arrange it. A project that never saved a board shows the default board, which is the content of the old
  * overview as cards.
  */
+/** How long a new card may still grow to fit its content. */
+const FIT_WINDOW_MS = 8000;
+
 @Component({
   selector: 'sm-project-info',
   templateUrl: './project-info.component.html',
@@ -89,6 +92,19 @@ export class ProjectInfoComponent {
     this.state().setEditing(!this.state().editing());
   }
 
+  protected readonly fitting = signal<ReadonlySet<string>>(new Set());
+  private readonly grid = viewChild(BoardGridComponent);
+
+  /** A new card reported how high its content is: it takes the next whole tile that shows all of it. */
+  protected fitCard(card: BoardCard, px: number): void {
+    const rows = this.grid()?.rowsFor(px);
+    const state = this.state();
+    const current = state.board().cards.find(candidate => candidate.id === card.id);
+    if (rows && current && rows !== current.h) {
+      state.updateCards(state.board().cards.map(candidate => candidate.id === card.id ? {...candidate, h: rows} : candidate));
+    }
+  }
+
   protected addCard(): void {
     this.dialog.open<AddCardDialogComponent, void, BoardCardType | undefined>(AddCardDialogComponent, {panelClass: 'dialog-md'})
       .afterClosed().subscribe(type => {
@@ -102,6 +118,11 @@ export class ProjectInfoComponent {
           w: def.defaultSize.w, h: def.defaultSize.h, settings: def.defaultSettings(),
         };
         state.addCard(card);
+        if (def.fit) {
+          this.fitting.update(ids => new Set(ids).add(card.id));
+          // the card has had time to load by now; after that its size is the owner's
+          setTimeout(() => this.fitting.update(ids => new Set([...ids].filter(id => id !== card.id))), FIT_WINDOW_MS);
+        }
       });
   }
 

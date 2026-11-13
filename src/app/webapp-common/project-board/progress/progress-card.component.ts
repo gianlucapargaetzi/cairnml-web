@@ -4,7 +4,9 @@ import {DecimalPipe} from '@angular/common';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {map, of} from 'rxjs';
 import {PlotDataService} from '../plot/plot-data.service';
-import {DEFAULT_PLOT, PlotSpec} from '../plot/plot-spec';
+import {DEFAULT_PLOT, PlotSpec, runsScope} from '../plot/plot-spec';
+import {CardHeadingComponent} from '../shared/card-heading.component';
+import {CardTileComponent, CardTilesComponent} from '../shared/card-tiles.component';
 import {computeProgress, Progress, progressSettings, ProgressSettings} from './progress';
 
 /** The progress of a project on one metric: the best value, how many runs failed and how long it has been since the best value improved. */
@@ -13,7 +15,7 @@ import {computeProgress, Progress, progressSettings, ProgressSettings} from './p
   templateUrl: './progress-card.component.html',
   styleUrls: ['./progress-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DecimalPipe, MatProgressSpinner],
+  imports: [CardHeadingComponent, CardTileComponent, CardTilesComponent, DecimalPipe, MatProgressSpinner],
 })
 export class ProgressCardComponent {
   private readonly data = inject(PlotDataService);
@@ -21,6 +23,12 @@ export class ProgressCardComponent {
   readonly settings = input<Record<string, unknown>>({});
 
   protected readonly options = computed(() => progressSettings(this.settings()));
+
+  protected readonly title = computed(() => {
+    const metric = this.options().metric;
+    return metric ? `Progress on ${metric.metric} / ${metric.variant}` : 'Progress on a metric';
+  });
+  protected readonly scope = computed(() => runsScope(this.options().task ? {scope: 'task', task: this.options().task!} : {scope: 'project'}));
 
   protected readonly result = rxResource<{progress: Progress; capped: boolean} | null, {projectId: string; options: ProgressSettings}>({
     params: () => ({projectId: this.projectId(), options: this.options()}),

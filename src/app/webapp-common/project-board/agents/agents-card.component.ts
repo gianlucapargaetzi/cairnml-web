@@ -4,6 +4,7 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {forkJoin, map, of, switchMap} from 'rxjs';
 import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {CardHeadingComponent} from '../shared/card-heading.component';
 import {AgentsView, agentRows, QueueInfo, WorkerInfo} from './agents';
 
 /** The agents that serve the project's queues, what they run and how many tasks wait. */
@@ -12,7 +13,7 @@ import {AgentsView, agentRows, QueueInfo, WorkerInfo} from './agents';
   templateUrl: './agents-card.component.html',
   styleUrls: ['./agents-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatProgressSpinner],
+  imports: [CardHeadingComponent, MatProgressSpinner],
 })
 export class AgentsCardComponent {
   private readonly api = inject(SmApiRequestsService);

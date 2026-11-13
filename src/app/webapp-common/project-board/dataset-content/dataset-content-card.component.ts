@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {of} from 'rxjs';
+import {map, of} from 'rxjs';
+import {CardHeadingComponent} from '../shared/card-heading.component';
 import {LineChartComponent, Topic} from '@common/shared/components/charts/line-chart/line-chart.component';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {RepositoriesService} from '../../datasets/dataset-git/repositories.service';
@@ -13,7 +14,7 @@ import {datasetSetting, versionsView} from './dataset-versions';
   templateUrl: './dataset-content-card.component.html',
   styleUrls: ['./dataset-content-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatProgressSpinner, LineChartComponent],
+  imports: [CardHeadingComponent, MatProgressSpinner, LineChartComponent],
 })
 export class DatasetContentCardComponent {
   private readonly repositories = inject(RepositoriesService);
@@ -22,6 +23,15 @@ export class DatasetContentCardComponent {
 
   protected readonly dataset = computed(() => datasetSetting(this.settings()));
   protected readonly colors = presetColors;
+
+  private readonly datasets = rxResource({
+    params: () => this.projectId(),
+    stream: ({params}) => this.repositories.list(params).pipe(map(repos => new Map(repos.map(repo => [repo.id, repo.name])))),
+  });
+  protected readonly scope = computed(() => {
+    const id = this.dataset();
+    return id ? `The dataset ${this.datasets.value()?.get(id) ?? ''}`.trim() : 'No dataset chosen';
+  });
 
   protected readonly versions = rxResource({
     params: () => this.dataset(),

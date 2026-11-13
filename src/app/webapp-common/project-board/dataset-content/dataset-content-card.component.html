@@ -1,3 +1,4 @@
+<sm-board-card-heading title="Samples per version" [scope]="scope()" data-id="datasetTitle"></sm-board-card-heading>
 @if (!dataset()) {
   <p class="note center" data-id="datasetNone">No dataset linked. Choose one in the settings of this card.</p>
 } @else if (versions.isLoading()) {
@@ -8,7 +9,7 @@
   @if (shown.caption === null) {
     <p class="note center" data-id="datasetNoManifest">No version of this dataset has a manifest.json with its samples.</p>
   } @else {
-    <div class="title" data-id="datasetCaption">{{ shown.caption }}</div>
+    <div class="caption" data-id="datasetCaption">Newest version: {{ shown.caption }}</div>
     <sm-line-chart class="chart" data-id="datasetChart" [data]="topics()" [bars]="true" xAxis="time" yLabel="Samples" [minUnit]="'day'"
                    [hideLegend]="true" [colorScheme]="colors"></sm-line-chart>
   }

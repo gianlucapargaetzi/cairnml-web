@@ -27,6 +27,16 @@
   }
 }
 
+// the body fills the card; while a new card fits its height to its content the body is as high as its content, and that is what is measured
+.body {
+  height: 100%;
+  min-width: 0;
+}
+
+.card.fitting .body {
+  height: auto;
+}
+
 .divider-title {
   display: flex;
   align-items: center;
