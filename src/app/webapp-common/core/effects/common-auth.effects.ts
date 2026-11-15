@@ -40,14 +40,6 @@ export class CommonAuthEffects {
     map(action => activeLoader(action.type))
   ));
 
-  refresh = createEffect(() => this.actions.pipe(
-    ofType(authActions.refreshS3Credential, authActions.getSignedUrl),
-    map(() => {
-      const state = JSON.parse(window.localStorage.getItem('_saved_state_'));
-      return authActions.setS3Credentials({bucketCredentials: state?.auth?.s3BucketCredentials?.bucketCredentials});
-    })
-  ));
-
   signUrl = createEffect(() => this.actions.pipe(
     ofType(authActions.getSignedUrl),
     switchMap(action => this.store.select(selectExtraCredentials)

@@ -6,7 +6,6 @@ import {Store} from '@ngrx/store';
 import {selectRouterUrl} from '@common/core/reducers/router-reducer';
 import {getAllSystemProjects, setSelectedProjectId} from '@common/core/actions/projects.actions';
 import {selectRouterProjectId} from '@common/core/reducers/projects.reducer';
-import {getTutorialBucketCredentials} from '@common/core/actions/common-auth.actions';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {aceReady, firstLogin, plotlyReady, setScaleFactor, visibilityChanged} from '@common/core/actions/layout.actions';
 import {ReportEditStateService} from '@common/shared/services/report-edit-state.service';
@@ -116,7 +115,6 @@ export class AppComponent {
       )
       .subscribe(() => {
         this.store.dispatch(getAllSystemProjects({}));
-        this.store.dispatch(getTutorialBucketCredentials());
         this.uiUpdatesService.checkForUiUpdate();
         this.githubAppStatus.announce();
         this.tipsService.initTipsService(false);
