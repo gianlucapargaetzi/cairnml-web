@@ -26,7 +26,6 @@ Defined in `app.component.html` / `.scss`, `layout/side-nav`, `webapp-common/lay
 - **Brand mark in the header** exists only in a shared view without side navigation.
 - **Main area**: the routed page fills the height below the header. The page itself scrolls internally (body is `overflow: hidden`), so **each page owns its scroll container**.
 - **The trail on line 2** shows location, not history: Section → Project → page or tab.
-- **Update banner** (`sm-update-notifier`, 30px) pushes the app down when active.
 
 **Rules**
 

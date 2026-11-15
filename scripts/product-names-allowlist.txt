@@ -1,0 +1,13 @@
+# Lines that may keep a ClearML-era name. Format: path|text the line must contain|reason.
+# A new match outside this list fails scripts/check-product-names.sh.
+.github/workflows/build.yml|ng test trains-webapp|Angular project name; renaming it is a separate change
+angular.json|"trains-webapp"|Angular project name; renaming it is a separate change
+angular.json|"buildTarget": "trains-webapp:|Angular project name; renaming it is a separate change
+angular.json|fonts/trains.ttf|icon font file name; renaming it changes the glyph binding
+src/test.ts|angular.json "test" target of trains-webapp|Angular project name
+src/app/webapp-common/assets/fonts/variables.scss|$icomoon-font-family: "trains"|font family bound to trains.ttf
+src/app/webapp-common/assets/markdown-cheatsheet.html|font-family: "trains"|font family bound to trains.ttf
+src/app/webapp-common/shared/components/markdown-editor/markdown-editor.component.scss|font-family: "trains"|font family bound to trains.ttf
+src/app/webapp-common/layout/side-nav-actions/side-nav-actions.component.html|ClearML is a trademark|trademark notice, required
+.gitleaks.toml|description = "Public defaults inherited from ClearML|secret-scan rule for the inherited public default key
+src/app/webapp-common/shared/ui-components/overlay/update-notifier/update-notifier.component.ts|trains-server|removed by cairnml-web#125; delete this line when that lands

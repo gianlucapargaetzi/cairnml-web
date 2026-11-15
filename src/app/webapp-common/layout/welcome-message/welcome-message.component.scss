@@ -172,10 +172,6 @@ $credentialBaseHeight: 238px;
     &.has-ws {
       height: $credentialBaseHeight + 10;
     }
-
-    &.has-label {
-      height: $credentialBaseHeight + 20;
-    }
     &.jupyter{
       height: 0;
     }
@@ -185,19 +181,6 @@ $credentialBaseHeight: 238px;
       &.jupyter {
         height: 40px;
       }
-    }
-  }
-
-  .cred-visible {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 1s ease;
-
-    &.invisible {
-      opacity: 0;
-      height: 0;
-      overflow: hidden;
-      visibility: hidden;
     }
   }
 

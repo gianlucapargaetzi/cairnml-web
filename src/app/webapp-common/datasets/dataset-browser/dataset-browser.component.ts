@@ -143,7 +143,7 @@ export class DatasetBrowserComponent {
     if (row.entry) {
       return {entry: row.entry.id};
     }
-    return row.repo.roles.includes('dataset') ? {repository: row.repo.id} : null;
+    return row.repo.roles.includes('dataset') ? {ref: row.repo.id} : null;
   }
 
   protected readonly selectedDetails = rxResource<DatasetDetails | null, Row | null>({
