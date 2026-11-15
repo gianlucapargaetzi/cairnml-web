@@ -9,6 +9,8 @@
       </div>
       @if (percent() !== null) {
         <span class="percent">{{ percent() }}%</span>
+      } @else if (idle()) {
+        <span class="percent na" [attr.aria-label]="noEstimate" [title]="noEstimate">n/a</span>
       }
     }
     @case ('circle') {
@@ -18,6 +20,8 @@
       </span>
       @if (percent() !== null) {
         <span class="percent">{{ percent() }}%</span>
+      } @else if (idle()) {
+        <span class="percent na" [attr.aria-label]="noEstimate" [title]="noEstimate">n/a</span>
       }
     }
     @case ('full') {

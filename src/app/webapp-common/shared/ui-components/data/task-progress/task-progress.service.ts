@@ -10,15 +10,20 @@ export const PROGRESS_POLL_INTERVAL = 2000;
 const BATCH = 100;
 
 /**
- * The progress stored with the task. The SDK stores 0 without a label when it creates a task: that is no progress,
- * so such a task is idle until it reports.
+ * The progress stored with the task, used only until a live value arrives. Two stored values are no progress:
+ * - 0 without a label: the SDK stores it when it creates a task, so such a task is idle until it reports;
+ * - 100: the server keeps the last value of a run that finished its loop, and it is never cleared when the run goes
+ *   idle (loading or saving). A running task with no live value is therefore idle, not done. A live 100 still counts.
  */
 function storedPercent(runtime?: {progress?: string | number; progress_label?: string} | null): number | null {
   if (runtime?.progress === undefined || runtime?.progress === '') {
     return null;
   }
   const stored = Number(runtime.progress);
-  return Number.isNaN(stored) || (stored === 0 && !runtime.progress_label) ? null : stored;
+  if (Number.isNaN(stored) || (stored === 0 && !runtime.progress_label) || stored === 100) {
+    return null;
+  }
+  return stored;
 }
 
 export interface TaskProgress {

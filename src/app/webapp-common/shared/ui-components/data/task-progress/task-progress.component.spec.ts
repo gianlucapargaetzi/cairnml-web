@@ -43,12 +43,29 @@ describe('TaskProgressComponent', () => {
     expect(el.querySelector('.percent')?.textContent).toContain('41%');
   });
 
-  it('shows the idle animation, and no percentage, while nothing counts', () => {
+  it('shows the idle animation and n/a in place of the percentage while nothing counts', () => {
     progress = {t1: {bars: []}};
     const el = render({taskId: 't1', status: 'in_progress', mode: 'mini'});
     expect(el.querySelector('.track.idle')).not.toBeNull();
     expect(el.querySelector('.fill')).toBeNull();
-    expect(el.querySelector('.percent')).toBeNull();
+    const na = el.querySelector('.percent');
+    expect(na?.textContent?.trim()).toBe('n/a');
+    expect(na?.getAttribute('aria-label')).toBe('No progress estimate available');
+    expect(na?.getAttribute('title')).toBe('No progress estimate available');
+  });
+
+  it('shows n/a, not 100%, for a running task whose only progress is a stored 100', () => {
+    const el = render({taskId: 't1', status: 'in_progress', mode: 'mini', runtime: {progress: '100', progress_label: 'epochs'}});
+    expect(el.querySelector('.track.idle')).not.toBeNull();
+    expect(el.querySelector('.fill')).toBeNull();
+    expect(el.querySelector('.percent')?.textContent?.trim()).toBe('n/a');
+  });
+
+  it('still shows 100% for a live 100 while the last loop is counting', () => {
+    progress = {t1: {percent: 100, bars: [{label: 'epochs', n: 9, total: 9}]}};
+    const el = render({taskId: 't1', status: 'in_progress', mode: 'mini', runtime: {progress: '100', progress_label: 'epochs'}});
+    expect(el.querySelector('.fill')).not.toBeNull();
+    expect(el.querySelector('.percent')?.textContent).toContain('100%');
   });
 
   it('is idle for a running task that never reported', () => {
@@ -66,6 +83,7 @@ describe('TaskProgressComponent', () => {
     progress = {};
     el = render({taskId: 'idle', status: 'in_progress', mode: 'circle'});
     expect(el.querySelector('mat-progress-spinner')?.getAttribute('mode')).toBe('indeterminate');
+    expect(el.querySelector('.percent')?.textContent?.trim()).toBe('n/a');
   });
 
   it('shows a bar for every level with its text, the outermost first', () => {

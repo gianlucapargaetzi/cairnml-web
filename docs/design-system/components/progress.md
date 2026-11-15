@@ -22,7 +22,7 @@ In the detail panel the status strip at the top of the panel is also the bar: it
   (faint, `--progress-stripe-strength` 12%, 8px): the small bar of a table, the bars of the detail panel and its status
   strip. Reduced motion: the stripes stand still. Do not make the bars thicker to show them: thick bars looked wrong.
 - **Idle:** a running task that has nothing to count right now shows a segment sliding along the bar (40% of its width,
-  1.2 s; 3 s for reduced motion) instead of a fill, or the spinning ring, with no percentage; the `full` form says "Working…". That is a run that reports
+  1.2 s; 3 s for reduced motion) instead of a fill, or the spinning ring. The small bar and the ring show a muted `n/a` in place of the percentage, with the tooltip "No progress estimate available" (the same text is the element's aria-label); the `full` form says "Working…". That is a run that reports
   no progress, one that is outside the bar that counts (loading data before the pinned `epochs`), or one after its last
   loop (saving the model). The SDK reports this explicitly (no bars), so a bar never stays frozen at its last value.
 - Both come from the shared mixin `styles/mixins/progress.scss` (`fill`, `idle`, `keyframes`). Do not copy them.
@@ -36,6 +36,7 @@ In the detail panel the status strip at the top of the panel is also the bar: it
   for tasks that are not reporting, the value stored with the task (`runtime.progress`, `runtime.progress_label`) is
   used.
 - Nothing for a task that is not running. A running task that has not reported (or no longer has a bar that counts) is idle.
+- A stored 100 is not progress. The server keeps the last value of a run after its last loop and does not clear it when the run goes idle, so a running task with a stored 100 and no live value is idle (`n/a`). A live 100 still shows "100%".
 - Colours are tokens only; the bar has `role="progressbar"` with `aria-valuenow`.
 
 ## Do not
