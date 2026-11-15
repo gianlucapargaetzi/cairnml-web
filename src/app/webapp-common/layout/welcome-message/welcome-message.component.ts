@@ -4,15 +4,11 @@ import {
   Component,
   computed,
   signal,
-  inject,
-  DestroyRef
+  inject
 } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {setSelectedWorkspaceTab} from '@common/core/actions/users.actions';
 import {selectActiveWorkspace, selectGettingStarted} from '@common/core/reducers/users-reducer';
 import {Store} from '@ngrx/store';
-import {createCredential, resetCredential} from '@common/core/actions/common-auth.actions';
-import {selectNewCredential} from '@common/core/reducers/common-auth-reducer';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 import {Queue} from '~/business-logic/model/queues/queue';
 import {GettingStartedContext} from '../../../../environments/base';
@@ -67,10 +63,8 @@ export class WelcomeMessageComponent {
   private dialogRef = inject<MatDialogRef<WelcomeMessageComponent>>(MatDialogRef<WelcomeMessageComponent>);
   public data = inject<WelcomeMessageData>(MAT_DIALOG_DATA);
   protected configService = inject(ConfigurationService);
-  private destroyRef = inject(DestroyRef);
   private locationStrategy = inject(LocationStrategy);
   protected step = signal(this.data?.step ?? 1);
-  protected credentialsCreated = signal(false);
 
 
   WEB_SERVER_URL = window.location.origin + this.locationStrategy.getBaseHref();
@@ -102,7 +96,6 @@ export class WelcomeMessageComponent {
     ];
   public links = ['Set up CairnML', 'Run your ML code', 'Relaunch a previous task'];
   public doNotShowAgain: boolean;
-  public credentialsLabel: string;
   public src: string;
   public queue: Queue = this.data?.queue;
   public entityName: string = this.data?.entityName ?? 'Tasks';
@@ -112,11 +105,7 @@ export class WelcomeMessageComponent {
 
   public workspace = this.store.selectSignal(selectActiveWorkspace);
   private companyGettingStarted = this.store.selectSignal(selectGettingStarted);
-  protected credentials = this.store.selectSignal(selectNewCredential);
-  protected accessKey = computed(() => this.credentials()?.access_key);
-  protected secretKey = computed(() => this.credentials()?.secret_key);
   protected target = signal(0);
-  protected credentialsComment = computed(() => this.community() && this.workspace()?.name);
   protected isJupyter = computed(() => this.target() === 1);
   protected configGettingStarted = computed<GettingStartedContext>(() => this.configService.configuration().gettingStartedContext);
   protected docsLink = computed(() => this.configService.configuration().docsLink);
@@ -144,12 +133,7 @@ export class WelcomeMessageComponent {
     if (this.isJupyter()) {
       steps[this.queue ? 2 : 1].code =
         `%env CAIRNML_WEB_HOST=${this.WEB_SERVER_URL}
-%env CAIRNML_API_HOST=${this.configService.apiServerUrl()}\n`;
-      if(this.credentialsLabel) {
-        steps[this.queue ? 2 : 1].code += `# ${this.credentialsLabel}\n`;
-      }
-      steps[this.queue ? 2 : 1].code += `%env CAIRNML_API_ACCESS_KEY=${this.accessKey() || '<Your API access key>'}
-%env CAIRNML_API_SECRET_KEY=${this.secretKey() ||  '<Your API secret key>'}`;
+%env CAIRNML_API_HOST=${this.configService.apiServerUrl()}`;
     }
     return steps;
   });
@@ -161,8 +145,6 @@ export class WelcomeMessageComponent {
     if (this.data?.newExperimentYouTubeVideoId) {
       this.loadYoutubeApi(this.data?.newExperimentYouTubeVideoId);
     }
-
-    this.destroyRef.onDestroy(() => this.store.dispatch(resetCredential()));
   }
 
   closeDialog() {
@@ -172,12 +154,6 @@ export class WelcomeMessageComponent {
   nextSteps(event: MouseEvent) {
     event.preventDefault();
     this.step.update(step => step + 1);
-  }
-
-  createCredentials() {
-    this.credentialsCreated.set(true);
-    this.store.dispatch(setSelectedWorkspaceTab({workspace: {id: this.workspace().id}}));
-    this.store.dispatch(createCredential({workspace: this.workspace(), label: this.credentialsLabel}));
   }
 
   doNotShowThisAgain(val) {
@@ -195,21 +171,6 @@ export class WelcomeMessageComponent {
       document.body.appendChild(tag);
     }
     this.src = videoId;
-  }
-
-  getCopyConfig() {
-    let res =  'api {\n';
-    if (this.credentialsComment()) {
-      res += `  # ${this.credentialsComment()}\n`;
-    }
-    res += `  web_server: ${this.WEB_SERVER_URL}
-  api_server: ${this.configService.apiServerUrl()}\n`;
-    res += `  credentials {
-    "access_key" = "${this.accessKey()}"
-    "secret_key" = "${this.secretKey()}"
-  }
-}`;
-    return res;
   }
 
   getCopyPython() {
