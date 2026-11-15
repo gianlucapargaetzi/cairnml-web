@@ -12,6 +12,8 @@ status.
 | `circle` | The card list (the narrow list on the left when a task is open next to it) | A 20px ring with the percentage; idle is the spinning ring. On a selected (blue) card it is light. It never shrinks or gets cut off: the name of the card gives way |
 | `full` | The detail panel of a task, under the header; the agent's "Current Task" | One thin striped bar per level, the outermost first (6px) and each bar inside it (3px). Each has its text centred in front of it on a frosted label (semi-transparent surface colour with a slight blur, so the bar shows through): "epochs · 3 / 8 · 41%" and "epoch 4 · 23 / 80" (smaller, muted) |
 
+The rows of the project overview's Recent experiments list share their columns (one grid, each row a `subgrid`): name, status, progress, time. The progress cell is always present (an empty wrapper when the task does not run), so the status labels start at the same x in every row.
+
 In the detail panel the status strip at the top of the panel is also the bar: it fills up to the percentage (striped like the bars below it). There is no line along a row or card and no ring: the small bar is the one way a list shows progress.
 
 ## Look

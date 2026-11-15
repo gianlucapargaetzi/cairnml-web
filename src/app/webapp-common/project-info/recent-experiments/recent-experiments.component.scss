@@ -41,14 +41,19 @@
 }
 
 .recent-list {
+  // one grid for the list: every column is as wide as its widest cell, so the rows line up
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  column-gap: var(--space-4);
   margin: 0;
   padding: 0;
   list-style: none;
 
   li {
-    display: flex;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
     align-items: center;
-    gap: 16px;
     min-height: 40px;
     border-bottom: 1px solid var(--color-surface-container-high);
     font-size: 14px;
@@ -59,7 +64,6 @@
   }
 
   .experiment-name {
-    flex: 1;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -67,7 +71,7 @@
   }
 
   .experiment-time {
-    flex-shrink: 0;
+    text-align: end;
     font-size: 12px;
     color: var(--color-on-surface-variant);
   }
