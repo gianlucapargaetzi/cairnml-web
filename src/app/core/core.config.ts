@@ -42,7 +42,6 @@ const syncedKeys = [
   'rootProjects.mainPageUsersFilter',
   'rootProjects.mainPageStatusFilter',
   'rootProjects.defaultNestedModeForFeature',
-  'views.availableUpdates',
   'views.showSurvey',
   'views.tableCardsCollapsed',
   'views.contextMenuActiveFeature',

@@ -1,8 +1,6 @@
 @import "variables";
 @import "webapp-common/layout/layout.scss";
 
-$notifier-height: 30px;
-
 notification-container {
   position: relative;
   width: 100%;
@@ -19,14 +17,6 @@ notification-container {
     height: 100%;
     width: calc(100% - #{$side-bar-close-width});
     background-color: var(--color-surface);
-
-    &.notifier-open {
-      height: calc(100% - #{$notifier-height});
-
-      .main-router + * {
-        height: calc(100% - #{$top-bar-height});
-      }
-    }
 
     .main-router + * {
       display: block;
