@@ -176,6 +176,9 @@
             ],
             "tsConfig": "./tsconfig.spec.json",
             "include": [
+              "src/app/webapp-common/datasets/dataset-git/repositories.service.spec.ts",
+              "src/app/webapp-common/datasets/dataset-browser/dataset-details.service.spec.ts",
+              "src/app/webapp-common/shared/services/repo-access.service.spec.ts",
               "src/app/webapp-common/layout/welcome-message/welcome-message.component.spec.ts",
               "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/webapp-common/project-info/recent-experiments/recent-experiments.component.spec.ts",

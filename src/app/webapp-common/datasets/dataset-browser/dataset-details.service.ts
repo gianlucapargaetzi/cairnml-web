@@ -34,7 +34,7 @@ export interface DatasetDetails {
 
 export interface DatasetDetailsRequest {
   // a repository by id, address or reference, or one of a registry's datasets by its entry id
-  repository?: string;
+  ref?: string;
   entry?: string;
   commit?: string;
 }
