@@ -2,7 +2,7 @@
      and the cards would flash) nor "has none" (the empty state would flash). -->
 @let projects = projectsList$ | ngrxPush;
 @let cardsVisible = (projects?.length > 0 && (!allExamples || (showExamples$ | ngrxPush))) || searching;
-@let emptyKnown = !!projects && !cardsVisible && (!!projectId || datasetsLoaded()) && !gitDatasetCount();
+@let emptyKnown = !!projects && !cardsVisible && (!!projectId || datasetsLoaded()) && !gitDatasetCount() && !datasetsFailed();
 <div class="sm-card-list-layout projects" [class.in-empty-state]="emptyKnown">
 @if (cardsVisible) {
   <sm-projects-header
@@ -24,7 +24,7 @@
   </sm-projects-header>
   }
   @if (!projectId) {
-    <sm-dataset-browser (loaded)="gitDatasetCount.set($event); datasetsLoaded.set(true)"></sm-dataset-browser>
+    <sm-dataset-browser (loaded)="gitDatasetCount.set($event); datasetsLoaded.set(true)" (loadFailed)="datasetsFailed.set(true)"></sm-dataset-browser>
   }
   @if (cardsVisible) {
     @for (project of projects; track project.id + $index) {

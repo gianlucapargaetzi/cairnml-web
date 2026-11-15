@@ -16,8 +16,8 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {PrimeTemplate} from 'primeng/api';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
 import {marked} from 'marked';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
@@ -59,6 +59,7 @@ interface Row {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RepositoryHistoryComponent,
+    InlineAlertComponent,
     EntityChipComponent,
     MatTabsModule,
     MatIcon,
@@ -95,6 +96,8 @@ export class DatasetBrowserComponent {
 
   // The number of repositories listed, so the page can decide whether to show its empty state.
   loaded = output<number>();
+  // The list could not be read: the page must show the error, not its empty state.
+  loadFailed = output<void>();
 
   protected readonly roleLabels = REPO_ROLE_LABELS;
   protected readonly selectedId = signal<string | null>(null);
@@ -116,12 +119,18 @@ export class DatasetBrowserComponent {
 
   private readonly list = rxResource<Repo[], number>({
     params: () => this.reloads() + this.pageRefresh.version(),
-    stream: () => this.repositories.list().pipe(catchError(() => of([] as Repo[]))),
+    stream: () => this.repositories.list(),
   });
   protected readonly repos = computed(() => this.list.value() ?? []);
+  protected readonly listFailed = computed(() => !!this.list.error());
 
   private readonly announceCount = effect(() => {
-    if (!this.list.isLoading()) {
+    if (this.list.isLoading()) {
+      return;
+    }
+    if (this.list.error()) {
+      this.loadFailed.emit();
+    } else {
       this.loaded.emit(this.repos().length);
     }
   });
@@ -150,7 +159,7 @@ export class DatasetBrowserComponent {
     params: () => this.selectedRow(),
     stream: ({params}) => {
       const request = params ? this.requestOf(params) : null;
-      return request ? this.detailsApi.details(request).pipe(catchError(() => of(null))) : of(null);
+      return request ? this.detailsApi.details(request) : of(null);
     },
   });
 
@@ -165,7 +174,7 @@ export class DatasetBrowserComponent {
   // The runs that used the selected repository (a registry's entries are read through the registry's runs).
   protected readonly selectedRuns = rxResource<RepoRun[], string | null>({
     params: () => this.selectedRow()?.repo.id ?? null,
-    stream: ({params}) => params ? this.repositories.runs(params).pipe(catchError(() => of([] as RepoRun[]))) : of([] as RepoRun[]),
+    stream: ({params}) => params ? this.repositories.runs(params) : of([] as RepoRun[]),
   });
 
   protected readonly columns: ISmCol[] = [

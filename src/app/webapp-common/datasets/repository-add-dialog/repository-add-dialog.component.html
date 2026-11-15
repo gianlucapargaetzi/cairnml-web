@@ -26,6 +26,12 @@
           }
         </mat-select>
       </mat-form-field>
+      @if (projectsFailed()) {
+        <sm-inline-alert severity="error" data-id="addRepositoryProjectsError">Your projects could not be loaded. The repository can still be added without a project.</sm-inline-alert>
+      }
+    }
+    @if (credentialsFailed()) {
+      <sm-inline-alert severity="error" data-id="addRepositoryCredentialsError">Your credentials could not be loaded. The repository is added without one.</sm-inline-alert>
     }
     @if (credentials().length) {
       <mat-form-field appearance="outline" class="w-100">

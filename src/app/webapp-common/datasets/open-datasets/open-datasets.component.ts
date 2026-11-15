@@ -41,6 +41,8 @@ export class OpenDatasetsComponent extends PipelinesPageComponent implements OnI
   gitDatasetCount = signal(0);
   /** The dataset list has loaded: before that the page shows neither its list nor its empty state. */
   datasetsLoaded = signal(false);
+  // the dataset list could not be read: the empty state would be wrong
+  datasetsFailed = signal(false);
 
   public override projectCardClicked(project: ProjectsGetAllResponseSingle) {
     this.router.navigate(['simple', project.id, 'tasks'], {relativeTo: this.projectId? this.route.parent.parent: this.route});
