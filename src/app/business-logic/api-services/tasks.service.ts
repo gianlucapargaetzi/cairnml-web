@@ -119,8 +119,6 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 import {TasksUpdateTagsResponse} from '~/business-logic/model/tasks/tasksUpdateTagsResponse';
 import {TasksUpdateTagsRequest} from '~/business-logic/model/tasks/tasksUpdateTagsRequest';
-import {TasksGetOperationsLogRequest} from '~/business-logic/model/tasks/tasksGetOperationsLogRequest';
-import {TasksGetOperationsLogResponse} from '~/business-logic/model/tasks/tasksGetOperationsLogResponse';
 import {ApiOptions} from '~/business-logic/api-services/api';
 
 
@@ -1370,21 +1368,6 @@ export class ApiTasksService {
             }
         );
     }
-
-  /**
-   * Get the task operations log
-   * @param request request body
-   * @param options flags and headers to use in webapp
-   */
-  public tasksGetOperationsLog(request: TasksGetOperationsLogRequest, options?: ApiOptions): Observable<any> {
-    return this.apiRequest.post<TasksGetOperationsLogResponse>(`${this.basePath}/tasks.get_operations_log`,
-      request,
-      {
-        headers: this.defaultHeaders,
-        withCredentials: this.configuration.withCredentials
-      },
-    );
-  }
 
   /**
      *

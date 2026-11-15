@@ -37,8 +37,6 @@ import { ReportsMoveRequest } from '../model/reports/reportsMoveRequest';
 import { ReportsMoveResponse } from '../model/reports/reportsMoveResponse';
 import { ReportsPublishRequest } from '../model/reports/reportsPublishRequest';
 import { ReportsPublishResponse } from '../model/reports/reportsPublishResponse';
-import { ReportsShareRequest } from '../model/reports/reportsShareRequest';
-import { ReportsShareResponse } from '../model/reports/reportsShareResponse';
 import { ReportsUnarchiveRequest } from '../model/reports/reportsUnarchiveRequest';
 import { ReportsUnarchiveResponse } from '../model/reports/reportsUnarchiveResponse';
 import { ReportsUpdateRequest } from '../model/reports/reportsUpdateRequest';
@@ -430,51 +428,6 @@ export class ApiReportsService {
         }
 
 	return this.apiRequest.post<ReportsPublishResponse>(`${this.basePath}/reports.publish`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Share or unshare report
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public reportsShare(request: ReportsShareRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling reportsShare.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ReportsShareResponse>(`${this.basePath}/reports.share`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

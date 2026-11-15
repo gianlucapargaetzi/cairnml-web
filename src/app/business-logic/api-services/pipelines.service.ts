@@ -23,8 +23,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { PipelinesCheckNewRunRequest } from '../model/pipelines/pipelinesCheckNewRunRequest';
-import { PipelinesCheckNewRunResponse } from '../model/pipelines/pipelinesCheckNewRunResponse';
 import { PipelinesStartPipelineRequest } from '../model/pipelines/pipelinesStartPipelineRequest';
 import { PipelinesStartPipelineResponse } from '../model/pipelines/pipelinesStartPipelineResponse';
 
@@ -63,22 +61,6 @@ export class ApiPipelinesService {
             }
         }
         return false;
-    }
-
-    /**
-     * Check whether the pipeline can be started under the given project
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public pipelinesCheckNewRun(request: PipelinesCheckNewRunRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<PipelinesCheckNewRunResponse>(`${this.basePath}/pipelines.check_new_run`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
     }
 
   /**
