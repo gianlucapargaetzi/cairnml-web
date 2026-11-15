@@ -91,48 +91,10 @@
         }
       </div>
     }
-    <div class="step-container cred-step" [class.jupyter]="isJupyter()" [class.first-step]="!credentialsCreated()" [class.has-ws]="community() && workspace.name" [class.has-label]="credentialsLabel">
+    <div class="step-container cred-step first-step" [class.jupyter]="isJupyter()" [class.has-ws]="community() && workspace.name">
       @if (!isJupyter()) {
         <div class="sub-note" >Your browser opens the sign-in page; sign in to connect this machine.</div>
       }
-      <div class="cred-visible" [class.invisible]="!accessKey() || isJupyter()">
-        <div class="code">
-          <div class="content">
-            <span class="variable">api</span> &#123;
-            @if (credentialsComment()) {
-              <div class="sp-ms-2">
-                <span class="comment"># {{credentialsComment()}}</span>
-              </div>
-            }
-            <div class="sp-ms-2">
-              <span class="variable">web_server</span> <span class="operation sp-me-1">:</span> <span class="string">{{WEB_SERVER_URL}}</span>
-            </div>
-            <div class="sp-ms-2">
-              <span class="variable">api_server</span><span class="operation sp-me-1">:</span> <span class="string">{{configService.apiServerUrl()}}</span>
-            </div>
-            <div class="sp-ms-2">
-              <span class="variable">credentials</span> &#123;
-            </div>
-            <div class="sp-ms-4">
-              <span class="string">"access_key"</span><span class="operation sp-mx-1">=</span><span class="string">"{{accessKey()}}"</span>
-            </div>
-            <div class="sp-ms-4">
-              <span class="string">"secret_key"</span><span class="operation sp-mx-1">=</span><span class="string">"{{secretKey()}}"</span>
-            </div>
-            <div class="sp-ms-2">
-              &#125;
-            </div>
-            &#125;
-          </div>
-          <sm-copy-clipboard
-            data-id="copyButton"
-            [label]="''"
-            [clipboardText]="getCopyConfig()"></sm-copy-clipboard>
-        </div>
-    @if (!showTabs) {
-      <div class="sub-note"><mat-icon fontSet="al" fontIcon="al-ico-info-circle" class="sp-me-1 sm info"></mat-icon>Enrol this machine with cairnml init, which opens your sign-in page.</div>
-    }
-  </div>
 </div>
 }
 @if (!currentLink || currentLink === links[1]) {
