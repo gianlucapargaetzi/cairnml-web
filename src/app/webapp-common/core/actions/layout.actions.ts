@@ -102,11 +102,6 @@ export const addMessage = createAction(
 
 export const removeMessage = createAction(VIEW_PREFIX + '[remove message]');
 
-export const setServerUpdatesAvailable = createAction(
-  VIEW_PREFIX + '[set server updates available]',
-  props<{ availableUpdates }>()
-);
-
 export const setScaleFactor = createAction(
   VIEW_PREFIX + '[set scale]',
   props<{ scale: number }>()

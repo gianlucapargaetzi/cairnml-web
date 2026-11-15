@@ -177,6 +177,9 @@
             "tsConfig": "./tsconfig.spec.json",
             "include": [
               "src/app/business-logic/api-services/removed-endpoints.spec.ts",
+              "src/app/webapp-common/datasets/dataset-git/repositories.service.spec.ts",
+              "src/app/webapp-common/datasets/dataset-browser/dataset-details.service.spec.ts",
+              "src/app/webapp-common/shared/services/repo-access.service.spec.ts",
               "src/app/webapp-common/layout/welcome-message/welcome-message.component.spec.ts",
               "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/webapp-common/project-info/recent-experiments/recent-experiments.component.spec.ts",
@@ -303,8 +306,8 @@
             "styles": [
               "src/app/webapp-common/cairnml-applications/report-widgets/src/app/styles/styles.scss",
               {
-                "input": "src/app/webapp-common/assets/fonts/trains-icons.scss",
-                "bundleName": "trains-icons",
+                "input": "src/app/webapp-common/assets/fonts/icons.scss",
+                "bundleName": "icons",
                 "inject": false
               }
             ],

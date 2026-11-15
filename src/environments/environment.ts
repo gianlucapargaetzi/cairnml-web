@@ -6,6 +6,5 @@ export const environment = {
   autoLogin              : false,
   apiBaseUrl             : 'service/1/api',
   spaLogin               : true,
-  hideUpdateNotice       : true,
   showSurvey: false
 };
