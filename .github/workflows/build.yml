@@ -39,6 +39,8 @@ jobs:
       - name: Check for root-absolute app links
         run: sh scripts/check-app-links.sh
 
+      - name: Check that every generated API method has a caller
+        run: node scripts/check-unused-api-methods.mjs
       - name: Check for retired product names
         run: sh scripts/check-product-names.sh
 

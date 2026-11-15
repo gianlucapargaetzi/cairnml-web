@@ -27,45 +27,24 @@ import {QueuesUserUpdateResponse} from '~/business-logic/model/queues/queuesUser
 
 import { Observable }                                        from 'rxjs';
 
-import { QueuesAddOrUpdateMetadataRequest } from '../model/queues/queuesAddOrUpdateMetadataRequest';
-import { QueuesAddOrUpdateMetadataResponse } from '../model/queues/queuesAddOrUpdateMetadataResponse';
-import { QueuesAddTaskRequest } from '../model/queues/queuesAddTaskRequest';
-import { QueuesAddTaskResponse } from '../model/queues/queuesAddTaskResponse';
 import { QueuesClearQueueRequest } from '../model/queues/queuesClearQueueRequest';
 import { QueuesClearQueueResponse } from '../model/queues/queuesClearQueueResponse';
-import { QueuesDeleteMetadataRequest } from '../model/queues/queuesDeleteMetadataRequest';
-import { QueuesDeleteMetadataResponse } from '../model/queues/queuesDeleteMetadataResponse';
 import { QueuesDeleteRequest } from '../model/queues/queuesDeleteRequest';
 import { QueuesDeleteResponse } from '../model/queues/queuesDeleteResponse';
 import { QueuesGetAllExRequest } from '../model/queues/queuesGetAllExRequest';
 import { QueuesGetAllExResponse } from '../model/queues/queuesGetAllExResponse';
-import { QueuesGetAllRequest } from '../model/queues/queuesGetAllRequest';
-import { QueuesGetAllResponse } from '../model/queues/queuesGetAllResponse';
-import { QueuesGetByIdRequest } from '../model/queues/queuesGetByIdRequest';
-import { QueuesGetByIdResponse } from '../model/queues/queuesGetByIdResponse';
-import { QueuesGetDefaultResponse } from '../model/queues/queuesGetDefaultResponse';
-import { QueuesGetNextTaskRequest } from '../model/queues/queuesGetNextTaskRequest';
-import { QueuesGetNextTaskResponse } from '../model/queues/queuesGetNextTaskResponse';
-import { QueuesGetNumEntriesRequest } from '../model/queues/queuesGetNumEntriesRequest';
-import { QueuesGetNumEntriesResponse } from '../model/queues/queuesGetNumEntriesResponse';
 import { QueuesGetQueueMetricsRequest } from '../model/queues/queuesGetQueueMetricsRequest';
 import { QueuesGetQueueMetricsResponse } from '../model/queues/queuesGetQueueMetricsResponse';
 import { QueuesMoveTaskBackwardRequest } from '../model/queues/queuesMoveTaskBackwardRequest';
 import { QueuesMoveTaskBackwardResponse } from '../model/queues/queuesMoveTaskBackwardResponse';
-import { QueuesMoveTaskForwardRequest } from '../model/queues/queuesMoveTaskForwardRequest';
-import { QueuesMoveTaskForwardResponse } from '../model/queues/queuesMoveTaskForwardResponse';
 import { QueuesMoveTaskToBackRequest } from '../model/queues/queuesMoveTaskToBackRequest';
 import { QueuesMoveTaskToBackResponse } from '../model/queues/queuesMoveTaskToBackResponse';
 import { QueuesMoveTaskToFrontRequest } from '../model/queues/queuesMoveTaskToFrontRequest';
 import { QueuesMoveTaskToFrontResponse } from '../model/queues/queuesMoveTaskToFrontResponse';
 import { QueuesMoveTaskToQueueRequest } from '../model/queues/queuesMoveTaskToQueueRequest';
 import { QueuesMoveTaskToQueueResponse } from '../model/queues/queuesMoveTaskToQueueResponse';
-import { QueuesPeekTaskRequest } from '../model/queues/queuesPeekTaskRequest';
-import { QueuesPeekTaskResponse } from '../model/queues/queuesPeekTaskResponse';
 import { QueuesRemoveTaskRequest } from '../model/queues/queuesRemoveTaskRequest';
 import { QueuesRemoveTaskResponse } from '../model/queues/queuesRemoveTaskResponse';
-import { QueuesUpdateRequest } from '../model/queues/queuesUpdateRequest';
-import { QueuesUpdateResponse } from '../model/queues/queuesUpdateResponse';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -91,38 +70,6 @@ export class ApiQueuesService {
     }
 
 
-
-    /**
-     * Add or update queue metadata
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesAddOrUpdateMetadata(request: QueuesAddOrUpdateMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesAddOrUpdateMetadataResponse>(`${this.basePath}/queues.add_or_update_metadata`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Adds a task entry to the queue.
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesAddTask(request: QueuesAddTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesAddTaskResponse>(`${this.basePath}/queues.add_task`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
 
     /**
      * Remove all tasks from the queue and change their statuses to what they were   prior to enqueuing or \&#39;created\&#39;
@@ -152,108 +99,12 @@ export class ApiQueuesService {
     }
 
     /**
-     * Delete metadata from queue
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesDeleteMetadata(request: QueuesDeleteMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesDeleteMetadataResponse>(`${this.basePath}/queues.delete_metadata`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Get all queues
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesGetAll(request: QueuesGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetAllResponse>(`${this.basePath}/queues.get_all`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
      * Get all queues
      * @param request request body
      * @param options flags and headers to use in webapp
      */
     public queuesGetAllEx(request: QueuesGetAllExRequest, options?: ApiOptions): Observable<any> {
         return this.apiRequest.post<QueuesGetAllExResponse>(`${this.basePath}/queues.get_all_ex`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Gets queue information
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesGetById(request: QueuesGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetByIdResponse>(`${this.basePath}/queues.get_by_id`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     *
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesGetDefault(request: object, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetDefaultResponse>(`${this.basePath}/queues.get_default`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Gets the next task from the top of the queue (FIFO). The task entry is removed   from the queue.
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesGetNextTask(request: QueuesGetNextTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetNextTaskResponse>(`${this.basePath}/queues.get_next_task`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Get the number of task entries in the given queue
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesGetNumEntries(request: QueuesGetNumEntriesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetNumEntriesResponse>(`${this.basePath}/queues.get_num_entries`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -286,22 +137,6 @@ export class ApiQueuesService {
      */
     public queuesMoveTaskBackward(request: QueuesMoveTaskBackwardRequest, options?: ApiOptions): Observable<any> {
         return this.apiRequest.post<QueuesMoveTaskBackwardResponse>(`${this.basePath}/queues.move_task_backward`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Moves a task entry one step forward towards the top of the queue.
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesMoveTaskForward(request: QueuesMoveTaskForwardRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskForwardResponse>(`${this.basePath}/queues.move_task_forward`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -360,44 +195,12 @@ export class ApiQueuesService {
     }
 
     /**
-     * Peek the next task from a given queue
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesPeekTask(request: QueuesPeekTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesPeekTaskResponse>(`${this.basePath}/queues.peek_task`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
      * Removes a task entry from the queue.
      * @param request request body
      * @param options flags and headers to use in webapp
      */
     public queuesRemoveTask(request: QueuesRemoveTaskRequest, options?: ApiOptions): Observable<any> {
         return this.apiRequest.post<QueuesRemoveTaskResponse>(`${this.basePath}/queues.remove_task`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Update queue information
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public queuesUpdate(request: QueuesUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesUpdateResponse>(`${this.basePath}/queues.update`,
             request,
             {
                 headers: this.defaultHeaders,

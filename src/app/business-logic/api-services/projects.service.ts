@@ -28,8 +28,6 @@ import { ProjectsDeleteRequest } from '../model/projects/projectsDeleteRequest';
 import { ProjectsDeleteResponse } from '../model/projects/projectsDeleteResponse';
 import { ProjectsGetAllExRequest } from '../model/projects/projectsGetAllExRequest';
 import { ProjectsGetAllExResponse } from '../model/projects/projectsGetAllExResponse';
-import { ProjectsGetAllRequest } from '../model/projects/projectsGetAllRequest';
-import { ProjectsGetAllResponse } from '../model/projects/projectsGetAllResponse';
 import { ProjectsGetByIdRequest } from '../model/projects/projectsGetByIdRequest';
 import { ProjectsGetByIdResponse } from '../model/projects/projectsGetByIdResponse';
 import { ProjectsGetHyperParametersRequest } from '../model/projects/projectsGetHyperParametersRequest';
@@ -44,12 +42,6 @@ import { ProjectsGetTaskTagsRequest } from '../model/projects/projectsGetTaskTag
 import { ProjectsGetTaskTagsResponse } from '../model/projects/projectsGetTaskTagsResponse';
 import { ProjectsGetUniqueMetricVariantsRequest } from '../model/projects/projectsGetUniqueMetricVariantsRequest';
 import { ProjectsGetUniqueMetricVariantsResponse } from '../model/projects/projectsGetUniqueMetricVariantsResponse';
-import { ProjectsMakePrivateRequest } from '../model/projects/projectsMakePrivateRequest';
-import { ProjectsMakePrivateResponse } from '../model/projects/projectsMakePrivateResponse';
-import { ProjectsMakePublicRequest } from '../model/projects/projectsMakePublicRequest';
-import { ProjectsMakePublicResponse } from '../model/projects/projectsMakePublicResponse';
-import { ProjectsMergeRequest } from '../model/projects/projectsMergeRequest';
-import { ProjectsMergeResponse } from '../model/projects/projectsMergeResponse';
 import { ProjectsMoveRequest } from '../model/projects/projectsMoveRequest';
 import { ProjectsMoveResponse } from '../model/projects/projectsMoveResponse';
 import { ProjectsUpdateRequest } from '../model/projects/projectsUpdateRequest';
@@ -75,7 +67,6 @@ import {ProjectsGetQueuesRequest} from '~/business-logic/model/projects/projects
 import {ProjectsGetQueuesResponse} from '~/business-logic/model/projects/projectsGetQueuesResponse';
 import {ProjectsGetAssignableQueuesResponse} from '~/business-logic/model/projects/projectsGetAssignableQueuesResponse';
 import {ProjectsAddQueuesRequest} from '~/business-logic/model/projects/projectsAddQueuesRequest';
-import {ProjectsRemoveQueueRequest} from '~/business-logic/model/projects/projectsRemoveQueueRequest';
 import {ProjectsQueueUpdateResponse} from '~/business-logic/model/projects/projectsQueueUpdateResponse';
 import {ProjectsRemoveMemberRequest} from '~/business-logic/model/projects/projectsRemoveMemberRequest';
 import {ProjectsMemberUpdateResponse} from '~/business-logic/model/projects/projectsMemberUpdateResponse';
@@ -193,51 +184,6 @@ export class ApiProjectsService {
         }
 
 	return this.apiRequest.post<ProjectsDeleteResponse>(`${this.basePath}/projects.delete`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Get all the company\&#39;s projects and all public projects
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public projectsGetAll(request: ProjectsGetAllRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling projectsGetAll.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ProjectsGetAllResponse>(`${this.basePath}/projects.get_all`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -745,96 +691,6 @@ export class ApiProjectsService {
         );
     }
 
-    /**
-     *
-     * Convert public projects to private
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public projectsMakePrivate(request: ProjectsMakePrivateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling projectsMakePrivate.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ProjectsMakePrivateResponse>(`${this.basePath}/projects.make_private`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Convert company projects to public
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public projectsMakePublic(request: ProjectsMakePublicRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling projectsMakePublic.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ProjectsMakePublicResponse>(`${this.basePath}/projects.make_public`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
 
   /**
    *
@@ -881,51 +737,6 @@ export class ApiProjectsService {
     );
   }
 
-
-    /**
-     *
-     * Moves all the source project\&#39;s contents to the destination project and remove   the source project
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public projectsMerge(request: ProjectsMergeRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling projectsMerge.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ProjectsMergeResponse>(`${this.basePath}/projects.merge`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
 
     /**
      *
@@ -1237,30 +1048,6 @@ export class ApiProjectsService {
         }
 
 	return this.apiRequest.post<ProjectsQueueUpdateResponse>(`${this.basePath}/projects.add_queues`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Remove a queue allocation from a project (owner only).
-     */
-    public projectsRemoveQueue(request: ProjectsRemoveQueueRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling projectsRemoveQueue.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-	return this.apiRequest.post<ProjectsQueueUpdateResponse>(`${this.basePath}/projects.remove_queue`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,
