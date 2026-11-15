@@ -22,7 +22,7 @@ import {debounceTime, filter, take} from 'rxjs/operators';
 import {from} from 'rxjs';
 import {cloneDeep, get, isEqual, max, min, uniq} from 'lodash-es';
 import domtoimage from 'dom-to-image';
-import {Axis, Color, ColorBar, ColorScale} from 'plotly.js';
+import type {Axis, Color, ColorBar, ColorScale} from 'plotly.js';
 import {select} from 'd3-selection';
 import {ColorHashService} from '@common/shared/services/color-hash/color-hash.service';
 import {Task} from '~/business-logic/model/tasks/task';

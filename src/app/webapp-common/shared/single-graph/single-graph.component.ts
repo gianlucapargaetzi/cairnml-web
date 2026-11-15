@@ -31,7 +31,7 @@ import {download} from '@common/shared/utils/download';
 import {TinyColor} from '@ctrl/tinycolor';
 import {select} from 'd3-selection';
 import {cloneDeep} from 'lodash-es';
-import plotly from 'plotly.js';
+import type plotly from 'plotly.js';
 import {of, Subject, timer} from 'rxjs';
 import {debounce, debounceTime, filter} from 'rxjs/operators';
 import {ScalarKeyEnum} from '~/business-logic/model/events/scalarKeyEnum';

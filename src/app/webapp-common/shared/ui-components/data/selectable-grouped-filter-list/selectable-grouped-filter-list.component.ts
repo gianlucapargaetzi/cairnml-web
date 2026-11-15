@@ -5,7 +5,7 @@ import {SearchComponent} from '@common/shared/ui-components/inputs/search/search
 import {
   GroupedSelectableListComponent
 } from '@common/shared/ui-components/data/grouped-selectable-list/grouped-selectable-list.component';
-import {PlotData} from 'plotly.js';
+import type {PlotData} from 'plotly.js';
 
 
 export const buildMetricsListFlat = (metrics: MetricVariantResult[]): GroupedList => {

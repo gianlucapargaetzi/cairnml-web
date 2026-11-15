@@ -1,6 +1,7 @@
 import {Task} from '~/business-logic/model/tasks/task';
 import {cloneDeep, isEqual, sortBy} from 'lodash-es';
-import plotly, {Config, Layout, PlotData} from 'plotly.js';
+import type * as plotly from 'plotly.js';
+import type {Config, Layout, PlotData} from 'plotly.js';
 import {ExtData, ExtFrame, ExtLayout} from '../shared/single-graph/plotly-graph-base';
 import {MetricsPlotEvent} from '../../business-logic/model/events/models';
 import {KeyValue} from '@angular/common';
