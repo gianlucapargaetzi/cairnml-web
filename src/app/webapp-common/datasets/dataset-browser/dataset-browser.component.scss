@@ -8,7 +8,7 @@
 }
 
 // with no dataset to list, the browser takes no row of the page (its empty state is the Datasets guide)
-:host:not(:has(.browser-body)) {
+:host:not(:has(.browser-body, [data-id="repositoriesError"])) {
   display: none;
 }
 
