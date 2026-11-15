@@ -40,6 +40,7 @@ export class TaskProgressComponent {
   protected progress = computed<TaskProgress | null>(() => this.running() ? this.service.of(this.taskId(), this.runtime())() : null);
   protected percent = computed(() => this.progress()?.percent ?? null);
   protected idle = computed(() => this.running() && this.percent() === null);
+  protected readonly noEstimate = 'No progress estimate available';
   protected rows = computed<ProgressRow[]>(() => {
     const bars = this.progress()?.bars ?? [];
     if (!bars.length) {

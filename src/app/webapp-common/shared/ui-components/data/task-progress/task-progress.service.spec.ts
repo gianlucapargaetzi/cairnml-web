@@ -32,6 +32,11 @@ describe('TaskProgressService', () => {
     expect(service.percent('t1', {progress: '0', progress_label: 'epochs'})).toBe(0);
   });
 
+  it('treats a stored 100 as no progress: a running task with no live value is idle, not done', () => {
+    expect(service.percent('t1', {progress: '100', progress_label: 'epochs'})).toBeNull();
+    expect(service.of('t1', {progress: '100', progress_label: 'epochs'})()).toBeNull();
+  });
+
   it('has nothing for a task without stored progress', () => {
     expect(service.percent('t1', undefined)).toBeNull();
     expect(service.percent('t1', {progress: ''})).toBeNull();
