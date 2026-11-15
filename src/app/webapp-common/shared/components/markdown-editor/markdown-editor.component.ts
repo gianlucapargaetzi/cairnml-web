@@ -28,6 +28,8 @@ import {Store} from '@ngrx/store';
 const BREAK_POINT = 990;
 
 
+let iframeHookRegistered = false;
+
 @Component({
   selector: 'sm-markdown-editor',
   templateUrl: './markdown-editor.component.html',
@@ -165,17 +167,21 @@ export class MarkdownEditorComponent implements OnDestroy {
     window['marked'] = marked;
     this.editMode = false;
 
-    const widgetOrigin = this.reportService.getUrl().toString();
-    DOMPurify.addHook(
-      'uponSanitizeElement',
-      (currentNode, hookEvent) => {
-        const iframe = currentNode as HTMLIFrameElement;
-        if (hookEvent.tagName === 'iframe' && !iframe.src.startsWith(widgetOrigin)) {
-          iframe.src = '';
+    // DOMPurify is one shared instance: register the iframe hook once for the page, not once per editor.
+    if (!iframeHookRegistered) {
+      iframeHookRegistered = true;
+      const widgetOrigin = this.reportService.getUrl().toString();
+      DOMPurify.addHook(
+        'uponSanitizeElement',
+        (currentNode, hookEvent) => {
+          const iframe = currentNode as HTMLIFrameElement;
+          if (hookEvent.tagName === 'iframe' && !iframe.src.startsWith(widgetOrigin)) {
+            iframe.src = '';
+          }
+          return currentNode;
         }
-        return currentNode;
-      }
-    );
+      );
+    }
 
     effect(() => {
       if (this.editorComponent()) {
