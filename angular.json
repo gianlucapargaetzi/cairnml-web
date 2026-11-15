@@ -176,6 +176,7 @@
             ],
             "tsConfig": "./tsconfig.spec.json",
             "include": [
+              "src/app/webapp-common/layout/welcome-message/welcome-message.component.spec.ts",
               "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/webapp-common/project-info/recent-experiments/recent-experiments.component.spec.ts",
               "src/app/features/dashboard/dashboard.component.spec.ts",
