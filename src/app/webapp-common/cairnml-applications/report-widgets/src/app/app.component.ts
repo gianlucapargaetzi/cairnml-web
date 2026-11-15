@@ -422,7 +422,7 @@ export class AppComponent implements OnInit {
         }, '*'));
       });
     }
-    this.loadStyle('trains-icons.css');
+    this.loadStyle('icons.css');
     window.top.postMessage({
       maximizing: true,
       name: window.name,
