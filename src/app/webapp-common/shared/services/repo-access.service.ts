@@ -37,7 +37,7 @@ export class RepoAccessService {
     if (!repositories.length) {
       return of([]);
     }
-    const body = project ? {repositories, project} : {repositories};
+    const body = project ? {refs: repositories, project} : {refs: repositories};
     return this.api.post<{ repositories?: RepoAccess[] }>(`${HTTP.API_BASE_URL}/repositories.resolve`, body, {})
       .pipe(
         map(response => response?.repositories ?? []),
