@@ -23,11 +23,6 @@ import { ApiOptions }                        from './api';
 
 import { Observable }                                        from 'rxjs';
 
-import { StorageGetSettingsResponse } from '../model/storage/storageGetSettingsResponse';
-import { StorageResetSettingsRequest } from '../model/storage/storageResetSettingsRequest';
-import { StorageResetSettingsResponse } from '../model/storage/storageResetSettingsResponse';
-import { StorageSetSettingsRequest } from '../model/storage/storageSetSettingsRequest';
-import { StorageSetSettingsResponse } from '../model/storage/storageSetSettingsResponse';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -51,53 +46,5 @@ export class ApiStorageService {
     }
 
 
-
-    /**
-     * Internal. Get storage settings
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public storageGetSettings(request: object, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<StorageGetSettingsResponse>(`${this.basePath}/storage.get_settings`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Internal. Reset selected storage settings
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public storageResetSettings(request: StorageResetSettingsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<StorageResetSettingsResponse>(`${this.basePath}/storage.reset_settings`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Internal. Set Storage settings
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public storageSetSettings(request: StorageSetSettingsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<StorageSetSettingsResponse>(`${this.basePath}/storage.set_settings`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
 
   }

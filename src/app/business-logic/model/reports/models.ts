@@ -46,8 +46,6 @@ export * from '././reportsMoveRequest';
 export * from '././reportsMoveResponse';
 export * from '././reportsPublishRequest';
 export * from '././reportsPublishResponse';
-export * from '././reportsShareRequest';
-export * from '././reportsShareResponse';
 export * from '././reportsUnarchiveRequest';
 export * from '././reportsUnarchiveResponse';
 export * from '././reportsUpdateRequest';

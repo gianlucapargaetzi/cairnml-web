@@ -1,7 +1,6 @@
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter, switchMap, take, catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {filter, take} from 'rxjs/operators';
 import {ICONS} from '@common/constants';
 import {Queue} from '~/business-logic/model/queues/queue';
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
@@ -61,7 +60,6 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {Project} from '~/business-logic/model/projects/project';
 import {showColorPicker} from '@common/shared/ui-components/directives/choose-color/choose-color.actions';
 import {generateColorKey} from '@common/shared/single-graph/single-graph.utils';
-import {ApiQueuesService} from '~/business-logic/api-services/queues.service';
 import {normalizeColorToString} from '@common/shared/services/color-hash/color-hash.utils';
 import {ColorHashService} from '@common/shared/services/color-hash/color-hash.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -100,7 +98,6 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   protected router = inject(Router);
   protected configService = inject(ConfigurationService);
   protected route = inject(ActivatedRoute);
-  private queueApi = inject(ApiQueuesService);
   private colorHash = inject(ColorHashService);
 
 
@@ -136,10 +133,7 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
   tagSelected = output<string>();
   getCompanyTags = output();
   stopTemplate = viewChild.required<TemplateRef<{ $implicit: ISelectedExperiment[] }>>('stopTemplate ');
-  dequeueTemplate = viewChild.required<TemplateRef<{
-    $implicit: ISelectedExperiment[];
-    queueName: string
-  }>>('dequeueTemplate');
+  dequeueTemplate = viewChild.required<TemplateRef<{ $implicit: ISelectedExperiment[] }>>('dequeueTemplate');
   publishTemplate = viewChild.required<TemplateRef<{ $implicit: ISelectedExperiment[] }>>('publishTemplate ');
 
   public restoreArchive(entityType?: EntityTypeEnum) {
@@ -222,33 +216,24 @@ export class ExperimentMenuComponent extends BaseContextMenuComponent {
 
   dequeuePopup() {
     const selectedExperiments = this.selectedExperiments() ? selectionDisabledDequeue(this.selectedExperiments()).selectedFiltered : [this.experiment()];
-    this.queueApi.queuesGetByTaskId({task: selectedExperiments[0].id})
-      .pipe(
-        take(1),
-        catchError(() => of(null)),
-        switchMap((queue) => {
-          return this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig<{
-            $implicit: ISelectedExperiment[];
-            queueName?: string
-          }>, boolean>(ConfirmDialogComponent, {
-            data: {
-              title: 'Dequeue Task',
-              template: this.dequeueTemplate(),
-              templateContext: {
-                $implicit: selectedExperiments,
-                ...(queue && {queueName: queue.name})
-              },
-              yes: 'Dequeue task',
-              no: 'Cancel',
-              iconClass: 'al-ico-alert',
-              iconColor: 'var(--color-warning)',
-              destructive: true
-            },
-            panelClass: 'dialog-md'
-          }).afterClosed();
-        }),
-        filter(response => !!response)
-      )
+    this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig<{
+      $implicit: ISelectedExperiment[];
+    }>, boolean>(ConfirmDialogComponent, {
+      data: {
+        title: 'Dequeue Task',
+        template: this.dequeueTemplate(),
+        templateContext: {
+          $implicit: selectedExperiments,
+        },
+        yes: 'Dequeue task',
+        no: 'Cancel',
+        iconClass: 'al-ico-alert',
+        iconColor: 'var(--color-warning)',
+        destructive: true
+      },
+      panelClass: 'dialog-md'
+    }).afterClosed()
+      .pipe(filter(response => !!response))
       .subscribe(() => this.dequeueExperiment(selectedExperiments));
   }
 

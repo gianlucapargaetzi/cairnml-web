@@ -1,4 +1,4 @@
-import {Component, OnDestroy, inject, computed, effect, untracked, signal, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnDestroy, inject, computed, effect, untracked, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MatFormField} from '@angular/material/form-field';
@@ -10,8 +10,7 @@ import {
 import {selectTablesFilterProjectsOptions} from '../../core/reducers/projects.reducer';
 import {getTablesFilterProjectsOptions} from '../../core/actions/projects.actions';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {debounceTime, distinctUntilChanged, startWith, switchMap, tap} from 'rxjs/operators';
-import {combineLatest, of} from 'rxjs';
+import {startWith} from 'rxjs/operators';
 
 // Actions & Selectors
 import {selectQueueFeature} from '../../experiments/shared/components/select-queue/select-queue.reducer';
@@ -34,8 +33,6 @@ import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indic
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {SearchTextDirective} from '@common/shared/ui-components/directives/searchText.directive';
-import {ApiPipelinesService} from '~/business-logic/api-services/pipelines.service';
-import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 
 
 export interface RunPipelineResult {
@@ -47,7 +44,7 @@ export interface RunPipelineResult {
   new_pipeline_name: string;
   new_pipeline_version?: string;
   new_project_name: string;
-  existingPipeline: boolean;
+  existingPipeline?: boolean;
 }
 
 // PEP 440 version pattern (converted from backend regex, case-insensitive)
@@ -73,7 +70,6 @@ const queueValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
   styleUrls: ['./run-pipeline-controller-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    InlineAlertComponent,
     ReactiveFormsModule,
     MatFormField,
     MatInput,
@@ -95,7 +91,6 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
   private dialogRef = inject<MatDialogRef<ConfirmDialogComponent>>(MatDialogRef);
   private store = inject(Store);
   private fb = inject(FormBuilder);
-  private pipelineApi = inject(ApiPipelinesService);
   public data = inject<{ task: any; createNewPipeline?: boolean; project?: string }>(MAT_DIALOG_DATA);
 
   public queues = this.store.selectSignal(selectQueueFeature.selectQueues);
@@ -113,9 +108,6 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
 
   protected projects = this.store.selectSignal(selectTablesFilterProjectsOptions);
   protected allProjects = computed(() => this.projects() ?? []);
-
-  // Warning signal: set when check_new_run returns an existing pipeline
-  existingPipelineWarning = signal<string | null>(null);
 
   // Signal for Queue Input Value (to drive filtering)
   private queueInputValue = toSignal(
@@ -167,32 +159,6 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
         this.form.controls.project.updateValueAndValidity();
         this.form.controls.pipelineVersion.updateValueAndValidity();
       });
-
-    // Debounced check_new_run when pipelineName or project changes
-    combineLatest([
-      this.form.controls.pipelineName.valueChanges.pipe(startWith(this.form.controls.pipelineName.value)),
-      this.form.controls.project.valueChanges.pipe(startWith(this.form.controls.project.value)),
-    ]).pipe(
-      takeUntilDestroyed(),
-      debounceTime(400),
-      distinctUntilChanged((a, b) => a[0] === b[0] && a[1] === b[1]),
-      tap(() => this.existingPipelineWarning.set(null)),
-      switchMap(([pipelineName, projectName]) => {
-        const taskId = this.baseController()?.id;
-        if (!this.form.controls.createNewPipeline.value || !taskId || !projectName || !pipelineName) {
-          return of(null);
-        }
-        return this.pipelineApi.pipelinesCheckNewRun({
-          task: taskId,
-          new_project_name: projectName,
-          new_pipeline_name: pipelineName
-        });
-      }),
-    ).subscribe(res => {
-      if (res?.existing_project) {
-        this.existingPipelineWarning.set(res.existing_project.name);
-      }
-    });
 
     // Effect: Synchronize Form with Store Data
     effect(() => {
@@ -308,7 +274,6 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
       new_pipeline_name: formValue.pipelineName || undefined,
       new_pipeline_version: formValue.pipelineVersion || undefined,
       new_project_name: formValue.project,
-      existingPipeline: !!this.existingPipelineWarning()
     } as RunPipelineResult);
   }
 

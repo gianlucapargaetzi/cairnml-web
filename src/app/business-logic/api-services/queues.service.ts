@@ -69,8 +69,6 @@ import { QueuesUpdateResponse } from '../model/queues/queuesUpdateResponse';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import {QueuesGetByTaskIdRequest} from '~/business-logic/model/queues/queuesGetByTaskIdRequest';
-import {QueuesGetByTaskIdResponse} from '~/business-logic/model/queues/queuesGetByTaskIdResponse';
 import {QueuesGetProjectsRequest} from '~/business-logic/model/queues/queuesGetProjectsRequest';
 import {QueuesGetProjectsResponse} from '~/business-logic/model/queues/queuesGetProjectsResponse';
 
@@ -409,22 +407,6 @@ export class ApiQueuesService {
         );
     }
 
-  /**
-   * Get queue by the enqueued task ID
-   * @param request request body
-   * @param options flags and headers to use in webapp
-   */
-  public queuesGetByTaskId(request: QueuesGetByTaskIdRequest, options?: ApiOptions): Observable<any> {
-    return this.apiRequest.post<QueuesGetByTaskIdResponse>(`${this.basePath}/queues.get_by_task_id`,
-      request,
-      {
-        headers: this.defaultHeaders,
-        withCredentials: this.configuration.withCredentials
-      },
-      options
-    );
-  }
-  
     /**
      * Users granted access to a queue (admins only).
      */
