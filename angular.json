@@ -305,8 +305,8 @@
             "styles": [
               "src/app/webapp-common/cairnml-applications/report-widgets/src/app/styles/styles.scss",
               {
-                "input": "src/app/webapp-common/assets/fonts/trains-icons.scss",
-                "bundleName": "trains-icons",
+                "input": "src/app/webapp-common/assets/fonts/icons.scss",
+                "bundleName": "icons",
                 "inject": false
               }
             ],

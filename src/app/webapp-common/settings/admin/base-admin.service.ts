@@ -169,7 +169,7 @@ export class BaseAdminService {
     this.store.dispatch(getAllCredentials({}));
   }
 
-  // Uses Allegro Chrome extension injecting patch_local_link function to window - hack to get local files.
+  // Relies on a browser extension that injects patch_local_link into window to read local files.
   redirectToLocalServer(url: string): string {
     return `http://localhost:${LOCAL_SERVER_PORT}${url.replace('file://', '/')}`;
   }
