@@ -192,7 +192,7 @@
   @include icon.icon('#{variables.$assets-icons-path}/pytorch-icon.svg');
 }
 
-// No used in trains
+// Custom icon class.
 .i-Custom {
   @include icon.icon('#{variables.$assets-icons-path}/custom-icon.svg');
 }

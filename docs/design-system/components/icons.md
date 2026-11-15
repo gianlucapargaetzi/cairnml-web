@@ -2,7 +2,7 @@
 
 ## Library (Standard)
 
-One icon set: the custom **`al` icon font** (`webapp-common/assets/fonts/trains.ttf` + `trains-icons.scss`, 165 distinct glyphs used in templates). The old font file name `trains` is a legacy name; the set stays until a replacement is decided (see migration plan).
+One icon set: the custom **`al` icon font** (`webapp-common/assets/fonts/trains.ttf` + `icons.scss`, 165 distinct glyphs used in templates). The old font file name `trains` is a legacy name; the set stays until a replacement is decided (see migration plan).
 
 | Markup | Count | Status |
 |---|---|---|
