@@ -43,7 +43,6 @@ export interface Environment {
   communityContext?: CommercialContext;
   GTM_ID?: string;
   gtmResourcePath?: string;
-  hideUpdateNotice?: boolean;
   updateCheck?: boolean;
   showSurvey?: boolean;
   plotlyURL?: string;
