@@ -1,6 +1,6 @@
 import {Subject, Subscription} from 'rxjs';
 import {Component, computed, inject, input, OnDestroy} from '@angular/core';
-import plotly from 'plotly.js';
+import type plotly from 'plotly.js';
 import {selectScaleFactor, selectThemeMode} from '@common/core/reducers/view.reducer';
 import {Store} from '@ngrx/store';
 import {TinyColor} from '@ctrl/tinycolor';

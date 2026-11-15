@@ -17,7 +17,7 @@ import {sortByFieldSummaryFirst} from '@common/tasks/tasks.utils';
 import {singleValueChartTitle} from '@common/experiments/shared/common-experiments.const';
 import {MetricVariantResult} from '~/business-logic/model/projects/metricVariantResult';
 import {GroupedList} from '@common/tasks/tasks.model';
-import {PlotData} from 'plotly.js';
+import type {PlotData} from 'plotly.js';
 import {
   GraphSettingsBarComponent
 } from '@common/shared/experiment-graphs/graph-settings-bar/graph-settings-bar.component';

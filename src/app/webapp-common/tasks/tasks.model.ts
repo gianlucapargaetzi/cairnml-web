@@ -1,5 +1,5 @@
 import {Task} from '~/business-logic/model/tasks/task';
-import {PlotData} from 'plotly.js';
+import type {PlotData} from 'plotly.js';
 
 export interface ExperimentGraph {
   data?: unknown;
