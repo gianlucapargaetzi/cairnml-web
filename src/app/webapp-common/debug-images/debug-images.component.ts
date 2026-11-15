@@ -31,7 +31,6 @@ import {selectSelectedExperiment} from '~/features/experiments/reducers';
 import {ReportCodeEmbedService} from '~/shared/services/report-code-embed.service';
 import {getSignedUrl, signUrls} from '../core/actions/common-auth.actions';
 import {addMessage} from '../core/actions/layout.actions';
-import {selectS3BucketCredentials} from '../core/reducers/common-auth-reducer';
 import {selectRouterParams} from '../core/reducers/router-reducer';
 import {ImageViewerComponent} from '../shared/debug-sample/image-viewer/image-viewer.component';
 import * as  debugActions from './debug-images-actions';
@@ -192,14 +191,13 @@ export class DebugImagesComponent {
     }
 
     combineLatest([
-      this.store.select(selectS3BucketCredentials),
       this.store.select(selectDebugImages),
       this.store.select(selectSelectedMetricForTask)
     ])
       .pipe(
         takeUntilDestroyed(),
         debounceTime(50),
-        map(([, debugImages, metricForTask]) => {
+        map(([debugImages, metricForTask]) => {
           if (!debugImages) {
             return {};
           }

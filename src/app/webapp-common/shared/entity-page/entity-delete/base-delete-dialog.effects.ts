@@ -8,12 +8,9 @@ import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 
 import {emptyAction} from '~/app.constants';
 import {Action, MemoizedSelector, Store} from '@ngrx/store';
 import {Observable, of, from, concat} from 'rxjs';
-import {AdminService} from '~/shared/services/admin.service';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
 import {
-  addFailedDeletedFiles,
   deleteEntities,
-  deleteS3Sources,
   setFailedDeletedEntities,
   setNumberOfSourcesToDelete
 } from './common-delete-dialog.actions';
@@ -31,7 +28,6 @@ import {TasksDeleteManyResponse} from '~/business-logic/model/tasks/tasksDeleteM
 import {ConfigurationService} from '../../services/configuration.service';
 import {TasksResetManyResponseSucceeded} from '~/business-logic/model/tasks/tasksResetManyResponseSucceeded';
 import {updateManyExperiment} from '@common/experiments/actions/common-experiments-view.actions';
-import {getBucketAndKeyFromSrc} from '@common/settings/admin/base-admin-utils';
 import {ApiPipelinesService} from '~/business-logic/api-services/pipelines.service';
 import {PipelinesDeleteRunsResponse} from '~/business-logic/model/pipelines/pipelinesDeleteRunsResponse';
 import {MatDialog} from '@angular/material/dialog';
@@ -49,7 +45,6 @@ export class DeleteDialogEffectsBase {
   private tasksApi: ApiTasksService;
   private modelsApi: ApiModelsService;
   private projectsApi: ApiProjectsService;
-  private adminService: AdminService;
   private configService: ConfigurationService;
   private pipelinesService: ApiPipelinesService;
   private dialog: MatDialog;
@@ -61,7 +56,6 @@ export class DeleteDialogEffectsBase {
     this.tasksApi = inject(ApiTasksService);
     this.modelsApi = inject(ApiModelsService);
     this.projectsApi = inject(ApiProjectsService);
-    this.adminService = inject(AdminService);
     this.configService = inject(ConfigurationService);
     this.pipelinesService = inject(ApiPipelinesService);
     this.dialog = inject(MatDialog);
@@ -248,34 +242,6 @@ export class DeleteDialogEffectsBase {
     )),
   ));
 
-
-  deleteS3SourcesEffect = createEffect(() => this.actions$.pipe(
-    ofType(deleteS3Sources),
-    filter(action => action.files.length > 0),
-    map(action => {
-      const filesPerBucket = action.files.reduce((acc, fileSrc) => {
-        const {Bucket: bucket} = getBucketAndKeyFromSrc(fileSrc);
-        if (!acc[bucket]) {
-          acc[bucket] = [];
-        }
-        acc[bucket].push(fileSrc);
-        return acc;
-      }, {} as Record<string, string[]>);
-      return Object.entries(filesPerBucket);
-    }),
-    mergeMap(bucketEntries => bucketEntries),
-    mergeMap(([, files]) => this.adminService.deleteS3Files(files, false)),
-    // mergeMap(fetchPromise => forkJoin(fetchPromise)),
-    map((failedFiles: { success: boolean; files: string[] }) => {
-      if (failedFiles.success) {
-        return setNumberOfSourcesToDelete({numberOfFiles: failedFiles.files.length});
-      } else {
-        return addFailedDeletedFiles({filePaths: failedFiles.files});
-      }
-    }),
-    // TODO: return the correct number of files
-    catchError(() => [setNumberOfSourcesToDelete({numberOfFiles: -1})])
-  ));
 
   public getUrlsPerProvider(commutativeUrls: string[]): Record<CloudProviders, string[]> {
 

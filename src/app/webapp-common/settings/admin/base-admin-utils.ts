@@ -70,10 +70,6 @@ export const getBucketAndKeyFromSrc = (src) => {
     }
   }
 };
-export const inBucket = (url: string, bucket: string, endpoint: string) => {
-  const {Bucket: urlBucket, Endpoint: urlEndpoint} = getBucketAndKeyFromSrc(url);
-  return urlBucket === bucket && urlEndpoint === endpoint;
-};
 
 export interface SignResponse {
   type: 'popup' | 'sign' | 'none';
