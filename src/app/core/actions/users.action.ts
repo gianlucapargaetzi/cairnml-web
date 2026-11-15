@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {USERS_PREFIX} from '~/app.constants';
 import {GetCurrentUserResponseUserObject} from '~/business-logic/model/users/getCurrentUserResponseUserObject';
-import {UsersGetCurrentUserResponseSettings} from "~/business-logic/model/users/usersGetCurrentUserResponseSettings";
+import {UsersGetCurrentUserResponseSettings} from '~/business-logic/model/users/usersGetCurrentUserResponseSettings';
 
 export interface GettingStarted {
   agentName: string;

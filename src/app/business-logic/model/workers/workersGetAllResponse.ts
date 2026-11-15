@@ -14,5 +14,5 @@ import { Worker } from '././worker';
 
 
 export interface WorkersGetAllResponse {
-    workers?: Array<Worker>;
+    workers?: Worker[];
 }

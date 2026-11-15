@@ -17,7 +17,7 @@ export interface EventsGetTaskSingleValueMetricsRequest {
   /**
    * List of task Task IDs
    */
-  tasks: Array<string>;
+  tasks: string[];
   /**
    * If set then the retrieving model events. Otherwise task events
    */
@@ -25,5 +25,5 @@ export interface EventsGetTaskSingleValueMetricsRequest {
   /**
    * List of metrics and variants
    */
-  metrics?: Array<MetricVariants>;
+  metrics?: MetricVariants[];
 }

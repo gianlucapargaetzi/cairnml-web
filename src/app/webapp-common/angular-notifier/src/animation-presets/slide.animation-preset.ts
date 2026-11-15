@@ -11,12 +11,8 @@ export const slide: NotifierAnimationPreset = {
 		// Prepare variables
 		const config: NotifierConfig = notification.component.getConfig();
 		const shift: number = notification.component.getShift();
-		let from: {
-			[ animatablePropertyName: string ]: string;
-		};
-		let to: {
-			[ animatablePropertyName: string ]: string;
-		};
+		let from: Record<string, string>;
+		let to: Record<string, string>;
 
 		// Configure variables, depending on configuration and component
 		if ( config.position.horizontal.position === 'left' ) {
@@ -59,12 +55,8 @@ export const slide: NotifierAnimationPreset = {
 
 		// Prepare variables
 		const config: NotifierConfig = notification.component.getConfig();
-		let from: {
-			[ animatablePropertyName: string ]: string;
-		};
-		let to: {
-			[ animatablePropertyName: string ]: string;
-		};
+		let from: Record<string, string>;
+		let to: Record<string, string>;
 
 		// Configure variables, depending on configuration and component
 		if ( config.position.horizontal.position === 'left' ) {

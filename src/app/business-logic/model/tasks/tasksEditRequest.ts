@@ -39,11 +39,11 @@ export interface TasksEditRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     type?: TaskTypeEnum;
     /**
      * Free text comment
@@ -65,11 +65,11 @@ export interface TasksEditRequest {
     /**
      * Task hyper params per section
      */
-    hyperparams?: { [key: string]: { [key: string]: ParamsItem; }; };
+    hyperparams?: Record<string, Record<string, ParamsItem>>;
     /**
      * Task configuration params
      */
-    configuration?: { [key: string]: ConfigurationItem; };
+    configuration?: Record<string, ConfigurationItem>;
     script?: Script;
     models?: TaskModels;
     /**

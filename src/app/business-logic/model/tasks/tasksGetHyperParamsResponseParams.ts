@@ -21,5 +21,5 @@ export interface TasksGetHyperParamsResponseParams {
     /**
      * Hyper parameters
      */
-    hyperparams?: Array<ParamsItem>;
+    hyperparams?: ParamsItem[];
 }

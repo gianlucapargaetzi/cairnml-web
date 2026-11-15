@@ -25,7 +25,7 @@ export interface PipelinesStartPipelineRequest {
     /**
      * Task arguments, name/value to be placed in the hyperparameters Args section
      */
-    args?: Array<PipelinesStartPipelineRequestArgs>;
+    args?: PipelinesStartPipelineRequestArgs[];
     /**
     * If passed then check wheter there are any workers watiching the queue
     */

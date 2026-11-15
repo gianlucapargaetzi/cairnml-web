@@ -20,5 +20,5 @@ export interface MultiFieldPatternData {
     /**
      * List of field names
      */
-    fields?: Array<string>;
+    fields?: string[];
 }

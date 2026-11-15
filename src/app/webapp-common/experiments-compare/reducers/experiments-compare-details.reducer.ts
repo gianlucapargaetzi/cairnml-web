@@ -4,8 +4,8 @@ import {createReducer, on} from '@ngrx/store';
 import {ModelDetail} from '@common/experiments-compare/shared/experiments-compare-details.model';
 
 export interface ExperimentCompareDetailsState {
-  experiments: Array<IExperimentDetail>;
-  models: Array<ModelDetail>;
+  experiments: IExperimentDetail[];
+  models: ModelDetail[];
 }
 
 export const initialState: ExperimentCompareDetailsState = {

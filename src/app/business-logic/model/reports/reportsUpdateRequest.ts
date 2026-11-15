@@ -24,7 +24,7 @@ export interface ReportsUpdateRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * Free text comment
      */

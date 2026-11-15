@@ -16,7 +16,7 @@ export interface TasksStopManyRequest {
     /**
      * IDs of the tasks to stop
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Reason for status change
      */

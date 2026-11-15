@@ -59,7 +59,7 @@ export class ExperimentsCompareScalarsGraphEffects {
     ))
   );
 
-  getMetricResults(tasks): Array<MetricVariantResult> {
+  getMetricResults(tasks): MetricVariantResult[] {
     const metrics = [];
     for (const task of tasks) {
       for (const metric in task.last_metrics) {
@@ -119,7 +119,7 @@ export class ExperimentsCompareScalarsGraphEffects {
 
   private getParametersHasDiffs(tasks): GroupedHyperParams {
     const numberOfTasks = tasks.length;
-    let paramsValues: { [section: string]: { [param: string]: any[] } } = {};
+    let paramsValues: Record<string, Record<string, any[]>> = {};
     tasks.forEach(task => {
       paramsValues = task.hyperparams ? Object.values(task.hyperparams).reduce((acc, paramsObj) => {
         Object.values(paramsObj).forEach((paramObj) => {
@@ -128,10 +128,10 @@ export class ExperimentsCompareScalarsGraphEffects {
           acc[paramObj.section][paramObj.name].push(paramObj.value);
         });
         return acc;
-      }, paramsValues) as { [section: string]: { [param: string]: any[] } } : paramsValues;
+      }, paramsValues) as Record<string, Record<string, any[]>> : paramsValues;
     });
 
-    const paramsValuesHasDiff: { [section: string]: HyperParams } = {};
+    const paramsValuesHasDiff: Record<string, HyperParams> = {};
     Object.entries(paramsValues).forEach(([section, params]) => {
       paramsValuesHasDiff[section] = Object.entries(params).reduce((acc, [paramKey, values]) => {
         acc[paramKey] = values.every(value => value !== '') && (numberOfTasks != values.length || values.some(val => val !== values[0]));

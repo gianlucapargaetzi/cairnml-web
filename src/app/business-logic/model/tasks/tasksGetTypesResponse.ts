@@ -16,5 +16,5 @@ export interface TasksGetTypesResponse {
     /**
      * Unique list of the task types used in the requested projects
      */
-    types?: Array<string>;
+    types?: string[];
 }

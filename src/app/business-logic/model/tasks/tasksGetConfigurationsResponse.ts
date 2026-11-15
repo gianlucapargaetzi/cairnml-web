@@ -17,5 +17,5 @@ export interface TasksGetConfigurationsResponse {
     /**
      * Configurations (keyed by task ID)
      */
-    configurations?: Array<TasksGetConfigurationsResponseConfigurations>;
+    configurations?: TasksGetConfigurationsResponseConfigurations[];
 }

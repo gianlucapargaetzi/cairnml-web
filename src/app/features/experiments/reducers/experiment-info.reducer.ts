@@ -5,5 +5,5 @@ export {
 } from '@common/experiments/reducers/common-experiment-info.reducer';
 
 export interface ExperimentInfoState extends CommonExperimentInfoState {
-  errors: { [key: string]: any } | null;
+  errors: Record<string, any> | null;
 }

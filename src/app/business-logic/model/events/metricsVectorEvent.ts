@@ -43,5 +43,5 @@ export interface MetricsVectorEvent {
     /**
      * vector of float values
      */
-    values?: Array<number>;
+    values?: number[];
 }

@@ -6,7 +6,7 @@ import {get} from 'lodash-es';
   })
 export class ReplaceViaMapPipe implements PipeTransform {
 
-  transform(value: string, replaceMap: { [key: string]: string }): string {
+  transform(value: string, replaceMap: Record<string, string>): string {
     if (!value || !replaceMap) {
       return value;
     }

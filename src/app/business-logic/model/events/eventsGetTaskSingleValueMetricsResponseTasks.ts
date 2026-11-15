@@ -19,5 +19,5 @@ export interface EventsGetTaskSingleValueMetricsResponseTasks {
      */
     task?: string;
   task_name?: string;
-  values?: Array<EventsGetTaskSingleValueMetricsResponseValues>;
+  values?: EventsGetTaskSingleValueMetricsResponseValues[];
 }

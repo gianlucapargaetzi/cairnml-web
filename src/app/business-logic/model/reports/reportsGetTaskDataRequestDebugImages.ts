@@ -20,5 +20,5 @@ export interface ReportsGetTaskDataRequestDebugImages {
     /**
      * List of metrics and variants
      */
-    metrics?: Array<object>;
+    metrics?: object[];
 }

@@ -16,7 +16,7 @@ export interface ProjectsGetUserNamesRequest {
     /**
      * The list of projects. If not passed or empty then all the projects are searched
      */
-    projects?: Array<string>;
+    projects?: string[];
     /**
      * If set to \'true\' and the projects field is not empty then the result includes   user name from the subprojects children
      */

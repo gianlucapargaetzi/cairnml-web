@@ -8,7 +8,7 @@ import { maxInArray } from '@common/shared/utils/helpers.util';
 export class DagManagerUnsortedService<T extends DagModelItem> extends DagManagerService<T> {
 
   override convertArrayToDagModel(itemsArray: T[]): T[][] {
-    const result: Array<Array<T>> = [];
+    const result: T[][] = [];
     const nodeLevels = new Map<number, number>();
     const nodeChildren = new Map<number, number[]>();
 

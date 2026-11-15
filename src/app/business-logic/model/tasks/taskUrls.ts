@@ -13,7 +13,7 @@
 
 
 export interface TaskUrls {
-    model_urls?: Array<string>;
-    event_urls?: Array<string>;
-    artifact_urls?: Array<string>;
+    model_urls?: string[];
+    event_urls?: string[];
+    artifact_urls?: string[];
 }

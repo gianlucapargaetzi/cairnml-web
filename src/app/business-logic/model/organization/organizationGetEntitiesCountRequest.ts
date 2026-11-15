@@ -41,7 +41,7 @@ export interface OrganizationGetEntitiesCountRequest {
      * If set to \'true\' then hidden projects and tasks are included in the search   results
      */
     search_hidden?: boolean;
-    active_users?: Array<string>;
+    active_users?: string[];
     /**
      * Search criteria for reports
      */

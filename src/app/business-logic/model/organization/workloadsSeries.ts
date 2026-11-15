@@ -18,19 +18,19 @@ export interface WorkloadsSeries {
     /**
      * Date timestamp in seconds
      */
-    dates?: Array<number>;
+    dates?: number[];
     /**
      * Tasks running time in seconds
      */
-    duration?: Array<number>;
+    duration?: number[];
     /**
      * Tasks running task multiplied by cpu resource
      */
-    cpu_usage?: Array<number>;
+    cpu_usage?: number[];
     /**
      * Tasks running task multiplied by gpu resource
      */
-    gpu_usage?: Array<number>;
+    gpu_usage?: number[];
     /**
      * Indicate whether artificial cpu resource weights were used
      */

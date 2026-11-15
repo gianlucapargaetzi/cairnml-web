@@ -16,11 +16,11 @@ export interface MachineStats {
     /**
      * Average CPU usage per core
      */
-    cpu_usage?: Array<number>;
+    cpu_usage?: number[];
     /**
      * Average GPU usage per GPU card
      */
-    gpu_usage?: Array<number>;
+    gpu_usage?: number[];
     /**
      * Used memory MBs
      */
@@ -32,11 +32,11 @@ export interface MachineStats {
     /**
      * GPU free memory MBs
      */
-    gpu_memory_free?: Array<number>;
+    gpu_memory_free?: number[];
     /**
      * GPU used memory MBs
      */
-    gpu_memory_used?: Array<number>;
+    gpu_memory_used?: number[];
     /**
      * Mbytes per second
      */
@@ -64,13 +64,13 @@ export interface MachineStats {
     /**
      * CPU temperature
      */
-    cpu_temperature?: Array<number>;
+    cpu_temperature?: number[];
     /**
      * GPU temperature
      */
-    gpu_temperature?: Array<number>;
+    gpu_temperature?: number[];
     /**
      * GPU fraction
      */
-    gpu_fraction?: Array<number>;
+    gpu_fraction?: number[];
 }

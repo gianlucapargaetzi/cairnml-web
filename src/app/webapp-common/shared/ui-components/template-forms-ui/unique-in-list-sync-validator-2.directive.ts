@@ -15,7 +15,7 @@ export class UniqueInListSync2ValidatorDirective implements Validator {
 }
 
 export function uniqueNameValidator(existingNames): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
+  return (control: AbstractControl): Record<string, any> | null => {
     const forbidden = hasDuplicates(existingNames);
     return forbidden ? {'uniqueName2': duplicatesMap(existingNames)} : null;
   };

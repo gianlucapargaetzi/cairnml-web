@@ -16,7 +16,7 @@ export interface ProjectsGetHyperparamValuesRequest {
     /**
      * Project IDs
      */
-    projects?: Array<string>;
+    projects?: string[];
     /**
      * Hyperparameter section name
      */

@@ -16,7 +16,7 @@ export interface LabelSource {
     /**
      * List of source labels (AND connection). \'*\' indicates any label. Labels must exist in at least one of the dataset versions in the task\'s view
      */
-    labels?: Array<string>;
+    labels?: string[];
     /**
      * Source dataset id. \'*\' for all datasets in view
      */

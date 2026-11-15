@@ -34,11 +34,11 @@ export interface ModelsEditRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list. This field is reserved for system use, please don't use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * Framework on which the model is based. Case insensitive. Should be identical to   the framework of the task which created the model.
      */
@@ -50,7 +50,7 @@ export interface ModelsEditRequest {
     /**
      * Json object
      */
-    labels?: { [key: string]: number; };
+    labels?: Record<string, number>;
     /**
      * Indication if the model is final and can be used by other tasks
      */

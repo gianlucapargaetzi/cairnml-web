@@ -17,5 +17,5 @@ export interface ProjectsGetTaskParentsResponse {
     /**
      * The list of unique task parents sorted by their names
      */
-    parents?: Array<ProjectsGetTaskParentsResponseParents>;
+    parents?: ProjectsGetTaskParentsResponseParents[];
 }

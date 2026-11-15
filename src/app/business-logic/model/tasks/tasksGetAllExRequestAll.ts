@@ -16,6 +16,6 @@
  * All the terms in \'all\' condition are combined with \'and\' operation
  */
 export interface TasksGetAllExRequestAll {
-    include?: Array<string>;
-    exclude?: Array<string>;
+    include?: string[];
+    exclude?: string[];
 }

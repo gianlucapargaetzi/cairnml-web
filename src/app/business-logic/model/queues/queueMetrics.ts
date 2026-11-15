@@ -20,13 +20,13 @@ export interface QueueMetrics {
     /**
      * List of timestamps (in seconds from epoch) in the acceding order. The timestamps are separated by the requested interval. Timestamps where no queue status change was recorded are omitted.
      */
-    dates?: Array<number>;
+    dates?: number[];
     /**
      * List of average waiting times for tasks in the queue. The points correspond to the timestamps in the dates list. If more than one value exists for the given interval then the maximum value is taken.
      */
-    avg_waiting_times?: Array<number>;
+    avg_waiting_times?: number[];
     /**
      * List of tasks counts in the queue. The points correspond to the timestamps in the dates list. If more than one value exists for the given interval then the count that corresponds to the maximum average value is taken.
      */
-    queue_lengths?: Array<number>;
+    queue_lengths?: number[];
 }

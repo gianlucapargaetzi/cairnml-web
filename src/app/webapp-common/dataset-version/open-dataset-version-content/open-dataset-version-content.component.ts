@@ -14,7 +14,7 @@ import {PrimeTemplate} from 'primeng/api';
 
 const columnIds = ['name', 'size', 'hash'];
 
-type Row = { [K in typeof columnIds[number]]: string }
+type Row = Record<typeof columnIds[number], string>
 
 interface RowData extends Row {
   id: string

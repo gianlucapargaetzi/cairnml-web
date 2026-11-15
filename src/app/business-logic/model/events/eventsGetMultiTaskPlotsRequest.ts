@@ -17,7 +17,7 @@ export interface EventsGetMultiTaskPlotsRequest {
   /**
    * List of task IDs
    */
-  tasks: Array<string>;
+  tasks: string[];
   /**
    * Max number of latest iterations for which to return plots
    */
@@ -41,5 +41,5 @@ export interface EventsGetMultiTaskPlotsRequest {
   /**
    * List of metrics and variants
    */
-  metrics?: Array<MetricVariants>;
+  metrics?: MetricVariants[];
 }

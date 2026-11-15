@@ -21,15 +21,15 @@ export interface QueuesGetAllExRequest {
     /**
      * List of Queue IDs used to filter results
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * User-defined tags list used to filter results. Prepend \'-\' to tag name to   indicate exclusion
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list used to filter results. Prepend \'-\' to system tag name to   indicate exclusion
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * Page number, returns a specific page out of the result list of results.
      */
@@ -41,7 +41,7 @@ export interface QueuesGetAllExRequest {
     /**
      * List of field names to order by. When search_text is used, \'@text_score\' can be   used as a field representing the text score of returned documents. Use \'-\'   prefix to specify descending order. Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * Free text search query
      */
@@ -49,7 +49,7 @@ export interface QueuesGetAllExRequest {
     /**
      * List of document field names (nesting is supported using \'.\', e.g.   execution.model_labels). If provided, this list defines the query\'s projection   (only these fields will be returned for each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
     /**
      * Scroll ID returned from the previos calls to get_all_ex
      */
@@ -73,7 +73,7 @@ export interface QueuesGetAllExRequest {
     /**
      * List of FilterRule (\'OR\' connection)
      */
-    filters?: { [key: string]: QueuesGetAllExRequestFilters; };
+    filters?: Record<string, QueuesGetAllExRequestFilters>;
     /**
      * If set then pool link queues are also returned. Can be used by admin users only
      */

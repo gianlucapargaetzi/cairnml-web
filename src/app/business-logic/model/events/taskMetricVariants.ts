@@ -24,5 +24,5 @@ export interface TaskMetricVariants {
     /**
      * Metric variant names
      */
-    variants?: Array<string>;
+    variants?: string[];
 }

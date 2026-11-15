@@ -16,7 +16,7 @@ export interface ItaskOutput {
 }
 
 export interface ITaskView {
-  entries: Array<ITaskViewEntry>;
+  entries: ITaskViewEntry[];
 }
 
 export interface ITaskViewEntry {

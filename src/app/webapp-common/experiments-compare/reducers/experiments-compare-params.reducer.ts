@@ -3,8 +3,8 @@ import {paramsActions} from '../actions/experiments-compare-params.actions';
 import {createReducer, on} from '@ngrx/store';
 
 export interface CompareParamsState {
-  experiments: Array<ExperimentParams>;
-  viewMode: {[page: string]: string}
+  experiments: ExperimentParams[];
+  viewMode: Record<string, string>
 }
 
 export const initialState: CompareParamsState = {

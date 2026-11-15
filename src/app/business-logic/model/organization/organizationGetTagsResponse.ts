@@ -16,9 +16,9 @@ export interface OrganizationGetTagsResponse {
     /**
      * The list of unique tag values
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * The list of unique system tag values. Returned only if \'include_system\' is set   to \'true\' in the request
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
 }

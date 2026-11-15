@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 import {ApiOptions} from '~/business-logic/api-services/api';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
@@ -70,7 +70,7 @@ export class ApiPipelinesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pipelinesDeleteRuns(request: PipelinesDeleteRunsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pipelinesDeleteRuns(request: PipelinesDeleteRunsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling pipelinesDeleteRuns.');
         }
@@ -86,7 +86,7 @@ export class ApiPipelinesService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -94,7 +94,7 @@ export class ApiPipelinesService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
         return this.apiRequest.post<PipelinesDeleteRunsResponse>(`${this.basePath}/pipelines.delete_runs`,
@@ -116,7 +116,7 @@ export class ApiPipelinesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pipelinesStartPipeline(request: PipelinesStartPipelineRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pipelinesStartPipeline(request: PipelinesStartPipelineRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling pipelinesStartPipeline.');
         }
@@ -132,7 +132,7 @@ export class ApiPipelinesService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -140,7 +140,7 @@ export class ApiPipelinesService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<PipelinesStartPipelineResponse>(`${this.basePath}/pipelines.start_pipeline`,

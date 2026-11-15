@@ -20,7 +20,7 @@ export interface AugmentationSet {
     /**
      * Augmentation type
      */
-    types?: Array<string>;
+    types?: string[];
     /**
      * Augmentation strength. Range [0,).
      */
@@ -28,5 +28,5 @@ export interface AugmentationSet {
     /**
      * Arguments dictionary per custom augmentation type.
      */
-    arguments?: { [key: string]: object; };
+    arguments?: Record<string, object>;
 }

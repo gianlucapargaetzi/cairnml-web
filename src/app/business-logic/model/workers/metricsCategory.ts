@@ -20,5 +20,5 @@ export interface MetricsCategory {
     /**
      * The names of the metrics in the category.
      */
-    metric_keys?: Array<string>;
+    metric_keys?: string[];
 }

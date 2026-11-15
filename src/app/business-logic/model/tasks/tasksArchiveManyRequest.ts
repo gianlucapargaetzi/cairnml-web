@@ -16,7 +16,7 @@ export interface TasksArchiveManyRequest {
     /**
      * IDs of the tasks to archive
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Reason for status change
      */

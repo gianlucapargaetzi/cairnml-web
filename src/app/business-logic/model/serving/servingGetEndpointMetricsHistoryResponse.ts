@@ -23,5 +23,5 @@ export interface ServingGetEndpointMetricsHistoryResponse {
     /**
      * Instance charts
      */
-    instances?: { [key: string]: ServingGetEndpointMetricsHistoryResponseInstances; };
+    instances?: Record<string, ServingGetEndpointMetricsHistoryResponseInstances>;
 }

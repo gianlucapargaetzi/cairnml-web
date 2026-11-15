@@ -21,6 +21,6 @@ export interface ProjectsGetProjectTagsRequest {
     /**
      * The list of projects under which the tags are searched. If not passed or empty   then all the projects are searched
      */
-    projects?: Array<string>;
+    projects?: string[];
     filter?: ProjectsGetProjectTagsRequestFilter;
 }

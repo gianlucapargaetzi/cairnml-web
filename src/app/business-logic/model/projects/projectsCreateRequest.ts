@@ -24,11 +24,11 @@ export interface ProjectsCreateRequest {
     /**
      * User-defined tags
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * The default output destination URL for new tasks under this project
      */

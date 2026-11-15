@@ -18,7 +18,7 @@ export interface TasksGetAllExRequest {
     /**
      * List of IDs to filter by
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * Get only tasks whose name matches this pattern (python regular expression   syntax)
      */
@@ -26,11 +26,11 @@ export interface TasksGetAllExRequest {
     /**
      * List of user IDs used to filter results by the task\'s creating user
      */
-    user?: Array<string>;
+    user?: string[];
     /**
      * List of project IDs
      */
-    project?: Array<string>;
+    project?: string[];
     /**
      * Page number, returns a specific page out of the resulting list of tasks
      */
@@ -42,27 +42,27 @@ export interface TasksGetAllExRequest {
     /**
      * List of field names to order by. When search_text is used, \'@text_score\' can be   used as a field representing the text score of returned documents. Use \'-\'   prefix to specify descending order. Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * List of task types. One or more of: \'training\', \'testing\', \'import\',   \'annotation\', \'inference\', \'data_processing\', \'application\', \'monitor\',   \'controller\', \'optimizer\', \'service\', \'qc\' or \'custom\' (case insensitive)
      */
-    type?: Array<string>;
+    type?: string[];
     /**
      * List of task user-defined tags. Use \'-\' prefix to exclude tags
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * List of task system tags. Use \'-\' prefix to exclude system tags
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * List of task status.
      */
-    status?: Array<TaskStatusEnum>;
+    status?: TaskStatusEnum[];
     /**
      * List of task field names (nesting is supported using \'.\', e.g.   execution.model_labels). If provided, this list defines the query\'s projection   (only these fields will be returned for each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
     /**
      * Parent ID
      */
@@ -70,7 +70,7 @@ export interface TasksGetAllExRequest {
     /**
      * List of status changed constraint strings (utcformat, epoch) with an optional   prefix modifier (>, >=, <, <=)
      */
-    status_changed?: Array<string>;
+    status_changed?: string[];
     /**
      * Free text search query
      */

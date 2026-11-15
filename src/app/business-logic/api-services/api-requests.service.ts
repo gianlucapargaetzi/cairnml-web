@@ -26,13 +26,9 @@ export class SmApiRequestsService {
   }
 
   post<T>(url: string, body: any | null, options?: {
-    headers?: HttpHeaders | {
-      [header: string]: string | string[];
-    };
+    headers?: HttpHeaders | Record<string, string | string[]>;
     observe?: 'body';
-    params?: HttpParams | {
-      [param: string]: string | string[];
-    };
+    params?: HttpParams | Record<string, string | string[]>;
     reportProgress?: boolean;
     responseType?: 'json';
     withCredentials?: boolean;
@@ -42,13 +38,9 @@ export class SmApiRequestsService {
   }
 
   posti(url: string, body: any | null, options?: {
-    headers?: HttpHeaders | {
-      [header: string]: string | string[];
-    };
+    headers?: HttpHeaders | Record<string, string | string[]>;
     observe?: 'body';
-    params?: HttpParams | {
-      [param: string]: string | string[];
-    };
+    params?: HttpParams | Record<string, string | string[]>;
     reportProgress?: boolean;
     responseType?: 'json';
     withCredentials?: boolean;

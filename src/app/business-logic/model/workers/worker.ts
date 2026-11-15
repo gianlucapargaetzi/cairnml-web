@@ -44,11 +44,11 @@ export interface Worker {
     /**
      * List of queues on which the worker is listening
      */
-    queues?: Array<QueueEntry>;
+    queues?: QueueEntry[];
     /**
      * User tags for the worker
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * Worker entry key
      */

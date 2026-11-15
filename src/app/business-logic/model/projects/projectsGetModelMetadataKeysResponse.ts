@@ -16,7 +16,7 @@ export interface ProjectsGetModelMetadataKeysResponse {
     /**
      * A list of model keys
      */
-    keys?: Array<string>;
+    keys?: string[];
     /**
      * Remaining results
      */

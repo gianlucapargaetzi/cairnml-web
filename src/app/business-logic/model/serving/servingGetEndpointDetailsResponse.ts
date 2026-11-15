@@ -54,5 +54,5 @@ export interface ServingGetEndpointDetailsResponse {
      * The latest time when one of the model instances was updated
      */
     last_update?: Date;
-    instances?: Array<ContainerInstanceStats>;
+    instances?: ContainerInstanceStats[];
 }

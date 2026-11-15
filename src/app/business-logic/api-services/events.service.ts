@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -41,15 +41,15 @@ import { EventsScalarMetricsIterHistogramResponse } from '../model/events/events
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import {EventsScalarMetricsIterRawRequest} from "~/business-logic/model/events/eventsScalarMetricsIterRawRequest";
-import {EventsScalarMetricsIterRawResponse} from "~/business-logic/model/events/eventsScalarMetricsIterRawResponse";
+import {EventsScalarMetricsIterRawRequest} from '~/business-logic/model/events/eventsScalarMetricsIterRawRequest';
+import {EventsScalarMetricsIterRawResponse} from '~/business-logic/model/events/eventsScalarMetricsIterRawResponse';
 import {EventsNextPlotSampleRequest} from '~/business-logic/model/events/eventsNextPlotSampleRequest';
 import {PlotSampleResponse} from '~/business-logic/model/events/plotSampleResponse';
 import {EventsGetPlotSampleRequest} from '~/business-logic/model/events/eventsGetPlotSampleRequest';
 import {EventsGetTaskSingleValueMetricsRequest} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsRequest';
 import {EventsGetTaskSingleValueMetricsResponse} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponse';
-import {EventsGetMultiTaskMetricsResponse} from "~/business-logic/model/events/eventsGetMultiTaskMetricsResponse";
-import {EventsGetMultiTaskMetricsRequest} from "~/business-logic/model/events/eventsGetMultiTaskMetricsRequest";
+import {EventsGetMultiTaskMetricsResponse} from '~/business-logic/model/events/eventsGetMultiTaskMetricsResponse';
+import {EventsGetMultiTaskMetricsRequest} from '~/business-logic/model/events/eventsGetMultiTaskMetricsRequest';
 
 
 @Injectable({providedIn: 'root'})
@@ -91,7 +91,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsDebugImages(request: EventsDebugImagesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsDebugImages(request: EventsDebugImagesRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsDebugImages.');
         }
@@ -107,7 +107,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -115,7 +115,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsDebugImagesResponse>(`${this.basePath}/events.debug_images`,
@@ -136,7 +136,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGetDebugImageSample(request: EventsGetDebugImageSampleRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsGetDebugImageSample(request: EventsGetDebugImageSampleRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsGetDebugImageSample.');
         }
@@ -152,7 +152,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -160,7 +160,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<DebugImageSampleReposnse>(`${this.basePath}/events.get_debug_image_sample`,
@@ -181,7 +181,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGetMultiTaskPlots(request: EventsGetMultiTaskPlotsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsGetMultiTaskPlots(request: EventsGetMultiTaskPlotsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsGetMultiTaskPlots.');
         }
@@ -197,7 +197,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -205,7 +205,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsGetMultiTaskPlotsResponse>(`${this.basePath}/events.get_multi_task_plots`,
@@ -226,7 +226,7 @@ export class ApiEventsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public eventsNextPlotSample(request: EventsNextPlotSampleRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public eventsNextPlotSample(request: EventsNextPlotSampleRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling eventsNextPlotSample.');
     }
@@ -242,7 +242,7 @@ export class ApiEventsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -250,7 +250,7 @@ export class ApiEventsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<PlotSampleResponse>(`${this.basePath}/events.next_plot_sample`,
@@ -271,7 +271,7 @@ export class ApiEventsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public eventsGetMultiTaskMetrics(request: EventsGetMultiTaskMetricsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public eventsGetMultiTaskMetrics(request: EventsGetMultiTaskMetricsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling eventsGetMultiTaskMetrics.');
     }
@@ -287,7 +287,7 @@ export class ApiEventsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -295,7 +295,7 @@ export class ApiEventsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<EventsGetMultiTaskMetricsResponse>(`${this.basePath}/events.get_multi_task_metrics`,
@@ -315,7 +315,7 @@ export class ApiEventsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public eventsGetPlotSample(request: EventsGetPlotSampleRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public eventsGetPlotSample(request: EventsGetPlotSampleRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling eventsGetPlotSample.');
     }
@@ -331,7 +331,7 @@ export class ApiEventsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -339,7 +339,7 @@ export class ApiEventsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<PlotSampleResponse>(`${this.basePath}/events.get_plot_sample`,
@@ -360,7 +360,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGetTaskLog(request: EventsGetTaskLogRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsGetTaskLog(request: EventsGetTaskLogRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsGetTaskLog.');
         }
@@ -376,7 +376,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -384,7 +384,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsGetTaskLogResponse>(`${this.basePath}/events.get_task_log`,
@@ -405,7 +405,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGetTaskMetrics(request: EventsGetTaskMetricsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsGetTaskMetrics(request: EventsGetTaskMetricsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsGetTaskMetrics.');
         }
@@ -421,7 +421,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -429,7 +429,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsGetTaskMetricsResponse>(`${this.basePath}/events.get_task_metrics`,
@@ -450,7 +450,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGetTaskPlots(request: EventsGetTaskPlotsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsGetTaskPlots(request: EventsGetTaskPlotsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsGetTaskPlots.');
         }
@@ -466,7 +466,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -474,7 +474,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsGetTaskPlotsResponse>(`${this.basePath}/events.get_task_plots`,
@@ -495,7 +495,7 @@ export class ApiEventsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public eventsGetTaskSingleValueMetrics(request: EventsGetTaskSingleValueMetricsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public eventsGetTaskSingleValueMetrics(request: EventsGetTaskSingleValueMetricsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling eventsGetTaskSingleValueMetrics.');
     }
@@ -511,7 +511,7 @@ export class ApiEventsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -519,7 +519,7 @@ export class ApiEventsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<EventsGetTaskSingleValueMetricsResponse>(`${this.basePath}/events.get_task_single_value_metrics`,
@@ -540,7 +540,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsMultiTaskScalarMetricsIterHistogram(request: EventsMultiTaskScalarMetricsIterHistogramRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsMultiTaskScalarMetricsIterHistogram(request: EventsMultiTaskScalarMetricsIterHistogramRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsMultiTaskScalarMetricsIterHistogram.');
         }
@@ -556,7 +556,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -564,7 +564,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<object>(`${this.basePath}/events.multi_task_scalar_metrics_iter_histogram`,
@@ -585,7 +585,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsNextDebugImageSample(request: EventsNextDebugImageSampleRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsNextDebugImageSample(request: EventsNextDebugImageSampleRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsNextDebugImageSample.');
         }
@@ -601,7 +601,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -609,7 +609,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<DebugImageSampleReposnse>(`${this.basePath}/events.next_debug_image_sample`,
@@ -630,7 +630,7 @@ export class ApiEventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsScalarMetricsIterHistogram(request: EventsScalarMetricsIterHistogramRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public eventsScalarMetricsIterHistogram(request: EventsScalarMetricsIterHistogramRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling eventsScalarMetricsIterHistogram.');
         }
@@ -646,7 +646,7 @@ export class ApiEventsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -654,7 +654,7 @@ export class ApiEventsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<EventsScalarMetricsIterHistogramResponse>(`${this.basePath}/events.scalar_metrics_iter_histogram`,
@@ -675,7 +675,7 @@ export class ApiEventsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public eventsScalarMetricsIterRaw(request: EventsScalarMetricsIterRawRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public eventsScalarMetricsIterRaw(request: EventsScalarMetricsIterRawRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling eventsScalarMetricsIterRaw.');
     }
@@ -691,7 +691,7 @@ export class ApiEventsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -699,7 +699,7 @@ export class ApiEventsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<EventsScalarMetricsIterRawResponse>(`${this.basePath}/events.scalar_metrics_iter_raw`,

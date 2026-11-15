@@ -18,5 +18,5 @@ export interface PlotsResponseTaskMetrics {
      * Task ID
      */
     task?: string;
-    iterations?: Array<PlotsResponseTaskMetricsIterations>;
+    iterations?: PlotsResponseTaskMetricsIterations[];
 }

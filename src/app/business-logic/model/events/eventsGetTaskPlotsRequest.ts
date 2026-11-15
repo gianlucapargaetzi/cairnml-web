@@ -28,6 +28,6 @@ export interface EventsGetTaskPlotsRequest {
     /**
      * List of metrics and variants
      */
-    metrics?: Array<object>;
+    metrics?: object[];
   model_events?: boolean;
 }

@@ -21,5 +21,5 @@ export interface TasksGetConfigurationsResponseConfigurations {
     /**
      * Configuration list
      */
-    configuration?: Array<ConfigurationItem>;
+    configuration?: ConfigurationItem[];
 }

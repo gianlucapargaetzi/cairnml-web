@@ -10,5 +10,5 @@ export interface QueuesGetUsersResponse {
     /**
      * Users granted access to the queue
      */
-    users?: Array<QueuesQueueUser>;
+    users?: QueuesQueueUser[];
 }

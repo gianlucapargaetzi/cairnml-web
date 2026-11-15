@@ -17,5 +17,5 @@ export interface ModelsGetAllResponse {
     /**
      * Models list
      */
-    models?: Array<Model>;
+    models?: Model[];
 }

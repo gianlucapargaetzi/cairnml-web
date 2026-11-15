@@ -18,7 +18,7 @@ export interface ReportsGetAllExRequest {
     /**
      * List of IDs to filter by
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * Get only reports whose name matches this pattern (python regular expression   syntax)
      */
@@ -26,7 +26,7 @@ export interface ReportsGetAllExRequest {
     /**
      * List of user IDs used to filter results by the reports\'s creating user
      */
-    user?: Array<string>;
+    user?: string[];
     /**
      * Page number, returns a specific page out of the resulting list of reports
      */
@@ -38,31 +38,31 @@ export interface ReportsGetAllExRequest {
     /**
      * List of field names to order by. When search_text is used, \'@text_score\' can be   used as a field representing the text score of returned documents. Use \'-\'   prefix to specify descending order. Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * List of report user-defined tags. Use \'-\' prefix to exclude tags
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * List of report system tags. Use \'-\' prefix to exclude system tags
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * List of report status.
      */
-    status?: Array<ReportStatusEnum>;
+    status?: ReportStatusEnum[];
     /**
      * List of project IDs
      */
-    project?: Array<string>;
+    project?: string[];
     /**
      * List of report field names (nesting is supported using \'.\'). If provided, this   list defines the query\'s projection (only these fields will be returned for   each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
     /**
      * List of status changed constraint strings (utcformat, epoch) with an optional   prefix modifier (>, >=, <, <=)
      */
-    status_changed?: Array<string>;
+    status_changed?: string[];
     /**
      * Free text search query
      */

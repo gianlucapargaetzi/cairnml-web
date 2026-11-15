@@ -17,5 +17,5 @@ export interface ProjectsGetUserNamesResponse {
     /**
      * The list of users sorted by their names
      */
-    users?: Array<ProjectsGetUserNamesResponseUsers>;
+    users?: ProjectsGetUserNamesResponseUsers[];
 }

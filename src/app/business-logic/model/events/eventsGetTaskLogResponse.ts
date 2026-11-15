@@ -16,7 +16,7 @@ export interface EventsGetTaskLogResponse {
     /**
      * Log items list
      */
-    events?: Array<any>;
+    events?: any[];
     /**
      * Number of log events returned
      */

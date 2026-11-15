@@ -20,5 +20,5 @@ export interface ProjectsGetModelMetadataValuesResponse {
     /**
      * The list of the unique values
      */
-    values?: Array<string>;
+    values?: string[];
 }

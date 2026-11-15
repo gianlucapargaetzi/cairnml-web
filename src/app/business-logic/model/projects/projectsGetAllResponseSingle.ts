@@ -42,11 +42,11 @@ export interface ProjectsGetAllResponseSingle {
     /**
      * User-defined tags
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * The default output destination URL for new tasks under this project
      */
@@ -59,7 +59,7 @@ export interface ProjectsGetAllResponseSingle {
     /**
      * The list of sub projects
      */
-    sub_projects?: Array<ProjectsGetAllResponseSingleSubProjects>;
+    sub_projects?: ProjectsGetAllResponseSingleSubProjects[];
     isRoot?: boolean;
     last_update?: string; //MANUALLY
     hidden?: boolean;

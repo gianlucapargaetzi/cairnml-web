@@ -17,7 +17,7 @@ export interface ProjectsGetAllExResponse {
     /**
      * Projects list
      */
-    projects?: Array<ProjectsGetAllResponseSingle>;
+    projects?: ProjectsGetAllResponseSingle[];
     /**
      * The amount of tasks under this project (without children projects). Returned if   \'check_own_contents\' flag is set in the request
      */

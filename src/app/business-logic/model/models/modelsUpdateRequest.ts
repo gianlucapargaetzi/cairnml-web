@@ -28,11 +28,11 @@ export interface ModelsUpdateRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * Indication if the model is final and can be used by other tasks Default is   false.
      */

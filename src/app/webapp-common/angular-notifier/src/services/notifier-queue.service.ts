@@ -26,7 +26,7 @@ export class NotifierQueueService {
   /**
    * Queue of actions
    */
-  private actionQueue: Array<NotifierAction>;
+  private actionQueue: NotifierAction[];
 
   /**
    * Flag, true if some action is currently in progress

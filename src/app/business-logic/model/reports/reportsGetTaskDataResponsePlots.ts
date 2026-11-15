@@ -17,5 +17,5 @@ export interface ReportsGetTaskDataResponsePlots {
     /**
      * Plot events grouped by tasks and iterations
      */
-    metrics?: Array<PlotsResponseTaskMetrics>;
+    metrics?: PlotsResponseTaskMetrics[];
 }

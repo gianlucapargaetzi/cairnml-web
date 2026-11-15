@@ -21,5 +21,5 @@ export interface WorkerStats {
     /**
      * List of the metrics statistics for the worker
      */
-    metrics?: Array<MetricStats>;
+    metrics?: MetricStats[];
 }

@@ -14,5 +14,5 @@ import { ContainerInfo } from '././containerInfo';
 
 
 export interface ServingGetLoadingInstancesResponse {
-    instances?: Array<ContainerInfo>;
+    instances?: ContainerInfo[];
 }

@@ -17,5 +17,5 @@ export interface ProjectsGetUniqueMetricVariantsResponse {
     /**
      * A list of metric variants reported for tasks in this project
      */
-    metrics?: Array<MetricVariantResult>;
+    metrics?: MetricVariantResult[];
 }

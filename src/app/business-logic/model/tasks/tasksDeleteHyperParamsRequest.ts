@@ -21,7 +21,7 @@ export interface TasksDeleteHyperParamsRequest {
     /**
      * List of hyper parameters to delete. In case a parameter with an empty name is   passed all the section will be deleted
      */
-    hyperparams: Array<ParamKey>;
+    hyperparams: ParamKey[];
     /**
      * If set to True then both new and running task hyper params can be deleted.   Otherwise only the new task ones. Default is False
      */

@@ -11,7 +11,7 @@ import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {WorkersStatsComponent} from '@common/workers-and-queues/containers/workers-stats/workers-stats.component';
 import {WorkersTableComponent} from '@common/workers-and-queues/dumb/workers-table/workers-table.component';
 import {WorkerInfoComponent} from '@common/workers-and-queues/dumb/worker-info/worker-info.component';
-import {distinctUntilChanged} from "rxjs/operators";
+import {distinctUntilChanged} from 'rxjs/operators';
 
 const REFRESH_INTERVAL = 30000;
 

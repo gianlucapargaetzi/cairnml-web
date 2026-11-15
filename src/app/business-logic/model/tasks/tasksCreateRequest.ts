@@ -32,11 +32,11 @@ export interface TasksCreateRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     type: TaskTypeEnum;
     /**
      * Free text comment
@@ -60,11 +60,11 @@ export interface TasksCreateRequest {
     /**
      * Task hyper params per section
      */
-    hyperparams?: { [key: string]: any; };
+    hyperparams?: Record<string, any>;
     /**
      * Task configuration params
      */
-    configuration?: { [key: string]: ConfigurationItem; };
+    configuration?: Record<string, ConfigurationItem>;
     models?: TaskModels;
     /**
      * Docker container parameters

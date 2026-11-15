@@ -16,7 +16,7 @@ export interface PipelinesDeleteRunsRequest {
     /**
      * IDs of the pipeline runs to delete. Should be the ids of pipeline controller   tasks
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Pipeline project ids. When deleting at least one run should be left
      */

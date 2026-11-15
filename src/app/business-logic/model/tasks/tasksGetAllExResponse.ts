@@ -17,7 +17,7 @@ export interface TasksGetAllExResponse {
     /**
      * List of tasks
      */
-    tasks?: Array<Task>;
+    tasks?: Task[];
     /**
      * Scroll ID that can be used with the next calls to get_all_ex to retrieve more   data
      */

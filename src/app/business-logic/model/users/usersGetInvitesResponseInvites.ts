@@ -36,5 +36,5 @@ export interface UsersGetInvitesResponseInvites {
     /**
      * Invited emails
      */
-    emails?: Array<string>;
+    emails?: string[];
 }

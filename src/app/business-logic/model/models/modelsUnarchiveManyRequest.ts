@@ -16,5 +16,5 @@ export interface ModelsUnarchiveManyRequest {
     /**
      * IDs of the models to unarchive
      */
-    ids: Array<string>;
+    ids: string[];
 }

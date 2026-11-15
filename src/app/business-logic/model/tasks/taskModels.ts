@@ -17,9 +17,9 @@ export interface TaskModels {
     /**
      * The list of task input models
      */
-    input?: Array<TaskModelItem>;
+    input?: TaskModelItem[];
     /**
      * The list of task output models
      */
-    output?: Array<TaskModelItem>;
+    output?: TaskModelItem[];
 }

@@ -17,5 +17,5 @@ export interface WorkersGetStatsResponse {
     /**
      * List of the requested workers with their statistics
      */
-    workers?: Array<WorkerStats>;
+    workers?: WorkerStats[];
 }

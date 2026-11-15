@@ -81,11 +81,11 @@ export interface Task {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * Last status change time
      */
@@ -125,15 +125,15 @@ export interface Task {
     /**
      * Last metric variants (hash to events), one for each metric hash
      */
-    last_metrics?: { [key: string]: { [key: string]: LastMetricsEvent; }; };
+    last_metrics?: Record<string, Record<string, LastMetricsEvent>>;
     /**
      * Task hyper params per section
      */
-    hyperparams?: { [key: string]: { [key: string]: ParamsItem; }; };
+    hyperparams?: Record<string, Record<string, ParamsItem>>;
     /**
      * Task configuration params
      */
-    configuration?: { [key: string]: ConfigurationItem; };
+    configuration?: Record<string, ConfigurationItem>;
     /**
      * Task runtime mapping
      */

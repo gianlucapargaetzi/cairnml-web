@@ -15,6 +15,6 @@ import { ModelsDeleteManyResponseSucceeded } from '././modelsDeleteManyResponseS
 
 
 export interface ModelsDeleteManyResponse {
-    succeeded?: Array<ModelsDeleteManyResponseSucceeded>;
-    failed?: Array<ModelsPublishManyResponseFailed>;
+    succeeded?: ModelsDeleteManyResponseSucceeded[];
+    failed?: ModelsPublishManyResponseFailed[];
 }

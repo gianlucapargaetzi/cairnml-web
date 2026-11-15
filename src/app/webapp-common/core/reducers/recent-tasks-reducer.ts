@@ -3,7 +3,7 @@ import {Task} from '~/business-logic/model/tasks/task';
 import {createReducer, on} from '@ngrx/store';
 
 const initTasks = {
-  data : <Array<Partial<Task>>>[],
+  data : [] as Partial<Task>[],
 };
 
 export const recentTasks       = state => state.recentTasks;

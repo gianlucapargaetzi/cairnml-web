@@ -17,7 +17,7 @@ export interface ModelsGetAllExResponse {
     /**
      * Models list
      */
-    models?: Array<Model>;
+    models?: Model[];
     /**
      * Scroll ID that can be used with the next calls to get_all_ex to retrieve more   data
      */

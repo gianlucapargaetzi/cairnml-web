@@ -20,5 +20,5 @@ export interface MetricVariants {
     /**
      * The names of the metric variants
      */
-    variants?: Array<string>;
+    variants?: string[];
 }

@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -68,7 +68,7 @@ export class ApiLoginService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loginLogout(request: object, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public loginLogout(request: object, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling loginLogout.');
         }
@@ -84,7 +84,7 @@ export class ApiLoginService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -92,7 +92,7 @@ export class ApiLoginService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<object>(`${this.basePath}/login.logout`,
@@ -113,7 +113,7 @@ export class ApiLoginService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loginSupportedModes(request: LoginSupportedModesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public loginSupportedModes(request: LoginSupportedModesRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling loginSupportedModes.');
         }
@@ -129,7 +129,7 @@ export class ApiLoginService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -137,7 +137,7 @@ export class ApiLoginService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<LoginSupportedModesResponse>(`${this.basePath}/login.supported_modes`,

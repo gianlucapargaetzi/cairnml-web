@@ -16,5 +16,5 @@ export interface ModelsArchiveManyRequest {
     /**
      * IDs of models to archive
      */
-    ids: Array<string>;
+    ids: string[];
 }

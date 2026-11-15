@@ -17,5 +17,5 @@ export interface QueuesGetQueueMetricsResponse {
     /**
      * List of the requested queues with their metrics. If no queue ids were requested   then \'all\' queue is returned with the metrics averaged accross all the company   queues.
      */
-    queues?: Array<QueueMetrics>;
+    queues?: QueueMetrics[];
 }

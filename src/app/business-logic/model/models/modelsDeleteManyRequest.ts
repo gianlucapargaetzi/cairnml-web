@@ -16,7 +16,7 @@ export interface ModelsDeleteManyRequest {
     /**
      * IDs of models to delete
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Force. Required if there are tasks that use the model as an execution model, or   if the model\'s creating task is published.
      */

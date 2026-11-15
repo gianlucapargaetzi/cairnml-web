@@ -10,7 +10,7 @@ export function sortByArr(a, b, colsOrder = []) {
   name: 'showSelectedFirst',
   })
 export class ShowSelectedFirstPipe implements PipeTransform {
-  transform(arr: Array<any>, selectedArr: Array<any>): Array<any> {
+  transform(arr: any[], selectedArr: any[]): any[] {
     if (arr.length > 0 && selectedArr.length > 0) {
       return arr.sort((a, b) => sortByArr(a.value, b.value, selectedArr));
     } else {

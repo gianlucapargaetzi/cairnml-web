@@ -1,8 +1,6 @@
 import {ParamsItem} from '~/business-logic/model/tasks/paramsItem';
 
-export interface IHyperParamsForm {
-  [key: string]: ParamsItem[];
-};
+export type IHyperParamsForm = Record<string, ParamsItem[]>;;
 
 
 

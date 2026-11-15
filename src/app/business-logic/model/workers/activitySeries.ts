@@ -16,9 +16,9 @@ export interface ActivitySeries {
     /**
      * List of timestamps (in seconds from epoch) in the acceding order. The timestamps are separated by the requested interval.
      */
-    dates?: Array<number>;
+    dates?: number[];
     /**
      * List of worker counts corresponding to the timestamps in the dates list. None values are returned for the dates with no workers.
      */
-    counts?: Array<number>;
+    counts?: number[];
 }

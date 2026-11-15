@@ -32,11 +32,11 @@ export interface TasksCloneRequest {
     /**
      * The user-defined tags of the cloned task. If not provided then taken from the   original task
      */
-    new_task_tags?: Array<string>;
+    new_task_tags?: string[];
     /**
      * The system tags of the cloned task. If not provided then empty
      */
-    new_task_system_tags?: Array<string>;
+    new_task_system_tags?: string[];
     /**
      * The parent of the cloned task. If not provided then taken from the original   task
      */
@@ -48,11 +48,11 @@ export interface TasksCloneRequest {
     /**
      * The hyper params for the new task. If not provided then taken from the original   task
      */
-    new_task_hyperparams?: { [key: string]: { [key: string]: ParamsItem; }; };
+    new_task_hyperparams?: Record<string, Record<string, ParamsItem>>;
     /**
      * The configuration for the new task. If not provided then taken from the   original task
      */
-    new_task_configuration?: { [key: string]: ConfigurationItem; };
+    new_task_configuration?: Record<string, ConfigurationItem>;
     execution_overrides?: Execution;
     /**
      * If set to \'false\' then the task fields that are copied from the original task   are not validated. The default is false.
@@ -65,9 +65,9 @@ export interface TasksCloneRequest {
     /**
      * The list of input models for the cloned task. If not specifed then copied from   the original task
      */
-    new_task_input_models?: Array<TaskModelItem>;
+    new_task_input_models?: TaskModelItem[];
     /**
      * The docker container properties for the new task. If not provided then taken   from the original task
      */
-    new_task_container?: { [key: string]: string; };
+    new_task_container?: Record<string, string>;
 }

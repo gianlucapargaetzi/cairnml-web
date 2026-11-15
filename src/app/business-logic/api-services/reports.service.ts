@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -83,7 +83,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsArchive(request: ReportsArchiveRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsArchive(request: ReportsArchiveRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsArchive.');
         }
@@ -99,7 +99,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -107,7 +107,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsArchiveResponse>(`${this.basePath}/reports.archive`,
@@ -128,7 +128,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsCreate(request: ReportsCreateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsCreate(request: ReportsCreateRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsCreate.');
         }
@@ -144,7 +144,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -152,7 +152,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsCreateResponse>(`${this.basePath}/reports.create`,
@@ -173,7 +173,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsDelete(request: ReportsDeleteRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsDelete(request: ReportsDeleteRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsDelete.');
         }
@@ -189,7 +189,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -197,7 +197,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsDeleteResponse>(`${this.basePath}/reports.delete`,
@@ -218,7 +218,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsGetAllEx(request: ReportsGetAllExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsGetAllEx(request: ReportsGetAllExRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsGetAllEx.');
         }
@@ -234,7 +234,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -242,7 +242,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsGetAllExResponse>(`${this.basePath}/reports.get_all_ex`,
@@ -263,7 +263,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsGetTags(request: object, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsGetTags(request: object, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsGetTags.');
         }
@@ -279,7 +279,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -287,7 +287,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsGetTagsResponse>(`${this.basePath}/reports.get_tags`,
@@ -308,7 +308,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsMove(request: ReportsMoveRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsMove(request: ReportsMoveRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsMove.');
         }
@@ -324,7 +324,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -332,7 +332,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsMoveResponse>(`${this.basePath}/reports.move`,
@@ -353,7 +353,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsPublish(request: ReportsPublishRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsPublish(request: ReportsPublishRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsPublish.');
         }
@@ -369,7 +369,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -377,7 +377,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsPublishResponse>(`${this.basePath}/reports.publish`,
@@ -398,7 +398,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsUnarchive(request: ReportsUnarchiveRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsUnarchive(request: ReportsUnarchiveRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsUnarchive.');
         }
@@ -414,7 +414,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -422,7 +422,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsUnarchiveResponse>(`${this.basePath}/reports.unarchive`,
@@ -443,7 +443,7 @@ export class ApiReportsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public reportsUpdate(request: ReportsUpdateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public reportsUpdate(request: ReportsUpdateRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling reportsUpdate.');
         }
@@ -459,7 +459,7 @@ export class ApiReportsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -467,7 +467,7 @@ export class ApiReportsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ReportsUpdateResponse>(`${this.basePath}/reports.update`,

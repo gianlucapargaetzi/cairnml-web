@@ -33,7 +33,7 @@ export class TagColorService {
     {foreground: 'white', background: 'var(--color-tag-20)'},
   ] as TagColor[];
 
-  private tagsColors: { [p: string]: TagColor };
+  private tagsColors: Record<string, TagColor>;
 
   constructor(private store: Store) {
     store.select(selectTagsColors).subscribe(tagsColors => this.tagsColors = tagsColors);

@@ -16,7 +16,7 @@ export interface TasksPublishManyRequest {
     /**
      * IDs of the tasks to publish
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Reason for status change
      */

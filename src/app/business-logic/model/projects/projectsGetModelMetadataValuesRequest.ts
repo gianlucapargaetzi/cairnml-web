@@ -16,7 +16,7 @@ export interface ProjectsGetModelMetadataValuesRequest {
     /**
      * Project IDs
      */
-    projects?: Array<string>;
+    projects?: string[];
     /**
      * Metadata key
      */

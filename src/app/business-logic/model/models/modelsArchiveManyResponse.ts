@@ -15,6 +15,6 @@ import { ModelsArchiveManyResponseSucceeded } from '././modelsArchiveManyRespons
 
 
 export interface ModelsArchiveManyResponse {
-    succeeded?: Array<ModelsArchiveManyResponseSucceeded>;
-    failed?: Array<ModelsPublishManyResponseFailed>;
+    succeeded?: ModelsArchiveManyResponseSucceeded[];
+    failed?: ModelsPublishManyResponseFailed[];
 }

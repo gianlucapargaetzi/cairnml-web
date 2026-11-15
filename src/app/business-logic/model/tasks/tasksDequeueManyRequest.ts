@@ -16,7 +16,7 @@ export interface TasksDequeueManyRequest {
     /**
      * IDs of the tasks to dequeue
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Reason for status change
      */

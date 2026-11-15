@@ -16,5 +16,5 @@ export interface EventsGetTaskMetricsResponse {
     /**
      * List of task with their metrics
      */
-    metrics?: Array<object>;
+    metrics?: object[];
 }

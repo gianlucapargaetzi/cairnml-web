@@ -16,7 +16,7 @@ export interface ModelsMoveRequest {
     /**
      * Models to move
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Target project ID. If not provided, `project_name` must be provided.
      */

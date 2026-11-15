@@ -18,5 +18,5 @@ export interface DebugImagesResponseMetrics {
      * Task ID
      */
     task?: string;
-    iterations?: Array<DebugImagesResponseIterations>;
+    iterations?: DebugImagesResponseIterations[];
 }

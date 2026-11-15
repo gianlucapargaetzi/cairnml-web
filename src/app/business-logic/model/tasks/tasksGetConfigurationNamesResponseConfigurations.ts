@@ -23,5 +23,5 @@ export interface TasksGetConfigurationNamesResponseConfigurations {
     /**
      * Configuration names
      */
-    names?: Array<string>;
+    names?: string[];
 }

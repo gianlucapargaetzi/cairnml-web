@@ -19,9 +19,9 @@ export interface OrganizationGetTagsRequestFilter {
     /**
      * The list of tag values to filter by. Use \'null\' value to specify empty tags. Use \'__Snot\' value to specify that the following value should be excluded
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * The list of system tag values to filter by. Use \'null\' value to specify empty system tags. Use \'__Snot\' value to specify that the following value should be excluded
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
 }

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CustomReuseStrategy implements RouteReuseStrategy {
 
-  handlers: { [key: string]: DetachedRouteHandle } = {};
+  handlers: Record<string, DetachedRouteHandle> = {};
 
   /**
    * Object which will store RouteStorageObjects indexed by keys

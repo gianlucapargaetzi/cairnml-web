@@ -13,5 +13,5 @@
 
 
 export interface EventsScalarMetricsIterHistogramResponse {
-    images?: Array<object>;
+    images?: object[];
 }

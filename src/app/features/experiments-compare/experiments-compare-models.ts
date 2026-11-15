@@ -2,7 +2,7 @@ import {ExperimentDetailBase, TreeNode} from '../../webapp-common/experiments-co
 import {TreeNodeJsonData} from '../../webapp-common/experiments-compare/jsonToDiffConvertor';
 
 
-export type ExperimentCompareTreeSection = TreeNode<{ data?: Array<TreeNode<TreeNodeJsonData>>; key: string}>;
+export type ExperimentCompareTreeSection = TreeNode<{ data?: TreeNode<TreeNodeJsonData>[]; key: string}>;
 
 export interface ExperimentCompareTree {
   model?: ExperimentCompareTreeSection;

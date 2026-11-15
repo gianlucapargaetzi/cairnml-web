@@ -31,14 +31,14 @@ export interface CredentialKeyExt extends CredentialKey {
 
 export interface AuthState {
   showLocalFilePopup: boolean;
-  localFilesPopupURLs: Array<string>;
+  localFilesPopupURLs: string[];
   revokeSucceed: boolean;
-  credentials: { [workSpaceId: string]: CredentialKeyExt[] };
+  credentials: Record<string, CredentialKeyExt[]>;
   maxCredentials: number;
   newCredential: CredentialKeyExt;
   dontShowAgainForBucketEndpoint: string;
   s3BucketCredentials: { bucketCredentials: Credentials[] };
-  signedUrls: { [url: string]: { signed: string; expires: number } };
+  signedUrls: Record<string, { signed: string; expires: number }>;
 }
 
 export const initAuth: AuthState = {

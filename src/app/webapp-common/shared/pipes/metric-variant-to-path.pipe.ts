@@ -6,7 +6,7 @@ import {SelectedMetricVariant} from '@common/experiments-compare/experiments-com
   })
 export class MetricVariantToPathPipe implements PipeTransform {
 
-  transform(metricVariant: SelectedMetricVariant, includeValueType: boolean = false): string {
+  transform(metricVariant: SelectedMetricVariant, includeValueType = false): string {
     if(!metricVariant)
     {
       return null
