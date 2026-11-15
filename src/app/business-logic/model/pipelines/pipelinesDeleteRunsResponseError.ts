@@ -16,7 +16,7 @@
  * Error info
  */
 export interface PipelinesDeleteRunsResponseError {
-    codes?: Array<number>;
+    codes?: number[];
     msg?: string;
     data?: object;
 }

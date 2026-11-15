@@ -16,7 +16,7 @@ export interface TasksDeleteManyRequest {
     /**
      * IDs of the tasks to delete
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Move task to trash instead of deleting it. For internal use only, tasks in the   trash are not visible from the API and cannot be restored!
      */

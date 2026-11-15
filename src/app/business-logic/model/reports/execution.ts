@@ -33,7 +33,7 @@ export interface Execution {
     /**
      * Json object representing the ids of the labels in the model.             The keys are the layers\' names and the values are the IDs.             Not applicable for Register (Import) tasks.             Mandatory for Training tasks
      */
-    model_labels?: { [key: string]: number; };
+    model_labels?: Record<string, number>;
     /**
      * Framework related to the task. Case insensitive. Mandatory for Training tasks. 
      */
@@ -41,7 +41,7 @@ export interface Execution {
     /**
      * Additional dataviews for the task
      */
-    dataviews?: Array<object>;
+    dataviews?: object[];
     /**
      * Command for running docker script for the execution of the task
      */
@@ -49,5 +49,5 @@ export interface Execution {
     /**
      * Task artifacts
      */
-    artifacts?: Array<Artifact>;
+    artifacts?: Artifact[];
 }

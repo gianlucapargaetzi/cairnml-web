@@ -15,9 +15,7 @@ export interface NotifierAnimationData {
   /**
    * Animation keyframes; the first index ctonaining changes for animate-in, the second index those for animate-out
    */
-  keyframes: Array<{
-    [animatablePropertyName: string]: string;
-  }>;
+  keyframes: Record<string, string>[];
 
   /**
    * Futher animation options
@@ -73,15 +71,11 @@ export interface NotifierAnimationPresetKeyframes {
   /**
    * CSS attributes before the animation starts
    */
-  from: {
-    [animatablePropertyName: string]: string;
-  };
+  from: Record<string, string>;
 
   /**
    * CSS attributes after the animation ends
    */
-  to: {
-    [animatablePropertyName: string]: string;
-  };
+  to: Record<string, string>;
 
 }

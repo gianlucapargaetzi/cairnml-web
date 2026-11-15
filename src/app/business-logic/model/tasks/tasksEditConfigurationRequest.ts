@@ -21,7 +21,7 @@ export interface TasksEditConfigurationRequest {
     /**
      * Task configuration items. The new ones will be added and the already existing   ones will be updated
      */
-    configuration: Array<ConfigurationItem>;
+    configuration: ConfigurationItem[];
     /**
      * If set then the all the configuration items will be replaced with the provided   ones. Otherwise only the provided configuration items will be updated or added
      */

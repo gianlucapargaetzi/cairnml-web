@@ -18,7 +18,7 @@ export interface FilterRule {
     /**
      * List of FilterLabelRule (\'AND\' connection)  disabled - No filtering by ROIs. Select all frames, even if they don\'t have ROIs (all frames)  no_rois - Select only frames without ROIs (empty frames)  label_rules - Select frames according to label rules
      */
-    label_rules?: Array<FilterLabelRule>;
+    label_rules?: FilterLabelRule[];
     filter_by_roi?: FilterByRoiEnum;
     /**
      * Frame filter, in Lucene query syntax

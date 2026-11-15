@@ -28,5 +28,5 @@ export interface Google {
     /**
      * Credentials per bucket
      */
-    buckets?: Array<GoogleBucket>;
+    buckets?: GoogleBucket[];
 }

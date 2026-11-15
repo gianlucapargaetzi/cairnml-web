@@ -17,5 +17,5 @@ export interface EventsGetMultiTaskMetricsResponse {
     /**
      * List of metrics and variants
      */
-    metrics?: Array<MetricVariants>;
+    metrics?: MetricVariants[];
 }

@@ -28,10 +28,10 @@ export class DataInputOutputHelper {
     static encodeToServerData(
                               data: { greaterThan: IDurationThan; lessThan: IDurationThan },
                               prepareDataToServerFunction: (data) => string | number
-    ): Array<string | number | null> {
+    ): (string | number | null)[] {
       let greaterThan = null;
       let lessThan = null;
-      const positions = [] as Array<string | number | null>;
+      const positions = [] as (string | number | null)[];
 
       if (data?.greaterThan?.checked) {
         greaterThan = prepareDataToServerFunction(data.greaterThan.value);
@@ -48,7 +48,7 @@ export class DataInputOutputHelper {
       return positions;
     }
   static decodeFromServerData(
-    data: Array<string | number | null> | null = [],
+    data: (string | number | null)[] | null = [],
     useOldValues?: {greaterThan?: IDurationThan; lessThan?: IDurationThan},
     parseServerDataFunction?: (data) => number
   ): {greaterThan: IDurationThan; lessThan: IDurationThan} {
@@ -89,7 +89,7 @@ export abstract class TableDurationSortBaseComponent {
   @Output() filterChanged = new EventEmitter<{ value: any }>();
   @Output() hasError = new EventEmitter<boolean>();
 
-  @Input() set value(value: Array<string | number | null>) {
+  @Input() set value(value: (string | number | null)[]) {
     this.updateValue(value);
   }
 
@@ -112,7 +112,7 @@ export abstract class TableDurationSortBaseComponent {
 
   hasTimeError = false;
   private isFirstTimeUpdate = true;
-  public updateValue(value: Array<string | number | null>): void {
+  public updateValue(value: (string | number | null)[]): void {
     if (!hasValue(value) || value.length === 0) {
       this.greaterThan = emptyDuration;
       this.lessThan = emptyDuration;

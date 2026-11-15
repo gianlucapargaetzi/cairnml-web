@@ -22,7 +22,7 @@ export interface TasksEditHyperParamsRequest {
     /**
      * Task hyper parameters. The new ones will be added and the already existing ones   will be updated
      */
-    hyperparams: Array<ParamsItem>;
+    hyperparams: ParamsItem[];
     replace_hyperparams?: ReplaceHyperparamsEnum;
     /**
      * If set to True then both new and running task hyper params can be edited.   Otherwise only the new task ones. Default is False

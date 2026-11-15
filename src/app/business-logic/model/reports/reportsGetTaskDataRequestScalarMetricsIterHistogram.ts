@@ -22,5 +22,5 @@ export interface ReportsGetTaskDataRequestScalarMetricsIterHistogram {
     /**
      * List of metrics and variants
      */
-    metrics?: Array<object>;
+    metrics?: object[];
 }

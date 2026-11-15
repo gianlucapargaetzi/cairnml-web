@@ -16,7 +16,7 @@ export interface ProjectsGetTaskParentsRequest {
     /**
      * The list of projects which task parents are retieved. If not passed or empty   then all the projects are searched
      */
-    projects?: Array<string>;
+    projects?: string[];
     /**
      * Return parents for tasks in the specified state. If Null is provided, parents   for all task states will be returned.
      */

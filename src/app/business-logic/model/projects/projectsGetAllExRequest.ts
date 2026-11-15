@@ -17,7 +17,7 @@ export interface ProjectsGetAllExRequest {
   /**
    * List of IDs to filter by
    */
-  id?: Array<string>;
+  id?: string[];
   /**
    * Get only projects whose name matches this pattern (python regular expression   syntax)
    */
@@ -33,15 +33,15 @@ export interface ProjectsGetAllExRequest {
   /**
    * User-defined tags list used to filter results. Prepend \'-\' to tag name to   indicate exclusion
    */
-  tags?: Array<string>;
+  tags?: string[];
   /**
    * System tags list used to filter results. Prepend \'-\' to system tag name to   indicate exclusion
    */
-  system_tags?: Array<string>;
+  system_tags?: string[];
   /**
    * List of field names to order by. When search_text is used, \'@text_score\' can be   used as a field representing the text score of returned documents. Use \'-\'   prefix to specify descending order. Optional, recommended when using page
    */
-  order_by?: Array<string>;
+  order_by?: string[];
   /**
    * Page number, returns a specific page out of the resulting list of dataviews
    */
@@ -57,7 +57,7 @@ export interface ProjectsGetAllExRequest {
   /**
    * List of document\'s field names (nesting is supported using \'.\', e.g.   execution.model_labels). If provided, this list defines the query\'s projection   (only these fields will be returned for each result entry)
    */
-  only_fields?: Array<string>;
+  only_fields?: string[];
   _all_?: MultiFieldPatternData;
   _any_?: MultiFieldPatternData;
   /**
@@ -72,7 +72,7 @@ export interface ProjectsGetAllExRequest {
    * Return only non-public projects
    */
   non_public?: boolean;
-  active_users?: Array<string>;
+  active_users?: string[];
   /**
    * If set to \'true\' then the search with the specified criteria is performed among top level projects only (or if parents specified, among the direct children of the these parents). Otherwise the search is performed among all the company projects (or among all of the descendants of the specified parents).
    */
@@ -124,7 +124,7 @@ export interface ProjectsGetAllExRequest {
   /**
    * The list of tag values to filter children by. Takes effect only if children_type is set. Use \'null\' value to specify empty tags. Use \'__Snot\' value to specify that the following value should be excluded
    */
-  children_tags?: Array<string>;
+  children_tags?: string[];
 }
 
 

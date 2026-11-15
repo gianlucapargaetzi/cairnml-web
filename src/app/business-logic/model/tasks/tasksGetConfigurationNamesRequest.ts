@@ -16,7 +16,7 @@ export interface TasksGetConfigurationNamesRequest {
     /**
      * Task IDs
      */
-    tasks: Array<string>;
+    tasks: string[];
     /**
      * If set to \'true\' then the names for configurations with missing values are not   returned
      */

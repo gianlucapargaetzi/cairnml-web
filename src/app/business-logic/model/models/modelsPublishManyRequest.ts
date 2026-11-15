@@ -16,7 +16,7 @@ export interface ModelsPublishManyRequest {
     /**
      * IDs of models to publish
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Publish the associated tasks (if exist) even if they are not in the \'stopped\'   state. Optional, the default value is False.
      */

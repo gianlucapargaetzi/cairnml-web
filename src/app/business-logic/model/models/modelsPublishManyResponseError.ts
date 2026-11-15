@@ -16,7 +16,7 @@
  * Error info
  */
 export interface ModelsPublishManyResponseError {
-    codes?: Array<number>;
+    codes?: number[];
     msg?: string;
     data?: object;
 }

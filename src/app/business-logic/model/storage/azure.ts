@@ -20,5 +20,5 @@ export interface Azure {
     /**
      * Credentials per container
      */
-    containers?: Array<AzureContainer>;
+    containers?: AzureContainer[];
 }

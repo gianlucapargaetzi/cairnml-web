@@ -17,5 +17,5 @@ export interface EventsGetTaskSingleValueMetricsResponse {
     /**
      * Single value metrics grouped by task
      */
-    tasks?: Array<EventsGetTaskSingleValueMetricsResponseTasks>;
+    tasks?: EventsGetTaskSingleValueMetricsResponseTasks[];
 }

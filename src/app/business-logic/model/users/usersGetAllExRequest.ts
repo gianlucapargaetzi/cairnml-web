@@ -20,11 +20,11 @@ export interface UsersGetAllExRequest {
     /**
      * List of user IDs used to filter results
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * List of user field names (if applicable, nesting is supported using \'.\'). If   provided, this list defines the query\'s projection (only these fields will be   returned for each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
     /**
      * Page number, returns a specific page out of the resulting list of users
      */
@@ -36,9 +36,9 @@ export interface UsersGetAllExRequest {
     /**
      * List of field names to order by. Use \'-\' prefix to specify descending order.   Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * List of project IDs. If provided, return only users that were active in these   projects. If empty list is provided, return users that were active in all   projects
      */
-    active_in_projects?: Array<string>;
+    active_in_projects?: string[];
 }

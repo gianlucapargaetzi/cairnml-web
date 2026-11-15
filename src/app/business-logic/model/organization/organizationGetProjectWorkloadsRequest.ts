@@ -16,7 +16,7 @@ export interface OrganizationGetProjectWorkloadsRequest {
     /**
      * Project IDs
      */
-    projects: Array<string>;
+    projects: string[];
     /**
      * Starting time (in seconds from epoch) for collecting statistics
      */
@@ -29,8 +29,8 @@ export interface OrganizationGetProjectWorkloadsRequest {
      * If set to \'true\' then development tasks are also returned
      */
     include_development?: boolean;
-    breakdown_keys?: Array<OrganizationGetProjectWorkloadsRequest.BreakdownKeysEnum>;
-    usage_fields?: Array<OrganizationGetProjectWorkloadsRequest.UsageFieldsEnum>;
+    breakdown_keys?: OrganizationGetProjectWorkloadsRequest.BreakdownKeysEnum[];
+    usage_fields?: OrganizationGetProjectWorkloadsRequest.UsageFieldsEnum[];
 }
 export namespace OrganizationGetProjectWorkloadsRequest {
     export type BreakdownKeysEnum = 'project' | 'user';

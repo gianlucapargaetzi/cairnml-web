@@ -1,8 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 
-export interface ColorPreference {
-  [key: string]: number[];
-}
+export type ColorPreference = Record<string, number[]>;
 
 export interface ColorPickerProps {
   top: number;

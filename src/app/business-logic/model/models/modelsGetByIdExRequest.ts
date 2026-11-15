@@ -21,7 +21,7 @@ export interface ModelsGetByIdExRequest {
     /**
      * List of user IDs used to filter results by the model\'s creating user
      */
-    user?: Array<string>;
+    user?: string[];
     /**
      * Indication whether to retrieve only models that are marked ready If not   supplied returns both ready and not-ready projects.
      */
@@ -29,15 +29,15 @@ export interface ModelsGetByIdExRequest {
     /**
      * User-defined tags list used to filter results. Prepend \'-\' to tag name to   indicate exclusion
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags list used to filter results. Prepend \'-\' to system tag name to   indicate exclusion
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * List of model field names (if applicable, nesting is supported using \'.\'). If   provided, this list defines the query\'s projection (only these fields will be   returned for each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
     /**
      * Page number, returns a specific page out of the resulting list of models
      */
@@ -49,19 +49,19 @@ export interface ModelsGetByIdExRequest {
     /**
      * List of associated project IDs
      */
-    project?: Array<string>;
+    project?: string[];
     /**
      * List of field names to order by. When search_text is used, \'@text_score\' can be   used as a field representing the text score of returned documents. Use \'-\'   prefix to specify descending order. Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * List of associated task IDs
      */
-    task?: Array<string>;
+    task?: string[];
     /**
      * List of model IDs
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * Free text search query
      */
@@ -69,11 +69,11 @@ export interface ModelsGetByIdExRequest {
     /**
      * List of frameworks
      */
-    framework?: Array<string>;
+    framework?: string[];
     /**
      * List of model URIs
      */
-    uri?: Array<string>;
+    uri?: string[];
     _all_?: MultiFieldPatternData;
     _any_?: MultiFieldPatternData;
 }

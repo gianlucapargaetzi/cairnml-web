@@ -9,7 +9,7 @@ export interface LoginModeResponse extends AuthFixedUsersModeResponse {
     guest?: {enabled: boolean; username: string; password: string};
   };
 
-  sso?: { [key: string]: string }[];
+  sso?: Record<string, string>[];
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   sso_providers?: { name: string; url: string; display_name?: string; displayName?: string }[];

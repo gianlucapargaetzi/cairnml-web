@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -87,7 +87,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsArchiveMany(request: ModelsArchiveManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsArchiveMany(request: ModelsArchiveManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsArchiveMany.');
         }
@@ -103,7 +103,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -111,7 +111,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsArchiveManyResponse>(`${this.basePath}/models.archive_many`,
@@ -132,7 +132,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsDeleteMany(request: ModelsDeleteManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsDeleteMany(request: ModelsDeleteManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsDeleteMany.');
         }
@@ -148,7 +148,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -156,7 +156,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsDeleteManyResponse>(`${this.basePath}/models.delete_many`,
@@ -177,7 +177,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsEdit(request: ModelsEditRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsEdit(request: ModelsEditRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsEdit.');
         }
@@ -193,7 +193,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -201,7 +201,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsEditResponse>(`${this.basePath}/models.edit`,
@@ -222,7 +222,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsGetAllEx(request: ModelsGetAllExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsGetAllEx(request: ModelsGetAllExRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsGetAllEx.');
         }
@@ -238,7 +238,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -246,7 +246,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsGetAllExResponse>(`${this.basePath}/models.get_all_ex`,
@@ -267,7 +267,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsGetByIdEx(request: ModelsGetByIdExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsGetByIdEx(request: ModelsGetByIdExRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsGetByIdEx.');
         }
@@ -283,7 +283,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -291,7 +291,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsGetByIdExResponse>(`${this.basePath}/models.get_by_id_ex`,
@@ -312,7 +312,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsGetFrameworks(request: ModelsGetFrameworksRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsGetFrameworks(request: ModelsGetFrameworksRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsGetFrameworks.');
         }
@@ -328,7 +328,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -336,7 +336,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsGetFrameworksResponse>(`${this.basePath}/models.get_frameworks`,
@@ -357,7 +357,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsMove(request: ModelsMoveRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsMove(request: ModelsMoveRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsMove.');
         }
@@ -373,7 +373,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -381,7 +381,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<object>(`${this.basePath}/models.move`,
@@ -402,7 +402,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsPublishMany(request: ModelsPublishManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsPublishMany(request: ModelsPublishManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsPublishMany.');
         }
@@ -418,7 +418,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -426,7 +426,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsPublishManyResponse>(`${this.basePath}/models.publish_many`,
@@ -447,7 +447,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsUnarchiveMany(request: ModelsUnarchiveManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsUnarchiveMany(request: ModelsUnarchiveManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsUnarchiveMany.');
         }
@@ -463,7 +463,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -471,7 +471,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsUnarchiveManyResponse>(`${this.basePath}/models.unarchive_many`,
@@ -492,7 +492,7 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsUpdate(request: ModelsUpdateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public modelsUpdate(request: ModelsUpdateRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsUpdate.');
         }
@@ -508,7 +508,7 @@ export class ApiModelsService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -516,7 +516,7 @@ export class ApiModelsService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<ModelsUpdateResponse>(`${this.basePath}/models.update`,
@@ -537,7 +537,7 @@ export class ApiModelsService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public modelsUpdateTags(request: ModelsUpdateTagsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public modelsUpdateTags(request: ModelsUpdateTagsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling modelsUpdateTags.');
     }
@@ -553,7 +553,7 @@ export class ApiModelsService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -561,7 +561,7 @@ export class ApiModelsService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<ModelsUpdateTagsResponse>(`${this.basePath}/models.update_tags`,

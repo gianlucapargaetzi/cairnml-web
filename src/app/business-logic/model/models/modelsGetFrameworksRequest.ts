@@ -16,5 +16,5 @@ export interface ModelsGetFrameworksRequest {
     /**
      * The list of projects which models will be analyzed. If not passed or empty then   all the company and public models will be analyzed
      */
-    projects?: Array<string>;
+    projects?: string[];
 }

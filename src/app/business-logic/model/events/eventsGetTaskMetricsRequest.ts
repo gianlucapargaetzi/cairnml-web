@@ -17,6 +17,6 @@ export interface EventsGetTaskMetricsRequest {
     /**
      * Task IDs
      */
-    tasks: Array<string>;
+    tasks: string[];
     event_type?: EventTypeEnum;
 }

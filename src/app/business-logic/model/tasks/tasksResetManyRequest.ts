@@ -16,7 +16,7 @@ export interface TasksResetManyRequest {
     /**
      * IDs of the tasks to reset
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * If not true, call fails if the task status is \'completed\'
      */

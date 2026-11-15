@@ -20,9 +20,9 @@ export interface ResourceUsageSeries {
     /**
      * List of timestamps (in seconds from epoch) in the acceding order. The timestamps are separated by the requested interval.
      */
-    dates?: Array<number>;
+    dates?: number[];
     /**
      * List of values corresponding to the timestamps in the dates list.
      */
-    values?: Array<number>;
+    values?: number[];
 }

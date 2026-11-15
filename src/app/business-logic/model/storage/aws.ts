@@ -40,5 +40,5 @@ export interface Aws {
     /**
      * Credential settings per bucket
      */
-    buckets?: Array<AwsBucket>;
+    buckets?: AwsBucket[];
 }

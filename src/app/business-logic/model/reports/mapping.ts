@@ -17,5 +17,5 @@ export interface Mapping {
     /**
      * Rules list
      */
-    rules?: Array<MappingRule>;
+    rules?: MappingRule[];
 }

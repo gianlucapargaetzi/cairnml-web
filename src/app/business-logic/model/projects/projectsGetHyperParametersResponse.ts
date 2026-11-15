@@ -16,7 +16,7 @@ export interface ProjectsGetHyperParametersResponse {
     /**
      * A list of parameter sections and names
      */
-    parameters?: Array<object>;
+    parameters?: object[];
     /**
      * Remaining results
      */

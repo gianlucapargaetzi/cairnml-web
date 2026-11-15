@@ -18,5 +18,5 @@ export interface SingleValueTaskMetrics {
      * Task ID
      */
     task?: string;
-    values?: Array<SingleValueTaskMetricsValues>;
+    values?: SingleValueTaskMetricsValues[];
 }

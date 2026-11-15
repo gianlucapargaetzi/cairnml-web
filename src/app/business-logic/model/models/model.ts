@@ -60,11 +60,11 @@ export interface Model {
     /**
      * User-defined tags
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * System tags. This field is reserved for system use, please don\'t use it.
      */
-    system_tags?: Array<string>;
+    system_tags?: string[];
     /**
      * Framework on which the model is based. Should be identical to the framework of the task which created the model
      */
@@ -76,7 +76,7 @@ export interface Model {
     /**
      * Json object representing the ids of the labels in the model. The keys are the layers\' names and the values are the ids.
      */
-    labels?: { [key: string]: number; };
+    labels?: Record<string, number>;
     /**
      * URI for the model, pointing to the destination storage.
      */
@@ -92,7 +92,7 @@ export interface Model {
     /**
      * Model metadata
      */
-    metadata?: { [key: string]: MetadataItem; };
+    metadata?: Record<string, MetadataItem>;
     /**
      * Last iteration reported for this model
      */
@@ -100,6 +100,6 @@ export interface Model {
     /**
      * Last metric variants (hash to events), one for each metric hash
      */
-    last_metrics?: { [key: string]: { [key: string]: LastMetricsEvent; }; };
+    last_metrics?: Record<string, Record<string, LastMetricsEvent>>;
     stats?: ModelStats;
 }

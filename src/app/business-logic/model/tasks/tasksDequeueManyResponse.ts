@@ -15,6 +15,6 @@ import { TasksDequeueManyResponseSucceeded } from '././tasksDequeueManyResponseS
 
 
 export interface TasksDequeueManyResponse {
-    succeeded?: Array<TasksDequeueManyResponseSucceeded>;
-    failed?: Array<TasksResetManyResponseFailed>;
+    succeeded?: TasksDequeueManyResponseSucceeded[];
+    failed?: TasksResetManyResponseFailed[];
 }

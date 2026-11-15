@@ -14,5 +14,5 @@ import { EndpointStats } from '././endpointStats';
 
 
 export interface ServingGetEndpointsResponse {
-    endpoints?: Array<EndpointStats>;
+    endpoints?: EndpointStats[];
 }

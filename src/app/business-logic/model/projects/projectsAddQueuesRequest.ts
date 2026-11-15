@@ -12,5 +12,5 @@ export interface ProjectsAddQueuesRequest {
     /**
      * Ids of the queues to allocate
      */
-    queues: Array<string>;
+    queues: string[];
 }

@@ -17,7 +17,7 @@ export interface QueuesGetAllExResponse {
     /**
      * Queues list
      */
-    queues?: Array<Queue>;
+    queues?: Queue[];
     /**
      * Scroll ID that can be used with the next calls to get_all_ex to retrieve more   data
      */

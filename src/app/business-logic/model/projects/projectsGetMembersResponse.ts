@@ -14,5 +14,5 @@ export interface ProjectsGetMembersResponse {
     /**
      * Project members
      */
-    members?: Array<ProjectMember>;
+    members?: ProjectMember[];
 }

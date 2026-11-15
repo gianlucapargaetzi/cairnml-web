@@ -18,6 +18,6 @@ export interface Filtering {
     /**
      * List of FilterRule (\'OR\' connection)
      */
-    filtering_rules?: Array<FilterRule>;
+    filtering_rules?: FilterRule[];
     output_rois?: OutputRoisEnum;
 }

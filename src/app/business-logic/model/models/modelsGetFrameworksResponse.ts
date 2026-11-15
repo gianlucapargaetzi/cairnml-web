@@ -16,5 +16,5 @@ export interface ModelsGetFrameworksResponse {
     /**
      * Unique list of the frameworks used in the company models
      */
-    frameworks?: Array<string>;
+    frameworks?: string[];
 }

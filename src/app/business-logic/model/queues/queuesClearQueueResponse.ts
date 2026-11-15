@@ -16,5 +16,5 @@ export interface QueuesClearQueueResponse {
     /**
      * IDs of the removed tasks
      */
-    removed_tasks?: Array<string>;
+    removed_tasks?: string[];
 }

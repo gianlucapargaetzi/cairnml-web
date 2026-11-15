@@ -20,7 +20,7 @@ export interface PlotSampleResponse {
     /**
      * Plot events
      */
-    events?: Array<object>;
+    events?: object[];
     /**
      * minimal valid iteration for the variant
      */

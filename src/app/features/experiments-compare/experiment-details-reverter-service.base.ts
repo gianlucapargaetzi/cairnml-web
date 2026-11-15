@@ -11,7 +11,7 @@ export abstract class ExperimentDetailsReverterServiceBase {
   }
 
 
-  revertExperiments(experimentIds: Array<string>, experiments: ITask[]) {
+  revertExperiments(experimentIds: string[], experiments: ITask[]) {
     // map the experiment ids to keep the user order.
     return experimentIds.map(id => {
       const exp = experiments.find(ex => ex.id === id);
@@ -41,7 +41,7 @@ export abstract class ExperimentDetailsReverterServiceBase {
     return orderedLabels;
   }
 
-  private revertconfiguration(configuration: {[p: string]: ConfigurationItem}) {
+  private revertconfiguration(configuration: Record<string, ConfigurationItem>) {
     if (!configuration) {
       return {};
     }

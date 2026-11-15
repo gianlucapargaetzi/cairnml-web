@@ -11,7 +11,7 @@
  */
 
 import {GetCurrentUserResponseUserObject} from '././getCurrentUserResponseUserObject';
-import {UsersGetCurrentUserResponseSettings} from "~/business-logic/model/users/usersGetCurrentUserResponseSettings";
+import {UsersGetCurrentUserResponseSettings} from '~/business-logic/model/users/usersGetCurrentUserResponseSettings';
 
 
 export interface UsersGetCurrentUserResponse {

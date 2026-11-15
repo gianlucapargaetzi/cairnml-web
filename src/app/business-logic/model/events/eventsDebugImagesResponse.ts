@@ -16,7 +16,7 @@ export interface EventsDebugImagesResponse {
     /**
      * Debug image events grouped by task metrics and iterations
      */
-    metrics?: Array<DebugImagesResponseMetrics>;
+    metrics?: DebugImagesResponseMetrics[];
     /**
      * Scroll ID for getting more results
      */

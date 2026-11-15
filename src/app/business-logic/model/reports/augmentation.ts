@@ -17,7 +17,7 @@ export interface Augmentation {
     /**
      * List of augmentation sets
      */
-    sets?: Array<AugmentationSet>;
+    sets?: AugmentationSet[];
     /**
      * Crop image data around all frame ROIs
      */

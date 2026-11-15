@@ -17,5 +17,5 @@ export interface ReportsGetTaskDataResponseDebugImages {
     /**
      * Debug image events grouped by tasks and iterations
      */
-    metrics?: Array<DebugImagesResponseTaskMetrics>;
+    metrics?: DebugImagesResponseTaskMetrics[];
 }

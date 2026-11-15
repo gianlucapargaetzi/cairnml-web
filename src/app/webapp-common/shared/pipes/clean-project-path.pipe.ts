@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
   })
 export class CleanProjectPathPipe implements PipeTransform {
 
-  transform(value: string, showLastSegment: boolean= true): string {
+  transform(value: string, showLastSegment= true): string {
     if (!value) {
       return '';
     }

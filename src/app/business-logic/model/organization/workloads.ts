@@ -15,6 +15,6 @@ import { WorkloadsSeries } from '././workloadsSeries';
 
 
 export interface Workloads {
-    total?: Array<WorkloadsTotal>;
-    series?: Array<WorkloadsSeries>;
+    total?: WorkloadsTotal[];
+    series?: WorkloadsSeries[];
 }

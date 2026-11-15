@@ -17,5 +17,5 @@ export interface ReportsGetTaskDataResponseScalarMetricsIterHistogram {
     /**
      * Scalar metric histograms grouped by tasks
      */
-    histograms?: Array<DebugImagesResponseTaskMetrics>;
+    histograms?: DebugImagesResponseTaskMetrics[];
 }

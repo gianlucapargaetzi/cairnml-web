@@ -93,7 +93,7 @@ export const guessAPIServerURL = () => {
 
 export const ENVIRONMENT = {API_VERSION: '/v999.0'};
 
-export let HTTP = {
+export const HTTP = {
   API_BASE_URL: '',
   API_BASE_URL_NO_VERSION : '',
 };

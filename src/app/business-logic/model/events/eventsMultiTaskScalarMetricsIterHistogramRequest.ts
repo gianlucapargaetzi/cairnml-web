@@ -18,7 +18,7 @@ export interface EventsMultiTaskScalarMetricsIterHistogramRequest {
     /**
      * List of task Task IDs. Maximum amount of tasks is 10
      */
-    tasks: Array<string>;
+    tasks: string[];
     /**
      * The amount of histogram points to return. Optional, the default value is 6000
      */
@@ -28,5 +28,5 @@ export interface EventsMultiTaskScalarMetricsIterHistogramRequest {
   /**
    * List of metrics and variants
    */
-  metrics?: Array<MetricVariants>;
+  metrics?: MetricVariants[];
 }

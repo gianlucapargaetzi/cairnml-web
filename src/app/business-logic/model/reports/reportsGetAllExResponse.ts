@@ -17,7 +17,7 @@ export interface ReportsGetAllExResponse {
     /**
      * List of report tasks
      */
-    tasks?: Array<Report>;
+    tasks?: Report[];
     /**
      * Scroll ID that can be used with the next calls to get_all to retrieve more data
      */

@@ -15,6 +15,6 @@ import { TasksResetManyResponseSucceeded } from '././tasksResetManyResponseSucce
 
 
 export interface TasksResetManyResponse {
-    succeeded?: Array<TasksResetManyResponseSucceeded>;
-    failed?: Array<TasksResetManyResponseFailed>;
+    succeeded?: TasksResetManyResponseSucceeded[];
+    failed?: TasksResetManyResponseFailed[];
 }

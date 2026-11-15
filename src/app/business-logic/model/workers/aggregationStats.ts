@@ -18,5 +18,5 @@ export interface AggregationStats {
     /**
      * List of values corresponding to the dates in metric statistics
      */
-    values?: Array<number>;
+    values?: number[];
 }

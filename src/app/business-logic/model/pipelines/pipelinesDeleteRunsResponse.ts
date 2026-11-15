@@ -15,6 +15,6 @@ import { PipelinesDeleteRunsResponseFailed } from '././pipelinesDeleteRunsRespon
 
 
 export interface PipelinesDeleteRunsResponse {
-    succeeded?: Array<PipelinesDeleteRunsResponseSucceeded>;
-    failed?: Array<PipelinesDeleteRunsResponseFailed>;
+    succeeded?: PipelinesDeleteRunsResponseSucceeded[];
+    failed?: PipelinesDeleteRunsResponseFailed[];
 }

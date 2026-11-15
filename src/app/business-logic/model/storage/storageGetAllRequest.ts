@@ -20,7 +20,7 @@ export interface StorageGetAllRequest {
     /**
      * List of Storage IDs used to filter results
      */
-    id?: Array<string>;
+    id?: string[];
     /**
      * Page number, returns a specific page out of the result list of results.
      */
@@ -32,9 +32,9 @@ export interface StorageGetAllRequest {
     /**
      * List of field names to order by. When search_text is used, '@text_score' can be   used as a field representing the text score of returned documents. Use '-'   prefix to specify descending order. Optional, recommended when using page
      */
-    order_by?: Array<string>;
+    order_by?: string[];
     /**
      * List of document field names (nesting is supported using '.', e.g.   execution.model_labels). If provided, this list defines the query's projection   (only these fields will be returned for each result entry)
      */
-    only_fields?: Array<string>;
+    only_fields?: string[];
 }

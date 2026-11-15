@@ -17,5 +17,5 @@ export interface PlotsResponseTaskMetricsIterations {
      * Iteration number
      */
     iter?: number;
-    events?: Array<object>;
+    events?: object[];
 }

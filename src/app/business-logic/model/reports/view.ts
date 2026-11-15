@@ -17,5 +17,5 @@ export interface View {
     /**
      * List of view entries. All tasks must have at least one view.
      */
-    entries?: Array<ViewEntry>;
+    entries?: ViewEntry[];
 }

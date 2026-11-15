@@ -18,5 +18,5 @@ export interface EventsGetTaskLatestScalarValuesResponseMetrics {
      * Metric name
      */
     name?: string;
-    variants?: Array<EventsGetTaskLatestScalarValuesResponseVariants>;
+    variants?: EventsGetTaskLatestScalarValuesResponseVariants[];
 }

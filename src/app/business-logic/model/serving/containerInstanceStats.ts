@@ -41,5 +41,5 @@ export interface ContainerInstanceStats {
     /**
      * Array of reference items provided by the container instance. Can contain multiple reference items with the same type
      */
-    reference?: Array<ContainerInstanceStatsReference>;
+    reference?: ContainerInstanceStatsReference[];
 }

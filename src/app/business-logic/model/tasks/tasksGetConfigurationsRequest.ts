@@ -16,9 +16,9 @@ export interface TasksGetConfigurationsRequest {
     /**
      * Task IDs
      */
-    tasks: Array<string>;
+    tasks: string[];
     /**
      * Names of the configuration items to retreive. If not passed or empty then all   the configurations will be retreived.
      */
-    names?: Array<string>;
+    names?: string[];
 }

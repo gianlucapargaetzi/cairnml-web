@@ -16,5 +16,5 @@ export interface TasksGetTypesRequest {
     /**
      * The list of projects which tasks will be analyzed. If not passed or empty then   all the company and public tasks will be analyzed
      */
-    projects?: Array<string>;
+    projects?: string[];
 }

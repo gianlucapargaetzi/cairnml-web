@@ -17,5 +17,5 @@ export interface StorageGetAllResponse {
     /**
      * Storage entries list
      */
-    results?: Array<Storage>;
+    results?: Storage[];
 }

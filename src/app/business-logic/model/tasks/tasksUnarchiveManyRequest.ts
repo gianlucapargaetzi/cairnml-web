@@ -16,7 +16,7 @@ export interface TasksUnarchiveManyRequest {
     /**
      * IDs of the tasks to unarchive
      */
-    ids: Array<string>;
+    ids: string[];
     /**
      * Reason for status change
      */

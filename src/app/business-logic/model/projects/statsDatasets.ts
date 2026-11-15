@@ -20,5 +20,5 @@ export interface StatsDatasets {
     /**
      * Dataset tags
      */
-    tags?: Array<string>;
+    tags?: string[];
 }

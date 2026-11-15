@@ -28,7 +28,7 @@ export interface QueuesGetQueueMetricsRequest {
     /**
      * List of queue ids to collect metrics for. If not provided or empty then all   then average metrics across all the company queues will be returned.
      */
-    queue_ids?: Array<string>;
+    queue_ids?: string[];
     /**
      * If set then the new queue metrics is taken
      */

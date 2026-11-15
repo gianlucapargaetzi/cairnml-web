@@ -33,5 +33,5 @@ export interface OrganizationGetUserCompaniesResponseCompanies {
     /**
      * Company owners
      */
-    owners?: Array<OrganizationGetUserCompaniesResponseOwners>;
+    owners?: OrganizationGetUserCompaniesResponseOwners[];
 }

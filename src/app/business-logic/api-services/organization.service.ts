@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -74,7 +74,7 @@ export class ApiOrganizationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public organizationGetTags(request: OrganizationGetTagsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public organizationGetTags(request: OrganizationGetTagsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling organizationGetTags.');
         }
@@ -90,7 +90,7 @@ export class ApiOrganizationService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -98,7 +98,7 @@ export class ApiOrganizationService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<OrganizationGetTagsResponse>(`${this.basePath}/organization.get_tags`,
@@ -119,7 +119,7 @@ export class ApiOrganizationService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public organizationPrepareDownloadForGetAll(request: OrganizationPrepareDownloadForGetAllRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public organizationPrepareDownloadForGetAll(request: OrganizationPrepareDownloadForGetAllRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling organizationPrepareDownloadForGetAll.');
     }
@@ -134,7 +134,7 @@ export class ApiOrganizationService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -142,7 +142,7 @@ export class ApiOrganizationService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<any>(`${this.basePath}/organization.prepare_download_for_get_all`,
@@ -163,7 +163,7 @@ export class ApiOrganizationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public organizationGetEntitiesCount(request: OrganizationGetEntitiesCountRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public organizationGetEntitiesCount(request: OrganizationGetEntitiesCountRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling organizationGetEntitiesCount.');
         }
@@ -179,7 +179,7 @@ export class ApiOrganizationService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -187,7 +187,7 @@ export class ApiOrganizationService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
         return this.apiRequest.post<OrganizationGetEntitiesCountResponse>(`${this.basePath}/organization.get_entities_count`,

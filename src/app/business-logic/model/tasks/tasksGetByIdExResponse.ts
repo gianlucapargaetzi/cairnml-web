@@ -17,5 +17,5 @@ export interface TasksGetByIdExResponse {
     /**
      * List of tasks
      */
-    tasks?: Array<Task>;
+    tasks?: Task[];
 }

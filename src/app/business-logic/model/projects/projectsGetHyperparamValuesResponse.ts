@@ -20,5 +20,5 @@ export interface ProjectsGetHyperparamValuesResponse {
     /**
      * The list of the unique values for the parameter
      */
-    values?: Array<string>;
+    values?: string[];
 }

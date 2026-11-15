@@ -6,7 +6,7 @@ import {uniqBy} from 'lodash-es';
   })
 export class UniqueByPipe implements PipeTransform {
 
-  transform(arr: Array<any>, key: string | (any) | null): any {
+  transform(arr: any[], key: string | (any) | null): any {
 
     if (!Array.isArray(arr)) {
       return '';

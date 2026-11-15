@@ -25,9 +25,9 @@ export interface MetricStats {
     /**
      * List of timestamps (in seconds from epoch) in the acceding order. The timestamps are separated by the requested interval. Timestamps where no workers activity was recorded are omitted.
      */
-    dates?: Array<number>;
+    dates?: number[];
     /**
      * Statistics data by type
      */
-    stats?: Array<AggregationStats>;
+    stats?: AggregationStats[];
 }

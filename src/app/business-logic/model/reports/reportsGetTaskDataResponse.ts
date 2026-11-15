@@ -19,7 +19,7 @@ export interface ReportsGetTaskDataResponse {
     /**
      * List of tasks
      */
-    tasks?: Array<Task>;
+    tasks?: Task[];
     /**
      * Plots mapped by metric, variant, task and iteration
      */
@@ -27,10 +27,10 @@ export interface ReportsGetTaskDataResponse {
     /**
      * Debug image events grouped by tasks and iterations
      */
-    debug_images?: Array<DebugImagesResponseTaskMetrics>;
+    debug_images?: DebugImagesResponseTaskMetrics[];
     scalar_metrics_iter_histogram?: object;
     /**
      * Single value metrics grouped by task
      */
-    single_value_metrics?: Array<SingleValueTaskMetrics>;
+    single_value_metrics?: SingleValueTaskMetrics[];
 }

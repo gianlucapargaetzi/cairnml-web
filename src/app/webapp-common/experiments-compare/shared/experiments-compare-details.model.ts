@@ -7,7 +7,7 @@ import {Artifact} from '../../../business-logic/model/tasks/artifact';
 import {DataDictionary} from '@common/experiments-compare/experiments-compare.constants';
 
 
-export type ExperimentCompareTrees = Array<ExperimentCompareTree>;
+export type ExperimentCompareTrees = ExperimentCompareTree[];
 
 
 export interface ModelDetail extends Omit<Model, 'project' | 'metadata'> {
@@ -21,7 +21,7 @@ export interface ExperimentDetailBase extends Omit<Task, 'project' | 'model' | '
   project?: Project;
   model?: ModelDetails;
   execution?: ExecutionDetails;
-  artifacts?: { [key: string]: Artifact };
+  artifacts?: Record<string, Artifact>;
 }
 
 export interface ExperimentParams {
@@ -67,8 +67,8 @@ export interface ExecutionDetails {
     script_path?: string; // Script.entry_point;
     branch?: string; // Script.branch;
   };
-  uncommitted_changes?: { [key: string]: any };
-  installed_packages?: { [key: string]: any };
+  uncommitted_changes?: Record<string, any>;
+  installed_packages?: Record<string, any>;
   container?: {
     image: string;
     arguments: string;
@@ -84,5 +84,5 @@ export interface TreeNode<T> {
   data: T;
   metaData: TreeNodeMetadata;
   parent: TreeNode<T> | null;
-  children?: Array<TreeNode<T>>;
+  children?: TreeNode<T>[];
 }

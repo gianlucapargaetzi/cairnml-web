@@ -19,11 +19,11 @@ export interface LoginSupportedModesResponse {
     /**
      * SSO authentication providers
      */
-    sso?: { [key: string]: string; };
+    sso?: Record<string, string>;
     /**
      * The list of SSO authentication providers
      */
-    sso_providers?: Array<object>;
+    sso_providers?: object[];
     server_errors?: LoginSupportedModesResponseServerErrors;
     /**
      * Is user authenticated

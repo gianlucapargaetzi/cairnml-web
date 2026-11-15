@@ -17,7 +17,7 @@ export interface EventsGetMultiTaskMetricsRequest {
     /**
      * task ids to get metrics from
      */
-    tasks: Array<string>;
+    tasks: string[];
     /**
      * If not set or set to Falsethen passed ids are task ids otherwise model ids
      */

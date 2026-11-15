@@ -20,7 +20,7 @@ export interface ReportsCreateRequest {
     /**
      * User-defined tags list
      */
-    tags?: Array<string>;
+    tags?: string[];
     /**
      * Free text comment
      */

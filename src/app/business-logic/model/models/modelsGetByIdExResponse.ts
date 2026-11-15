@@ -17,5 +17,5 @@ export interface ModelsGetByIdExResponse {
     /**
      * Models list
      */
-    models?: Array<Model>;
+    models?: Model[];
 }

@@ -44,5 +44,5 @@ export interface Artifact {
     /**
      * User-defined list of key/value pairs, sorted
      */
-    display_data?: Array<Array<string>>;
+    display_data?: string[][];
 }

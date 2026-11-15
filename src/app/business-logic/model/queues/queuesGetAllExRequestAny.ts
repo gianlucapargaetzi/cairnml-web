@@ -16,6 +16,6 @@
  * All the terms in \'any\' condition are combined with \'or\' operation
  */
 export interface QueuesGetAllExRequestAny {
-    include?: Array<string>;
-    exclude?: Array<string>;
+    include?: string[];
+    exclude?: string[];
 }

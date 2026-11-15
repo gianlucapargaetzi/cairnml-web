@@ -13,7 +13,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
 import {HTTP} from '../../app.constants';
-import {SmApiRequestsService} from "./api-requests.service";
+import {SmApiRequestsService} from './api-requests.service';
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
@@ -114,7 +114,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksArchiveMany(request: TasksArchiveManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksArchiveMany(request: TasksArchiveManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksArchiveMany.');
         }
@@ -130,7 +130,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -138,7 +138,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksArchiveManyResponse>(`${this.basePath}/tasks.archive_many`,
@@ -159,7 +159,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksClone(request: TasksCloneRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksClone(request: TasksCloneRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksClone.');
         }
@@ -175,7 +175,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -183,7 +183,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksCloneResponse>(`${this.basePath}/tasks.clone`,
@@ -204,7 +204,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksCreate(request: TasksCreateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksCreate(request: TasksCreateRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksCreate.');
         }
@@ -220,7 +220,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -228,7 +228,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksCreateResponse>(`${this.basePath}/tasks.create`,
@@ -249,7 +249,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksDeleteHyperParams(request: TasksDeleteHyperParamsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksDeleteHyperParams(request: TasksDeleteHyperParamsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksDeleteHyperParams.');
         }
@@ -265,7 +265,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -273,7 +273,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksDeleteHyperParamsResponse>(`${this.basePath}/tasks.delete_hyper_params`,
@@ -294,7 +294,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksDeleteMany(request: TasksDeleteManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksDeleteMany(request: TasksDeleteManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksDeleteMany.');
         }
@@ -310,7 +310,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -318,7 +318,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksDeleteManyResponse>(`${this.basePath}/tasks.delete_many`,
@@ -339,7 +339,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksDequeueMany(request: TasksDequeueManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksDequeueMany(request: TasksDequeueManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksDequeueMany.');
         }
@@ -355,7 +355,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -363,7 +363,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksDequeueManyResponse>(`${this.basePath}/tasks.dequeue_many`,
@@ -384,7 +384,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksEdit(request: TasksEditRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksEdit(request: TasksEditRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksEdit.');
         }
@@ -400,7 +400,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -408,7 +408,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksEditResponse>(`${this.basePath}/tasks.edit`,
@@ -429,7 +429,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksEditConfiguration(request: TasksEditConfigurationRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksEditConfiguration(request: TasksEditConfigurationRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksEditConfiguration.');
         }
@@ -445,7 +445,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -453,7 +453,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksEditConfigurationResponse>(`${this.basePath}/tasks.edit_configuration`,
@@ -474,7 +474,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksEditHyperParams(request: TasksEditHyperParamsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksEditHyperParams(request: TasksEditHyperParamsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksEditHyperParams.');
         }
@@ -490,7 +490,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -498,7 +498,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksEditHyperParamsResponse>(`${this.basePath}/tasks.edit_hyper_params`,
@@ -519,7 +519,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksEnqueue(request: TasksEnqueueRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksEnqueue(request: TasksEnqueueRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksEnqueue.');
         }
@@ -535,7 +535,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -543,7 +543,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksEnqueueResponse>(`${this.basePath}/tasks.enqueue`,
@@ -564,7 +564,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksEnqueueMany(request: TasksEnqueueManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksEnqueueMany(request: TasksEnqueueManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksEnqueueMany.');
         }
@@ -580,7 +580,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -588,7 +588,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksEnqueueManyResponse>(`${this.basePath}/tasks.enqueue_many`,
@@ -609,7 +609,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetAllEx(request: TasksGetAllExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetAllEx(request: TasksGetAllExRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetAllEx.');
         }
@@ -625,7 +625,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -633,7 +633,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksGetAllExResponse>(`${this.basePath}/tasks.get_all_ex`,
@@ -654,7 +654,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetByIdEx(request: TasksGetByIdExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetByIdEx(request: TasksGetByIdExRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetByIdEx.');
         }
@@ -670,7 +670,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -678,7 +678,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksGetByIdExResponse>(`${this.basePath}/tasks.get_by_id_ex`,
@@ -699,7 +699,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetConfigurationNames(request: TasksGetConfigurationNamesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetConfigurationNames(request: TasksGetConfigurationNamesRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetConfigurationNames.');
         }
@@ -715,7 +715,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -723,7 +723,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksGetConfigurationNamesResponse>(`${this.basePath}/tasks.get_configuration_names`,
@@ -744,7 +744,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetConfigurations(request: TasksGetConfigurationsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetConfigurations(request: TasksGetConfigurationsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetConfigurations.');
         }
@@ -760,7 +760,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -768,7 +768,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksGetConfigurationsResponse>(`${this.basePath}/tasks.get_configurations`,
@@ -789,7 +789,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksGetTypes(request: TasksGetTypesRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksGetTypes(request: TasksGetTypesRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksGetTypes.');
         }
@@ -805,7 +805,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -813,7 +813,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksGetTypesResponse>(`${this.basePath}/tasks.get_types`,
@@ -834,7 +834,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksMove(request: TasksMoveRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksMove(request: TasksMoveRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksMove.');
         }
@@ -850,7 +850,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -858,7 +858,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<object>(`${this.basePath}/tasks.move`,
@@ -894,7 +894,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksPublishMany(request: TasksPublishManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksPublishMany(request: TasksPublishManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksPublishMany.');
         }
@@ -910,7 +910,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -918,7 +918,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksPublishManyResponse>(`${this.basePath}/tasks.publish_many`,
@@ -939,7 +939,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksResetMany(request: TasksResetManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksResetMany(request: TasksResetManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksResetMany.');
         }
@@ -955,7 +955,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -963,7 +963,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksResetManyResponse>(`${this.basePath}/tasks.reset_many`,
@@ -984,7 +984,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksStopMany(request: TasksStopManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksStopMany(request: TasksStopManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksStopMany.');
         }
@@ -1000,7 +1000,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -1008,7 +1008,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksStopManyResponse>(`${this.basePath}/tasks.stop_many`,
@@ -1029,7 +1029,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksUnarchiveMany(request: TasksUnarchiveManyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksUnarchiveMany(request: TasksUnarchiveManyRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksUnarchiveMany.');
         }
@@ -1045,7 +1045,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -1053,7 +1053,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksUnarchiveManyResponse>(`${this.basePath}/tasks.unarchive_many`,
@@ -1074,7 +1074,7 @@ export class ApiTasksService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tasksUpdate(request: TasksUpdateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public tasksUpdate(request: TasksUpdateRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling tasksUpdate.');
         }
@@ -1090,7 +1090,7 @@ export class ApiTasksService {
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
         // to determine the Content-Type header
@@ -1098,7 +1098,7 @@ export class ApiTasksService {
         ];
         const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
         if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
+            headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
 	return this.apiRequest.post<TasksUpdateResponse>(`${this.basePath}/tasks.update`,
@@ -1119,7 +1119,7 @@ export class ApiTasksService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public tasksUpdateTags(request: TasksUpdateTagsRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  public tasksUpdateTags(request: TasksUpdateTagsRequest, options?: any, observe: any = 'body', reportProgress = false ): Observable<any> {
     if (request === null || request === undefined) {
       throw new Error('Required parameter request was null or undefined when calling tasksUpdateTags.');
     }
@@ -1135,7 +1135,7 @@ export class ApiTasksService {
     ];
     const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
     if (httpHeaderAcceptSelected != undefined) {
-      headers = headers.set("Accept", httpHeaderAcceptSelected);
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
     // to determine the Content-Type header
@@ -1143,7 +1143,7 @@ export class ApiTasksService {
     ];
     const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
-      headers = headers.set("Content-Type", httpContentTypeSelected);
+      headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
     return this.apiRequest.post<TasksUpdateTagsResponse>(`${this.basePath}/tasks.update_tags`,

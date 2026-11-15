@@ -26,5 +26,5 @@ export interface Input {
     /**
      * Key to DataView ID Mapping
      */
-    dataviews?: { [key: string]: string; };
+    dataviews?: Record<string, string>;
 }

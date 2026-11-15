@@ -17,7 +17,7 @@ export interface EventsDebugImagesRequest {
     /**
      * List of metrics and variants
      */
-    metrics: Array<TaskMetricVariants>;
+    metrics: TaskMetricVariants[];
     /**
      * Max number of latest iterations for which to return debug images
      */

@@ -17,7 +17,7 @@ export interface WorkersGetStatsRequest {
     /**
      * List of worker ids to collect metrics for. If not provided or empty then all   the company workers metrics are analyzed.
      */
-    worker_ids?: Array<string>;
+    worker_ids?: string[];
     /**
      * Starting time (in seconds from epoch) for collecting statistics
      */
@@ -33,7 +33,7 @@ export interface WorkersGetStatsRequest {
     /**
      * List of metric keys and requested statistics
      */
-    items: Array<StatItem>;
+    items: StatItem[];
     /**
      * If true then break statistics by hardware sub types
      */

@@ -17,5 +17,5 @@ export interface UsersGetAllExResponse {
     /**
      * User list
      */
-    users?: Array<User>;
+    users?: User[];
 }

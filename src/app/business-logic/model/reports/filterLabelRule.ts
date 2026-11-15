@@ -20,11 +20,11 @@ export interface FilterLabelRule {
     /**
      * Range of times ROI appears in the frame (min, max). -1 for not applicable.             Both integers must be larger than or equal to -1.             2nd integer (max) must be either -1 or larger than or equal to the 1st integer (min)
      */
-    count_range?: Array<number>;
+    count_range?: number[];
     /**
      * Range of ROI confidence level in the frame (min, max). -1 for not applicable             Both min and max can be either -1 or positive.             2nd number (max) must be either -1 or larger than or equal to the 1st number (min)
      */
-    conf_range?: Array<number>;
+    conf_range?: number[];
     /**
      * If set then the label must not exist or lucene query must not be true.             The default value is false
      */

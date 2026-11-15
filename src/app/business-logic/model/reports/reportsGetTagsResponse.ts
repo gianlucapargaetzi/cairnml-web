@@ -16,5 +16,5 @@ export interface ReportsGetTagsResponse {
     /**
      * The list of unique tag values
      */
-    tags?: Array<string>;
+    tags?: string[];
 }

@@ -16,7 +16,7 @@ export interface EventsGetTaskPlotsResponse {
     /**
      * Plots list
      */
-    plots?: Array<object>;
+    plots?: object[];
     /**
      * Number of results returned
      */

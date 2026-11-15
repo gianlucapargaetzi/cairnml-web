@@ -17,7 +17,7 @@ export interface OrganizationPrepareDownloadForGetAllRequest {
     /**
      * List of task field names (nesting is supported using \'.\', e.g.   execution.model_labels). If provided, this list defines the query\'s projection   (only these fields will be returned for each result entry)
      */
-    only_fields: Array<string>;
+    only_fields: string[];
     /**
      * Download type. Determines the downloaded file\'s formatting and mime type.
      */
@@ -37,7 +37,7 @@ export interface OrganizationPrepareDownloadForGetAllRequest {
     /**
      * The name and value mappings for the exported fields. The fields that are not in   the mappings will not be exported
      */
-    field_mappings?: Array<FieldMapping>;
+    field_mappings?: FieldMapping[];
 }
 export namespace OrganizationPrepareDownloadForGetAllRequest {
     export type DownloadTypeEnum = 'csv';

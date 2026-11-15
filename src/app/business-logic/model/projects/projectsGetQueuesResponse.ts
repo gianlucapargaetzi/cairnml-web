@@ -10,5 +10,5 @@ export interface ProjectsGetQueuesResponse {
     /**
      * Queues allocated to the project
      */
-    queues?: Array<ProjectsQueueSummary>;
+    queues?: ProjectsQueueSummary[];
 }

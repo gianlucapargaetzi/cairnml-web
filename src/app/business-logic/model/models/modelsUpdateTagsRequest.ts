@@ -16,13 +16,13 @@ export interface ModelsUpdateTagsRequest {
     /**
      * IDs of the models to update
      */
-    ids?: Array<string>;
+    ids?: string[];
     /**
      * User tags to add
      */
-    add_tags?: Array<string>;
+    add_tags?: string[];
     /**
      * User tags to remove
      */
-    remove_tags?: Array<string>;
+    remove_tags?: string[];
 }
