@@ -3,7 +3,6 @@ import {rxResource} from '@angular/core/rxjs-interop';
 import {DatePipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {catchError, of} from 'rxjs';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {presetColors} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {RepoHistory, RepoHistoryCommit, RepoHistoryNode, RepositoriesService} from '../dataset-git/repositories.service';
@@ -30,7 +29,7 @@ export class RepositoryHistoryComponent {
 
   protected readonly history = rxResource<RepoHistory | null, string>({
     params: () => this.repositoryId(),
-    stream: ({params}) => this.repositories.history(params).pipe(catchError(() => of(null))),
+    stream: ({params}) => this.repositories.history(params),
   });
 
   protected readonly dirtyCount = (commit: RepoHistoryCommit) => commit.runs.filter(run => run.dirty).length;

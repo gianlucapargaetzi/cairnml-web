@@ -1,4 +1,6 @@
-@if (rows().length) {
+@if (listFailed()) {
+  <sm-inline-alert severity="error" data-id="repositoriesError">The repositories could not be read. Try again later.</sm-inline-alert>
+} @else if (rows().length) {
 <div class="browser-body">
   <as-split [gutterSize]="1" direction="horizontal">
     <as-split-area [size]="53" [minSize]="30">
@@ -272,7 +274,7 @@
                     </ng-template>
                   </sm-table>
                 } @else {
-                  <p class="note">{{ selectedRuns.isLoading() ? 'Loading the runs...' : 'No run of a project you see used this repository yet.' }}</p>
+                  <p class="note">{{ selectedRuns.isLoading() ? 'Loading the runs...' : selectedRuns.error() ? 'The runs of this repository could not be read.' : 'No run of a project you see used this repository yet.' }}</p>
                 }
               </div>
             </mat-tab>

@@ -8,6 +8,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
+import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {lastValueFrom, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
@@ -36,6 +37,7 @@ import {serverMessage} from '@common/shared/utils/server-message';
     MatProgressSpinnerModule,
     DialogTemplateComponent,
     MatDialogClose,
+    InlineAlertComponent,
   ],
 })
 export class RepositoryAddDialogComponent implements OnInit {
@@ -50,6 +52,9 @@ export class RepositoryAddDialogComponent implements OnInit {
   protected readonly isAdmin = toSignal(this.store.select(selectIsAdmin), {initialValue: false});
   protected readonly projects = signal<{id: string; name: string}[]>([]);
   protected readonly credentials = signal<StoredCredential[]>([]);
+  // a list that could not be read: the form still works, without that list
+  protected readonly projectsFailed = signal(false);
+  protected readonly credentialsFailed = signal(false);
   protected readonly saving = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly form = this.fb.group({
@@ -62,9 +67,15 @@ export class RepositoryAddDialogComponent implements OnInit {
 
   ngOnInit() {
     this.projectsApi.projectsGetAllEx({order_by: ['name'], only_fields: ['name'], page_size: 500, size: 500})
-      .pipe(catchError(() => of({projects: []})))
+      .pipe(catchError(() => {
+        this.projectsFailed.set(true);
+        return of({projects: []});
+      }))
       .subscribe(response => this.projects.set((response.projects ?? []).map(project => ({id: project.id, name: project.name}))));
-    this.access.credentials().pipe(catchError(() => of([] as StoredCredential[])))
+    this.access.credentials().pipe(catchError(() => {
+      this.credentialsFailed.set(true);
+      return of([] as StoredCredential[]);
+    }))
       .subscribe(credentials => this.credentials.set(credentials.filter(credential => credential.scope === 'user' || credential.scope === 'company')));
   }
 
