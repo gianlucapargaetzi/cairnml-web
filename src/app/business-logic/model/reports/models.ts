@@ -34,7 +34,6 @@ export * from '././reportsDeleteRequest';
 export * from '././reportsDeleteResponse';
 export * from '././reportsGetAllExRequest';
 export * from '././reportsGetAllExResponse';
-export * from '././reportsGetTaskDataRequest';
 export * from '././reportsGetTaskDataRequestDebugImages';
 export * from '././reportsGetTaskDataRequestPlots';
 export * from '././reportsGetTaskDataRequestScalarMetricsIterHistogram';

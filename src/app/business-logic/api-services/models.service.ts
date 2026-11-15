@@ -22,45 +22,23 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { ModelsAddOrUpdateMetadataRequest } from '../model/models/modelsAddOrUpdateMetadataRequest';
-import { ModelsAddOrUpdateMetadataResponse } from '../model/models/modelsAddOrUpdateMetadataResponse';
 import { ModelsArchiveManyRequest } from '../model/models/modelsArchiveManyRequest';
 import { ModelsArchiveManyResponse } from '../model/models/modelsArchiveManyResponse';
-import { ModelsCreateRequest } from '../model/models/modelsCreateRequest';
-import { ModelsCreateResponse } from '../model/models/modelsCreateResponse';
 import { ModelsDeleteManyRequest } from '../model/models/modelsDeleteManyRequest';
 import { ModelsDeleteManyResponse } from '../model/models/modelsDeleteManyResponse';
-import { ModelsDeleteMetadataRequest } from '../model/models/modelsDeleteMetadataRequest';
-import { ModelsDeleteMetadataResponse } from '../model/models/modelsDeleteMetadataResponse';
-import { ModelsDeleteRequest } from '../model/models/modelsDeleteRequest';
-import { ModelsDeleteResponse } from '../model/models/modelsDeleteResponse';
 import { ModelsEditRequest } from '../model/models/modelsEditRequest';
 import { ModelsEditResponse } from '../model/models/modelsEditResponse';
 import { ModelsGetAllExRequest } from '../model/models/modelsGetAllExRequest';
 import { ModelsGetAllExResponse } from '../model/models/modelsGetAllExResponse';
-import { ModelsGetAllRequest } from '../model/models/modelsGetAllRequest';
-import { ModelsGetAllResponse } from '../model/models/modelsGetAllResponse';
 import { ModelsGetByIdExRequest } from '../model/models/modelsGetByIdExRequest';
 import { ModelsGetByIdExResponse } from '../model/models/modelsGetByIdExResponse';
-import { ModelsGetByIdRequest } from '../model/models/modelsGetByIdRequest';
-import { ModelsGetByIdResponse } from '../model/models/modelsGetByIdResponse';
-import { ModelsGetByTaskIdRequest } from '../model/models/modelsGetByTaskIdRequest';
-import { ModelsGetByTaskIdResponse } from '../model/models/modelsGetByTaskIdResponse';
 import { ModelsGetFrameworksRequest } from '../model/models/modelsGetFrameworksRequest';
 import { ModelsGetFrameworksResponse } from '../model/models/modelsGetFrameworksResponse';
-import { ModelsMakePrivateRequest } from '../model/models/modelsMakePrivateRequest';
-import { ModelsMakePrivateResponse } from '../model/models/modelsMakePrivateResponse';
-import { ModelsMakePublicRequest } from '../model/models/modelsMakePublicRequest';
-import { ModelsMakePublicResponse } from '../model/models/modelsMakePublicResponse';
 import { ModelsMoveRequest } from '../model/models/modelsMoveRequest';
 import { ModelsPublishManyRequest } from '../model/models/modelsPublishManyRequest';
 import { ModelsPublishManyResponse } from '../model/models/modelsPublishManyResponse';
-import { ModelsSetReadyRequest } from '../model/models/modelsSetReadyRequest';
-import { ModelsSetReadyResponse } from '../model/models/modelsSetReadyResponse';
 import { ModelsUnarchiveManyRequest } from '../model/models/modelsUnarchiveManyRequest';
 import { ModelsUnarchiveManyResponse } from '../model/models/modelsUnarchiveManyResponse';
-import { ModelsUpdateForTaskRequest } from '../model/models/modelsUpdateForTaskRequest';
-import { ModelsUpdateForTaskResponse } from '../model/models/modelsUpdateForTaskResponse';
 import { ModelsUpdateRequest } from '../model/models/modelsUpdateRequest';
 import { ModelsUpdateResponse } from '../model/models/modelsUpdateResponse';
 
@@ -101,51 +79,6 @@ export class ApiModelsService {
         return false;
     }
 
-
-    /**
-     *
-     * Add or update model metadata
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsAddOrUpdateMetadata(request: ModelsAddOrUpdateMetadataRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsAddOrUpdateMetadata.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsAddOrUpdateMetadataResponse>(`${this.basePath}/models.add_or_update_metadata`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
 
     /**
      *
@@ -194,96 +127,6 @@ export class ApiModelsService {
 
     /**
      *
-     * Create a new model not associated with a task
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsCreate(request: ModelsCreateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsCreate.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsCreateResponse>(`${this.basePath}/models.create`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Delete a model.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsDelete(request: ModelsDeleteRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsDelete.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsDeleteResponse>(`${this.basePath}/models.delete`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
      * Delete models
      * @param request request body
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -317,51 +160,6 @@ export class ApiModelsService {
         }
 
 	return this.apiRequest.post<ModelsDeleteManyResponse>(`${this.basePath}/models.delete_many`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Delete metadata from model
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsDeleteMetadata(request: ModelsDeleteMetadataRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsDeleteMetadata.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsDeleteMetadataResponse>(`${this.basePath}/models.delete_metadata`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -424,51 +222,6 @@ export class ApiModelsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public modelsGetAll(request: ModelsGetAllRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsGetAll.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsGetAllResponse>(`${this.basePath}/models.get_all`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Get all models
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
     public modelsGetAllEx(request: ModelsGetAllExRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (request === null || request === undefined) {
             throw new Error('Required parameter request was null or undefined when calling modelsGetAllEx.');
@@ -497,51 +250,6 @@ export class ApiModelsService {
         }
 
 	return this.apiRequest.post<ModelsGetAllExResponse>(`${this.basePath}/models.get_all_ex`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Gets model information
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsGetById(request: ModelsGetByIdRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsGetById.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsGetByIdResponse>(`${this.basePath}/models.get_by_id`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -599,51 +307,6 @@ export class ApiModelsService {
 
     /**
      *
-     * Gets model information
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsGetByTaskId(request: ModelsGetByTaskIdRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsGetByTaskId.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsGetByTaskIdResponse>(`${this.basePath}/models.get_by_task_id`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
      * Get the list of frameworks used in the company models
      * @param request request body
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -677,96 +340,6 @@ export class ApiModelsService {
         }
 
 	return this.apiRequest.post<ModelsGetFrameworksResponse>(`${this.basePath}/models.get_frameworks`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Convert public models to private
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsMakePrivate(request: ModelsMakePrivateRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsMakePrivate.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsMakePrivateResponse>(`${this.basePath}/models.make_private`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Convert company models to public
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsMakePublic(request: ModelsMakePublicRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsMakePublic.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsMakePublicResponse>(`${this.basePath}/models.make_public`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -869,51 +442,6 @@ export class ApiModelsService {
 
     /**
      *
-     * Set the model ready flag to True. If the model is an output model of a task   then try to publish the task.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsSetReady(request: ModelsSetReadyRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsSetReady.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsSetReadyResponse>(`${this.basePath}/models.set_ready`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
      * Unarchive models
      * @param request request body
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -992,51 +520,6 @@ export class ApiModelsService {
         }
 
 	return this.apiRequest.post<ModelsUpdateResponse>(`${this.basePath}/models.update`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Create or update a new model for a task
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public modelsUpdateForTask(request: ModelsUpdateForTaskRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling modelsUpdateForTask.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ModelsUpdateForTaskResponse>(`${this.basePath}/models.update_for_task`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

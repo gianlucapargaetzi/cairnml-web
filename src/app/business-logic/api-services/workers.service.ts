@@ -26,13 +26,8 @@ import { WorkersGetActivityReportRequest } from '../model/workers/workersGetActi
 import { WorkersGetActivityReportResponse } from '../model/workers/workersGetActivityReportResponse';
 import { WorkersGetAllRequest } from '../model/workers/workersGetAllRequest';
 import { WorkersGetAllResponse } from '../model/workers/workersGetAllResponse';
-import { WorkersGetMetricKeysRequest } from '../model/workers/workersGetMetricKeysRequest';
-import { WorkersGetMetricKeysResponse } from '../model/workers/workersGetMetricKeysResponse';
 import { WorkersGetStatsRequest } from '../model/workers/workersGetStatsRequest';
 import { WorkersGetStatsResponse } from '../model/workers/workersGetStatsResponse';
-import { WorkersRegisterRequest } from '../model/workers/workersRegisterRequest';
-import { WorkersStatusReportRequest } from '../model/workers/workersStatusReportRequest';
-import { WorkersUnregisterRequest } from '../model/workers/workersUnregisterRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -162,51 +157,6 @@ export class ApiWorkersService {
 
     /**
      *
-     * Returns worker statistics metric keys grouped by categories.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public workersGetMetricKeys(request: WorkersGetMetricKeysRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling workersGetMetricKeys.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<WorkersGetMetricKeysResponse>(`${this.basePath}/workers.get_metric_keys`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
      * Returns statistics for the selected workers and time range aggregated by date   intervals.
      * @param request request body
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -240,141 +190,6 @@ export class ApiWorkersService {
         }
 
 	return this.apiRequest.post<WorkersGetStatsResponse>(`${this.basePath}/workers.get_stats`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Register a worker in the system. Called by the Worker Daemon.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public workersRegister(request: WorkersRegisterRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling workersRegister.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<object>(`${this.basePath}/workers.register`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Called periodically by the worker daemon to report machine status
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public workersStatusReport(request: WorkersStatusReportRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling workersStatusReport.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<object>(`${this.basePath}/workers.status_report`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Unregister a worker in the system. Called by the Worker Daemon.
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public workersUnregister(request: WorkersUnregisterRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling workersUnregister.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<object>(`${this.basePath}/workers.unregister`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

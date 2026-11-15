@@ -23,12 +23,9 @@ import { ApiOptions }                        from './api';
 
 import { Observable }                                        from 'rxjs';
 
-import { ServingContainerStatusReportRequest } from '../model/serving/servingContainerStatusReportRequest';
 import { ServingGetEndpointDetailsRequest } from '../model/serving/servingGetEndpointDetailsRequest';
 import { ServingGetEndpointDetailsResponse } from '../model/serving/servingGetEndpointDetailsResponse';
 import { ServingGetEndpointsResponse } from '../model/serving/servingGetEndpointsResponse';
-import { ServingRegisterContainerRequest } from '../model/serving/servingRegisterContainerRequest';
-import { ServingUnregisterContainerRequest } from '../model/serving/servingUnregisterContainerRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -55,22 +52,6 @@ export class ApiServingService {
     }
 
 
-
-    /**
-     * Container status report
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public servingContainerStatusReport(request: ServingContainerStatusReportRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<object>(`${this.basePath}/serving.container_status_report`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
 
     /**
      * Get endpoint details
@@ -135,37 +116,5 @@ export class ApiServingService {
       options
     );
   }
-
-    /**
-     * Register container
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public servingRegisterContainer(request: ServingRegisterContainerRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<object>(`${this.basePath}/serving.register_container`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
-
-    /**
-     * Unregister container
-     * @param request request body
-     * @param options flags and headers to use in webapp
-     */
-    public servingUnregisterContainer(request: ServingUnregisterContainerRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<object>(`${this.basePath}/serving.unregister_container`,
-            request,
-            {
-                headers: this.defaultHeaders,
-                withCredentials: this.configuration.withCredentials
-            },
-            options
-        );
-    }
 
   }

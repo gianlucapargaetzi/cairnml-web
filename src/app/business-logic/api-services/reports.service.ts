@@ -31,8 +31,6 @@ import { ReportsDeleteResponse } from '../model/reports/reportsDeleteResponse';
 import { ReportsGetAllExRequest } from '../model/reports/reportsGetAllExRequest';
 import { ReportsGetAllExResponse } from '../model/reports/reportsGetAllExResponse';
 import { ReportsGetTagsResponse } from '../model/reports/reportsGetTagsResponse';
-import { ReportsGetTaskDataRequest } from '../model/reports/reportsGetTaskDataRequest';
-import { ReportsGetTaskDataResponse } from '../model/reports/reportsGetTaskDataResponse';
 import { ReportsMoveRequest } from '../model/reports/reportsMoveRequest';
 import { ReportsMoveResponse } from '../model/reports/reportsMoveResponse';
 import { ReportsPublishRequest } from '../model/reports/reportsPublishRequest';
@@ -293,51 +291,6 @@ export class ApiReportsService {
         }
 
 	return this.apiRequest.post<ReportsGetTagsResponse>(`${this.basePath}/reports.get_tags`,
-            request,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     * Get the tasks data according the passed search criteria + requested events
-     * @param request request body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public reportsGetTaskData(request: ReportsGetTaskDataRequest, options?: any, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (request === null || request === undefined) {
-            throw new Error('Required parameter request was null or undefined when calling reportsGetTaskData.');
-        }
-
-        let headers = this.defaultHeaders;
-        if (options && options.async_enable) {
-            headers = headers.set(this.configuration.asyncHeader, '1');
-        }
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-        const httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-	return this.apiRequest.post<ReportsGetTaskDataResponse>(`${this.basePath}/reports.get_task_data`,
             request,
             {
                 withCredentials: this.configuration.withCredentials,

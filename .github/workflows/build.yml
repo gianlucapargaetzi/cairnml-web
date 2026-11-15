@@ -39,6 +39,9 @@ jobs:
       - name: Check for root-absolute app links
         run: sh scripts/check-app-links.sh
 
+      - name: Check that every generated API method has a caller
+        run: node scripts/check-unused-api-methods.mjs
+
       # The repository has a lint backlog, so only new errors in the files a pull request changes fail the job.
       - name: Lint changed files for new errors
         if: github.event_name == 'pull_request'
