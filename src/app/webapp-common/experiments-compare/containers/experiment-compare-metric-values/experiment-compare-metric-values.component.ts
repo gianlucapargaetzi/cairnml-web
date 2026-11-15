@@ -29,7 +29,7 @@ import {Table, TableModule} from 'primeng/table';
 import {ExperimentCompareSettings} from '@common/experiments-compare/reducers/experiments-compare-charts.reducer';
 import {GroupedList} from '@common/tasks/tasks.model';
 import {sortMetricsList} from '@common/tasks/tasks.utils';
-import {PlotData} from 'plotly.js';
+import type {PlotData} from 'plotly.js';
 import {
   SelectableGroupedFilterListComponent
 } from '@common/shared/ui-components/data/selectable-grouped-filter-list/selectable-grouped-filter-list.component';

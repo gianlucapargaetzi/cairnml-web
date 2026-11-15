@@ -42,7 +42,7 @@ import {
 } from '@common/shared/single-graph/single-graph.reducer';
 import {getSignedUrl} from '@common/core/actions/common-auth.actions';
 import {selectSignedUrl} from '@common/core/reducers/common-auth-reducer';
-import {Color, LayoutAxis} from 'plotly.js';
+import type {Color, LayoutAxis} from 'plotly.js';
 import {smoothTypeEnum} from '@common/shared/single-graph/single-graph.utils';
 import {SingleGraphComponent} from '@common/shared/single-graph/single-graph.component';
 import {GraphViewerData} from '@common/shared/single-graph/graph-viewer/graph-viewer.consts';

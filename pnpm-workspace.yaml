@@ -24,3 +24,5 @@ overrides:
   'undici@<6.29.1': '^6.29.1'
   'undici@>=7.0.0 <7.30.1': '^7.30.1'
   vite: '^7.3.7'
+  # plotly.js 2.35 pulls maplibre-gl 4.x, which has a critical XSS advisory (GHSA-jrc7-96c5-q579); the app uses no map traces
+  maplibre-gl: '6.4.1'
