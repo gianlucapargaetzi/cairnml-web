@@ -8,8 +8,6 @@ import {getAllSystemProjects, setSelectedProjectId} from '@common/core/actions/p
 import {selectRouterProjectId} from '@common/core/reducers/projects.reducer';
 import {getTutorialBucketCredentials} from '@common/core/actions/common-auth.actions';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {ServerUpdatesService} from '@common/shared/services/server-updates.service';
-import {selectAvailableUpdates} from './core/reducers/view.reducer';
 import {aceReady, firstLogin, plotlyReady, setScaleFactor, visibilityChanged} from '@common/core/actions/layout.actions';
 import {ReportEditStateService} from '@common/shared/services/report-edit-state.service';
 import {UiUpdatesService} from '@common/shared/services/ui-updates.service';
@@ -25,7 +23,6 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {RouterEffects} from '@common/core/effects/router.effects';
 import {CommonModule} from '@angular/common';
 import {PushPipe} from '@ngrx/component';
-import {UpdateNotifierComponent} from '@common/shared/ui-components/overlay/update-notifier/update-notifier.component';
 import {SpinnerComponent} from '@common/shared/ui-components/overlay/spinner/spinner.component';
 import {HeaderComponent} from '@common/layout/header/header.component';
 import {ServerNotificationDialogContainerComponent} from '@common/layout/server-notification-dialog-container/server-notification-dialog-container.component';
@@ -48,7 +45,6 @@ import {NotifierContainerComponent} from '@common/angular-notifier/src/component
       CommonModule,
       RouterOutlet,
       PushPipe,
-      UpdateNotifierComponent,
       SpinnerComponent,
       HeaderComponent,
       ServerNotificationDialogContainerComponent,
@@ -62,7 +58,6 @@ import {NotifierContainerComponent} from '@common/angular-notifier/src/component
 export class AppComponent {
   private router = inject(Router);
   private store = inject(Store);
-  public serverUpdatesService = inject(ServerUpdatesService);
   private uiUpdatesService = inject(UiUpdatesService);
   private reportEditState = inject(ReportEditStateService);
   private tipsService = inject(TipsService);
@@ -74,7 +69,6 @@ export class AppComponent {
   private themeService = inject(ThemeService); // don't delete
   private matIconRegistry = inject(MatIconRegistry);
 
-  protected updatesAvailable$ = this.store.select(selectAvailableUpdates);
   protected currentUser = this.store.selectSignal(selectCurrentUser);
   protected isSharedAndNotOwner = this.store.selectSignal(selectIsSharedAndNotOwner);
 
@@ -154,9 +148,5 @@ export class AppComponent {
     this.renderer.setStyle(document.body, 'transform-origin', '0 0');
     this.renderer.setStyle(document.body, 'height', `${dimensionRatio}vh`);
     this.renderer.setStyle(document.body, 'width', `${dimensionRatio}vw`);
-  }
-
-  versionDismissed(version: string) {
-    this.serverUpdatesService.setDismissedVersion(version);
   }
 }

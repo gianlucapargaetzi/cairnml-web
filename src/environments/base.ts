@@ -47,7 +47,6 @@ export interface Environment {
   accountAdministration: boolean;
   communityContext?: CommunityContext;
   GTM_ID?: string;
-  hideUpdateNotice: boolean;
   showSurvey: boolean;
   plotlyURL: string;
   docsLink?: string;
@@ -94,7 +93,6 @@ export const BASE_ENV = {
     background: 'app/webapp-common/assets/icons/human-polygon.svg'
   },
   GTM_ID: null,
-  hideUpdateNotice: false,
   showSurvey: false,
   accountAdministration: false,
   legal: {TOULink: 'https://github.com/gianlucapargaetzi/cairnml-server/blob/main/LICENSE'},

@@ -187,65 +187,65 @@ export class RepositoriesService {
   }
 
   delete(id: string): Observable<unknown> {
-    return this.post('delete', {id});
+    return this.post('delete', {ref: id});
   }
 
   // Makes a repository shared (its owner or the admin; ownership moves to the admin) or non-shared (the admin). To share, the
   // company credential that reads it, or "None needed" for a public repository, is required; the server verifies it first.
   setShared(id: string, shared: boolean, credential?: string, noneNeeded = false): Observable<Repo> {
     return this.post<{ repository: Repo }>('set_shared', {
-      id, shared, credential: credential || undefined, none_needed: noneNeeded || undefined,
+      ref: id, shared, credential: credential || undefined, none_needed: noneNeeded || undefined,
     }).pipe(map(r => r.repository));
   }
 
   // Whether the company credential (or "None needed") reads the repository, so that it may be shared.
   checkSharing(id: string, credential?: string, noneNeeded = false): Observable<{ ok: boolean; message: string }> {
     return this.post<{ ok: boolean; message: string }>('check_sharing', {
-      id, credential: credential || undefined, none_needed: noneNeeded || undefined,
+      ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined,
     });
   }
 
   link(id: string, project: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('link', {id, project}).pipe(map(r => r.repository));
+    return this.post<{ repository: Repo }>('link', {ref: id, project}).pipe(map(r => r.repository));
   }
 
   unlink(id: string, project: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('unlink', {id, project}).pipe(map(r => r.repository));
+    return this.post<{ repository: Repo }>('unlink', {ref: id, project}).pipe(map(r => r.repository));
   }
 
   // Sets the user's own assignment: a credential, "None needed", or (neither) clears it. Only the user's own is changed.
   assign(id: string, credential: string | null, noneNeeded = false): Observable<Repo> {
-    return this.post<{ repository: Repo }>('assign', {id, credential: credential || undefined, none_needed: noneNeeded || undefined})
+    return this.post<{ repository: Repo }>('assign', {ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined})
       .pipe(map(r => r.repository));
   }
 
   unassign(id: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('unassign', {id}).pipe(map(r => r.repository));
+    return this.post<{ repository: Repo }>('unassign', {ref: id}).pipe(map(r => r.repository));
   }
 
   // Looks at a repository again: the host's answer is renewed and the user's own assignment is tried.
   check(id: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('check', {id}).pipe(map(r => r.repository));
+    return this.post<{ repository: Repo }>('check', {ref: id}).pipe(map(r => r.repository));
   }
 
   // The condensed history of a repository: the commits tasks ran on, with gaps between them.
   history(id: string): Observable<RepoHistory> {
-    return this.post<RepoHistory>('get_history', {id});
+    return this.post<RepoHistory>('get_history', {ref: id});
   }
 
   // The runs that used a repository, newest first, in the projects the user sees.
   runs(id: string): Observable<RepoRun[]> {
-    return this.post<{ runs?: RepoRun[] }>('get_runs', {id}).pipe(map(r => r?.runs ?? []));
+    return this.post<{ runs?: RepoRun[] }>('get_runs', {ref: id}).pipe(map(r => r?.runs ?? []));
   }
 
   // How the content of a dataset changed: its samples and splits at the commits that matter, oldest first.
   datasetVersions(id: string): Observable<DatasetVersion[]> {
-    return this.post<{ versions?: DatasetVersion[] }>('get_dataset_versions', {id}).pipe(map(r => r?.versions ?? []));
+    return this.post<{ versions?: DatasetVersion[] }>('get_dataset_versions', {ref: id}).pipe(map(r => r?.versions ?? []));
   }
 
   // Reads a registry again. Returns the counts added, updated and removed.
   refresh(id: string): Observable<{ counts: { added: number; updated: number; removed: number }; repository: Repo }> {
-    return this.post('refresh', {id});
+    return this.post('refresh', {ref: id});
   }
 
   // The credentials the signed-in user may use: their own, and the company's.
