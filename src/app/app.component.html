@@ -1,9 +1,3 @@
-<sm-update-notifier #update
-  [availableUpdates]="(updatesAvailable$ | async)"
-  [currentUser]="$any(currentUser())"
-  [dismissedVersion]="serverUpdatesService.lastDismissedVersion"
-  (versionDismissed)="versionDismissed($event)"
-></sm-update-notifier>
 <sm-color-picker-wrapper id="color-picker-outlet"></sm-color-picker-wrapper>
 <sm-server-notification-dialog-container></sm-server-notification-dialog-container>
 <sm-spinner></sm-spinner>
@@ -11,7 +5,7 @@
   @if (currentUser()) {
     <sm-side-nav></sm-side-nav>
   }
-  <div class="app-container" [class.login-page]="!currentUser()" [class.notifier-open]="update?.active()">
+  <div class="app-container" [class.login-page]="!currentUser()">
     @if (currentUser()) {
       <sm-header [isLogin]="loginContext | ngrxPush" [isShareMode]="isSharedAndNotOwner()"></sm-header>
     }

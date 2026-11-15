@@ -9,7 +9,6 @@
 | Operation failed | Toast, error, **stays until dismissed** (existing `autoHide.error: false`) plus the reason | until closed |
 | Problem tied to one field | `mat-error` under the field | persistent |
 | Problem with a whole form or area that persists | Inline alert at the top of that area (to be created from the toast styling: icon 20px, 14px text, `--color-error`/`--color-warning` icon, 1px border) | persistent |
-| System-wide state (update available, server unavailable) | Banner above the app (existing `sm-update-notifier`, 30px) | until resolved |
 | First use / no data | Empty state | |
 | Waiting for data | Loading indicator | |
 
