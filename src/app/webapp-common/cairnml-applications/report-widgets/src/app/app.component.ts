@@ -23,6 +23,7 @@ import {selectSignedUrl} from '@common/core/reducers/common-auth-reducer';
 import {loadExternalLibrary} from '@common/shared/utils/load-external-library';
 import {ImageViewerComponent} from '@common/shared/debug-sample/image-viewer/image-viewer.component';
 import {cloneDeep, get} from 'lodash-es';
+import {lastMetricValue} from '@common/shared/utils/last-metrics';
 import {MetricsPlotEvent} from '~/business-logic/model/events/metricsPlotEvent';
 import {SingleGraphComponent} from '@common/shared/single-graph/single-graph.component';
 import {setCurrentDebugImage} from '@common/shared/debug-sample/debug-sample.actions';
@@ -445,7 +446,7 @@ export class AppComponent implements OnInit {
   private findMetricName(metric: string, experiments: ExtraTask[]) {
     const experimentWithCurrentMetric = experiments.find(exp => get(exp.last_metrics, metric));
     // the value at a metric/variant path is the last event of that variant: its metric and variant names
-    const lastMetric = get(experimentWithCurrentMetric.last_metrics, metric) as unknown as {metric: string; variant: string};
+    const lastMetric = lastMetricValue<{metric: string; variant: string}>(experimentWithCurrentMetric.last_metrics, metric);
     return {metric: lastMetric.metric, variant: lastMetric.variant};
   }
 

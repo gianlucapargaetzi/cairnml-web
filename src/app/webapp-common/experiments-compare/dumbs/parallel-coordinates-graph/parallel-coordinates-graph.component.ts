@@ -20,7 +20,8 @@ import {themeColor} from '@common/shared/utils/theme-color';
 import {SlicePipe} from '@angular/common';
 import {debounceTime, filter, take} from 'rxjs/operators';
 import {from} from 'rxjs';
-import {cloneDeep, get, isEqual, max, min, uniq} from 'lodash-es';
+import {cloneDeep, isEqual, max, min, uniq} from 'lodash-es';
+import {lastMetricValue} from '@common/shared/utils/last-metrics';
 import domtoimage from 'dom-to-image';
 import type {Axis, Color, ColorBar, ColorScale} from 'plotly.js';
 import {select} from 'd3-selection';
@@ -288,7 +289,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
       if (this.metrics) {
         this.metrics.map(metric => {
           // the metric's value at its path (lodash reads the leaf; the contract types the path by variant)
-          const allValuesIncludingNull = this.experiments.map(experiment => get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)) as unknown as number | string | undefined);
+          const allValuesIncludingNull = this.experiments.map(experiment => lastMetricValue<number | string | undefined>(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)));
           const allValues = allValuesIncludingNull.filter(value => value !== undefined) as number[];
           const naVal = this.getNAValue(allValues);
           // the tick labels are the values (numbers or strings) and 'N/A'
@@ -306,7 +307,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
             ticktext,
             tickvals,
             values: filteredExperiments.map((experiment) =>
-              parseFloat(get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal as unknown as string) as unknown as string)
+              parseFloat(String(lastMetricValue<number | string>(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal)))
             ),
             range: [min(tickvals), max(tickvals)],
             constraintrange,
