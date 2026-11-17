@@ -2,11 +2,6 @@
   <mat-icon fontSet="al" fontIcon="al-ico-bars-menu" data-id="datasetCardMenu"></mat-icon>
 </button>
 <mat-menu #pipelinesMenu="matMenu">
-  @if (cardType() === 'pipeline') {
-    <button mat-menu-item (click)="clone.emit()" data-id="runInNewPipelineButton">
-      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>Clone
-    </button>
-  }
   <button mat-menu-item (click)="rename.emit()" data-id="renameButton">
     <mat-icon fontSet="al" [fontIcon]="icons.EDIT"></mat-icon>Rename
   </button>

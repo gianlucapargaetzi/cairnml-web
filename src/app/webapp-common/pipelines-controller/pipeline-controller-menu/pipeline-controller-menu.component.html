@@ -23,11 +23,6 @@
       <mat-icon fontSet="al" [fontIcon]="icons.RUN"></mat-icon>
       Run
     </button>
-    <button mat-menu-item data-id="newPipelineButton" (click)="runPipelineController(false, true)"
-            [disabled]="selectedExperiments()?.length > 1">
-      <mat-icon fontSet="al" [fontIcon]="icons.ADD"></mat-icon>
-      Run in New Pipeline
-    </button>
     <button mat-menu-item data-id="abortButton" (click)="abortControllerPopup()"
             [disabled]="selectedDisableAvailable()[menuItems.abort].disable">
       <mat-icon fontSet="al" [fontIcon]="icons.STOPPED"></mat-icon>
