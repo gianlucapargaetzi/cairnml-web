@@ -1,7 +1,7 @@
 import {ColHeaderFilterTypeEnum, ColHeaderTypeEnum, ISmCol} from '../shared/ui-components/data/table/table.consts';
 import {servingLoadingTableColFields, servingTableColFields} from '@common/serving/serving.actions';
 import {HeaderNavbarTabConfig} from '@common/layout/header-navbar-tabs/header-navbar-tabs-config.types';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {FilterMetadata} from 'primeng/api';
 import {SortMeta} from 'primeng/api';
 import {escapeRegExp, get, parseInt} from 'lodash-es';
@@ -148,7 +148,7 @@ export const modelServingRoutes = [
   {header: 'Loading', subHeader: '', link: 'endpoints/loading'}
 ] as HeaderNavbarTabConfig[];
 
-export function sortAndFilterEndpoints(endpoints: EndpointStats[] | ContainerInfo[], filters: Record<string, FilterMetadata>, sortFields: SortMeta[]): EndpointStats[] | ContainerInfo[] {
+export function sortAndFilterEndpoints(endpoints: ServingEndpoint[] | ContainerInfo[], filters: Record<string, FilterMetadata>, sortFields: SortMeta[]): ServingEndpoint[] | ContainerInfo[] {
   if (endpoints === null) {
     return null;
   }

@@ -8,7 +8,7 @@ import {ServingGetEndpointMetricsHistoryRequest} from '~/business-logic/model/se
 import {interval, switchMap} from 'rxjs';
 import {filter, withLatestFrom} from 'rxjs/operators';
 import {selectAppVisible, selectAutoRefresh} from '@common/core/reducers/view.reducer';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {presetColorsDark} from '@common/shared/ui-components/inputs/color-picker/color-picker-wrapper.component';
 import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 
@@ -50,7 +50,7 @@ export class ServingStatsComponent {
     gpu_memory_used: 'Bytes',
     'network_rx;network_tx': 'Bytes/sec'
   };
-  private previousEndpoint: EndpointStats;
+  private previousEndpoint: ServingEndpoint;
   private previousTimeFrame: string;
 
   tickFormater = (value) => value;

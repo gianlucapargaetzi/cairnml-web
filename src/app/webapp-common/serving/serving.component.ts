@@ -18,7 +18,7 @@ import {ServingTableComponent} from '@common/serving/serving-table/serving-table
 import {servingFeature} from '@common/serving/serving.reducer';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
 import {headerActions} from '@common/core/actions/router.actions';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {ServingHeaderComponent} from '@common/serving/serving-header/serving-header.component';
@@ -46,7 +46,7 @@ export class ServingComponent extends BaseEntityPageComponent implements OnDestr
   public readonly originalTableColumns = servingTableCols;
   public entityTypeEnum = EntityTypeEnum;
   public override showAllSelectedIsActive$: Observable<boolean> = of(false);
-  public firstEndpoint: EndpointStats;
+  public firstEndpoint: ServingEndpoint;
   protected override setSplitSizeAction = ServingActions.setSplitSize;
   protected setTableModeAction = ServingActions.setTableViewMode;
   // private isAppVisible$: Observable<boolean>;
@@ -203,7 +203,7 @@ export class ServingComponent extends BaseEntityPageComponent implements OnDestr
       });
   }
 
-  endpointSelectionChanged(event: { endpoint: EndpointStats; openInfo?: boolean }) {
+  endpointSelectionChanged(event: { endpoint: ServingEndpoint; openInfo?: boolean }) {
     if ((this.minimizedView || event.openInfo) && event.endpoint) {
       this.store.dispatch(ServingActions.servingEndpointSelectionChanged({
         servingEndpoint: event.endpoint
@@ -214,7 +214,7 @@ export class ServingComponent extends BaseEntityPageComponent implements OnDestr
     }
   }
 
-  endpointsSelectionChanged(endpoints: EndpointStats[]) {
+  endpointsSelectionChanged(endpoints: ServingEndpoint[]) {
     this.store.dispatch(ServingActions.setSelectedServingEndpoint({endpoint: endpoints[0]}));
   }
 

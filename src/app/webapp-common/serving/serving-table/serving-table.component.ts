@@ -8,7 +8,7 @@ import {createFiltersFromStore} from '@common/shared/utils/tableParamEncode';
 import {BaseTableView} from '@common/shared/ui-components/data/table/base-table-view';
 import {ServingActions, servingLoadingTableColFields, servingTableColFields} from '@common/serving/serving.actions';
 import {servingTableCols} from '@common/serving/serving.consts';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import { EntityTypeEnum } from '~/shared/constants/non-common-consts';
 import {fileSizeConfigCount, fileSizeConfigStorage, FileSizePipe} from '@common/shared/pipes/filesize.pipe';
 import {computedPrevious} from 'ngxtension/computed-previous';
@@ -66,7 +66,7 @@ export class ServingTableComponent extends BaseTableView {
   protected readonly fileSizeConfigCount = fileSizeConfigCount;
   protected readonly fileSizeConfigStorage = fileSizeConfigStorage;
   readonly timeFormatString = TIME_FORMAT_STRING;
-  protected contextEndpoint = signal<EndpointStats>(null);
+  protected contextEndpoint = signal<ServingEndpoint>(null);
 
   // protected tagsFilterByProject$ = this.store.select(selectTagsFilterByProject);
   // protected projectTags$ = this.store.select(selectProjectTags);
@@ -75,15 +75,15 @@ export class ServingTableComponent extends BaseTableView {
   public filtersMatch: Record<string, string> = {};
   public singleRowContext: boolean;
   protected readonly servingTableColFields = servingTableColFields;
-  endpoints = input<EndpointStats[]>();
+  endpoints = input<ServingEndpoint[]>();
   reorderableColumns = input(true);
   tableCols = input<ISmCol[]>();
   enableMultiSelect = input<boolean>();
   modelNames = input<string[]>();
   inputTypes = input<string[]>();
   preprocessArtifact = input<string[]>();
-  selectedEndpoints = input<EndpointStats[]>();
-  selectedEndpoint = input<EndpointStats>();
+  selectedEndpoints = input<ServingEndpoint[]>();
+  selectedEndpoint = input<ServingEndpoint>();
   prevSelectedEndpoint = computedPrevious(this.selectedEndpoint);
   tableFilters = input<Record<string, FilterMetadata>>();
   metadataValuesOptions = input<Record<ISmCol['id'], string[]>>();
@@ -107,9 +107,9 @@ export class ServingTableComponent extends BaseTableView {
   // }
 
 
-  endpointsSelectionChanged = output<EndpointStats[]>();
+  endpointsSelectionChanged = output<ServingEndpoint[]>();
   endpointSelectionChanged = output<{
-        endpoint: EndpointStats;
+        endpoint: ServingEndpoint;
         openInfo?: boolean;
     }>();
   loadMoreEndpoints = output();
@@ -250,9 +250,9 @@ export class ServingTableComponent extends BaseTableView {
     return this.tableCols()?.find(col => colId === col.id)?.header;
   }
 
-  rowSelectedChanged(change: { field: string; value: boolean; event: Event }, endpoint: EndpointStats) {
+  rowSelectedChanged(change: { field: string; value: boolean; event: Event }, endpoint: ServingEndpoint) {
     if (change.value) {
-      const addList = this.getSelectionRange<EndpointStats>(change, endpoint);
+      const addList = this.getSelectionRange<ServingEndpoint>(change, endpoint);
       this.endpointsSelectionChanged.emit([...this.selectedEndpoints(), ...addList]);
     } else {
       const removeList = this.getDeselectionRange(change, endpoint);
@@ -261,7 +261,7 @@ export class ServingTableComponent extends BaseTableView {
     }
   }
 
-  emitSelection(selection: EndpointStats[]) {
+  emitSelection(selection: ServingEndpoint[]) {
     this.endpointsSelectionChanged.emit(selection);
   }
 
@@ -274,7 +274,7 @@ export class ServingTableComponent extends BaseTableView {
   //   this.filtersOptions[servingTableColFields.TAGS] = [];
   // }
 
-  tableRowClicked(event: { e: Event; data: EndpointStats }) {
+  tableRowClicked(event: { e: Event; data: ServingEndpoint }) {
     this.endpointsSelectionChanged.emit([event.data]);
     this.endpointSelectionChanged.emit({endpoint: event.data, openInfo: !this.minimizedView()})
   }
