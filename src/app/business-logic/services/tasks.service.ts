@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {TASK_TYPES} from '~/app.constants';
+import {TASK_TYPES} from '../../app.constants';
 import {TAGS, TASKS_STATUS} from '@common/tasks/tasks.constants';
 import {Task} from '../model/tasks/task';
 import {DEFAULT_QUEUE_TAG} from '../variables';
-import {ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
+import {ISelectedExperiment} from '../../features/experiments/shared/experiment-info.model';
 
 @Injectable({providedIn: 'root'})
 export class BlTasksService {

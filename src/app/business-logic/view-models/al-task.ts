@@ -9,12 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {User} from '~/business-logic/model/users/user';
-import {Project} from '~/business-logic/model/projects/project';
-import { Task } from '~/business-logic/model/tasks/task';
+import {User} from '../model/users/user';
+import {Project} from '../model/projects/project';
+import { Task } from '../model/tasks/task';
 import {IExecution} from '../../core/models/model-data';
 import {ItaskOutput} from '@common/core/models/model-data';
-import {GetCurrentUserResponseUserObjectCompany} from '~/business-logic/model/users/getCurrentUserResponseUserObjectCompany';
+import {GetCurrentUserResponseUserObjectCompany} from '../model/users/getCurrentUserResponseUserObjectCompany';
 
 
 export interface ITask extends Omit<Task, 'user' | 'parent' | 'project' | 'execution' | 'output' | 'company'> {
