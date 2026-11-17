@@ -29,13 +29,13 @@
       Run in New Pipeline
     </button>
     <button mat-menu-item data-id="abortButton" (click)="abortControllerPopup()"
-            [disabled]="selectedDisableAvailable()[menuItems.abort].disable">
+            [disabled]="selectedDisableAvailable()[menuItems.abort]?.disable ?? true">
       <mat-icon fontSet="al" [fontIcon]="icons.STOPPED"></mat-icon>
       {{ selectedDisableAvailable()[menuItems.abort]?.available | menuItemText : 'Abort' : selectedDisableAvailableIsMultiple() }}
     </button>
     @if (!isArchive()) {
       <button mat-menu-item data-id="continueButton" (click)="continueController()"
-              [disabled]="selectedDisableAvailable()[menuItems.continue].disable">
+              [disabled]="selectedDisableAvailable()[menuItems.continue]?.disable ?? true">
         <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
         {{ selectedDisableAvailable()[menuItems.continue]?.available | menuItemText : 'Continue' : selectedDisableAvailableIsMultiple() }}
       </button>
@@ -66,15 +66,15 @@
       </button>
     }
     <button mat-menu-item data-id="archiveButton" (click)="restoreArchive(entityTypeEnum.controller)"
-            [disabled]="selectedDisableAvailable()[menuItems.archive].disable">
+            [disabled]="selectedDisableAvailable()[menuItems.archive]?.disable ?? true">
       <mat-icon fontSet="al" [fontIcon]="isArchive() ? icons.RESTORE : icons.ARCHIVE"></mat-icon>
-      {{ selectedDisableAvailable()[menuItems.archive].available | menuItemText : isArchive() ? 'Restore from Archive' : 'Archive' : selectedDisableAvailableIsMultiple() }}
+      {{ selectedDisableAvailable()[menuItems.archive]?.available | menuItemText : isArchive() ? 'Restore from Archive' : 'Archive' : selectedDisableAvailableIsMultiple() }}
     </button>
     @if (isArchive()) {
       <button mat-menu-item data-id="deleteButton" (click)="deleteExperimentPopup(entityTypeEnum.controller, true)"
-              [disabled]="selectedDisableAvailable()[menuItems.delete].disable">
+              [disabled]="selectedDisableAvailable()[menuItems.delete]?.disable ?? true">
         <mat-icon fontSet="al" [fontIcon]="icons.REMOVE"></mat-icon>
-        {{ selectedDisableAvailable()[menuItems.delete].available | menuItemText : 'Delete' : selectedDisableAvailableIsMultiple() }}
+        {{ selectedDisableAvailable()[menuItems.delete]?.available | menuItemText : 'Delete' : selectedDisableAvailableIsMultiple() }}
       </button>
     }
     <hr>

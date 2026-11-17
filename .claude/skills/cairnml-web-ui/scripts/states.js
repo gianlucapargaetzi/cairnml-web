@@ -12,7 +12,7 @@ const IDS = 'state-ids.json';
 fs.mkdirSync(out + '/shots', {recursive: true});
 
 const apiFor = page => (service, body) => page.evaluate(async ([s, b]) => {
-  const r = await fetch(`/cairnml/api/v2.40/${s}`, {method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json', 'X-Cairnml-Client': 'ui-audit'}, body: JSON.stringify(b)});
+  const r = await fetch(`/cairnml/api/v2.41/${s}`, {method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json', 'X-Cairnml-Client': 'ui-audit'}, body: JSON.stringify(b)});
   const j = await r.json().catch(() => ({}));
   return {status: r.status, data: j.data};
 }, [service, body]);
