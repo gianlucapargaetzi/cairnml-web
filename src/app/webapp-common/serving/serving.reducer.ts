@@ -17,7 +17,7 @@ import {ServingGetEndpointDetailsResponse} from '~/business-logic/model/serving/
 import {TIME_INTERVALS} from '@common/workers-and-queues/workers-and-queues.consts';
 import {ServingGetEndpointMetricsHistoryRequest} from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryRequest';
 import MetricTypeEnum = ServingGetEndpointMetricsHistoryRequest.MetricTypeEnum;
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 import {Topic} from '@common/shared/components/charts/line-chart/line-chart.component';
 
@@ -25,7 +25,7 @@ export const servingFeatureKey = 'serving';
 
 export interface State {
   splitSize: number;
-  endpoints: EndpointStats[];
+  endpoints: ServingEndpoint[];
   loadingEndpoints: ContainerInfo[];
   // tableFilters: Record<string, FilterMetadata>;
   tempFilters: Record<string, FilterMetadata>;
@@ -38,8 +38,8 @@ export interface State {
   loadingTableSortFields: SortMeta[];
   loadingColumnsWidth: Record<string, number>;
   hiddenTableCols: Record<string, boolean>;
-  selectedEndpoints: EndpointStats[];
-  selectedEndpoint: EndpointStats;
+  selectedEndpoints: ServingEndpoint[];
+  selectedEndpoint: ServingEndpoint;
   endpointDetails: ServingGetEndpointDetailsResponse;
   // noMoreEndpoint: boolean;
   // scrollId: string;
@@ -118,7 +118,7 @@ export const reducer = createReducer(
       ...state, endpoints: state.endpoints?.map(currModel => action.servingEndpoints?.find(newModel => newModel.id === currModel.id)) || null
     })),
   on(ServingActions.setSelectedServingEndpoints, (state, action): State =>
-    ({...state, selectedEndpoints: action.servingEndpoints as unknown as EndpointStats[]})),
+    ({...state, selectedEndpoints: action.servingEndpoints as unknown as ServingEndpoint[]})),
   on(ServingActions.setSelectedServingEndpoint, (state, action): State =>
     ({...state, selectedEndpoint: action.endpoint})),
   on(ServingActions.setServingEndpointDetails, (state, action): State =>

@@ -18,7 +18,7 @@ import {ServingTableComponent} from '@common/serving/serving-table/serving-table
 import {servingFeature} from '@common/serving/serving.reducer';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {headerActions} from '@common/core/actions/router.actions';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ServingHeaderComponent} from '@common/serving/serving-header/serving-header.component';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {PushPipe} from '@ngrx/component';
@@ -45,7 +45,7 @@ export class ServingLoadingComponent extends BaseEntityPageComponent implements 
   public tableSortOrder$: Observable<TableSortOrderEnum>;
   public tags$: Observable<string[]>;
   public systemTags$: Observable<string[]>;
-  protected firstEndpoint: EndpointStats;
+  protected firstEndpoint: ServingEndpoint;
   protected metricVariants$: Observable<MetricVariantResult[]>;
   protected override setSplitSizeAction = ServingActions.setSplitSize;
   protected setTableModeAction = ServingActions.setTableViewMode;
@@ -68,7 +68,7 @@ export class ServingLoadingComponent extends BaseEntityPageComponent implements 
     distinctUntilChanged(isEqual)
   );
   protected endpoints$ = this.store.select(servingFeature.selectLoadingSortedFilteredEndpoints).pipe(
-    filter(endpoints => endpoints !== null)) as Observable<EndpointStats[]>;
+    filter(endpoints => endpoints !== null)) as Observable<ServingEndpoint[]>;
 
   protected override get entityType() {
     return EntityTypeEnum.endpointsContainer;
@@ -151,7 +151,7 @@ export class ServingLoadingComponent extends BaseEntityPageComponent implements 
       .subscribe(query => this.store.dispatch(ServingActions.globalFilterChanged(query)));
   }
 
-  endpointsSelectionChanged(endpoints: EndpointStats[]) {
+  endpointsSelectionChanged(endpoints: ServingEndpoint[]) {
     this.store.dispatch(ServingActions.setSelectedServingEndpoint({endpoint: endpoints[0]}));
   }
 
@@ -251,7 +251,7 @@ export class ServingLoadingComponent extends BaseEntityPageComponent implements 
       });
   }
 
-  endpointSelectionChanged(event: { endpoint: EndpointStats; openInfo?: boolean }) {
+  endpointSelectionChanged(event: { endpoint: ServingEndpoint; openInfo?: boolean }) {
     return event;
   }
 }

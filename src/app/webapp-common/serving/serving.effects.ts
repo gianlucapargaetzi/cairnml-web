@@ -35,7 +35,7 @@ import {ServingGetLoadingInstancesResponse} from '~/business-logic/model/serving
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {ServingGetEndpointMetricsHistoryRequest} from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryRequest';
 import {ServingGetEndpointMetricsHistoryResponse} from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryResponse';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import MetricTypeEnum = ServingGetEndpointMetricsHistoryRequest.MetricTypeEnum;
 import {v5 as uuidv5} from 'uuid';
 import {ContainerInstanceStatsReference} from '~/business-logic/model/serving/containerInstanceStatsReference';
@@ -225,7 +225,7 @@ export class ServingEffects {
   ));
 
   private previousSelectedId: string;
-  private previousSelectedLastUpdate: Date;
+  private previousSelectedLastUpdate: Date | string;
 
   getGetAllQuery({searchQuery, orderFields, filters, selectedIds = [], cols = [], metaCols = []}: {
     searchQuery: SearchState['searchQuery'];
@@ -251,7 +251,7 @@ export class ServingEffects {
   }
 
 
-  fetchEndpoint$(): Observable<ServingGetEndpointsResponse> {
+  fetchEndpoint$(): Observable<{endpoints: ServingEndpoint[]}> {
     return of(null)
       .pipe(
         switchMap(() => this.servingApi.servingGetEndpoints({}).pipe(
@@ -266,11 +266,11 @@ export class ServingEffects {
       );
   }
 
-  fetchLoadingEndpoint$(): Observable<ServingGetEndpointsResponse> {
+  fetchLoadingEndpoint$(): Observable<{endpoints: ServingEndpoint[]}> {
     return of(null)
       .pipe(
         switchMap(() => this.servingApi.servingGetLoadingInstances({}).pipe(
-            map((res: ServingGetLoadingInstancesResponse) => ({endpoints: res.instances as EndpointStats[]}))
+            map((res: ServingGetLoadingInstancesResponse) => ({endpoints: res.instances as ServingEndpoint[]}))
           )
         )
       );
@@ -280,7 +280,7 @@ export class ServingEffects {
     this.store.dispatch(setURLParams({filters, orders: sortFields, columns}));
   }
 
-  navigateAfterEndpointSelectionChanged(selectedEndpoint: EndpointStats, replaceUrl = false) {
+  navigateAfterEndpointSelectionChanged(selectedEndpoint: ServingEndpoint, replaceUrl = false) {
     let activeChild = this.route.snapshot;
     while (activeChild && !['general', 'monitor'].includes(activeChild?.firstChild?.url[0]?.path)) {
       activeChild = activeChild.firstChild;

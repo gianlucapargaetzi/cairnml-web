@@ -6,7 +6,7 @@ import {MetricVariantResult} from '~/business-logic/model/projects/metricVariant
 import {ServingGetEndpointDetailsResponse} from '~/business-logic/model/serving/servingGetEndpointDetailsResponse';
 import {ServingGetEndpointMetricsHistoryRequest} from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryRequest';
 import MetricTypeEnum = ServingGetEndpointMetricsHistoryRequest.MetricTypeEnum;
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ContainerInstanceStats} from '~/business-logic/model/serving/containerInstanceStats';
 import {Topic} from '@common/shared/components/charts/line-chart/line-chart.component';
 
@@ -64,9 +64,9 @@ export const ServingActions = createActionGroup({
     'fetch loading endpoints': emptyProps(),
     'refresh endpoints': props<{ hideLoader: boolean; autoRefresh: boolean }>(),
     'refresh loading endpoints': props<{ hideLoader: boolean; autoRefresh: boolean }>(),
-    'set serving endpoints': props<{ servingEndpoints: EndpointStats[] }>(),
-    'set loading endpoints': props<{ servingEndpoints: EndpointStats[] }>(),
-    'set serving endpoints in place': props<{ servingEndpoints: EndpointStats[] }>(),
+    'set serving endpoints': props<{ servingEndpoints: ServingEndpoint[] }>(),
+    'set loading endpoints': props<{ servingEndpoints: ServingEndpoint[] }>(),
+    'set serving endpoints in place': props<{ servingEndpoints: ServingEndpoint[] }>(),
     'toggle col hidden': props<{ columnId: string }>(),
     'set hidden cols': props<{ hiddenCols: Record<string, boolean> }>(),
     'get tags': emptyProps(),
@@ -78,9 +78,9 @@ export const ServingActions = createActionGroup({
     'add column': props<{ col: ISmCol }>(),
     'remove column': props<{ id: string }>(),
     'remove metric column': props<{ id: string }>(),
-    'add servingEndpoints': props<{ servingEndpoints: EndpointStats[] }>(),
-    'set selected servingEndpoints': props<{ servingEndpoints: EndpointStats[] }>(),
-    'set selected servingEndpoint': props<{ endpoint: EndpointStats }>(),
+    'add servingEndpoints': props<{ servingEndpoints: ServingEndpoint[] }>(),
+    'set selected servingEndpoints': props<{ servingEndpoints: ServingEndpoint[] }>(),
+    'set selected servingEndpoint': props<{ endpoint: ServingEndpoint }>(),
     'set servingEndpoint details': props<{ endpoint: ServingGetEndpointDetailsResponse }>(),
     'table sort changed': props<{ isShift: boolean; colId: ISmCol['id'] }>(),
     'loading table sort changed': props<{ isShift: boolean; colId: ISmCol['id'] }>(),
@@ -96,7 +96,7 @@ export const ServingActions = createActionGroup({
     'set column loading width': props<{ columnId: string; widthPx: number }>(),
     'update url params from state': emptyProps(),
     'update url params from loading state': emptyProps(),
-    'servingEndpoint selection changed': props<{ servingEndpoint: EndpointStats }>(),
+    'servingEndpoint selection changed': props<{ servingEndpoint: ServingEndpoint }>(),
     'show selected only': props<{ active: boolean }>(),
     'global filter changed': props<{ query: string; regExp?: boolean }>(),
     'reset global filter': emptyProps(),

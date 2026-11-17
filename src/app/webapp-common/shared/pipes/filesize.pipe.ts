@@ -21,7 +21,7 @@ export class FileSizePipe implements PipeTransform {
     return filesize(value, options) as string;
   }
 
-  transform(value: number, options?: FilesizeOptions) {
+  transform(value: number | string, options?: FilesizeOptions) {
     if (Array.isArray(value)) {
       return value.map(val => this.transform(val, options));
     }
