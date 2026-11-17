@@ -68,10 +68,6 @@ export interface ProjectsGetAllExRequest {
    * Report stats include only statistics for tasks in the specified state. If Null   is provided, stats for all task states will be returned.
    */
   stats_for_state?: ProjectsGetAllExRequest.StatsForStateEnum;
-  /**
-   * Return only non-public projects
-   */
-  non_public?: boolean;
   active_users?: string[];
   /**
    * If set to \'true\' then the search with the specified criteria is performed among top level projects only (or if parents specified, among the direct children of the these parents). Otherwise the search is performed among all the company projects (or among all of the descendants of the specified parents).
@@ -109,10 +105,6 @@ export interface ProjectsGetAllExRequest {
    * If true, include project dataset statistic in response
    */
   include_dataset_stats?: boolean;
-  /**
-   * If Truethen the shallow search is done among all the top projects that the user has access to beneath the requested parent. Even if these projects are not direct children of the parent
-   */
-  permission_roots_only?: boolean;
   /**
    * Allow public projects to be returned in the results
    */

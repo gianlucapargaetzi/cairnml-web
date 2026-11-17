@@ -26,10 +26,6 @@ export interface OrganizationGetEntitiesCountResponse {
      */
     models?: number;
     /**
-     * The number of dataviews matching the criteria
-     */
-    dataviews?: number;
-    /**
      * The number of pipelines matching the criteria
      */
     pipelines?: number;

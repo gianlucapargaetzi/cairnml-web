@@ -133,7 +133,6 @@ export class CommonProjectsEffects {
                   stats_for_state: ProjectsGetAllExRequest.StatsForStateEnum.Active,
                   include_stats: true,
                   shallow_search: !searchQuery?.query && (mainPageTagsFilter === undefined || mainPageTagsFilter.length === 0),
-                  ...(((projectsView || nested) && !searchQuery?.query) && {permission_roots_only: true}),
                   ...((projectsView && projectId && projectId !== '*') && {parent: [projectId]}),
                   scroll_id: scrollId || null, // null to create new scroll (undefined doesn't generate scroll)
                   size: pageSize,

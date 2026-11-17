@@ -12,13 +12,4 @@
 
 
 
-export interface LoginSupportedModesRequest {
-    /**
-     * ASCII base64 encoded application state
-     */
-    state?: string;
-    /**
-     * URL prefix used to generate the callback URL for each supported SSO provider
-     */
-    callback_url_prefix?: string;
-}
+export type LoginSupportedModesRequest = Record<string, never>;

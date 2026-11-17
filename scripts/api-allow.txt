@@ -1,18 +1,6 @@
 # Known drift between the web app's API models and the server's schema, found by:
 #   python -m apiserver.client_generator check-web --root src/app/business-logic
-# Each line is an action whose web models have fields the server does not define (the web app sends or reads fields
-# the server ignores or does not return). Fix the model and the code that uses it, then remove the line: a line that no
-# longer matches is reported.
-# exempt <service.action> <reason>
+# One line per action: exempt <service.action> <reason>. Remove a line when the drift is fixed (a line that no
+# longer matches is reported).
 
-exempt events.get_multi_task_metrics web-only fields the schema does not define: request ['model_metrics']
-exempt login.supported_modes web-only fields the schema does not define: request ['callback_url_prefix', 'state']; response ['server_errors']
-exempt organization.get_entities_count web-only fields the schema does not define: request ['dataviews']; response ['dataviews']
-exempt organization.prepare_download_for_get_all web-only fields the schema does not define: request ['download_type']
-exempt pipelines.delete_runs web-only fields the schema does not define: request ['include_pipeline_steps']
-exempt pipelines.start_pipeline web-only fields the schema does not define: request ['new_pipeline_name', 'new_pipeline_run', 'new_project_name']; response ['new_project']
-exempt projects.get_all_ex web-only fields the schema does not define: request ['non_public', 'permission_roots_only']; response ['own_models', 'own_tasks']
-exempt queues.get_all_ex web-only fields the schema does not define: request ['allow_pool_queues']
-exempt tasks.create web-only fields the schema does not define: request ['input']
-exempt tasks.get_all_ex web-only fields the schema does not define: request ['include_hidden_projects']
-exempt tasks.get_by_id_ex web-only fields the schema does not define: request ['input_view_entries_version']
+exempt pipelines.start_pipeline the 'Run in new pipeline' dialog sends new_pipeline_name, new_project_name and reads new_project; the server does not implement creating a new pipeline (needs a feature request)

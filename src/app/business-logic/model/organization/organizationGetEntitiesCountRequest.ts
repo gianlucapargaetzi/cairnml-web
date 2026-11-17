@@ -26,10 +26,6 @@ export interface OrganizationGetEntitiesCountRequest {
      */
     models?: object;
     /**
-     * Search criteria for dataviews
-     */
-    dataviews?: object;
-    /**
      * Search criteria for pipelines
      */
     pipelines?: object;

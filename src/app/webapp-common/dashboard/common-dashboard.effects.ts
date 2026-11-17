@@ -72,9 +72,8 @@ export class CommonDashboardEffects {
       this.store.select(selectCurrentUser),
       this.store.select(selectShowOnlyUserWork),
       this.store.select(selectHideExamples),
-      this.store.select(selectShowHidden),
     ]),
-    switchMap(([action, user, showOnlyUserWork, hideExamples, showHidden]) => this.tasksApi.tasksGetAllEx({
+    switchMap(([action, user, showOnlyUserWork, hideExamples]) => this.tasksApi.tasksGetAllEx({
         page: 0,
         page_size: 5,
         order_by: ['-last_update'],
@@ -84,7 +83,6 @@ export class CommonDashboardEffects {
         system_tags: ['-archived', '-pipeline'],
         user: showOnlyUserWork ? [user.id] : null,
         ...(hideExamples && {allow_public: false}),
-        include_hidden_projects: showHidden,
       })
         .pipe(
           mergeMap(({tasks}) => [setRecentExperiments({experiments: tasks.map(task => ({...task, name: experimentLabel(task)}))}), deactivateLoader(action.type)]),

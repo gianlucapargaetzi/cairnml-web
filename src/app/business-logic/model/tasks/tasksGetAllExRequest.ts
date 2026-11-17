@@ -101,5 +101,4 @@ export interface TasksGetAllExRequest {
      * Allow public tasks to be returned in the results
      */
     allow_public?: boolean;
-    include_hidden_projects?: boolean;
 }

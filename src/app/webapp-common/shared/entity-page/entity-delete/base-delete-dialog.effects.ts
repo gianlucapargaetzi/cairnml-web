@@ -64,7 +64,7 @@ export class DeleteDialogEffectsBase {
   }
 
   deleteEntityApi(entityType: EntityTypeEnum, entities: any[], deleteArtifacts?: boolean,
-                  resetMode?: boolean, projectId?: string, includeChildren?: boolean): Observable<{
+                  resetMode?: boolean, projectId?: string): Observable<{
     failed: any[];
     urlsToDelete: string[];
     succeeded?: TasksResetManyResponseSucceeded[]
@@ -75,8 +75,7 @@ export class DeleteDialogEffectsBase {
       case EntityTypeEnum.controller:
         return this.pipelinesService.pipelinesDeleteRuns({
           ids,
-          project: projectId || entities[0]?.project?.id,
-          include_pipeline_steps: includeChildren
+          project: projectId || entities[0]?.project?.id
         })
           .pipe(
             map((res: PipelinesDeleteRunsResponse) => ({
@@ -178,8 +177,7 @@ export class DeleteDialogEffectsBase {
           entities,
           action.deleteArtifacts,
           action.resetMode,
-          projectId,
-          action.includeChildren
+          projectId
         )
           .pipe(
             map(({failed, succeeded, urlsToDelete}) => [

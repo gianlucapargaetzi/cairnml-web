@@ -18,10 +18,6 @@ export interface EventsGetMultiTaskMetricsRequest {
      * task ids to get metrics from
      */
     tasks: string[];
-    /**
-     * If not set or set to Falsethen passed ids are task ids otherwise model ids
-     */
-    model_metrics?: boolean;
     event_type?: EventTypeEnum;
     model_events?: boolean;
 }
