@@ -12,5 +12,4 @@
 
 
 
-export interface LoginSupportedModesRequest {
-}
+export type LoginSupportedModesRequest = Record<string, never>;
