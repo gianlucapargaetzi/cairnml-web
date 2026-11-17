@@ -12,20 +12,20 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { LoginIdpCallbackRequest } from '~/business-logic/model/login/loginIdpCallbackRequest';
-import { LoginIdpCallbackResponse } from '~/business-logic/model/login/loginIdpCallbackResponse';
-import { LoginIdpStartRequest } from '~/business-logic/model/login/loginIdpStartRequest';
-import { LoginIdpStartResponse } from '~/business-logic/model/login/loginIdpStartResponse';
-import { LoginLogoutRequest } from '~/business-logic/model/login/loginLogoutRequest';
-import { LoginLogoutResponse } from '~/business-logic/model/login/loginLogoutResponse';
-import { LoginSupportedModesRequest } from '~/business-logic/model/login/loginSupportedModesRequest';
-import { LoginSupportedModesResponse } from '~/business-logic/model/login/loginSupportedModesResponse';
+import { LoginIdpCallbackRequest } from '../model/login/loginIdpCallbackRequest';
+import { LoginIdpCallbackResponse } from '../model/login/loginIdpCallbackResponse';
+import { LoginIdpStartRequest } from '../model/login/loginIdpStartRequest';
+import { LoginIdpStartResponse } from '../model/login/loginIdpStartResponse';
+import { LoginLogoutRequest } from '../model/login/loginLogoutRequest';
+import { LoginLogoutResponse } from '../model/login/loginLogoutResponse';
+import { LoginSupportedModesRequest } from '../model/login/loginSupportedModesRequest';
+import { LoginSupportedModesResponse } from '../model/login/loginSupportedModesResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

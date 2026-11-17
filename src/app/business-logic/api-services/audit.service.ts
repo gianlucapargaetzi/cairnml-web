@@ -12,14 +12,14 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { AuditGetAllRequest } from '~/business-logic/model/audit/auditGetAllRequest';
-import { AuditGetAllResponse } from '~/business-logic/model/audit/auditGetAllResponse';
+import { AuditGetAllRequest } from '../model/audit/auditGetAllRequest';
+import { AuditGetAllResponse } from '../model/audit/auditGetAllResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

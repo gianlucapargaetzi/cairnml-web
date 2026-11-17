@@ -12,16 +12,16 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { PipelinesDeleteRunsRequest } from '~/business-logic/model/pipelines/pipelinesDeleteRunsRequest';
-import { PipelinesDeleteRunsResponse } from '~/business-logic/model/pipelines/pipelinesDeleteRunsResponse';
-import { PipelinesStartPipelineRequest } from '~/business-logic/model/pipelines/pipelinesStartPipelineRequest';
-import { PipelinesStartPipelineResponse } from '~/business-logic/model/pipelines/pipelinesStartPipelineResponse';
+import { PipelinesDeleteRunsRequest } from '../model/pipelines/pipelinesDeleteRunsRequest';
+import { PipelinesDeleteRunsResponse } from '../model/pipelines/pipelinesDeleteRunsResponse';
+import { PipelinesStartPipelineRequest } from '../model/pipelines/pipelinesStartPipelineRequest';
+import { PipelinesStartPipelineResponse } from '../model/pipelines/pipelinesStartPipelineResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

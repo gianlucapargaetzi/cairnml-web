@@ -12,16 +12,16 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { SystemE2eDeletionsRequest } from '~/business-logic/model/system/systemE2eDeletionsRequest';
-import { SystemE2eDeletionsResponse } from '~/business-logic/model/system/systemE2eDeletionsResponse';
-import { SystemE2eResetRequest } from '~/business-logic/model/system/systemE2eResetRequest';
-import { SystemE2eResetResponse } from '~/business-logic/model/system/systemE2eResetResponse';
+import { SystemE2eDeletionsRequest } from '../model/system/systemE2eDeletionsRequest';
+import { SystemE2eDeletionsResponse } from '../model/system/systemE2eDeletionsResponse';
+import { SystemE2eResetRequest } from '../model/system/systemE2eResetRequest';
+import { SystemE2eResetResponse } from '../model/system/systemE2eResetResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

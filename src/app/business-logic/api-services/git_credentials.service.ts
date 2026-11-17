@@ -12,18 +12,18 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { GitCredentialsDeleteRequest } from '~/business-logic/model/git_credentials/gitCredentialsDeleteRequest';
-import { GitCredentialsDeleteResponse } from '~/business-logic/model/git_credentials/gitCredentialsDeleteResponse';
-import { GitCredentialsGetAllRequest } from '~/business-logic/model/git_credentials/gitCredentialsGetAllRequest';
-import { GitCredentialsGetAllResponse } from '~/business-logic/model/git_credentials/gitCredentialsGetAllResponse';
-import { GitCredentialsSetRequest } from '~/business-logic/model/git_credentials/gitCredentialsSetRequest';
-import { GitCredentialsSetResponse } from '~/business-logic/model/git_credentials/gitCredentialsSetResponse';
+import { GitCredentialsDeleteRequest } from '../model/git_credentials/gitCredentialsDeleteRequest';
+import { GitCredentialsDeleteResponse } from '../model/git_credentials/gitCredentialsDeleteResponse';
+import { GitCredentialsGetAllRequest } from '../model/git_credentials/gitCredentialsGetAllRequest';
+import { GitCredentialsGetAllResponse } from '../model/git_credentials/gitCredentialsGetAllResponse';
+import { GitCredentialsSetRequest } from '../model/git_credentials/gitCredentialsSetRequest';
+import { GitCredentialsSetResponse } from '../model/git_credentials/gitCredentialsSetResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

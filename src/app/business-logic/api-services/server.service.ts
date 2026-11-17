@@ -12,22 +12,22 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { ServerConfigRequest } from '~/business-logic/model/server/serverConfigRequest';
-import { ServerConfigResponse } from '~/business-logic/model/server/serverConfigResponse';
-import { ServerEndpointsRequest } from '~/business-logic/model/server/serverEndpointsRequest';
-import { ServerEndpointsResponse } from '~/business-logic/model/server/serverEndpointsResponse';
-import { ServerGetStatsRequest } from '~/business-logic/model/server/serverGetStatsRequest';
-import { ServerGetStatsResponse } from '~/business-logic/model/server/serverGetStatsResponse';
-import { ServerInfoRequest } from '~/business-logic/model/server/serverInfoRequest';
-import { ServerInfoResponse } from '~/business-logic/model/server/serverInfoResponse';
-import { ServerReportStatsOptionRequest } from '~/business-logic/model/server/serverReportStatsOptionRequest';
-import { ServerReportStatsOptionResponse } from '~/business-logic/model/server/serverReportStatsOptionResponse';
+import { ServerConfigRequest } from '../model/server/serverConfigRequest';
+import { ServerConfigResponse } from '../model/server/serverConfigResponse';
+import { ServerEndpointsRequest } from '../model/server/serverEndpointsRequest';
+import { ServerEndpointsResponse } from '../model/server/serverEndpointsResponse';
+import { ServerGetStatsRequest } from '../model/server/serverGetStatsRequest';
+import { ServerGetStatsResponse } from '../model/server/serverGetStatsResponse';
+import { ServerInfoRequest } from '../model/server/serverInfoRequest';
+import { ServerInfoResponse } from '../model/server/serverInfoResponse';
+import { ServerReportStatsOptionRequest } from '../model/server/serverReportStatsOptionRequest';
+import { ServerReportStatsOptionResponse } from '../model/server/serverReportStatsOptionResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

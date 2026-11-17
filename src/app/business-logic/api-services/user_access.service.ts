@@ -12,20 +12,20 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { UserAccessAddAppRequest } from '~/business-logic/model/user_access/userAccessAddAppRequest';
-import { UserAccessAddAppResponse } from '~/business-logic/model/user_access/userAccessAddAppResponse';
-import { UserAccessCheckRequest } from '~/business-logic/model/user_access/userAccessCheckRequest';
-import { UserAccessCheckResponse } from '~/business-logic/model/user_access/userAccessCheckResponse';
-import { UserAccessDeleteRequest } from '~/business-logic/model/user_access/userAccessDeleteRequest';
-import { UserAccessDeleteResponse } from '~/business-logic/model/user_access/userAccessDeleteResponse';
-import { UserAccessGetAllRequest } from '~/business-logic/model/user_access/userAccessGetAllRequest';
-import { UserAccessGetAllResponse } from '~/business-logic/model/user_access/userAccessGetAllResponse';
+import { UserAccessAddAppRequest } from '../model/user_access/userAccessAddAppRequest';
+import { UserAccessAddAppResponse } from '../model/user_access/userAccessAddAppResponse';
+import { UserAccessCheckRequest } from '../model/user_access/userAccessCheckRequest';
+import { UserAccessCheckResponse } from '../model/user_access/userAccessCheckResponse';
+import { UserAccessDeleteRequest } from '../model/user_access/userAccessDeleteRequest';
+import { UserAccessDeleteResponse } from '../model/user_access/userAccessDeleteResponse';
+import { UserAccessGetAllRequest } from '../model/user_access/userAccessGetAllRequest';
+import { UserAccessGetAllResponse } from '../model/user_access/userAccessGetAllResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

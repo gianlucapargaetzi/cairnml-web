@@ -12,22 +12,22 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { AccessDismissNoticeRequest } from '~/business-logic/model/access/accessDismissNoticeRequest';
-import { AccessDismissNoticeResponse } from '~/business-logic/model/access/accessDismissNoticeResponse';
-import { AccessListRequest } from '~/business-logic/model/access/accessListRequest';
-import { AccessListResponse } from '~/business-logic/model/access/accessListResponse';
-import { AccessNoticesRequest } from '~/business-logic/model/access/accessNoticesRequest';
-import { AccessNoticesResponse } from '~/business-logic/model/access/accessNoticesResponse';
-import { AccessShareRequest } from '~/business-logic/model/access/accessShareRequest';
-import { AccessShareResponse } from '~/business-logic/model/access/accessShareResponse';
-import { AccessUnshareRequest } from '~/business-logic/model/access/accessUnshareRequest';
-import { AccessUnshareResponse } from '~/business-logic/model/access/accessUnshareResponse';
+import { AccessDismissNoticeRequest } from '../model/access/accessDismissNoticeRequest';
+import { AccessDismissNoticeResponse } from '../model/access/accessDismissNoticeResponse';
+import { AccessListRequest } from '../model/access/accessListRequest';
+import { AccessListResponse } from '../model/access/accessListResponse';
+import { AccessNoticesRequest } from '../model/access/accessNoticesRequest';
+import { AccessNoticesResponse } from '../model/access/accessNoticesResponse';
+import { AccessShareRequest } from '../model/access/accessShareRequest';
+import { AccessShareResponse } from '../model/access/accessShareResponse';
+import { AccessUnshareRequest } from '../model/access/accessUnshareRequest';
+import { AccessUnshareResponse } from '../model/access/accessUnshareResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

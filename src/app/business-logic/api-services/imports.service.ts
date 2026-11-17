@@ -12,20 +12,20 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { ImportsCommitRequest } from '~/business-logic/model/imports/importsCommitRequest';
-import { ImportsCommitResponse } from '~/business-logic/model/imports/importsCommitResponse';
-import { ImportsPreparePartRequest } from '~/business-logic/model/imports/importsPreparePartRequest';
-import { ImportsPreparePartResponse } from '~/business-logic/model/imports/importsPreparePartResponse';
-import { ImportsPrepareUploadRequest } from '~/business-logic/model/imports/importsPrepareUploadRequest';
-import { ImportsPrepareUploadResponse } from '~/business-logic/model/imports/importsPrepareUploadResponse';
-import { ImportsRunRequest } from '~/business-logic/model/imports/importsRunRequest';
-import { ImportsRunResponse } from '~/business-logic/model/imports/importsRunResponse';
+import { ImportsCommitRequest } from '../model/imports/importsCommitRequest';
+import { ImportsCommitResponse } from '../model/imports/importsCommitResponse';
+import { ImportsPreparePartRequest } from '../model/imports/importsPreparePartRequest';
+import { ImportsPreparePartResponse } from '../model/imports/importsPreparePartResponse';
+import { ImportsPrepareUploadRequest } from '../model/imports/importsPrepareUploadRequest';
+import { ImportsPrepareUploadResponse } from '../model/imports/importsPrepareUploadResponse';
+import { ImportsRunRequest } from '../model/imports/importsRunRequest';
+import { ImportsRunResponse } from '../model/imports/importsRunResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

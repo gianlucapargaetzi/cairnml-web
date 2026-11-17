@@ -12,16 +12,16 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { GithubCheckRequest } from '~/business-logic/model/github/githubCheckRequest';
-import { GithubCheckResponse } from '~/business-logic/model/github/githubCheckResponse';
-import { GithubStatusRequest } from '~/business-logic/model/github/githubStatusRequest';
-import { GithubStatusResponse } from '~/business-logic/model/github/githubStatusResponse';
+import { GithubCheckRequest } from '../model/github/githubCheckRequest';
+import { GithubCheckResponse } from '../model/github/githubCheckResponse';
+import { GithubStatusRequest } from '../model/github/githubStatusRequest';
+import { GithubStatusResponse } from '../model/github/githubStatusResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

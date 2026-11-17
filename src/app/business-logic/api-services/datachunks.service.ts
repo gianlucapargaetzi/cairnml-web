@@ -12,24 +12,24 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { DatachunksCommitRequest } from '~/business-logic/model/datachunks/datachunksCommitRequest';
-import { DatachunksCommitResponse } from '~/business-logic/model/datachunks/datachunksCommitResponse';
-import { DatachunksDatasetCredentialsRequest } from '~/business-logic/model/datachunks/datachunksDatasetCredentialsRequest';
-import { DatachunksDatasetCredentialsResponse } from '~/business-logic/model/datachunks/datachunksDatasetCredentialsResponse';
-import { DatachunksDeleteRequest } from '~/business-logic/model/datachunks/datachunksDeleteRequest';
-import { DatachunksDeleteResponse } from '~/business-logic/model/datachunks/datachunksDeleteResponse';
-import { DatachunksPrepareDownloadRequest } from '~/business-logic/model/datachunks/datachunksPrepareDownloadRequest';
-import { DatachunksPrepareDownloadResponse } from '~/business-logic/model/datachunks/datachunksPrepareDownloadResponse';
-import { DatachunksPreparePartRequest } from '~/business-logic/model/datachunks/datachunksPreparePartRequest';
-import { DatachunksPreparePartResponse } from '~/business-logic/model/datachunks/datachunksPreparePartResponse';
-import { DatachunksPrepareUploadRequest } from '~/business-logic/model/datachunks/datachunksPrepareUploadRequest';
-import { DatachunksPrepareUploadResponse } from '~/business-logic/model/datachunks/datachunksPrepareUploadResponse';
+import { DatachunksCommitRequest } from '../model/datachunks/datachunksCommitRequest';
+import { DatachunksCommitResponse } from '../model/datachunks/datachunksCommitResponse';
+import { DatachunksDatasetCredentialsRequest } from '../model/datachunks/datachunksDatasetCredentialsRequest';
+import { DatachunksDatasetCredentialsResponse } from '../model/datachunks/datachunksDatasetCredentialsResponse';
+import { DatachunksDeleteRequest } from '../model/datachunks/datachunksDeleteRequest';
+import { DatachunksDeleteResponse } from '../model/datachunks/datachunksDeleteResponse';
+import { DatachunksPrepareDownloadRequest } from '../model/datachunks/datachunksPrepareDownloadRequest';
+import { DatachunksPrepareDownloadResponse } from '../model/datachunks/datachunksPrepareDownloadResponse';
+import { DatachunksPreparePartRequest } from '../model/datachunks/datachunksPreparePartRequest';
+import { DatachunksPreparePartResponse } from '../model/datachunks/datachunksPreparePartResponse';
+import { DatachunksPrepareUploadRequest } from '../model/datachunks/datachunksPrepareUploadRequest';
+import { DatachunksPrepareUploadResponse } from '../model/datachunks/datachunksPrepareUploadResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

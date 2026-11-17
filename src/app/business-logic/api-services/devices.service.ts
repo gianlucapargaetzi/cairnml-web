@@ -12,28 +12,28 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { DevicesEnrollRequest } from '~/business-logic/model/devices/devicesEnrollRequest';
-import { DevicesEnrollResponse } from '~/business-logic/model/devices/devicesEnrollResponse';
-import { DevicesExchangeRequest } from '~/business-logic/model/devices/devicesExchangeRequest';
-import { DevicesExchangeResponse } from '~/business-logic/model/devices/devicesExchangeResponse';
-import { DevicesGetAllRequest } from '~/business-logic/model/devices/devicesGetAllRequest';
-import { DevicesGetAllResponse } from '~/business-logic/model/devices/devicesGetAllResponse';
-import { DevicesGitTokenRequest } from '~/business-logic/model/devices/devicesGitTokenRequest';
-import { DevicesGitTokenResponse } from '~/business-logic/model/devices/devicesGitTokenResponse';
-import { DevicesIdpSettingsRequest } from '~/business-logic/model/devices/devicesIdpSettingsRequest';
-import { DevicesIdpSettingsResponse } from '~/business-logic/model/devices/devicesIdpSettingsResponse';
-import { DevicesJobTokenRequest } from '~/business-logic/model/devices/devicesJobTokenRequest';
-import { DevicesJobTokenResponse } from '~/business-logic/model/devices/devicesJobTokenResponse';
-import { DevicesReassignRequest } from '~/business-logic/model/devices/devicesReassignRequest';
-import { DevicesReassignResponse } from '~/business-logic/model/devices/devicesReassignResponse';
-import { DevicesRevokeRequest } from '~/business-logic/model/devices/devicesRevokeRequest';
-import { DevicesRevokeResponse } from '~/business-logic/model/devices/devicesRevokeResponse';
+import { DevicesEnrollRequest } from '../model/devices/devicesEnrollRequest';
+import { DevicesEnrollResponse } from '../model/devices/devicesEnrollResponse';
+import { DevicesExchangeRequest } from '../model/devices/devicesExchangeRequest';
+import { DevicesExchangeResponse } from '../model/devices/devicesExchangeResponse';
+import { DevicesGetAllRequest } from '../model/devices/devicesGetAllRequest';
+import { DevicesGetAllResponse } from '../model/devices/devicesGetAllResponse';
+import { DevicesGitTokenRequest } from '../model/devices/devicesGitTokenRequest';
+import { DevicesGitTokenResponse } from '../model/devices/devicesGitTokenResponse';
+import { DevicesIdpSettingsRequest } from '../model/devices/devicesIdpSettingsRequest';
+import { DevicesIdpSettingsResponse } from '../model/devices/devicesIdpSettingsResponse';
+import { DevicesJobTokenRequest } from '../model/devices/devicesJobTokenRequest';
+import { DevicesJobTokenResponse } from '../model/devices/devicesJobTokenResponse';
+import { DevicesReassignRequest } from '../model/devices/devicesReassignRequest';
+import { DevicesReassignResponse } from '../model/devices/devicesReassignResponse';
+import { DevicesRevokeRequest } from '../model/devices/devicesRevokeRequest';
+import { DevicesRevokeResponse } from '../model/devices/devicesRevokeResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

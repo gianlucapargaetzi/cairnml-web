@@ -12,26 +12,26 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { ServingContainerStatusReportRequest } from '~/business-logic/model/serving/servingContainerStatusReportRequest';
-import { ServingContainerStatusReportResponse } from '~/business-logic/model/serving/servingContainerStatusReportResponse';
-import { ServingGetEndpointDetailsRequest } from '~/business-logic/model/serving/servingGetEndpointDetailsRequest';
-import { ServingGetEndpointDetailsResponse } from '~/business-logic/model/serving/servingGetEndpointDetailsResponse';
-import { ServingGetEndpointMetricsHistoryRequest } from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryRequest';
-import { ServingGetEndpointMetricsHistoryResponse } from '~/business-logic/model/serving/servingGetEndpointMetricsHistoryResponse';
-import { ServingGetEndpointsRequest } from '~/business-logic/model/serving/servingGetEndpointsRequest';
-import { ServingGetEndpointsResponse } from '~/business-logic/model/serving/servingGetEndpointsResponse';
-import { ServingGetLoadingInstancesRequest } from '~/business-logic/model/serving/servingGetLoadingInstancesRequest';
-import { ServingGetLoadingInstancesResponse } from '~/business-logic/model/serving/servingGetLoadingInstancesResponse';
-import { ServingRegisterContainerRequest } from '~/business-logic/model/serving/servingRegisterContainerRequest';
-import { ServingRegisterContainerResponse } from '~/business-logic/model/serving/servingRegisterContainerResponse';
-import { ServingUnregisterContainerRequest } from '~/business-logic/model/serving/servingUnregisterContainerRequest';
-import { ServingUnregisterContainerResponse } from '~/business-logic/model/serving/servingUnregisterContainerResponse';
+import { ServingContainerStatusReportRequest } from '../model/serving/servingContainerStatusReportRequest';
+import { ServingContainerStatusReportResponse } from '../model/serving/servingContainerStatusReportResponse';
+import { ServingGetEndpointDetailsRequest } from '../model/serving/servingGetEndpointDetailsRequest';
+import { ServingGetEndpointDetailsResponse } from '../model/serving/servingGetEndpointDetailsResponse';
+import { ServingGetEndpointMetricsHistoryRequest } from '../model/serving/servingGetEndpointMetricsHistoryRequest';
+import { ServingGetEndpointMetricsHistoryResponse } from '../model/serving/servingGetEndpointMetricsHistoryResponse';
+import { ServingGetEndpointsRequest } from '../model/serving/servingGetEndpointsRequest';
+import { ServingGetEndpointsResponse } from '../model/serving/servingGetEndpointsResponse';
+import { ServingGetLoadingInstancesRequest } from '../model/serving/servingGetLoadingInstancesRequest';
+import { ServingGetLoadingInstancesResponse } from '../model/serving/servingGetLoadingInstancesResponse';
+import { ServingRegisterContainerRequest } from '../model/serving/servingRegisterContainerRequest';
+import { ServingRegisterContainerResponse } from '../model/serving/servingRegisterContainerResponse';
+import { ServingUnregisterContainerRequest } from '../model/serving/servingUnregisterContainerRequest';
+import { ServingUnregisterContainerResponse } from '../model/serving/servingUnregisterContainerResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

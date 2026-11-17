@@ -12,28 +12,28 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { WorkersGetActivityReportRequest } from '~/business-logic/model/workers/workersGetActivityReportRequest';
-import { WorkersGetActivityReportResponse } from '~/business-logic/model/workers/workersGetActivityReportResponse';
-import { WorkersGetAllRequest } from '~/business-logic/model/workers/workersGetAllRequest';
-import { WorkersGetAllResponse } from '~/business-logic/model/workers/workersGetAllResponse';
-import { WorkersGetCountRequest } from '~/business-logic/model/workers/workersGetCountRequest';
-import { WorkersGetCountResponse } from '~/business-logic/model/workers/workersGetCountResponse';
-import { WorkersGetMetricKeysRequest } from '~/business-logic/model/workers/workersGetMetricKeysRequest';
-import { WorkersGetMetricKeysResponse } from '~/business-logic/model/workers/workersGetMetricKeysResponse';
-import { WorkersGetStatsRequest } from '~/business-logic/model/workers/workersGetStatsRequest';
-import { WorkersGetStatsResponse } from '~/business-logic/model/workers/workersGetStatsResponse';
-import { WorkersRegisterRequest } from '~/business-logic/model/workers/workersRegisterRequest';
-import { WorkersRegisterResponse } from '~/business-logic/model/workers/workersRegisterResponse';
-import { WorkersStatusReportRequest } from '~/business-logic/model/workers/workersStatusReportRequest';
-import { WorkersStatusReportResponse } from '~/business-logic/model/workers/workersStatusReportResponse';
-import { WorkersUnregisterRequest } from '~/business-logic/model/workers/workersUnregisterRequest';
-import { WorkersUnregisterResponse } from '~/business-logic/model/workers/workersUnregisterResponse';
+import { WorkersGetActivityReportRequest } from '../model/workers/workersGetActivityReportRequest';
+import { WorkersGetActivityReportResponse } from '../model/workers/workersGetActivityReportResponse';
+import { WorkersGetAllRequest } from '../model/workers/workersGetAllRequest';
+import { WorkersGetAllResponse } from '../model/workers/workersGetAllResponse';
+import { WorkersGetCountRequest } from '../model/workers/workersGetCountRequest';
+import { WorkersGetCountResponse } from '../model/workers/workersGetCountResponse';
+import { WorkersGetMetricKeysRequest } from '../model/workers/workersGetMetricKeysRequest';
+import { WorkersGetMetricKeysResponse } from '../model/workers/workersGetMetricKeysResponse';
+import { WorkersGetStatsRequest } from '../model/workers/workersGetStatsRequest';
+import { WorkersGetStatsResponse } from '../model/workers/workersGetStatsResponse';
+import { WorkersRegisterRequest } from '../model/workers/workersRegisterRequest';
+import { WorkersRegisterResponse } from '../model/workers/workersRegisterResponse';
+import { WorkersStatusReportRequest } from '../model/workers/workersStatusReportRequest';
+import { WorkersStatusReportResponse } from '../model/workers/workersStatusReportResponse';
+import { WorkersUnregisterRequest } from '../model/workers/workersUnregisterRequest';
+import { WorkersUnregisterResponse } from '../model/workers/workersUnregisterResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

@@ -12,24 +12,24 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { OrganizationDownloadForGetAllRequest } from '~/business-logic/model/organization/organizationDownloadForGetAllRequest';
-import { OrganizationDownloadForGetAllResponse } from '~/business-logic/model/organization/organizationDownloadForGetAllResponse';
-import { OrganizationGetEntitiesCountRequest } from '~/business-logic/model/organization/organizationGetEntitiesCountRequest';
-import { OrganizationGetEntitiesCountResponse } from '~/business-logic/model/organization/organizationGetEntitiesCountResponse';
-import { OrganizationGetProjectWorkloadsRequest } from '~/business-logic/model/organization/organizationGetProjectWorkloadsRequest';
-import { OrganizationGetProjectWorkloadsResponse } from '~/business-logic/model/organization/organizationGetProjectWorkloadsResponse';
-import { OrganizationGetTagsRequest } from '~/business-logic/model/organization/organizationGetTagsRequest';
-import { OrganizationGetTagsResponse } from '~/business-logic/model/organization/organizationGetTagsResponse';
-import { OrganizationGetUserCompaniesRequest } from '~/business-logic/model/organization/organizationGetUserCompaniesRequest';
-import { OrganizationGetUserCompaniesResponse } from '~/business-logic/model/organization/organizationGetUserCompaniesResponse';
-import { OrganizationPrepareDownloadForGetAllRequest } from '~/business-logic/model/organization/organizationPrepareDownloadForGetAllRequest';
-import { OrganizationPrepareDownloadForGetAllResponse } from '~/business-logic/model/organization/organizationPrepareDownloadForGetAllResponse';
+import { OrganizationDownloadForGetAllRequest } from '../model/organization/organizationDownloadForGetAllRequest';
+import { OrganizationDownloadForGetAllResponse } from '../model/organization/organizationDownloadForGetAllResponse';
+import { OrganizationGetEntitiesCountRequest } from '../model/organization/organizationGetEntitiesCountRequest';
+import { OrganizationGetEntitiesCountResponse } from '../model/organization/organizationGetEntitiesCountResponse';
+import { OrganizationGetProjectWorkloadsRequest } from '../model/organization/organizationGetProjectWorkloadsRequest';
+import { OrganizationGetProjectWorkloadsResponse } from '../model/organization/organizationGetProjectWorkloadsResponse';
+import { OrganizationGetTagsRequest } from '../model/organization/organizationGetTagsRequest';
+import { OrganizationGetTagsResponse } from '../model/organization/organizationGetTagsResponse';
+import { OrganizationGetUserCompaniesRequest } from '../model/organization/organizationGetUserCompaniesRequest';
+import { OrganizationGetUserCompaniesResponse } from '../model/organization/organizationGetUserCompaniesResponse';
+import { OrganizationPrepareDownloadForGetAllRequest } from '../model/organization/organizationPrepareDownloadForGetAllRequest';
+import { OrganizationPrepareDownloadForGetAllResponse } from '../model/organization/organizationPrepareDownloadForGetAllResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

@@ -12,32 +12,32 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { ReportsArchiveRequest } from '~/business-logic/model/reports/reportsArchiveRequest';
-import { ReportsArchiveResponse } from '~/business-logic/model/reports/reportsArchiveResponse';
-import { ReportsCreateRequest } from '~/business-logic/model/reports/reportsCreateRequest';
-import { ReportsCreateResponse } from '~/business-logic/model/reports/reportsCreateResponse';
-import { ReportsDeleteRequest } from '~/business-logic/model/reports/reportsDeleteRequest';
-import { ReportsDeleteResponse } from '~/business-logic/model/reports/reportsDeleteResponse';
-import { ReportsGetAllExRequest } from '~/business-logic/model/reports/reportsGetAllExRequest';
-import { ReportsGetAllExResponse } from '~/business-logic/model/reports/reportsGetAllExResponse';
-import { ReportsGetTagsRequest } from '~/business-logic/model/reports/reportsGetTagsRequest';
-import { ReportsGetTagsResponse } from '~/business-logic/model/reports/reportsGetTagsResponse';
-import { ReportsGetTaskDataRequest } from '~/business-logic/model/reports/reportsGetTaskDataRequest';
-import { ReportsGetTaskDataResponse } from '~/business-logic/model/reports/reportsGetTaskDataResponse';
-import { ReportsMoveRequest } from '~/business-logic/model/reports/reportsMoveRequest';
-import { ReportsMoveResponse } from '~/business-logic/model/reports/reportsMoveResponse';
-import { ReportsPublishRequest } from '~/business-logic/model/reports/reportsPublishRequest';
-import { ReportsPublishResponse } from '~/business-logic/model/reports/reportsPublishResponse';
-import { ReportsUnarchiveRequest } from '~/business-logic/model/reports/reportsUnarchiveRequest';
-import { ReportsUnarchiveResponse } from '~/business-logic/model/reports/reportsUnarchiveResponse';
-import { ReportsUpdateRequest } from '~/business-logic/model/reports/reportsUpdateRequest';
-import { ReportsUpdateResponse } from '~/business-logic/model/reports/reportsUpdateResponse';
+import { ReportsArchiveRequest } from '../model/reports/reportsArchiveRequest';
+import { ReportsArchiveResponse } from '../model/reports/reportsArchiveResponse';
+import { ReportsCreateRequest } from '../model/reports/reportsCreateRequest';
+import { ReportsCreateResponse } from '../model/reports/reportsCreateResponse';
+import { ReportsDeleteRequest } from '../model/reports/reportsDeleteRequest';
+import { ReportsDeleteResponse } from '../model/reports/reportsDeleteResponse';
+import { ReportsGetAllExRequest } from '../model/reports/reportsGetAllExRequest';
+import { ReportsGetAllExResponse } from '../model/reports/reportsGetAllExResponse';
+import { ReportsGetTagsRequest } from '../model/reports/reportsGetTagsRequest';
+import { ReportsGetTagsResponse } from '../model/reports/reportsGetTagsResponse';
+import { ReportsGetTaskDataRequest } from '../model/reports/reportsGetTaskDataRequest';
+import { ReportsGetTaskDataResponse } from '../model/reports/reportsGetTaskDataResponse';
+import { ReportsMoveRequest } from '../model/reports/reportsMoveRequest';
+import { ReportsMoveResponse } from '../model/reports/reportsMoveResponse';
+import { ReportsPublishRequest } from '../model/reports/reportsPublishRequest';
+import { ReportsPublishResponse } from '../model/reports/reportsPublishResponse';
+import { ReportsUnarchiveRequest } from '../model/reports/reportsUnarchiveRequest';
+import { ReportsUnarchiveResponse } from '../model/reports/reportsUnarchiveResponse';
+import { ReportsUpdateRequest } from '../model/reports/reportsUpdateRequest';
+import { ReportsUpdateResponse } from '../model/reports/reportsUpdateResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 

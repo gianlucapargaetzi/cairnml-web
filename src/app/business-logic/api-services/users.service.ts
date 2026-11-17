@@ -12,30 +12,30 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import {HTTP} from '~/app.constants';
+import {HTTP} from '../../app.constants';
 import {SmApiRequestsService} from './api-requests.service';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiOptions} from './api';
-import { UsersCreateRequest } from '~/business-logic/model/users/usersCreateRequest';
-import { UsersCreateResponse } from '~/business-logic/model/users/usersCreateResponse';
-import { UsersDeleteRequest } from '~/business-logic/model/users/usersDeleteRequest';
-import { UsersDeleteResponse } from '~/business-logic/model/users/usersDeleteResponse';
-import { UsersGetAllExRequest } from '~/business-logic/model/users/usersGetAllExRequest';
-import { UsersGetAllExResponse } from '~/business-logic/model/users/usersGetAllExResponse';
-import { UsersGetAllRequest } from '~/business-logic/model/users/usersGetAllRequest';
-import { UsersGetAllResponse } from '~/business-logic/model/users/usersGetAllResponse';
-import { UsersGetByIdRequest } from '~/business-logic/model/users/usersGetByIdRequest';
-import { UsersGetByIdResponse } from '~/business-logic/model/users/usersGetByIdResponse';
-import { UsersGetCurrentUserRequest } from '~/business-logic/model/users/usersGetCurrentUserRequest';
-import { UsersGetCurrentUserResponse } from '~/business-logic/model/users/usersGetCurrentUserResponse';
-import { UsersGetPreferencesRequest } from '~/business-logic/model/users/usersGetPreferencesRequest';
-import { UsersGetPreferencesResponse } from '~/business-logic/model/users/usersGetPreferencesResponse';
-import { UsersSetPreferencesRequest } from '~/business-logic/model/users/usersSetPreferencesRequest';
-import { UsersSetPreferencesResponse } from '~/business-logic/model/users/usersSetPreferencesResponse';
-import { UsersUpdateRequest } from '~/business-logic/model/users/usersUpdateRequest';
-import { UsersUpdateResponse } from '~/business-logic/model/users/usersUpdateResponse';
+import { UsersCreateRequest } from '../model/users/usersCreateRequest';
+import { UsersCreateResponse } from '../model/users/usersCreateResponse';
+import { UsersDeleteRequest } from '../model/users/usersDeleteRequest';
+import { UsersDeleteResponse } from '../model/users/usersDeleteResponse';
+import { UsersGetAllExRequest } from '../model/users/usersGetAllExRequest';
+import { UsersGetAllExResponse } from '../model/users/usersGetAllExResponse';
+import { UsersGetAllRequest } from '../model/users/usersGetAllRequest';
+import { UsersGetAllResponse } from '../model/users/usersGetAllResponse';
+import { UsersGetByIdRequest } from '../model/users/usersGetByIdRequest';
+import { UsersGetByIdResponse } from '../model/users/usersGetByIdResponse';
+import { UsersGetCurrentUserRequest } from '../model/users/usersGetCurrentUserRequest';
+import { UsersGetCurrentUserResponse } from '../model/users/usersGetCurrentUserResponse';
+import { UsersGetPreferencesRequest } from '../model/users/usersGetPreferencesRequest';
+import { UsersGetPreferencesResponse } from '../model/users/usersGetPreferencesResponse';
+import { UsersSetPreferencesRequest } from '../model/users/usersSetPreferencesRequest';
+import { UsersSetPreferencesResponse } from '../model/users/usersSetPreferencesResponse';
+import { UsersUpdateRequest } from '../model/users/usersUpdateRequest';
+import { UsersUpdateResponse } from '../model/users/usersUpdateResponse';
 import {BASE_PATH} from '../variables';
 import {Configuration} from '../configuration';
 
