@@ -12,7 +12,7 @@ import {combineLatest, Observable, of} from 'rxjs';
 import {ChartPreferences, ExtFrame, ExtLegend, VisibleExtFrame} from '../single-graph/plotly-graph-base';
 import {signUrls} from '../../core/actions/common-auth.actions';
 import {getSignedUrlOrOrigin$} from '../../core/reducers/common-auth-reducer';
-import {EventsGetTaskSingleValueMetricsResponseValues} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseValues';
+import {SingleValueTaskMetricsValues} from '~/business-logic/model/events/singleValueTaskMetricsValues';
 import {v4} from 'uuid';
 import {selectChartSettings, selectExperimentOrModelId} from '@common/experiments/reducers';
 import {setGraphsPerRow} from '@common/experiments/actions/common-experiment-output.actions';
@@ -115,7 +115,7 @@ export class ExperimentGraphsComponent {
   hideLegend = input(false);
   defaultHoverMode = input<ChartHoverModeEnum>();
   disableResize = input(false);
-  singleValueData = model<EventsGetTaskSingleValueMetricsResponseValues[]>();
+  singleValueData = model<SingleValueTaskMetricsValues[]>();
   multipleSingleValueData = model<ExtFrame>();
   experimentName = input<string>();
   splitSize = input<number>();

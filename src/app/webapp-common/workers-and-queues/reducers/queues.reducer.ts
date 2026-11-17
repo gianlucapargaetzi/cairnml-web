@@ -2,7 +2,7 @@ import {queueActions, Queue} from '../actions/queues.actions';
 import {QUEUES_TABLE_COL_FIELDS, TIME_INTERVALS} from '../workers-and-queues.consts';
 import {TABLE_SORT_ORDER} from '../../shared/ui-components/data/table/table.consts';
 import {SortMeta} from 'primeng/api';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {createReducer, on} from '@ngrx/store';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {Topic} from '@common/shared/components/charts/line-chart/line-chart.component';

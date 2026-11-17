@@ -7,7 +7,7 @@ import {ActiveSearchLink} from '~/features/dashboard-search/dashboard-search.con
 import {DASHBOARD_PREFIX} from '@common/dashboard/common-dashboard.const';
 import {IReport} from '@common/reports/reports.consts';
 import {TableFilter} from '@common/shared/utils/tableParamEncode';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 
 
@@ -67,7 +67,7 @@ export const setReportsResults = createAction(
 
 export const setEndpointsResults = createAction(
   `${SEARCH_PREFIX}Set Endpoints Results`,
-  props<{ endpoints: EndpointStats[] }>()
+  props<{ endpoints: ServingEndpoint[] }>()
 );
 
 export const setLoadingEndpointsResults = createAction(

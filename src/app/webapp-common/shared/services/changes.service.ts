@@ -9,11 +9,9 @@ import {catchError, debounceTime, distinctUntilChanged, filter, map, withLatestF
 import {selectFirstLogin, selectNeverShowAppChanges} from '../../core/reducers/view.reducer';
 import {selectCurrentUser, selectIsAdmin} from '../../core/reducers/users-reducer';
 import {neverShowChangesAgain} from '../../core/actions/layout.actions';
-import {selectFeatures} from '~/core/reducers/users.reducer';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {default as semverGte} from 'semver/functions/gte';
 import {default as semverGt} from 'semver/functions/gt';
-import {FeaturesEnum} from '~/business-logic/model/users/featuresEnum';
 import {ChangesModalData, VersionChangesModalComponent} from '@common/layout/version-changes-modal/version-changes-modal.component';
 
 export interface Change {
@@ -22,7 +20,7 @@ export interface Change {
   context?: string;
   image: string;
   title: string;
-  feature?: FeaturesEnum;
+  feature?: string;
 }
 
 const changesCooldownTime = 1000 * 60 * 60 * 2;
@@ -71,11 +69,9 @@ export class ChangesService {
 
     this.httpClient.get('server_changes.json')
       .pipe(
-        withLatestFrom(this.store.select(selectFeatures)),
-        map(([changesConfig, features]: [{ changes: Change[] }, FeaturesEnum[]]) => ({
+        map((changesConfig: { changes: Change[] }) => ({
           changes: changesConfig.changes.filter(change =>
-            (!change.feature || !features || features.includes(change.feature)) &&
-            semverGt(change.version ?? '0.0.0', this.currentUser().created_in_version || '0.0.0'))
+            semverGt(change.version ?? '0.0.0', '0.0.0'))  // TODO(issue 186): replaced by the per-user seen state
         })),
         filter((changesConfig: { changes: Change[] }) => changesConfig?.changes?.length > 0),
         catchError(() => of({changes: []})),
@@ -83,8 +79,7 @@ export class ChangesService {
       )
       .subscribe(([changes, lastApprovedVersion]: [{ changes: Change[] }, string]) => {
         this.changesConfig.set(changes.changes);
-        this.neverShowAgainForVersion = semverGte(lastApprovedVersion || '0.0.0', this.changesConfig()?.[0]?.version ?? '0.0.0') ||
-          semverGte(this.currentUser().created_in_version || '0.0.0', this.changesConfig()?.[0]?.version ?? '0.0.0');
+        this.neverShowAgainForVersion = semverGte(lastApprovedVersion || '0.0.0', this.changesConfig()?.[0]?.version ?? '0.0.0');
 
         if (!this.firstTime) {
           if (!this.neverShowAgainForVersion) {

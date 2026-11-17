@@ -41,7 +41,7 @@ export const initUsers: UsersState = {
 
 export const users = state => state.users as UsersState;
 export const selectSettings = createSelector(users, (state) => state?.settings);
-export const selectMaxDownloadItems = createSelector(selectSettings, (state): number => state?.max_download_items ?? 1000);
+export const selectMaxDownloadItems = createSelector(selectSettings, (state): number => Number(state?.max_download_items ?? 1000));
 export const selectCurrentUser = createSelector(users, state => state.currentUser);
 export const selectIsAdmin = createSelector(users, state => state.currentUser?.role === RoleEnum.Admin);
 export const selectCurrentUserId = createSelector(selectCurrentUser, user => user?.id ?? null);
@@ -51,7 +51,6 @@ export const selectIsQueueAdmin = createSelector(users, state => state.currentUs
 export const selectCanManageQueue = createSelector(selectIsQueueAdmin, selectCurrentUserId,
   (isAdmin, userId) => (queue: {created_by?: string | null}): boolean => isAdmin || (!!userId && queue?.created_by === userId));
 export const selectActiveWorkspace = createSelector(users, state => state?.activeWorkspace);
-export const selectActiveWorkspaceTier = createSelector(selectActiveWorkspace, workspace => workspace?.tier);
 export const selectUserWorkspaces = createSelector(users, state => state.userWorkspaces);
 export const selectSelectedWorkspaceTab = createSelector(users, state => state.selectedWorkspaceTab);
 export const selectWorkspaces = createSelector(users, state => state.workspaces);

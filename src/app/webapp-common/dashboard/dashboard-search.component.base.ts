@@ -9,7 +9,7 @@ import {
   searchStart
 } from '../dashboard-search/dashboard-search.actions';
 import {IRecentTask} from './common-dashboard.reducer';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {Store} from '@ngrx/store';
 import {
   selectDatasetsResults,

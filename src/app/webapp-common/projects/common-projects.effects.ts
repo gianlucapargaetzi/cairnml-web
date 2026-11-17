@@ -19,7 +19,7 @@ import {
   selectMainPageUsersFilter, selectSelectedProject, selectSelectedProjectId, selectShowHidden
 } from '../core/reducers/projects.reducer';
 import {forkJoin, of} from 'rxjs';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {setSelectedProjectStats} from '../core/actions/projects.actions';
 import {ActivatedRoute} from '@angular/router';
 import {ProjectsUpdateResponse} from '~/business-logic/model/projects/projectsUpdateResponse';
@@ -281,7 +281,7 @@ export class CommonProjectsEffects {
     mergeMap(() => [getAllProjectsPageProjects()])
   ));
 
-  private isNotEmptyExampleProject(project: Project) {
+  private isNotEmptyExampleProject(project: ProjectsGetAllResponseSingle) {
     return !(isExample(project) && project.own_models === 0 && project.own_tasks === 0);
   }
 

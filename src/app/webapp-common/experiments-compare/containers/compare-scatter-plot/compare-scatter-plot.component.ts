@@ -54,6 +54,7 @@ export class CompareScatterPlotComponent {
       return [{
         label: '',
         backgroundColor: '#14aa8c',
+        // the points are the experiments; the y value is the last metric the chart reads as a leaf (typed per variant)
         data: this.experiments()
           .map(point => [point, point.hyperparams[this.params()[0].section]?.[this.params()[0].name]?.value] as [ExtraTask, string])
           .filter(([, paramValue]) => paramValue !== undefined)
@@ -75,7 +76,7 @@ export class CompareScatterPlotComponent {
                 )
             };
           }),
-      } as ScatterPlotSeries];
+      } as unknown as ScatterPlotSeries];
     }
     return [];
   });

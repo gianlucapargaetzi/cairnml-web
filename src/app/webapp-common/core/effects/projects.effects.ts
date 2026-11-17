@@ -22,7 +22,7 @@ import {ScatterPlotPoint, selectAllProjectsUsers, selectCompanyTagsLastUpdate, s
 import {OperationErrorDialogComponent} from '@common/shared/ui-components/overlay/operation-error-dialog/operation-error-dialog.component';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
 import {createMetricColumn, excludedKey, MetricColumn} from '@common/shared/utils/tableParamEncode';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {TasksGetAllExRequest} from '~/business-logic/model/tasks/tasksGetAllExRequest';
 import {setSelectedExperiments} from '../../experiments/actions/common-experiments-view.actions';
 import {setActiveWorkspace} from '@common/core/actions/users.actions';

@@ -2,7 +2,7 @@
   <sm-menu-item itemLabel="Project Settings"
                 data-id="Edit"
                 iconClass="al-ico-settings"
-                [disabled]="!project().company?.id"
+                [disabled]="!referenceId(project().company)"
                 (itemClicked)="projectSettingsClicked.emit(project())"></sm-menu-item>
   @if (!settingsOnly()) {
     <sm-menu-item itemLabel="New Project"

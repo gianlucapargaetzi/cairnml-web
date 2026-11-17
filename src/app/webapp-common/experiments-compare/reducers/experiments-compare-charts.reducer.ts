@@ -5,8 +5,8 @@ import * as actions from '../actions/experiments-compare-charts.actions';
 import {ExperimentSettings} from '../../experiments/reducers/experiment-output.reducer';
 import {SelectedMetric, SelectedMetricVariant} from '@common/experiments-compare/experiments-compare.constants';
 import {
-  EventsGetTaskSingleValueMetricsResponseTasks
-} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseTasks';
+  SingleValueTaskMetrics
+} from '~/business-logic/model/events/singleValueTaskMetrics';
 import {ChartHoverModeEnum} from '@common/experiments/shared/common-experiments.const';
 import {ReportsApiMultiplotsResponse} from '@common/constants';
 
@@ -27,7 +27,7 @@ export interface MetricOption {
 export interface IExperimentCompareChartsState {
   metricsMultiScalarsCharts: any;
   metricsHistogramCharts: any;
-  multiSingleValues: EventsGetTaskSingleValueMetricsResponseTasks[];
+  multiSingleValues: SingleValueTaskMetrics[];
   cachedAxisType: ScalarKeyEnum;
   metricsPlotsCharts: ReportsApiMultiplotsResponse;
   settingsList: Record<string, ExperimentCompareSettings>;

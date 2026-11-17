@@ -3,7 +3,7 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {StatsStatusCount} from '~/business-logic/model/projects/statsStatusCount';
 import {StatusIconLabelComponent} from '@common/shared/experiment-status-icon-label/status-icon-label.component';
 
@@ -30,7 +30,7 @@ type PipelineState =
 export class ProjectStateComponent {
   private projectsApi = inject(ApiProjectsService);
 
-  project = input<Project>();
+  project = input<ProjectsGetAllResponseSingle>();
 
   protected readonly statuses = RUN_STATUSES;
   protected readonly experiments = computed(() => this.project()?.stats?.active ?? null);

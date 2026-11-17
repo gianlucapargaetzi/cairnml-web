@@ -5,7 +5,7 @@ import type {Config, Layout, PlotData} from 'plotly.js';
 import {ExtData, ExtFrame, ExtLayout} from '../shared/single-graph/plotly-graph-base';
 import {MetricsPlotEvent} from '../../business-logic/model/events/models';
 import {KeyValue} from '@angular/common';
-import {EventsGetTaskSingleValueMetricsResponseTasks} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseTasks';
+import {SingleValueTaskMetrics} from '~/business-logic/model/events/singleValueTaskMetrics';
 import {maxInArray} from '@common/shared/utils/helpers.util';
 import {GroupedList} from '@common/tasks/tasks.model';
 import {ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
@@ -552,7 +552,7 @@ function addMissingExperimentsToPlots(charts, idToName) {
   }));
 }
 
-export function createMultiSingleValuesMultiChart(singleValues: EventsGetTaskSingleValueMetricsResponseTasks[], visibles = {}): ExtFrame[] {
+export function createMultiSingleValuesMultiChart(singleValues: SingleValueTaskMetrics[], visibles = {}): ExtFrame[] {
   const yValues = singleValues?.map(singleValue => singleValue.values.map(trace => (trace.value))).flat(1) ?? [0];
   const maxY = maxInArray(yValues);
   const tickformat = maxY >= 1e9 || (maxY < 1e-5 && maxY > 0) ? '.1e' : undefined;
@@ -610,7 +610,7 @@ export function createMultiSingleValuesMultiChart(singleValues: EventsGetTaskSin
   } as ExtData)), {...chartLayout, title: {text: variant}, type: 'singleValues', showlegend: true}, {}, tasks[i] ?? tasks[0]));
 }
 
-export function createMultiSingleValuesChart(singleValues: EventsGetTaskSingleValueMetricsResponseTasks[], visibles = {}): ExtFrame {
+export function createMultiSingleValuesChart(singleValues: SingleValueTaskMetrics[], visibles = {}): ExtFrame {
   const yValues = singleValues?.map(singleValue => singleValue.values.map(trace => (trace.value))).flat(1) ?? [0];
   const maxY = maxInArray(yValues);
   const tickformat = maxY >= 1e9 || (maxY < 1e-5 && maxY > 0) ? '.1e' : undefined;

@@ -11,8 +11,6 @@
         <span class="d-flex sub-title">
           <span class="project ellipsis">{{ (entity().project?.name | shortProjectName) || 'Root project' }}</span>
           <span class="dot">●</span>
-          <span title="Updated" class="sub-item">{{ entity().last_change | timeAgo }}</span>
-          <span class="dot">●</span>
           <span title="Created by" class="sub-item">{{ entity().user?.name }}</span>
         </span>
   </ng-container>

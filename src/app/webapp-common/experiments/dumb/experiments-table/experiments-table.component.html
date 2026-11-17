@@ -193,12 +193,12 @@
           </div>
         }
         @case (experimentsTableColFields.PARENT) {
-          @if (experiment?.parent?.id) {
+          @if (referenceId(experiment?.parent)) {
             <span
               class="parent-name"
               smShowTooltipIfEllipsis
-              [smTooltip]="experiment.parent.project?.name? experiment.parent.project.name + ' / ' + experiment.parent.name : experiment.parent.name"
-            >{{ experiment.parent.name }}</span>
+              [smTooltip]="asReference(experiment.parent).project?.name? asReference(experiment.parent).project?.name + ' / ' + asReference(experiment.parent).name : asReference(experiment.parent).name"
+            >{{ asReference(experiment.parent).name }}</span>
           }
         }
         <!--  Case for hyper params and custom metrics/variants  -->

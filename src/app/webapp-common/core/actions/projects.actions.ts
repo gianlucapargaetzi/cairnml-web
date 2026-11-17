@@ -57,12 +57,12 @@ export const setSelectedProjectId = createAction(
 );
 export const setSelectedProject = createAction(
   PROJECTS_PREFIX + 'SET_SELECTED_PROJECT',
-  props<{ project: Project }>()
+  props<{ project: ProjectsGetAllResponseSingle }>()
 );
 
 export const setSelectedProjectSimple = createAction(
   PROJECTS_PREFIX + 'SET_SELECTED_PROJECT_SIMPLE',
-  props<{ project: Project }>()
+  props<{ project: ProjectsGetAllResponseSingle }>()
 );
 
 export const setProjectAncestors = createAction(
@@ -72,7 +72,7 @@ export const setProjectAncestors = createAction(
 
 export const setSelectedProjectStats = createAction(
   PROJECTS_PREFIX + '[set selected project statistics]',
-  props<{ project: Project }>()
+  props<{ project: ProjectsGetAllResponseSingle }>()
 );
 
 export const resetSelectedProject = createAction(

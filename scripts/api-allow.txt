@@ -2,5 +2,4 @@
 #   python -m apiserver.client_generator check-web --root src/app/business-logic
 # One line per action: exempt <service.action> <reason>. Remove a line when the drift is fixed (a line that no
 # longer matches is reported).
-
-exempt pipelines.start_pipeline the 'Run in new pipeline' dialog sends new_pipeline_name, new_project_name and reads new_project; the server does not implement creating a new pipeline (needs a feature request)
+# There is no known drift right now.

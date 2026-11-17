@@ -30,7 +30,7 @@ import {
   ExtraTask,
   ParallelCoordinatesGraphComponent
 } from '@common/experiments-compare/dumbs/parallel-coordinates-graph/parallel-coordinates-graph.component';
-import {EventsGetTaskSingleValueMetricsResponseValues} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseValues';
+import {SingleValueTaskMetricsValues} from '~/business-logic/model/events/singleValueTaskMetricsValues';
 import {ScalarKeyEnum} from '~/business-logic/model/reports/scalarKeyEnum';
 import {ReportsApiMultiplotsResponse} from '@common/constants';
 import {
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
   public externalTool = false;
   public parcoordsData: { experiments: ExtraTask[]; params: { section: string; name: string; }[]; metrics: SelectedMetricVariant[] };
   @ViewChild(SingleGraphComponent) 'singleGraph': SingleGraphComponent;
-  public singleValueData: EventsGetTaskSingleValueMetricsResponseValues[];
+  public singleValueData: SingleValueTaskMetricsValues[];
   public readonly xaxis: ScalarKeyEnum;
 
   @HostListener('window:resize')
@@ -444,7 +444,8 @@ export class AppComponent implements OnInit {
 
   private findMetricName(metric: string, experiments: ExtraTask[]) {
     const experimentWithCurrentMetric = experiments.find(exp => get(exp.last_metrics, metric));
-    const lastMetric = get(experimentWithCurrentMetric.last_metrics, metric) as ExtraTask['last_metrics'];
+    // the value at a metric/variant path is the last event of that variant: its metric and variant names
+    const lastMetric = get(experimentWithCurrentMetric.last_metrics, metric) as unknown as {metric: string; variant: string};
     return {metric: lastMetric.metric, variant: lastMetric.variant};
   }
 

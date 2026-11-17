@@ -23,11 +23,6 @@ export const startPipeline = createAction(
     queue: Queue;
     args: {name: string; value: string}[];
     task: string;
-    createNewPipeline?: boolean;
-    new_project_name?: string;
-    new_pipeline_name?: string;
-    new_pipeline_version?: string;
-    existingPipeline?: boolean;
   }>()
 );
 

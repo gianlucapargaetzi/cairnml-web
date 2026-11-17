@@ -83,9 +83,10 @@ export class ExperimentCompareDetailsComponent extends ExperimentCompareBase imp
         return acc;
       }, {} as Record<string, ConfigurationItem>);
       experiments = Object.values(this.originalExperiments).map(experiment => convertExperimentsArrays(experiment, this.originalExperiments[experiments[0].id], experiments));
-      experiments = convertConfigurationFromExperiments(experiments, this.originalExperiments);
-      experiments = convertNetworkDesignFromExperiments(experiments, this.originalExperiments);
-      experiments = convertContainerScriptFromExperiments(experiments, this.originalExperiments);
+      // the compare views hold the experiments as the details or the params of each: the converters read both alike
+      experiments = convertConfigurationFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
+      experiments = convertNetworkDesignFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
+      experiments = convertContainerScriptFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
 
       this.resetComponentState(experiments);
       this.calculateTree(experiments);

@@ -10,11 +10,12 @@ import {Artifact} from '~/business-logic/model/tasks/artifact';
 import {crc32} from '../../shared/utils/shared-utils';
 import {TaskModelItem} from '~/business-logic/model/tasks/taskModelItem';
 import {CompareIModelInfo} from '../../experiments/shared/common-experiment-model.model';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {formatDate} from '@angular/common';
 import {TIME_FORMAT_STRING} from '@common/constants';
 import {NA} from '~/app.constants';
 import {DurationPipe} from '@common/shared/pipes/duration.pipe';
+import {asReference} from '@common/shared/utils/reference';
 
 @Injectable({
   providedIn: 'root'
@@ -143,13 +144,13 @@ export class ExperimentDetailsReverterService extends ExperimentDetailsReverterS
 
   public revertModelInput(model: TaskModelItem): CompareIModelInfo {
     return {
-      name: model?.model?.name,
+      name: asReference(model?.model).name,
       id: {
         dataDictionary: true,
-        link: `/projects/${model?.model?.project?.id ? model?.model?.project?.id : '*'}/models/${model?.model?.id}`,
-        dataValue: model?.model?.id,
+        link: `/projects/${asReference(model?.model).project?.id ? asReference(model?.model).project?.id : '*'}/models/${asReference(model?.model).id}`,
+        dataValue: asReference(model?.model).id,
       },
-      framework: model?.model?.framework || model?.model?.framework
+      framework: asReference(model?.model).framework
     };
   }
 

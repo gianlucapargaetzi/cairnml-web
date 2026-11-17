@@ -6,7 +6,7 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {ApiQueuesService} from '~/business-logic/api-services/queues.service';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
-import {QueuesQueueUser} from '~/business-logic/model/queues/queuesQueueUser';
+import {QueuesGetUsersResponseUsers} from '~/business-logic/model/queues/queuesGetUsersResponseUsers';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
@@ -31,7 +31,7 @@ export class QueueUsersComponent {
 
   queueId = input.required<string>();
 
-  protected users = signal<QueuesQueueUser[]>([]);
+  protected users = signal<QueuesGetUsersResponseUsers[]>([]);
   private names = signal<Map<string, string>>(new Map());
   protected error = signal<string>(null);
   protected busy = signal(false);
@@ -73,7 +73,7 @@ export class QueueUsersComponent {
     });
   }
 
-  protected removeUser(row: QueuesQueueUser) {
+  protected removeUser(row: QueuesGetUsersResponseUsers) {
     this.error.set(null);
     this.dialog.open<ConfirmDialogComponent, ConfirmDialogConfig, boolean>(ConfirmDialogComponent, {
       data: {

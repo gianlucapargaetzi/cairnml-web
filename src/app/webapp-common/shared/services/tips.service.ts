@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
 import {selectRouterConfig} from '../../core/reducers/router-reducer';
 import {combineLatest, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, filter, map, withLatestFrom} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {
   TipOfTheDayModalComponent,
   TipsModalData
@@ -13,8 +13,6 @@ import {
 import {selectDarkTheme, selectFirstLogin, selectNeverShowPopups} from '../../core/reducers/view.reducer';
 import {selectCurrentUser} from '../../core/reducers/users-reducer';
 import {neverShowPopupAgain} from '../../core/actions/layout.actions';
-import {FeaturesEnum} from '~/business-logic/model/users/featuresEnum';
-import {selectFeatures} from '~/core/reducers/users.reducer';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
 
@@ -25,7 +23,7 @@ export interface Tip {
   image: string;
   content: string;
   context?: string;
-  feature?: FeaturesEnum;
+  feature?: string;
 }
 
 const tipsCooldownTime = 1000 * 60 * 60 * 24 * 3;
@@ -91,17 +89,17 @@ export class TipsService {
       });
   }
 
-  initTipsService(showAllTips = true) {
+  initTipsService() {
     this.nextTimeToShowTips = new Date(window.localStorage.getItem('nextTimeToShowTips') || new Date().getTime());
 
     this.httpClient.get('onboarding.json')
       .pipe(
         filter((tipsConfig: { onboarding: Tip[] }) => !!tipsConfig?.onboarding && ConfigurationService.globalEnvironment.displayTips !== false),
-        withLatestFrom(this.store.select(selectFeatures)),
         catchError(() => of([{}, []]))
       )
-      .subscribe(([tipsConfig, features]: [{ onboarding: Tip[] }, FeaturesEnum[]]) => {
-        const tipsFiltered = tipsConfig.onboarding?.filter(tip => !tip.feature || !features || features.includes(tip.feature) || showAllTips) ?? [];
+      .subscribe((tipsConfig: { onboarding: Tip[] }) => {
+        // every tip is shown: the feature list is not sent by the server (selectFeatures is always null)
+        const tipsFiltered = tipsConfig?.onboarding ?? [];
         this.tipsConfig.set({
           global: [], ...tipsFiltered.reduce((acc, curr) => {
             const context = curr.context || 'global';

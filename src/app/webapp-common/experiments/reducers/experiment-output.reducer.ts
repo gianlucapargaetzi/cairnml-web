@@ -4,7 +4,7 @@ import {ScalarKeyEnum} from '~/business-logic/model/events/scalarKeyEnum';
 import {sortBy} from 'lodash-es';
 import {LOG_BATCH_SIZE} from '../shared/common-experiments.const';
 import {MetricsPlotEvent} from '~/business-logic/model/events/metricsPlotEvent';
-import {EventsGetTaskSingleValueMetricsResponseValues} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseValues';
+import {SingleValueTaskMetricsValues} from '~/business-logic/model/events/singleValueTaskMetricsValues';
 import {createReducer, on} from '@ngrx/store';
 import {SmoothTypeEnum} from '@common/shared/single-graph/single-graph.utils';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -25,7 +25,7 @@ export interface ExperimentOutputState {
   logLoading: boolean;
   showSettings: boolean;
   metricValuesView: boolean;
-  scalarSingleValue: EventsGetTaskSingleValueMetricsResponseValues[];
+  scalarSingleValue: SingleValueTaskMetricsValues[];
   lastMetrics: Task['last_metrics'];
   graphsPerRow: number;
 }

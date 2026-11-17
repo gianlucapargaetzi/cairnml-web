@@ -1,6 +1,6 @@
 import {last} from 'lodash-es';
 import {maxInArray} from '@common/shared/utils/helpers.util';
-import {ResourceUsageSeries} from '~/business-logic/model/workers/resourceUsageSeries';
+import {MetricsHistorySeries} from '~/business-logic/model/serving/metricsHistorySeries';
 import {Topic} from '@common/shared/components/charts/line-chart/line-chart.component';
 
 export interface DataPoint {
@@ -133,7 +133,7 @@ export function addFullRangeMarkers(topics: Topic[], fromDate: number, toDate: n
   topics[0].dates.push({date: (new Date(toDate * 1000)).toISOString(), value: null});
 }
 
-export function activitySeriesToTopic(data: ResourceUsageSeries, topicIndex: number, forceTitle?: string) {
+export function activitySeriesToTopic(data: MetricsHistorySeries, topicIndex: number, forceTitle?: string) {
   if (!data) {
     return null;
   }

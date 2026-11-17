@@ -3,7 +3,7 @@ import {Project} from '~/business-logic/model/projects/project';
 import {User} from '~/business-logic/model/users/user';
 import {Task} from '~/business-logic/model/tasks/task';
 import {Artifact} from '~/business-logic/model/tasks/artifact';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {DataDictionary} from '@common/experiments-compare/experiments-compare.constants';
 import {
   IOption
@@ -98,8 +98,8 @@ export interface ITableExperiment {
   status?: Task['status'];
   system_tags?: Task['system_tags'];
   tags?: Task['tags'];
-  last_update?: Task['last_update'];
-  parent?: {id: string; name: string; project?: {id: string}};
+  last_update?: Task['last_update'] | Date;
+  parent?: Task['parent'];
 }
 
 export interface CloneExperimentPayload {

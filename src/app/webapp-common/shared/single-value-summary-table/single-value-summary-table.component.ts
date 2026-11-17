@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, TemplateRef, input, Output, EventEmitter} from '@angular/core';
 import {
-  EventsGetTaskSingleValueMetricsResponseValues
-} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseValues';
+  SingleValueTaskMetricsValues
+} from '~/business-logic/model/events/singleValueTaskMetricsValues';
 import {download} from '../utils/download';
 
 import {ScalarKeyEnum} from '~/business-logic/model/events/scalarKeyEnum';
@@ -29,7 +29,7 @@ import {
   ]
 })
 export class SingleValueSummaryTableComponent {
-  data = input<EventsGetTaskSingleValueMetricsResponseValues[]>();
+  data = input<SingleValueTaskMetricsValues[]>();
   experimentName = input<string>();
   csvButtonTemplate = input<TemplateRef<SVGAElement>>();
   @Output() createEmbedCode = new EventEmitter<{xaxis: ScalarKeyEnum; domRect: DOMRect}>();

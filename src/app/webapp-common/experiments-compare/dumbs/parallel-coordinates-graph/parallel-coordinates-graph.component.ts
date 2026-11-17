@@ -287,10 +287,12 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
 
       if (this.metrics) {
         this.metrics.map(metric => {
-          const allValuesIncludingNull = this.experiments.map(experiment => get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)));
-          const allValues = allValuesIncludingNull.filter(value => value !== undefined);
+          // the metric's value at its path (lodash reads the leaf; the contract types the path by variant)
+          const allValuesIncludingNull = this.experiments.map(experiment => get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)) as unknown as number | string | undefined);
+          const allValues = allValuesIncludingNull.filter(value => value !== undefined) as number[];
           const naVal = this.getNAValue(allValues);
-          const ticktext = uniq(allValuesIncludingNull.map(value => value !== undefined ? value : 'N/A'));
+          // the tick labels are the values (numbers or strings) and 'N/A'
+          const ticktext = uniq(allValuesIncludingNull.map(value => value !== undefined ? value : 'N/A')) as string[];
           const tickvals = ticktext.map(text => text === 'N/A' ? naVal : text);
           let constraintrange;
           if (this.parallelGraph.nativeElement?.data?.[0]?.dimensions) {
@@ -304,7 +306,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
             ticktext,
             tickvals,
             values: filteredExperiments.map((experiment) =>
-              parseFloat(get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal))
+              parseFloat(get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal as unknown as string) as unknown as string)
             ),
             range: [min(tickvals), max(tickvals)],
             constraintrange,

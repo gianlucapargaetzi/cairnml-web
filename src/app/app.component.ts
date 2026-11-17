@@ -117,7 +117,7 @@ export class AppComponent {
         this.store.dispatch(getAllSystemProjects({}));
         this.uiUpdatesService.checkForUiUpdate();
         this.githubAppStatus.announce();
-        this.tipsService.initTipsService(false);
+        this.tipsService.initTipsService();
         let loginTime = parseInt(localStorage.getItem(USER_PREFERENCES_KEY.firstLogin) || '0', 10);
         if (!loginTime) {
           this.store.dispatch(firstLogin({first: true}));

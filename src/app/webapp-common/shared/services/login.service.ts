@@ -5,7 +5,7 @@ import {HTTP} from '~/app.constants';
 import {BehaviorSubject, combineLatest, Observable, of, timer} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../ui-components/overlay/confirm-dialog/confirm-dialog.component';
-import {LoginModeResponse} from '~/business-logic/model/LoginModeResponse';
+import {LoginSupportedModesResponse} from '~/business-logic/model/login/loginSupportedModesResponse';
 import {ApiLoginService} from '~/business-logic/api-services/login.service';
 import {ConfigurationService} from './configuration.service';
 import {USER_PREFERENCES_KEY, UserPreferences} from '@common/user-preferences';
@@ -91,7 +91,7 @@ export class BaseLoginService {
     } else {
       return this.getLoginSupportedModes()
         .pipe(
-          tap((res: LoginModeResponse) => {
+          tap((res: LoginSupportedModesResponse) => {
             this.authenticated = res.authenticated;
             this._loginMode = this.calcLoginMode();
             this._loginModeTTL = new Date().getTime() + TIME_IN_MILLI.ONE_MIN * 10;
@@ -113,7 +113,7 @@ export class BaseLoginService {
     return loginModes.ssoOnly;
   }
 
-  public getLoginSupportedModes(): Observable<LoginModeResponse> {
+  public getLoginSupportedModes(): Observable<LoginSupportedModesResponse> {
     return this.loginApi.loginSupportedModes({});
   }
 

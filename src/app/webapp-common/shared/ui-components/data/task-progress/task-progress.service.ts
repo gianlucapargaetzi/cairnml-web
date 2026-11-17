@@ -3,7 +3,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {Store} from '@ngrx/store';
 import {selectAppVisible} from '@common/core/reducers/view.reducer';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
-import {TasksProgress} from '~/business-logic/model/tasks/tasksGetProgressResponse';
+import {TasksGetProgressResponseProgress} from '~/business-logic/model/tasks/tasksGetProgressResponseProgress';
 
 /** How often the progress of the running tasks that are on screen is asked for. The task lists refresh every 10 s. */
 export const PROGRESS_POLL_INTERVAL = 2000;
@@ -124,7 +124,7 @@ export class TaskProgressService {
     };
     batches.forEach(tasks => this.api.tasksGetProgress({tasks}).subscribe({
       next: response => {
-        Object.entries(response?.progress ?? {}).forEach(([id, value]: [string, TasksProgress]) => {
+        Object.entries(response?.progress ?? {}).forEach(([id, value]: [string, TasksGetProgressResponseProgress]) => {
           result[id] = {percent: value.percent ?? null, bars: value.bars ?? []};
         });
         done();

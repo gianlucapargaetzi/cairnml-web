@@ -33,7 +33,7 @@ import {setFilterByUser} from '@common/core/actions/users.actions';
 import {FilterMetadata} from 'primeng/api';
 import {TableFilter} from '@common/shared/utils/tableParamEncode';
 import {selectRouterQueryParams} from '@common/core/reducers/router-reducer';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {filterEndpoints} from '@common/serving/serving.consts';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 import {SEARCH_PAGE_SIZE} from '@common/dashboard-search/dashboard-search.consts';
@@ -46,7 +46,7 @@ export interface DashboardSearchState {
   models: Model[];
   pipelines: Project[];
   reports: IReport[];
-  endpoints: EndpointStats[];
+  endpoints: ServingEndpoint[];
   loadingInstances: ContainerInfo[];
   openDatasets: Project[];
   users: User[];
@@ -196,7 +196,7 @@ export const selectProjectsResults = createSelector(selectSearch, (state: Dashbo
 export const selectExperimentsResults = createSelector(selectSearch, (state: DashboardSearchState): Task[] => state.tasks);
 export const selectModelsResults = createSelector(selectSearch, (state: DashboardSearchState): Model[] => state.models);
 export const selectReportsResults = createSelector(selectSearch, (state: DashboardSearchState): IReport[] => state.reports);
-export const selectEndpointsResults = createSelector(selectSearch, (state: DashboardSearchState): EndpointStats[] => state.endpoints);
+export const selectEndpointsResults = createSelector(selectSearch, (state: DashboardSearchState): ServingEndpoint[] => state.endpoints);
 export const selectLoadingEndpointsResults = createSelector(selectSearch, (state: DashboardSearchState): ContainerInfo[] => state.loadingInstances);
 export const selectPipelinesResults = createSelector(selectSearch, (state: DashboardSearchState): Project[] => state.pipelines);
 export const selectDatasetsResults = createSelector(selectSearch, (state: DashboardSearchState): Project[] => state.openDatasets);
@@ -208,10 +208,10 @@ export const selectFilters = createSelector(selectSearch, state => state.tabsCol
 export const selectTabFilters = createSelector(selectFilters, selectAdvancedSearch, selectRouterQueryParams,
   (filters, advanced, params) => (!advanced && filters?.[params?.tab || 'projects']) ?? {} as Record<string, FilterMetadata>);
 export const selectFilteredEndpointsResults =
-  createSelector(selectEndpointsResults, selectSearchTerm, (endpoints, searchTerm): EndpointStats[] =>
+  createSelector(selectEndpointsResults, selectSearchTerm, (endpoints, searchTerm): ServingEndpoint[] =>
     filterEndpoints(endpoints, searchTerm)?.slice(0, SEARCH_PAGE_SIZE) ?? null);
 export const selectFilteredLoadingEndpointsResults =
-  createSelector(selectLoadingEndpointsResults, selectSearchTerm, (loadingEndpoints, searchTerm): EndpointStats[] =>
+  createSelector(selectLoadingEndpointsResults, selectSearchTerm, (loadingEndpoints, searchTerm): ServingEndpoint[] =>
     filterEndpoints(loadingEndpoints, searchTerm)?.slice(0, SEARCH_PAGE_SIZE) ?? null);
 export const selectResultsCount = createSelector(selectSearch, (state: DashboardSearchState) => state.resultsCount);
 export const selectSearchScrollIds = createSelector(selectSearch, (state: DashboardSearchState) => state.scrollIds);

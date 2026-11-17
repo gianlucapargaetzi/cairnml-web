@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {EventsGetDebugImageIterationsResponse} from '~/business-logic/model/events/eventsGetDebugImageIterationsResponse';
+import {EventsGetDebugImageSampleResponse} from '~/business-logic/model/events/eventsGetDebugImageSampleResponse';
 
 export const debugSampleDebugSamples = createAction(
   '[DebugSample] DebugSample DebugSamples'
@@ -18,6 +18,6 @@ export const getNextDebugImageSample = createAction(
 export const setDebugImageViewerScrollId = createAction('[DebugSample] SET_DEBUG_IMAGE_VIEWER_SCROLL_ID', props<{ scrollId: string }>());
 export const setViewerEndOfTime = createAction('[DebugSample] SET_VIEWER_END_OF_TIME', props<{ endOfTime: boolean }>());
 export const setViewerBeginningOfTime = createAction('[DebugSample] SET_VIEWER_BEGINNING_OF_TIME', props<{ beginningOfTime: boolean }>());
-export const setDebugImageIterations = createAction('[DebugSample] SET_DEBUG_IMAGE_ITERATIONS', props<EventsGetDebugImageIterationsResponse>());
+export const setDebugImageIterations = createAction('[DebugSample] SET_DEBUG_IMAGE_ITERATIONS', props<Pick<EventsGetDebugImageSampleResponse, 'min_iteration' | 'max_iteration'>>());
 export const setCurrentDebugImage = createAction('[DebugSample] SET_DEBUG_IMAGES_FOR_ITERATION', props<{ event: any }>());
 export const resetViewer = createAction('[DebugSample] RESET_VIEWER');

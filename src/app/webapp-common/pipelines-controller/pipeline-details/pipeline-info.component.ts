@@ -22,6 +22,8 @@ import {KeyValuePipe, TitleCasePipe} from '@angular/common';
 import {FilterMonitorMetricPipe} from '@common/shared/pipes/filter-monitor-metric.pipe';
 import {MatIconModule} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {referenceId} from '@common/shared/utils/reference';
+import {asReference} from '@common/shared/utils/reference';
 
 @Component({
   selector: 'sm-pipeline-info',
@@ -46,6 +48,8 @@ import {MatIconButton} from '@angular/material/button';
   ]
 })
 export class PipelineInfoComponent {
+  protected readonly asReference = asReference;
+  protected readonly referenceId = referenceId;
       private store = inject(Store);
   public fileSizeConfigStorage = fileSizeConfigStorage;
 

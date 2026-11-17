@@ -83,6 +83,7 @@ import {DurationPipe} from '@common/shared/pipes/duration.pipe';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
 import {FilterPipe} from '@common/shared/pipes/filter.pipe';
 import {MatIconModule} from '@angular/material/icon';
+import {asReference, referenceId} from '@common/shared/utils/reference';
 
 @Component({
   selector: 'sm-experiments-table',
@@ -127,6 +128,8 @@ import {MatIconModule} from '@angular/material/icon';
   ]
 })
 export class ExperimentsTableComponent extends BaseTableView {
+  protected readonly asReference = asReference;
+  protected readonly referenceId = referenceId;
   override entitiesKey = 'experiments';
   override selectedEntitiesKey = 'checkedExperiments';
   readonly getSystemTags = getSystemTags;
@@ -383,7 +386,7 @@ export class ExperimentsTableComponent extends BaseTableView {
 
   navigateToParent(event: MouseEvent, experiment: ITableExperiment) {
     event.stopPropagation();
-    return this.router.navigate(['projects', experiment.parent.project?.id || '*', 'tasks', experiment.parent.id],
+    return this.router.navigate(['projects', asReference(experiment.parent).project?.id || '*', 'tasks', asReference(experiment.parent).id],
       {queryParams: {filter: []}});
   }
 

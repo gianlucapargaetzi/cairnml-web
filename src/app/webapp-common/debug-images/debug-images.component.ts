@@ -44,7 +44,7 @@ import {
   selectTimeIsNow
 } from './debug-images-reducer';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {DebugImagesResponseIterations} from '~/business-logic/model/events/debugImagesResponseIterations';
+import {DebugImagesResponseTaskMetricsIterations} from '~/business-logic/model/events/debugImagesResponseTaskMetricsIterations';
 import {MetricsImageEvent} from '~/business-logic/model/events/metricsImageEvent';
 import {injectRouteData} from 'ngxtension/inject-route-data';
 import {selectSelectedExperimentFromRouter} from '@common/experiments/reducers';
@@ -204,7 +204,7 @@ export class DebugImagesComponent {
           const urlsToSign: { url: string }[] = [];
           const result = Object.entries(debugImages).reduce(((acc, val: [string, EventsDebugImagesResponse]) => {
           const id = val[0];
-          const iterations: DebugImagesResponseIterations[] = val[1].metrics.find(m => m.task === id).iterations;
+          const iterations: DebugImagesResponseTaskMetricsIterations[] = val[1].metrics.find(m => m.task === id).iterations;
           if (iterations?.length === 0) {
             return {[id]: {}};
           }

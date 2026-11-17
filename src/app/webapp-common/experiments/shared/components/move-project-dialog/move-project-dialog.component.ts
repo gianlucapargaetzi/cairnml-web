@@ -1,5 +1,5 @@
 import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from '@angular/material/dialog';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {ChangeDetectionStrategy, Component, computed, effect, inject} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {selectTablesFilterProjectsOptions} from '@common/core/reducers/projects.reducer';
@@ -16,13 +16,12 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {MatButton} from '@angular/material/button';
 import {isReadOnly} from '@common/shared/utils/is-read-only';
 import {exampleProjectAsyncValidator} from '@common/experiments/shared/components/move-project-dialog/exampleProjectAsyncValidator';
-import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {projectsRoot} from '@common/experiments/shared/common-experiments.const';
 import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 
 export interface MoveProjectData {
-  currentProjects: Project['id'][];
-  defaultProject: Project;
+  currentProjects: ProjectsGetAllResponseSingle['id'][];
+  defaultProject: ProjectsGetAllResponseSingle;
   reference?: string | any[];
   type: EntityTypeEnum;
   allowRootProject?: boolean;
@@ -58,7 +57,7 @@ export class MoveProjectDialogComponent {
   protected data = inject<MoveProjectData>(MAT_DIALOG_DATA);
   private builder = inject(FormBuilder);
 
-  private selectedProject: Project = null;
+  private selectedProject: ProjectsGetAllResponseSingle = null;
 
   protected reference: string;
   protected moveProjectForm = this.builder.group({
@@ -69,7 +68,7 @@ export class MoveProjectDialogComponent {
 
 
   protected currentProjectInstance = computed(() => this.allProjects()
-    .filter(proj => !proj.hidden)
+    .filter(proj => !(proj as {hidden?: boolean}).hidden)
     .find(proj => proj.id === this.data.currentProjects[0])
   );
 
@@ -81,7 +80,7 @@ export class MoveProjectDialogComponent {
     .map(project => ({
       ...project,
       disabled: this.isSameProject(project)
-    }) as Project)
+    }) as ProjectsGetAllResponseSingle)
   );
   protected allProjects = computed(() => ([
     ...(!this.filterProjects() || this.rootFiltered() || !this.data.allowRootProject ? [] : [{...projectsRoot, disabled: this.data.defaultProject === undefined || this.data.defaultProject?.name === '.reports'}]),

@@ -19,7 +19,6 @@ import {initSearch, resetSearch} from '@common/common-search/common-search.actio
 import {SearchState, selectSearchQuery} from '@common/common-search/common-search.reducer';
 import {getDeleteProjectPopupStatsBreakdown, isDeletableProject, popupEntitiesListConst, readyForDeletionFilter} from '~/features/projects/projects-page.utils';
 import {selectRouterConfig} from '@common/core/reducers/router-reducer';
-import {Project} from '~/business-logic/model/projects/project';
 import {CommonDeleteDialogComponent, DeleteData} from '@common/shared/entity-page/entity-delete/common-delete-dialog.component';
 import {resetDeleteState} from '@common/shared/entity-page/entity-delete/common-delete-dialog.actions';
 import {isExample} from '@common/shared/utils/shared-utils';
@@ -104,7 +103,7 @@ export class ProjectsPageComponent implements OnDestroy {
   ]).pipe(
     debounceTime(50),
     concatLatestFrom(() => [this.selectedProjectId$, this.searchQuery$, this.store.select(selectRouterConfig)]),
-    map(([[projectsList, selectedProject = {} as Project], selectedProjectId, searchQuery, config]) => {
+    map(([[projectsList, selectedProject = {} as ProjectsGetAllResponseSingle], selectedProjectId, searchQuery, config]) => {
       this.loading = false;
       this.searching = searchQuery?.query.length > 0;
       this.allExamples = projectsList?.length > 0 && projectsList?.every(project => isExample(project));
@@ -128,7 +127,7 @@ export class ProjectsPageComponent implements OnDestroy {
 
   public projectId: string;
   public subs = new Subscription();
-  protected selectedProject: Project;
+  protected selectedProject: ProjectsGetAllResponseSingle;
   public loading: boolean;
 
   constructor() {
@@ -343,7 +342,7 @@ export class ProjectsPageComponent implements OnDestroy {
     this.store.dispatch(updateProject({id: updatedProject.id, changes: {name: updatedProject.name}}));
   }
 
-  deleteProject(project: Project) {
+  deleteProject(project: ProjectsGetAllResponseSingle) {
     this.store.dispatch(checkProjectForDeletion({project}));
   }
 
@@ -353,7 +352,7 @@ export class ProjectsPageComponent implements OnDestroy {
   }
 
 
-  openProjectDialog(mode?: string, project?: Project) {
+  openProjectDialog(mode?: string, project?: ProjectsGetAllResponseSingle) {
     this.dialog.open<ProjectDialogComponent, ProjectDialogConfig, boolean>(ProjectDialogComponent, {
       data: {
         mode,
@@ -369,7 +368,7 @@ export class ProjectsPageComponent implements OnDestroy {
       });
   }
 
-  openProjectSettings(project: Project) {
+  openProjectSettings(project: ProjectsGetAllResponseSingle) {
     this.dialog.open<ProjectSettingsExtendedDialogComponent, ProjectSettingsDialogConfig, ProjectSettingsDialog>(ProjectSettingsExtendedDialogComponent, {
       data: {
         project: project ?? this.selectedProject

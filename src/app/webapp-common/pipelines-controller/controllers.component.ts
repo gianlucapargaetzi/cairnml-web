@@ -123,10 +123,6 @@ export class ControllersComponent extends ExperimentsComponent {
     (this.contextMenu() as PipelineControllerMenuComponent).runPipelineController(true);
   }
 
-  newPipeline() {
-    (this.contextMenu() as PipelineControllerMenuComponent).runPipelineController(true, true);
-  }
-
   removeTag({experiment, tag}: { experiment: ISelectedExperiment; tag: string }) {
     this.store.dispatch(removeTag({experiments: [experiment], tag}));
   }

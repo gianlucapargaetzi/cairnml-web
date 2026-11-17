@@ -16,7 +16,6 @@ import {ParamsItem} from '../../../business-logic/model/tasks/paramsItem';
 import {ConfigurationItem} from '../../../business-logic/model/tasks/configurationItem';
 import {GetCurrentUserResponseUserObjectCompany} from '../../../business-logic/model/users/getCurrentUserResponseUserObjectCompany';
 import {Queue} from '../../../business-logic/model/queues/queue';
-import {Container} from '../../../business-logic/model/tasks/container';
 import {Output} from '~/business-logic/model/tasks/output';
 
 /**
@@ -34,7 +33,7 @@ export interface ISelectedExperiment {
   completed?: string;
   started?: string;
   last_update?: string | Date;
-  parent?: {id: string; name: string; project?: {id: string}};
+  parent?: Task['parent'];
   active_duration?: number;
   project?: Project;
   input?: any; // TODO: fix projection...
@@ -59,8 +58,9 @@ export interface ISelectedExperiment {
 /**
  * an object that will transfrom from the ISelectedExperiment response to more comfortable object to display.
  */
-export interface IExperimentInfo extends Omit<Task, 'id' | 'user' | 'project' | 'company' | 'execution' | 'container'|'output'> {
+export interface IExperimentInfo extends Omit<Task, 'id' | 'user' | 'project' | 'company' | 'execution' | 'container' | 'output' | 'last_update'> {
   id: string;
+  last_update?: string | Date;
   model?: IExperimentModelInfo;
   execution?: IExecutionForm;
   hyperParams?: IHyperParamsForm;
@@ -71,7 +71,7 @@ export interface IExperimentInfo extends Omit<Task, 'id' | 'user' | 'project' | 
   user?: User;
   project?: Project;
   company?: GetCurrentUserResponseUserObjectCompany;
-  container?: Container;
+  container?: Record<string, string>;
   output?: ISelectedExperimentOutput
 }
 
