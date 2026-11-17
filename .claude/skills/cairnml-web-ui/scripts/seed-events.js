@@ -13,7 +13,7 @@ const {open, settle} = require('./lib');
   };
   for (const task of ids.tasks.slice(0, 3).concat(ids.tasks.slice(5))) {
     const r = await page.evaluate(async ([t, body]) => {
-      const res = await fetch('/cairnml/api/v2.40/events.add_batch', {method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json-lines', 'X-Cairnml-Client': 'ui-audit'}, body});
+      const res = await fetch('/cairnml/api/v2.41/events.add_batch', {method: 'POST', credentials: 'include', headers: {'Content-Type': 'application/json-lines', 'X-Cairnml-Client': 'ui-audit'}, body});
       const j = await res.json().catch(() => ({}));
       return {status: res.status, msg: j.meta && j.meta.result_msg};
     }, [task, lines(task)]);
