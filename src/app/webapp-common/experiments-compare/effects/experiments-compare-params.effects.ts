@@ -52,7 +52,7 @@ export class ExperimentsCompareParamsEffects {
             concatLatestFrom(() => this.store.select(selectExperimentsParams)),
             // get only the relevant experiments
             map(([experiments, oldExperiments]: [ExperimentDetailBase[], ExperimentParams[]]) =>
-              oldExperiments.filter(exp => action.ids.includes(exp.id)).concat(experiments as unknown as ExperimentParams[])),
+              oldExperiments.filter(exp => action.ids.includes(exp.id)).concat(experiments as ExperimentParams[])),
             map(experiments => action.ids.map(id => experiments.find(experiment => experiment.id === id))),
             mergeMap(experiments => [
               deactivateLoader(action.type),
