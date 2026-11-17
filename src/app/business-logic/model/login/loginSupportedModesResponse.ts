@@ -11,7 +11,6 @@
  */
 
 import { LoginSupportedModesResponseBasic } from '././loginSupportedModesResponseBasic';
-import { LoginSupportedModesResponseServerErrors } from '././loginSupportedModesResponseServerErrors';
 
 
 export interface LoginSupportedModesResponse {
@@ -24,7 +23,6 @@ export interface LoginSupportedModesResponse {
      * The list of SSO authentication providers
      */
     sso_providers?: object[];
-    server_errors?: LoginSupportedModesResponseServerErrors;
     /**
      * Is user authenticated
      */

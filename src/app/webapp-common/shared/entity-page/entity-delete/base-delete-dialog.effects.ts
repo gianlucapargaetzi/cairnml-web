@@ -75,8 +75,7 @@ export class DeleteDialogEffectsBase {
       case EntityTypeEnum.controller:
         return this.pipelinesService.pipelinesDeleteRuns({
           ids,
-          project: projectId || entities[0]?.project?.id,
-          include_pipeline_steps: includeChildren
+          project: projectId || entities[0]?.project?.id
         })
           .pipe(
             map((res: PipelinesDeleteRunsResponse) => ({

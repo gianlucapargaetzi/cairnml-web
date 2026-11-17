@@ -75,10 +75,6 @@ export interface QueuesGetAllExRequest {
      */
     filters?: Record<string, QueuesGetAllExRequestFilters>;
     /**
-     * If set then pool link queues are also returned. Can be used by admin users only
-     */
-    allow_pool_queues?: boolean;
-    /**
      * Count task entries
      */
     count_task_entries?: boolean;

@@ -19,10 +19,6 @@ export interface OrganizationPrepareDownloadForGetAllRequest {
      */
     only_fields: string[];
     /**
-     * Download type. Determines the downloaded file\'s formatting and mime type.
-     */
-    download_type?: OrganizationPrepareDownloadForGetAllRequest.DownloadTypeEnum;
-    /**
      * Allow public entities to be returned in the results
      */
     allow_public?: boolean;

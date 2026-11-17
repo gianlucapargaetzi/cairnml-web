@@ -17,7 +17,6 @@ import { Execution } from '././execution';
 import { TaskModels } from '././taskModels';
 import { TaskTypeEnum } from '././taskTypeEnum';
 import {Container} from '~/business-logic/model/tasks/container';
-import {Input} from '@angular/core';
 
 
 export interface TasksCreateRequest {
@@ -50,7 +49,6 @@ export interface TasksCreateRequest {
      * Project ID of the project to which this task is assigned Must exist[ab]
      */
     project?: string;
-    input?: Input;
     /**
      * Output storage id Must be a reference to an existing storage.
      */

@@ -38,8 +38,4 @@ export interface PipelinesStartPipelineRequest {
      * New pipeline name to start a pipeline in. Used only if new project name is   passed. If not passed then task name is used
      */
     new_pipeline_name?: string;
-    /**
-     * The run number to start with
-     */
-    new_pipeline_run?: number;
 }

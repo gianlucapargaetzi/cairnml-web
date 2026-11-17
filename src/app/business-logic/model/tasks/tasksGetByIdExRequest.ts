@@ -77,8 +77,4 @@ export interface TasksGetByIdExRequest {
     search_text?: string;
     _all_?: MultiFieldPatternData;
     _any_?: MultiFieldPatternData;
-    /**
-     * List of input dataset version IDs
-     */
-    input_view_entries_version?: string[];
 }
