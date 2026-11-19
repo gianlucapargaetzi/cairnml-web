@@ -1,7 +1,7 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, filter, first, map, retry, tap} from 'rxjs/operators';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 import {BehaviorSubject, combineLatest, Observable, of, timer} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../ui-components/overlay/confirm-dialog/confirm-dialog.component';
@@ -40,7 +40,6 @@ export class BaseLoginService {
   protected userPreferences = inject(UserPreferences);
 
   loginMode = signal<LoginMode>(null);
-  protected basePath = HTTP.API_BASE_URL;
   private _loginModeTTL = 0;
   private _loginMode: LoginMode;
   protected environment = this.configService.configuration;
@@ -151,7 +150,7 @@ export class BaseLoginService {
 
   /** Sends the browser to the identity provider; the server sets the session cookie and returns here. */
   redirectToIdp() {
-    window.location.href = `${this.basePath}/login.idp_start`;
+    window.location.href = endpointUrl('login.idp_start');
   }
 
   loginFlow(): Observable<string> {
@@ -180,7 +179,7 @@ export class BaseLoginService {
     this.store.dispatch(resetCurrentUser());
     this.dialog.closeAll();
     // Ends the CairnML session; the identity provider decides whether the person must sign in again.
-    this.httpClient.post(`${this.basePath}/login.logout`, null, {withCredentials: true}).subscribe({
+    this.httpClient.post(endpointUrl('login.logout'), null, {withCredentials: true}).subscribe({
       complete: () => this.redirectToIdp(),
       error: () => this.redirectToIdp(),
     });

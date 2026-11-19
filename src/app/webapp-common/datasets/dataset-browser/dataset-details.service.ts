@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface DatasetCommit {
   sha: string;
@@ -45,6 +45,6 @@ export class DatasetDetailsService {
 
   // The details of one dataset: its metadata, its DATASET.md and its commit history, read through the GitHub App.
   details(request: DatasetDetailsRequest): Observable<DatasetDetails> {
-    return this.api.post<DatasetDetails>(`${HTTP.API_BASE_URL}/repositories.get_details`, request, {});
+    return this.api.post<DatasetDetails>(endpointUrl('repositories.get_details'), request, {});
   }
 }

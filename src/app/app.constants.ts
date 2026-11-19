@@ -91,11 +91,8 @@ export const guessAPIServerURL = () => {
   return url + getBasePath() + '/api';
 };
 
-export const ENVIRONMENT = {API_VERSION: '/v999.0'};
-
 export const HTTP = {
   API_BASE_URL: '',
-  API_BASE_URL_NO_VERSION : '',
 };
 
 export const updateHttpUrlBaseConstant = (_environment: Environment) => {
@@ -106,11 +103,8 @@ export const updateHttpUrlBaseConstant = (_environment: Environment) => {
   } else {
     apiBaseUrl = guessAPIServerURL();
   }
-  const apiBaseUrlNoVersion = apiBaseUrl;
-  apiBaseUrl += ENVIRONMENT.API_VERSION;
 
   HTTP.API_BASE_URL = apiBaseUrl;  // <-- DIRECT CALL DOESN'T WORK
-  HTTP.API_BASE_URL_NO_VERSION = apiBaseUrlNoVersion;
 };
 
 

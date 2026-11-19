@@ -10,7 +10,7 @@ import {ReportsGetTaskDataResponse} from '~/business-logic/model/reports/reports
 import {getSignedUrl, setSignedUrl} from '@common/core/actions/common-auth.actions';
 import {SignResponse} from '@common/settings/admin/base-admin-utils';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 import {DebugSample} from '@common/shared/debug-sample/debug-sample.reducer';
 import {requestFailed} from '@common/core/actions/http.actions';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -25,7 +25,6 @@ export class AppEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
   private adminService = inject(AdminService);
-  protected basePath = HTTP.API_BASE_URL;
 
   getHeaders(company: string): HttpHeaders {
     let headers = new HttpHeaders();
@@ -35,7 +34,7 @@ export class AppEffects {
 
   getPlot = createEffect(() => this.actions$.pipe(
     ofType(getPlot),
-    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${this.basePath}/reports.get_task_data?${action.otherSearchParams.toString()}`,
+    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
       {
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -60,7 +59,7 @@ export class AppEffects {
 
   getScalar = createEffect(() => this.actions$.pipe(
     ofType(getScalar),
-    mergeMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${this.basePath}/reports.get_task_data?${action.otherSearchParams.toString()}`,
+    mergeMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
         {
           id: action.tasks,
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -87,7 +86,7 @@ export class AppEffects {
 
   getSample = createEffect(() => this.actions$.pipe(
     ofType(getSample),
-    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${this.basePath}/reports.get_task_data?${action.otherSearchParams.toString()}`,
+    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
         {
           id: action.tasks,
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -108,7 +107,7 @@ export class AppEffects {
 
   getParcoords$ = createEffect(() => this.actions$.pipe(
     ofType(getParcoords),
-    mergeMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${this.basePath}/reports.get_task_data?${action.otherSearchParams.toString()}`, {
+    mergeMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`, {
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         only_fields: ['last_metrics', 'name', 'last_iteration', 'project', ...action.variants.map(variant => `hyperparams.${variant}`)]
@@ -124,7 +123,7 @@ export class AppEffects {
 
   getScalarSingleValue$ = createEffect(() => this.actions$.pipe(
     ofType(getSingleValues),
-    switchMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${this.basePath}/reports.get_task_data?${action.otherSearchParams.toString()}`, {
+    switchMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`, {
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         model_events: action.models,

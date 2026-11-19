@@ -18,9 +18,9 @@ import {withDevtools} from '@angular-architects/ngrx-toolkit';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {from, of} from 'rxjs';
 import {fromFetch} from 'rxjs/fetch';
-import {HTTP} from '~/app.constants';
 import {TENANT_HEADER} from '~/core/interceptors/webapp-interceptor';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export const experimentOutputLogEvents = eventGroup({
   source: 'Task Output Log',
@@ -118,7 +118,7 @@ export const ExperimentOutputLogStore = signalStore(
     downloadLog$: events.on(experimentOutputLogEvents.downloadLog).pipe(
       withLatestFrom(globalStore.select(selectActiveWorkspace)),
       switchMap(([{payload}, workspace]) => config.getStaticEnvironment().communityServer ?
-        fromFetch(`${HTTP.API_BASE_URL}/events.download_task_log`,
+        fromFetch(endpointUrl('events.download_task_log'),
           {
             ...(workspace?.id && {headers: {[TENANT_HEADER]: workspace.id}}),
             method: 'POST',
@@ -141,7 +141,7 @@ export const ExperimentOutputLogStore = signalStore(
           .pipe(map(() => {
             const a = document.createElement('a') as HTMLAnchorElement;
             a.target = '_blank';
-            a.href = `${HTTP.API_BASE_URL}/events.download_task_log?line_type=text&task=${payload.id}`;
+            a.href = `${endpointUrl('events.download_task_log')}?line_type=text&task=${payload.id}`;
             a.click();
           }))
       )

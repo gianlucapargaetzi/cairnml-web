@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {forkJoin, map, of, switchMap} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {CardHeadingComponent} from '../shared/card-heading.component';
 import {AgentsView, agentRows, QueueInfo, WorkerInfo} from './agents';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 /** The agents that serve the project's queues, what they run and how many tasks wait. */
 @Component({
@@ -21,7 +21,7 @@ export class AgentsCardComponent {
   readonly settings = input<Record<string, unknown>>({});
 
   private post<T>(action: string, body: object) {
-    return this.api.post<T>(`${HTTP.API_BASE_URL}/${action}`, body, {});
+    return this.api.post<T>(endpointUrl(action), body, {});
   }
 
   protected readonly view = rxResource<AgentsView, string>({
