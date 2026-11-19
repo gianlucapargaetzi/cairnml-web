@@ -15,6 +15,13 @@ export interface ExtMetricsPlotEvent extends MetricsPlotEvent {
   variants?: string[];
 }
 
+/**
+ * What prepareGraph reads of the graph it frames: a plot event as the server sends it (its type is the literal 'plot'), a
+ * frame that is framed again, or the description of a graph the app draws itself, where `type` names the kind of graph
+ * ('scalar', 'singleValue'). The kind is not the event's type: the event keeps the literal the schema gives it.
+ */
+export type GraphSource = Partial<Pick<ExtFrame, 'iter' | 'metric' | 'task' | 'timestamp' | 'variant' | 'variants' | 'worker' | 'type'>>;
+
 export type IMultiplot = Record<string, Record<number, Record<string, { // experimentId
   name: string;
   plots: ExtFrame[];
@@ -56,7 +63,7 @@ export const getModelDesign = (modelDesc: Task['execution']['model_desc']): { ke
   return {key, value: key ? modelDesc[key] : modelDesc};
 };
 
-export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config: Partial<Config>, graph: Partial<ExtMetricsPlotEvent>): ExtFrame =>
+export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config: Partial<Config>, graph: GraphSource): ExtFrame =>
   ({
     data,
     layout,
@@ -68,7 +75,7 @@ export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config
     type: (graph.type ?? Array.isArray(data) ? data[0]?.type : data) as unknown as string,
     variant: graph.variant,
     variants: graph.variants,
-    worker: graph['worker'],
+    worker: graph.worker,
     group: null,
     name: null,
     traces: null,

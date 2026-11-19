@@ -7,7 +7,6 @@ import {
   convertConfigurationFromExperiments, convertContainerScriptFromExperiments, convertExperimentsArrays, convertNetworkDesignFromExperiments, getAllKeysEmptyObject, isDetailsConverted
 } from '../../jsonToDiffConvertor';
 import {ExperimentCompareBase} from '../experiment-compare-base';
-import {ConfigurationItem} from '~/business-logic/model/tasks/configurationItem';
 import {LIMITED_VIEW_LIMIT} from '@common/experiments-compare/experiments-compare.constants';
 import {EntityTypeEnum} from '~/shared/constants/non-common-consts';
 import {PortalComponent} from '@common/shared/portal/portal.component';
@@ -56,6 +55,7 @@ import {MatIconModule} from '@angular/material/icon';
   ]
 })
 export class ExperimentCompareDetailsComponent extends ExperimentCompareBase implements OnInit, AfterViewInit {
+  declare originalExperiments: Record<string, IExperimentDetail>;
   public showEllipsis= true;
 
   constructor(
@@ -78,15 +78,14 @@ export class ExperimentCompareDetailsComponent extends ExperimentCompareBase imp
         this.extractTags(experiments);
       }),
     ).subscribe(experiments => {
-      this.originalExperiments = experiments.reduce((acc, exp) => {
+      this.originalExperiments = experiments.reduce<Record<string, IExperimentDetail>>((acc, exp) => {
         acc[exp.id] = isDetailsConverted(exp) ? this.originalExperiments[exp.id] : exp;
         return acc;
-      }, {} as Record<string, ConfigurationItem>);
+      }, {});
       experiments = Object.values(this.originalExperiments).map(experiment => convertExperimentsArrays(experiment, this.originalExperiments[experiments[0].id], experiments));
-      // the compare views hold the experiments as the details or the params of each: the converters read both alike
-      experiments = convertConfigurationFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
-      experiments = convertNetworkDesignFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
-      experiments = convertContainerScriptFromExperiments(experiments, this.originalExperiments as Record<string, IExperimentDetail>);
+      experiments = convertConfigurationFromExperiments(experiments, this.originalExperiments);
+      experiments = convertNetworkDesignFromExperiments(experiments, this.originalExperiments);
+      experiments = convertContainerScriptFromExperiments(experiments, this.originalExperiments);
 
       this.resetComponentState(experiments);
       this.calculateTree(experiments);

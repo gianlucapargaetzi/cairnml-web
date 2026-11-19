@@ -73,6 +73,9 @@ export const getChildrenExperiments = (tasksApi, parents, filters?: Record<strin
       catchError(() => of([]))
     );
 
+/** The start_pipeline response plus the project that Run in new pipeline creates: the schema does not describe it yet. */
+type StartPipelineResult = PipelinesStartPipelineResponse & {new_project?: {id: string}};
+
 @Injectable()
 export class CommonExperimentsMenuEffects {
 
@@ -152,7 +155,7 @@ export class CommonExperimentsMenuEffects {
         ...(action.createNewPipeline && action.new_pipeline_name && {new_pipeline_name: action.new_pipeline_name}),
         ...(action.createNewPipeline && action.new_pipeline_version != null && {new_pipeline_version: action.new_pipeline_version}),
       }).pipe(
-        mergeMap((res: PipelinesStartPipelineResponse) => {
+        mergeMap((res: StartPipelineResult) => {
           const navigateProjectId = action.createNewPipeline && !action.existingPipeline && res.new_project?.id;
           if (navigateProjectId) {
             this.router.navigate(['pipelines', navigateProjectId, 'tasks']);

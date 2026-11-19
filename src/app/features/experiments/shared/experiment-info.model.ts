@@ -21,38 +21,20 @@ import {Output} from '~/business-logic/model/tasks/output';
 /**
  * an extended object of task that includes projection, will come from the server as an api response.
  */
-export interface ISelectedExperiment {
+export interface ISelectedExperiment extends Partial<Pick<Task,
+  'name' | 'type' | 'status' | 'comment' | 'created' | 'completed' | 'started' | 'parent' | 'active_duration' | 'script' |
+  'tags' | 'system_tags' | 'published' | 'status_changed' | 'status_message' | 'status_reason' | 'last_iteration' |
+  'last_worker' | 'hyperparams' | 'configuration' | 'runtime'>> {
   id: string;
-  name?: string;
   user?: User;
   company?: GetCurrentUserResponseUserObjectCompany;
-  type?: TaskTypeEnum;
-  status?: TaskStatusEnum;
-  comment?: string;
-  created?: string;
-  completed?: string;
-  started?: string;
   last_update?: string | Date;
-  parent?: Task['parent'];
-  active_duration?: number;
   project?: Project;
   input?: any; // TODO: fix projection...
   output?: ISelectedExperimentOutput;
   execution?: ISelectedExperimentExecution;
-  script?: Script;
-  tags?: string[];
-  system_tags?: string[];
-  published?: Task['published'];
-  status_changed?: string;
-  status_message?: string;
-  status_reason?: string;
-  last_iteration?: number;
-  last_worker?: string;
-  hyperparams?: Record<string, Record<string, ParamsItem>>;
-  configuration?: Record<string, ConfigurationItem>;
   currentUser?: any;
   models?: {input: {name: string; model: IModelInfo}[]; output: {name: string; model: IModelInfo}[]};
-  runtime?: Record<string, string>;
 }
 
 /**

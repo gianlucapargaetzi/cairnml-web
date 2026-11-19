@@ -88,19 +88,10 @@ export type ExperimentTableColFieldsEnum =
   | 'parent'
   | 'tags';
 
-export interface ITableExperiment {
-  id: Task['id'];
-  type?: Task['type'];
-  name?: Task['name'];
-  display_name?: Task['display_name'];
-  created?: Task['created'];
-  completed?: Task['completed'];
-  status?: Task['status'];
-  system_tags?: Task['system_tags'];
-  tags?: Task['tags'];
+export type ITableExperiment = Required<Pick<Task, 'id'>> &
+  Partial<Pick<Task, 'type' | 'name' | 'display_name' | 'created' | 'completed' | 'status' | 'system_tags' | 'tags' | 'parent'>> & {
   last_update?: Task['last_update'] | Date;
-  parent?: Task['parent'];
-}
+};
 
 export interface CloneExperimentPayload {
   project?: IOption ;
