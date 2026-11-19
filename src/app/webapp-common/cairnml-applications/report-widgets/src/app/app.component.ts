@@ -361,13 +361,14 @@ export class AppComponent implements OnInit {
     if ((!['sample', 'single'].includes(this.type) || objects.length > 1)) {
       loadExternalLibrary(this.store, this.environment.plotlyURL, reportsPlotlyReady);
     }
+    const xaxis: ScalarKeyEnum | '' = this.xaxis || '';
     const queryParams = {
       tasks: objects.length > 0 ? objects : this.searchParams.getAll('tasks'),
       metrics: this.searchParams.getAll('metrics'),
       variants: this.searchParams.getAll('variants'),
       iterations: this.searchParams.getAll('iterations').map(iteration => parseInt(iteration, 10)),
       company: this.searchParams.get('company') || '',
-      xaxis: this.searchParams.get('xaxis') || '',
+      xaxis,
       models
     };
 

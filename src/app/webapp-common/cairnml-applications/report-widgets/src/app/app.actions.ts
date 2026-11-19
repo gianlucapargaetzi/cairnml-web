@@ -3,6 +3,7 @@ import {ExtFrame} from '@common/shared/single-graph/plotly-graph-base';
 import {DebugSample} from '@common/shared/debug-sample/debug-sample.reducer';
 import {Task} from '~/business-logic/model/tasks/task';
 import {SingleValueTaskMetrics} from '~/business-logic/model/reports/singleValueTaskMetrics';
+import {ScalarKeyEnum} from '~/business-logic/model/events/scalarKeyEnum';
 import {ReportsApiMultiplotsResponse} from '@common/constants';
 
 export const getPlot = createAction('[App] getPlot', props<{
@@ -22,7 +23,7 @@ export const getScalar = createAction('[App] getScalar', props<{
   variants: string[];
   company: string;
   models: boolean;
-  xaxis: string;
+  xaxis: ScalarKeyEnum | '';
   otherSearchParams?: URLSearchParams;
 }>());
 export const getSample = createAction('[App] getSample', props<{

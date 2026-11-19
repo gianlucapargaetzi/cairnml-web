@@ -44,7 +44,6 @@ import {ProjectsGetUserNamesRequest} from '~/business-logic/model/projects/proje
 import {ProjectsGetUserNamesResponse} from '~/business-logic/model/projects/projectsGetUserNamesResponse';
 import {fetchUsersForTypes} from '~/features/projects/projects.consts';
 import {FilterMetadata} from 'primeng/api';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export const ALL_PROJECTS_OBJECT = {id: '*', name: 'All Tasks'};
 
@@ -412,37 +411,12 @@ export class ProjectsEffects {
     ))
   ));
 
-  // downloadForGetAll$ = createEffect(() => this.actions$.pipe(
-  //   ofType(downloadForGetAll),
-  //   filter(action => !!action.prepareId),
-  //   withLatestFrom(this.store.select(selectActiveWorkspace)),
-  //   switchMap(([action, workspace]) => fromFetch(endpointUrl('organization.download_for_get_all'),
-  //     {
-  //       ...(workspace?.id && {headers: {[TENANT_HEADER] : workspace.id}}),
-  //       method: 'POST',
-  //       credentials: 'include',
-  //       // eslint-disable-next-line @typescript-eslint/naming-convention
-  //       body: JSON.stringify({prepare_id: action.prepareId})
-  //     })
-  //     .pipe(
-  //       switchMap(res => from(res.blob())),
-  //       map(fileBlob => {
-  //         const url = window.URL.createObjectURL(fileBlob);
-  //         const a = document.createElement('a');
-  //         a.href = url;
-  //         a.target = '_blank';
-  //         a.download = `full-table.csv`;
-  //         a.click();
-  //       })
-  //     )),
-  // ), {dispatch: false});
-
   downloadForGetAll$ = createEffect(() => this.actions$.pipe(
     ofType(downloadForGetAll),
     filter(action => !!action.prepareId)
   )).subscribe((action) => {
       const a = document.createElement('a');
-      a.href = `${endpointUrl('organization.download_for_get_all')}?prepare_id=${action.prepareId}`;
+      a.href = this.orgApi.organizationDownloadForGetAllUrl({prepare_id: action.prepareId});
       a.target = '_blank';
       a.click();
     }

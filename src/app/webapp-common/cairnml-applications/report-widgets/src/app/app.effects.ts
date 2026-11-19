@@ -7,10 +7,10 @@ import {EMPTY, mergeMap, of, switchMap} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {catchError, filter} from 'rxjs/operators';
 import {ReportsGetTaskDataResponse} from '~/business-logic/model/reports/reportsGetTaskDataResponse';
+import {ApiReportsService} from '~/business-logic/api-services/reports.service';
+import {ApiOptions} from '~/business-logic/api-services/api';
 import {getSignedUrl, setSignedUrl} from '@common/core/actions/common-auth.actions';
 import {SignResponse} from '@common/settings/admin/base-admin-utils';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 import {DebugSample} from '@common/shared/debug-sample/debug-sample.reducer';
 import {requestFailed} from '@common/core/actions/http.actions';
 import {Task} from '~/business-logic/model/tasks/task';
@@ -21,21 +21,21 @@ import {AdminService} from '~/shared/services/admin.service';
 
 @Injectable()
 export class AppEffects {
-  private httpClient = inject(HttpClient);
+  private reportsApi = inject(ApiReportsService);
   private store = inject(Store);
   private actions$ = inject(Actions);
   private adminService = inject(AdminService);
 
-  getHeaders(company: string): HttpHeaders {
-    let headers = new HttpHeaders();
-    headers = headers.append('X-Cairnml-Tenant', company);
-    return headers;
+  /** The tenant header of the company, and the query of the page's URL (the parameters the widget was opened with). */
+  getOptions(company: string, otherSearchParams?: URLSearchParams): ApiOptions {
+    const params: Record<string, string[]> = {};
+    otherSearchParams?.forEach((value, key) => params[key] = [...(params[key] ?? []), value]);
+    return {headers: {'X-Cairnml-Tenant': company}, params};
   }
 
   getPlot = createEffect(() => this.actions$.pipe(
     ofType(getPlot),
-    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
-      {
+    switchMap(action => this.reportsApi.reportsGetTaskData({
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         model_events: action.models,
@@ -43,24 +43,22 @@ export class AppEffects {
           iters: 1,
           metrics: action.metrics.map(metric => ({metric, variants: action.variants}))
         }
-      },
-      {headers: this.getHeaders(action.company)}
-    )),
+      }, this.getOptions(action.company, action.otherSearchParams))
+    ),
     mergeMap((res) => [
       setTaskData({
-        sourceProject: this.getProject(res.data.tasks),
-        sourceTasks: res.data.tasks.map(t => t.id),
-        appId: (res.data.tasks[0] as any)?.application?.app_id?.id
+        sourceProject: this.getProject(res.tasks),
+        sourceTasks: res.tasks.map(t => t.id),
+        appId: (res.tasks[0] as any)?.application?.app_id?.id
       }),
-      setPlotData({data: res.data.plots as unknown as ReportsApiMultiplotsResponse})
+      setPlotData({data: res.plots as unknown as ReportsApiMultiplotsResponse})
     ]),
     catchError(error => [requestFailed(error), ...(error.status === 403 ? [setNoPermissions()] : [])])
   ));
 
   getScalar = createEffect(() => this.actions$.pipe(
     ofType(getScalar),
-    mergeMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
-        {
+    mergeMap(action => this.reportsApi.reportsGetTaskData({
           id: action.tasks,
           // eslint-disable-next-line @typescript-eslint/naming-convention
           model_events: action.models,
@@ -69,15 +67,13 @@ export class AppEffects {
             metrics: action.metrics.map(metric => ({metric, variants: action.variants})),
             key: action.xaxis || ScalarKeyEnum.Iter
           }
-        },
-        {headers: this.getHeaders(action.company)}
-      ).pipe(
+        }, this.getOptions(action.company, action.otherSearchParams)).pipe(
         mergeMap(res => [
-          setPlotData({data: res.data.scalar_metrics_iter_histogram as ReportsApiMultiplotsResponse}),
+          setPlotData({data: res.scalar_metrics_iter_histogram as ReportsApiMultiplotsResponse}),
           setTaskData({
-            sourceProject: this.getProject(res.data.tasks),
-            sourceTasks: res.data.tasks.map(t => t.id),
-            appId: (res.data.tasks[0] as any)?.application?.app_id?.id
+            sourceProject: this.getProject(res.tasks),
+            sourceTasks: res.tasks.map(t => t.id),
+            appId: (res.tasks[0] as any)?.application?.app_id?.id
           })]
         ), catchError(error => [requestFailed(error), ...(error.status === 403 ? [setNoPermissions()] : [])])
       )
@@ -86,20 +82,17 @@ export class AppEffects {
 
   getSample = createEffect(() => this.actions$.pipe(
     ofType(getSample),
-    switchMap(action => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`,
-        {
+    switchMap(action => this.reportsApi.reportsGetTaskData({
           id: action.tasks,
           // eslint-disable-next-line @typescript-eslint/naming-convention
           debug_images: {
             iters: 1,
             metrics: action.metrics.map(metric => ({metric, variants: action.variants}))
           }
-        },
-        {headers: this.getHeaders(action.company)}
-      ).pipe(
+        }, this.getOptions(action.company, action.otherSearchParams)).pipe(
         mergeMap(res => [
-          setSampleData({data: res.data.debug_images?.[0]?.iterations?.[0]?.events[0] as DebugSample}),
-          setTaskData({sourceProject: this.getProject(res.data.tasks), sourceTasks: res.data.tasks.map(t => t.id)})]),
+          setSampleData({data: res.debug_images?.[0]?.iterations?.[0]?.events[0] as DebugSample}),
+          setTaskData({sourceProject: this.getProject(res.tasks), sourceTasks: res.tasks.map(t => t.id)})]),
         catchError(error => [requestFailed(error), ...(error.status === 403 ? [setNoPermissions()] : [])])
       )
     ))
@@ -107,15 +100,15 @@ export class AppEffects {
 
   getParcoords$ = createEffect(() => this.actions$.pipe(
     ofType(getParcoords),
-    mergeMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`, {
+    mergeMap((action) => this.reportsApi.reportsGetTaskData({
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         only_fields: ['last_metrics', 'name', 'last_iteration', 'project', ...action.variants.map(variant => `hyperparams.${variant}`)]
-      }, {headers: this.getHeaders(action.company)})
+      }, this.getOptions(action.company, action.otherSearchParams))
         .pipe(
           mergeMap(res => [
-            setParallelCoordinateExperiments({data: res.data.tasks as unknown as Task[]}),
-            setTaskData({sourceProject: this.getProject(res.data.tasks), sourceTasks: res.data.tasks.map(t => t.id)})
+            setParallelCoordinateExperiments({data: res.tasks as unknown as Task[]}),
+            setTaskData({sourceProject: this.getProject(res.tasks), sourceTasks: res.tasks.map(t => t.id)})
           ])
         )
     ))
@@ -123,17 +116,17 @@ export class AppEffects {
 
   getScalarSingleValue$ = createEffect(() => this.actions$.pipe(
     ofType(getSingleValues),
-    switchMap((action) => this.httpClient.post<{ data: ReportsGetTaskDataResponse }>(`${endpointUrl('reports.get_task_data')}?${action.otherSearchParams.toString()}`, {
+    switchMap((action) => this.reportsApi.reportsGetTaskData({
         id: action.tasks,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         model_events: action.models,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         single_value_metrics: {}
-      }, {headers: this.getHeaders(action.company)})
+      }, this.getOptions(action.company, action.otherSearchParams))
     ),
-    mergeMap((res: { data: ReportsGetTaskDataResponse }) => [
-        setSingleValues({data: res.data.single_value_metrics}),
-        setTaskData({sourceProject: this.getProject(res.data.tasks), sourceTasks: res.data.tasks.map(t => t.id)})
+    mergeMap((res: ReportsGetTaskDataResponse) => [
+        setSingleValues({data: res.single_value_metrics}),
+        setTaskData({sourceProject: this.getProject(res.tasks), sourceTasks: res.tasks.map(t => t.id)})
       ]
     )
   ));
