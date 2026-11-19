@@ -423,7 +423,7 @@ export class ApiTasksService {
      * Adds a task into a queue. Fails if task state is not \'created\'. Fails if the following parameters in the task were not filled: * execution.script.repository * execution.script.entrypoint
      */
     public tasksEnqueue(request: TasksEnqueueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEnqueueResponse>(`${this.basePath}/v2.31/tasks.enqueue`,
+        return this.apiRequest.post<TasksEnqueueResponse>(`${this.basePath}/v2.41/tasks.enqueue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -787,7 +787,7 @@ export class ApiTasksService {
      * Update task\'s runtime parameters
      */
     public tasksUpdate(request: TasksUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksUpdateResponse>(`${this.basePath}/v2.1/tasks.update`,
+        return this.apiRequest.post<TasksUpdateResponse>(`${this.basePath}/v2.41/tasks.update`,
             request,
             {
                 headers: this.defaultHeaders,
