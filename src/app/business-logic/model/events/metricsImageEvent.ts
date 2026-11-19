@@ -23,7 +23,7 @@ export interface MetricsImageEvent {
     /**
      * \'training_debug_image\'
      */
-    type: string;
+    type: MetricsImageEvent.TypeEnum;
     /**
      * Task ID (required)
      */
@@ -48,4 +48,10 @@ export interface MetricsImageEvent {
      * File URL
      */
     url?: string;
+}
+export namespace MetricsImageEvent {
+    export type TypeEnum = 'training_debug_image';
+    export const TypeEnum = {
+        TrainingDebugImage: 'training_debug_image' as TypeEnum,
+    }
 }

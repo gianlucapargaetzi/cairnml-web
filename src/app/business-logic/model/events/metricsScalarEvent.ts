@@ -23,7 +23,7 @@ export interface MetricsScalarEvent {
     /**
      * \'training_stats_scalar\'
      */
-    type: string;
+    type: MetricsScalarEvent.TypeEnum;
     /**
      * Task ID (required)
      */
@@ -45,4 +45,10 @@ export interface MetricsScalarEvent {
      * Custom X-Axis label to be used when displaying the scalars histogram
      */
     x_axis_label?: string;
+}
+export namespace MetricsScalarEvent {
+    export type TypeEnum = 'training_stats_scalar';
+    export const TypeEnum = {
+        TrainingStatsScalar: 'training_stats_scalar' as TypeEnum,
+    }
 }

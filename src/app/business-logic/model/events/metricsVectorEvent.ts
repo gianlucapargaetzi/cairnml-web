@@ -23,7 +23,7 @@ export interface MetricsVectorEvent {
     /**
      * \'training_stats_vector\'
      */
-    type?: string;
+    type?: MetricsVectorEvent.TypeEnum;
     /**
      * Task ID (required)
      */
@@ -44,4 +44,10 @@ export interface MetricsVectorEvent {
      * vector of float values
      */
     values?: number[];
+}
+export namespace MetricsVectorEvent {
+    export type TypeEnum = 'training_stats_vector';
+    export const TypeEnum = {
+        TrainingStatsVector: 'training_stats_vector' as TypeEnum,
+    }
 }

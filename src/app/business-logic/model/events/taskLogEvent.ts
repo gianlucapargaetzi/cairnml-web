@@ -24,7 +24,7 @@ export interface TaskLogEvent {
     /**
      * \'log\'
      */
-    type: string;
+    type: TaskLogEvent.TypeEnum;
     /**
      * Task ID (required)
      */
@@ -41,4 +41,10 @@ export interface TaskLogEvent {
      * Log message.
      */
     msg?: string;
+}
+export namespace TaskLogEvent {
+    export type TypeEnum = 'log';
+    export const TypeEnum = {
+        Log: 'log' as TypeEnum,
+    }
 }

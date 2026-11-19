@@ -23,7 +23,7 @@ export interface MetricsPlotEvent {
     /**
      * \'plot\'
      */
-    type: string;
+    type: MetricsPlotEvent.TypeEnum;
     /**
      * Task ID (required)
      */
@@ -48,4 +48,10 @@ export interface MetricsPlotEvent {
      * If set then plot_str is not checked for a valid json. The default is False
      */
     skip_validation?: boolean;
+}
+export namespace MetricsPlotEvent {
+    export type TypeEnum = 'plot';
+    export const TypeEnum = {
+        Plot: 'plot' as TypeEnum,
+    }
 }
