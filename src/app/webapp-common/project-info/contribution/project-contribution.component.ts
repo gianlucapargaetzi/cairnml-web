@@ -4,7 +4,6 @@ import {RouterLink} from '@angular/router';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {encodeFilters} from '@common/shared/utils/tableParamEncode';
 import {EXPERIMENTS_TABLE_COL_FIELDS} from '~/features/experiments/shared/experiments.const';
 import {FilterMetadata} from 'primeng/api';
@@ -20,7 +19,7 @@ import {
   periodStart,
   utcOffsetMinutes
 } from '@common/project-info/contribution/contribution-stats';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
+import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
 
 const PAGE_SIZE = 500;
 // Layout of the activity grid, in pixels. They match the styles of the panel: the cells, the gap between them, the
@@ -59,7 +58,7 @@ type ContributionState =
 })
 export class ProjectContributionComponent {
   private tasksApi = inject(ApiTasksService);
-  private apiRequest = inject(SmApiRequestsService);
+  private projects = inject(ApiProjectsService);
 
   projectId = input.required<string>();
   topContributors = input(5);
@@ -121,7 +120,7 @@ export class ProjectContributionComponent {
     if (contributionsEndpointMissing) {
       return this.loadSummaryFromTasks(projectId, periodDays, topContributors);
     }
-    return this.apiRequest.post<ContributionAggregate>(endpointUrl('projects.get_contributions'), {
+    return this.projects.projectsGetContributions({
       project: projectId,
       period_days: periodDays,
       utc_offset_minutes: utcOffsetMinutes(new Date()),

@@ -1,7 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
+import {ApiImportsService} from '~/business-logic/api-services/imports.service';
 
 /** The answer of imports.prepare_upload: one presigned PUT, or a multipart upload with one URL per part. */
 export interface StagedUpload {
@@ -29,25 +28,22 @@ export interface RunImportResult {
 /** The imports service: stage a run's ZIP in the object store, then import it as a new task. */
 @Injectable({providedIn: 'root'})
 export class RunImportApiService {
-  private api = inject(SmApiRequestsService);
+  private imports = inject(ApiImportsService);
 
-  private call<T>(action: string, body: object): Promise<T> {
-    return lastValueFrom(this.api.post<T>(endpointUrl(`imports.${action}`), body, {}));
-  }
 
   prepareUpload(name: string, size: number, sha256: string): Promise<StagedUpload> {
-    return this.call<StagedUpload>('prepare_upload', {name, size, sha256, content_type: 'application/zip'});
+    return lastValueFrom(this.imports.importsPrepareUpload({name, size, sha256, content_type: 'application/zip'}));
   }
 
   preparePart(id: string, part: number): Promise<PreparedPart> {
-    return this.call<PreparedPart>('prepare_part', {id, part});
+    return lastValueFrom(this.imports.importsPreparePart({id, part}));
   }
 
   commit(id: string, parts?: { number: number; etag: string }[]): Promise<unknown> {
-    return this.call('commit', parts ? {id, parts} : {id});
+    return lastValueFrom(this.imports.importsCommit(parts ? {id, parts} : {id}));
   }
 
   run(id: string): Promise<RunImportResult> {
-    return this.call<RunImportResult>('run', {id});
+    return lastValueFrom(this.imports.importsRun({id}));
   }
 }

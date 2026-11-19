@@ -7,10 +7,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {lastValueFrom} from 'rxjs';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiUserAccessService} from '~/business-logic/api-services/user_access.service';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {serverMessage} from '@common/shared/utils/server-message';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface AddCredentialData {
   isAdmin: boolean;
@@ -36,7 +35,7 @@ export interface AddCredentialData {
 })
 export class AddAccessDialogComponent {
   private fb = inject(FormBuilder);
-  private api = inject(SmApiRequestsService);
+  private userAccess = inject(ApiUserAccessService);
   private dialogRef = inject(MatDialogRef<AddAccessDialogComponent>);
   protected data = inject<AddCredentialData>(MAT_DIALOG_DATA);
 
@@ -70,9 +69,9 @@ export class AddAccessDialogComponent {
     this.error.set(null);
     const value = this.form.getRawValue();
     try {
-      await lastValueFrom(this.api.post(endpointUrl('user_access.add_app'), {
+      await lastValueFrom(this.userAccess.user_accessAddApp({
           label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: value.scope,
-        }, {}));
+        }));
       this.dialogRef.close(true);
     } catch (error) {
       this.error.set(serverMessage(error) ?? 'The credential could not be saved.');

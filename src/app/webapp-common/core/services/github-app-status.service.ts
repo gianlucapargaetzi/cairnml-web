@@ -2,10 +2,9 @@ import {inject, Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiGithubService} from '~/business-logic/api-services/github.service';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {addMessage} from '@common/core/actions/layout.actions';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface GithubAppStatus {
   state: 'ok' | 'refused' | 'unreachable' | 'not_configured' | 'unknown';
@@ -17,7 +16,7 @@ export interface GithubAppStatus {
 // registered and clears itself; a refused or unreachable App stays until it is closed, and says to contact an admin.
 @Injectable({providedIn: 'root'})
 export class GithubAppStatusService {
-  private api = inject(SmApiRequestsService);
+  private github = inject(ApiGithubService);
   private store = inject(Store);
 
   announce(): void {
@@ -32,8 +31,8 @@ export class GithubAppStatusService {
   }
 
   status(): Observable<GithubAppStatus | null> {
-    return this.api.post<{ status?: GithubAppStatus }>(endpointUrl('github.status'), {}, {}).pipe(
-      map(response => response?.status ?? null),
+    return this.github.githubStatus({}).pipe(
+      map((response: { status?: GithubAppStatus }) => response?.status ?? null),
       // a failed request shows no banner: the page itself still works
       catchError(() => of(null)),
     );
