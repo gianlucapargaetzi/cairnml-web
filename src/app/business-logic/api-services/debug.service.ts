@@ -45,7 +45,7 @@ export class ApiDebugService {
      * Ping server
      */
     public debugPing(request: DebugPingRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DebugPingResponse>(`${this.basePath}/debug.ping`,
+        return this.apiRequest.post<DebugPingResponse>(`${this.basePath}/v2.9/debug.ping`,
             request,
             {
                 headers: this.defaultHeaders,

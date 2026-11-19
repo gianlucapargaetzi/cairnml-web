@@ -53,7 +53,7 @@ export class ApiAccessService {
      * Dismiss the notice of an inherited dataset for the signed-in user. A notice the user may not see is not found.
      */
     public accessDismissNotice(request: AccessDismissNoticeRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AccessDismissNoticeResponse>(`${this.basePath}/access.dismiss_notice`,
+        return this.apiRequest.post<AccessDismissNoticeResponse>(`${this.basePath}/v2.40/access.dismiss_notice`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -67,7 +67,7 @@ export class ApiAccessService {
      * The shares of one resource. Only a user who may manage the sharing of the resource (its owner, or an admin) sees them. A user who may not see the resource gets not found.
      */
     public accessList(request: AccessListRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AccessListResponse>(`${this.basePath}/access.list`,
+        return this.apiRequest.post<AccessListResponse>(`${this.basePath}/v2.40/access.list`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -81,7 +81,7 @@ export class ApiAccessService {
      * The notices of inherited datasets for the signed-in user: the datasets a run they ran shared with a project they still use, and that they have not dismissed.
      */
     public accessNotices(request: AccessNoticesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AccessNoticesResponse>(`${this.basePath}/access.notices`,
+        return this.apiRequest.post<AccessNoticesResponse>(`${this.basePath}/v2.40/access.notices`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -95,7 +95,7 @@ export class ApiAccessService {
      * Grant a resource at a level to a project (projects scope, the project is a root project), to everyone (public, read only), or to one user (user scope, queues only, read only). The caller must be able to manage the sharing of the resource. A share that already exists is refused.
      */
     public accessShare(request: AccessShareRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AccessShareResponse>(`${this.basePath}/access.share`,
+        return this.apiRequest.post<AccessShareResponse>(`${this.basePath}/v2.40/access.share`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -109,7 +109,7 @@ export class ApiAccessService {
      * Remove one share. The caller must be able to manage the sharing of the resource it gives.
      */
     public accessUnshare(request: AccessUnshareRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AccessUnshareResponse>(`${this.basePath}/access.unshare`,
+        return this.apiRequest.post<AccessUnshareResponse>(`${this.basePath}/v2.40/access.unshare`,
             request,
             {
                 headers: this.defaultHeaders,

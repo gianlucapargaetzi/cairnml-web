@@ -51,7 +51,7 @@ export class ApiUserAccessService {
      * Add a GitHub App of the user: its label, App ID, API address (GitHub Enterprise; empty for github.com) and the App\'s private key (.pem). The key is checked with GitHub before it is saved, encrypted at rest, and never returned.
      */
     public user_accessAddApp(request: UserAccessAddAppRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UserAccessAddAppResponse>(`${this.basePath}/user_access.add_app`,
+        return this.apiRequest.post<UserAccessAddAppResponse>(`${this.basePath}/v2.38/user_access.add_app`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -65,7 +65,7 @@ export class ApiUserAccessService {
      * Check one of the user\'s accesses now: a token against GitHub, or an App against GitHub with the number of repositories it is installed on. The result is stored with the access.
      */
     public user_accessCheck(request: UserAccessCheckRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UserAccessCheckResponse>(`${this.basePath}/user_access.check`,
+        return this.apiRequest.post<UserAccessCheckResponse>(`${this.basePath}/v2.38/user_access.check`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -79,7 +79,7 @@ export class ApiUserAccessService {
      * Delete one of the user\'s accesses. Its secret is removed.
      */
     public user_accessDelete(request: UserAccessDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UserAccessDeleteResponse>(`${this.basePath}/user_access.delete`,
+        return this.apiRequest.post<UserAccessDeleteResponse>(`${this.basePath}/v2.38/user_access.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -93,7 +93,7 @@ export class ApiUserAccessService {
      * The signed-in user\'s own accesses (id, kind, label, host, path or App ID, last check, the projects they are shared with), the company\'s token credentials, which the user can use but not change, and the projects the user belongs to. No secret is returned.
      */
     public user_accessGetAll(request: UserAccessGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UserAccessGetAllResponse>(`${this.basePath}/user_access.get_all`,
+        return this.apiRequest.post<UserAccessGetAllResponse>(`${this.basePath}/v2.38/user_access.get_all`,
             request,
             {
                 headers: this.defaultHeaders,

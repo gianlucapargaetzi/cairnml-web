@@ -45,7 +45,7 @@ export class ApiAuditService {
      * List audit events, newest first, with optional filters on actor, action and time. Each event carries the address the client used.
      */
     public auditGetAll(request: AuditGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<AuditGetAllResponse>(`${this.basePath}/audit.get_all`,
+        return this.apiRequest.post<AuditGetAllResponse>(`${this.basePath}/v2.8/audit.get_all`,
             request,
             {
                 headers: this.defaultHeaders,

@@ -97,7 +97,7 @@ export class ApiEventsService {
      * Adds a single event
      */
     public eventsAdd(request: EventsAddRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsAddResponse>(`${this.basePath}/events.add`,
+        return this.apiRequest.post<EventsAddResponse>(`${this.basePath}/v2.22/events.add`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -111,7 +111,7 @@ export class ApiEventsService {
      * Clear an open Scroll ID
      */
     public eventsClearScroll(request: EventsClearScrollRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsClearScrollResponse>(`${this.basePath}/events.clear_scroll`,
+        return this.apiRequest.post<EventsClearScrollResponse>(`${this.basePath}/v2.18/events.clear_scroll`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiEventsService {
      * Remove old logs from task
      */
     public eventsClearTaskLog(request: EventsClearTaskLogRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsClearTaskLogResponse>(`${this.basePath}/events.clear_task_log`,
+        return this.apiRequest.post<EventsClearTaskLogResponse>(`${this.basePath}/v2.30/events.clear_task_log`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -139,7 +139,7 @@ export class ApiEventsService {
      * Get the debug image events for the requested amount of iterations per each task
      */
     public eventsDebugImages(request: EventsDebugImagesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsDebugImagesResponse>(`${this.basePath}/events.debug_images`,
+        return this.apiRequest.post<EventsDebugImagesResponse>(`${this.basePath}/v2.22/events.debug_images`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -153,7 +153,7 @@ export class ApiEventsService {
      * Delete all model events. *This cannot be undone!*
      */
     public eventsDeleteForModel(request: EventsDeleteForModelRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsDeleteForModelResponse>(`${this.basePath}/events.delete_for_model`,
+        return this.apiRequest.post<EventsDeleteForModelResponse>(`${this.basePath}/v2.22/events.delete_for_model`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -167,7 +167,7 @@ export class ApiEventsService {
      * Delete all task events. *This cannot be undone!*
      */
     public eventsDeleteForTask(request: EventsDeleteForTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsDeleteForTaskResponse>(`${this.basePath}/events.delete_for_task`,
+        return this.apiRequest.post<EventsDeleteForTaskResponse>(`${this.basePath}/v2.1/events.delete_for_task`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -181,7 +181,7 @@ export class ApiEventsService {
      * Get an attachment containing the task\'s log
      */
     public eventsDownloadTaskLog(request: EventsDownloadTaskLogRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsDownloadTaskLogResponse>(`${this.basePath}/events.download_task_log`,
+        return this.apiRequest.post<EventsDownloadTaskLogResponse>(`${this.basePath}/v2.1/events.download_task_log`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -195,7 +195,7 @@ export class ApiEventsService {
      * Return the debug image per metric and variant for the provided iteration
      */
     public eventsGetDebugImageSample(request: EventsGetDebugImageSampleRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetDebugImageSampleResponse>(`${this.basePath}/events.get_debug_image_sample`,
+        return this.apiRequest.post<EventsGetDebugImageSampleResponse>(`${this.basePath}/v2.22/events.get_debug_image_sample`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -209,7 +209,7 @@ export class ApiEventsService {
      * Get unique metrics and variants from the events of the specified type. Only events reported for the passed task or model ids are analyzed.
      */
     public eventsGetMultiTaskMetrics(request: EventsGetMultiTaskMetricsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetMultiTaskMetricsResponse>(`${this.basePath}/events.get_multi_task_metrics`,
+        return this.apiRequest.post<EventsGetMultiTaskMetricsResponse>(`${this.basePath}/v2.28/events.get_multi_task_metrics`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -223,7 +223,7 @@ export class ApiEventsService {
      * Get \'plot\' events for the given tasks
      */
     public eventsGetMultiTaskPlots(request: EventsGetMultiTaskPlotsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetMultiTaskPlotsResponse>(`${this.basePath}/events.get_multi_task_plots`,
+        return this.apiRequest.post<EventsGetMultiTaskPlotsResponse>(`${this.basePath}/v2.28/events.get_multi_task_plots`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -237,7 +237,7 @@ export class ApiEventsService {
      * Return plots for the provided iteration
      */
     public eventsGetPlotSample(request: EventsGetPlotSampleRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetPlotSampleResponse>(`${this.basePath}/events.get_plot_sample`,
+        return this.apiRequest.post<EventsGetPlotSampleResponse>(`${this.basePath}/v2.22/events.get_plot_sample`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -251,7 +251,7 @@ export class ApiEventsService {
      * get scalar metric data for task
      */
     public eventsGetScalarMetricData(request: EventsGetScalarMetricDataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetScalarMetricDataResponse>(`${this.basePath}/events.get_scalar_metric_data`,
+        return this.apiRequest.post<EventsGetScalarMetricDataResponse>(`${this.basePath}/v2.22/events.get_scalar_metric_data`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -265,7 +265,7 @@ export class ApiEventsService {
      * get task scalar metrics and variants
      */
     public eventsGetScalarMetricsAndVariants(request: EventsGetScalarMetricsAndVariantsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetScalarMetricsAndVariantsResponse>(`${this.basePath}/events.get_scalar_metrics_and_variants`,
+        return this.apiRequest.post<EventsGetScalarMetricsAndVariantsResponse>(`${this.basePath}/v2.22/events.get_scalar_metrics_and_variants`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -279,7 +279,7 @@ export class ApiEventsService {
      * Scroll through task events, sorted by timestamp
      */
     public eventsGetTaskEvents(request: EventsGetTaskEventsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskEventsResponse>(`${this.basePath}/events.get_task_events`,
+        return this.apiRequest.post<EventsGetTaskEventsResponse>(`${this.basePath}/v2.22/events.get_task_events`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -293,7 +293,7 @@ export class ApiEventsService {
      * Get the tasks\'s latest scalar values
      */
     public eventsGetTaskLatestScalarValues(request: EventsGetTaskLatestScalarValuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskLatestScalarValuesResponse>(`${this.basePath}/events.get_task_latest_scalar_values`,
+        return this.apiRequest.post<EventsGetTaskLatestScalarValuesResponse>(`${this.basePath}/v2.1/events.get_task_latest_scalar_values`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -307,7 +307,7 @@ export class ApiEventsService {
      * Get \'log\' events for this task
      */
     public eventsGetTaskLog(request: EventsGetTaskLogRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskLogResponse>(`${this.basePath}/events.get_task_log`,
+        return this.apiRequest.post<EventsGetTaskLogResponse>(`${this.basePath}/v2.30/events.get_task_log`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -321,7 +321,7 @@ export class ApiEventsService {
      * For each task, get a list of metrics for which the requested event type was reported
      */
     public eventsGetTaskMetrics(request: EventsGetTaskMetricsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskMetricsResponse>(`${this.basePath}/events.get_task_metrics`,
+        return this.apiRequest.post<EventsGetTaskMetricsResponse>(`${this.basePath}/v2.22/events.get_task_metrics`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -335,7 +335,7 @@ export class ApiEventsService {
      * Get all \'plot\' events for this task
      */
     public eventsGetTaskPlots(request: EventsGetTaskPlotsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskPlotsResponse>(`${this.basePath}/events.get_task_plots`,
+        return this.apiRequest.post<EventsGetTaskPlotsResponse>(`${this.basePath}/v2.22/events.get_task_plots`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -349,7 +349,7 @@ export class ApiEventsService {
      * Get single value metrics for the passed tasks
      */
     public eventsGetTaskSingleValueMetrics(request: EventsGetTaskSingleValueMetricsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetTaskSingleValueMetricsResponse>(`${this.basePath}/events.get_task_single_value_metrics`,
+        return this.apiRequest.post<EventsGetTaskSingleValueMetricsResponse>(`${this.basePath}/v2.28/events.get_task_single_value_metrics`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -360,7 +360,7 @@ export class ApiEventsService {
     }
 
     public eventsGetVectorMetricsAndVariants(request: EventsGetVectorMetricsAndVariantsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsGetVectorMetricsAndVariantsResponse>(`${this.basePath}/events.get_vector_metrics_and_variants`,
+        return this.apiRequest.post<EventsGetVectorMetricsAndVariantsResponse>(`${this.basePath}/v2.22/events.get_vector_metrics_and_variants`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -374,7 +374,7 @@ export class ApiEventsService {
      * Used to compare scalar stats histogram of multiple tasks
      */
     public eventsMultiTaskScalarMetricsIterHistogram(request: EventsMultiTaskScalarMetricsIterHistogramRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsMultiTaskScalarMetricsIterHistogramResponse>(`${this.basePath}/events.multi_task_scalar_metrics_iter_histogram`,
+        return this.apiRequest.post<EventsMultiTaskScalarMetricsIterHistogramResponse>(`${this.basePath}/v2.28/events.multi_task_scalar_metrics_iter_histogram`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -388,7 +388,7 @@ export class ApiEventsService {
      * Get the image for the next variant for the same iteration or for the next iteration
      */
     public eventsNextDebugImageSample(request: EventsNextDebugImageSampleRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsNextDebugImageSampleResponse>(`${this.basePath}/events.next_debug_image_sample`,
+        return this.apiRequest.post<EventsNextDebugImageSampleResponse>(`${this.basePath}/v2.22/events.next_debug_image_sample`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -402,7 +402,7 @@ export class ApiEventsService {
      * Get the plot for the next metric for the same iteration or for the next iteration
      */
     public eventsNextPlotSample(request: EventsNextPlotSampleRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsNextPlotSampleResponse>(`${this.basePath}/events.next_plot_sample`,
+        return this.apiRequest.post<EventsNextPlotSampleResponse>(`${this.basePath}/v2.22/events.next_plot_sample`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -416,7 +416,7 @@ export class ApiEventsService {
      * Get plot events for the requested amount of iterations per each task
      */
     public eventsPlots(request: EventsPlotsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsPlotsResponse>(`${this.basePath}/events.plots`,
+        return this.apiRequest.post<EventsPlotsResponse>(`${this.basePath}/v2.22/events.plots`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -430,7 +430,7 @@ export class ApiEventsService {
      * Get histogram data of all the vector metrics and variants in the task
      */
     public eventsScalarMetricsIterHistogram(request: EventsScalarMetricsIterHistogramRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsScalarMetricsIterHistogramResponse>(`${this.basePath}/events.scalar_metrics_iter_histogram`,
+        return this.apiRequest.post<EventsScalarMetricsIterHistogramResponse>(`${this.basePath}/v2.22/events.scalar_metrics_iter_histogram`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -444,7 +444,7 @@ export class ApiEventsService {
      * Get raw data for a specific metric variants in the task
      */
     public eventsScalarMetricsIterRaw(request: EventsScalarMetricsIterRawRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsScalarMetricsIterRawResponse>(`${this.basePath}/events.scalar_metrics_iter_raw`,
+        return this.apiRequest.post<EventsScalarMetricsIterRawResponse>(`${this.basePath}/v2.22/events.scalar_metrics_iter_raw`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -458,7 +458,7 @@ export class ApiEventsService {
      * Get histogram data of all the scalar metrics and variants in the task
      */
     public eventsVectorMetricsIterHistogram(request: EventsVectorMetricsIterHistogramRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsVectorMetricsIterHistogramResponse>(`${this.basePath}/events.vector_metrics_iter_histogram`,
+        return this.apiRequest.post<EventsVectorMetricsIterHistogramResponse>(`${this.basePath}/v2.22/events.vector_metrics_iter_histogram`,
             request,
             {
                 headers: this.defaultHeaders,

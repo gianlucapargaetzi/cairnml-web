@@ -55,7 +55,7 @@ export class ApiOrganizationService {
      * Generates a file for the download
      */
     public organizationDownloadForGetAll(request: OrganizationDownloadForGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationDownloadForGetAllResponse>(`${this.basePath}/organization.download_for_get_all`,
+        return this.apiRequest.post<OrganizationDownloadForGetAllResponse>(`${this.basePath}/v2.26/organization.download_for_get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -69,7 +69,7 @@ export class ApiOrganizationService {
      * Get counts for the company entities according to the passed search criteria
      */
     public organizationGetEntitiesCount(request: OrganizationGetEntitiesCountRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationGetEntitiesCountResponse>(`${this.basePath}/organization.get_entities_count`,
+        return this.apiRequest.post<OrganizationGetEntitiesCountResponse>(`${this.basePath}/v2.34/organization.get_entities_count`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -83,7 +83,7 @@ export class ApiOrganizationService {
      * Get projects usage breakdown
      */
     public organizationGetProjectWorkloads(request: OrganizationGetProjectWorkloadsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationGetProjectWorkloadsResponse>(`${this.basePath}/organization.get_project_workloads`,
+        return this.apiRequest.post<OrganizationGetProjectWorkloadsResponse>(`${this.basePath}/v2.34/organization.get_project_workloads`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -97,7 +97,7 @@ export class ApiOrganizationService {
      * Get all the user and system tags used for the company tasks and models
      */
     public organizationGetTags(request: OrganizationGetTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationGetTagsResponse>(`${this.basePath}/organization.get_tags`,
+        return this.apiRequest.post<OrganizationGetTagsResponse>(`${this.basePath}/v2.8/organization.get_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -111,7 +111,7 @@ export class ApiOrganizationService {
      * Get details for all companies associated with the current user
      */
     public organizationGetUserCompanies(request: OrganizationGetUserCompaniesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationGetUserCompaniesResponse>(`${this.basePath}/organization.get_user_companies`,
+        return this.apiRequest.post<OrganizationGetUserCompaniesResponse>(`${this.basePath}/v2.12/organization.get_user_companies`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiOrganizationService {
      * Prepares download from get_all_ex parameters
      */
     public organizationPrepareDownloadForGetAll(request: OrganizationPrepareDownloadForGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationPrepareDownloadForGetAllResponse>(`${this.basePath}/organization.prepare_download_for_get_all`,
+        return this.apiRequest.post<OrganizationPrepareDownloadForGetAllResponse>(`${this.basePath}/v2.26/organization.prepare_download_for_get_all`,
             request,
             {
                 headers: this.defaultHeaders,

@@ -83,7 +83,7 @@ export class ApiModelsService {
      * Add or update model metadata
      */
     public modelsAddOrUpdateMetadata(request: ModelsAddOrUpdateMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsAddOrUpdateMetadataResponse>(`${this.basePath}/models.add_or_update_metadata`,
+        return this.apiRequest.post<ModelsAddOrUpdateMetadataResponse>(`${this.basePath}/v2.13/models.add_or_update_metadata`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -97,7 +97,7 @@ export class ApiModelsService {
      * Archive models
      */
     public modelsArchiveMany(request: ModelsArchiveManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsArchiveManyResponse>(`${this.basePath}/models.archive_many`,
+        return this.apiRequest.post<ModelsArchiveManyResponse>(`${this.basePath}/v2.13/models.archive_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -111,7 +111,7 @@ export class ApiModelsService {
      * Create a new model not associated with a task
      */
     public modelsCreate(request: ModelsCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsCreateResponse>(`${this.basePath}/models.create`,
+        return this.apiRequest.post<ModelsCreateResponse>(`${this.basePath}/v2.13/models.create`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiModelsService {
      * Delete a model.
      */
     public modelsDelete(request: ModelsDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsDeleteResponse>(`${this.basePath}/models.delete`,
+        return this.apiRequest.post<ModelsDeleteResponse>(`${this.basePath}/v2.13/models.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -139,7 +139,7 @@ export class ApiModelsService {
      * Delete models
      */
     public modelsDeleteMany(request: ModelsDeleteManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsDeleteManyResponse>(`${this.basePath}/models.delete_many`,
+        return this.apiRequest.post<ModelsDeleteManyResponse>(`${this.basePath}/v2.13/models.delete_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -153,7 +153,7 @@ export class ApiModelsService {
      * Delete metadata from model
      */
     public modelsDeleteMetadata(request: ModelsDeleteMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsDeleteMetadataResponse>(`${this.basePath}/models.delete_metadata`,
+        return this.apiRequest.post<ModelsDeleteMetadataResponse>(`${this.basePath}/v2.13/models.delete_metadata`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -167,7 +167,7 @@ export class ApiModelsService {
      * Edit an existing model
      */
     public modelsEdit(request: ModelsEditRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsEditResponse>(`${this.basePath}/models.edit`,
+        return this.apiRequest.post<ModelsEditResponse>(`${this.basePath}/v2.13/models.edit`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -181,7 +181,7 @@ export class ApiModelsService {
      * Get all models
      */
     public modelsGetAll(request: ModelsGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsGetAllResponse>(`${this.basePath}/models.get_all`,
+        return this.apiRequest.post<ModelsGetAllResponse>(`${this.basePath}/v2.26/models.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -195,7 +195,7 @@ export class ApiModelsService {
      * Get all models
      */
     public modelsGetAllEx(request: ModelsGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsGetAllExResponse>(`${this.basePath}/models.get_all_ex`,
+        return this.apiRequest.post<ModelsGetAllExResponse>(`${this.basePath}/v2.27/models.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -209,7 +209,7 @@ export class ApiModelsService {
      * Gets model information
      */
     public modelsGetById(request: ModelsGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsGetByIdResponse>(`${this.basePath}/models.get_by_id`,
+        return this.apiRequest.post<ModelsGetByIdResponse>(`${this.basePath}/v2.1/models.get_by_id`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -223,7 +223,7 @@ export class ApiModelsService {
      * Get all models
      */
     public modelsGetByIdEx(request: ModelsGetByIdExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsGetByIdExResponse>(`${this.basePath}/models.get_by_id_ex`,
+        return this.apiRequest.post<ModelsGetByIdExResponse>(`${this.basePath}/v2.11/models.get_by_id_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -237,7 +237,7 @@ export class ApiModelsService {
      * Get the list of frameworks used in the company models
      */
     public modelsGetFrameworks(request: ModelsGetFrameworksRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsGetFrameworksResponse>(`${this.basePath}/models.get_frameworks`,
+        return this.apiRequest.post<ModelsGetFrameworksResponse>(`${this.basePath}/v2.8/models.get_frameworks`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -251,7 +251,7 @@ export class ApiModelsService {
      * Convert public models to private
      */
     public modelsMakePrivate(request: ModelsMakePrivateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsMakePrivateResponse>(`${this.basePath}/models.make_private`,
+        return this.apiRequest.post<ModelsMakePrivateResponse>(`${this.basePath}/v2.9/models.make_private`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -265,7 +265,7 @@ export class ApiModelsService {
      * Convert company models to public
      */
     public modelsMakePublic(request: ModelsMakePublicRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsMakePublicResponse>(`${this.basePath}/models.make_public`,
+        return this.apiRequest.post<ModelsMakePublicResponse>(`${this.basePath}/v2.9/models.make_public`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -279,7 +279,7 @@ export class ApiModelsService {
      * Move models to a project
      */
     public modelsMove(request: ModelsMoveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsMoveResponse>(`${this.basePath}/models.move`,
+        return this.apiRequest.post<ModelsMoveResponse>(`${this.basePath}/v2.12/models.move`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -293,7 +293,7 @@ export class ApiModelsService {
      * Publish models
      */
     public modelsPublishMany(request: ModelsPublishManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsPublishManyResponse>(`${this.basePath}/models.publish_many`,
+        return this.apiRequest.post<ModelsPublishManyResponse>(`${this.basePath}/v2.13/models.publish_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -307,7 +307,7 @@ export class ApiModelsService {
      * Set the model ready flag to True. If the model is an output model of a task then try to publish the task.
      */
     public modelsSetReady(request: ModelsSetReadyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsSetReadyResponse>(`${this.basePath}/models.set_ready`,
+        return this.apiRequest.post<ModelsSetReadyResponse>(`${this.basePath}/v2.1/models.set_ready`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -321,7 +321,7 @@ export class ApiModelsService {
      * Unarchive models
      */
     public modelsUnarchiveMany(request: ModelsUnarchiveManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsUnarchiveManyResponse>(`${this.basePath}/models.unarchive_many`,
+        return this.apiRequest.post<ModelsUnarchiveManyResponse>(`${this.basePath}/v2.13/models.unarchive_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -335,7 +335,7 @@ export class ApiModelsService {
      * Update a model
      */
     public modelsUpdate(request: ModelsUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsUpdateResponse>(`${this.basePath}/models.update`,
+        return this.apiRequest.post<ModelsUpdateResponse>(`${this.basePath}/v2.13/models.update`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -349,7 +349,7 @@ export class ApiModelsService {
      * Add or remove tags from multiple models
      */
     public modelsUpdateTags(request: ModelsUpdateTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ModelsUpdateTagsResponse>(`${this.basePath}/models.update_tags`,
+        return this.apiRequest.post<ModelsUpdateTagsResponse>(`${this.basePath}/v2.27/models.update_tags`,
             request,
             {
                 headers: this.defaultHeaders,

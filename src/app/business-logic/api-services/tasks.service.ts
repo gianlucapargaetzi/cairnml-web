@@ -143,7 +143,7 @@ export class ApiTasksService {
      * Update existing artifacts (search by key/mode) and add new ones
      */
     public tasksAddOrUpdateArtifacts(request: TasksAddOrUpdateArtifactsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksAddOrUpdateArtifactsResponse>(`${this.basePath}/tasks.add_or_update_artifacts`,
+        return this.apiRequest.post<TasksAddOrUpdateArtifactsResponse>(`${this.basePath}/v2.10/tasks.add_or_update_artifacts`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -157,7 +157,7 @@ export class ApiTasksService {
      * Add or update task model
      */
     public tasksAddOrUpdateModel(request: TasksAddOrUpdateModelRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksAddOrUpdateModelResponse>(`${this.basePath}/tasks.add_or_update_model`,
+        return this.apiRequest.post<TasksAddOrUpdateModelResponse>(`${this.basePath}/v2.13/tasks.add_or_update_model`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -171,7 +171,7 @@ export class ApiTasksService {
      * Archive tasks. If a task is queued it will first be dequeued and then archived.
      */
     public tasksArchive(request: TasksArchiveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksArchiveResponse>(`${this.basePath}/tasks.archive`,
+        return this.apiRequest.post<TasksArchiveResponse>(`${this.basePath}/v2.30/tasks.archive`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -185,7 +185,7 @@ export class ApiTasksService {
      * Archive tasks
      */
     public tasksArchiveMany(request: TasksArchiveManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksArchiveManyResponse>(`${this.basePath}/tasks.archive_many`,
+        return this.apiRequest.post<TasksArchiveManyResponse>(`${this.basePath}/v2.30/tasks.archive_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -199,7 +199,7 @@ export class ApiTasksService {
      * Clone an existing task
      */
     public tasksClone(request: TasksCloneRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksCloneResponse>(`${this.basePath}/tasks.clone`,
+        return this.apiRequest.post<TasksCloneResponse>(`${this.basePath}/v2.41/tasks.clone`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -213,7 +213,7 @@ export class ApiTasksService {
      * Indicates that task is closed
      */
     public tasksClose(request: TasksCloseRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksCloseResponse>(`${this.basePath}/tasks.close`,
+        return this.apiRequest.post<TasksCloseResponse>(`${this.basePath}/v2.1/tasks.close`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -227,7 +227,7 @@ export class ApiTasksService {
      * Signal a task has completed
      */
     public tasksCompleted(request: TasksCompletedRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksCompletedResponse>(`${this.basePath}/tasks.completed`,
+        return this.apiRequest.post<TasksCompletedResponse>(`${this.basePath}/v2.20/tasks.completed`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -241,7 +241,7 @@ export class ApiTasksService {
      * Create a new task
      */
     public tasksCreate(request: TasksCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksCreateResponse>(`${this.basePath}/tasks.create`,
+        return this.apiRequest.post<TasksCreateResponse>(`${this.basePath}/v2.41/tasks.create`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -255,7 +255,7 @@ export class ApiTasksService {
      * Delete a task along with any information stored for it (statistics, frame updates etc.) Unless Force flag is provided, operation will fail if task has objects associated with it - i.e. children tasks and projects. Models that refer to the deleted task will be updated with a task ID indicating a deleted task.
      */
     public tasksDelete(request: TasksDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteResponse>(`${this.basePath}/tasks.delete`,
+        return this.apiRequest.post<TasksDeleteResponse>(`${this.basePath}/v2.30/tasks.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -269,7 +269,7 @@ export class ApiTasksService {
      * Delete existing artifacts (search by key/mode)
      */
     public tasksDeleteArtifacts(request: TasksDeleteArtifactsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteArtifactsResponse>(`${this.basePath}/tasks.delete_artifacts`,
+        return this.apiRequest.post<TasksDeleteArtifactsResponse>(`${this.basePath}/v2.10/tasks.delete_artifacts`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -283,7 +283,7 @@ export class ApiTasksService {
      * Delete task configuration items
      */
     public tasksDeleteConfiguration(request: TasksDeleteConfigurationRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteConfigurationResponse>(`${this.basePath}/tasks.delete_configuration`,
+        return this.apiRequest.post<TasksDeleteConfigurationResponse>(`${this.basePath}/v2.9/tasks.delete_configuration`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -297,7 +297,7 @@ export class ApiTasksService {
      * Delete task hyper parameters
      */
     public tasksDeleteHyperParams(request: TasksDeleteHyperParamsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteHyperParamsResponse>(`${this.basePath}/tasks.delete_hyper_params`,
+        return this.apiRequest.post<TasksDeleteHyperParamsResponse>(`${this.basePath}/v2.9/tasks.delete_hyper_params`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -311,7 +311,7 @@ export class ApiTasksService {
      * Delete tasks
      */
     public tasksDeleteMany(request: TasksDeleteManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteManyResponse>(`${this.basePath}/tasks.delete_many`,
+        return this.apiRequest.post<TasksDeleteManyResponse>(`${this.basePath}/v2.30/tasks.delete_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -325,7 +325,7 @@ export class ApiTasksService {
      * Delete models from task
      */
     public tasksDeleteModels(request: TasksDeleteModelsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDeleteModelsResponse>(`${this.basePath}/tasks.delete_models`,
+        return this.apiRequest.post<TasksDeleteModelsResponse>(`${this.basePath}/v2.13/tasks.delete_models`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -339,7 +339,7 @@ export class ApiTasksService {
      * Remove a task from its queue. Fails if task status is not queued.
      */
     public tasksDequeue(request: TasksDequeueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDequeueResponse>(`${this.basePath}/tasks.dequeue`,
+        return this.apiRequest.post<TasksDequeueResponse>(`${this.basePath}/v2.26/tasks.dequeue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -353,7 +353,7 @@ export class ApiTasksService {
      * Dequeue tasks
      */
     public tasksDequeueMany(request: TasksDequeueManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksDequeueManyResponse>(`${this.basePath}/tasks.dequeue_many`,
+        return this.apiRequest.post<TasksDequeueManyResponse>(`${this.basePath}/v2.26/tasks.dequeue_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -367,7 +367,7 @@ export class ApiTasksService {
      * Edit task\'s details.
      */
     public tasksEdit(request: TasksEditRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEditResponse>(`${this.basePath}/tasks.edit`,
+        return this.apiRequest.post<TasksEditResponse>(`${this.basePath}/v2.41/tasks.edit`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -381,7 +381,7 @@ export class ApiTasksService {
      * Add or update task configuration
      */
     public tasksEditConfiguration(request: TasksEditConfigurationRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEditConfigurationResponse>(`${this.basePath}/tasks.edit_configuration`,
+        return this.apiRequest.post<TasksEditConfigurationResponse>(`${this.basePath}/v2.9/tasks.edit_configuration`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -395,7 +395,7 @@ export class ApiTasksService {
      * Add or update task hyper parameters
      */
     public tasksEditHyperParams(request: TasksEditHyperParamsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEditHyperParamsResponse>(`${this.basePath}/tasks.edit_hyper_params`,
+        return this.apiRequest.post<TasksEditHyperParamsResponse>(`${this.basePath}/v2.9/tasks.edit_hyper_params`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -409,7 +409,7 @@ export class ApiTasksService {
      * Edit task\'s runtime properties by adding, updating or removing existing fields
      */
     public tasksEditRuntime(request: TasksEditRuntimeRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEditRuntimeResponse>(`${this.basePath}/tasks.edit_runtime`,
+        return this.apiRequest.post<TasksEditRuntimeResponse>(`${this.basePath}/v2.34/tasks.edit_runtime`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -423,7 +423,7 @@ export class ApiTasksService {
      * Adds a task into a queue. Fails if task state is not \'created\'. Fails if the following parameters in the task were not filled: * execution.script.repository * execution.script.entrypoint
      */
     public tasksEnqueue(request: TasksEnqueueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEnqueueResponse>(`${this.basePath}/tasks.enqueue`,
+        return this.apiRequest.post<TasksEnqueueResponse>(`${this.basePath}/v2.31/tasks.enqueue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -437,7 +437,7 @@ export class ApiTasksService {
      * Enqueue tasks
      */
     public tasksEnqueueMany(request: TasksEnqueueManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksEnqueueManyResponse>(`${this.basePath}/tasks.enqueue_many`,
+        return this.apiRequest.post<TasksEnqueueManyResponse>(`${this.basePath}/v2.22/tasks.enqueue_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -451,7 +451,7 @@ export class ApiTasksService {
      * Indicates that task has failed
      */
     public tasksFailed(request: TasksFailedRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksFailedResponse>(`${this.basePath}/tasks.failed`,
+        return this.apiRequest.post<TasksFailedResponse>(`${this.basePath}/v2.1/tasks.failed`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -465,7 +465,7 @@ export class ApiTasksService {
      * Get all the company\'s tasks and all public tasks
      */
     public tasksGetAll(request: TasksGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetAllResponse>(`${this.basePath}/tasks.get_all`,
+        return this.apiRequest.post<TasksGetAllResponse>(`${this.basePath}/v2.41/tasks.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -479,7 +479,7 @@ export class ApiTasksService {
      * Get all the company\'s tasks and all public tasks
      */
     public tasksGetAllEx(request: TasksGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetAllExResponse>(`${this.basePath}/tasks.get_all_ex`,
+        return this.apiRequest.post<TasksGetAllExResponse>(`${this.basePath}/v2.41/tasks.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -493,7 +493,7 @@ export class ApiTasksService {
      * Gets task information
      */
     public tasksGetById(request: TasksGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetByIdResponse>(`${this.basePath}/tasks.get_by_id`,
+        return this.apiRequest.post<TasksGetByIdResponse>(`${this.basePath}/v2.41/tasks.get_by_id`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -507,7 +507,7 @@ export class ApiTasksService {
      * Get all the company\'s tasks and all public tasks
      */
     public tasksGetByIdEx(request: TasksGetByIdExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetByIdExResponse>(`${this.basePath}/tasks.get_by_id_ex`,
+        return this.apiRequest.post<TasksGetByIdExResponse>(`${this.basePath}/v2.41/tasks.get_by_id_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -521,7 +521,7 @@ export class ApiTasksService {
      * Get the list of task configuration items names
      */
     public tasksGetConfigurationNames(request: TasksGetConfigurationNamesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetConfigurationNamesResponse>(`${this.basePath}/tasks.get_configuration_names`,
+        return this.apiRequest.post<TasksGetConfigurationNamesResponse>(`${this.basePath}/v2.9/tasks.get_configuration_names`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -535,7 +535,7 @@ export class ApiTasksService {
      * Get the list of task configurations
      */
     public tasksGetConfigurations(request: TasksGetConfigurationsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetConfigurationsResponse>(`${this.basePath}/tasks.get_configurations`,
+        return this.apiRequest.post<TasksGetConfigurationsResponse>(`${this.basePath}/v2.9/tasks.get_configurations`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -549,7 +549,7 @@ export class ApiTasksService {
      * Get the list of task hyper parameters
      */
     public tasksGetHyperParams(request: TasksGetHyperParamsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetHyperParamsResponse>(`${this.basePath}/tasks.get_hyper_params`,
+        return this.apiRequest.post<TasksGetHyperParamsResponse>(`${this.basePath}/v2.9/tasks.get_hyper_params`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -563,7 +563,7 @@ export class ApiTasksService {
      * Live progress of running tasks. Tasks that are not reporting are left out.
      */
     public tasksGetProgress(request: TasksGetProgressRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/tasks.get_progress`,
+        return this.apiRequest.post<TasksGetProgressResponse>(`${this.basePath}/v2.23/tasks.get_progress`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -577,7 +577,7 @@ export class ApiTasksService {
      * Get the list of task types used in the specified projects
      */
     public tasksGetTypes(request: TasksGetTypesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksGetTypesResponse>(`${this.basePath}/tasks.get_types`,
+        return this.apiRequest.post<TasksGetTypesResponse>(`${this.basePath}/v2.8/tasks.get_types`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -591,7 +591,7 @@ export class ApiTasksService {
      * Convert public tasks to private
      */
     public tasksMakePrivate(request: TasksMakePrivateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksMakePrivateResponse>(`${this.basePath}/tasks.make_private`,
+        return this.apiRequest.post<TasksMakePrivateResponse>(`${this.basePath}/v2.9/tasks.make_private`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -605,7 +605,7 @@ export class ApiTasksService {
      * Convert company tasks to public
      */
     public tasksMakePublic(request: TasksMakePublicRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksMakePublicResponse>(`${this.basePath}/tasks.make_public`,
+        return this.apiRequest.post<TasksMakePublicResponse>(`${this.basePath}/v2.9/tasks.make_public`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -619,7 +619,7 @@ export class ApiTasksService {
      * Move tasks to a project
      */
     public tasksMove(request: TasksMoveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksMoveResponse>(`${this.basePath}/tasks.move`,
+        return this.apiRequest.post<TasksMoveResponse>(`${this.basePath}/v2.12/tasks.move`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -633,7 +633,7 @@ export class ApiTasksService {
      * Refresh the task\'s last update time
      */
     public tasksPing(request: TasksPingRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksPingResponse>(`${this.basePath}/tasks.ping`,
+        return this.apiRequest.post<TasksPingResponse>(`${this.basePath}/v2.1/tasks.ping`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -647,7 +647,7 @@ export class ApiTasksService {
      * Mark a task status as published. For Annotation tasks - if any changes were committed by this task, a new version in the dataset together with an output view are created. For Training tasks - if a model was created, it should be set to ready.
      */
     public tasksPublish(request: TasksPublishRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksPublishResponse>(`${this.basePath}/tasks.publish`,
+        return this.apiRequest.post<TasksPublishResponse>(`${this.basePath}/v2.1/tasks.publish`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -661,7 +661,7 @@ export class ApiTasksService {
      * Publish tasks
      */
     public tasksPublishMany(request: TasksPublishManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksPublishManyResponse>(`${this.basePath}/tasks.publish_many`,
+        return this.apiRequest.post<TasksPublishManyResponse>(`${this.basePath}/v2.13/tasks.publish_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -675,7 +675,7 @@ export class ApiTasksService {
      * Reset a task to its initial state, along with any information stored for it (statistics, frame updates etc.).
      */
     public tasksReset(request: TasksResetRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksResetResponse>(`${this.basePath}/tasks.reset`,
+        return this.apiRequest.post<TasksResetResponse>(`${this.basePath}/v2.21/tasks.reset`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -689,7 +689,7 @@ export class ApiTasksService {
      * Reset tasks
      */
     public tasksResetMany(request: TasksResetManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksResetManyResponse>(`${this.basePath}/tasks.reset_many`,
+        return this.apiRequest.post<TasksResetManyResponse>(`${this.basePath}/v2.21/tasks.reset_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -703,7 +703,7 @@ export class ApiTasksService {
      * Set the script requirements for a task
      */
     public tasksSetRequirements(request: TasksSetRequirementsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksSetRequirementsResponse>(`${this.basePath}/tasks.set_requirements`,
+        return this.apiRequest.post<TasksSetRequirementsResponse>(`${this.basePath}/v2.1/tasks.set_requirements`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -717,7 +717,7 @@ export class ApiTasksService {
      * Mark a task status as in_progress. Optionally allows to set the task\'s execution progress.
      */
     public tasksStarted(request: TasksStartedRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksStartedResponse>(`${this.basePath}/tasks.started`,
+        return this.apiRequest.post<TasksStartedResponse>(`${this.basePath}/v2.1/tasks.started`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -731,7 +731,7 @@ export class ApiTasksService {
      * Request to stop a running task
      */
     public tasksStop(request: TasksStopRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksStopResponse>(`${this.basePath}/tasks.stop`,
+        return this.apiRequest.post<TasksStopResponse>(`${this.basePath}/v2.30/tasks.stop`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -745,7 +745,7 @@ export class ApiTasksService {
      * Request to stop running tasks
      */
     public tasksStopMany(request: TasksStopManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksStopManyResponse>(`${this.basePath}/tasks.stop_many`,
+        return this.apiRequest.post<TasksStopManyResponse>(`${this.basePath}/v2.30/tasks.stop_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -759,7 +759,7 @@ export class ApiTasksService {
      * Signal a task has stopped
      */
     public tasksStopped(request: TasksStoppedRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksStoppedResponse>(`${this.basePath}/tasks.stopped`,
+        return this.apiRequest.post<TasksStoppedResponse>(`${this.basePath}/v2.1/tasks.stopped`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -773,7 +773,7 @@ export class ApiTasksService {
      * Unarchive tasks
      */
     public tasksUnarchiveMany(request: TasksUnarchiveManyRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksUnarchiveManyResponse>(`${this.basePath}/tasks.unarchive_many`,
+        return this.apiRequest.post<TasksUnarchiveManyResponse>(`${this.basePath}/v2.30/tasks.unarchive_many`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -787,7 +787,7 @@ export class ApiTasksService {
      * Update task\'s runtime parameters
      */
     public tasksUpdate(request: TasksUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksUpdateResponse>(`${this.basePath}/tasks.update`,
+        return this.apiRequest.post<TasksUpdateResponse>(`${this.basePath}/v2.1/tasks.update`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -801,7 +801,7 @@ export class ApiTasksService {
      * Report how far a running task is: the outermost progress bar of the script and the bars inside it. The latest value is kept for live display; the database only gets a coarse value.
      */
     public tasksUpdateProgress(request: TasksUpdateProgressRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksUpdateProgressResponse>(`${this.basePath}/tasks.update_progress`,
+        return this.apiRequest.post<TasksUpdateProgressResponse>(`${this.basePath}/v2.23/tasks.update_progress`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -815,7 +815,7 @@ export class ApiTasksService {
      * Add or remove tags from multiple tasks
      */
     public tasksUpdateTags(request: TasksUpdateTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksUpdateTagsResponse>(`${this.basePath}/tasks.update_tags`,
+        return this.apiRequest.post<TasksUpdateTagsResponse>(`${this.basePath}/v2.27/tasks.update_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -829,7 +829,7 @@ export class ApiTasksService {
      * Validate task properties (before create)
      */
     public tasksValidate(request: TasksValidateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<TasksValidateResponse>(`${this.basePath}/tasks.validate`,
+        return this.apiRequest.post<TasksValidateResponse>(`${this.basePath}/v2.41/tasks.validate`,
             request,
             {
                 headers: this.defaultHeaders,

@@ -53,7 +53,7 @@ export class ApiServerService {
      * Get server configuration. Secure section is not returned.
      */
     public serverConfig(request: ServerConfigRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServerConfigResponse>(`${this.basePath}/server.config`,
+        return this.apiRequest.post<ServerConfigResponse>(`${this.basePath}/v2.1/server.config`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -67,7 +67,7 @@ export class ApiServerService {
      * Show available endpoints
      */
     public serverEndpoints(request: ServerEndpointsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServerEndpointsResponse>(`${this.basePath}/server.endpoints`,
+        return this.apiRequest.post<ServerEndpointsResponse>(`${this.basePath}/v2.1/server.endpoints`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -81,7 +81,7 @@ export class ApiServerService {
      * Get the server collected statistics.
      */
     public serverGetStats(request: ServerGetStatsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServerGetStatsResponse>(`${this.basePath}/server.get_stats`,
+        return this.apiRequest.post<ServerGetStatsResponse>(`${this.basePath}/v2.1/server.get_stats`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -95,7 +95,7 @@ export class ApiServerService {
      * Get server information, including version and build number
      */
     public serverInfo(request: ServerInfoRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServerInfoResponse>(`${this.basePath}/server.info`,
+        return this.apiRequest.post<ServerInfoResponse>(`${this.basePath}/v2.12/server.info`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -109,7 +109,7 @@ export class ApiServerService {
      * Get or set the report statistics option per-company
      */
     public serverReportStatsOption(request: ServerReportStatsOptionRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServerReportStatsOptionResponse>(`${this.basePath}/server.report_stats_option`,
+        return this.apiRequest.post<ServerReportStatsOptionResponse>(`${this.basePath}/v2.4/server.report_stats_option`,
             request,
             {
                 headers: this.defaultHeaders,

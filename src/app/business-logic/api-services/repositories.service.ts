@@ -83,7 +83,7 @@ export class ApiRepositoriesService {
      * List a repository before any run has used it. role is code, dataset or registry. A user\'s entry is non-shared; only the admin may add a shared one (shared: true). With project, it is listed in that project; with credential or none_needed, the caller\'s assignment is set. Any spelling of the address names the same repository.
      */
     public repositoriesAdd(request: RepositoriesAddRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesAddResponse>(`${this.basePath}/repositories.add`,
+        return this.apiRequest.post<RepositoriesAddResponse>(`${this.basePath}/v2.40/repositories.add`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -97,7 +97,7 @@ export class ApiRepositoriesService {
      * Set the caller\'s own assignment on a repository, named by ref (id, name or address): one of their credentials, or the company\'s, or none_needed (the host clones it without a credential). With neither, it is cleared. A shared repository is read with a company credential only. The credential must read the repository. Nobody else\'s assignment is changed. An address no one has listed is listed first as the caller\'s own non-shared entry, with role (dataset by default).
      */
     public repositoriesAssign(request: RepositoriesAssignRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesAssignResponse>(`${this.basePath}/repositories.assign`,
+        return this.apiRequest.post<RepositoriesAssignResponse>(`${this.basePath}/v2.40/repositories.assign`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -111,7 +111,7 @@ export class ApiRepositoriesService {
      * Look at a repository again: ask the host whether it is cloned without a credential and try the caller\'s own assignment. The result is stored on the record and returned.
      */
     public repositoriesCheck(request: RepositoriesCheckRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesCheckResponse>(`${this.basePath}/repositories.check`,
+        return this.apiRequest.post<RepositoriesCheckResponse>(`${this.basePath}/v2.40/repositories.check`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiRepositoriesService {
      * Whether a company credential (credential), or None needed (none_needed) for a public repository, reads the repository, so that it may be shared. Returns ok and, when it does not, the reason.
      */
     public repositoriesCheckSharing(request: RepositoriesCheckSharingRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesCheckSharingResponse>(`${this.basePath}/repositories.check_sharing`,
+        return this.apiRequest.post<RepositoriesCheckSharingResponse>(`${this.basePath}/v2.40/repositories.check_sharing`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -139,7 +139,7 @@ export class ApiRepositoriesService {
      * What a client needs to clone a dataset repository: its address, the commit (the head when none is named) and a token made with the credential that reads it for the caller (null when it is cloned without one).
      */
     public repositoriesClone(request: RepositoriesCloneRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesCloneResponse>(`${this.basePath}/repositories.clone`,
+        return this.apiRequest.post<RepositoriesCloneResponse>(`${this.basePath}/v2.40/repositories.clone`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -153,7 +153,7 @@ export class ApiRepositoriesService {
      * Remove a repository: its record, its entries, its assignments and its links. Only its owner or the admin may. The repository itself is not touched.
      */
     public repositoriesDelete(request: RepositoriesDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesDeleteResponse>(`${this.basePath}/repositories.delete`,
+        return this.apiRequest.post<RepositoriesDeleteResponse>(`${this.basePath}/v2.40/repositories.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -167,7 +167,7 @@ export class ApiRepositoriesService {
      * The repository a reference names: its id, its name, or the address of its repository. One the caller may not see is refused as missing. A job may call this for its own task only.
      */
     public repositoriesFind(request: RepositoriesFindRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesFindResponse>(`${this.basePath}/repositories.find`,
+        return this.apiRequest.post<RepositoriesFindResponse>(`${this.basePath}/v2.40/repositories.find`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -181,7 +181,7 @@ export class ApiRepositoriesService {
      * The repositories the caller sees: those they own, the shared ones and those listed in a project they are in (all, for the admin). Each row says what it is, who owns it, where it is listed, the assignments on it (the caller\'s own are editable, the others\' read-only, never a secret) and how the caller reads it now. With project, only those listed in that project.
      */
     public repositoriesGetAll(request: RepositoriesGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGetAllResponse>(`${this.basePath}/repositories.get_all`,
+        return this.apiRequest.post<RepositoriesGetAllResponse>(`${this.basePath}/v2.40/repositories.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -195,7 +195,7 @@ export class ApiRepositoriesService {
      * How the content of a dataset changed from version to version: its samples and splits, from its manifest.json, at the newest commit and at every commit a task ran on, oldest first. Refused as missing when the caller does not see the repository.
      */
     public repositoriesGetDatasetVersions(request: RepositoriesGetDatasetVersionsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGetDatasetVersionsResponse>(`${this.basePath}/repositories.get_dataset_versions`,
+        return this.apiRequest.post<RepositoriesGetDatasetVersionsResponse>(`${this.basePath}/v2.40/repositories.get_dataset_versions`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -209,7 +209,7 @@ export class ApiRepositoriesService {
      * The details of one dataset: its metadata, its description and its commit history (a dataset of our own, by repository id, address or reference, and optionally a commit), or the stored entry of a registry (entry: its id or reference). Refused as missing when the caller does not see it.
      */
     public repositoriesGetDetails(request: RepositoriesGetDetailsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGetDetailsResponse>(`${this.basePath}/repositories.get_details`,
+        return this.apiRequest.post<RepositoriesGetDetailsResponse>(`${this.basePath}/v2.40/repositories.get_details`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -223,7 +223,7 @@ export class ApiRepositoriesService {
      * The condensed history of a repository the caller sees: the newest commit, every commit a task ran on (with its tasks, marked when they ran with uncommitted changes), the first commit, and a gap with the number of hidden commits between them. Covers the default branch and every branch that has a task on a commit of its own, as lanes. Shows the latest 30 commits or 30 tasks of the whole graph, whichever limit comes first. Newest first.
      */
     public repositoriesGetHistory(request: RepositoriesGetHistoryRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGetHistoryResponse>(`${this.basePath}/repositories.get_history`,
+        return this.apiRequest.post<RepositoriesGetHistoryResponse>(`${this.basePath}/v2.40/repositories.get_history`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -237,7 +237,7 @@ export class ApiRepositoriesService {
      * The runs that used a repository (as its code, as a dataset or as a registry), newest first, from the projects the caller sees that list it (all, for the admin). Refused as missing when the caller does not see the repository.
      */
     public repositoriesGetRuns(request: RepositoriesGetRunsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGetRunsResponse>(`${this.basePath}/repositories.get_runs`,
+        return this.apiRequest.post<RepositoriesGetRunsResponse>(`${this.basePath}/v2.40/repositories.get_runs`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -251,7 +251,7 @@ export class ApiRepositoriesService {
      * A token for one repository, for a person\'s machine: read for anyone who sees it, read_write for its owner and the admin. Null when the repository is cloned without one. Refused for jobs and agents. The token is never logged.
      */
     public repositoriesGitToken(request: RepositoriesGitTokenRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesGitTokenResponse>(`${this.basePath}/repositories.git_token`,
+        return this.apiRequest.post<RepositoriesGitTokenResponse>(`${this.basePath}/v2.40/repositories.git_token`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -265,7 +265,7 @@ export class ApiRepositoriesService {
      * List a repository in a project by hand. The caller must see the repository and be a member of the project.
      */
     public repositoriesLink(request: RepositoriesLinkRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesLinkResponse>(`${this.basePath}/repositories.link`,
+        return this.apiRequest.post<RepositoriesLinkResponse>(`${this.basePath}/v2.40/repositories.link`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -279,7 +279,7 @@ export class ApiRepositoriesService {
      * Read a registry again and bring its stored entries in line with it. Only its owner and the admin may. Returns the counts added, updated and removed.
      */
     public repositoriesRefresh(request: RepositoriesRefreshRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesRefreshResponse>(`${this.basePath}/repositories.refresh`,
+        return this.apiRequest.post<RepositoriesRefreshResponse>(`${this.basePath}/v2.40/repositories.refresh`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -293,7 +293,7 @@ export class ApiRepositoriesService {
      * What the repositories of up to 500 tasks need before the caller dispatches them: one row for each repository and project with the ids of its tasks, whether it needs a decision, and the credentials the caller may choose from.
      */
     public repositoriesRequirement(request: RepositoriesRequirementRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesRequirementResponse>(`${this.basePath}/repositories.requirement`,
+        return this.apiRequest.post<RepositoriesRequirementResponse>(`${this.basePath}/v2.40/repositories.requirement`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -307,7 +307,7 @@ export class ApiRepositoriesService {
      * How the caller reads each of up to 50 repositories in a project: the badges of the web app.
      */
     public repositoriesResolve(request: RepositoriesResolveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesResolveResponse>(`${this.basePath}/repositories.resolve`,
+        return this.apiRequest.post<RepositoriesResolveResponse>(`${this.basePath}/v2.40/repositories.resolve`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -321,7 +321,7 @@ export class ApiRepositoriesService {
      * Make an entry shared (owned by the admin and visible to every user) or non-shared again. The owner or the admin makes it shared: ownership moves to the admin and the previous owner\'s assignment and any assignment of a credential that is not the company\'s are dropped. Only the admin makes it non-shared again. To share, the company credential that reads it (credential), or none_needed for a public repository, is required: it is verified first and becomes the admin\'s assignment.
      */
     public repositoriesSetShared(request: RepositoriesSetSharedRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesSetSharedResponse>(`${this.basePath}/repositories.set_shared`,
+        return this.apiRequest.post<RepositoriesSetSharedResponse>(`${this.basePath}/v2.40/repositories.set_shared`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -335,7 +335,7 @@ export class ApiRepositoriesService {
      * Clear the caller\'s own assignment on a repository.
      */
     public repositoriesUnassign(request: RepositoriesUnassignRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesUnassignResponse>(`${this.basePath}/repositories.unassign`,
+        return this.apiRequest.post<RepositoriesUnassignResponse>(`${this.basePath}/v2.40/repositories.unassign`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -349,7 +349,7 @@ export class ApiRepositoriesService {
      * Take a repository out of a project\'s list. The project\'s owner and collaborators may, and so may the repository\'s owner. The repository and every assignment stay.
      */
     public repositoriesUnlink(request: RepositoriesUnlinkRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<RepositoriesUnlinkResponse>(`${this.basePath}/repositories.unlink`,
+        return this.apiRequest.post<RepositoriesUnlinkResponse>(`${this.basePath}/v2.40/repositories.unlink`,
             request,
             {
                 headers: this.defaultHeaders,

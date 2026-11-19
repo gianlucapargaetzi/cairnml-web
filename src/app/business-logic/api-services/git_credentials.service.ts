@@ -49,7 +49,7 @@ export class ApiGitCredentialsService {
      * Delete the Git credential stored for a host and path prefix.
      */
     public git_credentialsDelete(request: GitCredentialsDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<GitCredentialsDeleteResponse>(`${this.basePath}/git_credentials.delete`,
+        return this.apiRequest.post<GitCredentialsDeleteResponse>(`${this.basePath}/v2.8/git_credentials.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -63,7 +63,7 @@ export class ApiGitCredentialsService {
      * The Git credentials configured on this server, without their secrets: which hosts and path prefixes have one, and the user name used with it.
      */
     public git_credentialsGetAll(request: GitCredentialsGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<GitCredentialsGetAllResponse>(`${this.basePath}/git_credentials.get_all`,
+        return this.apiRequest.post<GitCredentialsGetAllResponse>(`${this.basePath}/v2.8/git_credentials.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -77,7 +77,7 @@ export class ApiGitCredentialsService {
      * Store the Git credential for a host, or for a path prefix on it (replacing the one stored before). The secret is encrypted at rest and is never returned by any call. For a repository, the entry with the longest matching path prefix is used.
      */
     public git_credentialsSet(request: GitCredentialsSetRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<GitCredentialsSetResponse>(`${this.basePath}/git_credentials.set`,
+        return this.apiRequest.post<GitCredentialsSetResponse>(`${this.basePath}/v2.8/git_credentials.set`,
             request,
             {
                 headers: this.defaultHeaders,

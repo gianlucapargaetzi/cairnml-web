@@ -55,7 +55,7 @@ export class ApiDatachunksService {
      * Check the stored object against the record (size and sha256). A mismatch deletes the object. A multipart upload is completed from its parts first. Only the upload\'s own task may commit a job\'s upload.
      */
     public datachunksCommit(request: DatachunksCommitRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksCommitResponse>(`${this.basePath}/datachunks.commit`,
+        return this.apiRequest.post<DatachunksCommitResponse>(`${this.basePath}/v2.8/datachunks.commit`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -69,7 +69,7 @@ export class ApiDatachunksService {
      * Short-lived keys for one dataset\'s bucket prefix, for tools that speak S3 themselves (DVC). The keys reach only the prefix named by the response (prefix), at the level asked: read lists and reads its objects, read_write also writes them. A read needs the dataset to be visible to the caller; read_write needs the caller to own the dataset or to be an admin. The keys stop working at expires_at.
      */
     public datachunksDatasetCredentials(request: DatachunksDatasetCredentialsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksDatasetCredentialsResponse>(`${this.basePath}/datachunks.dataset_credentials`,
+        return this.apiRequest.post<DatachunksDatasetCredentialsResponse>(`${this.basePath}/v2.40/datachunks.dataset_credentials`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -83,7 +83,7 @@ export class ApiDatachunksService {
      * Remove stored objects and their records, by datachunk id, or by task, kind and name. Callers need write access to the task (or hold its job token).
      */
     public datachunksDelete(request: DatachunksDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksDeleteResponse>(`${this.basePath}/datachunks.delete`,
+        return this.apiRequest.post<DatachunksDeleteResponse>(`${this.basePath}/v2.8/datachunks.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -97,7 +97,7 @@ export class ApiDatachunksService {
      * Return a presigned GET URL for a stored object, by datachunk id, or by task, kind and name (the newest stored object with that name). Only stored objects can be downloaded.
      */
     public datachunksPrepareDownload(request: DatachunksPrepareDownloadRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksPrepareDownloadResponse>(`${this.basePath}/datachunks.prepare_download`,
+        return this.apiRequest.post<DatachunksPrepareDownloadResponse>(`${this.basePath}/v2.8/datachunks.prepare_download`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -111,7 +111,7 @@ export class ApiDatachunksService {
      * A presigned PUT for one part of a multipart upload. The response headers must be sent with the part. Each part\'s ETag is returned by S3 and goes into commit.
      */
     public datachunksPreparePart(request: DatachunksPreparePartRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksPreparePartResponse>(`${this.basePath}/datachunks.prepare_part`,
+        return this.apiRequest.post<DatachunksPreparePartResponse>(`${this.basePath}/v2.8/datachunks.prepare_part`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -125,7 +125,7 @@ export class ApiDatachunksService {
      * Record a pending upload and return a presigned PUT URL for its bytes. The caller must have write access to the task, or hold a job token for it. The headers returned must be sent with the PUT. Size and sha256 are bound to the URL.
      */
     public datachunksPrepareUpload(request: DatachunksPrepareUploadRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DatachunksPrepareUploadResponse>(`${this.basePath}/datachunks.prepare_upload`,
+        return this.apiRequest.post<DatachunksPrepareUploadResponse>(`${this.basePath}/v2.8/datachunks.prepare_upload`,
             request,
             {
                 headers: this.defaultHeaders,

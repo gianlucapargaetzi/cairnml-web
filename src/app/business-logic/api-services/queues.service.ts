@@ -91,7 +91,7 @@ export class ApiQueuesService {
      * Add or update queue metadata. Allowed for the queue owner and admins.
      */
     public queuesAddOrUpdateMetadata(request: QueuesAddOrUpdateMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesAddOrUpdateMetadataResponse>(`${this.basePath}/queues.add_or_update_metadata`,
+        return this.apiRequest.post<QueuesAddOrUpdateMetadataResponse>(`${this.basePath}/v2.13/queues.add_or_update_metadata`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -105,7 +105,7 @@ export class ApiQueuesService {
      * Adds a task entry to the queue.
      */
     public queuesAddTask(request: QueuesAddTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesAddTaskResponse>(`${this.basePath}/queues.add_task`,
+        return this.apiRequest.post<QueuesAddTaskResponse>(`${this.basePath}/v2.31/queues.add_task`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -119,7 +119,7 @@ export class ApiQueuesService {
      * Grant a user access to a queue: they may use it and allocate it to the projects they own. Allowed for the queue owner and admins
      */
     public queuesAddUser(request: QueuesAddUserRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesAddUserResponse>(`${this.basePath}/queues.add_user`,
+        return this.apiRequest.post<QueuesAddUserResponse>(`${this.basePath}/v2.38/queues.add_user`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -133,7 +133,7 @@ export class ApiQueuesService {
      * Remove all tasks from the queue and change their statuses to what they were prior to enqueuing or \'created\'
      */
     public queuesClearQueue(request: QueuesClearQueueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesClearQueueResponse>(`${this.basePath}/queues.clear_queue`,
+        return this.apiRequest.post<QueuesClearQueueResponse>(`${this.basePath}/v2.31/queues.clear_queue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -147,7 +147,7 @@ export class ApiQueuesService {
      * Deletes a queue. If the queue is not empty and force is not set to true, queue will not be deleted. Allowed for the queue owner and admins.
      */
     public queuesDelete(request: QueuesDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesDeleteResponse>(`${this.basePath}/queues.delete`,
+        return this.apiRequest.post<QueuesDeleteResponse>(`${this.basePath}/v2.4/queues.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -161,7 +161,7 @@ export class ApiQueuesService {
      * Delete metadata from queue. Allowed for the queue owner and admins.
      */
     public queuesDeleteMetadata(request: QueuesDeleteMetadataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesDeleteMetadataResponse>(`${this.basePath}/queues.delete_metadata`,
+        return this.apiRequest.post<QueuesDeleteMetadataResponse>(`${this.basePath}/v2.13/queues.delete_metadata`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -175,7 +175,7 @@ export class ApiQueuesService {
      * Get all queues
      */
     public queuesGetAll(request: QueuesGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetAllResponse>(`${this.basePath}/queues.get_all`,
+        return this.apiRequest.post<QueuesGetAllResponse>(`${this.basePath}/v2.21/queues.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -189,7 +189,7 @@ export class ApiQueuesService {
      * Get all queues
      */
     public queuesGetAllEx(request: QueuesGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetAllExResponse>(`${this.basePath}/queues.get_all_ex`,
+        return this.apiRequest.post<QueuesGetAllExResponse>(`${this.basePath}/v2.35/queues.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -203,7 +203,7 @@ export class ApiQueuesService {
      * Gets queue information
      */
     public queuesGetById(request: QueuesGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetByIdResponse>(`${this.basePath}/queues.get_by_id`,
+        return this.apiRequest.post<QueuesGetByIdResponse>(`${this.basePath}/v2.20/queues.get_by_id`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -214,7 +214,7 @@ export class ApiQueuesService {
     }
 
     public queuesGetDefault(request: QueuesGetDefaultRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetDefaultResponse>(`${this.basePath}/queues.get_default`,
+        return this.apiRequest.post<QueuesGetDefaultResponse>(`${this.basePath}/v2.4/queues.get_default`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -228,7 +228,7 @@ export class ApiQueuesService {
      * Gets the next task from the top of the queue (FIFO). The task entry is removed from the queue.
      */
     public queuesGetNextTask(request: QueuesGetNextTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetNextTaskResponse>(`${this.basePath}/queues.get_next_task`,
+        return this.apiRequest.post<QueuesGetNextTaskResponse>(`${this.basePath}/v2.21/queues.get_next_task`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -242,7 +242,7 @@ export class ApiQueuesService {
      * Get the number of task entries in the given queue
      */
     public queuesGetNumEntries(request: QueuesGetNumEntriesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetNumEntriesResponse>(`${this.basePath}/queues.get_num_entries`,
+        return this.apiRequest.post<QueuesGetNumEntriesResponse>(`${this.basePath}/v2.15/queues.get_num_entries`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -256,7 +256,7 @@ export class ApiQueuesService {
      * Root projects the queue is allocated to
      */
     public queuesGetProjects(request: QueuesGetProjectsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetProjectsResponse>(`${this.basePath}/queues.get_projects`,
+        return this.apiRequest.post<QueuesGetProjectsResponse>(`${this.basePath}/v2.4/queues.get_projects`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -270,7 +270,7 @@ export class ApiQueuesService {
      * Returns metrics of the company queues. The metrics are avaraged in the specified interval.
      */
     public queuesGetQueueMetrics(request: QueuesGetQueueMetricsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetQueueMetricsResponse>(`${this.basePath}/queues.get_queue_metrics`,
+        return this.apiRequest.post<QueuesGetQueueMetricsResponse>(`${this.basePath}/v2.20/queues.get_queue_metrics`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -284,7 +284,7 @@ export class ApiQueuesService {
      * List the users granted access to a queue. Allowed for the queue owner and admins
      */
     public queuesGetUsers(request: QueuesGetUsersRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesGetUsersResponse>(`${this.basePath}/queues.get_users`,
+        return this.apiRequest.post<QueuesGetUsersResponse>(`${this.basePath}/v2.38/queues.get_users`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -295,7 +295,7 @@ export class ApiQueuesService {
     }
 
     public queuesMoveTaskBackward(request: QueuesMoveTaskBackwardRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskBackwardResponse>(`${this.basePath}/queues.move_task_backward`,
+        return this.apiRequest.post<QueuesMoveTaskBackwardResponse>(`${this.basePath}/v2.4/queues.move_task_backward`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -309,7 +309,7 @@ export class ApiQueuesService {
      * Moves a task entry one step forward towards the top of the queue.
      */
     public queuesMoveTaskForward(request: QueuesMoveTaskForwardRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskForwardResponse>(`${this.basePath}/queues.move_task_forward`,
+        return this.apiRequest.post<QueuesMoveTaskForwardResponse>(`${this.basePath}/v2.4/queues.move_task_forward`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -320,7 +320,7 @@ export class ApiQueuesService {
     }
 
     public queuesMoveTaskToBack(request: QueuesMoveTaskToBackRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskToBackResponse>(`${this.basePath}/queues.move_task_to_back`,
+        return this.apiRequest.post<QueuesMoveTaskToBackResponse>(`${this.basePath}/v2.4/queues.move_task_to_back`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -331,7 +331,7 @@ export class ApiQueuesService {
     }
 
     public queuesMoveTaskToFront(request: QueuesMoveTaskToFrontRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskToFrontResponse>(`${this.basePath}/queues.move_task_to_front`,
+        return this.apiRequest.post<QueuesMoveTaskToFrontResponse>(`${this.basePath}/v2.4/queues.move_task_to_front`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -345,7 +345,7 @@ export class ApiQueuesService {
      * Moves task to another queue
      */
     public queuesMoveTaskToQueue(request: QueuesMoveTaskToQueueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesMoveTaskToQueueResponse>(`${this.basePath}/queues.move_task_to_queue`,
+        return this.apiRequest.post<QueuesMoveTaskToQueueResponse>(`${this.basePath}/v2.35/queues.move_task_to_queue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -359,7 +359,7 @@ export class ApiQueuesService {
      * Peek the next task from a given queue
      */
     public queuesPeekTask(request: QueuesPeekTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesPeekTaskResponse>(`${this.basePath}/queues.peek_task`,
+        return this.apiRequest.post<QueuesPeekTaskResponse>(`${this.basePath}/v2.15/queues.peek_task`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -373,7 +373,7 @@ export class ApiQueuesService {
      * Removes a task entry from the queue.
      */
     public queuesRemoveTask(request: QueuesRemoveTaskRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesRemoveTaskResponse>(`${this.basePath}/queues.remove_task`,
+        return this.apiRequest.post<QueuesRemoveTaskResponse>(`${this.basePath}/v2.31/queues.remove_task`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -387,7 +387,7 @@ export class ApiQueuesService {
      * Remove a user\'s access to a queue. Their allocations of the queue on the projects they own are removed too. Allowed for the queue owner and admins
      */
     public queuesRemoveUser(request: QueuesRemoveUserRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesRemoveUserResponse>(`${this.basePath}/queues.remove_user`,
+        return this.apiRequest.post<QueuesRemoveUserResponse>(`${this.basePath}/v2.38/queues.remove_user`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -401,7 +401,7 @@ export class ApiQueuesService {
      * Update queue information. Allowed for the queue owner and admins; the owner and admins may set public.
      */
     public queuesUpdate(request: QueuesUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<QueuesUpdateResponse>(`${this.basePath}/queues.update`,
+        return this.apiRequest.post<QueuesUpdateResponse>(`${this.basePath}/v2.38/queues.update`,
             request,
             {
                 headers: this.defaultHeaders,

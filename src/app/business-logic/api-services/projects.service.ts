@@ -113,7 +113,7 @@ export class ApiProjectsService {
      * Add a user to a project with the given role. Requires admin access to the project. If the user is already a member, the role is updated
      */
     public projectsAddMember(request: ProjectsAddMemberRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsAddMemberResponse>(`${this.basePath}/projects.add_member`,
+        return this.apiRequest.post<ProjectsAddMemberResponse>(`${this.basePath}/v2.37/projects.add_member`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -127,7 +127,7 @@ export class ApiProjectsService {
      * Allocate queues to a project. Owner only. A queue is allocated at most once, and only queues the owner may allocate can be added
      */
     public projectsAddQueues(request: ProjectsAddQueuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsAddQueuesResponse>(`${this.basePath}/projects.add_queues`,
+        return this.apiRequest.post<ProjectsAddQueuesResponse>(`${this.basePath}/v2.38/projects.add_queues`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -141,7 +141,7 @@ export class ApiProjectsService {
      * Create a new project
      */
     public projectsCreate(request: ProjectsCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsCreateResponse>(`${this.basePath}/projects.create`,
+        return this.apiRequest.post<ProjectsCreateResponse>(`${this.basePath}/v2.1/projects.create`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -155,7 +155,7 @@ export class ApiProjectsService {
      * Deletes a project
      */
     public projectsDelete(request: ProjectsDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsDeleteResponse>(`${this.basePath}/projects.delete`,
+        return this.apiRequest.post<ProjectsDeleteResponse>(`${this.basePath}/v2.26/projects.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -169,7 +169,7 @@ export class ApiProjectsService {
      * Get all the company\'s projects and all public projects
      */
     public projectsGetAll(request: ProjectsGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetAllResponse>(`${this.basePath}/projects.get_all`,
+        return this.apiRequest.post<ProjectsGetAllResponse>(`${this.basePath}/v2.15/projects.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -183,7 +183,7 @@ export class ApiProjectsService {
      * Get all the company\'s projects and all public projects
      */
     public projectsGetAllEx(request: ProjectsGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetAllExResponse>(`${this.basePath}/projects.get_all_ex`,
+        return this.apiRequest.post<ProjectsGetAllExResponse>(`${this.basePath}/v2.41/projects.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -197,7 +197,7 @@ export class ApiProjectsService {
      * Get the queues the project owner may allocate: public queues and queues granted to the owner. Owner only
      */
     public projectsGetAssignableQueues(request: ProjectsGetAssignableQueuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetAssignableQueuesResponse>(`${this.basePath}/projects.get_assignable_queues`,
+        return this.apiRequest.post<ProjectsGetAssignableQueuesResponse>(`${this.basePath}/v2.38/projects.get_assignable_queues`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -208,7 +208,7 @@ export class ApiProjectsService {
     }
 
     public projectsGetById(request: ProjectsGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetByIdResponse>(`${this.basePath}/projects.get_by_id`,
+        return this.apiRequest.post<ProjectsGetByIdResponse>(`${this.basePath}/v2.1/projects.get_by_id`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -222,7 +222,7 @@ export class ApiProjectsService {
      * Get the runs of a project in a period, per day and per user who owns them. Requires read access to the project
      */
     public projectsGetContributions(request: ProjectsGetContributionsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetContributionsResponse>(`${this.basePath}/projects.get_contributions`,
+        return this.apiRequest.post<ProjectsGetContributionsResponse>(`${this.basePath}/v2.39/projects.get_contributions`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -236,7 +236,7 @@ export class ApiProjectsService {
      * Get a list of all hyper parameter sections and names used in tasks within the given project.
      */
     public projectsGetHyperParameters(request: ProjectsGetHyperParametersRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetHyperParametersResponse>(`${this.basePath}/projects.get_hyper_parameters`,
+        return this.apiRequest.post<ProjectsGetHyperParametersResponse>(`${this.basePath}/v2.13/projects.get_hyper_parameters`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -250,7 +250,7 @@ export class ApiProjectsService {
      * Get a list of distinct values for the chosen hyperparameter
      */
     public projectsGetHyperparamValues(request: ProjectsGetHyperparamValuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetHyperparamValuesResponse>(`${this.basePath}/projects.get_hyperparam_values`,
+        return this.apiRequest.post<ProjectsGetHyperparamValuesResponse>(`${this.basePath}/v2.27/projects.get_hyperparam_values`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -264,7 +264,7 @@ export class ApiProjectsService {
      * Get the owner and the members of a project. Requires read access to the project
      */
     public projectsGetMembers(request: ProjectsGetMembersRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetMembersResponse>(`${this.basePath}/projects.get_members`,
+        return this.apiRequest.post<ProjectsGetMembersResponse>(`${this.basePath}/v2.37/projects.get_members`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -278,7 +278,7 @@ export class ApiProjectsService {
      * Get a list of all metadata keys used in models within the given project.
      */
     public projectsGetModelMetadataKeys(request: ProjectsGetModelMetadataKeysRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetModelMetadataKeysResponse>(`${this.basePath}/projects.get_model_metadata_keys`,
+        return this.apiRequest.post<ProjectsGetModelMetadataKeysResponse>(`${this.basePath}/v2.17/projects.get_model_metadata_keys`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -292,7 +292,7 @@ export class ApiProjectsService {
      * Get a list of distinct values for the chosen model metadata key
      */
     public projectsGetModelMetadataValues(request: ProjectsGetModelMetadataValuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetModelMetadataValuesResponse>(`${this.basePath}/projects.get_model_metadata_values`,
+        return this.apiRequest.post<ProjectsGetModelMetadataValuesResponse>(`${this.basePath}/v2.26/projects.get_model_metadata_values`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -306,7 +306,7 @@ export class ApiProjectsService {
      * Get user and system tags used for the models under the specified projects
      */
     public projectsGetModelTags(request: ProjectsGetModelTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetModelTagsResponse>(`${this.basePath}/projects.get_model_tags`,
+        return this.apiRequest.post<ProjectsGetModelTagsResponse>(`${this.basePath}/v2.8/projects.get_model_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -320,7 +320,7 @@ export class ApiProjectsService {
      * The overview board of a project: a version and the cards on the grid, or null when the project never saved one. Requires read access to the project
      */
     public projectsGetOverviewBoard(request: ProjectsGetOverviewBoardRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetOverviewBoardResponse>(`${this.basePath}/projects.get_overview_board`,
+        return this.apiRequest.post<ProjectsGetOverviewBoardResponse>(`${this.basePath}/v2.40/projects.get_overview_board`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -334,7 +334,7 @@ export class ApiProjectsService {
      * Get user and system tags used for the specified projects and their children
      */
     public projectsGetProjectTags(request: ProjectsGetProjectTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetProjectTagsResponse>(`${this.basePath}/projects.get_project_tags`,
+        return this.apiRequest.post<ProjectsGetProjectTagsResponse>(`${this.basePath}/v2.17/projects.get_project_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -348,7 +348,7 @@ export class ApiProjectsService {
      * Get the queues allocated to a project. Requires read access to the project
      */
     public projectsGetQueues(request: ProjectsGetQueuesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetQueuesResponse>(`${this.basePath}/projects.get_queues`,
+        return this.apiRequest.post<ProjectsGetQueuesResponse>(`${this.basePath}/v2.41/projects.get_queues`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -362,7 +362,7 @@ export class ApiProjectsService {
      * Get unique parent tasks for the tasks in the specified projects
      */
     public projectsGetTaskParents(request: ProjectsGetTaskParentsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetTaskParentsResponse>(`${this.basePath}/projects.get_task_parents`,
+        return this.apiRequest.post<ProjectsGetTaskParentsResponse>(`${this.basePath}/v2.25/projects.get_task_parents`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -376,7 +376,7 @@ export class ApiProjectsService {
      * Get user and system tags used for the tasks under the specified projects
      */
     public projectsGetTaskTags(request: ProjectsGetTaskTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetTaskTagsResponse>(`${this.basePath}/projects.get_task_tags`,
+        return this.apiRequest.post<ProjectsGetTaskTagsResponse>(`${this.basePath}/v2.8/projects.get_task_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -390,7 +390,7 @@ export class ApiProjectsService {
      * Get all metric/variant pairs reported for tasks in a specific project. If no project is specified, metrics/variant paris reported for all tasks will be returned. If the project does not exist, an empty list will be returned.
      */
     public projectsGetUniqueMetricVariants(request: ProjectsGetUniqueMetricVariantsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetUniqueMetricVariantsResponse>(`${this.basePath}/projects.get_unique_metric_variants`,
+        return this.apiRequest.post<ProjectsGetUniqueMetricVariantsResponse>(`${this.basePath}/v2.28/projects.get_unique_metric_variants`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -404,7 +404,7 @@ export class ApiProjectsService {
      * Get names and ids of the users who created child entitites under the passed projects
      */
     public projectsGetUserNames(request: ProjectsGetUserNamesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsGetUserNamesResponse>(`${this.basePath}/projects.get_user_names`,
+        return this.apiRequest.post<ProjectsGetUserNamesResponse>(`${this.basePath}/v2.26/projects.get_user_names`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -418,7 +418,7 @@ export class ApiProjectsService {
      * Convert public projects to private
      */
     public projectsMakePrivate(request: ProjectsMakePrivateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsMakePrivateResponse>(`${this.basePath}/projects.make_private`,
+        return this.apiRequest.post<ProjectsMakePrivateResponse>(`${this.basePath}/v2.9/projects.make_private`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -432,7 +432,7 @@ export class ApiProjectsService {
      * Convert company projects to public
      */
     public projectsMakePublic(request: ProjectsMakePublicRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsMakePublicResponse>(`${this.basePath}/projects.make_public`,
+        return this.apiRequest.post<ProjectsMakePublicResponse>(`${this.basePath}/v2.9/projects.make_public`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -446,7 +446,7 @@ export class ApiProjectsService {
      * Moves all the source project\'s contents to the destination project and remove the source project
      */
     public projectsMerge(request: ProjectsMergeRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsMergeResponse>(`${this.basePath}/projects.merge`,
+        return this.apiRequest.post<ProjectsMergeResponse>(`${this.basePath}/v2.13/projects.merge`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -460,7 +460,7 @@ export class ApiProjectsService {
      * Moves a project and all of its subprojects under the different location
      */
     public projectsMove(request: ProjectsMoveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsMoveResponse>(`${this.basePath}/projects.move`,
+        return this.apiRequest.post<ProjectsMoveResponse>(`${this.basePath}/v2.13/projects.move`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -474,7 +474,7 @@ export class ApiProjectsService {
      * Remove a user from the members of a project. Requires admin access to the project
      */
     public projectsRemoveMember(request: ProjectsRemoveMemberRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsRemoveMemberResponse>(`${this.basePath}/projects.remove_member`,
+        return this.apiRequest.post<ProjectsRemoveMemberResponse>(`${this.basePath}/v2.37/projects.remove_member`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -488,7 +488,7 @@ export class ApiProjectsService {
      * Remove a queue allocation from a project. Owner only
      */
     public projectsRemoveQueue(request: ProjectsRemoveQueueRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsRemoveQueueResponse>(`${this.basePath}/projects.remove_queue`,
+        return this.apiRequest.post<ProjectsRemoveQueueResponse>(`${this.basePath}/v2.38/projects.remove_queue`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -502,7 +502,7 @@ export class ApiProjectsService {
      * Saves the overview board of a project. Only the owner of the project may. The version is the one the board was read at: when the board was saved since, nothing is changed and the call is refused. A card has id, type, x, y, w, h (cells of a 6 column grid with quarter tile rows) and settings
      */
     public projectsSetOverviewBoard(request: ProjectsSetOverviewBoardRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsSetOverviewBoardResponse>(`${this.basePath}/projects.set_overview_board`,
+        return this.apiRequest.post<ProjectsSetOverviewBoardResponse>(`${this.basePath}/v2.40/projects.set_overview_board`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -516,7 +516,7 @@ export class ApiProjectsService {
      * Set the visibility of a project. Requires admin access to the project
      */
     public projectsSetVisibility(request: ProjectsSetVisibilityRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsSetVisibilityResponse>(`${this.basePath}/projects.set_visibility`,
+        return this.apiRequest.post<ProjectsSetVisibilityResponse>(`${this.basePath}/v2.37/projects.set_visibility`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -530,7 +530,7 @@ export class ApiProjectsService {
      * Transfer the ownership of a project to one of its members. The previous owner becomes a collaborator. Requires the project owner or a company admin
      */
     public projectsTransferOwnership(request: ProjectsTransferOwnershipRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsTransferOwnershipResponse>(`${this.basePath}/projects.transfer_ownership`,
+        return this.apiRequest.post<ProjectsTransferOwnershipResponse>(`${this.basePath}/v2.37/projects.transfer_ownership`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -544,7 +544,7 @@ export class ApiProjectsService {
      * Update project information
      */
     public projectsUpdate(request: ProjectsUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsUpdateResponse>(`${this.basePath}/projects.update`,
+        return this.apiRequest.post<ProjectsUpdateResponse>(`${this.basePath}/v2.39/projects.update`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -558,7 +558,7 @@ export class ApiProjectsService {
      * Change the role of a project member. Requires admin access to the project
      */
     public projectsUpdateMemberRole(request: ProjectsUpdateMemberRoleRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsUpdateMemberRoleResponse>(`${this.basePath}/projects.update_member_role`,
+        return this.apiRequest.post<ProjectsUpdateMemberRoleResponse>(`${this.basePath}/v2.37/projects.update_member_role`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -572,7 +572,7 @@ export class ApiProjectsService {
      * Get what a project can use: the repositories listed in it (code, datasets and registries). Requires membership of the project (read). can_manage says whether the caller may take one out of the list.
      */
     public projectsUsable(request: ProjectsUsableRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsUsableResponse>(`${this.basePath}/projects.usable`,
+        return this.apiRequest.post<ProjectsUsableResponse>(`${this.basePath}/v2.41/projects.usable`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -586,7 +586,7 @@ export class ApiProjectsService {
      * Validates that the project existis and can be deleted
      */
     public projectsValidateDelete(request: ProjectsValidateDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ProjectsValidateDeleteResponse>(`${this.basePath}/projects.validate_delete`,
+        return this.apiRequest.post<ProjectsValidateDeleteResponse>(`${this.basePath}/v2.26/projects.validate_delete`,
             request,
             {
                 headers: this.defaultHeaders,

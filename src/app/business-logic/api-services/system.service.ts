@@ -47,7 +47,7 @@ export class ApiSystemService {
      * The delete service\'s records for the given urls: the deletions it has not finished, with their status and last failure. A url that is not listed has been removed from storage. Refused unless apiserver.e2e.reset_enabled is set.
      */
     public systemE2eDeletions(request: SystemE2eDeletionsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<SystemE2eDeletionsResponse>(`${this.basePath}/system.e2e_deletions`,
+        return this.apiRequest.post<SystemE2eDeletionsResponse>(`${this.basePath}/v2.1/system.e2e_deletions`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -61,7 +61,7 @@ export class ApiSystemService {
      * Remove the objects the end-to-end suite made: projects and tasks whose name starts with the configured prefix (apiserver.e2e.name_prefix), with their contents. Nothing else is removed. Refused unless apiserver.e2e.reset_enabled is set.
      */
     public systemE2eReset(request: SystemE2eResetRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<SystemE2eResetResponse>(`${this.basePath}/system.e2e_reset`,
+        return this.apiRequest.post<SystemE2eResetResponse>(`${this.basePath}/v2.1/system.e2e_reset`,
             request,
             {
                 headers: this.defaultHeaders,

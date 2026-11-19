@@ -93,7 +93,7 @@ export class ApiLoginService {
      * Return supported login modes.
      */
     public loginSupportedModes(request: LoginSupportedModesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<LoginSupportedModesResponse>(`${this.basePath}/login.supported_modes`,
+        return this.apiRequest.post<LoginSupportedModesResponse>(`${this.basePath}/v2.41/login.supported_modes`,
             request,
             {
                 headers: this.defaultHeaders,

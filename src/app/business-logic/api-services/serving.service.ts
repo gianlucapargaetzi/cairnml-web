@@ -57,7 +57,7 @@ export class ApiServingService {
      * Container status report
      */
     public servingContainerStatusReport(request: ServingContainerStatusReportRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingContainerStatusReportResponse>(`${this.basePath}/serving.container_status_report`,
+        return this.apiRequest.post<ServingContainerStatusReportResponse>(`${this.basePath}/v2.31/serving.container_status_report`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -71,7 +71,7 @@ export class ApiServingService {
      * Get endpoint details
      */
     public servingGetEndpointDetails(request: ServingGetEndpointDetailsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingGetEndpointDetailsResponse>(`${this.basePath}/serving.get_endpoint_details`,
+        return this.apiRequest.post<ServingGetEndpointDetailsResponse>(`${this.basePath}/v2.31/serving.get_endpoint_details`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -85,7 +85,7 @@ export class ApiServingService {
      * Get endpoint charts
      */
     public servingGetEndpointMetricsHistory(request: ServingGetEndpointMetricsHistoryRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingGetEndpointMetricsHistoryResponse>(`${this.basePath}/serving.get_endpoint_metrics_history`,
+        return this.apiRequest.post<ServingGetEndpointMetricsHistoryResponse>(`${this.basePath}/v2.31/serving.get_endpoint_metrics_history`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -99,7 +99,7 @@ export class ApiServingService {
      * Get all the registered endpoints
      */
     public servingGetEndpoints(request: ServingGetEndpointsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingGetEndpointsResponse>(`${this.basePath}/serving.get_endpoints`,
+        return this.apiRequest.post<ServingGetEndpointsResponse>(`${this.basePath}/v2.31/serving.get_endpoints`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -113,7 +113,7 @@ export class ApiServingService {
      * Get loading instances (enpoint_url not set yet)
      */
     public servingGetLoadingInstances(request: ServingGetLoadingInstancesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingGetLoadingInstancesResponse>(`${this.basePath}/serving.get_loading_instances`,
+        return this.apiRequest.post<ServingGetLoadingInstancesResponse>(`${this.basePath}/v2.31/serving.get_loading_instances`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -127,7 +127,7 @@ export class ApiServingService {
      * Register container
      */
     public servingRegisterContainer(request: ServingRegisterContainerRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingRegisterContainerResponse>(`${this.basePath}/serving.register_container`,
+        return this.apiRequest.post<ServingRegisterContainerResponse>(`${this.basePath}/v2.31/serving.register_container`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -141,7 +141,7 @@ export class ApiServingService {
      * Unregister container
      */
     public servingUnregisterContainer(request: ServingUnregisterContainerRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ServingUnregisterContainerResponse>(`${this.basePath}/serving.unregister_container`,
+        return this.apiRequest.post<ServingUnregisterContainerResponse>(`${this.basePath}/v2.31/serving.unregister_container`,
             request,
             {
                 headers: this.defaultHeaders,

@@ -51,7 +51,7 @@ export class ApiImportsService {
      * Check the stored ZIP against its record (size and sha256). A multipart upload is completed from its parts first. A mismatch deletes the object.
      */
     public importsCommit(request: ImportsCommitRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ImportsCommitResponse>(`${this.basePath}/imports.commit`,
+        return this.apiRequest.post<ImportsCommitResponse>(`${this.basePath}/v2.39/imports.commit`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -65,7 +65,7 @@ export class ApiImportsService {
      * A presigned PUT for one part of a multipart staging upload. Only the user who asked for the upload may use it.
      */
     public importsPreparePart(request: ImportsPreparePartRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ImportsPreparePartResponse>(`${this.basePath}/imports.prepare_part`,
+        return this.apiRequest.post<ImportsPreparePartResponse>(`${this.basePath}/v2.39/imports.prepare_part`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -79,7 +79,7 @@ export class ApiImportsService {
      * Record a staging upload for a run\'s ZIP and return a presigned PUT URL for its bytes. A large ZIP gets a multipart upload, with one presigned URL per part (prepare_part). The headers returned must be sent with the PUT. Size and sha256 are bound to the URL. An upload that is not imported within 24 hours is removed.
      */
     public importsPrepareUpload(request: ImportsPrepareUploadRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ImportsPrepareUploadResponse>(`${this.basePath}/imports.prepare_upload`,
+        return this.apiRequest.post<ImportsPrepareUploadResponse>(`${this.basePath}/v2.39/imports.prepare_upload`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -93,7 +93,7 @@ export class ApiImportsService {
      * Import a stored ZIP as a new task. The manifest\'s project must exist and the user must have write access to it. The task gets the run\'s parameters, its scalars and its files as artifacts. On failure nothing is left behind and the upload can be imported again. On success the staged ZIP is removed.
      */
     public importsRun(request: ImportsRunRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ImportsRunResponse>(`${this.basePath}/imports.run`,
+        return this.apiRequest.post<ImportsRunResponse>(`${this.basePath}/v2.39/imports.run`,
             request,
             {
                 headers: this.defaultHeaders,

@@ -59,7 +59,7 @@ export class ApiDevicesService {
      * Register a device\'s public key. The request carries the identity provider\'s sign-in token as a bearer token.
      */
     public devicesEnroll(request: DevicesEnrollRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesEnrollResponse>(`${this.basePath}/devices.enroll`,
+        return this.apiRequest.post<DevicesEnrollResponse>(`${this.basePath}/v2.8/devices.enroll`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -73,7 +73,7 @@ export class ApiDevicesService {
      * Exchange a short assertion signed with the device\'s key for a short-lived access token.
      */
     public devicesExchange(request: DevicesExchangeRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesExchangeResponse>(`${this.basePath}/devices.exchange`,
+        return this.apiRequest.post<DevicesExchangeResponse>(`${this.basePath}/v2.8/devices.exchange`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -87,7 +87,7 @@ export class ApiDevicesService {
      * List devices: the caller\'s own, or all devices for an admin.
      */
     public devicesGetAll(request: DevicesGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesGetAllResponse>(`${this.basePath}/devices.get_all`,
+        return this.apiRequest.post<DevicesGetAllResponse>(`${this.basePath}/v2.8/devices.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -101,7 +101,7 @@ export class ApiDevicesService {
      * A read-only credential for one task\'s repository, for the job or the agent running it. On GitHub it is a token for that repository only, valid for about an hour. On another host it is the Git credential stored for the host and path prefix (username and token), which does not expire; it is refused when none is stored.
      */
     public devicesGitToken(request: DevicesGitTokenRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesGitTokenResponse>(`${this.basePath}/devices.git_token`,
+        return this.apiRequest.post<DevicesGitTokenResponse>(`${this.basePath}/v2.8/devices.git_token`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -115,7 +115,7 @@ export class ApiDevicesService {
      * The identity provider\'s issuer and the client id that devices sign in with. Public information.
      */
     public devicesIdpSettings(request: DevicesIdpSettingsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesIdpSettingsResponse>(`${this.basePath}/devices.idp_settings`,
+        return this.apiRequest.post<DevicesIdpSettingsResponse>(`${this.basePath}/v2.8/devices.idp_settings`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -129,7 +129,7 @@ export class ApiDevicesService {
      * An agent asks for a token to run one task it has taken. The token acts as the task\'s owner, for that task only, and ends with the job.
      */
     public devicesJobToken(request: DevicesJobTokenRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesJobTokenResponse>(`${this.basePath}/devices.job_token`,
+        return this.apiRequest.post<DevicesJobTokenResponse>(`${this.basePath}/v2.8/devices.job_token`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -143,7 +143,7 @@ export class ApiDevicesService {
      * Move a device to another admin. The device key stays, so the agent keeps running without re-enrolment. Allowed for an admin only; the new owner must be an enabled admin. Recorded as an audit event.
      */
     public devicesReassign(request: DevicesReassignRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesReassignResponse>(`${this.basePath}/devices.reassign`,
+        return this.apiRequest.post<DevicesReassignResponse>(`${this.basePath}/v2.8/devices.reassign`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -157,7 +157,7 @@ export class ApiDevicesService {
      * Revoke a device. Its next request is refused. Allowed for the owner and for an admin.
      */
     public devicesRevoke(request: DevicesRevokeRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<DevicesRevokeResponse>(`${this.basePath}/devices.revoke`,
+        return this.apiRequest.post<DevicesRevokeResponse>(`${this.basePath}/v2.8/devices.revoke`,
             request,
             {
                 headers: this.defaultHeaders,

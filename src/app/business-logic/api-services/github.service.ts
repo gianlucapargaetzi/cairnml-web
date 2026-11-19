@@ -47,7 +47,7 @@ export class ApiGithubService {
      * Runs the GitHub App check now and returns its result, with the steps. Admins only.
      */
     public githubCheck(request: GithubCheckRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<GithubCheckResponse>(`${this.basePath}/github.check`,
+        return this.apiRequest.post<GithubCheckResponse>(`${this.basePath}/v2.38/github.check`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -61,7 +61,7 @@ export class ApiGithubService {
      * The last check of the GitHub App: state (ok, refused, unreachable, not_configured or unknown) and a one-line message for the banner. Every signed-in user gets the state and the message; if something does not work the message says to contact an admin. Admins also get the steps of the check, the App, its repositories and the dataset registries with their dataset counts. The check runs when the server starts and on github.check.
      */
     public githubStatus(request: GithubStatusRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<GithubStatusResponse>(`${this.basePath}/github.status`,
+        return this.apiRequest.post<GithubStatusResponse>(`${this.basePath}/v2.38/github.status`,
             request,
             {
                 headers: this.defaultHeaders,

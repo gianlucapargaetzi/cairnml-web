@@ -63,7 +63,7 @@ export class ApiReportsService {
      * Archive report
      */
     public reportsArchive(request: ReportsArchiveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsArchiveResponse>(`${this.basePath}/reports.archive`,
+        return this.apiRequest.post<ReportsArchiveResponse>(`${this.basePath}/v2.23/reports.archive`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -77,7 +77,7 @@ export class ApiReportsService {
      * Create a new report
      */
     public reportsCreate(request: ReportsCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsCreateResponse>(`${this.basePath}/reports.create`,
+        return this.apiRequest.post<ReportsCreateResponse>(`${this.basePath}/v2.24/reports.create`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -91,7 +91,7 @@ export class ApiReportsService {
      * Delete report
      */
     public reportsDelete(request: ReportsDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsDeleteResponse>(`${this.basePath}/reports.delete`,
+        return this.apiRequest.post<ReportsDeleteResponse>(`${this.basePath}/v2.23/reports.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -105,7 +105,7 @@ export class ApiReportsService {
      * Get all the company\'s and public report tasks
      */
     public reportsGetAllEx(request: ReportsGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsGetAllExResponse>(`${this.basePath}/reports.get_all_ex`,
+        return this.apiRequest.post<ReportsGetAllExResponse>(`${this.basePath}/v2.27/reports.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -119,7 +119,7 @@ export class ApiReportsService {
      * Get all the user tags used for the company reports
      */
     public reportsGetTags(request: ReportsGetTagsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsGetTagsResponse>(`${this.basePath}/reports.get_tags`,
+        return this.apiRequest.post<ReportsGetTagsResponse>(`${this.basePath}/v2.23/reports.get_tags`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -133,7 +133,7 @@ export class ApiReportsService {
      * Get the tasks data according the passed search criteria + requested events
      */
     public reportsGetTaskData(request: ReportsGetTaskDataRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsGetTaskDataResponse>(`${this.basePath}/reports.get_task_data`,
+        return this.apiRequest.post<ReportsGetTaskDataResponse>(`${this.basePath}/v2.41/reports.get_task_data`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -147,7 +147,7 @@ export class ApiReportsService {
      * Move reports to a project
      */
     public reportsMove(request: ReportsMoveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsMoveResponse>(`${this.basePath}/reports.move`,
+        return this.apiRequest.post<ReportsMoveResponse>(`${this.basePath}/v2.23/reports.move`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -161,7 +161,7 @@ export class ApiReportsService {
      * Publish report
      */
     public reportsPublish(request: ReportsPublishRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsPublishResponse>(`${this.basePath}/reports.publish`,
+        return this.apiRequest.post<ReportsPublishResponse>(`${this.basePath}/v2.23/reports.publish`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -175,7 +175,7 @@ export class ApiReportsService {
      * Unarchive report
      */
     public reportsUnarchive(request: ReportsUnarchiveRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsUnarchiveResponse>(`${this.basePath}/reports.unarchive`,
+        return this.apiRequest.post<ReportsUnarchiveResponse>(`${this.basePath}/v2.23/reports.unarchive`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -189,7 +189,7 @@ export class ApiReportsService {
      * Create a new report
      */
     public reportsUpdate(request: ReportsUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<ReportsUpdateResponse>(`${this.basePath}/reports.update`,
+        return this.apiRequest.post<ReportsUpdateResponse>(`${this.basePath}/v2.24/reports.update`,
             request,
             {
                 headers: this.defaultHeaders,

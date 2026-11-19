@@ -47,7 +47,7 @@ export class ApiPipelinesService {
      * Delete pipeline runs
      */
     public pipelinesDeleteRuns(request: PipelinesDeleteRunsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<PipelinesDeleteRunsResponse>(`${this.basePath}/pipelines.delete_runs`,
+        return this.apiRequest.post<PipelinesDeleteRunsResponse>(`${this.basePath}/v2.26/pipelines.delete_runs`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -61,7 +61,7 @@ export class ApiPipelinesService {
      * Start a pipeline
      */
     public pipelinesStartPipeline(request: PipelinesStartPipelineRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<PipelinesStartPipelineResponse>(`${this.basePath}/pipelines.start_pipeline`,
+        return this.apiRequest.post<PipelinesStartPipelineResponse>(`${this.basePath}/v2.28/pipelines.start_pipeline`,
             request,
             {
                 headers: this.defaultHeaders,

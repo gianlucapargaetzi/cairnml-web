@@ -61,7 +61,7 @@ export class ApiUsersService {
      * Create a new user object. Reserved for internal use.
      */
     public usersCreate(request: UsersCreateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersCreateResponse>(`${this.basePath}/users.create`,
+        return this.apiRequest.post<UsersCreateResponse>(`${this.basePath}/v2.1/users.create`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -75,7 +75,7 @@ export class ApiUsersService {
      * Delete a user
      */
     public usersDelete(request: UsersDeleteRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersDeleteResponse>(`${this.basePath}/users.delete`,
+        return this.apiRequest.post<UsersDeleteResponse>(`${this.basePath}/v2.1/users.delete`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -89,7 +89,7 @@ export class ApiUsersService {
      * Get all user objects
      */
     public usersGetAll(request: UsersGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersGetAllResponse>(`${this.basePath}/users.get_all`,
+        return this.apiRequest.post<UsersGetAllResponse>(`${this.basePath}/v2.1/users.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -103,7 +103,7 @@ export class ApiUsersService {
      * Get all user objects
      */
     public usersGetAllEx(request: UsersGetAllExRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersGetAllExResponse>(`${this.basePath}/users.get_all_ex`,
+        return this.apiRequest.post<UsersGetAllExResponse>(`${this.basePath}/v2.8/users.get_all_ex`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -117,7 +117,7 @@ export class ApiUsersService {
      * Gets user information
      */
     public usersGetById(request: UsersGetByIdRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersGetByIdResponse>(`${this.basePath}/users.get_by_id`,
+        return this.apiRequest.post<UsersGetByIdResponse>(`${this.basePath}/v2.1/users.get_by_id`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -131,7 +131,7 @@ export class ApiUsersService {
      * Gets current user information, based on the authenticated user making the call.
      */
     public usersGetCurrentUser(request: UsersGetCurrentUserRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersGetCurrentUserResponse>(`${this.basePath}/users.get_current_user`,
+        return this.apiRequest.post<UsersGetCurrentUserResponse>(`${this.basePath}/v2.31/users.get_current_user`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -145,7 +145,7 @@ export class ApiUsersService {
      * Get user preferences
      */
     public usersGetPreferences(request: UsersGetPreferencesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersGetPreferencesResponse>(`${this.basePath}/users.get_preferences`,
+        return this.apiRequest.post<UsersGetPreferencesResponse>(`${this.basePath}/v2.1/users.get_preferences`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -159,7 +159,7 @@ export class ApiUsersService {
      * Set user preferences
      */
     public usersSetPreferences(request: UsersSetPreferencesRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersSetPreferencesResponse>(`${this.basePath}/users.set_preferences`,
+        return this.apiRequest.post<UsersSetPreferencesResponse>(`${this.basePath}/v2.33/users.set_preferences`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -173,7 +173,7 @@ export class ApiUsersService {
      * Update a user object
      */
     public usersUpdate(request: UsersUpdateRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<UsersUpdateResponse>(`${this.basePath}/users.update`,
+        return this.apiRequest.post<UsersUpdateResponse>(`${this.basePath}/v2.1/users.update`,
             request,
             {
                 headers: this.defaultHeaders,

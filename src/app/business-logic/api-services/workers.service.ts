@@ -59,7 +59,7 @@ export class ApiWorkersService {
      * Returns count of active company workers in the selected time range.
      */
     public workersGetActivityReport(request: WorkersGetActivityReportRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersGetActivityReportResponse>(`${this.basePath}/workers.get_activity_report`,
+        return this.apiRequest.post<WorkersGetActivityReportResponse>(`${this.basePath}/v2.4/workers.get_activity_report`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -73,7 +73,7 @@ export class ApiWorkersService {
      * Returns information on all registered workers.
      */
     public workersGetAll(request: WorkersGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersGetAllResponse>(`${this.basePath}/workers.get_all`,
+        return this.apiRequest.post<WorkersGetAllResponse>(`${this.basePath}/v2.39/workers.get_all`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -87,7 +87,7 @@ export class ApiWorkersService {
      * Returns the number of registered workers.
      */
     public workersGetCount(request: WorkersGetCountRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersGetCountResponse>(`${this.basePath}/workers.get_count`,
+        return this.apiRequest.post<WorkersGetCountResponse>(`${this.basePath}/v2.30/workers.get_count`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -101,7 +101,7 @@ export class ApiWorkersService {
      * Returns worker statistics metric keys grouped by categories.
      */
     public workersGetMetricKeys(request: WorkersGetMetricKeysRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersGetMetricKeysResponse>(`${this.basePath}/workers.get_metric_keys`,
+        return this.apiRequest.post<WorkersGetMetricKeysResponse>(`${this.basePath}/v2.4/workers.get_metric_keys`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -115,7 +115,7 @@ export class ApiWorkersService {
      * Returns statistics for the selected workers and time range aggregated by date intervals.
      */
     public workersGetStats(request: WorkersGetStatsRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersGetStatsResponse>(`${this.basePath}/workers.get_stats`,
+        return this.apiRequest.post<WorkersGetStatsResponse>(`${this.basePath}/v2.32/workers.get_stats`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -129,7 +129,7 @@ export class ApiWorkersService {
      * Register a worker in the system. Called by the Worker Daemon.
      */
     public workersRegister(request: WorkersRegisterRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersRegisterResponse>(`${this.basePath}/workers.register`,
+        return this.apiRequest.post<WorkersRegisterResponse>(`${this.basePath}/v2.34/workers.register`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -143,7 +143,7 @@ export class ApiWorkersService {
      * Called periodically by the worker daemon to report machine status
      */
     public workersStatusReport(request: WorkersStatusReportRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersStatusReportResponse>(`${this.basePath}/workers.status_report`,
+        return this.apiRequest.post<WorkersStatusReportResponse>(`${this.basePath}/v2.39/workers.status_report`,
             request,
             {
                 headers: this.defaultHeaders,
@@ -157,7 +157,7 @@ export class ApiWorkersService {
      * Unregister a worker in the system. Called by the Worker Daemon.
      */
     public workersUnregister(request: WorkersUnregisterRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<WorkersUnregisterResponse>(`${this.basePath}/workers.unregister`,
+        return this.apiRequest.post<WorkersUnregisterResponse>(`${this.basePath}/v2.4/workers.unregister`,
             request,
             {
                 headers: this.defaultHeaders,
