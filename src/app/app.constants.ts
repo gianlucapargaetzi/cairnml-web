@@ -100,6 +100,11 @@ export const updateHttpUrlBaseConstant = (_environment: Environment) => {
   let apiBaseUrl: string;
   if (_environment.apiBaseUrl) {
     apiBaseUrl = _environment.apiBaseUrl;
+    // A relative API address is relative to the path the server is served under. Without one the API is found by
+    // guessAPIServerURL, which already knows that path.
+    if (!/^https?:\/\//.test(apiBaseUrl)) {
+      apiBaseUrl = getBasePath() + '/' + apiBaseUrl.replace(/^\/+/, '');
+    }
   } else {
     apiBaseUrl = guessAPIServerURL();
   }
