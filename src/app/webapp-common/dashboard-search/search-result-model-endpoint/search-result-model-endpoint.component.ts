@@ -1,7 +1,7 @@
-import {Component, input, output} from '@angular/core';
+import {Component, computed, input, output} from '@angular/core';
 import {ResultLineComponent} from '@common/shared/ui-components/panel/result-line/result-line.component';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 
 @Component({
@@ -15,6 +15,8 @@ import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 })
 export class SearchResultModelEndpointComponent {
 
-  entity = input<EndpointStats | ContainerInfo>()
-  modelEndpointSelected = output<EndpointStats | ContainerInfo>();
+  entity = input<ServingEndpoint | ContainerInfo>()
+  // only a container entry carries its preprocess artifact; an endpoint summary does not
+  protected readonly preprocessArtifact = computed(() => (this.entity() as ContainerInfo)?.preprocess_artifact);
+  modelEndpointSelected = output<ServingEndpoint | ContainerInfo>();
 }

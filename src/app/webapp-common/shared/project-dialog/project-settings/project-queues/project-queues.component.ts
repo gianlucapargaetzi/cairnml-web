@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
-import {ProjectsQueueSummary} from '~/business-logic/model/projects/projectsQueueSummary';
+import {ProjectsGetQueuesResponseQueues} from '~/business-logic/model/projects/projectsGetQueuesResponseQueues';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
@@ -18,7 +18,7 @@ import {SHARE_LEVEL_LABELS} from '@common/shared/ui-components/inputs/share-cont
 import {ProjectShareService} from '../project-share.service';
 
 // A queue of the project with the level of its share (read, read_write or collaborator) from the share record.
-interface ProjectQueueRow extends ProjectsQueueSummary {
+interface ProjectQueueRow extends ProjectsGetQueuesResponseQueues {
   level?: 'read' | 'read_write' | 'collaborator';
   share_id?: string;
 }

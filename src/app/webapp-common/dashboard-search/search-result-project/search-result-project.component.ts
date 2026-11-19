@@ -1,7 +1,7 @@
 import {Component, input, output} from '@angular/core';
 import {ResultLineComponent} from '@common/shared/ui-components/panel/result-line/result-line.component';
 import {TimeAgoPipe} from '@common/shared/pipes/timeAgo';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 
 @Component({
   selector: 'sm-search-result-project',
@@ -14,7 +14,7 @@ import {Project} from '~/business-logic/model/projects/project';
 })
 export class SearchResultProjectComponent {
 
-  entity = input<Project>()
+  entity = input<ProjectsGetAllResponseSingle>()
   statusOptionsLabels = input<Record<string,string>>();
-  projectSelected = output<Project>();
+  projectSelected = output<ProjectsGetAllResponseSingle>();
 }

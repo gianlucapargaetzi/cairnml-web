@@ -22,7 +22,7 @@ import {ScatterPlotPoint, selectAllProjectsUsers, selectCompanyTagsLastUpdate, s
 import {OperationErrorDialogComponent} from '@common/shared/ui-components/overlay/operation-error-dialog/operation-error-dialog.component';
 import {ApiTasksService} from '~/business-logic/api-services/tasks.service';
 import {createMetricColumn, excludedKey, MetricColumn} from '@common/shared/utils/tableParamEncode';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {TasksGetAllExRequest} from '~/business-logic/model/tasks/tasksGetAllExRequest';
 import {setSelectedExperiments} from '../../experiments/actions/common-experiments-view.actions';
 import {setActiveWorkspace} from '@common/core/actions/users.actions';
@@ -32,7 +32,6 @@ import {escapeRegex} from '@common/shared/utils/escape-regex';
 import {ProjectsGetAllExRequest} from '~/business-logic/model/projects/projectsGetAllExRequest';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {rootProjectsPageSize} from '@common/constants';
-import {HTTP} from '~/app.constants';
 import {cleanTag} from '@common/shared/utils/helpers.util';
 import {selectExperimentsTableFilters} from '@common/experiments/reducers';
 import {Params} from '@angular/router';
@@ -45,6 +44,7 @@ import {ProjectsGetUserNamesRequest} from '~/business-logic/model/projects/proje
 import {ProjectsGetUserNamesResponse} from '~/business-logic/model/projects/projectsGetUserNamesResponse';
 import {fetchUsersForTypes} from '~/features/projects/projects.consts';
 import {FilterMetadata} from 'primeng/api';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export const ALL_PROJECTS_OBJECT = {id: '*', name: 'All Tasks'};
 
@@ -416,7 +416,7 @@ export class ProjectsEffects {
   //   ofType(downloadForGetAll),
   //   filter(action => !!action.prepareId),
   //   withLatestFrom(this.store.select(selectActiveWorkspace)),
-  //   switchMap(([action, workspace]) => fromFetch(`${HTTP.API_BASE_URL}/organization.download_for_get_all`,
+  //   switchMap(([action, workspace]) => fromFetch(endpointUrl('organization.download_for_get_all'),
   //     {
   //       ...(workspace?.id && {headers: {[TENANT_HEADER] : workspace.id}}),
   //       method: 'POST',
@@ -442,7 +442,7 @@ export class ProjectsEffects {
     filter(action => !!action.prepareId)
   )).subscribe((action) => {
       const a = document.createElement('a');
-      a.href = `${HTTP.API_BASE_URL}/organization.download_for_get_all?prepare_id=${action.prepareId}`;
+      a.href = `${endpointUrl('organization.download_for_get_all')}?prepare_id=${action.prepareId}`;
       a.target = '_blank';
       a.click();
     }

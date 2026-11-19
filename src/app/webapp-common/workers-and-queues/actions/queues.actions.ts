@@ -5,8 +5,7 @@ import {Topic} from '@common/shared/components/charts/line-chart/line-chart.comp
 
 export interface Queue extends Omit<BLQueue, 'id'> {
   id: string;
-  caption: string;
-  profile_connection: {profile: string; policy: string; user_group: string; policy_name?: string}
+  caption: string; // the queue's name, shown as its caption (set by the app)
 }
 
 export const queueActions = createActionGroup({

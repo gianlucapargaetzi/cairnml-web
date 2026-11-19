@@ -6,7 +6,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
 import {lastValueFrom} from 'rxjs';
 import {PrimeTemplate} from 'primeng/api';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
@@ -23,6 +22,7 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {AddAccessDialogComponent} from './add-access-dialog.component';
 import {serverMessage} from '@common/shared/utils/server-message';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // One credential, as the server lists it: a GitHub App (a user's or the company's), or a company Git
 // credential for another host. "git" rows are the company's Git credentials; the others are accesses.
@@ -165,7 +165,7 @@ export class AccessComponent implements OnInit {
   private async run(id: string, endpoint: string, body: unknown, success: string, failure: string) {
     this.busy.set(id);
     try {
-      await lastValueFrom(this.apiRequest.post(`${HTTP.API_BASE_URL}/${endpoint}`, body, {}));
+      await lastValueFrom(this.apiRequest.post(endpointUrl(endpoint), body, {}));
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, success));
       await this.load();
     } catch (error) {
@@ -181,7 +181,7 @@ export class AccessComponent implements OnInit {
     try {
       const res = await lastValueFrom(this.apiRequest.post<{
         credentials: CredentialView[];
-      }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {}));
+      }>(endpointUrl('user_access.get_all'), {}, {}));
       this.credentials.set(res.credentials ?? []);
     } catch (error) {
       this.error.set(serverMessage(error) ?? 'The credentials could not be loaded.');

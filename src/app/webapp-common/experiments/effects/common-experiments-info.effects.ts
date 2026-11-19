@@ -67,7 +67,7 @@ import {selectSelectedProject} from '../../core/reducers/projects.reducer';
 import {PIPELINE_INFO_ONLY_FIELDS} from '@common/pipelines-controller/controllers.consts';
 import {TasksGetByIdExResponse} from '~/business-logic/model/tasks/tasksGetByIdExResponse';
 import {ARTIFACTS_ONLY_FIELDS} from '@common/experiments/experiment.consts';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {RefreshService} from '@common/core/services/refresh.service';
 import {downloadObjectAsJson} from '@common/experiments/shared/common-experiments.utils';
 import {buildTaskExportData, generateTaskExportFilename} from '@common/experiments/shared/task-export.utils';
@@ -81,12 +81,13 @@ import {TasksGetAllExResponse} from '~/business-logic/model/tasks/tasksGetAllExR
 import {TaskStatusEnum} from '~/business-logic/model/tasks/taskStatusEnum';
 import {UserPreferences} from '@common/user-preferences';
 import {TaskTypeEnum} from '~/business-logic/model/tasks/taskTypeEnum';
+import {asReference} from '@common/shared/utils/reference';
 
 
 @Injectable()
 export class CommonExperimentsInfoEffects {
   private locationStrategy = inject(LocationStrategy);
-  private previousSelectedLastUpdate: Date = null;
+  private previousSelectedLastUpdate: Date | string = null;
   private previousSelectedId: string;
   private userPreferences = inject(UserPreferences);
 
@@ -512,8 +513,9 @@ export class CommonExperimentsInfoEffects {
     concatLatestFrom(() => [this.store.select(selectSelectedExperiment)]),
     switchMap(([action, selectedExperiment]) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const {type, parent, ...changes} = action;
-      return this.apiTasks.tasksEdit({task: selectedExperiment.id, ...changes, ...(parent && {parent: parent.id})})
+      const {type, parent, project, ...changes} = action;
+      // a project is sent as its ID
+      return this.apiTasks.tasksEdit({task: selectedExperiment.id, ...changes, ...(project && {project: typeof project === 'string' ? project : project.id}), ...(parent && {parent: asReference(parent).id})})
         .pipe(
           mergeMap(() => 'models' in changes ?
             [

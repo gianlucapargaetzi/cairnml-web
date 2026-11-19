@@ -39,6 +39,14 @@ export interface ContainerInstanceStats {
      */
     last_update?: string;
     /**
+     * CPU Count
+     */
+    cpu_count?: number;
+    /**
+     * GPU Count
+     */
+    gpu_count?: number;
+    /**
      * Array of reference items provided by the container instance. Can contain multiple reference items with the same type
      */
     reference?: ContainerInstanceStatsReference[];

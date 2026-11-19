@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, input, output, computed} from '@angular/core';
 import {CircleTypeEnum} from '~/shared/constants/non-common-consts';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {ICONS} from '@common/constants';
 import {trackById} from '@common/shared/utils/forms-track-by';
 import {ProjectTypeEnum} from '@common/nested-project-view/nested-project-view-page/nested-project-view-page.component';
@@ -15,6 +15,7 @@ import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} fr
 import {ClickStopPropagationDirective} from '@common/shared/ui-components/directives/click-stop-propagation.directive';
 import {CleanProjectPathPipe} from '@common/shared/pipes/clean-project-path.pipe';
 import {BreadcrumbsEllipsisPipe} from '@common/shared/pipes/breadcrumbs-ellipsis.pipe';
+import {referenceId} from '@common/shared/utils/reference';
 
 
 @Component({
@@ -37,13 +38,14 @@ import {BreadcrumbsEllipsisPipe} from '@common/shared/pipes/breadcrumbs-ellipsis
   ]
 })
 export class NestedCardComponent {
+  protected readonly referenceId = referenceId;
 
   trackById = trackById;
   protected readonly circleTypeEnum = CircleTypeEnum;
   protected readonly icons = ICONS;
 
   projectsNames = input<string[]>();
-  project = input<Project>();
+  project = input<ProjectsGetAllResponseSingle>();
   isRootProject = input();
   hideMenu = input(true);
   allTags = input<string[]>();
@@ -57,7 +59,7 @@ export class NestedCardComponent {
         name: string;
     }>();
   projectNameChanged = output<string>();
-  deleteProjectClicked = output<Project>();
+  deleteProjectClicked = output<ProjectsGetAllResponseSingle>();
 
   protected projectClean = computed(() => ({...this.project(), sub_projects: this.project().sub_projects?.filter(subP => !subP.name.includes('.pipelines') && !subP.name.includes('.datasets') && !subP.name.includes('.reports'))}));
 
@@ -66,7 +68,7 @@ export class NestedCardComponent {
     this.projectCardClicked.emit({hasSubProjects, id: this.projectClean().id, name: this.projectClean().name});
   }
 
-  subProjectClicked(project: Project) {
+  subProjectClicked(project: ProjectsGetAllResponseSingle) {
     const hasSubProjects = this.projectClean().sub_projects?.filter(pr => pr.name.startsWith(`${project.name}/`))
       .filter((subProject) => {
         const realSubProject = subProject.name.slice(project.name.length);

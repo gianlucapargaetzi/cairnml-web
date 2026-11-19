@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {GetVariantWithoutRoundPipe} from './get-variant-without-round.pipe';
 import {getRoundedNumber} from '../../common-experiments.utils';
 import {decodeHyperParam} from '@common/shared/utils/tableParamEncode';

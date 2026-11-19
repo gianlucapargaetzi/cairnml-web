@@ -9,7 +9,6 @@ import {MatRadioButton, MatRadioChange, MatRadioGroup} from '@angular/material/r
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {lastValueFrom} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
@@ -20,6 +19,7 @@ import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export type ShareResourceType = 'queue' | 'dataset' | 'registry' | 'credential';
 
@@ -199,7 +199,7 @@ export class ShareControlComponent implements OnInit {
         ? [{scope: 'public', project: '', level: 'read'}]
         : this.selectedProjects().map(project => ({scope: 'projects', project, level: this.level()}));
       for (const request of requests) {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/access.share`, {
+        await lastValueFrom(this.api.post(endpointUrl('access.share'), {
           resource_type: this.resourceType(),
           resource_id: this.resourceId(),
           ...request,
@@ -238,7 +238,7 @@ export class ShareControlComponent implements OnInit {
       }
       this.busy.set(true);
       try {
-        await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/access.unshare`, {share_id: row.id}, {}));
+        await lastValueFrom(this.api.post(endpointUrl('access.unshare'), {share_id: row.id}, {}));
         this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Sharing stopped'));
         await this.load();
       } catch (error) {
@@ -254,11 +254,11 @@ export class ShareControlComponent implements OnInit {
     this.error.set(null);
     try {
       const [listed, access] = await Promise.all([
-        lastValueFrom(this.api.post<{ shares: ShareView[] }>(`${HTTP.API_BASE_URL}/access.list`, {
+        lastValueFrom(this.api.post<{ shares: ShareView[] }>(endpointUrl('access.list'), {
           resource_type: this.resourceType(),
           resource_id: this.resourceId(),
         }, {})),
-        lastValueFrom(this.api.post<{ projects: ProjectOption[] }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {})),
+        lastValueFrom(this.api.post<{ projects: ProjectOption[] }>(endpointUrl('user_access.get_all'), {}, {})),
       ]);
       this.shares.set(listed.shares ?? []);
       this.projects.set(access.projects ?? []);

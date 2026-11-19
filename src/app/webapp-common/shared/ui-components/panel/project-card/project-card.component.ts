@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, output, ViewChild, input } from '@angular/core';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {CircleTypeEnum} from '~/shared/constants/non-common-consts';
-import {Project} from '~/business-logic/model/projects/project';
 import {trackById} from '@common/shared/utils/forms-track-by';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {CardComponent} from '@common/shared/ui-components/panel/card/card.component';
@@ -16,6 +15,7 @@ import {ClickStopPropagationDirective} from '@common/shared/ui-components/direct
 import {ProjectCardMenuExtendedComponent} from '~/features/projects/containers/project-card-menu-extended/project-card-menu-extended.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
+import {referenceId} from '@common/shared/utils/reference';
 
 
 @Component({
@@ -42,6 +42,7 @@ import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/
   ]
 })
 export class ProjectCardComponent {
+  protected readonly referenceId = referenceId;
   private _project: ProjectsGetAllResponseSingle;
   public computeTime: string;
   public hidden = false;
@@ -50,7 +51,7 @@ export class ProjectCardComponent {
 
   projectsNames = input<string[]>();
 
-  @Input() set project(data: Project) {
+  @Input() set project(data: ProjectsGetAllResponseSingle) {
     this._project = data;
     this.hidden = data.hidden || data.system_tags?.includes('hidden');
     this.computeTime = this.convertSecToDaysHrsMinsSec(data.stats?.active?.total_runtime);
@@ -64,13 +65,13 @@ export class ProjectCardComponent {
   hideProjectPathIcon = input(false);
   hideMenu = input(false);
   settingsOnly = input(false);
-  projectCardClicked = output<Project>();
+  projectCardClicked = output<ProjectsGetAllResponseSingle>();
   projectNameChanged = output<string>();
-  deleteProjectClicked = output<Project>();
-  moveToClicked = output<Project>();
-  newProjectClicked = output<Project>();
-  projectEditClicked = output<Project>();
-  projectSettingsClicked = output<Project>();
+  deleteProjectClicked = output<ProjectsGetAllResponseSingle>();
+  moveToClicked = output<ProjectsGetAllResponseSingle>();
+  newProjectClicked = output<ProjectsGetAllResponseSingle>();
+  projectEditClicked = output<ProjectsGetAllResponseSingle>();
+  projectSettingsClicked = output<ProjectsGetAllResponseSingle>();
   @ViewChild('projectName', {static: true}) projectName;
 
 

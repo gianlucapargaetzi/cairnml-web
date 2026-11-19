@@ -5,7 +5,7 @@ import type {Config, Layout, PlotData} from 'plotly.js';
 import {ExtData, ExtFrame, ExtLayout} from '../shared/single-graph/plotly-graph-base';
 import {MetricsPlotEvent} from '../../business-logic/model/events/models';
 import {KeyValue} from '@angular/common';
-import {EventsGetTaskSingleValueMetricsResponseTasks} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseTasks';
+import {SingleValueTaskMetrics} from '~/business-logic/model/events/singleValueTaskMetrics';
 import {maxInArray} from '@common/shared/utils/helpers.util';
 import {GroupedList} from '@common/tasks/tasks.model';
 import {ISelectedExperiment} from '~/features/experiments/shared/experiment-info.model';
@@ -14,6 +14,13 @@ import {ReportsApiMultiplotsResponse} from '@common/constants';
 export interface ExtMetricsPlotEvent extends MetricsPlotEvent {
   variants?: string[];
 }
+
+/**
+ * What prepareGraph reads of the graph it frames: a plot event as the server sends it (its type is the literal 'plot'), a
+ * frame that is framed again, or the description of a graph the app draws itself, where `type` names the kind of graph
+ * ('scalar', 'singleValue'). The kind is not the event's type: the event keeps the literal the schema gives it.
+ */
+export type GraphSource = Partial<Pick<ExtFrame, 'iter' | 'metric' | 'task' | 'timestamp' | 'variant' | 'variants' | 'worker' | 'type'>>;
 
 export type IMultiplot = Record<string, Record<number, Record<string, { // experimentId
   name: string;
@@ -56,7 +63,7 @@ export const getModelDesign = (modelDesc: Task['execution']['model_desc']): { ke
   return {key, value: key ? modelDesc[key] : modelDesc};
 };
 
-export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config: Partial<Config>, graph: Partial<ExtMetricsPlotEvent>): ExtFrame =>
+export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config: Partial<Config>, graph: GraphSource): ExtFrame =>
   ({
     data,
     layout,
@@ -68,7 +75,7 @@ export const prepareGraph = (data: ExtData[], layout: Partial<ExtLayout>, config
     type: (graph.type ?? Array.isArray(data) ? data[0]?.type : data) as unknown as string,
     variant: graph.variant,
     variants: graph.variants,
-    worker: graph['worker'],
+    worker: graph.worker,
     group: null,
     name: null,
     traces: null,
@@ -552,7 +559,7 @@ function addMissingExperimentsToPlots(charts, idToName) {
   }));
 }
 
-export function createMultiSingleValuesMultiChart(singleValues: EventsGetTaskSingleValueMetricsResponseTasks[], visibles = {}): ExtFrame[] {
+export function createMultiSingleValuesMultiChart(singleValues: SingleValueTaskMetrics[], visibles = {}): ExtFrame[] {
   const yValues = singleValues?.map(singleValue => singleValue.values.map(trace => (trace.value))).flat(1) ?? [0];
   const maxY = maxInArray(yValues);
   const tickformat = maxY >= 1e9 || (maxY < 1e-5 && maxY > 0) ? '.1e' : undefined;
@@ -610,7 +617,7 @@ export function createMultiSingleValuesMultiChart(singleValues: EventsGetTaskSin
   } as ExtData)), {...chartLayout, title: {text: variant}, type: 'singleValues', showlegend: true}, {}, tasks[i] ?? tasks[0]));
 }
 
-export function createMultiSingleValuesChart(singleValues: EventsGetTaskSingleValueMetricsResponseTasks[], visibles = {}): ExtFrame {
+export function createMultiSingleValuesChart(singleValues: SingleValueTaskMetrics[], visibles = {}): ExtFrame {
   const yValues = singleValues?.map(singleValue => singleValue.values.map(trace => (trace.value))).flat(1) ?? [0];
   const maxY = maxInArray(yValues);
   const tickformat = maxY >= 1e9 || (maxY < 1e-5 && maxY > 0) ? '.1e' : undefined;

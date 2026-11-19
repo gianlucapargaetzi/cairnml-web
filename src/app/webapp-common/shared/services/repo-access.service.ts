@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // How a project reads a repository (repositories.resolve / requirement). No secret is ever part of it. `ask`: the web app
 // warns before a dispatch, because nothing is assigned and the company's access does not reach the repository.
@@ -38,7 +38,7 @@ export class RepoAccessService {
       return of([]);
     }
     const body = project ? {refs: repositories, project} : {refs: repositories};
-    return this.api.post<{ repositories?: RepoAccess[] }>(`${HTTP.API_BASE_URL}/repositories.resolve`, body, {})
+    return this.api.post<{ repositories?: RepoAccess[] }>(endpointUrl('repositories.resolve'), body, {})
       .pipe(
         map(response => response?.repositories ?? []),
         // a failed check shows no badge; the page itself still works
@@ -51,7 +51,7 @@ export class RepoAccessService {
     if (!tasks.length) {
       return of([]);
     }
-    return this.api.post<{ repositories?: RepoAccess[] }>(`${HTTP.API_BASE_URL}/repositories.requirement`, {tasks}, {})
+    return this.api.post<{ repositories?: RepoAccess[] }>(endpointUrl('repositories.requirement'), {tasks}, {})
       .pipe(
         map(response => response?.repositories ?? []),
         // a failed check never stops a dispatch: the server checks again when the task is enqueued

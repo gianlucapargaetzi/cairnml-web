@@ -22,7 +22,7 @@ export const prepareColsForDownload = (cols: ISmCol[], valuesMap?: Record<string
         field: thisCol.downloadKey ?? thisCol.getter as string ?? thisCol.id,
         name: (thisCol.downloadKey ? `${thisCol.header}: ${thisCol.downloadKey}` : thisCol.header ),
         ...(!!valuesMap?.[thisCol.downloadKey ?? thisCol.getter as string ?? thisCol.id] && {values: valuesMap[thisCol.downloadKey ?? thisCol.getter as string ?? thisCol.id]})
-      } as FieldMapping)
+      } as unknown as FieldMapping)
     );
 
 const excelFormulaPrefix = ['=', '+', '-', '@', '\r', '\t'];

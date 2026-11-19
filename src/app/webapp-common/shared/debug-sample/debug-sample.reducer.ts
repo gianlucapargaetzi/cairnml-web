@@ -1,5 +1,5 @@
 import {createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {EventsGetDebugImageIterationsResponse} from '~/business-logic/model/events/eventsGetDebugImageIterationsResponse';
+import {EventsGetDebugImageSampleResponse} from '~/business-logic/model/events/eventsGetDebugImageSampleResponse';
 import {setSelectedMetric} from '@common/debug-images/debug-images-actions';
 import {
   resetViewer, setBeginningOfTime, setCurrentDebugImage, setDebugImageIterations, setDebugImageViewerScrollId, setViewerBeginningOfTime, setViewerEndOfTime
@@ -21,7 +21,7 @@ export const debugSampleFeatureKey = 'debugSample';
 
 export interface DebugSampleState {
   beginningOfTime: any;
-  minMaxIterations: EventsGetDebugImageIterationsResponse;
+  minMaxIterations: Pick<EventsGetDebugImageSampleResponse, 'min_iteration' | 'max_iteration'>;
   imageViewerScrollId: string;
   imageViewerBeginningOfTime: boolean;
   imageViewerEndOfTime: boolean;

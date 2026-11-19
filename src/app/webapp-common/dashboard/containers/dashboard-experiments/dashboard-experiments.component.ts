@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, input, output} from '@angular/core';
 import {Router} from '@angular/router';
 import {IRecentTask} from '../../common-dashboard.reducer';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {RecentExperimentTableComponent} from '@common/dashboard/dumb/recent-experiment-table/recent-experiment-table.component';
 
 @Component({

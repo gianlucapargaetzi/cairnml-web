@@ -3,6 +3,7 @@ import {Project} from '~/business-logic/model/projects/project';
 import {MenuItemComponent} from '@common/shared/ui-components/panel/menu-item/menu-item.component';
 import {MenuComponent} from '@common/shared/ui-components/panel/menu/menu.component';
 import {MatDivider} from '@angular/material/divider';
+import {referenceId} from '@common/shared/utils/reference';
 
 
 @Component({
@@ -17,6 +18,7 @@ import {MatDivider} from '@angular/material/divider';
   ]
 })
 export class ProjectCardMenuComponent {
+  protected readonly referenceId = referenceId;
   deleteProjectClicked = output<Project>();
   moveToClicked = output<Project>();
   newProjectClicked = output<Project>();

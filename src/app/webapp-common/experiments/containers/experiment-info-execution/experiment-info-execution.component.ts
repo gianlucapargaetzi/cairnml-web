@@ -27,7 +27,6 @@ import {
 } from '../../dumb/experiment-execution-source-code/experiment-execution-source-code.component';
 import {isUndefined} from 'lodash-es';
 import {ActivatedRoute} from '@angular/router';
-import {Container} from '~/business-logic/model/tasks/container';
 import {
   IOption
 } from '@common/shared/ui-components/inputs/select-autocomplete-with-chips/select-autocomplete-with-chips.component';
@@ -173,7 +172,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
     }));
   }
 
-  saveContainerData(container: Container) {
+  saveContainerData(container: Record<string, string>) {
     this.store.dispatch(commonInfoActions.saveExperimentSection({container: {...this.formData.container, ...container}}));
   }
 

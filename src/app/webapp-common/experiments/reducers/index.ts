@@ -14,7 +14,7 @@ import {experimentsViewInitialState} from '@common/experiments/reducers/experime
 import {selectIsModels} from '../../experiments-compare/reducers';
 import {FilterMetadata} from 'primeng/api';
 import {SortMeta} from 'primeng/api';
-import {EventsGetTaskSingleValueMetricsResponseValues} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseValues';
+import {SingleValueTaskMetricsValues} from '~/business-logic/model/events/singleValueTaskMetricsValues';
 import {selectModelExperimentsTableFilters} from '@common/models/reducers';
 import {smoothTypeEnum, SmoothTypeEnum} from '@common/shared/single-graph/single-graph.utils';
 import {EXPERIMENT_COMMENT} from '@common/experiments/dumb/experiment-details/experiment-details.component';
@@ -256,7 +256,7 @@ export const selectExperimentHyperParamsSelectedSectionParams =
       const sectionData = get(hyperparams, section);
       return sectionData && Object.entries(sectionData).map(([, value]) => value)
     });
-export const selectScalarSingleValue = createSelector(experimentOutput, (state): EventsGetTaskSingleValueMetricsResponseValues[] => state.scalarSingleValue);
+export const selectScalarSingleValue = createSelector(experimentOutput, (state): SingleValueTaskMetricsValues[] => state.scalarSingleValue);
 export const selectHasScalarSingleValue = createSelector(selectScalarSingleValue, (scalarSingleValue): boolean => scalarSingleValue?.length > 0);
 export const selectLastMetricsValues = createSelector(experimentOutput, (state): Task['last_metrics'] => state.lastMetrics);
 

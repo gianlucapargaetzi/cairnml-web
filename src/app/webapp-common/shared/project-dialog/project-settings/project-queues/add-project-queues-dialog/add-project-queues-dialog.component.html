@@ -4,7 +4,7 @@
       <mat-label>Queues</mat-label>
       <mat-select multiple [value]="queues()" (selectionChange)="queues.set($event.value)" data-id="projectQueues">
         @for (queue of data.queues; track queue.id) {
-          <mat-option [value]="queue.id">{{ queue.name }}{{ queue.public ? ' (public)' : '' }}</mat-option>
+          <mat-option [value]="queue.id">{{ queue.name }}</mat-option>
         }
       </mat-select>
     </mat-form-field>

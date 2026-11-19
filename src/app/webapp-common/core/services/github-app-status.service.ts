@@ -3,9 +3,9 @@ import {Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {HTTP} from '~/app.constants';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {addMessage} from '@common/core/actions/layout.actions';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface GithubAppStatus {
   state: 'ok' | 'refused' | 'unreachable' | 'not_configured' | 'unknown';
@@ -32,7 +32,7 @@ export class GithubAppStatusService {
   }
 
   status(): Observable<GithubAppStatus | null> {
-    return this.api.post<{ status?: GithubAppStatus }>(`${HTTP.API_BASE_URL}/github.status`, {}, {}).pipe(
+    return this.api.post<{ status?: GithubAppStatus }>(endpointUrl('github.status'), {}, {}).pipe(
       map(response => response?.status ?? null),
       // a failed request shows no banner: the page itself still works
       catchError(() => of(null)),

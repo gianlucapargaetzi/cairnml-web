@@ -3,7 +3,7 @@ import {Project} from '~/business-logic/model/projects/project';
 import {User} from '~/business-logic/model/users/user';
 import {Task} from '~/business-logic/model/tasks/task';
 import {Artifact} from '~/business-logic/model/tasks/artifact';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {DataDictionary} from '@common/experiments-compare/experiments-compare.constants';
 import {
   IOption
@@ -88,19 +88,10 @@ export type ExperimentTableColFieldsEnum =
   | 'parent'
   | 'tags';
 
-export interface ITableExperiment {
-  id: Task['id'];
-  type?: Task['type'];
-  name?: Task['name'];
-  display_name?: Task['display_name'];
-  created?: Task['created'];
-  completed?: Task['completed'];
-  status?: Task['status'];
-  system_tags?: Task['system_tags'];
-  tags?: Task['tags'];
-  last_update?: Task['last_update'];
-  parent?: {id: string; name: string; project?: {id: string}};
-}
+export type ITableExperiment = Required<Pick<Task, 'id'>> &
+  Partial<Pick<Task, 'type' | 'name' | 'display_name' | 'created' | 'completed' | 'status' | 'system_tags' | 'tags' | 'parent'>> & {
+  last_update?: Task['last_update'] | Date;
+};
 
 export interface CloneExperimentPayload {
   project?: IOption ;

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ProjectsUpdateMemberRoleRequest} from '~/business-logic/model/projects/projectsUpdateMemberRoleRequest';
 import {DatePipe} from '@angular/common';
 import {MatDialog} from '@angular/material/dialog';
 import {MatFormField} from '@angular/material/form-field';
@@ -9,7 +10,6 @@ import {MatIconButton, MatButton} from '@angular/material/button';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {ProjectMember} from '~/business-logic/model/projects/projectMember';
 import {ProjectSettingsStore} from '~/features/dashboard-search/project-settings-dashboard-search-permissions.store';
 import {CompanyUser, MemberRow} from '@common/shared/project-dialog/project-settings/project-settings-dialog.store';
 import {
@@ -29,15 +29,15 @@ export class ProjectMembersComponent {
   protected settingsStore = inject(ProjectSettingsStore);
   private dialog = inject(MatDialog);
 
-  protected readonly roles: {value: ProjectMember.RoleEnum; label: string}[] = [
-    {value: ProjectMember.RoleEnum.Read, label: 'Read'},
-    {value: ProjectMember.RoleEnum.ReadWrite, label: 'Read & Write'},
-    {value: ProjectMember.RoleEnum.Collaborator, label: 'Collaborator'},
+  protected readonly roles: {value: string; label: string}[] = [
+    {value: 'read', label: 'Read'},
+    {value: 'read_write', label: 'Read & Write'},
+    {value: 'collaborator', label: 'Collaborator'},
   ];
   protected memberError = signal<string>(null);
   protected memberBusy = signal(false);
 
-  roleLabel(role: ProjectMember.RoleEnum | 'owner'): string {
+  roleLabel(role: string | 'owner'): string {
     return role === 'owner' ? 'Owner' : this.roles.find(item => item.value === role)?.label ?? role;
   }
 
@@ -53,7 +53,7 @@ export class ProjectMembersComponent {
     });
   }
 
-  async changeMemberRole(row: MemberRow, role: ProjectMember.RoleEnum) {
+  async changeMemberRole(row: MemberRow, role: ProjectsUpdateMemberRoleRequest.RoleEnum) {
     if (role === row.role) {
       return;
     }

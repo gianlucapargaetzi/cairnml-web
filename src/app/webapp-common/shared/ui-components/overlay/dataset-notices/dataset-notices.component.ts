@@ -9,7 +9,7 @@ import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // A dataset that a task of the signed-in user published to one of their projects (access.notices).
 export interface DatasetNotice {
@@ -55,7 +55,7 @@ export class DatasetNoticesComponent {
 
   protected async load() {
     try {
-      const res = await lastValueFrom(this.api.post<{notices?: DatasetNotice[]}>(`${HTTP.API_BASE_URL}/access.notices`, {}, {}));
+      const res = await lastValueFrom(this.api.post<{notices?: DatasetNotice[]}>(endpointUrl('access.notices'), {}, {}));
       this.notices.set(res?.notices ?? []);
     } catch (error) {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
@@ -66,7 +66,7 @@ export class DatasetNoticesComponent {
   protected async dismiss(notice: DatasetNotice) {
     this.dismissing.set(notice.id);
     try {
-      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/access.dismiss_notice`, {id: notice.id}, {}));
+      await lastValueFrom(this.api.post(endpointUrl('access.dismiss_notice'), {id: notice.id}, {}));
       this.notices.update(list => list.filter(n => n.id !== notice.id));
     } catch (error) {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,

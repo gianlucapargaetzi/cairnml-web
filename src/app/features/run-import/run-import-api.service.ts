@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 /** The answer of imports.prepare_upload: one presigned PUT, or a multipart upload with one URL per part. */
 export interface StagedUpload {
@@ -32,7 +32,7 @@ export class RunImportApiService {
   private api = inject(SmApiRequestsService);
 
   private call<T>(action: string, body: object): Promise<T> {
-    return lastValueFrom(this.api.post<T>(`${HTTP.API_BASE_URL}/imports.${action}`, body, {}));
+    return lastValueFrom(this.api.post<T>(endpointUrl(`imports.${action}`), body, {}));
   }
 
   prepareUpload(name: string, size: number, sha256: string): Promise<StagedUpload> {

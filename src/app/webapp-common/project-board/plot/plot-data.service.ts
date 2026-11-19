@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {map, Observable, of, switchMap} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {buildPlotModel, PlotCurve, PlotModel} from './plot-model';
 import {PlotSpec} from './plot-spec';
 import {PlotTask, taskQuery, taskToPlotRun} from './plot-data';
 import {curveRunIds, MAX_RUNS, numericValue, PlotRun} from './plot-transforms';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 /** Where the plot cards get their data: the runs of the project, the curves of some runs, and the metrics and parameters to choose from. */
 @Injectable({providedIn: 'root'})
@@ -13,7 +13,7 @@ export class PlotDataService {
   private readonly api = inject(SmApiRequestsService);
 
   private post<T>(call: string, body: object): Observable<T> {
-    return this.api.post<T>(`${HTTP.API_BASE_URL}/${call}`, body, {});
+    return this.api.post<T>(endpointUrl(call), body, {});
   }
 
   /** The runs a plot is about. `capped` is true when the project has more runs than a plot reads (the newest `MAX_RUNS` are returned). */

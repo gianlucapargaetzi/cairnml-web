@@ -29,6 +29,6 @@ export namespace ContainerInstanceStatsReference {
         AppInstance: 'app_instance' as TypeEnum,
         Model: 'model' as TypeEnum,
         Task: 'task' as TypeEnum,
-        Url: 'url' as TypeEnum
+        Url: 'url' as TypeEnum,
     }
 }

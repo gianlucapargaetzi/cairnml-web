@@ -80,7 +80,8 @@ export class ModelsInfoEffects {
         .pipe(
           mergeMap((res: ModelsGetAllResponse) => {
             const model = res.models[0] as SelectedModel;
-            this.previousSelectedLastUpdate = model.last_change;
+            // the server sends no last_change for a model, so this has always been undefined
+            this.previousSelectedLastUpdate = undefined;
             const actions = [deactivateLoader(action.type)] as Action[];
             if (model) {
               model.readOnly = isExample(model) || isSharedAndNotOwner(model, activeWorkspace);

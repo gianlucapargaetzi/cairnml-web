@@ -14,7 +14,7 @@
 
 export interface LoginLogoutResponse {
     /**
-     * Provider logout flow redirect URL for the caller to follow
+     * Where to send the browser to end the identity provider\'s session. It then returns to the sign-in.
      */
     redirect_url?: string;
 }

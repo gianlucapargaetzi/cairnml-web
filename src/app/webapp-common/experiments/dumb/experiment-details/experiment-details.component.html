@@ -78,9 +78,9 @@
   <sm-labeled-row label="Parent task:">
     @if (experiment()?.parent) {
       <div class="d-flex align-items-center">
-        <a [routerLink]="['/projects', '*', 'tasks', experiment()?.parent?.id]"
-        target="_blank">{{ experiment()?.parent?.name }}</a>
-        <sm-copy-clipboard [smallIcon]="true" [clipboardText]="experiment()?.parent?.id"
+        <a [routerLink]="['/projects', '*', 'tasks', referenceId(experiment()?.parent)]"
+        target="_blank">{{ asReference(experiment()?.parent).name }}</a>
+        <sm-copy-clipboard [smallIcon]="true" [clipboardText]="referenceId(experiment()?.parent)"
           [label]="''"
         [tooltipText]="'Copy parent task ID to clipboard'" class="copy-btn sp-ms-2"></sm-copy-clipboard>
       </div>

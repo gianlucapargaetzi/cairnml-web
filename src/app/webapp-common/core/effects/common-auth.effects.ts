@@ -6,7 +6,6 @@ import {setCredentialLabel, setSignedUrls} from '../actions/common-auth.actions'
 import {requestFailed} from '../actions/http.actions';
 import {activeLoader, addMessage, deactivateLoader, setServerError} from '../actions/layout.actions';
 import {catchError, filter, finalize, map, mergeMap, switchMap, throttleTime} from 'rxjs/operators';
-import {AuthGetCredentialsResponse} from '~/business-logic/model/auth/authGetCredentialsResponse';
 import {Store} from '@ngrx/store';
 import {selectCurrentUser} from '../reducers/users-reducer';
 import {GetCurrentUserResponseUserObject} from '~/business-logic/model/users/getCurrentUserResponseUserObject';

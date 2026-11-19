@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {Project} from '~/business-logic/model/projects/project';
 import {Task} from '~/business-logic/model/tasks/task';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {Model} from '~/business-logic/model/models/model';
 import {activeLinksList, ActiveSearchLink, activeSearchLink, convertToViewAllFilter} from '~/features/dashboard-search/dashboard-search.consts';
 import {IReport} from '@common/reports/reports.consts';
@@ -58,7 +58,7 @@ import {
 } from '@common/dashboard-search/search-result-model-endpoint/search-result-model-endpoint.component';
 import {ReplaceViaMapPipe} from '@common/shared/pipes/replaceViaMap';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 
 @Component({
   selector: 'sm-search-results-table',
@@ -115,8 +115,8 @@ export class SearchResultsTableComponent {
   datasetsList = input<Project[]>([]);
   openDatasetVersionsList = input<Task[]>([]);
   tasksList = input<Task[]>([]);
-  modelEndpointsList = input<EndpointStats[]>([]);
-  loadingEndpointsList = input<EndpointStats[]>([]);
+  modelEndpointsList = input<ServingEndpoint[]>([]);
+  loadingEndpointsList = input<ServingEndpoint[]>([]);
   modelsList = input<Model[]>([]);
   pipelinesList = input<Project[]>([]);
   pipelineRunsList = input<Task[]>([]);
@@ -133,7 +133,7 @@ export class SearchResultsTableComponent {
   experimentSelected = output<ITask>();
   openDatasetVersionSelected = output<ITask>();
   modelSelected = output<SelectedModel>();
-  modelEndpointSelected = output<EndpointStats>();
+  modelEndpointSelected = output<ServingEndpoint>();
   loadingEndpointSelected = output<ContainerInfo>();
   reportSelected = output<IReport>();
   pipelineSelected = output<Project>();

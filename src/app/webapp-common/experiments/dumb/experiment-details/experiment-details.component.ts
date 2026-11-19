@@ -12,6 +12,8 @@ import {RouterLink} from '@angular/router';
 import {DurationPipe} from '@common/shared/pipes/duration.pipe';
 import {NAPipe} from '@common/shared/pipes/na.pipe';
 import {DatePipe} from '@angular/common';
+import {referenceId} from '@common/shared/utils/reference';
+import {asReference} from '@common/shared/utils/reference';
 
 
 export const EXPERIMENT_COMMENT = 'ExperimentComment';
@@ -33,6 +35,8 @@ export const EXPERIMENT_COMMENT = 'ExperimentComment';
   ]
 })
 export class ExperimentDetailsComponent {
+  protected readonly asReference = asReference;
+  protected readonly referenceId = referenceId;
   private store = inject(Store);
 
   commentControl = new UntypedFormControl();

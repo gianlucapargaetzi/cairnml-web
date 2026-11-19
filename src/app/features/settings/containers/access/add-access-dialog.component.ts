@@ -7,10 +7,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {lastValueFrom} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
 import {serverMessage} from '@common/shared/utils/server-message';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface AddCredentialData {
   isAdmin: boolean;
@@ -70,7 +70,7 @@ export class AddAccessDialogComponent {
     this.error.set(null);
     const value = this.form.getRawValue();
     try {
-      await lastValueFrom(this.api.post(`${HTTP.API_BASE_URL}/user_access.add_app`, {
+      await lastValueFrom(this.api.post(endpointUrl('user_access.add_app'), {
           label: value.label, app_id: value.app_id, api_url: value.api_url, key: value.key, scope: value.scope,
         }, {}));
       this.dialogRef.close(true);

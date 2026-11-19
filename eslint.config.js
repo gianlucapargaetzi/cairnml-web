@@ -5,7 +5,10 @@ const angular = require("angular-eslint");
 
 module.exports = tseslint.config(
   {
-    ignores: ["node_modules/*", "build/*", "dist/*", "electron/*"],
+    // generated from the server's schema (python -m apiserver.client_generator generate --target web): not edited by hand
+    ignores: ["node_modules/*", "build/*", "dist/*", "electron/*",
+      "src/app/business-logic/model/**", "src/app/business-logic/api-services/*.service.ts", "src/app/business-logic/api-services/api.ts",
+      "src/app/business-logic/configuration.ts", "src/app/business-logic/variables.ts", "src/app/business-logic/encoder.ts"],
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,

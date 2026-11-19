@@ -107,8 +107,8 @@
             @for (model of entity().models?.output; track model) {
               <div class="param">
                 <div class="key">
-                  <a [routerLink]="['/projects', model.model.project.id, 'models', model.model.id]" target="_blank"
-                  >{{ model.name || model.model.name }}</a></div>
+                  <a [routerLink]="['/projects', referenceId(asReference(model.model).project), 'models', referenceId(model.model)]" target="_blank"
+                  >{{ model.name || asReference(model.model).name }}</a></div>
               </div>
             }
           } @else {

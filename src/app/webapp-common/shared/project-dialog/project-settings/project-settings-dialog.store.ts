@@ -9,7 +9,8 @@ import {forkJoin, lastValueFrom, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {sortByField} from '@common/tasks/tasks.utils';
 import {environment} from '../../../../../environments/environment';
-import {ProjectMember} from '~/business-logic/model/projects/projectMember';
+import {ProjectsUpdateMemberRoleRequest} from '~/business-logic/model/projects/projectsUpdateMemberRoleRequest';
+import {ProjectsGetMembersResponseMembers} from '~/business-logic/model/projects/projectsGetMembersResponseMembers';
 
 export interface CompanyUser {
   id: string;
@@ -19,7 +20,7 @@ export interface CompanyUser {
 export interface MemberRow {
   user: string;
   name: string;
-  role: ProjectMember.RoleEnum | 'owner';
+  role: ProjectsUpdateMemberRoleRequest.RoleEnum | 'owner';
   added?: string;
   isOwner: boolean;
 }
@@ -28,7 +29,7 @@ interface ProjectSettingsState {
   scalars: MetricVariantResult[];
   projectId: string;
   readOnly: boolean;
-  members: ProjectMember[];
+  members: ProjectsGetMembersResponseMembers[];
   owner: string;
   companyUsers: CompanyUser[];
   membersLoading: boolean;
@@ -66,7 +67,7 @@ export const withProjectSettingsStore = signalStoreFeature(
         ...store.members().map(member => ({
           user: member.user,
           name: nameOf(member.user),
-          role: member.role,
+          role: member.role as ProjectsUpdateMemberRoleRequest.RoleEnum,
           added: member.added,
           isOwner: false,
         })),
@@ -82,7 +83,7 @@ export const withProjectSettingsStore = signalStoreFeature(
       if (user.role === 'admin' || user.id === store.owner()) {
         return true;
       }
-      return store.members().some(member => member.user === user.id && member.role === ProjectMember.RoleEnum.Collaborator);
+      return store.members().some(member => member.user === user.id && member.role === 'collaborator');
     });
 
     // Company users who are not already the owner or a member, for the add-user form.
@@ -140,12 +141,12 @@ export const withProjectSettingsStore = signalStoreFeature(
         patchState(store, {companyUsers: sortByField(res.users ?? [], 'name')});
       },
 
-      async addMember(user: string, role: ProjectMember.RoleEnum) {
+      async addMember(user: string, role: ProjectsUpdateMemberRoleRequest.RoleEnum) {
         await lastValueFrom(projectsApi.projectsAddMember({project: store.projectId(), user, role}));
         await loadMembers();
       },
 
-      async updateMemberRole(user: string, role: ProjectMember.RoleEnum) {
+      async updateMemberRole(user: string, role: ProjectsUpdateMemberRoleRequest.RoleEnum) {
         await lastValueFrom(projectsApi.projectsUpdateMemberRole({project: store.projectId(), user, role}));
         await loadMembers();
       },

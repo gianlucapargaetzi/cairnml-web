@@ -3,7 +3,7 @@ import {DashboardSearchBaseComponent} from '@common/dashboard/dashboard-search.c
 import {activeLinksList} from '~/features/dashboard-search/dashboard-search.consts';
 import {PushPipe} from '@ngrx/component';
 import {SearchResultsTableComponent} from '@common/dashboard-search/search-results-table/search-results-table.component';
-import {EndpointStats} from '~/business-logic/model/serving/endpointStats';
+import {ServingEndpoint} from '@common/serving/serving-endpoint.model';
 import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 
 @Component({
@@ -18,7 +18,7 @@ import {ContainerInfo} from '~/business-logic/model/serving/containerInfo';
 export class DashboardSearchComponent extends DashboardSearchBaseComponent {
   protected links = computed(() => activeLinksList);
 
-  modelEndpointSelected(endpoint: EndpointStats) {
+  modelEndpointSelected(endpoint: ServingEndpoint) {
     this.router.navigate(['/endpoints', 'active', endpoint.id]);
     this.itemSelected.emit();
   }

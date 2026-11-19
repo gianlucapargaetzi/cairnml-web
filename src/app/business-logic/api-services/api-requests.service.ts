@@ -5,7 +5,7 @@ import {IApiRequest, SmHttpResponse} from '../model/api-request';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {ApiOptions} from '~/business-logic/api-services/api';
+import {ApiOptions} from './api';
 
 @Injectable({providedIn: 'root'})
 export class SmApiRequestsService {

@@ -2,13 +2,14 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {TAGS} from '../../tasks/tasks.constants';
 import {IModelInfo} from '../../experiments/shared/common-experiment-model.model';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {formatDate} from '@angular/common';
 import {TIME_FORMAT_STRING} from '@common/constants';
 import {NA} from '~/app.constants';
 import {DurationPipe} from '@common/shared/pipes/duration.pipe';
 import {ModelDetail} from '@common/experiments-compare/shared/experiments-compare-details.model';
 import parseHocon from 'hocon-parser';
+import {asReference} from '@common/shared/utils/reference';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class ModelDetailsReverterService {
         general: this.revertGeneral(model),
         labels: this.revertLabels(model),
         metadata: this.revertMetadata(model),
-        lineage: this.revertLineage(model, tasks.filter(task => task.models.input.find( input => input.model.id === id))),
+        lineage: this.revertLineage(model, tasks.filter(task => task.models.input.find( input => asReference(input.model).id === id))),
       };
     });
   }

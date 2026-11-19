@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {experimentLabel} from '@common/experiments/shared/experiment-label';
-import {ITask} from '../../../business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 
 
 @Injectable({

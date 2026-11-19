@@ -20,7 +20,8 @@ import {themeColor} from '@common/shared/utils/theme-color';
 import {SlicePipe} from '@angular/common';
 import {debounceTime, filter, take} from 'rxjs/operators';
 import {from} from 'rxjs';
-import {cloneDeep, get, isEqual, max, min, uniq} from 'lodash-es';
+import {cloneDeep, isEqual, max, min, uniq} from 'lodash-es';
+import {lastMetricValue} from '@common/shared/utils/last-metrics';
 import domtoimage from 'dom-to-image';
 import type {Axis, Color, ColorBar, ColorScale} from 'plotly.js';
 import {select} from 'd3-selection';
@@ -287,10 +288,12 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
 
       if (this.metrics) {
         this.metrics.map(metric => {
-          const allValuesIncludingNull = this.experiments.map(experiment => get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)));
-          const allValues = allValuesIncludingNull.filter(value => value !== undefined);
+          // the metric's value at its path (lodash reads the leaf; the contract types the path by variant)
+          const allValuesIncludingNull = this.experiments.map(experiment => lastMetricValue<number | string | undefined>(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true)));
+          const allValues = allValuesIncludingNull.filter(value => value !== undefined) as number[];
           const naVal = this.getNAValue(allValues);
-          const ticktext = uniq(allValuesIncludingNull.map(value => value !== undefined ? value : 'N/A'));
+          // the tick labels are the values (numbers or strings) and 'N/A'
+          const ticktext = uniq(allValuesIncludingNull.map(value => value !== undefined ? value : 'N/A')) as string[];
           const tickvals = ticktext.map(text => text === 'N/A' ? naVal : text);
           let constraintrange;
           if (this.parallelGraph.nativeElement?.data?.[0]?.dimensions) {
@@ -304,7 +307,7 @@ export class ParallelCoordinatesGraphComponent extends PlotlyGraphBaseComponent 
             ticktext,
             tickvals,
             values: filteredExperiments.map((experiment) =>
-              parseFloat(get(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal))
+              parseFloat(String(lastMetricValue<number | string>(experiment.last_metrics, this.metricVariantToPathPipe.transform(metric, true), naVal)))
             ),
             range: [min(tickvals), max(tickvals)],
             constraintrange,

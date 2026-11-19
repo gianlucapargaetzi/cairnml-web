@@ -31,7 +31,7 @@ export interface ExperimentParams {
   last_iteration?: Task['last_iteration'];
   last_update?: Task['last_update'];
   project?: Project;
-  hyperparams?: any[];
+  hyperparams?: Task['hyperparams'];
   tags?: string[];
 }
 

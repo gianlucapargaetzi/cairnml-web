@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {fromEvent} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {Project} from '~/business-logic/model/projects/project';
+import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
 import {selectRecentProjects} from '../../common-dashboard.reducer';
 import {getRecentProjects} from '../../common-dashboard.actions';
 import {ProjectDialogComponent} from '@common/shared/project-dialog/project-dialog.component';
@@ -61,14 +61,14 @@ export class DashboardProjectsComponent {
 
   // The dashboard opens a project on double click; Enter on the focused card does the same. Enter on a button or link
   // inside the card (its menu) is left to that control.
-  public projectCardKeyActivated(event: Event, project: Project) {
+  public projectCardKeyActivated(event: Event, project: ProjectsGetAllResponseSingle) {
     if (!(event.target as HTMLElement).closest('button, a, input')) {
       event.preventDefault();
       this.projectCardClicked(project);
     }
   }
 
-  public projectCardClicked(project: Project) {
+  public projectCardClicked(project: ProjectsGetAllResponseSingle) {
     if (project.own_tasks === 0 && project.sub_projects.length > 0) {
       this.router.navigateByUrl(`projects/${project.id}/projects`)
     } else {
@@ -77,7 +77,7 @@ export class DashboardProjectsComponent {
     this.store.dispatch(setSelectedProjectId({projectId: project.id, example: isExample(project)}));
   }
 
-  public openProjectSettings(project: Project) {
+  public openProjectSettings(project: ProjectsGetAllResponseSingle) {
     this.matDialog.open(ProjectSettingsExtendedDialogComponent, {
       data: {project},
       panelClass: 'dialog-lg',

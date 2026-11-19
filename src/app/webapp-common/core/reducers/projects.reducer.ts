@@ -1,9 +1,8 @@
 import {createReducer, createSelector, on} from '@ngrx/store';
 import * as projectsActions from '../actions/projects.actions';
 import {TagColor} from '../actions/projects.actions';
-import {Project} from '~/business-logic/model/projects/project';
-import {User} from '~/business-logic/model/users/user';
 import {ProjectsGetAllResponseSingle} from '~/business-logic/model/projects/projectsGetAllResponseSingle';
+import {User} from '~/business-logic/model/users/user';
 import {selectRouterParams} from '@common/core/reducers/router-reducer';
 import {IBreadcrumbsLink, IBreadcrumbsOptions} from '@common/layout/breadcrumbs/breadcrumbs.types';
 import {uniqBy} from 'lodash-es';
@@ -11,6 +10,7 @@ import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {isReadOnly} from '@common/shared/utils/is-read-only';
 import {selectProjectType} from '@common/core/reducers/view.reducer';
 import {ConfigurationService} from '@common/shared/services/configuration.service'
+import {asReference} from '@common/shared/utils/reference';
 
 
 export interface ScatterPlotPoint {
@@ -40,8 +40,8 @@ export interface ScatterPlotSeries {
 }
 
 export interface RootProjects {
-  selectedProject: Project;
-  projectAncestors: Project[];
+  selectedProject: ProjectsGetAllResponseSingle;
+  projectAncestors: ProjectsGetAllResponseSingle[];
   archive: boolean;
   deep: boolean;
   projectTags: string[];
@@ -64,7 +64,7 @@ export interface RootProjects {
   mainPageTagsFilterMatchMode: string;
   defaultNestedModeForFeature: Record<string, boolean>;
   selectedSubFeature: IBreadcrumbsLink;
-  tablesFilterProjectsOptions: Partial<ProjectsGetAllResponseSingle>[];
+  tablesFilterProjectsOptions: ProjectsGetAllResponseSingle[];
   projectsOptionsScrollId: string;
   breadcrumbOptions: IBreadcrumbsOptions;
   companyTagsLastUpdate: number;
@@ -144,7 +144,7 @@ export const selectSelectedProjectUsers = createSelector(selectSelectedProjectId
   (projectId, projectUsers, allUsers) => projectId === '*' ? allUsers : projectUsers);
 export const selectTablesFilterProjectsOptions = createSelector(projects, state => state.tablesFilterProjectsOptions);
 export const selectMyProjects = createSelector(selectTablesFilterProjectsOptions,
-  projects => projects?  projects?.filter(project => project?.company?.id): null
+  projects => projects?  projects?.filter(project => asReference<{id?: string}>(project?.company).id): null
 );
 
 export const selectReadOnlyProjects = createSelector(selectTablesFilterProjectsOptions,

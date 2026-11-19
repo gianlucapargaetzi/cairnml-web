@@ -1,7 +1,7 @@
 import {ISelectedExperiment} from '../experiments/shared/experiment-info.model';
 import {experimentLabel} from '@common/experiments/shared/experiment-label';
 import {ConfigurationItem} from '../../business-logic/model/tasks/configurationItem';
-import {ITask} from '../../business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 
 export abstract class ExperimentDetailsReverterServiceBase {
   public experimentReverter;

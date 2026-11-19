@@ -39,9 +39,10 @@ jobs:
       - name: Check for root-absolute app links
         run: sh scripts/check-app-links.sh
 
-      # The API layer (api-services, model) must only call actions of the server's schema and only use fields the schema
-      # defines, as it is on the server's main. Known drift is listed with a reason in scripts/api-allow.txt. Red here
-      # means: the server changed, or the web app drifted; update the web app (or record the drift).
+      # The web app's API layer is generated from the server's schema on the server's main: the services, the models and
+      # the shared client files must be exactly what the generator writes. A server change that the web app has not
+      # taken (or a hand edit) fails here. Regenerate with: python -m apiserver.client_generator generate --target web
+      # --out src/app/business-logic (from the server repository, with its main checked out).
       - name: Check out the server's schema and generator
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -57,13 +58,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install pyhocon jinja2
-      - name: The API layer agrees with the server's schema
-        run: python -m apiserver.client_generator check-web --root src/app/business-logic --allow scripts/api-allow.txt
+      - name: The web app's API layer equals the generator's output
+        run: python -m apiserver.client_generator generate --target web --out src/app/business-logic --check
         env:
           PYTHONPATH: server
 
-      - name: Check that every generated API method has a caller
-        run: node scripts/check-unused-api-methods.mjs
       - name: Check for retired product names
         run: sh scripts/check-product-names.sh
 

@@ -13,6 +13,7 @@ import {ScatterPlotComponent} from '@common/shared/components/charts/scatter-plo
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {lastMetricValue} from '@common/shared/utils/last-metrics';
 
 
 @Component({
@@ -60,8 +61,9 @@ export class CompareScatterPlotComponent {
           .map(([point, paramValue]) => {
             const numericParam = parseFloat(paramValue);
             return {
-              x: !isNaN(numericParam) ? numericParam : paramValue,
-              y: get(point.last_metrics, this.metric()),
+              // a text hyperparameter is NaN here: the linear axis skips it, as it did with the text
+              x: numericParam,
+              y: lastMetricValue<number>(point.last_metrics, this.metric()),
               id: point.id,
               name: point.name,
               extraParamsHoverInfo: this.extraHoverInfoParams()
@@ -75,7 +77,7 @@ export class CompareScatterPlotComponent {
                 )
             };
           }),
-      } as ScatterPlotSeries];
+      }];
     }
     return [];
   });

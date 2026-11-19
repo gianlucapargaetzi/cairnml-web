@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {HTTP} from '~/app.constants';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // Repositories: code, datasets and registries of datasets are one kind of record (apiserver bll/repositories). A credential
 // belongs to a user, never to a project: an assignment says how one user reads one repository.
@@ -171,7 +171,7 @@ export class RepositoriesService {
   private api = inject(SmApiRequestsService);
 
   private post<T>(action: string, body: object): Observable<T> {
-    return this.api.post<T>(`${HTTP.API_BASE_URL}/repositories.${action}`, body, {});
+    return this.api.post<T>(endpointUrl(`repositories.${action}`), body, {});
   }
 
   // The repositories the user sees; with a project, only those listed in it.
@@ -250,7 +250,7 @@ export class RepositoriesService {
 
   // The credentials the signed-in user may use: their own, and the company's.
   credentials(): Observable<StoredCredential[]> {
-    return this.api.post<{ credentials?: StoredCredential[] }>(`${HTTP.API_BASE_URL}/user_access.get_all`, {}, {})
+    return this.api.post<{ credentials?: StoredCredential[] }>(endpointUrl('user_access.get_all'), {}, {})
       .pipe(map(response => response?.credentials ?? []));
   }
 }

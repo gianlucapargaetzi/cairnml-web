@@ -5,10 +5,10 @@ import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {MatButton} from '@angular/material/button';
 import {DialogTemplateComponent} from '@common/shared/ui-components/overlay/dialog-template/dialog-template.component';
-import {ProjectsQueueSummary} from '~/business-logic/model/projects/projectsQueueSummary';
+import {ProjectsGetQueuesResponseQueues} from '~/business-logic/model/projects/projectsGetQueuesResponseQueues';
 
 export interface AddProjectQueuesDialogData {
-  queues: ProjectsQueueSummary[];
+  queues: ProjectsGetQueuesResponseQueues[];
 }
 
 export interface AddProjectQueuesResult {

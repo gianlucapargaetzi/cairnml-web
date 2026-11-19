@@ -18,6 +18,7 @@ import {showStatsErrorNotice, hideNoStatsNotice} from '../actions/stats.actions'
 import {addMultipleSortColumns} from '../../shared/utils/shared-utils';
 import {transformAndSortWorkers} from '@common/workers-and-queues/workers-and-queues.utils';
 import {MESSAGES_SEVERITY} from '@common/constants';
+import {StatItem} from '~/business-logic/model/workers/statItem';
 
 const prepareStatsQuery = (entitie: string, keys: { key: string }[], range: number, granularity: number): WorkersGetStatsRequest => {
   const now = Math.floor((new Date()).getTime() / 1000);
@@ -28,7 +29,7 @@ const prepareStatsQuery = (entitie: string, keys: { key: string }[], range: numb
     from_date: now - range,
     to_date: now,
     worker_ids: entitie ? [entitie] : null,
-    items: typeKeys,
+    items: typeKeys as StatItem[],
     interval: granularity,
     ...(requiresSplit && { split_by_resource: true })
   };

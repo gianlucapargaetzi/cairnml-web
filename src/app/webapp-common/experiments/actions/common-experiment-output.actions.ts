@@ -3,8 +3,8 @@ import {ExperimentSettings} from '../reducers/experiment-output.reducer';
 import {ScalarKeyEnum} from '~/business-logic/model/events/scalarKeyEnum';
 import {MetricsPlotEvent} from '~/business-logic/model/events/metricsPlotEvent';
 import {
-  EventsGetTaskSingleValueMetricsResponseTasks
-} from '~/business-logic/model/events/eventsGetTaskSingleValueMetricsResponseTasks';
+  SingleValueTaskMetrics
+} from '~/business-logic/model/events/singleValueTaskMetrics';
 import {Task} from '~/business-logic/model/tasks/task';
 
 export type GroupByCharts = 'metric' | 'none';
@@ -79,7 +79,7 @@ export const setExperimentLogAtStart = createAction(
 
 export const setExperimentScalarSingleValue = createAction(
   EXPERIMENTS_OUTPUT_PREFIX + 'SET_EXPERIMENT_SCALAR_SINGLE_VALUE',
-  props<EventsGetTaskSingleValueMetricsResponseTasks >()
+  props<SingleValueTaskMetrics >()
 );
 
 export const setExperimentMetricsVariantValues = createAction(

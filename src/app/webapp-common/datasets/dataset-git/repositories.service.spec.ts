@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 import {of} from 'rxjs';
-import {HTTP} from '~/app.constants';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
 import {RepositoriesService} from './repositories.service';
+import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 describe('RepositoriesService request bodies', () => {
   let service: RepositoriesService;
@@ -36,7 +36,7 @@ describe('RepositoriesService request bodies', () => {
   for (const [name, invoke, action] of cases) {
     it(`${name} posts ref to repositories.${action}`, () => {
       invoke();
-      expect(lastUrl()).toBe(`${HTTP.API_BASE_URL}/repositories.${action}`);
+      expect(lastUrl()).toBe(endpointUrl(`repositories.${action}`));
       expect(lastBody().ref).toBe('r1');
       expect('id' in lastBody()).toBeFalse();
     });
@@ -44,7 +44,7 @@ describe('RepositoriesService request bodies', () => {
 
   it('credentials still reads user_access.get_all with an empty body', () => {
     service.credentials().subscribe();
-    expect(lastUrl()).toBe(`${HTTP.API_BASE_URL}/user_access.get_all`);
+    expect(lastUrl()).toBe(endpointUrl('user_access.get_all'));
     expect(lastBody()).toEqual({});
   });
 });

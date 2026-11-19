@@ -8,9 +8,10 @@ import {Store} from '@ngrx/store';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
 import {Subscription} from 'rxjs';
 import {isExample} from '@common/shared/utils/shared-utils';
-import {ITask} from '~/business-logic/model/al-task';
+import {ITask} from '~/business-logic/view-models/al-task';
 import {isSharedAndNotOwner} from '@common/shared/utils/is-shared-and-not-owner';
 import {camelCase} from 'lodash-es';
+import {asReference} from '@common/shared/utils/reference';
 
 @Injectable({providedIn: 'root'})
 export class CommonExperimentReverterService implements OnDestroy {
@@ -105,8 +106,8 @@ export class CommonExperimentReverterService implements OnDestroy {
 
   revertModel(experiment: ITask): IExperimentModelInfo {
     return {
-      input: experiment.models?.input?.map(modelEx => ({...modelEx.model, taskName: modelEx.name})) || [],
-      output: experiment.models?.output?.map(modelEx => ({...modelEx.model, taskName: modelEx.name})) || [],
+      input: experiment.models?.input?.map(modelEx => ({...asReference(modelEx.model), taskName: modelEx.name})) || [],
+      output: experiment.models?.output?.map(modelEx => ({...asReference(modelEx.model), taskName: modelEx.name})) || [],
       artifacts: experiment.execution?.artifacts ?? []
     };
   }

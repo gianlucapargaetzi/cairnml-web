@@ -1,6 +1,6 @@
 <sm-card class="project-card"
   (click)="projectClicked()"
-  [isExample]="!['All Tasks'].includes(project.name) && !isRootProject && (!project.company || ! project.company.id)"
+  [isExample]="!['All Tasks'].includes(project.name) && !isRootProject && !referenceId(project.company)"
   [showFolder]="false"
   [oneTabMode]="true"
   [subFolderTitle]="project?.sub_projects?.length + ' sub projects'"
@@ -30,7 +30,6 @@
       @if (!hideMenu()) {
         <sm-pipeline-card-menu
           class="menu-wrapper"
-          [cardType]="'dataset'"
           [project]="project"
           [allTags]="allTags()"
           (run)="run.emit()"
