@@ -180,11 +180,10 @@ export class ApiEventsService {
     /**
      * Get an attachment containing the task\'s log
      */
-    public eventsDownloadTaskLog(request: EventsDownloadTaskLogRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<EventsDownloadTaskLogResponse>(`${this.basePath}/v2.1/events.download_task_log`,
+    public eventsDownloadTaskLog(request: EventsDownloadTaskLogRequest, options?: ApiOptions): Observable<Blob> {
+        return this.apiRequest.postBlob(`${this.basePath}/v2.1/events.download_task_log`,
             request,
             {
-                headers: this.defaultHeaders,
                 withCredentials: this.configuration.withCredentials
             },
             options
