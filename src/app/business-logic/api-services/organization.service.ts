@@ -54,15 +54,21 @@ export class ApiOrganizationService {
     /**
      * Generates a file for the download
      */
-    public organizationDownloadForGetAll(request: OrganizationDownloadForGetAllRequest, options?: ApiOptions): Observable<any> {
-        return this.apiRequest.post<OrganizationDownloadForGetAllResponse>(`${this.basePath}/v2.26/organization.download_for_get_all`,
+    public organizationDownloadForGetAll(request: OrganizationDownloadForGetAllRequest, options?: ApiOptions): Observable<Blob> {
+        return this.apiRequest.getBlob(`${this.basePath}/v2.26/organization.download_for_get_all`,
             request,
             {
-                headers: this.defaultHeaders,
                 withCredentials: this.configuration.withCredentials
             },
             options
         );
+    }
+
+    /**
+     * The address of this call, with the request's fields as its query (a link to the file).
+     */
+    public organizationDownloadForGetAllUrl(request: OrganizationDownloadForGetAllRequest): string {
+        return this.apiRequest.url(`${this.basePath}/v2.26/organization.download_for_get_all`, request);
     }
 
     /**

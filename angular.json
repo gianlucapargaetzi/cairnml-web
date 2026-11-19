@@ -177,6 +177,7 @@
             "tsConfig": "./tsconfig.spec.json",
             "include": [
               "src/app/business-logic/api-services/api-versions.spec.ts",
+              "src/app/business-logic/api-services/api-options.spec.ts",
               "src/app/business-logic/api-services/converted-calls.spec.ts",
               "src/app/webapp-common/shared/services/changes.service.spec.ts",
               "src/app/webapp-common/datasets/dataset-git/repositories.service.spec.ts",
