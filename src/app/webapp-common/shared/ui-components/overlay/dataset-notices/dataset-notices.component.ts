@@ -8,7 +8,7 @@ import {selectCurrentUserId} from '@common/core/reducers/users-reducer';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline-alert/inline-alert.component';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiAccessService} from '~/business-logic/api-services/access.service';
 import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // A dataset that a task of the signed-in user published to one of their projects (access.notices).
@@ -33,7 +33,7 @@ export interface DatasetNotice {
   imports: [InlineAlertComponent, MatIconButton, MatIcon],
 })
 export class DatasetNoticesComponent {
-  private api = inject(SmApiRequestsService);
+  private access = inject(ApiAccessService);
   private store = inject(Store);
 
   protected readonly currentUserId = toSignal(this.store.select(selectCurrentUserId), {initialValue: null});
@@ -55,7 +55,7 @@ export class DatasetNoticesComponent {
 
   protected async load() {
     try {
-      const res = await lastValueFrom(this.api.post<{notices?: DatasetNotice[]}>(endpointUrl('access.notices'), {}, {}));
+      const res: {notices?: DatasetNotice[]} = await lastValueFrom(this.access.accessNotices({}));
       this.notices.set(res?.notices ?? []);
     } catch (error) {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,
@@ -66,7 +66,7 @@ export class DatasetNoticesComponent {
   protected async dismiss(notice: DatasetNotice) {
     this.dismissing.set(notice.id);
     try {
-      await lastValueFrom(this.api.post(endpointUrl('access.dismiss_notice'), {id: notice.id}, {}));
+      await lastValueFrom(this.access.accessDismissNotice({id: notice.id}));
       this.notices.update(list => list.filter(n => n.id !== notice.id));
     } catch (error) {
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.ERROR,

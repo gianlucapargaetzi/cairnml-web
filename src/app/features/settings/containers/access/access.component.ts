@@ -4,9 +4,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Store} from '@ngrx/store';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom, Observable} from 'rxjs';
 import {PrimeTemplate} from 'primeng/api';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiGitCredentialsService} from '~/business-logic/api-services/git_credentials.service';
+import {ApiUserAccessService} from '~/business-logic/api-services/user_access.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {PageHeaderComponent} from '@common/shared/ui-components/layout/page-header/page-header.component';
@@ -22,7 +23,6 @@ import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-
 import {selectIsAdmin} from '@common/core/reducers/users-reducer';
 import {AddAccessDialogComponent} from './add-access-dialog.component';
 import {serverMessage} from '@common/shared/utils/server-message';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 // One credential, as the server lists it: a GitHub App (a user's or the company's), or a company Git
 // credential for another host. "git" rows are the company's Git credentials; the others are accesses.
@@ -65,7 +65,8 @@ export interface CredentialView {
   ],
 })
 export class AccessComponent implements OnInit {
-  private apiRequest = inject(SmApiRequestsService);
+  private gitCredentials = inject(ApiGitCredentialsService);
+  private userAccess = inject(ApiUserAccessService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
 
@@ -131,7 +132,7 @@ export class AccessComponent implements OnInit {
 
 
   protected async check(credential: CredentialView) {
-    await this.run(credential.id, 'user_access.check', {id: credential.id}, 'The credential was checked',
+    await this.run(credential.id, () => this.userAccess.user_accessCheck({id: credential.id}), 'The credential was checked',
       'The credential could not be checked.');
   }
 
@@ -153,19 +154,19 @@ export class AccessComponent implements OnInit {
         return;
       }
       if (credential.source === 'git') {
-        this.run(credential.id, 'git_credentials.delete', {host: credential.host, path: credential.path},
+        this.run(credential.id, () => this.gitCredentials.git_credentialsDelete({host: credential.host, path: credential.path}),
           'Credential deleted', 'The credential could not be deleted.');
       } else {
-        this.run(credential.id, 'user_access.delete', {id: credential.id}, 'Credential deleted',
+        this.run(credential.id, () => this.userAccess.user_accessDelete({id: credential.id}), 'Credential deleted',
           'The credential could not be deleted.');
       }
     });
   }
 
-  private async run(id: string, endpoint: string, body: unknown, success: string, failure: string) {
+  private async run(id: string, call: () => Observable<unknown>, success: string, failure: string) {
     this.busy.set(id);
     try {
-      await lastValueFrom(this.apiRequest.post(endpointUrl(endpoint), body, {}));
+      await lastValueFrom(call());
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, success));
       await this.load();
     } catch (error) {
@@ -179,9 +180,7 @@ export class AccessComponent implements OnInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await lastValueFrom(this.apiRequest.post<{
-        credentials: CredentialView[];
-      }>(endpointUrl('user_access.get_all'), {}, {}));
+      const res: {credentials: CredentialView[]} = await lastValueFrom(this.userAccess.user_accessGetAll({}));
       this.credentials.set(res.credentials ?? []);
     } catch (error) {
       this.error.set(serverMessage(error) ?? 'The credentials could not be loaded.');

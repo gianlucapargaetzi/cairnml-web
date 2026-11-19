@@ -9,7 +9,9 @@ import {MatRadioButton, MatRadioChange, MatRadioGroup} from '@angular/material/r
 import {Store} from '@ngrx/store';
 import {PrimeTemplate} from 'primeng/api';
 import {lastValueFrom} from 'rxjs';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiAccessService} from '~/business-logic/api-services/access.service';
+import {AccessShareRequest} from '~/business-logic/model/access/accessShareRequest';
+import {ApiUserAccessService} from '~/business-logic/api-services/user_access.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY} from '@common/constants';
 import {TableComponent} from '@common/shared/ui-components/data/table/table.component';
@@ -19,7 +21,6 @@ import {InlineAlertComponent} from '@common/shared/ui-components/feedback/inline
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export type ShareResourceType = 'queue' | 'dataset' | 'registry' | 'credential';
 
@@ -101,7 +102,8 @@ interface ShareRow {
   ],
 })
 export class ShareControlComponent implements OnInit {
-  private api = inject(SmApiRequestsService);
+  private access = inject(ApiAccessService);
+  private userAccess = inject(ApiUserAccessService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
 
@@ -195,15 +197,15 @@ export class ShareControlComponent implements OnInit {
     this.busy.set(true);
     this.error.set(null);
     try {
-      const requests = this.scope() === 'public'
+      const requests: Omit<AccessShareRequest, 'resource_type' | 'resource_id'>[] = this.scope() === 'public'
         ? [{scope: 'public', project: '', level: 'read'}]
         : this.selectedProjects().map(project => ({scope: 'projects', project, level: this.level()}));
       for (const request of requests) {
-        await lastValueFrom(this.api.post(endpointUrl('access.share'), {
+        await lastValueFrom(this.access.accessShare({
           resource_type: this.resourceType(),
           resource_id: this.resourceId(),
           ...request,
-        }, {}));
+        }));
       }
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'The sharing is saved'));
       this.selectedProjects.set([]);
@@ -238,7 +240,7 @@ export class ShareControlComponent implements OnInit {
       }
       this.busy.set(true);
       try {
-        await lastValueFrom(this.api.post(endpointUrl('access.unshare'), {share_id: row.id}, {}));
+        await lastValueFrom(this.access.accessUnshare({share_id: row.id}));
         this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Sharing stopped'));
         await this.load();
       } catch (error) {
@@ -254,11 +256,11 @@ export class ShareControlComponent implements OnInit {
     this.error.set(null);
     try {
       const [listed, access] = await Promise.all([
-        lastValueFrom(this.api.post<{ shares: ShareView[] }>(endpointUrl('access.list'), {
+        lastValueFrom(this.access.accessList({
           resource_type: this.resourceType(),
           resource_id: this.resourceId(),
-        }, {})),
-        lastValueFrom(this.api.post<{ projects: ProjectOption[] }>(endpointUrl('user_access.get_all'), {}, {})),
+        })),
+        lastValueFrom(this.userAccess.user_accessGetAll({})),
       ]);
       this.shares.set(listed.shares ?? []);
       this.projects.set(access.projects ?? []);

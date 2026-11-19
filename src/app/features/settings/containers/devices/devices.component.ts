@@ -6,7 +6,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {Store} from '@ngrx/store';
 import {selectCurrentUser} from '@common/core/reducers/users-reducer';
 import {lastValueFrom} from 'rxjs';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {ApiDevicesService} from '~/business-logic/api-services/devices.service';
 import {ApiUsersService} from '~/business-logic/api-services/users.service';
 import {addMessage} from '@common/core/actions/layout.actions';
 import {MESSAGES_SEVERITY, TIME_FORMAT_STRING} from '@common/constants';
@@ -19,7 +19,6 @@ import {TableComponent} from '@common/shared/ui-components/data/table/table.comp
 import {ISmCol} from '@common/shared/ui-components/data/table/table.consts';
 import {PrimeTemplate} from 'primeng/api';
 import {ReassignDeviceDialogComponent, ReassignDeviceDialogConfig} from './reassign-device-dialog.component';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export interface DeviceView {
   id: string;
@@ -57,7 +56,7 @@ const KIND_LABELS: Record<string, string> = {
   ]
 })
 export class DevicesComponent implements OnInit {
-  private apiRequest = inject(SmApiRequestsService);
+  private devicesApi = inject(ApiDevicesService);
   private usersApi = inject(ApiUsersService);
   private dialog = inject(MatDialog);
   private store = inject(Store);
@@ -120,7 +119,7 @@ export class DevicesComponent implements OnInit {
 
   private async moveDevice(device: DeviceView, userId: string) {
     try {
-      await lastValueFrom(this.apiRequest.post(endpointUrl('devices.reassign'), {id: device.id, user: userId}, {}));
+      await lastValueFrom(this.devicesApi.devicesReassign({id: device.id, user: userId}));
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Device reassigned'));
       await this.load();
     } catch (error) {
@@ -151,7 +150,7 @@ export class DevicesComponent implements OnInit {
 
   private async revoke(device: DeviceView) {
     try {
-      await lastValueFrom(this.apiRequest.post(endpointUrl('devices.revoke'), {id: device.id}, {}));
+      await lastValueFrom(this.devicesApi.devicesRevoke({id: device.id}));
       this.store.dispatch(addMessage(MESSAGES_SEVERITY.SUCCESS, 'Device revoked'));
       await this.load();
     } catch (error) {
@@ -168,7 +167,7 @@ export class DevicesComponent implements OnInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await lastValueFrom(this.apiRequest.post<{devices: DeviceView[]}>(endpointUrl('devices.get_all'), {}, {}));
+      const res: {devices: DeviceView[]} = await lastValueFrom(this.devicesApi.devicesGetAll({}));
       this.devices.set([...(res.devices ?? [])].sort((a, b) => (b.created ?? '').localeCompare(a.created ?? '')));
     } catch (error) {
       this.error.set(error?.meta?.result_msg ?? 'The devices could not be loaded.');

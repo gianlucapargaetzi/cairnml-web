@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
+import {ApiRepositoriesService} from '~/business-logic/api-services/repositories.service';
+import {ApiUserAccessService} from '~/business-logic/api-services/user_access.service';
 
 // Repositories: code, datasets and registries of datasets are one kind of record (apiserver bll/repositories). A credential
 // belongs to a user, never to a project: an assignment says how one user reads one repository.
@@ -168,89 +168,86 @@ export interface StoredCredential {
 
 @Injectable({providedIn: 'root'})
 export class RepositoriesService {
-  private api = inject(SmApiRequestsService);
-
-  private post<T>(action: string, body: object): Observable<T> {
-    return this.api.post<T>(endpointUrl(`repositories.${action}`), body, {});
-  }
+  private repos = inject(ApiRepositoriesService);
+  private userAccess = inject(ApiUserAccessService);
 
   // The repositories the user sees; with a project, only those listed in it.
   list(project?: string): Observable<Repo[]> {
-    return this.post<{ repositories?: Repo[] }>('get_all', {project: project || undefined}).pipe(map(r => r?.repositories ?? []));
+    return this.repos.repositoriesGetAll({project: project || undefined}).pipe(map(r => r?.repositories ?? []));
   }
 
   add(url: string, role: RepoRole, options: { shared?: boolean; project?: string; credential?: string; noneNeeded?: boolean } = {}): Observable<Repo> {
-    return this.post<{ repository: Repo }>('add', {
+    return this.repos.repositoriesAdd({
       url, role, shared: options.shared || undefined, project: options.project || undefined,
       credential: options.credential || undefined, none_needed: options.noneNeeded || undefined,
     }).pipe(map(r => r.repository));
   }
 
   delete(id: string): Observable<unknown> {
-    return this.post('delete', {ref: id});
+    return this.repos.repositoriesDelete({ref: id});
   }
 
   // Makes a repository shared (its owner or the admin; ownership moves to the admin) or non-shared (the admin). To share, the
   // company credential that reads it, or "None needed" for a public repository, is required; the server verifies it first.
   setShared(id: string, shared: boolean, credential?: string, noneNeeded = false): Observable<Repo> {
-    return this.post<{ repository: Repo }>('set_shared', {
+    return this.repos.repositoriesSetShared({
       ref: id, shared, credential: credential || undefined, none_needed: noneNeeded || undefined,
     }).pipe(map(r => r.repository));
   }
 
   // Whether the company credential (or "None needed") reads the repository, so that it may be shared.
   checkSharing(id: string, credential?: string, noneNeeded = false): Observable<{ ok: boolean; message: string }> {
-    return this.post<{ ok: boolean; message: string }>('check_sharing', {
+    return this.repos.repositoriesCheckSharing({
       ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined,
     });
   }
 
   link(id: string, project: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('link', {ref: id, project}).pipe(map(r => r.repository));
+    return this.repos.repositoriesLink({ref: id, project}).pipe(map(r => r.repository));
   }
 
   unlink(id: string, project: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('unlink', {ref: id, project}).pipe(map(r => r.repository));
+    return this.repos.repositoriesUnlink({ref: id, project}).pipe(map(r => r.repository));
   }
 
   // Sets the user's own assignment: a credential, "None needed", or (neither) clears it. Only the user's own is changed.
   assign(id: string, credential: string | null, noneNeeded = false): Observable<Repo> {
-    return this.post<{ repository: Repo }>('assign', {ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined})
+    return this.repos.repositoriesAssign({ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined})
       .pipe(map(r => r.repository));
   }
 
   unassign(id: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('unassign', {ref: id}).pipe(map(r => r.repository));
+    return this.repos.repositoriesUnassign({ref: id}).pipe(map(r => r.repository));
   }
 
   // Looks at a repository again: the host's answer is renewed and the user's own assignment is tried.
   check(id: string): Observable<Repo> {
-    return this.post<{ repository: Repo }>('check', {ref: id}).pipe(map(r => r.repository));
+    return this.repos.repositoriesCheck({ref: id}).pipe(map(r => r.repository));
   }
 
   // The condensed history of a repository: the commits tasks ran on, with gaps between them.
   history(id: string): Observable<RepoHistory> {
-    return this.post<RepoHistory>('get_history', {ref: id});
+    return this.repos.repositoriesGetHistory({ref: id});
   }
 
   // The runs that used a repository, newest first, in the projects the user sees.
   runs(id: string): Observable<RepoRun[]> {
-    return this.post<{ runs?: RepoRun[] }>('get_runs', {ref: id}).pipe(map(r => r?.runs ?? []));
+    return this.repos.repositoriesGetRuns({ref: id}).pipe(map(r => r?.runs ?? []));
   }
 
   // How the content of a dataset changed: its samples and splits at the commits that matter, oldest first.
   datasetVersions(id: string): Observable<DatasetVersion[]> {
-    return this.post<{ versions?: DatasetVersion[] }>('get_dataset_versions', {ref: id}).pipe(map(r => r?.versions ?? []));
+    return this.repos.repositoriesGetDatasetVersions({ref: id}).pipe(map(r => r?.versions ?? []));
   }
 
   // Reads a registry again. Returns the counts added, updated and removed.
   refresh(id: string): Observable<{ counts: { added: number; updated: number; removed: number }; repository: Repo }> {
-    return this.post('refresh', {ref: id});
+    return this.repos.repositoriesRefresh({ref: id});
   }
 
   // The credentials the signed-in user may use: their own, and the company's.
   credentials(): Observable<StoredCredential[]> {
-    return this.api.post<{ credentials?: StoredCredential[] }>(endpointUrl('user_access.get_all'), {}, {})
+    return this.userAccess.user_accessGetAll({})
       .pipe(map(response => response?.credentials ?? []));
   }
 }
