@@ -4,7 +4,12 @@ import {MatButton} from '@angular/material/button';
 import {MatFormField} from '@angular/material/form-field';
 import {Store} from '@ngrx/store';
 import {FormBuilder, FormControl, FormArray, Validators, ValidatorFn, AbstractControl, ValidationErrors, ReactiveFormsModule} from '@angular/forms';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {
+  PaginatedEntitySelectorComponent
+} from '../../shared/components/paginated-entity-selector/paginated-entity-selector.component';
+import {selectTablesFilterProjectsOptions} from '../../core/reducers/projects.reducer';
+import {getTablesFilterProjectsOptions} from '../../core/actions/projects.actions';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {startWith} from 'rxjs/operators';
 
 // Actions & Selectors
@@ -21,6 +26,7 @@ import {ConfirmDialogComponent} from '../../shared/ui-components/overlay/confirm
 import {IExperimentInfo} from '~/features/experiments/shared/experiment-info.model';
 import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {integerPattern} from '@common/shared/utils/validation-utils';
+import {minLengthTrimmed} from '@common/shared/validators/minLengthTrimmed';
 import {MatError, MatInput} from '@angular/material/input';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {ShowTooltipIfEllipsisDirective} from '@common/shared/ui-components/indicators/tooltip/show-tooltip-if-ellipsis.directive';
@@ -34,7 +40,15 @@ export interface RunPipelineResult {
   queue: Queue;
   args: { name: string; value: string }[];
   task: string;
+  createNewPipeline: boolean;
+  new_pipeline_name: string;
+  new_pipeline_version?: string;
+  new_project_name: string;
+  existingPipeline?: boolean;
 }
+
+// PEP 440 version pattern (converted from backend regex, case-insensitive)
+const pipelineVersionPattern = /^\s*v?(?:(?:[0-9]+!)?[0-9]+(?:\.[0-9]+)*(?:[-_.]?(?:a|b|c|rc|alpha|beta|pre|preview)[-_.]?[0-9]*)?(?:(?:-[0-9]+)|(?:[-_.]?(?:post|rev|r)[-_.]?[0-9]*))?(?:[-_.]?dev[-_.]?[0-9]*)?)(?:\+[a-z0-9]+(?:[-_.][a-z0-9]+)*)?\s*$/i;
 
 const queueValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const value = control.value;
@@ -69,14 +83,15 @@ const queueValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
     MatDialogActions,
     MatButton,
     MatDialogClose,
-    MatError
+    MatError,
+    PaginatedEntitySelectorComponent
   ]
 })
 export class RunPipelineControllerDialogComponent implements OnDestroy {
   private dialogRef = inject<MatDialogRef<ConfirmDialogComponent>>(MatDialogRef);
   private store = inject(Store);
   private fb = inject(FormBuilder);
-  public data = inject<{ task: any; project?: string }>(MAT_DIALOG_DATA);
+  public data = inject<{ task: any; createNewPipeline?: boolean; project?: string }>(MAT_DIALOG_DATA);
 
   public queues = this.store.selectSignal(selectQueueFeature.selectQueues);
   public baseController = this.store.selectSignal(selectStartPipelineDialogTask);
@@ -85,7 +100,14 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
   public form = this.fb.group({
     queue: new FormControl<Queue | string | null>(null, [Validators.required, queueValidator]),
     params: this.fb.array([] as RunPipelineResult['args']),
+    createNewPipeline: [this.data?.createNewPipeline ?? false],
+    pipelineName: [''],
+    pipelineVersion: [''],
+    project: [null as string | null]
   });
+
+  protected projects = this.store.selectSignal(selectTablesFilterProjectsOptions);
+  protected allProjects = computed(() => this.projects() ?? []);
 
   // Signal for Queue Input Value (to drive filtering)
   private queueInputValue = toSignal(
@@ -118,6 +140,26 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
   constructor() {
     this.loadInitialData();
 
+    this.form.controls.createNewPipeline.valueChanges
+      .pipe(
+        takeUntilDestroyed(),
+        startWith(this.form.controls.createNewPipeline.value)
+      )
+      .subscribe(createNew => {
+        if (createNew) {
+          this.form.controls.pipelineName.setValidators([Validators.required, minLengthTrimmed(3), Validators.pattern(/^[^\/]*$/)]);
+          this.form.controls.project.setValidators([Validators.required, minLengthTrimmed(1)]);
+          this.form.controls.pipelineVersion.setValidators([Validators.pattern(pipelineVersionPattern)]);
+        } else {
+          this.form.controls.pipelineName.clearValidators();
+          this.form.controls.project.clearValidators();
+          this.form.controls.pipelineVersion.clearValidators();
+        }
+        this.form.controls.pipelineName.updateValueAndValidity();
+        this.form.controls.project.updateValueAndValidity();
+        this.form.controls.pipelineVersion.updateValueAndValidity();
+      });
+
     // Effect: Synchronize Form with Store Data
     effect(() => {
       const task = this.baseController();
@@ -128,7 +170,20 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
         // 1. Build Dynamic Params (only if task changes)
         untracked(() => this.rebuildParamsForm(task));
 
-        // 2. Set Initial Queue
+        // 2. Set default project from the task's parent project
+        if (this.form.controls.project.value === null && task.project?.name) {
+          untracked(() => {
+            const projectName = task.project.name;
+            const parentProjectName = projectName.includes('/.pipelines/')
+              ? projectName.split('/.pipelines/')[0]
+              : projectName;
+
+            this.form.controls.project.setValue(parentProjectName);
+            this.searchChanged({value: parentProjectName});
+          });
+        }
+
+        // 3. Set Initial Queue
         if (queues?.length > 0) {
           const preSelectedQueue = queues.find(q => task.execution?.queue?.id === q?.id);
           if (preSelectedQueue) {
@@ -215,7 +270,27 @@ export class RunPipelineControllerDialogComponent implements OnDestroy {
       queue,
       args: formValue.params.map(p => ({name: p.name, value: p.value})),
       task: this.baseController()?.id,
+      createNewPipeline: formValue.createNewPipeline,
+      new_pipeline_name: formValue.pipelineName || undefined,
+      new_pipeline_version: formValue.pipelineVersion || undefined,
+      new_project_name: formValue.project,
     } as RunPipelineResult);
+  }
+
+  searchChanged(searchString: {value: string; loadMore?: boolean}) {
+    this.store.dispatch(getTablesFilterProjectsOptions({
+      searchString: searchString.value ?? '',
+      loadMore: searchString.loadMore,
+      allowPublic: false
+    }));
+  }
+
+  loadMore() {
+    this.store.dispatch(getTablesFilterProjectsOptions({
+      searchString: this.form.controls.project.value ?? '',
+      loadMore: true,
+      allowPublic: false
+    }));
   }
 
   ngOnDestroy(): void {

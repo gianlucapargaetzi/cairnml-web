@@ -34,12 +34,12 @@ import {exportTaskInfo} from '@common/experiments/actions/common-experiments-inf
 export class PipelineControllerMenuComponent extends ExperimentMenuComponent {
   entityTypeEnum = EntityTypeEnum;
 
-  runPipelineController(runNew = false) {
+  runPipelineController(runNew = false, createNewPipeline = false) {
     this.dialog.open<RunPipelineControllerDialogComponent,
-      {task: ISelectedExperiment}, RunPipelineResult>
+      {task: ISelectedExperiment; createNewPipeline?: boolean}, RunPipelineResult>
     (RunPipelineControllerDialogComponent, {
       panelClass: 'dialog-md',
-      data: {task: runNew ? null : this.experiment()}
+      data: {task: runNew ? null : this.experiment(), createNewPipeline}
     }).afterClosed()
       .pipe(filter(res => !!res?.confirmed))
       .subscribe((res) => {
@@ -47,6 +47,11 @@ export class PipelineControllerMenuComponent extends ExperimentMenuComponent {
           task: res.task,
           args: res.args,
           queue: res.queue,
+          createNewPipeline: res.createNewPipeline,
+          new_project_name: res.new_project_name,
+          new_pipeline_name: res.new_pipeline_name,
+          new_pipeline_version: res.new_pipeline_version,
+          existingPipeline: res.existingPipeline
         }));
       });
   }

@@ -51,8 +51,26 @@
       <mat-icon fontSet="al" fontIcon="al-ico-add" data-id="newRunButton"></mat-icon>
        New run
     </button>
+    <button aria-label="New run"
+      mat-flat-button
+      class="new-run tertiary-button arrow icon-only"
+      [class.header-action]="inHeader"
+      [attr.data-tip]="inHeader ? 'Run in a new pipeline' : null"
+      [disabled]="inArchivedMode() || exampleProject()"
+      [matMenuTriggerFor]="addMenu"
+      #addMenuTrigger="matMenuTrigger"
+      [class.rotated]="addMenuTrigger.menuOpen"
+        >
+        <mat-icon fontSet="al" fontIcon="al-ico-dropdown-arrow" data-id="addExperimentButton"></mat-icon>
+    </button>
   </span>
 
+  <mat-menu #addMenu="matMenu" class="light-theme">
+    <button mat-menu-item (click)="newPipeline()" data-id="newPipelineButton" [disabled]="inArchivedMode() || exampleProject()">
+      <mat-icon fontSet="al" fontIcon="al-ico-add"></mat-icon>
+      Run in New Pipeline
+    </button>
+  </mat-menu>
 </ng-template>
 <div class="experiment-body" [class.with-page-header]="getTableModeFromURL() !== 'compare'">
   <as-split [direction]="narrowScreen() ? 'vertical' : 'horizontal'"
