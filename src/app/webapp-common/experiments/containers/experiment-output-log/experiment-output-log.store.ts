@@ -16,11 +16,7 @@ import {withViewBridge} from '@common/core/state/view.store';
 import {sortBy} from 'lodash-es';
 import {withDevtools} from '@angular-architects/ngrx-toolkit';
 import {selectActiveWorkspace} from '@common/core/reducers/users-reducer';
-import {from, of} from 'rxjs';
-import {fromFetch} from 'rxjs/fetch';
 import {TENANT_HEADER} from '~/core/interceptors/webapp-interceptor';
-import {ConfigurationService} from '@common/shared/services/configuration.service';
-import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
 export const experimentOutputLogEvents = eventGroup({
   source: 'Task Output Log',
@@ -112,39 +108,22 @@ export const ExperimentOutputLogStore = signalStore(
     store,
     events = inject(Events),
     eventsApi = inject(ApiEventsService),
-    globalStore = inject(Store),
-    config = inject(ConfigurationService)
+    globalStore = inject(Store)
   ) => ({
     downloadLog$: events.on(experimentOutputLogEvents.downloadLog).pipe(
       withLatestFrom(globalStore.select(selectActiveWorkspace)),
-      switchMap(([{payload}, workspace]) => config.getStaticEnvironment().communityServer ?
-        fromFetch(endpointUrl('events.download_task_log'),
-          {
-            ...(workspace?.id && {headers: {[TENANT_HEADER]: workspace.id}}),
-            method: 'POST',
-            credentials: 'include',
-
-            body: JSON.stringify({task: payload.id, line_type: 'text'})
-          })
-          .pipe(
-            switchMap(res => from(res.blob())),
-            map(fileBlob => {
-              const url = window.URL.createObjectURL(fileBlob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.target = '_blank';
-              a.download = `Log - ${payload.id}.txt`;
-              a.click();
-            })
-          ) :
-        of(null)
-          .pipe(map(() => {
-            const a = document.createElement('a') as HTMLAnchorElement;
-            a.target = '_blank';
-            a.href = `${endpointUrl('events.download_task_log')}?line_type=text&task=${payload.id}`;
-            a.click();
-          }))
-      )
+      switchMap(([{payload}, workspace]) => eventsApi.eventsDownloadTaskLog({task: payload.id, line_type: 'text'}, {
+        headers: workspace?.id ? {[TENANT_HEADER]: workspace.id} : undefined
+      }).pipe(
+        map(fileBlob => {
+          const url = window.URL.createObjectURL(fileBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.download = `Log - ${payload.id}.txt`;
+          a.click();
+        })
+      ))
     ),
     getLogs$: events.on(experimentOutputLogEvents.getLogs).pipe(
       switchMap(({payload}) => {
