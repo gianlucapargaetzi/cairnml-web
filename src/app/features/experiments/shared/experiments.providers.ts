@@ -14,8 +14,6 @@ import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
 import {singleGraphProviders} from '@common/shared/single-graph/single-graph.providers';
 import {createUserPrefFeatureReducer} from '@common/core/meta-reducers/user-pref-reducer';
-import {EXPERIMENTS_OUTPUT_PREFIX} from '@common/experiments/actions/common-experiment-output.actions';
-import {EXPERIMENTS_INFO_PREFIX} from '@common/experiments/actions/common-experiments-info.actions';
 import {UserPreferences} from '@common/user-preferences';
 import {ExperimentsInfoEffects} from '~/features/experiments/effects/experiments-info.effects';
 import {debugImagesProviders} from '@common/debug-images/debug-images.providers';
@@ -48,7 +46,7 @@ export const getExperimentsConfig = (userPreferences: UserPreferences): StoreCon
       };
     },
     (reducer: ActionReducer<ExperimentState>) =>
-      createUserPrefFeatureReducer(EXPERIMENTS_STORE_KEY, [], [EXPERIMENTS_PREFIX, EXPERIMENTS_INFO_PREFIX, EXPERIMENTS_OUTPUT_PREFIX], userPreferences, reducer),
+      createUserPrefFeatureReducer(EXPERIMENTS_STORE_KEY, userPreferences, reducer),
   ]
 });
 

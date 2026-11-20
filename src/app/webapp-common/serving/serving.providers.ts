@@ -7,6 +7,7 @@ import {ServingEffects} from '@common/serving/serving.effects';
 import {singleGraphProviders} from '@common/shared/single-graph/single-graph.providers';
 import {UserPreferences} from '@common/user-preferences';
 import {createUserPrefFeatureReducer} from '@common/core/meta-reducers/user-pref-reducer';
+import {provideUserPrefSync} from '@common/core/effects/user-pref-sync';
 import {merge, pick} from 'lodash-es';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
 
@@ -41,16 +42,14 @@ const getInitState = (userPreferences: UserPreferences) => ({
       };
     },
     (reducer: ActionReducer<State>) =>
-      createUserPrefFeatureReducer(
-        servingFeatureKey, servingSyncedKeys, ['[serving]'],
-        userPreferences, reducer
-      ),
+      createUserPrefFeatureReducer(servingFeatureKey, userPreferences, reducer),
   ]
 });
 
 export const servingProviders = makeEnvironmentProviders([
   provideState(servingFeature.name, servingFeature.reducer, SERVING_CONFIG_TOKEN),
   provideEffects([ServingEffects]),
+  provideUserPrefSync({key: servingFeatureKey, syncedKeys: servingSyncedKeys, actionsPrefix: ['[serving]']}),
   singleGraphProviders,
   {provide: SERVING_CONFIG_TOKEN, useFactory: getInitState, deps: [UserPreferences]},
 ]);

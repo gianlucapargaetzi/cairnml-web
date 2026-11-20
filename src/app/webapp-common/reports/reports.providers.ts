@@ -6,6 +6,7 @@ import {REPORTS_KEY, reportsReducer, ReportsState} from './reports.reducer';
 import {ReportsEffects} from './reports.effects';
 import {UserPreferences} from '@common/user-preferences';
 import {createUserPrefFeatureReducer} from '@common/core/meta-reducers/user-pref-reducer';
+import {provideUserPrefSync} from '@common/core/effects/user-pref-sync';
 import {REPORTS_PREFIX} from '@common/reports/reports.actions';
 import {commonProjectsProviders} from '@common/projects/common-projects.providers';
 
@@ -16,13 +17,14 @@ export const REPORTS_STORE_CONFIG_TOKEN =
 const getInitState = (userPreferences: UserPreferences) => ({
   metaReducers: [
     (reducer: ActionReducer<ReportsState>) =>
-      createUserPrefFeatureReducer(REPORTS_KEY, reportsSyncedKeys, [REPORTS_PREFIX], userPreferences, reducer),
+      createUserPrefFeatureReducer(REPORTS_KEY, userPreferences, reducer),
   ]
 });
 
 export const reportsProviders = makeEnvironmentProviders([
   provideState(REPORTS_KEY, reportsReducer, REPORTS_STORE_CONFIG_TOKEN),
   provideEffects([ReportsEffects]),
+  provideUserPrefSync({key: REPORTS_KEY, syncedKeys: reportsSyncedKeys, actionsPrefix: [REPORTS_PREFIX]}),
   ...commonProjectsProviders,
   {provide: REPORTS_STORE_CONFIG_TOKEN, useFactory: getInitState, deps: [UserPreferences]},
 ]);

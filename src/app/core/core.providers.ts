@@ -6,7 +6,7 @@ import {BreadcrumbsService} from '@common/shared/services/breadcrumbs.service';
 import {UsageStatsService} from '~/core/services/usage-stats.service';
 import {AdminService} from '~/shared/services/admin.service';
 import {ReportCodeEmbedService} from '~/shared/services/report-code-embed.service';
-import {reducers, userPrefMetaFactory} from './core.config';
+import {reducers, userPrefMetaFactory, userPrefSyncs} from './core.config';
 import {MatDialogModule} from '@angular/material/dialog';
 import {CommonAuthEffects} from '@common/core/effects/common-auth.effects';
 import {CommonUserEffects} from '@common/core/effects/users.effects';
@@ -15,6 +15,8 @@ import {RouterEffects} from '@common/core/effects/router.effects';
 import {ProjectsEffects as CommonProjectsEffect} from '@common/core/effects/projects.effects';
 import {ProjectsEffects} from '~/core/effects/projects.effects';
 import {UserEffects} from '~/core/effects/users.effects';
+import {UserPrefSaveEffects} from '@common/core/effects/user-pref-save.effects';
+import {provideUserPrefSync} from '@common/core/effects/user-pref-sync';
 import {extCoreConfig} from '~/build-specifics';
 
 export const coreProviders = [
@@ -34,7 +36,9 @@ export const coreProviders = [
     CommonProjectsEffect,
     ProjectsEffects,
     UserEffects,
+    UserPrefSaveEffects,
   ]),
+  provideUserPrefSync(...userPrefSyncs),
   importProvidersFrom(MatDialogModule),
   ...extCoreConfig,
 
