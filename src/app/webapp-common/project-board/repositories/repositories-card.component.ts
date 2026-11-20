@@ -36,7 +36,11 @@ export class RepositoriesCardComponent {
     params: () => this.projectId(),
     stream: ({params}) => this.repositories.list(params).pipe(switchMap(repos => !repos.length ? of([]) : forkJoin(
       repos.slice(0, MOST_REPOSITORIES_WITH_RUNS).map(repo => this.repositories.runs(repo.id).pipe(
-        catchError(() => of([] as RepoRun[])), map(runs => [repo.id, runs] as const))),
+        catchError(error => {
+          // eslint-disable-next-line no-console
+          console.warn(`repositories.get_runs failed for repository ${repo.id}; its run count is shown as 0`, error);
+          return of([] as RepoRun[]);
+        }), map(runs => [repo.id, runs] as const))),
     ).pipe(map(entries => repositoryRows(repos, Object.fromEntries(entries), params))))),
   });
 }

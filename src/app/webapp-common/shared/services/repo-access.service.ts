@@ -41,7 +41,11 @@ export class RepoAccessService {
       .pipe(
         map(response => response?.repositories ?? []),
         // a failed check shows no badge; the page itself still works
-        catchError(() => of([] as RepoAccess[])),
+        catchError(error => {
+          // eslint-disable-next-line no-console
+          console.warn('repositories.resolve failed; the repositories show no access state', error);
+          return of([] as RepoAccess[]);
+        }),
       );
   }
 
@@ -54,7 +58,11 @@ export class RepoAccessService {
       .pipe(
         map(response => response?.repositories ?? []),
         // a failed check never stops a dispatch: the server checks again when the task is enqueued
-        catchError(() => of([] as RepoAccess[])),
+        catchError(error => {
+          // eslint-disable-next-line no-console
+          console.warn('repositories.requirement failed; no dispatch warning is shown', error);
+          return of([] as RepoAccess[]);
+        }),
       );
   }
 }
