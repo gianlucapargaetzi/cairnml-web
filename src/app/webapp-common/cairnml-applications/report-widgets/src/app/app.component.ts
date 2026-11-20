@@ -228,13 +228,15 @@ export class AppComponent implements OnInit {
         this.plotLoaded = true;
         if (this.tasksData().sourceTasks.length < 2) {
           const merged = this.mergeVariants(metricsPlots as ReportsApiMultiplotsResponse);
-          this.plotData = {...Object.values(merged)[0], ...Object.values(merged)[0].plotParsed};
+          // A task without plot data gives an empty response: there is nothing to show.
+          const first = Object.values(merged)[0];
+          this.plotData = first ? {...first, ...first.plotParsed} : undefined;
         } else {
           const {merged} = prepareMultiPlots(metricsPlots as ReportsApiMultiplotsResponse);
           const newGraphs = convertMultiPlots(merged);
           const originalObject = this.searchParams.get('objects');
           const series = this.searchParams.getAll('series');
-          this.plotData = series?.length > 0 ? Object.values(newGraphs)[0].find(a => series.includes((a.data[0] as any).seriesName)) :
+          this.plotData = series?.length > 0 ? Object.values(newGraphs)[0]?.find(a => series.includes((a.data[0] as any).seriesName)) :
             Object.values(newGraphs)[0]?.find(a => originalObject === (a.task ?? a.data[0].task)) ??
             Object.values(newGraphs)[0]?.[0];
         }
