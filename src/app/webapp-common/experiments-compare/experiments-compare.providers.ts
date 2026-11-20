@@ -4,10 +4,6 @@ import {IExperimentCompareChartsState} from '@common/experiments-compare/reducer
 import {UserPreferences} from '@common/user-preferences';
 import {merge, pick} from 'lodash-es';
 import {createUserPrefFeatureReducer} from '@common/core/meta-reducers/user-pref-reducer';
-import {
-  EXPERIMENTS_COMPARE_METRICS_CHARTS_
-} from '@common/experiments-compare/actions/experiments-compare-charts.actions';
-import {EXPERIMENTS_COMPARE_SELECT_EXPERIMENT_} from '@common/experiments-compare/actions/compare-header.actions';
 import {experimentsCompareReducers} from './reducers';
 import {provideEffects} from '@ngrx/effects';
 import {ExperimentsCompareDetailsEffects} from './effects/experiments-compare-details.effects';
@@ -24,8 +20,6 @@ import {ModelsInfoEffects} from '@common/models/effects/models-info.effects';
 export const COMPARE_STORE_KEY = 'experimentsCompare';
 export const COMPARE_CONFIG_TOKEN =
   new InjectionToken<StoreConfig<IExperimentCompareChartsState>>('CompareConfigToken');
-
-export const compareSyncedKeys = [];
 
 const localStorageKey = '_saved_compare_state_';
 
@@ -62,7 +56,7 @@ export const getCompareConfig = (userPreferences: UserPreferences) => ({
       };
     },
     (reducer: ActionReducer<any>) =>
-      createUserPrefFeatureReducer(COMPARE_STORE_KEY, compareSyncedKeys, [EXPERIMENTS_COMPARE_METRICS_CHARTS_, EXPERIMENTS_COMPARE_SELECT_EXPERIMENT_], userPreferences, reducer),
+      createUserPrefFeatureReducer(COMPARE_STORE_KEY, userPreferences, reducer),
   ]
 });
 

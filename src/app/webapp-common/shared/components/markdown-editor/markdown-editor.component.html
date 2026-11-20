@@ -30,6 +30,8 @@
       @if (editMode && !editorVisible()) {
         <span class="preview-header">Preview</span>
       }
+      <!-- ngx-markdown-editor calls the global ace.edit() when it is created; ace.js loads asynchronously. -->
+      @if (aceReady()) {
       <md-editor #editorComponent
         name="Content"
         height="100%"
@@ -89,6 +91,7 @@
             </div>
           }
         </md-editor>
+      }
       </div>
       <div class="md-footer">
         <button aria-label="Markdown cheat sheet" mat-icon-button class="help" data-id="markdownCheatSheetButton" (click)="openMDCCheatSheet()" smTooltip="Markdown cheat sheet">

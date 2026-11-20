@@ -1,6 +1,7 @@
 import {AUTH_PREFIX} from '@common/core/actions/common-auth.actions';
 import {PROJECTS_PREFIX as ROOT_PROJECTS_PREFIX} from '@common/core/actions/projects.actions';
 import {createUserPrefReducer} from '@common/core/meta-reducers/user-pref-reducer';
+import {UserPrefSync} from '@common/core/effects/user-pref-sync';
 import {projectsReducer} from '@common/core/reducers/projects.reducer';
 import {routerReducer} from '@common/core/reducers/router-reducer';
 import {PROJECTS_PREFIX} from '@common/projects/common-projects.consts';
@@ -75,16 +76,29 @@ export const localStorageReducer = (reducer: ActionReducer<string>): ActionReduc
     return nextState;
   };
 
+export const userPrefSyncs: UserPrefSync[] = [
+  {key: 'users', syncedKeys: ['activeWorkspace', 'showOnlyUserWork'], actionsPrefix: [USERS_PREFIX], waitForPreferencesReady: true},
+  {
+    key: 'rootProjects',
+    syncedKeys: ['tagsColors', 'graphVariant', 'showHidden', 'hideExamples', 'defaultNestedModeForFeature', 'blockUserScript'],
+    actionsPrefix: [ROOT_PROJECTS_PREFIX],
+    waitForPreferencesReady: true
+  },
+  {
+    key: 'views',
+    syncedKeys: ['autoRefresh', 'neverShowPopupAgain', 'redactedArguments', 'hideRedactedArguments', 'theme'],
+    actionsPrefix: [VIEW_PREFIX],
+    waitForPreferencesReady: true
+  },
+  {key: 'projects', syncedKeys: projectSyncedKeys, actionsPrefix: [PROJECTS_PREFIX], waitForPreferencesReady: true},
+  {key: 'colorsPreference', syncedKeys: colorSyncedKeys, actionsPrefix: [CHOOSE_COLOR_PREFIX], waitForPreferencesReady: true},
+];
+
 export const userPrefMetaFactory = (userPreferences: UserPreferences): MetaReducer[] => [
-  (reducer: ActionReducer<any>) =>
-    createUserPrefReducer('users', ['activeWorkspace', 'showOnlyUserWork'], [USERS_PREFIX], userPreferences, reducer),
-  (reducer: ActionReducer<any>) =>
-    createUserPrefReducer('rootProjects', ['tagsColors', 'graphVariant', 'showHidden', 'hideExamples', 'defaultNestedModeForFeature', 'blockUserScript'], [ROOT_PROJECTS_PREFIX], userPreferences, reducer),
-  (reducer: ActionReducer<any>) =>
-    createUserPrefReducer('views', ['autoRefresh', 'neverShowPopupAgain', 'redactedArguments', 'hideRedactedArguments', 'theme'], [VIEW_PREFIX], userPreferences, reducer),
+  (reducer: ActionReducer<any>) => createUserPrefReducer('users', userPreferences, reducer),
+  (reducer: ActionReducer<any>) => createUserPrefReducer('rootProjects', userPreferences, reducer),
+  (reducer: ActionReducer<any>) => createUserPrefReducer('views', userPreferences, reducer),
   localStorageReducer,
-  (reducer: ActionReducer<any>) =>
-    createUserPrefReducer('projects', projectSyncedKeys, [PROJECTS_PREFIX], userPreferences, reducer),
-  (reducer: ActionReducer<any>) =>
-    createUserPrefReducer('colorsPreference', colorSyncedKeys, [CHOOSE_COLOR_PREFIX], userPreferences, reducer)
+  (reducer: ActionReducer<any>) => createUserPrefReducer('projects', userPreferences, reducer),
+  (reducer: ActionReducer<any>) => createUserPrefReducer('colorsPreference', userPreferences, reducer)
 ];

@@ -22,7 +22,7 @@ import {ReportEditStateService} from '@common/shared/services/report-edit-state.
 import {ReportCodeEmbedBaseService} from '@common/shared/services/report-code-embed-base.service';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
-import {selectThemeMode} from '@common/core/reducers/view.reducer';
+import {selectAceReady, selectThemeMode} from '@common/core/reducers/view.reducer';
 import {Store} from '@ngrx/store';
 
 const BREAK_POINT = 990;
@@ -74,6 +74,7 @@ export class MarkdownEditorComponent implements OnDestroy {
   private ace: Ace.Editor;
   public isExpand = signal(false);
   theme = this.store.selectSignal(selectThemeMode);
+  protected aceReady = this.store.selectSignal(selectAceReady);
 
   previewDisplay = computed(() => {
     if (this.innerWidth() > BREAK_POINT) {
