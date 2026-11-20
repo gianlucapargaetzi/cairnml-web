@@ -83,7 +83,7 @@ export const BASE_ENV: Environment = {
   whiteLabelLoginTitle: null,
   whiteLabelLoginSubtitle: null,
   whiteLabelSlogan: null,
-  plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
+  plotlyURL: 'assets/plotly/plotly.min.js',
   docsLink: '/docs',
   branding: {logo: 'assets/cairnml-symbol-white.svg', logoSmall: 'assets/cairnml-symbol-white.svg'},
   serverDownMessage: 'The CairnML server is currently unavailable.<BR>' +

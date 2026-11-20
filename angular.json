@@ -41,6 +41,11 @@
                 "glob": "**/*",
                 "input": "node_modules/ace-builds/src-min",
                 "output": "./assets/ace-builds/"
+              },
+              {
+                "glob": "plotly.min.js",
+                "input": "node_modules/plotly.js-dist-min",
+                "output": "./assets/plotly/"
               }
             ],
             "styles": [
@@ -106,6 +111,11 @@
                   "glob": "**/*",
                   "input": "node_modules/ace-builds/src-min",
                   "output": "./assets/ace-builds/"
+                },
+                {
+                  "glob": "plotly.min.js",
+                  "input": "node_modules/plotly.js-dist-min",
+                  "output": "./assets/plotly/"
                 },
                 "src/version.json",
                 "src/configuration.json",
@@ -305,7 +315,12 @@
               "src/app/webapp-common/cairnml-applications/report-widgets/src/favicon.ico",
               "src/app/webapp-common/cairnml-applications/report-widgets/src/assets",
               "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets",
-              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets/fonts/trains.ttf"
+              "src/app/webapp-common/cairnml-applications/report-widgets/src/app/webapp-common/assets/fonts/trains.ttf",
+              {
+                "glob": "plotly.min.js",
+                "input": "node_modules/plotly.js-dist-min",
+                "output": "./assets/plotly/"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

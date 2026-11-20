@@ -96,7 +96,7 @@ export const BASE_ENV = {
   showSurvey: false,
   accountAdministration: false,
   legal: {TOULink: 'https://github.com/gianlucapargaetzi/cairnml-server/blob/main/LICENSE'},
-  plotlyURL: 'app/webapp-common/assets/plotly-2.35.0.min.js',
+  plotlyURL: 'assets/plotly/plotly.min.js',
   docsLink: 'https://github.com/gianlucapargaetzi/cairnml#readme',
   supportEmail: '',
   branding: {logo: 'assets/cairnml-symbol-white.svg', logoSmall: 'assets/cairnml-symbol-white.svg'},
