@@ -13,4 +13,8 @@
 
 
 export interface DebugPingResponse {
+    /**
+     * Throwaway field of the coordinated-work demonstration
+     */
+    coord_demo_note?: string;
 }
