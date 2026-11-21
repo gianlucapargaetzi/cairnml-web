@@ -67,6 +67,15 @@ jobs:
         env:
           PYTHONPATH: server
 
+      # The hand-written API code must agree with the schema: it reads api-services/*.service.ts, the request and response
+      # models and the other src/**/*.ts files (not HTML or .js) and fails on a request path, an API version or an action
+      # written by hand, and on a call or model field the schema lacks. scripts/api-allow.txt lists the exemptions (none
+      # today). It uses the server checkout above.
+      - name: The web app's hand-written API calls agree with the schema
+        run: python -m apiserver.client_generator check-web --root src/app/business-logic --allow scripts/api-allow.txt
+        env:
+          PYTHONPATH: server
+
       - name: Check for retired product names
         run: sh scripts/check-product-names.sh
 
