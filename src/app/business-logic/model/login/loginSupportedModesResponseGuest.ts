@@ -25,8 +25,4 @@ export interface LoginSupportedModesResponseGuest {
      * Guest username
      */
     username?: string;
-    /**
-     * Guest password
-     */
-    password?: string;
 }
