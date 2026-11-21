@@ -23,4 +23,6 @@ export interface DevicesGitTokenResponse {
      */
     expires_at?: string;
     username?: string;
+    demo_note?: string;
+    demo_note_two?: string;
 }
