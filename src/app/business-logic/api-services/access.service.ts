@@ -119,4 +119,3 @@ export class ApiAccessService {
         );
     }
 }
-// demo: hand edit of a generated file (ci/324 demonstration)
