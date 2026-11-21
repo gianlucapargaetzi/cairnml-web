@@ -42,15 +42,23 @@ jobs:
       - name: Check for root-absolute app links
         run: sh scripts/check-app-links.sh
 
-      # The web app's API layer is generated from the server's schema on the server's main: the services, the models and
-      # the shared client files must be exactly what the generator writes. A server change that the web app has not
-      # taken (or a hand edit) fails here. Regenerate with: python -m apiserver.client_generator generate --target web
-      # --out src/app/business-logic (from the server repository, with its main checked out).
+      # The web app's API layer is generated from the server's schema: the services, the models and the shared client
+      # files must be exactly what the generator writes. A server change that the web app has not taken (or a hand edit)
+      # fails here. Regenerate with: python -m apiserver.client_generator generate --target web --out
+      # src/app/business-logic (from the server repository, with its main checked out). The schema is the server's
+      # main, or the server's branch named like this pull request's branch when there is one (work that spans the
+      # server and the web app: give both pull requests the same branch name).
+      - name: Pick the server's ref
+        id: server-ref
+        uses: ./.github/actions/same-named-ref
+        with:
+          repository: gianlucapargaetzi/cairnml-server
+
       - name: Check out the server's schema and generator
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           repository: gianlucapargaetzi/cairnml-server
-          ref: main
+          ref: ${{ steps.server-ref.outputs.ref }}
           path: server
           sparse-checkout: |
             apiserver/__init__.py
