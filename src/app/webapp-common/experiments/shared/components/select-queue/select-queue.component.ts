@@ -2,10 +2,11 @@ import {ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Queue} from '@common/workers-and-queues/actions/queues.actions';
 import {Store} from '@ngrx/store';
-import {getQueuesForEnqueue, getTaskForEnqueue, setTaskForEnqueue} from './select-queue.actions';
+import {getQueuesForEnqueue, getTaskForEnqueue, SelectQueue, setTaskForEnqueue} from './select-queue.actions';
 import {selectQueueFeature} from './select-queue.reducer';
 import {ConfirmDialogComponent} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.component';
 import {BlTasksService} from '~/business-logic/services/tasks.service';
+import {DEFAULT_QUEUE_TAG} from '~/business-logic/variables';
 import {startWith} from 'rxjs/operators';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {splitLine} from '@common/shared/utils/shared-utils';
@@ -71,7 +72,8 @@ export class SelectQueueComponent {
   protected queuesDisplays = computed(() => this.queues().map(q => q.display_name).filter(name => !!name));
   public queues = this.store.selectSignal(selectQueueFeature.selectQueues);
   public tasksForEnqueue = this.store.selectSignal(selectQueueFeature.selectTasks);
-  protected defaultQueue = computed(() => this.blTaskService.getDefaultQueue(this.queues()) || this.queues()[0]);
+  // The public default queue is named after its tag; system tags are not requested, so the name is the only marker here.
+  protected defaultQueue = computed(() => this.blTaskService.getDefaultQueue(this.queues()) || this.singleAgentQueue(this.queues()) || this.queues()[0]);
   private valueChange = toSignal(this.queueControl.valueChanges.pipe(startWith('')));
 
   protected selectedQueue = computed(() => (this.valueChange() as Queue)?.id ? this.valueChange() : undefined);
@@ -103,6 +105,12 @@ export class SelectQueueComponent {
     this.destroy.onDestroy(() => {
       this.store.dispatch(setTaskForEnqueue({tasks: null}));
     });
+  }
+
+  // The one non-default queue that an agent serves (has a worker), or undefined when there is not exactly one.
+  private singleAgentQueue(queues: SelectQueue[]): SelectQueue | undefined {
+    const served = queues.filter(queue => queue.name !== DEFAULT_QUEUE_TAG && queue.workers?.length > 0);
+    return served.length === 1 ? served[0] : undefined;
   }
 
   displayFn = (item: any): string => typeof item === 'string' ? item : item?.caption ?? item?.name;
