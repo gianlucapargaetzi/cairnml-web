@@ -29,10 +29,13 @@ export class RunImportDialogComponent {
   protected progress = signal('');
   protected error = signal<string | null>(null);
   protected result = signal<RunImportResult | null>(null);
+  /** The project's name for the result line; null shows the project id instead. */
+  protected projectName = signal<string | null>(null);
 
   protected chooseFile(event: Event) {
     const chosen = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.result.set(null);
+    this.projectName.set(null);
     this.error.set(null);
     if (chosen && !chosen.name.toLowerCase().endsWith('.zip')) {
       this.file.set(null);
@@ -51,6 +54,7 @@ export class RunImportDialogComponent {
     this.busy.set(true);
     this.error.set(null);
     this.result.set(null);
+    this.projectName.set(null);
     try {
       this.progress.set('Checking the file');
       const sha256 = await sha256Hex(file);
@@ -60,7 +64,10 @@ export class RunImportDialogComponent {
       this.progress.set('Checking the stored file');
       await this.api.commit(staged.id, parts);
       this.progress.set('Importing the run');
-      this.result.set(await this.api.run(staged.id));
+      const imported = await this.api.run(staged.id);
+      // the name is looked up after the import; a failed lookup keeps the id and does not fail the import
+      this.projectName.set(await this.api.projectName(imported.project).catch(() => null));
+      this.result.set(imported);
     } catch (error) {
       this.error.set(error instanceof UploadError
         ? error.message

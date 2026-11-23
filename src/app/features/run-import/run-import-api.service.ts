@@ -1,6 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {lastValueFrom} from 'rxjs';
 import {ApiImportsService} from '~/business-logic/api-services/imports.service';
+import {ApiProjectsService} from '~/business-logic/api-services/projects.service';
+import {ProjectsGetByIdResponse} from '~/business-logic/model/projects/projectsGetByIdResponse';
 
 /** The answer of imports.prepare_upload: one presigned PUT, or a multipart upload with one URL per part. */
 export interface StagedUpload {
@@ -29,6 +31,7 @@ export interface RunImportResult {
 @Injectable({providedIn: 'root'})
 export class RunImportApiService {
   private imports = inject(ApiImportsService);
+  private projects = inject(ApiProjectsService);
 
 
   prepareUpload(name: string, size: number, sha256: string): Promise<StagedUpload> {
@@ -45,5 +48,11 @@ export class RunImportApiService {
 
   run(id: string): Promise<RunImportResult> {
     return lastValueFrom(this.imports.importsRun({id}));
+  }
+
+  /** The name of a project, from its id. Resolves with null when the reply holds no name. */
+  async projectName(id: string): Promise<string | null> {
+    const reply: ProjectsGetByIdResponse = await lastValueFrom(this.projects.projectsGetById({project: id}));
+    return reply.project?.name ?? null;
   }
 }
