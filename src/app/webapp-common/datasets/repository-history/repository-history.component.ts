@@ -91,5 +91,5 @@ export class RepositoryHistoryComponent {
     return lines;
   };
 
-  protected readonly hasCommits = computed(() => (this.history.value()?.nodes ?? []).length > 0);
+  protected readonly hasCommits = computed(() => this.history.hasValue() && (this.history.value()?.nodes ?? []).length > 0);
 }
