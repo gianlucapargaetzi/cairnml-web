@@ -44,6 +44,16 @@ describe('DatasetNoticesComponent', () => {
     expect(rows()[1].textContent).toContain('Dataset test-data was published to project examples by your task.');
   });
 
+  it('stacks at the bottom right, away from the page header buttons', async () => {
+    create();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const stack = fixture.nativeElement.querySelector('[data-id=datasetNotices]') as HTMLElement;
+    const box = stack.getBoundingClientRect();
+    expect(window.innerHeight - box.bottom).toBe(24);
+    expect(window.innerWidth - box.right).toBe(24);
+  });
+
   it('shows nothing when there are no notices', async () => {
     notices = [];
     create();
