@@ -220,6 +220,8 @@
               "src/app/webapp-common/datasets/open-dataset-card/open-dataset-card.component.spec.ts",
               "src/app/webapp-common/experiments-compare/containers/compare-scatter-plot/compare-scatter-plot.component.spec.ts",
               "src/app/webapp-common/experiments/containers/create-experiment-dialog/create-experiment-dialog.component.spec.ts",
+              "src/app/webapp-common/experiments/shared/components/select-queue/select-queue.component.spec.ts",
+              "src/app/webapp-common/experiments/shared/components/select-queue/select-queue.effects.spec.ts",
               "src/app/webapp-common/experiments/dumb/clear-installed-packges-dialog/clear-installed-packages-dialog.component.spec.ts",
               "src/app/webapp-common/experiments/dumb/experiment-operations-log/experiment-operations-log.component.spec.ts",
               "src/app/webapp-common/layout/header-navbar-tabs/header-navbar-tabs.component.spec.ts",
