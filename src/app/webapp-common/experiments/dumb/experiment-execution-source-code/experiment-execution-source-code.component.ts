@@ -10,8 +10,8 @@ import {
 import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators} from '@angular/forms';
 import {IExecutionForm, sourceTypesEnum} from '~/features/experiments/shared/experiment-execution.model';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {debounceTime, distinctUntilChanged, filter, map, startWith, switchMap} from 'rxjs/operators';
-import {merge, of, pairwise, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, startWith} from 'rxjs/operators';
+import {merge, pairwise, Subject} from 'rxjs';
 import {RepoAccess, RepoAccessService} from '@common/shared/services/repo-access.service';
 import {RepoAccessBadgeComponent} from '@common/shared/ui-components/data/repo-access-badge/repo-access-badge.component';
 import {buildGitRepoUrl} from '@common/experiments/shared/common-experiments.utils';
@@ -125,9 +125,8 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
         takeUntilDestroyed(),
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(repository => repository ?
-          this.repoAccessApi.resolve([repository], this.projectId()).pipe(map(results => results[0] ?? null)) :
-          of(null)),
+        // read again whenever a credential is assigned or removed, so the badge follows the user's credentials
+        repository$ => this.repoAccessApi.watch(repository$, () => this.projectId()),
       )
       .subscribe(access => this.repoAccess.set(access));
 

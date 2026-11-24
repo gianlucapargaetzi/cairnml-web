@@ -1,6 +1,7 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {Observable, of, Subject, throwError} from 'rxjs';
 import {SmApiRequestsService} from '~/business-logic/api-services/api-requests.service';
+import {RepoAccessService} from '@common/shared/services/repo-access.service';
 import {RepositoriesService} from './repositories.service';
 import {endpointUrl} from '~/business-logic/api-services/endpoints';
 
@@ -47,4 +48,37 @@ describe('RepositoriesService request bodies', () => {
     expect(lastUrl()).toBe(endpointUrl('user_access.get_all'));
     expect(lastBody()).toEqual({});
   });
+});
+
+describe('RepositoriesService credential changes', () => {
+  function setup(response: Observable<unknown>) {
+    const post = jasmine.createSpy('post').and.returnValue(response);
+    TestBed.configureTestingModule({providers: [{provide: SmApiRequestsService, useValue: {post}}]});
+    const notify = spyOn(TestBed.inject(RepoAccessService), 'notifyCredentialChanged');
+    return {service: TestBed.inject(RepositoriesService), notify};
+  }
+
+  const changes: [string, (service: RepositoriesService) => Observable<unknown>][] = [
+    ['assign', service => service.assign('r1', 'c1')],
+    ['unassign', service => service.unassign('r1')],
+  ];
+
+  for (const [name, change] of changes) {
+    it(`${name} tells the access service once, after the server answered`, () => {
+      const answer = new Subject<unknown>();
+      const {service, notify} = setup(answer);
+      change(service).subscribe();
+      expect(notify).not.toHaveBeenCalled();
+
+      answer.next({repository: {}});
+      expect(notify).toHaveBeenCalledTimes(1);
+    });
+
+    it(`${name} does not tell the access service when the request failed`, () => {
+      const {service, notify} = setup(throwError(() => new Error('refused')));
+      change(service).subscribe({error: () => undefined});
+
+      expect(notify).not.toHaveBeenCalled();
+    });
+  }
 });
