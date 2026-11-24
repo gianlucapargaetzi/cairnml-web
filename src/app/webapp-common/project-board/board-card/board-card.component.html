@@ -3,7 +3,7 @@
     <div class="divider-title" data-id="boardDivider">{{ title() }}</div>
   } @else {
     <div class="body">
-      @if (body.value(); as component) {
+      @if (body.hasValue() && body.value(); as component) {
         <ng-container *ngComponentOutlet="component; inputs: bodyInputs()"></ng-container>
       }
     </div>
