@@ -44,7 +44,7 @@ describe('DatasetNoticesComponent', () => {
     expect(rows()[1].textContent).toContain('Dataset test-data was published to project examples by your task.');
   });
 
-  it('stacks at the bottom right, away from the page header buttons', async () => {
+  it('is anchored at the bottom right corner, 24px from each edge', async () => {
     create();
     await fixture.whenStable();
     fixture.detectChanges();
