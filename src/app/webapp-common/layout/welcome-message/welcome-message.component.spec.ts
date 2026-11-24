@@ -6,6 +6,7 @@ import {provideMockStore} from '@ngrx/store/testing';
 import {of} from 'rxjs';
 import {selectActiveWorkspace, selectGettingStarted} from '@common/core/reducers/users-reducer';
 import {ConfigurationService} from '@common/shared/services/configuration.service';
+import {Queue} from '~/business-logic/model/queues/queue';
 import {WelcomeMessageComponent} from './welcome-message.component';
 
 describe('WelcomeMessageComponent', () => {
@@ -54,5 +55,14 @@ describe('WelcomeMessageComponent', () => {
     expect(code).not.toContain('ACCESS_KEY');
     expect(code).not.toContain('SECRET_KEY');
     expect(code).not.toContain('API access key');
+  });
+
+  it('a queue without an agent shows the agent extra as the install line', () => {
+    component.queue = {name: 'q1', id: 'x'} as Queue;
+    fixture.detectChanges();
+
+    const code = renderedCode();
+    expect(code).toContain('pip install "cairnml[agent]"');
+    expect(code).not.toContain('pip install cairnml-agent');
   });
 });
