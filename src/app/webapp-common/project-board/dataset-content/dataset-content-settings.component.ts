@@ -13,11 +13,14 @@ import {datasetSetting} from './dataset-versions';
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Dataset</mat-label>
       <mat-select [value]="current() ?? ''" (selectionChange)="choose($event.value)" data-id="datasetChoice">
-        @for (repo of datasets.value() ?? []; track repo.id) {
+        @for (repo of datasets.hasValue() ? (datasets.value() ?? []) : []; track repo.id) {
           <mat-option [value]="repo.id">{{ repo.name }}</mat-option>
         }
       </mat-select>
-    </mat-form-field>`,
+    </mat-form-field>
+    @if (datasets.error()) {
+      <p class="note" data-id="datasetChoiceError">The datasets of this project could not be read.</p>
+    }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatFormField, MatLabel, MatSelect, MatOption],
 })

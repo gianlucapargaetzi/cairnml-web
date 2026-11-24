@@ -43,7 +43,7 @@ export class TaskDatasetsComponent {
   // the access row of a dataset repository: the rows are keyed by the https address, in lower case
   protected accessOf(repo: string): RepoAccess | null {
     const wanted = repo.toLowerCase().replace(/^https?:\/\//, '').replace(/\.git$/, '').replace(/^github\.com\//, '');
-    return (this.rows.value() ?? []).find(row => (row.kinds ?? []).includes('dataset') &&
+    return (this.rows.hasValue() ? (this.rows.value() ?? []) : []).find(row => (row.kinds ?? []).includes('dataset') &&
       row.url.toLowerCase().replace(/^https?:\/\//, '').replace(/^github\.com\//, '') === wanted) ?? null;
   }
 
