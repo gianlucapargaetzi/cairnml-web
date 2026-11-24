@@ -41,7 +41,7 @@ export class DatasetContentCardComponent {
   });
 
   protected readonly view = computed(() => {
-    const versions = this.versions.value();
+    const versions = this.versions.hasValue() ? this.versions.value() : null;
     return versions ? versionsView(versions) : null;
   });
 
