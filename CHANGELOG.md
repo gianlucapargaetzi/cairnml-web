@@ -11,6 +11,7 @@ sections: a release needs its section here.
 - A running task shows a progress bar and its percentage in the task list, the dashboard and the compare view, and n/a when it has no estimate yet.
 - Queues show their real name, the one that --queue takes, in the Queues table, the task details and the agent welcome message.
 - The project Overview is a board of cards; the Edit the board button, shown to people who can edit the project, switches the board to editing.
+- The Import run dialog names the project in its result line instead of showing the project id.
 - Repositories & Datasets lists code repositories, datasets and registries in one list; a row has a Check now button, and Make shared in its menu when you can share it.
 - The repository browser has a Git graph tab with the commits that tasks ran on.
 - Settings no longer has the Storage cleanup page.

@@ -204,6 +204,7 @@
               "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/webapp-common/project-info/recent-experiments/recent-experiments.component.spec.ts",
               "src/app/features/dashboard/dashboard.component.spec.ts",
+              "src/app/features/run-import/run-import-dialog.component.spec.ts",
               "src/app/features/experiments/shared/services/clone-naming.service.spec.ts",
               "src/app/features/settings/containers/admin/usage-stats/usage-stats.component.spec.ts",
               "src/app/webapp-common/core/interceptors/webapp-interceptor.spec.ts",
