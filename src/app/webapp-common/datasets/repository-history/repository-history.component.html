@@ -1,6 +1,6 @@
 @if (history.isLoading()) {
   <div class="loading"><mat-spinner [diameter]="24" [strokeWidth]="3"></mat-spinner></div>
-} @else if (!history.value()) {
+} @else if (history.error() || !history.hasValue()) {
   <p class="note" data-id="repositoryHistoryError">The history of this repository could not be read.</p>
 } @else {
   @let h = history.value()!;
