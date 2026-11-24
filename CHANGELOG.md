@@ -17,4 +17,4 @@ sections: a release needs its section here.
 - The setup steps for a Jupyter notebook say to enrol with cairnml init; they no longer ask for API access keys.
 - On the Repositories page, a failed read of the repository list, a repository's history or the add-repository dialog shows an error note instead of an empty list. Other pages are not changed yet.
 - When the server refuses a credential, repository or sharing request, the message shows the server's reason; other refused requests still show their own text.
-The Import run dialog names the project in its result line instead of showing the project id.
+- The Import run dialog names the project in its result line instead of showing the project id.
