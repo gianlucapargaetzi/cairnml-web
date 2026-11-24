@@ -1,3 +1,7 @@
 <sm-dialog-template header="Markdown cheat sheet" [iconClass]="'al-ico-markdown'" tabindex="0">
-  <div [innerHTML]="mdCheatSheetHtmlFile.value()"></div>
+  @if (mdCheatSheetHtmlFile.error()) {
+    <p class="note" data-id="cheatSheetError">The cheat sheet could not be loaded.</p>
+  } @else {
+    <div [innerHTML]="mdCheatSheetHtmlFile.hasValue() ? mdCheatSheetHtmlFile.value() : null"></div>
+  }
 </sm-dialog-template>

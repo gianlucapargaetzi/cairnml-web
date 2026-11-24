@@ -74,3 +74,24 @@ describe('BoardCardComponent', () => {
     }
   });
 });
+
+describe('BoardCardComponent when the body of its type cannot be loaded', () => {
+  it('shows the unavailable card and reports nothing', async () => {
+    const original = CARD_TYPES['plot'].body;
+    try {
+      CARD_TYPES['plot'].body = () => Promise.reject(new Error('chunk failed'));
+      TestBed.configureTestingModule({imports: [BoardCardComponent]});
+      const fixture = TestBed.createComponent(BoardCardComponent);
+      fixture.componentRef.setInput('card', card({type: 'plot', h: 12, w: 3, settings: {}}));
+      fixture.componentRef.setInput('projectId', 'p1');
+      fixture.componentRef.setInput('editing', false);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect((fixture.nativeElement as HTMLElement).querySelector('[data-id=boardCardUnavailable]')).not.toBeNull();
+    } finally {
+      CARD_TYPES['plot'].body = original;
+    }
+  });
+});

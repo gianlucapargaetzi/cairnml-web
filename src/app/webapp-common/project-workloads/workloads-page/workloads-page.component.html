@@ -17,7 +17,11 @@
   </sm-period-selector>
 </header>
 @if(!data.isLoading()) {
-  @if(noData()) {
+  @if(data.error()) {
+    <div class="empty-container justify-content-center">
+      <p class="note center" data-id="workloadsError">The workloads could not be read.</p>
+    </div>
+  } @else if(noData()) {
     <div class="empty-container justify-content-center">
       <sm-empty-state icon="al-ico-no-data-graph" title="No information available for the selected period"
         description="Run additional workloads to see resource utilization"></sm-empty-state>

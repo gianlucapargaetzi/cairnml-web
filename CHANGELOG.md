@@ -18,9 +18,10 @@ sections: a release needs its section here.
 - Settings no longer has the Storage cleanup page.
 - The notices that a run published a dataset to a project appear in the bottom right corner of the page, so they no longer cover the buttons in the page header.
 - The setup steps for a Jupyter notebook say to enrol with cairnml init; they no longer ask for API access keys.
-- On the Repositories page, a failed read of the repository list, a repository's history or the add-repository dialog shows an error note instead of an empty list. Other pages are not changed yet.
+- On the Repositories page, a failed read of the repository list, a repository's history or the add-repository dialog shows an error note instead of an empty list.
 - When the server refuses a credential, repository or sharing request, the message shows the server's reason; other refused requests still show their own text.
 - The Enqueue dialog preselects your agent's queue when it is the only one with an agent, instead of the default queue, which no agent serves.
+- A failed request on the dataset browser, the Workloads page, the task datasets, the board cards and their settings, or the Markdown cheat sheet shows a short note instead of an error page.
 
 ## 0.0.5
 

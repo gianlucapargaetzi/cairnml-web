@@ -17,7 +17,7 @@ import {TIME_INTERVALS} from '@common/workers-and-queues/workers-and-queues.cons
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LineChartComponent} from '@common/shared/components/charts/line-chart/line-chart.component';
 import {DonutComponent} from '@common/shared/components/charts/donut/donut.component';
-import {catchError, map, startWith} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 import {MatDivider} from '@angular/material/divider';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
@@ -144,17 +144,19 @@ export class WorkloadsPageComponent {
         ...(to_date && {to_date}),
         usage_fields : ['duration']
       }).pipe(
-        catchError(() => of(null)),
         map((res: OrganizationGetProjectWorkloadsResponse) => res)
       );
     }
   });
 
-  protected projectsStats = computed(() => getStatsData(this.data.value()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
-  protected usersStats = computed(() => getStatsData(this.data.value()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
+  // The loaded usage, or null while it is loading or after a failed request (a failed request shows the note, not the empty state).
+  private readonly usage = computed(() => (this.data.hasValue() ? this.data.value() : null));
 
-  protected projectsTotals = computed(() => getTotalsData(this.data.value()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
-  protected usersTotals = computed(() => getTotalsData(this.data.value()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
+  protected projectsStats = computed(() => getStatsData(this.usage()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
+  protected usersStats = computed(() => getStatsData(this.usage()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
+
+  protected projectsTotals = computed(() => getTotalsData(this.usage()?.projects, this.nominal() === 'gpu', this.localRunsControl.value));
+  protected usersTotals = computed(() => getTotalsData(this.usage()?.users, this.nominal() === 'gpu', this.localRunsControl.value));
 
   protected noData= computed(() => this.projectsTotals().length < 1 && this.usersTotals().length < 1);
 
