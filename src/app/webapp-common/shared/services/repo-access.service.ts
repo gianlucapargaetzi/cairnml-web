@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Observable, of, Subject} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import {ApiRepositoriesService} from '~/business-logic/api-services/repositories.service';
 
 // How a project reads a repository (repositories.resolve / requirement). No secret is ever part of it. `ask`: the web app
@@ -30,6 +30,27 @@ export interface RepoAccess {
 @Injectable({providedIn: 'root'})
 export class RepoAccessService {
   private repositories = inject(ApiRepositoriesService);
+  private credentialChanged = new Subject<void>();
+
+  // Tell everything that shows how the signed-in user reads a repository that a credential was assigned or removed.
+  notifyCredentialChanged(): void {
+    this.credentialChanged.next();
+  }
+
+  // How the signed-in user reads the repository that `repository$` currently names: resolved for each repository, and
+  // again whenever a credential changes, so that a badge turns green as soon as the credential that fixes it is assigned.
+  // The project is read when each request is made. An empty repository has no access state (null). The returned stream
+  // holds no subscription of its own: unsubscribing from it ends the listening for credential changes too.
+  watch(repository$: Observable<string>, project: () => string | null | undefined): Observable<RepoAccess | null> {
+    return repository$.pipe(
+      switchMap(repository => repository ?
+        this.credentialChanged.pipe(
+          startWith(undefined),
+          switchMap(() => this.resolve([repository], project()).pipe(map(results => results[0] ?? null))),
+        ) :
+        of(null)),
+    );
+  }
 
   // How the signed-in user reads each repository in the project.
   resolve(repositories: string[], project?: string | null): Observable<RepoAccess[]> {

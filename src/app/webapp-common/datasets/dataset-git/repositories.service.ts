@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
+import {RepoAccessService} from '@common/shared/services/repo-access.service';
 import {ApiRepositoriesService} from '~/business-logic/api-services/repositories.service';
 import {ApiUserAccessService} from '~/business-logic/api-services/user_access.service';
 
@@ -170,6 +171,7 @@ export interface StoredCredential {
 export class RepositoriesService {
   private repos = inject(ApiRepositoriesService);
   private userAccess = inject(ApiUserAccessService);
+  private repoAccess = inject(RepoAccessService);
 
   // The repositories the user sees; with a project, only those listed in it.
   list(project?: string): Observable<Repo[]> {
@@ -211,13 +213,16 @@ export class RepositoriesService {
   }
 
   // Sets the user's own assignment: a credential, "None needed", or (neither) clears it. Only the user's own is changed.
+  // Tells the access service when the server has answered, so that every badge that shows how this user reads a repository
+  // (the task page, for one) reads it again.
   assign(id: string, credential: string | null, noneNeeded = false): Observable<Repo> {
     return this.repos.repositoriesAssign({ref: id, credential: credential || undefined, none_needed: noneNeeded || undefined})
-      .pipe(map(r => r.repository));
+      .pipe(map(r => r.repository), tap(() => this.repoAccess.notifyCredentialChanged()));
   }
 
   unassign(id: string): Observable<Repo> {
-    return this.repos.repositoriesUnassign({ref: id}).pipe(map(r => r.repository));
+    return this.repos.repositoriesUnassign({ref: id})
+      .pipe(map(r => r.repository), tap(() => this.repoAccess.notifyCredentialChanged()));
   }
 
   // Looks at a repository again: the host's answer is renewed and the user's own assignment is tried.
