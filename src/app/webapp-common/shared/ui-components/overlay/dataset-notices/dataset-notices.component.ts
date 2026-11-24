@@ -22,7 +22,7 @@ export interface DatasetNotice {
 
 /**
  * Notices that a task of the signed-in user published a dataset to a project (docs/design-system/components/feedback.md).
- * Shown in the top right of the app, one per notice, until the user dismisses it (access.dismiss_notice). Nothing is
+ * Shown in the bottom right of the app, clear of the page header buttons, one per notice, until the user dismisses it (access.dismiss_notice). Nothing is
  * shown when there are no notices.
  */
 @Component({

@@ -251,6 +251,7 @@
               "src/app/webapp-common/shared/services/login.service.spec.ts",
               "src/app/webapp-common/shared/services/theme.service.spec.ts",
               "src/app/webapp-common/shared/ui-components/overlay/rename-dialog/rename-dialog.component.spec.ts",
+              "src/app/webapp-common/shared/ui-components/overlay/dataset-notices/dataset-notices.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/panel/project-card/project-card.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/panel/result-line/result-line.component.spec.ts",
               "src/app/webapp-common/shared/ui-components/tags/user-tag/mini-tag/mini-tag.component.spec.ts",
