@@ -209,6 +209,7 @@
               "src/app/features/settings/containers/admin/usage-stats/usage-stats.component.spec.ts",
               "src/app/webapp-common/core/interceptors/webapp-interceptor.spec.ts",
               "src/app/webapp-common/core/effects/user-pref-save.effects.spec.ts",
+              "src/app/webapp-common/core/effects/users.effects.spec.ts",
               "src/app/webapp-common/core/meta-reducers/user-pref-reducer.spec.ts",
               "src/app/webapp-common/dashboard-search/global-search-dialog/global-search-dialog.component.spec.ts",
               "src/app/webapp-common/dashboard-search/global-search-filter-container/global-search-filter-container.component.spec.ts",

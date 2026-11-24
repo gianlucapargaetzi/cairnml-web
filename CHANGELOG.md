@@ -8,6 +8,7 @@ sections: a release needs its section here.
 - The experiment header shows the display name as its title and the task name as "Task: name"; the Rename task item in the experiment menu changes the task name.
 - The task list has a Title column with the display name and a Task name column.
 - The Tasks list shows the trials of a hyperparameter search under their search, as a group that can be collapsed.
+- The footer shows the server version without a trailing hyphen when the server reports no build number.
 - A running task shows a progress bar and its percentage in the task list, the dashboard and the compare view, and n/a when it has no estimate yet.
 - Queues show their real name, the one that --queue takes, in the Queues table, the task details and the agent welcome message.
 - The project Overview is a board of cards; the Edit the board button, shown to people who can edit the project, switches the board to editing.

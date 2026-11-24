@@ -55,7 +55,7 @@ export class CommonUserEffects {
     ofType(getApiVersion),
     mergeMap(() => this.serverService.serverInfo({})),
     map((res: ServerInfoResponse) =>
-      setApiVersion({serverVersions: {server: `${res.version}-${res.build}`, api: res.api_version}})
+      setApiVersion({serverVersions: {server: res.build ? `${res.version}-${res.build}` : res.version, api: res.api_version}})
     ),
     catchError(() => [setUserWorkspacesFromUser()])
   ));
