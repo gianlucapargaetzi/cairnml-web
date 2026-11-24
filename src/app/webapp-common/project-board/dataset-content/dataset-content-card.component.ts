@@ -30,7 +30,9 @@ export class DatasetContentCardComponent {
   });
   protected readonly scope = computed(() => {
     const id = this.dataset();
-    return id ? `The dataset ${this.datasets.value()?.get(id) ?? ''}`.trim() : 'No dataset chosen';
+    // the name is extra: while the list is loading or after it failed, the heading names the card only
+    const name = id && this.datasets.hasValue() ? this.datasets.value()?.get(id) : undefined;
+    return id ? `The dataset ${name ?? ''}`.trim() : 'No dataset chosen';
   });
 
   protected readonly versions = rxResource({

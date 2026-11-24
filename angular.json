@@ -201,6 +201,7 @@
               "src/app/webapp-common/settings/admin/base-admin.service.spec.ts",
               "src/app/webapp-common/datasets/dataset-browser/dataset-browser.component.spec.ts",
               "src/app/webapp-common/datasets/repository-history/repository-history.component.spec.ts",
+              "src/app/webapp-common/datasets/dataset-git/task-datasets.component.spec.ts",
               "src/app/webapp-common/project-board/**/*.spec.ts",
               "src/app/webapp-common/project-info/recent-experiments/recent-experiments.component.spec.ts",
               "src/app/features/dashboard/dashboard.component.spec.ts",
