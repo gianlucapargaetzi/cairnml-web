@@ -125,7 +125,7 @@ export class ExperimentExecutionSourceCodeComponent implements ControlValueAcces
         takeUntilDestroyed(),
         debounceTime(400),
         distinctUntilChanged(),
-        // read again when a credential is assigned or removed, as in the "Credentials not assigned" step of the Enqueue flow
+        // read again whenever a credential is assigned or removed, so the badge follows the user's credentials
         repository$ => this.repoAccessApi.watch(repository$, () => this.projectId()),
       )
       .subscribe(access => this.repoAccess.set(access));

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {defer, Observable, of, Subject} from 'rxjs';
+import {catchError, finalize, map, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {ApiRepositoriesService} from '~/business-logic/api-services/repositories.service';
 
 // How a project reads a repository (repositories.resolve / requirement). No secret is ever part of it. `ask`: the web app
@@ -40,16 +40,22 @@ export class RepoAccessService {
   // How the signed-in user reads the repository that `repository$` currently names: resolved for each repository, and
   // again whenever a credential changes, so that a badge turns green as soon as the credential that fixes it is assigned.
   // The project is read when each request is made. An empty repository has no access state (null). The returned stream
-  // holds no subscription of its own: unsubscribing from it ends the listening for credential changes too.
+  // ends when `repository$` ends (a `takeUntilDestroyed()` upstream is enough), and unsubscribing from it ends the
+  // listening for credential changes too: it never outlives its caller.
   watch(repository$: Observable<string>, project: () => string | null | undefined): Observable<RepoAccess | null> {
-    return repository$.pipe(
-      switchMap(repository => repository ?
-        this.credentialChanged.pipe(
-          startWith(undefined),
-          switchMap(() => this.resolve([repository], project()).pipe(map(results => results[0] ?? null))),
-        ) :
-        of(null)),
-    );
+    return defer(() => {
+      const sourceEnded = new Subject<void>();
+      return repository$.pipe(
+        finalize(() => sourceEnded.next()),
+        switchMap(repository => repository ?
+          this.credentialChanged.pipe(
+            startWith(undefined),
+            switchMap(() => this.resolve([repository], project()).pipe(map(results => results[0] ?? null))),
+            takeUntil(sourceEnded),
+          ) :
+          of(null)),
+      );
+    });
   }
 
   // How the signed-in user reads each repository in the project.

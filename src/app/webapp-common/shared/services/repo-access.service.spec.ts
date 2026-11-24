@@ -152,4 +152,18 @@ describe('RepoAccessService.watch', () => {
 
     expect(post).toHaveBeenCalledTimes(1);
   });
+
+  it('ends, and stops reacting to credential changes, when the repository source completes', () => {
+    // what takeUntilDestroyed() does to the source when the component is destroyed
+    const repository$ = new BehaviorSubject('r');
+    const {subscription} = collect(repository$);
+    let completed = false;
+    subscription.add(() => completed = true);
+
+    repository$.complete();
+    service.notifyCredentialChanged();
+
+    expect(completed).toBeTrue();
+    expect(post).toHaveBeenCalledTimes(1);
+  });
 });
