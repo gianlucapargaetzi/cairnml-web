@@ -87,7 +87,7 @@ export class WelcomeMessageComponent {
       id: 2,
       header: 'To set up an agent',
       title: '1. Install',
-      code: 'pip install cairnml-agent',
+      code: 'pip install "cairnml[agent]"',
     }, {
       id: 3,
       title: '2. Configure',
@@ -117,7 +117,7 @@ export class WelcomeMessageComponent {
     if (this.queue) {
       steps[0].code = `cairnml-agent daemon --queue ${this.queue.name}`;
       steps[0].header = `To assign an agent to the ${this.queue.name} queue, run:`;
-      steps[1].code = `pip install cairnml-agent`;
+      steps[1].code = 'pip install "cairnml[agent]"';
       steps[2].code = `cairnml-agent init <server>`;
     } else {
       steps[0].code = this.companyGettingStarted().install ?? this.configGettingStarted().install ?? steps[0].code;
