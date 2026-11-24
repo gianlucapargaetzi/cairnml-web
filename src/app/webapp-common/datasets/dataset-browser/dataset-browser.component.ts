@@ -121,7 +121,7 @@ export class DatasetBrowserComponent {
     params: () => this.reloads() + this.pageRefresh.version(),
     stream: () => this.repositories.list(),
   });
-  protected readonly repos = computed(() => this.list.value() ?? []);
+  protected readonly repos = computed(() => (this.list.hasValue() ? this.list.value() : null) ?? []);
   protected readonly listFailed = computed(() => !!this.list.error());
 
   private readonly announceCount = effect(() => {

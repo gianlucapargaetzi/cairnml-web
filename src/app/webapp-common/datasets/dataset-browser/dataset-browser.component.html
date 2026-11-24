@@ -98,7 +98,7 @@
     </as-split-area>
 
     <as-split-area [size]="47" [minSize]="30" class="d-flex flex-column">
-      @let details = selectedDetails.value();
+      @let details = selectedDetails.hasValue() ? selectedDetails.value() : null;
       @if (selectedRow(); as selected) {
         @let repo = selected.repo;
         <div class="info-panel">
@@ -247,7 +247,7 @@
 
             <mat-tab label="Runs">
               <div class="tab-content" data-id="repositoryRuns">
-                @let runs = selectedRuns.value();
+                @let runs = selectedRuns.hasValue() ? selectedRuns.value() : undefined;
                 @if (runs?.length) {
                   <sm-table class="runs-table" [columns]="runColumns" [tableData]="runs!" [scrollable]="false" [resizableColumns]="false" [fitColumns]="true">
                     <ng-template let-col let-run="rowData" pTemplate="body">

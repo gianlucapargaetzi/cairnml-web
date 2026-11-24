@@ -37,8 +37,8 @@ export class PlotSettingsComponent {
     params: () => this.projectId(),
     stream: ({params}) => this.data.runs(params, DEFAULT_PLOT).pipe(map(({runs}) => runs)),
   });
-  protected readonly taskNames = computed(() => [...new Set((this.runs.value() ?? []).map(run => run.name).filter(Boolean))].sort());
-  protected readonly recentRuns = computed(() => (this.runs.value() ?? []).slice(0, 30));
+  protected readonly taskNames = computed(() => [...new Set((this.runs.hasValue() ? (this.runs.value() ?? []) : []).map(run => run.name).filter(Boolean))].sort());
+  protected readonly recentRuns = computed(() => (this.runs.hasValue() ? (this.runs.value() ?? []) : []).slice(0, 30));
 
   protected readonly sourceKey = computed(() => {
     const source = this.spec().source;
