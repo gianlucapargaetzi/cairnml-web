@@ -3,7 +3,7 @@
 Each release has a section headed "## <version>". The server's "What's new" bundle and the release check read these
 sections: a release needs its section here.
 
-## 0.0.5
+## 0.0.6
 
 - The experiment header shows the display name as its title and the task name as "Task: name"; the Rename task item in the experiment menu changes the task name.
 - The task list has a Title column with the display name and a Task name column.
@@ -21,3 +21,7 @@ sections: a release needs its section here.
 - On the Repositories page, a failed read of the repository list, a repository's history or the add-repository dialog shows an error note instead of an empty list. Other pages are not changed yet.
 - When the server refuses a credential, repository or sharing request, the message shows the server's reason; other refused requests still show their own text.
 - The Enqueue dialog preselects your agent's queue when it is the only one with an agent, instead of the default queue, which no agent serves.
+
+## 0.0.5
+
+- Repositories with per-project bindings and credential assignment, a Repositories section in project settings, credentials and datasets applied at once, linked entity chips, one anatomy for table actions and form dialogs, personal tokens removed, no queue creation.
