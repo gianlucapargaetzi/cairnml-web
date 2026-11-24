@@ -2,12 +2,12 @@
   <mat-label>Data</mat-label>
   <mat-select [value]="sourceKey()" (selectionChange)="chooseSource($event.value)" data-id="plotSource">
     <mat-optgroup label="Scalars of the runs">
-      @for (item of metrics.value() ?? []; track metricKey(item)) {
+      @for (item of metrics.hasValue() ? (metrics.value() ?? []) : []; track metricKey(item)) {
         <mat-option [value]="metricKey(item)">{{ item.metric }} / {{ item.variant }}</mat-option>
       }
     </mat-optgroup>
     <mat-optgroup label="Parameters">
-      @for (item of parameters.value() ?? []; track metadataKey(item)) {
+      @for (item of parameters.hasValue() ? (parameters.value() ?? []) : []; track metadataKey(item)) {
         <mat-option [value]="metadataKey(item)">{{ item.section }}/{{ item.name }}</mat-option>
       }
     </mat-optgroup>
@@ -18,6 +18,9 @@
     </mat-optgroup>
   </mat-select>
 </mat-form-field>
+@if (metrics.error() || parameters.error()) {
+  <p class="note" data-id="plotDataError">The metrics and parameters of this project could not be read.</p>
+}
 
 <mat-form-field appearance="outline" class="w-100">
   <mat-label>Runs</mat-label>
@@ -31,6 +34,9 @@
     <mat-option value="set">Runs I choose</mat-option>
   </mat-select>
 </mat-form-field>
+@if (runs.error()) {
+  <p class="note" data-id="plotRunsError">The runs of this project could not be read.</p>
+}
 
 @if (spec().runs.scope === 'set') {
   <mat-form-field appearance="outline" class="w-100">
@@ -90,7 +96,7 @@
   <mat-form-field appearance="outline" class="w-100">
     <mat-label>Parameter</mat-label>
     <mat-select [value]="parameterKey()" (selectionChange)="chooseParameter($event.value)" data-id="plotParameter">
-      @for (item of parameters.value() ?? []; track parameterOptionKey(item)) {
+      @for (item of parameters.hasValue() ? (parameters.value() ?? []) : []; track parameterOptionKey(item)) {
         <mat-option [value]="parameterOptionKey(item)">{{ item.section }}/{{ item.name }}</mat-option>
       }
     </mat-select>
