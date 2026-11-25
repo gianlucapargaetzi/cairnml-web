@@ -65,4 +65,26 @@ describe('WelcomeMessageComponent', () => {
     expect(code).toContain('pip install "cairnml[agent]"');
     expect(code).not.toContain('pip install cairnml-agent');
   });
+
+  it('never tells the user to start an agent on a named queue: an agent serves only its own queue', () => {
+    for (const name of ['default', 'parg-nb-1a2b3c']) {
+      component.queue = {name, id: 'x'} as Queue;
+      fixture.detectChanges();
+
+      const code = renderedCode();
+      expect(code).not.toContain('--queue');
+      expect(code).toContain('cairnml-agent daemon');
+      expect(code).toContain('cairnml-agent init');
+    }
+  });
+
+  it('a queue without an agent says that an agent serves only the queue made when it was enrolled', () => {
+    component.queue = {name: 'default', id: 'x'} as Queue;
+    fixture.detectChanges();
+
+    const text = (fixture.nativeElement as HTMLElement).textContent.replace(/\s+/g, ' ');
+    expect(text).toContain('serves only the queue made when it was enrolled');
+    expect(text).toContain('enrol an agent');
+    expect(text).not.toContain('To assign an agent to the default queue');
+  });
 });
