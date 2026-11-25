@@ -1,5 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ErrorHandler} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {HttpErrorResponse} from '@angular/common/http';
 import {provideRouter} from '@angular/router';
 import {provideMockStore} from '@ngrx/store/testing';
@@ -7,6 +8,7 @@ import {Observable, of, throwError} from 'rxjs';
 import {Repo, RepositoriesService} from '../dataset-git/repositories.service';
 import {DatasetDetailsService} from './dataset-details.service';
 import {DatasetBrowserComponent} from './dataset-browser.component';
+import {ConfirmDialogConfig} from '@common/shared/ui-components/overlay/confirm-dialog/confirm-dialog.model';
 
 describe('DatasetBrowserComponent when the repository list cannot be read', () => {
   let fixture: ComponentFixture<DatasetBrowserComponent>;
@@ -164,5 +166,38 @@ describe('DatasetBrowserComponent when the repository list fails and a dataset i
 
     expect((fixture.nativeElement as HTMLElement).querySelector('[data-id="repositoriesError"]')).not.toBeNull();
     expect(reported).toEqual([]);
+  });
+});
+
+describe('DatasetBrowserComponent removing the own credential of a repository', () => {
+  let component: DatasetBrowserComponent;
+  let unassign: jasmine.Spy;
+  let open: jasmine.Spy;
+
+  beforeEach(async () => {
+    unassign = jasmine.createSpy('unassign').and.returnValue(of(null));
+    await TestBed.configureTestingModule({
+      imports: [DatasetBrowserComponent],
+      providers: [
+        provideRouter([]),
+        provideMockStore({}),
+        {provide: RepositoriesService, useValue: {list: () => of([]), runs: () => of([]), unassign}},
+        {provide: DatasetDetailsService, useValue: {details: () => of(null)}},
+      ],
+    }).compileComponents();
+    open = spyOn(TestBed.inject(MatDialog), 'open').and.returnValue({afterClosed: () => of(true)} as MatDialogRef<unknown>);
+    component = TestBed.createComponent(DatasetBrowserComponent).componentInstance;
+  });
+
+  it('asks to remove the credential from the repository, and does not call it a deletion', () => {
+    (component as unknown as {unassign: (repo: Repo) => void}).unassign({id: 'r1', host: 'github.com', path: 'o/r', name: 'o/r'} as Repo);
+
+    const data = open.calls.mostRecent().args[1].data as ConfirmDialogConfig;
+    expect(data.title).toBe('Remove your credential from this repository?');
+    expect(data.yes).toBe('Remove');
+    expect(data.body).toContain('github.com/o/r');
+    expect(data.body).toContain('stays');
+    expect(`${data.title} ${data.body} ${data.yes}`).not.toMatch(/delete/i);
+    expect(unassign).toHaveBeenCalledOnceWith('r1');
   });
 });
