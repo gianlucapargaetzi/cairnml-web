@@ -193,7 +193,7 @@ describe('DatasetBrowserComponent removing the own credential of a repository', 
     (component as unknown as {unassign: (repo: Repo) => void}).unassign({id: 'r1', host: 'github.com', path: 'o/r', name: 'o/r'} as Repo);
 
     const data = open.calls.mostRecent().args[1].data as ConfirmDialogConfig;
-    expect(data.title).toBe('Remove your credential from this repository?');
+    expect(data.title).toBe('Remove your credential?');
     expect(data.yes).toBe('Remove');
     expect(data.body).toContain('github.com/o/r');
     expect(data.body).toContain('stays');

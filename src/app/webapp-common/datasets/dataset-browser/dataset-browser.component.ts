@@ -390,7 +390,7 @@ export class DatasetBrowserComponent {
   }
 
   protected unassign(repo: Repo): void {
-    this.confirm('Remove your credential from this repository?',
+    this.confirm('Remove your credential?',
       `You stop reading ${repo.host}/${repo.path} with your credential. The credential itself stays in Settings → Access, and other users' credentials are not affected.`,
       'Remove', true).subscribe(confirmed => {
       if (confirmed) {
