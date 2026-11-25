@@ -86,5 +86,7 @@ describe('WelcomeMessageComponent', () => {
     expect(text).toContain('serves only the queue made when it was enrolled');
     expect(text).toContain('enrol an agent');
     expect(text).not.toContain('To assign an agent to the default queue');
+    expect(text).toContain('enqueue the tasks on the queue it makes');
+    expect(text).not.toContain('owns the default queue');
   });
 });

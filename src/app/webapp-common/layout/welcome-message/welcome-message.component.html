@@ -54,7 +54,7 @@
   <div class="steps-content">
     @if (queue) {
       <div class="text">
-        {{entityName}} have been enqueued on the <b>{{queue?.name}}</b> queue, which is currently not serviced by any agent. They will remain in the 'pending' state until the CairnML agent that owns this queue runs. An agent serves only the queue made when it was enrolled; to use another machine, enrol an agent below and enqueue the {{entityName}} on the queue it makes.
+        {{entityName}} have been enqueued on the <b>{{queue?.name}}</b> queue, which is currently not serviced by any agent. They will remain in the 'pending' state until the CairnML agent that owns this queue runs. An agent serves only the queue made when it was enrolled; to use another machine, enrol an agent below and enqueue the {{entityName.toLowerCase()}} on the queue it makes.
       </div>
     }
     @if (!currentLink || currentLink === links[0]) {

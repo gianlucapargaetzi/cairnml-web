@@ -118,7 +118,7 @@ export class WelcomeMessageComponent {
       // an agent serves only the queue made when it was enrolled (the server refuses any other, also a public one),
       // so the command never names a queue
       steps[0].code = 'cairnml-agent daemon';
-      steps[0].header = `To start the agent that owns the ${this.queue.name} queue, run:`;
+      steps[0].header = 'If you have already enrolled an agent on this machine, start it with:';
       steps[1].code = 'pip install "cairnml[agent]"';
       steps[2].code = `cairnml-agent init <server>`;
     } else {
