@@ -115,8 +115,10 @@ export class WelcomeMessageComponent {
     const steps = this.queue ? this.ORPHANED_QUEUE_STEPS : this.GETTING_STARTED_STEPS;
 
     if (this.queue) {
-      steps[0].code = `cairnml-agent daemon --queue ${this.queue.name}`;
-      steps[0].header = `To assign an agent to the ${this.queue.name} queue, run:`;
+      // an agent serves only the queue made when it was enrolled (the server refuses any other, also a public one),
+      // so the command never names a queue
+      steps[0].code = 'cairnml-agent daemon';
+      steps[0].header = 'If you have already enrolled an agent on this machine, start it with:';
       steps[1].code = 'pip install "cairnml[agent]"';
       steps[2].code = `cairnml-agent init <server>`;
     } else {
