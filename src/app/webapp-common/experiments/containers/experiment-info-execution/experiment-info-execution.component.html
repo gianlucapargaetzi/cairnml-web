@@ -122,7 +122,7 @@
           </div>
           <sm-scroll-textarea
             class="form-section"
-            [emptyMessage]="formData.requirements?.[selectedRequirement] === '' ? 'No packages will be installed' : 'Packages will be installed from repository requirements.txt'"
+            [emptyMessage]="packagesMessage(formData.requirements?.[selectedRequirement], !!formData.source?.repository)"
             [isInDev]="isInDev()"
             [formData]="formData.requirements?.[selectedRequirement]">
             @if (editableRequirements && formData?.requirements?.pip && editable() && !showExtraDataSpinner()) {

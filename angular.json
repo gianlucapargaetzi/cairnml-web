@@ -264,7 +264,9 @@
               "src/app/webapp-common/shared/ui-components/tags/user-tag/mini-tags-list/mini-tags-list.component.spec.ts",
               "src/app/webapp-common/tasks/task-folders.utils.spec.ts",
               "src/app/webapp-common/shared/ui-components/data/task-progress/task-progress.component.spec.ts",
-              "src/app/webapp-common/shared/ui-components/data/task-progress/task-progress.service.spec.ts"
+              "src/app/webapp-common/shared/ui-components/data/task-progress/task-progress.service.spec.ts",
+              "src/app/webapp-common/experiments/containers/experiment-info-execution/packages-message.spec.ts",
+              "src/app/webapp-common/experiments/dumb/experiment-artifact-item-view/experiment-artifact-item-view.component.spec.ts"
             ],
             "styles": [
               "src/app/webapp-common/styles/style.scss"

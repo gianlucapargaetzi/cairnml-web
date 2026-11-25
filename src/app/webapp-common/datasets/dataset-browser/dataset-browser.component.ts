@@ -390,10 +390,11 @@ export class DatasetBrowserComponent {
   }
 
   protected unassign(repo: Repo): void {
-    this.confirm('Delete your credential?', `You stop reading ${repo.host}/${repo.path} with it. Other users' credentials stay.`,
-      'Delete', true).subscribe(confirmed => {
+    this.confirm('Remove your credential?',
+      `You stop reading ${repo.host}/${repo.path} with your credential. The credential itself stays in Settings → Access, and other users' credentials are not affected.`,
+      'Remove', true).subscribe(confirmed => {
       if (confirmed) {
-        this.repositories.unassign(repo.id).subscribe({next: () => this.reload(), error: error => this.fail(error, 'It could not be deleted.')});
+        this.repositories.unassign(repo.id).subscribe({next: () => this.reload(), error: error => this.fail(error, 'It could not be removed.')});
       }
     });
   }

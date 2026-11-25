@@ -178,8 +178,8 @@
                                     [disabled]="busyId() !== null" [attr.aria-label]="'Check ' + repo.name" (click)="check(repo)">
                                     <mat-icon fontSet="al" fontIcon="al-ico-refresh"></mat-icon>
                                   </button>
-                                  <button mat-icon-button type="button" data-id="deleteCredentialButton" smTooltip="Delete"
-                                    [attr.aria-label]="'Delete your credential for ' + repo.name" (click)="unassign(repo)">
+                                  <button mat-icon-button type="button" data-id="deleteCredentialButton" smTooltip="Remove"
+                                    [attr.aria-label]="'Remove your credential from ' + repo.name" (click)="unassign(repo)">
                                     <mat-icon fontSet="al" fontIcon="al-ico-trash"></mat-icon>
                                   </button>
                                 }

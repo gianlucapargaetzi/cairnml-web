@@ -51,6 +51,7 @@ import {MatListModule} from '@angular/material/list';
 import {TooltipDirective} from '@common/shared/ui-components/indicators/tooltip/tooltip.directive';
 import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
+import {packagesMessage} from './packages-message';
 
 @Component({
   selector: 'sm-experiment-info-execution',
@@ -113,6 +114,7 @@ export class ExperimentInfoExecutionComponent implements OnInit, OnDestroy {
   links = ['details', 'uncommitted changes', 'python packages', 'container'];
   currentLink = 'details';
   public selectedRequirement = 'pip';
+  protected readonly packagesMessage = packagesMessage;
   public editableRequirements = false;
   private requirementLabels: IExecutionForm['requirements'] = {
     pip: 'PIP',
