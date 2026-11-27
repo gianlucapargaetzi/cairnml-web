@@ -3,7 +3,7 @@
 Each release has a section headed "## <version>". The server's "What's new" bundle and the release check read these
 sections: a release needs its section here.
 
-## 0.0.5
+## 0.1.0
 
 - The experiment header shows the display name as its title and the task name as "Task: name"; the Rename task item in the experiment menu changes the task name.
 - The task list has a Title column with the display name and a Task name column.
@@ -23,3 +23,10 @@ sections: a release needs its section here.
 - The agent welcome message, shown when a queue has no agent, now says to install the agent with pip and the cairnml agent extra, instead of the separate cairnml-agent package.
 - The Enqueue dialog preselects your agent's queue when it is the only one with an agent, instead of the default queue, which no agent serves.
 - A failed request on the dataset browser, the Workloads page, the task datasets, the board cards and their settings, or the Markdown cheat sheet shows a short note instead of an error page.
+- After you assign a credential in the Enqueue dialog, the task page reads the repository's access again, so Draft and Access no longer stay refused.
+- The "No agents assigned to queue" dialog no longer tells you to start an agent on a queue by name: it says that an agent serves only the queue made when it was enrolled, and points to enrolling an agent on another machine.
+- Removing your credential from a repository says Remove and that the credential stays in Settings > Access, a task with no repository and no recorded requirements no longer claims that packages are installed from a requirements file, and a file without text says that there is no preview.
+
+## 0.0.5
+
+- Repositories with per-project bindings and credential assignment, a Repositories section in project settings, credentials and datasets applied at once, linked entity chips, one anatomy for table actions and form dialogs, personal tokens removed, no queue creation.
